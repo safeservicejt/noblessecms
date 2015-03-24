@@ -1,4 +1,3 @@
-# noblessecms
 Noblesse CMS is a modern and lightweight Content Management System. Faster more than 70% others system!
 
 Facebook page: https://www.facebook.com/noblessecms
