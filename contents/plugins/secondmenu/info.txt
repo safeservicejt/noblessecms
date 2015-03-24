@@ -1,0 +1,5 @@
+Second menu plugin
+James
+3.0
+Used by millions, Akismet is quite possibly the best way in the world to protect your blog from comment and trackback spam. It keeps your site protected from spam even while you sleep. To get started: 1) Click the "Activate" link to the left of this description, 2) Sign up for an Akismet API key, and 3) Go to your Akismet configuration page, and save your API key.
+http://google.com/

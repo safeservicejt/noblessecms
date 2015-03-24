@@ -1,0 +1,360 @@
+  body
+  {
+    /*background-color: #222222;*/
+    background-color: #f1f1f1;
+
+  }
+.colRight
+{
+  position: relative;
+}
+.colLeft
+{
+    background-color: #222222;
+    padding-left: 0px;
+    padding-right: 0px;
+    position: fixed;
+    left:0px;
+    top:50px;
+
+}
+.rightContent
+{
+  padding-top: 60px;
+  /*padding-left: 40px;*/
+}
+h3,h4,h5
+{
+  font-weight: normal;
+}
+.nav-tabs > li a
+{
+    color:#E0E0E0;
+        background-color: #227BBA;
+}
+.nav-tabs > li
+{
+    background-color: #227BBA;
+    margin-right: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+.nav-tabs > li.active:hover a
+{
+        color:#CCCCCC;
+    background-color:#227BBA;
+      border:0px;
+}
+.nav-tabs > li:hover a
+{
+        color:#CCCCCC;
+    background-color: #227BBA;
+    border:0px;
+       border:1px solid #227BBA;
+}
+
+.nav-tabs > li.active a
+{
+        color:#E0E0E0;
+       background-color: #227BBA;
+       border:0px;
+
+}
+.nav-tabs > li.active
+{
+        color:#E0E0E0;
+       background-color: #227BBA;
+          border:1px solid #227BBA;
+
+}
+
+.divLogin
+{
+  margin-top: 100px;
+}
+.boxLogin
+{
+  background-color: #ffffff;
+  padding:20px 10px 20px 10px;
+  -moz-box-shadow: 1px 1px 2px #BDBDBD;
+-webkit-box-shadow: 1px 1px 2px #BDBDBD;
+box-shadow: 1px 1px 2px #BDBDBD;
+}
+
+.notify-auto
+{
+  display: none;
+}
+.rowContainer
+{
+  margin-top: -22px;
+}
+
+.ulLeft
+{
+  padding:0px;
+  list-style: none;
+  position: relative;
+  max-height: 600px;
+  overflow: scroll;
+      overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.ulLeft > li
+{
+  /*padding: 10px 0px 10px 5px;*/
+}
+.ulLeft > li > a,
+.ulLeft > li > a:link,
+.ulLeft > li > a:visited
+{
+    padding: 10px 0px 10px 5px;
+  color:#EBEBEB;
+    display: block;
+}
+
+.ulLeft > li > a > span
+{
+  color:#A6A6A6;
+  margin-right: 10px;
+}
+.ulLeft > li > a > span.badge
+{
+    color:#ffffff;
+}
+.ulLeft > li:hover
+{
+  /*background-color: #171717;*/
+}
+.ulLeft > li:hover > a
+{
+  background-color: #171717;
+}
+
+
+.ulLeft > li:hover > a > span
+{
+  color:#4A88ED;
+}
+.ulLeft > li:hover > a,
+.ulLeft > li:hover > a:link,
+.ulLeft > li:hover > a:visited
+{
+  text-decoration: none;
+  color:#4A88ED;
+
+}
+
+.ulLeft > li:hover > a > span.badge
+{
+    color:#ffffff;
+}
+.ulLeft ul
+{
+  list-style: none;
+  padding:0px;
+  background-color: #303030;
+  /*position: absolute;*/
+  min-width: 220px;
+  top:0px;
+  display: none;
+}
+.ulLeft ul > li
+{
+  padding:5px 0px 5px 10px;
+}
+.ulLeft > li ul a,
+.ulLeft > li ul a:link,
+.ulLeft > li ul a:visited
+{
+  color:#A1A1A1;
+    display: block;
+}
+.ulLeft > li ul a:hover
+{
+  text-decoration: none;
+  color:#4A88ED;
+}
+
+.divWidget
+{
+  background-color: #ffffff;
+  /*margin: 0px 20px 0px 20px;*/
+  border:1px solid #DEDEDE;
+
+  border-left:0px;
+  border-right: 0px;
+
+}
+
+.listFiles
+{
+  list-style: none;
+  padding:0px;
+}
+
+.listFiles li
+{
+  float:left;
+  margin-right: 20px;
+}
+
+.panel-default
+{
+  margin-top: 30px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"]
+{
+  height:40px;
+  width:50px;
+  
+}
+input[type="text"].form-control,
+input[type="email"].form-control,
+input[type="password"].form-control
+{
+  width:100%;
+  
+}
+
+
+.listControls > .row
+{
+  margin-top: 20px;
+}
+
+.listControls > .row:first-child
+{
+  margin-top: 0px;
+}
+
+#btnAction > #btnRemove
+{
+  /*display: none;*/
+}
+
+.tab-pane
+{
+  padding:20px 0px 20px 0px;
+}
+
+.img_logo
+{
+  opacity: 0.4;
+}
+.img_logo:hover
+{
+  opacity: 0.8;
+}
+
+.ulDashboard
+{
+  list-style: none;
+  padding:0px;
+}
+
+.ulDashboard li
+{
+  margin:10px 0px 10px 0px;
+}
+
+.ulDashboard li a
+{
+  color:#575757;
+  display: block;
+}
+
+.ulDashboard li a:hover
+{
+text-decoration: none;
+}
+
+/*Auto chosen*/
+.pChosen
+{
+  /*position: relative;*/
+
+}
+.ulChosen
+{
+  /*position: absolute;*/
+
+  list-style: none;
+
+  padding: 0px;
+
+  /*top: 35px;*/
+  /*margin-left: 10px;*/
+}
+
+.ulChosen li
+{
+  float: left;
+  padding: 2px 2px 2px 2px;
+  cursor: pointer;
+  background-color: #1C8FED;
+
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+}
+
+.ulChosen li span
+{
+  color: #ffffff;
+}
+.ulChosen li .removeTextChosen:hover
+{
+  color: #F50C2B;
+}
+.removeTextChosen
+{
+  margin-left: 5px;
+}
+
+/*Auto complete*/
+.colRelative
+{
+  position: relative;
+}
+
+.listAutoSuggest
+{
+  position: absolute;
+  /*top:76px;*/
+
+  z-index: 9999999;
+  display: none;
+  max-height: 200px;
+  overflow: scroll;
+      overflow-y: auto;
+    overflow-x: hidden;  
+}
+
+.listAutoSuggest ul
+{
+  list-style: none;
+  padding:0px;
+  background-color: #ffffff;
+  min-width: 300px;
+}
+.listAutoSuggest ul > li span
+{
+  display: block;
+  cursor: pointer;
+  color:#242424;
+  padding: 5px 0px 5px 5px;
+
+  border-bottom: 1px solid #D9D9D9;
+}
+.listAutoSuggest ul > li span:hover
+{
+  background-color: #D9D9D9;
+}
+
+/*Auto complete*/
