@@ -30,12 +30,12 @@ $(document).ready(function(){
 
 		var txtPassword=$('.txtPassword').val();
 
-		if(txtDBName.length <= 1)
-		{
-			showError('.notifyPanel-2','Enter database name');
+		// if(txtDBName.length <= 1)
+		// {
+		// 	showError('.notifyPanel-2','Enter database name');
 
-			return false;
-		}
+		// 	return false;
+		// }
 		if(txtDBUser.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter database username');
@@ -140,12 +140,12 @@ $(document).ready(function(){
 
 		var txtPassword=$('.txtPassword').val();
 
-		if(txtDBName.length <= 1)
-		{
-			showError('.notifyPanel-2','Enter database name');
+		// if(txtDBName.length <= 1)
+		// {
+		// 	showError('.notifyPanel-2','Enter database name');
 
-			return false;
-		}
+		// 	return false;
+		// }
 		if(txtDBUser.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter database username');

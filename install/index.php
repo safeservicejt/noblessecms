@@ -2,8 +2,6 @@
 ob_start();
 session_start();
 error_reporting(0);
-ignore_user_abort(true);
-set_time_limit(0);
 
 // include('../config.php');
 
@@ -119,7 +117,7 @@ include('../includes/Request.php');
                     <form action="" method="post" enctype="multipart/form-data">
                         <div class="col-lg-6">
                         <strong>Database Name</strong><br>
-                          <input type="text" class="form-control txtDBName" name="info[dbname]" value="<?php echo Request::get('info.dbname','noblessecms');?>" placeholder="Database Name" required />
+                          <input type="text" class="form-control txtDBName" name="info[dbname]" value="<?php echo Request::get('info.dbname','');?>" placeholder="Auto create if blank" required />
 
                           <br>
                           <strong>User Name</strong><br>

@@ -1,9 +1,10 @@
 <?php
 ob_start();
-// error_reporting(0);
+error_reporting(0);
 session_start();
 
 include('../includes/Request.php');
+include('../includes/String.php');
 
 include('import.php');
 
@@ -37,7 +38,7 @@ function startInstall()
 
   $dbpass=trim($_REQUEST['dbpass']);
 
-  $dbname=trim($_REQUEST['dbname']);
+  $dbname=isset($_REQUEST['dbname'])?trim($_REQUEST['dbname']):'';
 
   $dbport=trim($_REQUEST['dbport']);
 
@@ -55,6 +56,22 @@ function startInstall()
   {
   	echo json_encode(array('error'=>'yes'));
   	die();
+  }
+
+  if(!isset($dbname[1]))
+  {
+    $dbname='noblessecms_db'.String::randText(5);
+
+    $conn->query("CREATE DATABASE $dbname");
+
+    if(isset($conn->connect_error[5]))
+    {
+      echo json_encode(array('error'=>'yes'));
+      die();     
+    }
+
+    $conn->select_db($dbname);
+
   }
 
   $rootPath=dirname(dirname(__FILE__)).'/';
@@ -124,7 +141,7 @@ function checkConnect()
     die('ERRORURL');    
   }
 
-  $conn = new mysqli($dbhost, $dbuser, $dbpass, $dbname, $dbport);	
+  $conn = new mysqli($dbhost, $dbuser, $dbpass, '', $dbport);	
 
   if(isset($conn->connect_error[5]))
   {
