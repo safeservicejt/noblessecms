@@ -135,6 +135,8 @@ class Categories
 			$post['cattitle']=String::encode($post['cattitle']);
 		}
 
+
+
 		if(is_numeric($listID))
 		{
 			$catid=$listID;
@@ -144,7 +146,25 @@ class Categories
 			$listID=array($catid);
 		}
 
-		$listIDs="'".implode("','",$listID)."'";		
+		$listIDs="'".implode("','",$listID)."'";	
+
+		if(isset($post['image']))
+		{
+			$loadData=self::get(array(
+				'where'=>"where catid IN ($listIDs)"
+				));
+
+			$total=count($loadData);
+
+			for ($i=0; $i < $total ; $i++) { 
+				$filePath=ROOT_PATH.$loadData[$i]['image'];
+
+				if(file_exists($filePath))
+				{
+					unlink($filePath);
+				}
+			}
+		}			
 
 		$keyNames=array_keys($post);
 

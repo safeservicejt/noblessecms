@@ -545,7 +545,7 @@ class Database
                 Database::query($creates[0][$i]);
             }
 
-            preg_match_all('/INSERT.*?\;/is', $query, $creates);
+            preg_match_all('/INSERT.*?\;\n/is', $query, $creates);
 
             $total = count($creates[0]);
 

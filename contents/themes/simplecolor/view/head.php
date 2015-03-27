@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="keywords" content="<?php echo $keywords;?>">
         <meta name="description" content="<?php echo $description;?>">
-
+        <link rel="shortcut icon" href="<?php echo ROOT_URL;?>bootstrap/favicon.ico">
         <meta name="author" content="Safeservicejt">
         <meta name="url" id="rootUrl" content="<?php echo ROOT_URL;?>">
 

@@ -147,7 +147,7 @@ class controlPages
 				Pages::update($id,Request::get('send'));
 		}
 
-		$loadData=Pages::get(array('where'=>"where nodeid='$id'"));
+		$loadData=Pages::get(array('where'=>"where pageid='$id'"));
 		$post['edit']=$loadData[0];	
 
 

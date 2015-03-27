@@ -55,7 +55,7 @@
 
 				$date_added='';
 
-				if(isset($users[0]['nodeid']))
+				if(isset($users[0]['userid']))
 				for($i=0;$i<$totalRow;$i++)
 				{
 					$admin_status='';

@@ -56,7 +56,6 @@ function editInfo($id)
 
 function updateProcess($id)
 {
-	$alert='<div class="alert alert-warning">Error. Save changes error!</div>';
 
 	$valid=Validator::make(array(
 		'send.title'=>'min:3|slashes',
@@ -81,7 +80,8 @@ function updateProcess($id)
 
 	if(!$valid)
 	{
-		return $alert;
+		throw new Exception("Error. Save changes error!");
+		
 	}
 
 	// print_r(Request::get('tags'));die();
@@ -94,14 +94,12 @@ function updateProcess($id)
 
 	if(!Products::update($id,$data))
 	{
-		return $alert;
+		throw new Exception("Error. ".Database::$error);
 	}
 
 	$loadData=Products::get(array(
 		'where'=>"where productid='$id'"
 		));
-
-	$alert='<div class="alert alert-warning">Error. Save changes error!</div>';
 
 	$previewImg='';
 
@@ -112,9 +110,7 @@ function updateProcess($id)
 			{
 				if(!$previewImg=File::upload('pcThumbnail','uploads/images/'))
 				{
-					$alert='<div class="alert alert-warning">Error. Upload image error!</div>';
-
-					return $alert;
+					throw new Exception("Error. Upload image error!");
 				}				
 			}
 
@@ -128,9 +124,7 @@ function updateProcess($id)
 			{
 				if(!$previewImg=File::uploadFromUrl($imgUrl,'uploads/images/'))
 				{
-					$alert='<div class="alert alert-warning">Error. Upload image error!</div>';
-
-					return $alert;
+					throw new Exception("Error. Upload image error!");
 				}				
 			}
 
@@ -176,16 +170,9 @@ function updateProcess($id)
 	Products::insertPages($id,Request::get('pageid'));
 
 	Products::insertImages($id);
-
-	$alert='<div class="alert alert-success">Success. Save changes complete!</div>';
-
-	return $alert;
 }
 function insertProcess()
 {
-	$alert='<div class="alert alert-warning">Error. Add new product error!</div>';
-
-	// print_r(Request::get('downloadNodeid'));die();
 
 	$valid=Validator::make(array(
 		'send.title'=>'min:3|slashes',
@@ -210,7 +197,8 @@ function insertProcess()
 
 	if(!$valid)
 	{
-		return $alert;
+		throw new Exception("Error. Add new product error!");
+		
 	}
 
 	// print_r(Request::get('tags'));die();
@@ -225,11 +213,9 @@ function insertProcess()
 
 	if(!$id=Products::insert($data))
 	{
-		return $alert;
-		
+		throw new Exception("Error. ".Database::$error);
 	}
 
-	$alert='<div class="alert alert-warning">Error. Add new product error!</div>';
 
 	$previewImg='';
 
@@ -240,9 +226,9 @@ function insertProcess()
 			{
 				if(!$previewImg=File::upload('pcThumbnail','uploads/images/'))
 				{
-					$alert='<div class="alert alert-warning">Error. Upload image error!</div>';
 
-					return $alert;
+					throw new Exception("Error. Upload image error!");
+					
 				}				
 			}
 
@@ -256,9 +242,7 @@ function insertProcess()
 			{
 				if(!$previewImg=File::uploadFromUrl($imgUrl,'uploads/images/'))
 				{
-					$alert='<div class="alert alert-warning">Error. Upload image error!</div>';
-
-					return $alert;
+					throw new Exception("Error. Upload image error!");
 				}				
 			}
 
@@ -280,8 +264,6 @@ function insertProcess()
 	Products::insertPages($id,Request::get('pageid'));
 
 	Products::insertImages($id);
-
-	$alert='<div class="alert alert-success">Success. Add new product complete!</div>';
 
 	return $alert;
 }

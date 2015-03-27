@@ -3,6 +3,8 @@
 class Theme
 {
 
+
+
     public function loadShortCode()
     {
         $path=THEME_PATH.'functions.php';

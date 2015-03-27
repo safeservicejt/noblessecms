@@ -1,5 +1,64 @@
 <?php
 
+function updateProcess()
+{
+	$id=Uri::getNext('edit');
+
+	$data=array();
+
+	$data=Request::get('send');
+
+	$data['parentid']=Request::get('send.parentid',0);
+
+	if(preg_match('/.*?\.\w+/i', $_FILES['thumbnail']['name']))
+	{
+		if(!$shortPath=File::upload('thumbnail','/uploads/images/'))
+		{
+			throw new Exception("Upload thumbnail image error !");
+		}
+		else
+		{
+			$data['image']=$shortPath;				
+		}		
+	}
+
+
+	Categories::update($id,$data);	
+}
+
+function insertProcess()
+{
+	$alert='Add new categories error.';
+
+	$data=Request::get('send');
+
+	$data['parentid']=Request::get('send.parentid',0);
+
+	if(!$id=Categories::insert($data))
+	{
+		throw new Exception("Error. ".Database::$error);
+	}
+	else
+	{
+		if(preg_match('/.*?\.\w+/i', $_FILES['thumbnail']['name']))
+		{
+			if(!$shortPath=File::upload('thumbnail','/uploads/images/'))
+			{
+				throw new Exception("Upload thumbnail image error !");
+			}
+			else
+			{
+				$updateData=array(
+					'image'=>$shortPath
+					);					
+
+				Categories::update($id,$updateData);
+			}			
+		}
+
+	}	
+}
+
 function searchProcess($txtKeyword)
 {
 

@@ -86,19 +86,19 @@ class controlRequestpayment
 		$id=Uri::getNext('view');
 		$post['id']=$id;
 
-		$loadData=Requestpayment::get(array('where'=>"where nodeid='$id'"));
+		$loadData=Requestpayment::get(array('where'=>"where requestid='$id'"));
 		$post['edit']=$loadData[0];	
 
-		$postid=$loadData[0]['postid'];
+		// $postid=$loadData[0]['postid'];
 
 		// print_r($loadData);die();
 
-		$thePost=Post::get(array(
-			'where'=>"where postid='$postid'",
-			'selectFields'=>'postid,title'
-			));
+		// $thePost=Post::get(array(
+		// 	'where'=>"where postid='$postid'",
+		// 	'selectFields'=>'postid,title'
+		// 	));
 
-		$post['thePost']=$thePost[0];
+		// $post['thePost']=$thePost[0];
 
 
 		View::make('admincp/head',array('title'=>'View request payment #'.$id.' - '.ADMINCP_TITLE));

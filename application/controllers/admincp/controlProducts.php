@@ -37,7 +37,7 @@ class controlProducts
 
             for($i=0;$i<$total;$i++)
             {
-                $li.='<li><span data-method="category" data-id="'.$loadData[$i]['nodeid'].'" >'.$loadData[$i]['cattitle'].'</span></li>';
+                $li.='<li><span data-method="category" data-id="'.$loadData[$i]['catid'].'" >'.$loadData[$i]['cattitle'].'</span></li>';
             }
 
             echo $li;
@@ -58,7 +58,7 @@ class controlProducts
 
             for($i=0;$i<$total;$i++)
             {
-                $li.='<li><span data-method="page" data-id="'.$loadData[$i]['nodeid'].'" >'.$loadData[$i]['title'].'</span></li>';
+                $li.='<li><span data-method="page" data-id="'.$loadData[$i]['pageid'].'" >'.$loadData[$i]['title'].'</span></li>';
             }
 
             echo $li;
@@ -79,7 +79,7 @@ class controlProducts
 
             for($i=0;$i<$total;$i++)
             {
-                $li.='<li><span data-method="manufacturer" data-id="'.$loadData[$i]['nodeid'].'" >'.$loadData[$i]['manufacturer_title'].'</span></li>';
+                $li.='<li><span data-method="manufacturer" data-id="'.$loadData[$i]['manufacturerid'].'" >'.$loadData[$i]['manufacturer_title'].'</span></li>';
             }
 
             echo $li;
@@ -101,7 +101,7 @@ class controlProducts
 
             for($i=0;$i<$total;$i++)
             {
-                $li.='<li><span data-method="download" data-id="'.$loadData[$i]['nodeid'].'" >'.$loadData[$i]['title'].'</span></li>';
+                $li.='<li><span data-method="download" data-id="'.$loadData[$i]['downloadid'].'" >'.$loadData[$i]['title'].'</span></li>';
             }
 
             echo $li;
@@ -221,7 +221,17 @@ class controlProducts
 
 		if(Request::has('btnAdd'))
 		{
-				$post['alert']=insertProcess();
+			try {
+
+				insertProcess();
+
+				$post['alert']='<div class="alert alert-success">Add new product success.</div>';
+
+			} catch (Exception $e) {
+
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+
+			}				
 		}
 
 
@@ -244,7 +254,17 @@ class controlProducts
 
 		if(Request::has('btnSave'))
 		{
-				$post['alert']=updateProcess($id);	
+			try {
+
+				updateProcess($id);
+
+				$post['alert']='<div class="alert alert-success">Save changes success.</div>';
+
+			} catch (Exception $e) {
+
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+
+			}					
 		}
 
 		

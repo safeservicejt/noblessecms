@@ -385,7 +385,7 @@ class Post
 
 		Database::query($command);	
 		
-		PostImages::remove($post);
+		// PostImages::remove($post);
 		
 		Postmeta::remove($post);
 

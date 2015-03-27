@@ -81,7 +81,7 @@ class controlDownloads
 				$post['id']=$id;
 
 				$data=Downloads::get(array(
-					'where'=>"where nodeid='$id'"
+					'where'=>"where downloadid='$id'"
 					));
 				$post['edit']=$data[0];
 		}

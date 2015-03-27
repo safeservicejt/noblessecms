@@ -247,16 +247,16 @@ class admincp
       Cookie::destroy('username');
       Cookie::destroy('password');
 
-      Session::forget('userNodeid');
+      Session::forget('userid');
       
-      Session::forget('groupNodeid');
+      Session::forget('groupid');
 
       Redirect::to('admincp/login');
 
     }
     public function getForgotpassword()
     {
-        if(Session::has('userNodeid'))
+        if(Session::has('userid'))
         {
             Redirect::to(ADMINCP_URL);
         }

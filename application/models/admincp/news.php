@@ -104,7 +104,8 @@ function updateProcess($id)
 
 	if(!$valid)
 	{
-		return $alert;
+		throw new Exception("Error. Edit post error");
+		
 	}
 
 	// print_r(Request::get('tags'));die();
@@ -123,13 +124,16 @@ function updateProcess($id)
 
 	$data['friendly_url']=Url::makeFriendly($data['title']);
 
+	if((int)$data['catid']==0)
+	{
+		throw new Exception("You have to choose a category.");
+	}	
+
 	if(!Post::update($id,$data))
 	{
-		return $alert;
-		
+		throw new Exception("Save change error. ".Database::$error);
 	}
 
-	$alert='<div class="alert alert-warning">Error. Edit post error!</div>';
 
 	$previewImg='';
 
@@ -144,9 +148,8 @@ function updateProcess($id)
 			{
 				if(!$previewImg=File::upload('pcThumbnail','uploads/images/'))
 				{
-					$alert='<div class="alert alert-warning">Error. Upload image error!</div>';
-
-					return $alert;
+					throw new Exception("Error. Upload image error!");
+					
 				}
 			}
 
@@ -160,9 +163,7 @@ function updateProcess($id)
 			{
 				if(!$previewImg=File::uploadFromUrl($imgUrl,'uploads/images/'))
 				{
-					$alert='<div class="alert alert-warning">Error. Upload image error!</div>';
-
-					return $alert;
+					throw new Exception("Error. Upload image error!");
 				}				
 			}
 
@@ -189,20 +190,13 @@ function updateProcess($id)
 		Post::update($id,$updateData);			
 	}
 
-
-
 	PostTags::remove(array($id));
 
 	Post::insertTags($id,Request::get('tags'));	
-
-	$alert='<div class="alert alert-success">Success. Update changes complete!</div>';
-
-	return $alert;
 }
 
 function insertProcess()
 {
-	$alert='<div class="alert alert-warning">Error. Add new post error!</div>';
 
 	$valid=Validator::make(array(
 		'send.title'=>'min:3|slashes',
@@ -216,7 +210,8 @@ function insertProcess()
 
 	if(!$valid)
 	{
-		return $alert;
+		throw new Exception("Error. Add new post error!");
+		
 	}
 
 	// print_r(Request::get('tags'));die();
@@ -235,6 +230,11 @@ function insertProcess()
 
 	$data['status']=1;
 
+	if((int)$data['catid']==0)
+	{
+		throw new Exception("You have to choose a category.");
+	}
+
 	if(Uri::has('usercp\/news'))
 	{
 		$data['status']=0;		
@@ -242,11 +242,8 @@ function insertProcess()
 
 	if(!$id=Post::insert($data))
 	{
-		return $alert;
-		
+		throw new Exception("Error. ".Database::$error);
 	}
-
-	$alert='<div class="alert alert-warning">Error. Add new post error!</div>';
 
 	$previewImg='';
 
@@ -257,9 +254,7 @@ function insertProcess()
 			{
 				if(!$previewImg=File::upload('pcThumbnail','uploads/images/'))
 				{
-					$alert='<div class="alert alert-warning">Error. Upload image error!</div>';
-
-					return $alert;
+					throw new Exception("Error. Upload image error!");
 				}				
 			}
 
@@ -273,9 +268,7 @@ function insertProcess()
 			{
 				if(!$previewImg=File::uploadFromUrl($imgUrl,'uploads/images/'))
 				{
-					$alert='<div class="alert alert-warning">Error. Upload image error!</div>';
-
-					return $alert;
+					throw new Exception("Error. Upload image error!");
 				}				
 			}
 
@@ -291,12 +284,7 @@ function insertProcess()
 		Post::update($id,$updateData);		
 	}
 
-
 	Post::insertTags($id,Request::get('tags'));	
-
-	$alert='<div class="alert alert-success">Success. Add new post complete!</div>';
-
-	return $alert;
 }
 
 

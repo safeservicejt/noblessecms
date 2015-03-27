@@ -71,7 +71,7 @@ class controlManufacturers
 				$post['id']=$id;
 
 				$manu=Manufacturers::get(array(
-				'where'=>"where nodeid='$id'",
+				'where'=>"where manufacturerid='$id'",
 				'isHook'=>'no'			
 					));	
 

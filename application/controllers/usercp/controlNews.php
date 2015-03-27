@@ -127,7 +127,17 @@ class controlNews
 				Alert::make('Page not found');
 			}
 
-			$post['alert']=insertProcess();
+			try {
+
+				insertProcess();
+
+				$post['alert']='<div class="alert alert-success">Success. Add new post complete!</div>';
+
+			} catch (Exception $e) {
+
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+
+			}			
 		}
 
 		View::make('usercp/head',array('title'=>'Add new post - '.ADMINCP_TITLE));
@@ -150,7 +160,17 @@ class controlNews
 
 		if(Request::has('btnSave'))
 		{
-			$post['alert']=updateProcess($id);					
+			try {
+
+				updateProcess($id);
+
+				$post['alert']='<div class="alert alert-success">Save changes successful!</div>';
+				
+			} catch (Exception $e) {
+
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+
+			}								
 		}
 
 		$loadData=editInfo($id);

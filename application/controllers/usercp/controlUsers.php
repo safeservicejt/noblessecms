@@ -277,6 +277,8 @@ class controlUsers
 			'where'=>"where userid='$id'"
 			));
 
+		// print_r($post['theList']);die();
+
 		DBCache::enable();		
 
 		View::make('usercp/head',array('title'=>'Request payment history - '.ADMINCP_TITLE));

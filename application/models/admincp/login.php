@@ -53,12 +53,15 @@ function isLogin()
 
 function isUser($username, $password)
 {
+    $_REQUEST['email']=$username;
+    
+    $_REQUEST['password']=$password;
+    
+    $valid=Validator::make(array(
 
-    $valid=Validator::check(array(
+    'email'=>'email|max:150|slashes',
 
-    Request::get('email')=>'email|max:150|slashes',
-
-    Request::get('password')=>'min:2|slashes'
+    'password'=>'min:2|slashes'
 
     ));
 

@@ -27,7 +27,7 @@
 
 		$status='';
 
-		if(isset($theList[0]['userNodeid']))
+		if(isset($theList[0]['userid']))
 			for($i=0;$i<$total;$i++)
 			{
 				$theList[$i]['status']=((int)$theList[$i]['status']==1)?'Sended':'Pending';

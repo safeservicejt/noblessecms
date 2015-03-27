@@ -61,13 +61,13 @@
 
 					<tr>
 					<td>
-					<input type="checkbox" name="id[]" value="'.$listPages[$i]['nodeid'].'" />
+					<input type="checkbox" name="id[]" value="'.$listPages[$i]['pageid'].'" />
 					</td>
 					<td><strong>'.stripslashes($listPages[$i]['title']).'</strong>
 					</td>
 					<td>'.$status.'</td>
 
-					<td><a href="'.USERCP_URL.'pages/edit/'.$listPages[$i]['nodeid'].'" class="btn btn-xs btn-warning">Edit</a></td>
+					<td><a href="'.USERCP_URL.'pages/edit/'.$listPages[$i]['pageid'].'" class="btn btn-xs btn-warning">Edit</a></td>
 
 					</tr>
 					';

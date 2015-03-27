@@ -34,32 +34,15 @@ class controlCategories
 
 		if(Request::has('btnAdd'))
 		{
-			$post['alert']='<div class="alert alert-success">Add new categories success.</div>';
+			try {
 
-			$data=Request::get('send');
+				insertProcess();
 
-			$data['parentid']=Request::get('send.parentid',0);
+				$post['alert']='<div class="alert alert-success">Add new categories success.</div>';
 
+			} catch (Exception $e) {
 
-			if(!$id=Categories::insert($data))
-			{
-
-				$post['alert']='<div class="alert alert-warning">Add new categories error.</div>';
-			}
-			else
-			{
-				if(!$shortPath=File::upload('thumbnail','/uploads/images/'))
-				{
-					$post['alert']='<div class="alert alert-warning">Add new categories error.</div>';
-				}
-				else
-				{
-					$updateData=array(
-						'image'=>$shortPath
-						);					
-
-					Categories::update($id,$updateData);
-				}
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
 
 			}
 
@@ -67,28 +50,19 @@ class controlCategories
 
 		if(Request::has('btnSave'))
 		{
-				$post['alert']='<div class="alert alert-success">Edit categories success.</div>';
+			try {
 
-				// editCategory(array('id'=>Request::get('send.id'),'title'=>Request::get('send.title'),'order'=>Request::get('send.sort_order','0'),'oldimage'=>Request::get('send.oldimage')));
+				updateProcess();
 
-				$id=Uri::getNext('edit');
+				$post['alert']='<div class="alert alert-success">Update changes success.</div>';
 
-				$data=array();
+			} catch (Exception $e) {
 
-				$data=Request::get('send');
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
 
-				$data['parentid']=Request::get('send.parentid',0);
+			}
 
-				if(!$shortPath=File::upload('thumbnail','/uploads/images/'))
-				{
-					
-				}
-				else
-				{
-					$data['image']=$shortPath;				
-				}
 
-				Categories::update($id,$data);
 		}
 
 		$post['showEdit']='no';

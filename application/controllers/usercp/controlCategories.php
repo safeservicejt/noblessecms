@@ -33,41 +33,26 @@ class controlCategories
             echo $li;
             die();
         }
+
 		$post=array('alert'=>'');
+
+		Model::load('admincp/categories');
 
 		if(Request::has('btnAdd'))
 		{
 			if(UserGroups::enable('can_addnew_category')==false){
 				Alert::make('Page not found');
 			}
+			
+			try {
 
+				insertProcess();
 
-			$post['alert']='<div class="alert alert-success">Add new categories success.</div>';
+				$post['alert']='<div class="alert alert-success">Add new categories success.</div>';
 
-			$data=Request::get('send');
+			} catch (Exception $e) {
 
-			$data['parentid']=Request::get('send.parentid',0);
-
-
-			if(!$id=Categories::insert($data))
-			{
-
-				$post['alert']='<div class="alert alert-warning">Add new categories error.</div>';
-			}
-			else
-			{
-				if(!$shortPath=File::upload('thumbnail','/uploads/images/'))
-				{
-					$post['alert']='<div class="alert alert-warning">Add new categories error.</div>';
-				}
-				else
-				{
-					$updateData=array(
-						'image'=>$shortPath
-						);					
-
-					Categories::update($id,$updateData);
-				}
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
 
 			}
 
@@ -75,32 +60,21 @@ class controlCategories
 
 		if(Request::has('btnSave'))
 		{
-				if(UserGroups::enable('can_edit_category')==false){
-					Alert::make('Page not found');
-				}			
+			if(UserGroups::enable('can_edit_category')==false){
+				Alert::make('Page not found');
+			}			
 
-				$post['alert']='<div class="alert alert-success">Edit categories success.</div>';
+			try {
 
-				// editCategory(array('id'=>Request::get('send.id'),'title'=>Request::get('send.title'),'order'=>Request::get('send.sort_order','0'),'oldimage'=>Request::get('send.oldimage')));
+				updateProcess();
 
-				$id=Uri::getNext('edit');
+				$post['alert']='<div class="alert alert-success">Update changes success.</div>';
 
-				$data=array();
+			} catch (Exception $e) {
 
-				$data=Request::get('send');
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
 
-				$data['parentid']=Request::get('send.parentid',0);
-
-				if(!$shortPath=File::upload('thumbnail','/uploads/images/'))
-				{
-					
-				}
-				else
-				{
-					$data['image']=$shortPath;				
-				}
-
-				Categories::update($id,$data);
+			}
 
 		}
 

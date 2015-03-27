@@ -66,10 +66,10 @@ class controlOrders
 		$id=$match[1];
 
 		$orderData=Orders::get(array(
-			'where'=>"where nodeid='$id'"
+			'where'=>"where orderid='$id'"
 			));
 
-		if(!isset($orderData[0]['nodeid']))
+		if(!isset($orderData[0]['orderid']))
 		{
 			Alert::make('Order not found');
 		}

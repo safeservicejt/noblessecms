@@ -36,7 +36,7 @@
 				$li='';
 
 
-				if(isset($theList[0]['nodeid']))
+				if(isset($theList[0]['orderid']))
 				for($i=0;$i<$totalRow;$i++)
 				{
 
@@ -44,7 +44,7 @@
 
 					<tr>
 					<td>
-					<input type="checkbox" name="id[]" value="'.$theList[$i]['nodeid'].'" />
+					<input type="checkbox" name="id[]" value="'.$theList[$i]['orderid'].'" />
 					</td>
 					<td>'.Render::dateFormat($theList[$i]['date_added']).'</td>					
 					<td>'.$theList[$i]['payment_firstname'].' '.$theList[$i]['payment_lastname'].'
@@ -54,7 +54,7 @@
 
 					<td>'.$theList[$i]['totalFormat'].'</td>
 					<td><span class="label label-primary">'.$theList[$i]['order_status'].'</span></td>
-					<td><a href="'.ROOT_URL.'usercp/orders/view/'.$theList[$i]['nodeid'].'" class="btn btn-xs btn-danger">Details</a></td>
+					<td><a href="'.ROOT_URL.'usercp/orders/view/'.$theList[$i]['orderid'].'" class="btn btn-xs btn-danger">Details</a></td>
 
 					</tr>
 					';

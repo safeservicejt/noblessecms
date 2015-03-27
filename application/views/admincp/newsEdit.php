@@ -65,7 +65,7 @@
 					<li>
 					<span class="textChosen"><?php echo $edit['cattitle'];?></span>
 					<span title="Remove this" class="removeTextChosen">[x]</span>
-					<input type="hidden" name="catNodeid" class="valueChosen" value="<?php echo $edit['catid'];?>">
+					<input type="hidden" name="catid" class="valueChosen" value="<?php echo $edit['catid'];?>">
 					</li>    
 				<?php } ?>
                   </ul>
@@ -84,7 +84,7 @@
 					<li>
 					<span class="textChosen"><?php echo $edit['pagetitle'];?></span>
 					<span title="Remove this" class="removeTextChosen">[x]</span>
-					<input type="hidden" name="pageNodeid" class="valueChosen" value="<?php echo $edit['pageid'];?>">
+					<input type="hidden" name="pageid" class="valueChosen" value="<?php echo $edit['pageid'];?>">
 					</li>    
 				<?php } ?>                  	
                   </ul>

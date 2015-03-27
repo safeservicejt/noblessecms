@@ -83,7 +83,7 @@ class controlVouchers
 				$post['id']=$id;
 
 				$data=Vouchers::get(array(
-					'where'=>"where nodeid='$id'"
+					'where'=>"where voucherid='$id'"
 					));
 				$post['edit']=$data[0];
 

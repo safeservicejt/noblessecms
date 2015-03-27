@@ -6,6 +6,8 @@ class GlobalCMS
 
 	public static $setting=array();
 
+	public static $theme=array();
+
 	public static $content_top=array();
 
 	public static $content_left=array();

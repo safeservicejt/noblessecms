@@ -87,6 +87,16 @@ class Users
 		
 	}
 
+	public function logout()
+	{
+      Cookie::destroy('username');
+      Cookie::destroy('password');
+
+      Session::forget('userid');
+      
+      Session::forget('groupid');		
+	}
+
 	public function changePassword($userid,$newPassword)
 	{
 		$password=md5($newPassword);
@@ -301,11 +311,11 @@ class Users
 	public function makeLogin()
 	{
 
-	    $valid=Validator::check(array(
+	    $valid=Validator::make(array(
 
-	    Request::get('email')=>'email|max:150|slashes',
+	    'email'=>'email|max:150|slashes',
 
-	    Request::get('password')=>'min:2|slashes'
+	   	'password'=>'min:2|slashes'
 
 	    ));
 
