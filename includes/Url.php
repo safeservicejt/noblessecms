@@ -24,13 +24,13 @@ class Url
 			return '';
 		}
 
-		$resultData=ROOT_URL.'product/'.$row['productid'].'/'.$row['friendly_url'].'.html';
+		$resultData=ROOT_URL.'product-'.$row['productid'].'-'.$row['friendly_url'].'.html';
 
 		return $resultData;
 	}
 	public function tag($tagStr='')
 	{
-		$resultData=ROOT_URL.'tag/'.$tagStr;
+		$resultData=ROOT_URL.'tag-'.$tagStr;
 
 		return $resultData;
 	}
@@ -85,18 +85,19 @@ class Url
 		{
 			return '';
 		}		
-		$resultData=ROOT_URL.'category/'.$row['catid'].'/'.$row['friendly_url'];
+
+		$resultData=ROOT_URL.'category-'.$row['catid'].'-'.$row['friendly_url'];
 
 		return $resultData;
 
 	}
 	public function page($row=array())
 	{
-		if(!isset($row['catid']))
+		if(!isset($row['pageid']))
 		{
 			return '';
 		}		
-		$resultData=ROOT_URL.'page/'.$row['catid'].'-'.$row['friendly_url'].'.html';
+		$resultData=ROOT_URL.'page-'.$row['pageid'].'-'.$row['friendly_url'].'.html';
 
 		return $resultData;
 
@@ -122,7 +123,7 @@ class Url
 		{
 			return '';
 		}		
-		$resultData=ROOT_URL.'manufacturer/'.$row['manufacturerid'].'/'.$row['friendly_url'];
+		$resultData=ROOT_URL.'manufacturer-'.$row['manufacturerid'].'-'.$row['friendly_url'];
 
 		return $resultData;
 
@@ -133,7 +134,7 @@ class Url
 		{
 			return '';
 		}		
-		$resultData=ROOT_URL.'post/'.$row['postid'].'-'.$row['friendly_url'].'.html';
+		$resultData=ROOT_URL.'post-'.$row['postid'].'-'.$row['friendly_url'].'.html';
 
 		return $resultData;
 

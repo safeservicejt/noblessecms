@@ -16,11 +16,12 @@ class Setting
 			$this->mailsystem();
 			die();
 		}
-		if(Uri::has('multidb'))
-		{
-			$this->multidb();
-			die();
-		}
+
+		// if(Uri::has('multidb'))
+		// {
+		// 	$this->multidb();
+		// 	die();
+		// }
 
 		$post=array();
 

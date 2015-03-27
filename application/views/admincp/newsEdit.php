@@ -54,6 +54,16 @@
 		<div class="col-lg-4">
 			<div class="row">
 			<div class="col-lg-12">
+
+        <p>
+        <label><strong>Post type:</strong></label>
+        <select class="form-control" name="send[post_type]">
+        <option value="normal" <?php if($edit['post_type']=='normal')echo 'selected';?>>Normal</option>
+          <option value="image" <?php if($edit['post_type']=='image')echo 'selected';?>>Image</option>
+          <option value="fullwidth" <?php if($edit['post_type']=='fullwidth')echo 'selected';?>>Full Width</option>
+        </select>
+        </p>
+
 				<p class="pChosen">
 				<div class="row">
 				<div class="col-lg-12">

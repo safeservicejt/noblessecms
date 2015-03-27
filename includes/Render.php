@@ -2,6 +2,7 @@
 
 class Render
 {
+
 	public function thumbnail($image)
 	{
 		if(!preg_match('/.*?\.\w+/i', $image))

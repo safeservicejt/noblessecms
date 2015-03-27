@@ -13,6 +13,14 @@
 			<div style="display:block;">
 
 			<?php echo $alert;?>
+	        <p>
+	        <label><strong>Page type:</strong></label>
+	        <select class="form-control" name="send[page_type]">
+	        <option value="normal" <?php if($edit['page_type']=='normal')echo 'selected';?>>Normal</option>
+	          <option value="image" <?php if($edit['page_type']=='image')echo 'selected';?>>Image</option>
+	          <option value="fullwidth" <?php if($edit['page_type']=='fullwidth')echo 'selected';?>>Full Width</option>
+	        </select>
+	        </p>			
 			<p>
 			<label><strong>Title:</strong></label>
 			<input type="text" name="send[title]" class="form-control" value="<?php echo stripslashes($edit['title']);?>" placeholder="Page title..." />

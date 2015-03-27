@@ -13,6 +13,15 @@
 			<!-- Add new -->
 			<div style="display:block;">
 			<?php echo $alert;?>
+	        <p>
+	        <label><strong>Page type:</strong></label>
+	        <select class="form-control" name="send[page_type]">
+	        <option value="normal">Normal</option>
+	          <option value="image">Image</option>
+	          <option value="fullwidth">Full Width</option>
+
+	        </select>
+	        </p>			
 			<p>
 			<label><strong>Title:</strong></label>
 			<input type="text" name="send[title]" class="form-control" placeholder="Page title..." />

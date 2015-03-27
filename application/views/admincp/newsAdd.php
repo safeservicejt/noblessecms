@@ -47,6 +47,16 @@
 			<div class="row">
 			<div class="col-lg-12">
 
+        <p>
+        <label><strong>Post type:</strong></label>
+        <select class="form-control" name="send[post_type]">
+        <option value="normal">Normal</option>
+          <option value="image">Image</option>
+          <option value="fullwidth">Full Width</option>
+
+        </select>
+        </p>
+
 				<p class="pChosen">
 				<div class="row">
 				<div class="col-lg-12">

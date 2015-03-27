@@ -3,7 +3,7 @@
 class Misc
 {
 
-	public function genPage($title,$start=0,$max=5)
+	public function genPage($title,$start=0,$max=5,$splitChar='/')
 	{
 		$endpage=$start+$max;
 
@@ -12,7 +12,7 @@ class Misc
 
 		for($i=$start;$i<=$endpage;$i++)
 		{
-			$li.='<li><a href="'.ROOT_URL.$title.'/page/'.$i.'">'.$i.'</a></li>';
+			$li.='<li><a href="'.ROOT_URL.$title.$splitChar.'page'.$splitChar.$i.'">'.$i.'</a></li>';
 		}
 
 		$prev=$start-1;
@@ -22,9 +22,9 @@ class Misc
 		return '
 		<nav>
 					<ul class="pagination">
-					  <li><a href="'.ROOT_URL.$title.'/page/'.$prev.'">&laquo;</a></li>
+					  <li><a href="'.ROOT_URL.$title.$splitChar.'page'.$splitChar.$prev.'">&laquo;</a></li>
 					  '.$li.'
-					  <li><a href="'.ROOT_URL.$title.'/page/'.$next.'">&raquo;</a></li>
+					  <li><a href="'.ROOT_URL.$title.$splitChar.'page'.$splitChar.$next.'">&raquo;</a></li>
 					</ul>
 		</nav> 
 		';

@@ -210,25 +210,19 @@ class Pages
 			$post['title']=String::encode($post['title']);
 		}		
 
-		$date_added=date('Y-m-d h:i:s');
+		$post['date_added']=date('Y-m-d h:i:s');
 
-		$friendly_url=$post['friendly_url'];
+		$keyNames=array_keys($post);
 
-		$content=$post['content'];
+		$insertKeys=implode(',', $keyNames);
 
-		$keywords=$post['keywords'];
+		$keyValues=array_values($post);
 
-		// $title=addslashes($title);
-
-		// $friendly_url=trim($post['friendly_url']);
-
-		// $content=addslashes(trim($post['content']));
-
-		// $keywords=addslashes(trim($post['keywords']));
+		$insertValues="'".implode("','", $keyValues)."'";
 
 		Plugins::load('before_insert_page',$post);
 
-		Database::query("insert into pages(title,friendly_url,content,keywords,date_added) values('$title','$friendly_url','$content','$keywords','$date_added')");
+		Database::query("insert into pages($insertKeys) values($insertValues)");
 
 		$error=Database::$error;
 
@@ -243,7 +237,7 @@ class Pages
 		
 		Plugins::load('after_insert_page',$post);
 
-		return $nodeid;		
+		return $id;		
 	}
 
 

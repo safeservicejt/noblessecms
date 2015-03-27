@@ -29,6 +29,8 @@ class GlobalCMS
 		self::$setting=Server::getSetting();
 
 		// self::$load['currency']=
+
+		self::defaultPage();
 				
 		Lang::loadLang(self::$setting['system_lang']);
 
@@ -53,6 +55,57 @@ class GlobalCMS
 
 		UserGroups::loadCaches();
 
+	}
+
+	public function defaultPage()
+	{
+		if(isset($_SESSION['default_page']))
+		{
+			return false;
+		}
+
+		if(self::$setting['default_page']!='home')
+		{
+			$id=self::$setting['default_page_id'];
+
+			switch (self::$setting['default_page']) {
+
+				case 'custompost':
+
+					$getData=Post::get(array(
+						'where'=>"where postid='$id'"
+						));
+
+					if(!isset($getData[0]['postid']))
+					{
+						Redirect::to('404page');
+					}
+
+					$_SESSION['default_page']='yes';
+
+					Redirect::to(Url::post($getData[0]));
+
+					break;
+
+				case 'custompage':
+
+					$getData=Page::get(array(
+						'where'=>"where pageid='$id'"
+						));
+
+					if(!isset($getData[0]['pageid']))
+					{
+						Redirect::to('404page');
+					}
+					
+					$_SESSION['default_page']='yes';
+
+					Redirect::to(Url::page($getData[0]));
+
+					break;
+				
+			}
+		}
 	}
 
 

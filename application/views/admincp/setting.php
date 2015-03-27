@@ -16,6 +16,7 @@
 		  <li class="active"><a href="#info" role="tab" data-toggle="tab">Site information</a></li>
 
 		  <li><a href="#logo" role="tab" data-toggle="tab">Banner</a></li>
+		  <li><a href="#reading" role="tab" data-toggle="tab">Front Page</a></li>
 
 		</ul>
 
@@ -223,6 +224,33 @@
 		  </div>
 		  <!-- End tab -->
 
+		  <!-- Reading -->
+		  
+		  <div class="tab-pane" id="reading">
+			<form action="" method="post" enctype="multipart/form-data">	
+		  	<p>
+		  		<strong>Default page:</strong>
+		  	</p>
+		  	<p>
+		  		<select class="form-control selectDefault_page"  name="general[default_page]">
+		  		<option value="home" <?php if($default_page=='home')echo 'selected';?>>Home</option>
+		  		<option value="custompost" <?php if($default_page=='custompost')echo 'selected';?>>Custom post</option>
+		  		<option value="custompage" <?php if($default_page=='custompage')echo 'selected';?>>Custom page</option>
+		  		</select>
+		  	</p>
+
+		  	<p class="default_page" style="display:none;">
+		  	<strong>Post/pageid default:</strong> <br>
+		  		<input type="text" class="form-control" name="general[default_page_id]" value="<?php echo $default_page_id;?>" placeholder="1,2,3,4" />
+		  	</p>
+
+		  	<p>
+		  	<button type="submit" name="btnSave" class="btn btn-info">Save Changes</button>
+		  	</p>		  	
+		  	</form>
+		  </div>
+		  <!-- End Reading -->
+
 		</div>
 	
 		  
@@ -233,3 +261,23 @@
 
   </div>
 </div>
+
+<script>
+
+$(document).ready(function(){
+
+	$('.selectDefault_page').change(function(){
+
+		var thisVal=$(this).val();
+
+		if(thisVal!='home')
+		{
+			$('.default_page').show();
+		}
+		else
+		{
+			$('.default_page').hide();
+		}
+	});
+});
+</script>

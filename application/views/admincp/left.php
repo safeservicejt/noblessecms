@@ -116,6 +116,7 @@
                   <li><a href="<?php echo ADMINCP_URL;?>setting"><span class="glyphicon glyphicon-cog"></span> Setting</a>
           <ul>
           <li><a href="<?php echo ADMINCP_URL;?>setting">General</a></li>
+
           <li><a href="<?php echo ADMINCP_URL;?>setting/ecommerce">Ecommerce</a></li>
           <li><a href="<?php echo ADMINCP_URL;?>setting/mailsystem">Mail System</a></li>
               <?php
