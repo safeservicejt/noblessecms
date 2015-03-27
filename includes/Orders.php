@@ -186,6 +186,8 @@ class Orders
 		// 	$inputData['price']=Currency::insertPrice($inputData['price']);
 		// }
 
+		$inputData['date_added']=date('Y-m-d h:i:s');
+
 		$keyNames=array_keys($inputData);
 
 		$insertKeys=implode(',', $keyNames);

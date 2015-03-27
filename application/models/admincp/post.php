@@ -10,42 +10,11 @@ function lastComments($limitShow=10)
 
     $li='';
 
-    $loadData=Comments::get(array(
-        'limitShow'=>$limitShow,
-        'orderby'=>'order by date_added desc'
-        ));
-
-    $total=count($loadData);
-
-    if(!isset($loadData[0]['postid']))
-    {
-        return '';
-    }
-
-    $listID='';
-
-    for($i=0;$i<$total;$i++)
-    {
-        $listID.="'".$loadData[$i]['postid']."', ";
-    }
-
-    $listID=substr($listID, 0,strlen($listID)-2);
-
-    $loadPost=Post::get(array(
-        'where'=>"where post_type='normal' AND postid IN ($listID)"
+    $loadData=Post::get(array(
+        'query'=>"select p.*,c.* from post p, comments c where p.post_type='normal' AND p.status='1' AND p.postid=c.postid order by c.date_added desc limit 0,$limitShow"
         ));   
 
-    for($i=0;$i<$total;$i++)
-    {
-        for($j=0;$j<$total;$j++)
-        {
-            if($loadPost[$i]['postid']==$loadData[$j]['postid'])
-            {
-                $loadPost[$i]['date_added']=$loadData[$j]['date_added'];
-                $loadPost[$i]['fullname']=$loadData[$j]['fullname'];
-            }
-        }
-    }
+    $total=count($loadData);
 
     if($total > 0)
     {
@@ -55,9 +24,9 @@ function lastComments($limitShow=10)
             $li.='
                     <!-- tr -->
                     <tr>
-                    <td class="col-lg-3">'.$loadPost[$i]['date_added'].'</td>
-                    <td class="col-lg-3">'.$loadPost[$i]['fullname'].'</td>
-                    <td class="col-lg-6">'.$loadPost[$i]['title'].'</td>
+                    <td class="col-lg-3">'.$loadData[$i]['date_added'].'</td>
+                    <td class="col-lg-3">'.$loadData[$i]['fullname'].'</td>
+                    <td class="col-lg-6">'.$loadData[$i]['title'].'</td>
                     </tr>
                     <!-- tr -->
 
@@ -90,43 +59,11 @@ function topComments($limitShow=10)
 
     $li='';
     
-
-    $loadData=Comments::get(array(
-        'limitShow'=>$limitShow,
-        'query'=>'select count(commentid)as totalID from  comments group by postid order by count(commentid) desc'
-        ));
-
-    $total=count($loadData);
-
-    if(!isset($loadData[0]['postid']))
-    {
-        return '';
-    }
-
-    $listID='';
-
-    for($i=0;$i<$total;$i++)
-    {
-        $listID.="'".$loadData[$i]['postid']."', ";
-    }
-
-    $listID=substr($listID, 0,strlen($listID)-2);
-
-    $loadPost=Post::get(array(
-        'where'=>"where post_type='normal' AND postid IN ($listID)"
+    $loadData=Post::get(array(
+        'query'=>"select p.title,count(c.postid)as totalID from post p,comments c where p.status='1' AND p.post_type='normal' AND p.postid=c.postid group by c.postid order by count(c.postid) desc limit 0,$limitShow"
         ));   
 
-    for($i=0;$i<$total;$i++)
-    {
-        for($j=0;$j<$total;$j++)
-        {
-            if($loadPost[$i]['postid']==$loadData[$j]['postid'])
-            {
-                $loadPost[$i]['totalID']=$loadData[$j]['totalID'];
-            }
-        }
-    }
-
+    $total=count($loadData);
     if($total > 0)
     {
         for($i=0;$i<$total;$i++)
@@ -172,7 +109,7 @@ function topViews($limitShow=10)
     $loadData=Post::get(array(
         'limitShow'=>$limitShow,
         'orderby'=>'order by views desc',
-        'where'=>"where  post_type='normal'"
+        'where'=>"where  post_type='normal' AND status='1'"
         ));
 
     // echo Database::$error;

@@ -589,61 +589,22 @@ function topProdViews($limitShow=10)
 }
 function lastSales($limitShow=10)
 {
-    if($loadData=Cache::loadKey('lastSales',300))
-    {
-        return $loadData;
-    }	
+    // if($loadData=Cache::loadKey('lastSales',300))
+    // {
+    //     return $loadData;
+    // }	
 
     $li='';
 
-	$command="select productid,quantity,price from orders_products $whereQuery";
+	$resultData=OrderProducts::get(array(
+		'query'=>"select p.title,op.price,op.quantity from orders_products op, products p where p.status='1' AND p.productid=op.productid order by op.date_added desc limit 0,$limitShow"
+		));
 
-	$command.=" order by date_added desc limit 0,$limitShow";
-	
-    $query=Database::query($command);
-
-    $total=Database::num_rows($query);
+	$total=count($resultData);
 
     if((int)$total > 0)
     {
-    	$listID='';
-
-    	$loadData=array();
-
-        while($row=Database::fetch_assoc($query))
-        {
-        	$listID="'".$row['productid']."', ";
-
-        	$loadData=$row;
-        }  
-
-        $listID=substr($listID, 0,strlen($listID)-2);
-
-        $loadProd=Products::get(array(
-        	'where'=>"where productid IN ($listID)"
-        	));     
-
-        $total=count($loadProd);
-
-        $totalOD=count($loadData);
-
-        $resultData=array();
-
-        for($i=0;$i<$total;$i++)
-        {
-        	for($j=0;$j<$totalOD;$j++)
-        	{
-        		if($loadProd[$i]['productid']==$loadData[$j]['productid'])
-        		{
-        			$resultData[$i]=$loadData[$j];
-
-        			$resultData[$i]['title']=$loadProd[$i]['title'];
-        		}
-        	}
-        }
-
-        $total=count($resultData);
-
+    	if(isset($resultData[0]['title']))
         for($i=0;$i<$total;$i++)
         {
         	$getData=Currency::parsePrice($resultData[$i]['price']);

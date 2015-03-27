@@ -1,8 +1,8 @@
 
                     <!-- tr -->
                     <tr>
-                    <td>Sticky Post – Always Displayed On Top</td>
-                    <td class="text-right">1</td>
+                    <td class="col-lg-9">Lorem Ipsum is simply dummy text</td>
+                    <td class="col-lg-3 text-right">2</td>
                     </tr>
                     <!-- tr -->
 

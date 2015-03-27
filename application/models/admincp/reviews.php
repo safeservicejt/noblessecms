@@ -174,10 +174,10 @@ function searchProcess($txtKeyword)
 
 function lastReviews($limitShow=10)
 {
-    // if($loadData=Cache::loadKey('statsLastReviews',300))
-    // {
-    //     return $loadData;
-    // }
+    if($loadData=Cache::loadKey('statsLastReviews',300))
+    {
+        return $loadData;
+    }
 
     $li='';
 
