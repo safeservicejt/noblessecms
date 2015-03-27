@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 17, 2015 at 09:07 AM
+-- Generation Time: Mar 27, 2015 at 01:51 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `affiliate` (
 --
 
 INSERT INTO `affiliate` (`userid`, `earned`, `commission`, `payment_method`, `payment_account`, `cheque`, `bank_name`, `bank_branch_number`, `bank_swift_code`, `bank_account_name`, `bank_account_number`) VALUES
-(1, 235, 40, 'Paypal', 'test@gmail.com', '', '', '', '', '', '');
+(1, 0, 40, 'Paypal', 'test@gmail.com', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
 --
 
 INSERT INTO `categories` (`catid`, `cattitle`, `friendly_url`, `parentid`, `image`, `sort_order`, `date_added`, `isreaded`, `status`) VALUES
-(15, 'United', 'United', '0', NULL, 15, '2015-01-18 07:57:36', 0, 1);
+(15, 'United', 'United', '0', '/uploads/images/2231793638/post_2.jpg', 15, '2015-01-18 07:57:36', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -679,7 +679,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `views` int(9) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`pageid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -762,6 +762,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   `pageid` int(9) NOT NULL DEFAULT '0',
   `is_featured` int(1) NOT NULL DEFAULT '0',
   `date_featured` datetime DEFAULT NULL,
+  `rating` int(2) NOT NULL DEFAULT '5',
   `isreaded` int(1) NOT NULL DEFAULT '0',
   `allowcomment` int(1) NOT NULL DEFAULT '1',
   `status` int(1) NOT NULL DEFAULT '0',
@@ -772,8 +773,8 @@ CREATE TABLE IF NOT EXISTS `post` (
 -- Dumping data for table `post`
 --
 
-INSERT INTO `post` (`postid`, `title`, `catid`, `userid`, `parentid`, `image`, `sort_order`, `date_added`, `views`, `content`, `post_type`, `keywords`, `friendly_url`, `pageid`, `is_featured`, `date_featured`, `isreaded`, `allowcomment`, `status`) VALUES
-(1, 'Lorem Ipsum is simply dummy text', 15, 1, 0, 'uploads/images/5280030443/post_2.jpg', 1, '2015-03-16 05:35:00', 0, '[p][b]Lorem Ipsum[/b]&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.[/p]\r\n', 'template', '', 'Lorem_Ipsum_is_simply_dummy_text', 0, 0, NULL, 0, 1, 1);
+INSERT INTO `post` (`postid`, `title`, `catid`, `userid`, `parentid`, `image`, `sort_order`, `date_added`, `views`, `content`, `post_type`, `keywords`, `friendly_url`, `pageid`, `is_featured`, `date_featured`, `rating`, `isreaded`, `allowcomment`, `status`) VALUES
+(1, 'Lorem Ipsum is simply dummy text', 15, 1, 0, 'uploads/images/5280030443/post_2.jpg', 1, '2015-03-16 05:35:00', 0, '[p][b]Lorem Ipsum[/b]&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.[/p][/p]\r\n', 'normal', '', 'Lorem_Ipsum_is_simply_dummy_text', 0, 0, NULL, 5, 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -801,16 +802,16 @@ CREATE TABLE IF NOT EXISTS `post_tags` (
   `tag_title` varchar(128) NOT NULL,
   `postid` int(9) NOT NULL,
   PRIMARY KEY (`tagid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
 
 --
 -- Dumping data for table `post_tags`
 --
 
 INSERT INTO `post_tags` (`tagid`, `tag_title`, `postid`) VALUES
-(1, 'test theme demo', 1),
-(2, 'test', 1),
-(3, 'test theme', 1);
+(22, 'test theme', 1),
+(23, 'test', 1),
+(24, 'test theme demo', 1);
 
 -- --------------------------------------------------------
 
@@ -847,6 +848,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   `price_discount` double NOT NULL DEFAULT '0',
   `options_command` varchar(1000) CHARACTER SET utf8 DEFAULT NULL,
   `quantity_discount` int(9) NOT NULL DEFAULT '0',
+  `rating` int(2) NOT NULL DEFAULT '5',
   `isreaded` int(1) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`productid`),
