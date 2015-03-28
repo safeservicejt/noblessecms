@@ -37,9 +37,14 @@ class controlPlugins
 			$this->deactivate();
 			die();
 		}
-		if(Uri::match('\/run'))
+		if(Uri::match('\/run\/'))
 		{
 			$this->run();
+			die();
+		}
+		if(Uri::match('\/runc\/'))
+		{
+			$this->runc();
 			die();
 		}
 		
@@ -219,6 +224,47 @@ class controlPlugins
 
         View::make('admincp/footer'); 
 	}
+	public function runc()
+	{
+		$fileName=Uri::getNext('runc');
+
+		if(!$match=Uri::match('\/func\/(.*?)\/'))
+		{
+			$foldername=Uri::getNext($fileName);
+		}
+		else
+		{
+			$foldername=Uri::getNext($match[1]);
+		}
+		
+
+		// echo $foldername;die();
+
+		$fileName=base64_decode($fileName);
+
+		if(!preg_match('/\.php$/i', $fileName))
+		{
+			$fileName.='.php';
+		}
+
+		$post=array(
+			'foldername'=>$foldername,
+			'fileName'=>$fileName
+			);
+
+		if($match=Uri::match('\/func\/(.*?)\/'))
+		{
+			$post['func']=base64_decode($match[1]);
+		}
+		// echo Render::adminHeader();die();
+
+		View::make('admincp/head',array('title'=>'Plugin '.$foldername.' - '.ADMINCP_TITLE));
+
+        $this->makeContents('pluginRuncContent',$post);           
+
+        View::make('admincp/footer'); 
+	}
+
 	public function control()
 	{
 		Model::load('admincp/plugins');

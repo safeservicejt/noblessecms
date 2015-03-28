@@ -65,7 +65,9 @@
           </li>
               <!-- Admin left menu plugins -->
               <?php
-              $menu=Render::adminMenu('usercp_left_menu');
+
+              // print_r();die();
+              $menu=Render::usercpMenu('usercp_left_menu');
 
               $total=count($menu);
 
@@ -73,14 +75,44 @@
               
               $text='';
 
+              // print_r($menu);die();
+
               if($total > 0)
               {
                 for($i=0;$i<$total;$i++)
                 {
+                    $child='';
+
+                    if(isset($menu[$i]['child_menu']))
+                    {
+                  // print_r($menu[$i]);die();
+
+                      $childData=$menu[$i]['child_menu'];
+
+                      $totalChild=count($childData);
+
+                      for ($j=0; $j < $totalChild; $j++) { 
+
+                        $runFunc='';
+
+                        if(isset($childData[$j]['func']))
+                        {
+                          $runFunc='func/'.base64_encode($childData[$j]['func']).'/';
+                        }
+
+                        $child.='<li><a href="'.USERCP_URL.'plugins/runc/'.base64_encode($childData[$j]['filename']).'/'.$runFunc.$menu[$i]['foldername'].'">'.$childData[$j]['text'].'</a></li>';
+
+                      }
+
+                      $child='<ul>'.$child.'</ul>';
+
+                    }
+
+
                     $text=$menu[$i]['text'];
 
                     if(isset($text[1]))
-                    $li.='<li><a href="'.USERCP_URL.'plugins/run/'.base64_encode($menu[$i]['filename']).'/'.$menu[$i]['foldername'].'"><span class="glyphicon glyphicon-list"></span> '.$menu[$i]['text'].'</a></li>';
+                    $li.='<li><a href="'.USERCP_URL.'plugins/run/'.base64_encode($menu[$i]['filename']).'/'.$menu[$i]['foldername'].'"><span class="glyphicon glyphicon-list"></span> '.$menu[$i]['text'].'</a>'.$child.'</li>';
                 }
 
                 echo $li;              

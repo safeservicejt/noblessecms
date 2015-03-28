@@ -152,8 +152,8 @@ function listPlugins()
 		$resultData[$i]['title']=$pluginInfo[0];
 		$resultData[$i]['author']=$pluginInfo[1];
 		$resultData[$i]['version']=$pluginInfo[2];
-		$resultData[$i]['summary']=$pluginInfo[3];
-		$resultData[$i]['url']=$pluginInfo[4];
+		$resultData[$i]['summary']=isset($pluginInfo[3])?$pluginInfo[3]:'';
+		$resultData[$i]['url']=isset($pluginInfo[4])?$pluginInfo[4]:'';
 		$resultData[$i]['foldername']=$folderName;
 		$resultData[$i]['status']=isset($listFolders[$folderName])?$listFolders[$folderName]:'0';
 		$resultData[$i]['install']='no';

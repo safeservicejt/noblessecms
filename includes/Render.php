@@ -212,6 +212,51 @@ class Render
 		return $resultData;
 	}
 
+	public function usercpMenu($positionName='plugins_menu')
+	{
+		// $pluginData=Plugins::loadZone('plugins_menu');
+		$positionData=array('usercp_left_menu','usercp_nav_menu');
+
+		if(!in_array($positionName, $positionData))
+		{
+			return false;
+		}
+
+		$resultData=array();
+
+		if(!isset(Plugins::$usercpzoneCaches[$positionName]))
+		{
+			return false;
+		}
+
+		$resultData=Plugins::$usercpzoneCaches[$positionName];
+
+		$total=count($resultData);
+
+		if($total == 0)
+		{
+			return false;
+		}
+
+		for($i=0;$i<$total;$i++)
+		{
+			if((int)$resultData[$i]['status']==0)
+			{
+				unset($resultData[$i]);
+			}
+
+	
+		}
+
+		$balance=count($resultData);
+
+		if($balance > 0)
+		{
+			sort($resultData);				
+		}
+		return $resultData;
+	}
+
 	public function get($keyName)
 	{
 		$resultData='';

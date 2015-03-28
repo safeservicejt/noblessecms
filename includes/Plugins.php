@@ -750,6 +750,8 @@ class Plugins
 
 		$limit_number=isset($inputData['limit'])?$inputData['limit']:'0';
 
+		$child_menu=isset($inputData['child_menu'])?$inputData['child_menu']:'';
+
 		// print_r($inputData);die();
 
 		// Insert into Database
@@ -769,6 +771,7 @@ class Plugins
 		$table->img_width = $img_width;
 		$table->img_height = $img_height;
 		$table->limit_number = $limit_number;
+		$table->child_menu = json_encode($child_menu);
 
 		$metaid=$table->InsertOnSubmit();
 
@@ -1170,12 +1173,12 @@ class Plugins
 
 	public function loadadminZoneCaches()
 	{
-		// if($loadData=Cache::loadKey('adminzoneCaches',-1))
-		// {
-		// 	self::$adminzoneCaches=json_decode($loadData,true);
+		if($loadData=Cache::loadKey('adminzoneCaches',15))
+		{
+			self::$adminzoneCaches=json_decode($loadData,true);
 
-		// 	return true;
-		// }
+			return true;
+		}
 
 		$zoneList=array(
 
@@ -1235,12 +1238,14 @@ class Plugins
 	}
 	public function loadusercpZoneCaches()
 	{
-		// if($loadData=Cache::loadKey('adminzoneCaches',-1))
-		// {
-		// 	self::$adminzoneCaches=json_decode($loadData,true);
+		if($loadData=Cache::loadKey('usercpzoneCaches',15))
+		{
 
-		// 	return true;
-		// }
+			self::$usercpzoneCaches=json_decode($loadData,true);
+			// print_r(self::$usercpzoneCaches);
+			// die('545');
+			return true;
+		}
 
 		$zoneList=array(
 
@@ -1298,12 +1303,12 @@ class Plugins
 
 	public function loadZoneCaches()
 	{
-		// if($loadData=Cache::loadKey('zoneCaches',-1))
-		// {
-		// 	self::$zoneCaches=json_decode($loadData,true);
+		if($loadData=Cache::loadKey('zoneCaches',30))
+		{
+			self::$zoneCaches=json_decode($loadData,true);
 
-		// 	return true;
-		// }
+			return true;
+		}
 
 		$zoneList=array(
 				'before_system_load'=>'load',

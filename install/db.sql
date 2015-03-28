@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 27, 2015 at 01:51 PM
+-- Generation Time: Mar 28, 2015 at 08:00 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -657,7 +657,8 @@ CREATE TABLE IF NOT EXISTS `orders_products` (
   `productid` int(9) NOT NULL,
   `quantity` int(9) NOT NULL DEFAULT '1',
   `downloads` longtext,
-  `price` double NOT NULL DEFAULT '0'
+  `price` double NOT NULL DEFAULT '0',
+  `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -679,7 +680,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `views` int(9) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`pageid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -723,7 +724,6 @@ CREATE TABLE IF NOT EXISTS `plugins` (
 
 CREATE TABLE IF NOT EXISTS `plugins_meta` (
   `metaid` int(9) NOT NULL AUTO_INCREMENT,
-  `nodeid` varchar(128) NOT NULL,
   `foldername` varchar(100) NOT NULL,
   `limit_number` int(2) NOT NULL DEFAULT '0',
   `func` varchar(100) NOT NULL,
@@ -735,6 +735,7 @@ CREATE TABLE IF NOT EXISTS `plugins_meta` (
   `img_height` varchar(5) NOT NULL DEFAULT '0',
   `pagename` varchar(50) DEFAULT NULL,
   `variablename` varchar(100) DEFAULT NULL,
+  `child_menu` longtext,
   `status` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`metaid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -774,7 +775,7 @@ CREATE TABLE IF NOT EXISTS `post` (
 --
 
 INSERT INTO `post` (`postid`, `title`, `catid`, `userid`, `parentid`, `image`, `sort_order`, `date_added`, `views`, `content`, `post_type`, `keywords`, `friendly_url`, `pageid`, `is_featured`, `date_featured`, `rating`, `isreaded`, `allowcomment`, `status`) VALUES
-(1, 'Lorem Ipsum is simply dummy text', 15, 1, 0, 'uploads/images/5280030443/post_2.jpg', 1, '2015-03-16 05:35:00', 0, '[p][b]Lorem Ipsum[/b]&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.[/p][/p]\r\n', 'normal', '', 'Lorem_Ipsum_is_simply_dummy_text', 0, 0, NULL, 5, 0, 1, 1);
+(1, 'Lorem Ipsum is simply dummy text', 15, 1, 0, 'uploads/images/5280030443/post_2.jpg', 1, '2015-03-16 05:35:00', 0, '[p][p][p][b]Lorem Ipsum[/b]&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.[/p][/p][/p][/p]\r\n', 'normal', '', 'Lorem_Ipsum_is_simply_dummy_text', 0, 0, NULL, 5, 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -802,16 +803,16 @@ CREATE TABLE IF NOT EXISTS `post_tags` (
   `tag_title` varchar(128) NOT NULL,
   `postid` int(9) NOT NULL,
   PRIMARY KEY (`tagid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
 
 --
 -- Dumping data for table `post_tags`
 --
 
 INSERT INTO `post_tags` (`tagid`, `tag_title`, `postid`) VALUES
-(22, 'test theme', 1),
-(23, 'test', 1),
-(24, 'test theme demo', 1);
+(28, 'test theme', 1),
+(29, 'test', 1),
+(30, 'test theme demo', 1);
 
 -- --------------------------------------------------------
 
@@ -1018,7 +1019,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `image` varchar(255) DEFAULT NULL,
   `email` varchar(96) NOT NULL,
   `password` varchar(128) NOT NULL,
-  `balance` decimal(10,5) NOT NULL DEFAULT '0.00000',
+  `balance` double NOT NULL DEFAULT '0',
   `ip` varchar(64) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `is_admin` int(1) NOT NULL DEFAULT '0',
@@ -1034,7 +1035,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`userid`, `groupid`, `firstname`, `lastname`, `image`, `email`, `password`, `balance`, `ip`, `date_added`, `is_admin`, `is_affiliate`, `approved`, `isreaded`) VALUES
-(1, 1, 'Jamessss', 'Browns', NULL, 'safeservicejt@gmail.com', 'c514c91e4ed341f263e458d44b3bb0a7', '0.00000', '127.0.0.1', '2014-11-01 00:00:00', 1, 1, 1, 0);
+(1, 1, 'Jamessss', 'Browns', NULL, 'safeservicejt@gmail.com', 'c514c91e4ed341f263e458d44b3bb0a7', 0, '127.0.0.1', '2014-11-01 00:00:00', 1, 1, 1, 0);
 
 -- --------------------------------------------------------
 
