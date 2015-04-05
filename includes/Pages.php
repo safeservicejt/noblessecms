@@ -182,6 +182,11 @@ class Pages
 		return $inputData;
 	}
 
+	public function url($row=array())
+	{
+		return Url::page($row);
+	}
+
 	public function add($post=array())
 	{
 		$title=trim($post['title']);

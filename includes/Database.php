@@ -13,6 +13,8 @@ class Database
 
     public static $dbinfo = array();
 
+    public static $totalQuery=0;
+
 //    public static $fieldList = array();
 
     public static $error;
@@ -185,6 +187,8 @@ class Database
     }
     public function query($queryStr = '', $objectStr = '')
     {
+        self::$totalQuery+=1;
+        
         switch (self::$dbType) {
             case "mysqli":
 
@@ -196,7 +200,9 @@ class Database
 
                 if(isset(self::$error[5]))
                 {
-                    Log::error('You query: '.$queryStr.' is error!<br> Information: '.self::$error);
+                    // Log::error('You query: '.$queryStr.' is error!<br> Information: '.self::$error);
+
+                    return false;
                 }                
 
                 if (is_object($objectStr)) {
@@ -322,7 +328,9 @@ class Database
 
                 if(isset(self::$error[5]))
                 {
-                    Log::error('Can not fetch assoc from your query!<br> Information: '.self::$error);
+                    // Log::error('Can not fetch assoc from your query!<br> Information: '.self::$error);
+
+                    return false;
                 }  
 
                 $row = $queryDB->fetch_assoc();

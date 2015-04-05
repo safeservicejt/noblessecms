@@ -24,7 +24,16 @@ class GlobalCMS
 
 	public function start()
 	{
+		if($match=Uri::match('^theme\/(\w+)'))
+		{
+			$_SESSION['themeName']=$match[1];
+
+			header("Location: ".ROOT_URL);
+		}
+				
 		self::$load['start_time']=$_SESSION['start_time'];
+
+		self::$load['start_microtime']=microtime(true);
 
 		self::$setting=Server::getSetting();
 
@@ -55,6 +64,20 @@ class GlobalCMS
 
 		UserGroups::loadCaches();
 
+	}
+
+	public function timeLoad()
+	{
+		$thistime=microtime(true);
+
+		$thistime=(double)$thistime-(double)self::$load['start_microtime'];
+
+		echo 'Load in '.$thistime.' seconds.';
+	}
+
+	public function totalQuery()
+	{
+		echo 'Total '.Database::$totalQuery.' queries.';
 	}
 
 	public function defaultPage()

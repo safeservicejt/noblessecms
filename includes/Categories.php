@@ -104,6 +104,11 @@ class Categories
 		
 	}	
 
+	public function url($row=array())
+	{
+		return Url::category($row);
+	}
+
 	public function sortList($loadData=array())
 	{
 		if(!isset($loadData[0]['catid']))

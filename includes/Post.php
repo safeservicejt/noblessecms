@@ -266,6 +266,11 @@ class Post
 	// 	}
 	// }
 
+	public function url($row=array())
+	{
+		return Url::post($row);
+	}
+
 	public function tags($id)
 	{
 		$loadData=PostTags::get(array(

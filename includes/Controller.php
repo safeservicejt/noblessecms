@@ -10,6 +10,10 @@ class Controller
 
         self::$loadPath=$path;
     }
+    public function resetPath()
+    {
+        self::$loadPath=CONTROLLERS_PATH;
+    }
 
     public function getPath()
     {

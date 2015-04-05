@@ -252,6 +252,11 @@ class Products
 		return $inputData;
 	}
 
+	public function url($row=array())
+	{
+		return Url::product($row);
+	}
+
 	public function categories($id)
 	{
 		$resultData=array();

@@ -11,6 +11,11 @@ class View
         self::$loadPath=$path;
     }
 
+    public function resetPath()
+    {
+        self::$loadPath=VIEWS_PATH;
+    }
+
     public function getPath()
     {
         $path=!isset(self::$loadPath[2])?VIEWS_PATH:self::$loadPath;
@@ -45,13 +50,12 @@ class View
             $path = $viewName . '.php';
         }
 
+
+
         if (!file_exists($path)) {
+            // ob_end_clean();
 
-            ob_end_clean();
-
-            include(self::getPath() . 'page_not_found.php');
-
-            die();
+            Alert::make('Page '.$path.' not found');
         }
 
         $total_data = count($viewData);

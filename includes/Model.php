@@ -11,6 +11,11 @@ class Model
 
         self::$loadPath=$path;
     }
+    
+    public function resetPath()
+    {
+        self::$loadPath=MODELS_PATH;
+    }
 
     public function getPath()
     {

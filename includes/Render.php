@@ -2,6 +2,53 @@
 
 class Render
 {
+	public function pluginView($viewPath,$viewName,$inputData=array())
+	{
+		$headData=$inputData['headData'];
+
+		View::make('admincp/head',$headData);
+
+		if(!isset($inputData['noNavbar']))
+        View::make('admincp/nav');
+
+		if(!isset($inputData['noLeft']))        
+        View::make('admincp/left');  
+              
+        View::make('admincp/startContent');
+
+        // View::make('admincp/'.$viewPath,$inputData);
+
+		View::setPath($viewPath);
+
+		View::make($viewName,$inputData);
+
+		View::resetPath();
+
+        View::make('admincp/endContent');
+
+		View::make('admincp/footer');	        
+	}
+
+	public function admincpView($viewPath,$inputData=array())
+	{	
+		$headData=$inputData['headData'];
+
+		View::make('admincp/head',$headData);
+
+		if(!isset($inputData['noNavbar']))
+        View::make('admincp/nav');
+
+		if(!isset($inputData['noLeft']))        
+        View::make('admincp/left');  
+              
+        View::make('admincp/startContent');
+
+        View::make('admincp/'.$viewPath,$inputData);
+
+        View::make('admincp/endContent');
+
+		View::make('admincp/footer');	          
+	}
 
 	public function thumbnail($image)
 	{

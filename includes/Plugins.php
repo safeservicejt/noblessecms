@@ -651,6 +651,8 @@ class Plugins
 
 
 
+
+
 		// self::removeZone($row['zonename'],array('metaid'=>$row['metaid'],'foldername'=>$folderName));
 
 
@@ -682,12 +684,13 @@ class Plugins
 
 	public function uninstall($functionName='none')
 	{
-		if(self::$isInstall=='no' || self::$folderName=='')
+
+		if(self::$isUninstall=='no' || self::$folderName=='')
 		{
 			return false;
 		}
-
-		if($functionName=='none')
+		
+		if($functionName=='none' || $functionName=='')
 		{
 			return false;
 		}
@@ -1173,12 +1176,12 @@ class Plugins
 
 	public function loadadminZoneCaches()
 	{
-		if($loadData=Cache::loadKey('adminzoneCaches',15))
-		{
-			self::$adminzoneCaches=json_decode($loadData,true);
+		// if($loadData=Cache::loadKey('adminzoneCaches',15))
+		// {
+		// 	self::$adminzoneCaches=json_decode($loadData,true);
 
-			return true;
-		}
+		// 	return true;
+		// }
 
 		$zoneList=array(
 
@@ -1238,14 +1241,14 @@ class Plugins
 	}
 	public function loadusercpZoneCaches()
 	{
-		if($loadData=Cache::loadKey('usercpzoneCaches',15))
-		{
+		// if($loadData=Cache::loadKey('usercpzoneCaches',15))
+		// {
 
-			self::$usercpzoneCaches=json_decode($loadData,true);
-			// print_r(self::$usercpzoneCaches);
-			// die('545');
-			return true;
-		}
+		// 	self::$usercpzoneCaches=json_decode($loadData,true);
+		// 	// print_r(self::$usercpzoneCaches);
+		// 	// die('545');
+		// 	return true;
+		// }
 
 		$zoneList=array(
 

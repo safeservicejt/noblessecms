@@ -113,6 +113,11 @@ class Manufacturers
 		return false;
 	}
 
+	public function url($row=array())
+	{
+		return Url::manufacturer($row);	
+	}
+
 	public function products($inputData=array())
 	{
 		if(!isset($inputData['manufacturerid']))

@@ -42,8 +42,6 @@ class Users
 
 		$queryCMD.=$limitQuery;
 
-	
-
 		// Load dbcache
 
 		$loadCache=DBCache::get($queryCMD);
@@ -87,16 +85,6 @@ class Users
 		
 	}
 
-	public function logout()
-	{
-      Cookie::destroy('username');
-      Cookie::destroy('password');
-
-      Session::forget('userid');
-      
-      Session::forget('groupid');		
-	}
-
 	public function changePassword($userid,$newPassword)
 	{
 		$password=md5($newPassword);
@@ -121,6 +109,16 @@ class Users
 			
 		return true;	
 
+	}
+
+	public function logout()
+	{
+      Cookie::destroy('username');
+      Cookie::destroy('password');
+
+      Session::forget('userid');
+      
+      Session::forget('groupid');		
 	}
 
 	public function isenable()
@@ -152,7 +150,7 @@ class Users
 		$password=md5($pword);
 
 		$loadData=self::get(array(
-			'where'=>"where email='$email' AND password='$password'"
+			'where'=>"where email='$email' AND password='$password' AND status='1'"
 			));
 
 		if(!isset($loadData[0]['userid']))
@@ -196,7 +194,7 @@ class Users
 
 	    DBCache::disable();
 	    $loadData=self::get(array(
-	    	'where'=>"where email='$username' AND password='$password'"
+	    	'where'=>"where email='$username' AND password='$password' AND status='1'"
 	    	));
 	    DBCache::enable();	    
 
@@ -315,7 +313,7 @@ class Users
 
 	    'email'=>'email|max:150|slashes',
 
-	   	'password'=>'min:2|slashes'
+	    'password'=>'min:2|slashes'
 
 	    ));
 
@@ -323,7 +321,6 @@ class Users
 	    {
 	        return false;
 	    }
-
 	    $username=Request::get('email');
 
 	    $password=Request::get('password');
@@ -332,9 +329,10 @@ class Users
 
 	    DBCache::disable();
 	    $loadData=self::get(array(
-	    	'where'=>"where email='$username' AND password='$password'"
+	    	'where'=>"where email='$username' AND password='$password' AND status='1'"
 	    	));
 	    DBCache::enable();	    
+
 
 	    if (!isset($loadData[0]['userid']))
 	    {
@@ -450,7 +448,11 @@ class Users
 	}
 	public function insert($inputData=array())
 	{
-
+		if(!isset($inputData['refer_code']))
+		{
+			$inputData['refer_code']=String::randText(8);
+		}
+		
 		// Addons
 		if(!isset($inputData['groupid']))
 		{

@@ -24,7 +24,10 @@ class Cache
 
         return $path;
     }
-  
+    public function resetPath()
+    {
+        self::$cachePath=CACHES_PATH;
+    }  
     public function enable($liveTime = 360)
     {
         self::$cacheStatus = 'enable';
