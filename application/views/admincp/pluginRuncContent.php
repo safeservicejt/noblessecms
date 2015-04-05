@@ -1,28 +1,12 @@
+<?php
 
+ require(PLUGINS_PATH.$foldername.'/'.$fileName);
 
-<div class="panel panel-default">
-  <div class="panel-body">
+ if(isset($func))
+ {
+ 	// $func=base64_decode($func);
 
-<div class="row">
-		<div class="col-lg-12">
-		<?php
+ 	$func();
+ }
 
-		 require(PLUGINS_PATH.$foldername.'/'.$fileName);
-
-		 if(isset($func))
-		 {
-		 	// $func=base64_decode($func);
-
-		 	$func();
-		 }
-
-		?>
-		</div>
-
-
-
-
-	</div>    
-    
-  </div>
-</div>
+?>

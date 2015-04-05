@@ -37,21 +37,21 @@
 			</p>		
 			<p>
 			<label><strong>First name:</strong></label>
-			<input type="text" name="address[firstname]" class="form-control" placeholder="First name..." value="<?php echo stripslashes(trim($edit['firstname']));?>" />
+			<input type="text" name="address[firstname]" class="form-control" placeholder="First name..." value="<?php echo $edit['firstname'];?>" />
 			</p>
 					
 			<p>
 			<label><strong>Last name:</strong></label>
-			<input type="text" name="address[lastname]" class="form-control" placeholder="Last name..." value="<?php echo stripslashes(trim($edit['lastname']));?>" />
+			<input type="text" name="address[lastname]" class="form-control" placeholder="Last name..." value="<?php echo $edit['lastname'];?>" />
 			</p>	
 				<p>
 			<label><strong>Phone:</strong></label>
-			<input type="text" name="address[phone]" class="form-control" placeholder="Phone..." value="<?php echo stripslashes(trim($edit['phone']));?>" />
+			<input type="text" name="address[phone]" class="form-control" placeholder="Phone..." value="<?php echo $edit['phone'];?>" />
 			</p>
 
 				<p>
 			<label><strong>Fax:</strong></label>
-			<input type="text" name="address[fax]" class="form-control" placeholder="Fax..." value="<?php echo stripslashes(trim($edit['fax']));?>" />
+			<input type="text" name="address[fax]" class="form-control" placeholder="Fax..." value="<?php echo $edit['fax'];?>" />
 			</p>	
 
 
@@ -62,28 +62,28 @@
 	
 				<p>
 			<label><strong>Address 1:</strong></label>
-			<input type="text" name="address[address_1]" class="form-control" placeholder="Address 1..." value="<?php echo stripslashes(trim($edit['address_1']));?>" />
+			<input type="text" name="address[address_1]" class="form-control" placeholder="Address 1..." value="<?php echo $edit['address_1'];?>" />
 			</p>
 
 				<p>
 			<label><strong>Address 2:</strong></label>
-			<input type="text" name="address[address_2]" class="form-control" placeholder="Address 2..." value="<?php echo stripslashes(trim($edit['address_2']));?>" />
+			<input type="text" name="address[address_2]" class="form-control" placeholder="Address 2..." value="<?php echo $edit['address_2'];?>" />
 			</p>
 
 
 				<p>
 			<label><strong>City:</strong></label>
-			<input type="text" name="address[city]" class="form-control" placeholder="City..." value="<?php echo stripslashes(trim($edit['city']));?>" />
+			<input type="text" name="address[city]" class="form-control" placeholder="City..." value="<?php echo $edit['city'];?>" />
 			</p>
 
 				<p>
 			<label><strong>Postcode:</strong></label>
-			<input type="text" name="address[postcode]" class="form-control" placeholder="Postcode..." value="<?php echo stripslashes(trim($edit['postcode']));?>" />
+			<input type="text" name="address[postcode]" class="form-control" placeholder="Postcode..." value="<?php echo $edit['postcode'];?>" />
 			</p>
 
 				<p>
 			<label><strong>Country:</strong></label>
-			<input type="text" name="address[country]" class="form-control" placeholder="Country..." value="<?php echo stripslashes(trim($edit['country']));?>" />
+			<input type="text" name="address[country]" class="form-control" placeholder="Country..." value="<?php echo $edit['country'];?>" />
 			</p>
 
 

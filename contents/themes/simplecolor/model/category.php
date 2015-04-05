@@ -6,7 +6,7 @@ function searchResult($id)
 
   $keywords='';
 
-  if($matches=Uri::match('category\/(\w+)\/\w+\/page\/(\d+)'))
+  if($matches=Uri::match('category-(\d+)-\w+-page-(\d+)'))
   {
     $curPage=$matches[2];
 
@@ -39,7 +39,7 @@ function listPage()
 
   $friendly_url='';
 
-  if($matches=Uri::match('category\/(\w+)\/([a-zA-Z0-9_-]+)\/page\/(\d+)'))
+  if($matches=Uri::match('category-(\d+)-([a-zA-Z0-9_-]+)-page-(\d+)'))
   {
     $curPage=$matches[3];
 
@@ -47,14 +47,14 @@ function listPage()
 
     $friendly_url=$matches[2];
 
-  }elseif($matches=Uri::match('category\/(\w+)\/([a-zA-Z0-9_-]+)'))
+  }elseif($matches=Uri::match('category-(\d+)-([a-zA-Z0-9_-]+)'))
   {
     $id=$matches[1];
 
     $friendly_url=$matches[2];
   }
 
-  $listPage=Misc::genPage('category/'.$id.'/'.$friendly_url,$curPage); 
+  $listPage=Misc::genPage('category-'.$id.'-'.$friendly_url,$curPage,5,'-'); 
 
   return $listPage;
 

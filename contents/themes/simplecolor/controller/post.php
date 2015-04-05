@@ -1,9 +1,22 @@
 <?php
 
-if(!Uri::has('^post\/\d+\-.*?\.html'))
+if(!isset($_RESQUEST['id']))
 {
-	// Alert::make('Page not found');
+	if(!$match=Uri::match('^post\-(\d+)\-.*?\.html'))
+	{
+		Redirect::to('404page');
+	}	
+
+	$_RESQUEST['id']=$match[1];
+
+	$id=$match[1];
 }
+else
+{
+	$id=$_RESQUEST['id'];
+}
+
+// print_r($_RESQUEST['id']);die();
 
 $pageName='post';
 
@@ -27,7 +40,9 @@ $pageData['commentAlert']=sendComment();
 
 $pageData=postProcess($pageData);
 
-$pageData['listComments']=listComments();
+$pageData['listComments']=listComments($id);
+
+$headData['title']=$pageData['title'];
 
 Theme::view('head',$headData);
 

@@ -1,5 +1,10 @@
 <?php
 
+if(!Uri::has('^page\-\d+\-.*?\.html'))
+{
+	Redirect::to('404page');
+}
+
 $pageName='page';
 
 $pageData=array();
@@ -23,6 +28,13 @@ $pageData=pageProcess($pageData);
 if(isset($pageData['keywords']))
 {
 	$headData['keywords']=$pageData['keywords'];
+}
+
+$headData['title']=$pageData['title'];
+
+if($pageData['page_type']=='fullwidth')
+{
+	$pageName='pageFullWidth';
 }
 
 Theme::view('head',$headData);

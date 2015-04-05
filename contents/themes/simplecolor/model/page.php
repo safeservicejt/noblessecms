@@ -2,7 +2,7 @@
 
 function pageProcess($inputData)
 {
-	$match=Uri::match('^page\/(\d+)-(.*?)\.html');
+	$match=Uri::match('^page-(\d+)-(.*?)\.html');
 
 	if(!$match)
 	{
@@ -25,7 +25,10 @@ function pageProcess($inputData)
 	}
 
 	$inputData['title']=$loadData[0]['title'];
+	
 	$inputData['content']=$loadData[0]['content'];
+
+	$inputData['page_type']=$loadData[0]['page_type'];
 
 	if(strlen($loadData[0]['keywords']) > 5)
 	$inputData['keywords']=$loadData[0]['keywords'];

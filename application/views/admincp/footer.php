@@ -5,7 +5,7 @@
                       Noblesse CMS v<?php echo SYSTEM_VERSION;?>
                   </div>
                   <div class="col-lg-7 text-right">
-                      <span>Contact us: Safeservicejt@gmail.com</span>
+                      <span>Contact us: Safeservicejt@gmail.com</span> - <span>Skype: <a href="skype:freshcodeteam">freshcodeteam</a></span> - <span>Facebook: <a href="https://www.facebook.com/safeservicejt" target="_blank">Safeservicejt</a></span>
                   </div>
 
                 </div>

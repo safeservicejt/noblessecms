@@ -1,6 +1,6 @@
 <?php
 
-if(!$match=Uri::match('tag\/\w+'))
+if(!$match=Uri::match('tag-\w+'))
 {
 	Alert::make('Page not found');
 }

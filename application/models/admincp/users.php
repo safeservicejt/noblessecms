@@ -1,5 +1,50 @@
 <?php
 
+
+
+function actionProcess()
+{
+	$action=Request::get('action');
+
+	$id=Request::get('id');
+
+	if((int)$id <= 0)
+	{
+		return false;
+	}
+
+	$listID="'".implode("','",$id)."'";
+
+	switch ($action) {
+		case 'delete':
+			Users::update($id,array(
+				'status'=>0
+				),"userid IN ($listID)");
+			break;
+		case 'approved':
+			Users::update($id,array(
+				'status'=>1
+				),"userid IN ($listID)");
+			break;
+		case 'unapproved':
+			Users::update($id,array(
+				'status'=>0
+				),"userid IN ($listID)");
+			break;
+		case 'isadmin':
+			Users::update($id,array(
+				'is_admin'=>1,
+				),"userid IN ($listID)");
+			break;
+		case 'notadmin':
+			Users::update($id,array(
+				'is_admin'=>0
+				),"userid IN ($listID)");
+			break;
+		
+	}
+}
+
 function getApi()
 {
 	$loadMethod=Uri::getNext('statsUser');

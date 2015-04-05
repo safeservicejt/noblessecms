@@ -1,12 +1,12 @@
 <?php
 
-function listComments()
+function listComments($id)
 {
     $resultData='';
 
-    $matches=Uri::match('^post\/(\d+)\-');
+    $id=0;
 
-    $id=$matches[1];    
+    // $id=$_REQUEST['id'];   
 
     $loadData=Comments::get(array(
       'limitShow'=>100,
@@ -19,6 +19,7 @@ function listComments()
 function sendComment()
 {
   $alert='';
+  
   if(Request::has('btnComment'))
   {
       $valid=Validator::make(array(
@@ -33,7 +34,8 @@ function sendComment()
 
           // print_r($send);die();
 
-          $matches=Uri::match('^post\/(\d+)\-');
+          $matches=Uri::match('^post-(\d+)\-');
+
 
           $send['postid']=$matches[1];
 
@@ -57,7 +59,7 @@ function sendComment()
 }
 function postProcess($inputData=array())
 {
-	$matches=Uri::match('^post\/(\d+)\-(.*?)\.html');
+	$matches=Uri::match('^post-(\d+)\-(.*?)\.html');
 
 	$id=$matches[1];
 

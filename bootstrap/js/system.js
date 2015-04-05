@@ -1,7 +1,12 @@
+function ready(fn) {
+  if (document.readyState != 'loading'){
+    fn();
+  } else {
+    document.addEventListener('DOMContentLoaded', fn);
+  }
+}
 
-
-
-$(document).ready(function(){
+ready(function(){
 
 	$('img.js-auto-responsive').each(function(){
 
@@ -18,6 +23,12 @@ $(document).ready(function(){
 		$(this).attr('src',src);
 
 	});
-
-
+	
 });
+
+
+// $(document).ready(function(){
+
+
+
+// });

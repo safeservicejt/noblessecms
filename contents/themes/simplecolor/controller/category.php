@@ -1,6 +1,6 @@
 <?php
 
-if(!$match=Uri::match('category\/(\w+)\/?'))
+if(!$match=Uri::match('category-(\d+)\/?'))
 {
 	Redirect::to('404page');
 	// Alert::make('Page not found');

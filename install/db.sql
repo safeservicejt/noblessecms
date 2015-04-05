@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2015 at 08:00 AM
+-- Generation Time: Apr 02, 2015 at 05:10 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -94,14 +94,20 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `isreaded` int(1) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`catid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
 
 --
 -- Dumping data for table `categories`
 --
 
 INSERT INTO `categories` (`catid`, `cattitle`, `friendly_url`, `parentid`, `image`, `sort_order`, `date_added`, `isreaded`, `status`) VALUES
-(15, 'United', 'United', '0', '/uploads/images/2231793638/post_2.jpg', 15, '2015-01-18 07:57:36', 0, 1);
+(15, 'United', 'United', '0', '/uploads/images/2231793638/post_2.jpg', 15, '2015-01-18 07:57:36', 0, 1),
+(16, 'Manhua', 'Manhua', '0', NULL, 0, '2015-03-31 09:41:26', 0, 1),
+(17, 'Action', 'Action', '0', NULL, 0, '2015-03-31 09:41:30', 0, 1),
+(18, 'Adventure', 'Adventure', '0', NULL, 0, '2015-03-31 09:41:34', 0, 1),
+(19, 'Cat 1', 'Cat_1', '0', NULL, 0, '2015-03-31 09:41:40', 0, 1),
+(20, 'Cat 2', 'Cat_2', '0', NULL, 0, '2015-03-31 09:41:42', 0, 1),
+(21, 'Cat 3', 'Cat_3', '0', NULL, 0, '2015-03-31 09:41:46', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -738,7 +744,7 @@ CREATE TABLE IF NOT EXISTS `plugins_meta` (
   `child_menu` longtext,
   `status` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`metaid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -775,7 +781,7 @@ CREATE TABLE IF NOT EXISTS `post` (
 --
 
 INSERT INTO `post` (`postid`, `title`, `catid`, `userid`, `parentid`, `image`, `sort_order`, `date_added`, `views`, `content`, `post_type`, `keywords`, `friendly_url`, `pageid`, `is_featured`, `date_featured`, `rating`, `isreaded`, `allowcomment`, `status`) VALUES
-(1, 'Lorem Ipsum is simply dummy text', 15, 1, 0, 'uploads/images/5280030443/post_2.jpg', 1, '2015-03-16 05:35:00', 0, '[p][p][p][b]Lorem Ipsum[/b]&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.[/p][/p][/p][/p]\r\n', 'normal', '', 'Lorem_Ipsum_is_simply_dummy_text', 0, 0, NULL, 5, 0, 1, 1);
+(1, 'Lorem Ipsum is simply dummy text', 15, 1, 0, 'uploads/images/8976702431/post_2.jpg', 1, '2015-03-16 05:35:00', 0, '[p][p][p][p][b]Lorem Ipsum[/b]&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.[/p][/p][/p][/p][/p]\r\n', 'normal', '', 'Lorem_Ipsum_is_simply_dummy_text', 0, 0, NULL, 5, 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -803,16 +809,16 @@ CREATE TABLE IF NOT EXISTS `post_tags` (
   `tag_title` varchar(128) NOT NULL,
   `postid` int(9) NOT NULL,
   PRIMARY KEY (`tagid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
 
 --
 -- Dumping data for table `post_tags`
 --
 
 INSERT INTO `post_tags` (`tagid`, `tag_title`, `postid`) VALUES
-(28, 'test theme', 1),
-(29, 'test', 1),
-(30, 'test theme demo', 1);
+(31, 'test theme demo', 1),
+(32, 'test', 1),
+(33, 'test theme', 1);
 
 -- --------------------------------------------------------
 
@@ -1021,11 +1027,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(128) NOT NULL,
   `balance` double NOT NULL DEFAULT '0',
   `ip` varchar(64) NOT NULL,
+  `verify_code` varchar(255) DEFAULT NULL,
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `is_admin` int(1) NOT NULL DEFAULT '0',
   `is_affiliate` int(1) NOT NULL DEFAULT '1',
+  `expires_date` datetime DEFAULT NULL,
   `approved` int(1) NOT NULL DEFAULT '1',
   `isreaded` int(1) NOT NULL DEFAULT '0',
+  `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`userid`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
@@ -1034,8 +1043,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userid`, `groupid`, `firstname`, `lastname`, `image`, `email`, `password`, `balance`, `ip`, `date_added`, `is_admin`, `is_affiliate`, `approved`, `isreaded`) VALUES
-(1, 1, 'Jamessss', 'Browns', NULL, 'safeservicejt@gmail.com', 'c514c91e4ed341f263e458d44b3bb0a7', 0, '127.0.0.1', '2014-11-01 00:00:00', 1, 1, 1, 0);
+INSERT INTO `users` (`userid`, `groupid`, `firstname`, `lastname`, `image`, `email`, `password`, `balance`, `ip`, `verify_code`, `date_added`, `is_admin`, `is_affiliate`, `expires_date`, `approved`, `isreaded`, `status`) VALUES
+(1, 1, 'Jamessss', 'Browns', NULL, 'safeservicejt@gmail.com', 'c514c91e4ed341f263e458d44b3bb0a7', 0, '127.0.0.1', NULL, '2014-11-01 00:00:00', 1, 1, NULL, 1, 0, 1);
 
 -- --------------------------------------------------------
 

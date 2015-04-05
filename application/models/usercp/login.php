@@ -38,7 +38,7 @@ function isLogin()
     DBCache::disable();
 
     $loadUser=Users::get(array(
-        'where'=>"where  email='$username' AND password='$password'"
+        'where'=>"where  email='$username' AND password='$password' AND status='1'"
         ));
 
     if(!isset($loadUser[0]['userid']))
@@ -84,7 +84,7 @@ function isUser($username, $password)
     DBCache::disable();
 
     $loadUser=Users::get(array(
-        'where'=>" where email='$username' AND password='$password'"
+        'where'=>" where email='$username' AND password='$password' AND status='1'"
         ));
     
     DBCache::enable();

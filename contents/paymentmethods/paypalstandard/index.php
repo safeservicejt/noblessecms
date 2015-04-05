@@ -36,6 +36,12 @@ function after_click_confirm_check_out_ppstandard($orderData=array())
 
 		);
 
+	$completedUrl=isset($orderData['completedUrl'])?$orderData['completedUrl']:ROOT_URL.'payment/completed';
+
+	$cancelUrl=isset($orderData['cancelUrl'])?$orderData['cancelUrl']:ROOT_URL.'payment/cancel';
+
+	$notifyUrl=isset($orderData['notifyUrl'])?$orderData['notifyUrl']:ROOT_URL.'payment/verify/paypalstandard';
+
 	$content='
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
   <input type="hidden" name="cmd" value="_cart" />
@@ -49,9 +55,9 @@ function after_click_confirm_check_out_ppstandard($orderData=array())
   <input type="hidden" name="no_note" value="1" />
   <input type="hidden" name="no_shipping" value="1" />
   <input type="hidden" name="charset" value="utf-8" />
-  <input type="hidden" name="return" value="'.ROOT_URL.'payment/completed" />
-  <input type="hidden" name="notify_url" value="'.ROOT_URL.'payment/verify/paypalstandard" />
-  <input type="hidden" name="cancel_return" value="'.ROOT_URL.'payment/cancel" />
+  <input type="hidden" name="return" value="'.$completedUrl.'" />
+  <input type="hidden" name="notify_url" value="'.$notifyUrl.'" />
+  <input type="hidden" name="cancel_return" value="'.$cancelUrl.'" />
   <input type="hidden" name="paymentaction" value="authorization" />
   <input type="hidden" name="custom" value="'.$orderData['orderid'].'" />
   <input type="hidden" name="bn" value="Noblesse_CMS" />

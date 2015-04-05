@@ -62,7 +62,9 @@ function startInstall()
   {
     $dbname='noblessecms_db'.String::randText(5);
 
-    $conn->query("CREATE DATABASE $dbname");
+    $conn->query("CREATE DATABASE $dbname CHARACTER SET utf8 COLLATE utf8_general_ci;");
+    $conn->query("GRANT ALL ON $dbname.* TO '$dbuser'@localhost IDENTIFIED BY '$dbpass';");
+    $conn->query("FLUSH PRIVILEGES;");
 
     if(isset($conn->connect_error[5]))
     {
@@ -81,7 +83,7 @@ function startInstall()
   $replace=array(
     '/"dbhost" \=\> "\w+"/i'=>'"dbhost" => "'.$dbhost.'"',
     '/"dbuser" \=\> "\w+"/i'=>'"dbuser" => "'.$dbuser.'"',
-    '/"dbpassword" \=\> "\w+"/i'=>'"dbpassword" => "'.$dbpass.'"',
+    '/"dbpassword" \=\> ""/i'=>'"dbpassword" => "'.$dbpass.'"',
     '/"dbname" \=\> "\w+"/i'=>'"dbname" => "'.$dbname.'"',
     '/"dbport" \=\> "\w+"/i'=>'"dbport" => "'.$dbport.'"',
    '/root_path = \'.*?\';/i'=>'root_path = \''.$path.'\';',

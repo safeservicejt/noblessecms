@@ -23,7 +23,8 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    
+        <script src="<?php echo ROOT_URL;?>bootstrap/js/system.js"></script>
+        
       <script src="<?php echo THEME_URL;?>js/jquery-2.1.1.min.js"></script>
       <script src="<?php echo THEME_URL;?>js/jquery-2.1.1.min.map"></script>
         <!-- bxSlider Javascript file -->

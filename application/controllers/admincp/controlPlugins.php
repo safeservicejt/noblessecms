@@ -197,7 +197,14 @@ class controlPlugins
 
 	public function run()
 	{
-		$fileName=Uri::getNext('run');
+		// $fileName=Uri::getNext('run');
+
+		if(!$match=Uri::match('\/run\/(.*?)\/'))
+		{
+			Alert::make('Page not found');
+		}
+
+		$fileName=$match[1];
 
 		$foldername=Uri::getNext($fileName);
 
@@ -215,14 +222,21 @@ class controlPlugins
 			'fileName'=>$fileName
 			);
 
-
+		// die($foldername);
 		// echo Render::adminHeader();die();
 
-		View::make('admincp/head',array('title'=>'Plugin '.$foldername.' - '.ADMINCP_TITLE));
+		// View::make('admincp/head',array('title'=>'Plugin '.$foldername.' - '.ADMINCP_TITLE));
 
-        $this->makeContents('pluginContent',$post);           
+        define("THIS_URL", ROOT_URL.'admincp/plugins/run/'.base64_encode($fileName).'/'.$foldername.'/');
 
-        View::make('admincp/footer'); 
+        define("THIS_PATH", ROOT_PATH.'contents/plugins/'.$foldername.'/');
+
+        // $this->makeContents('pluginContent',$post);   
+
+
+        View::make('admincp/pluginContent',$post);   
+
+        // View::make('admincp/footer'); 
 	}
 	public function runc()
 	{
@@ -258,11 +272,17 @@ class controlPlugins
 		}
 		// echo Render::adminHeader();die();
 
-		View::make('admincp/head',array('title'=>'Plugin '.$foldername.' - '.ADMINCP_TITLE));
+		// View::make('admincp/head',array('title'=>'Plugin '.$foldername.' - '.ADMINCP_TITLE));
 
-        $this->makeContents('pluginRuncContent',$post);           
+        // $this->makeContents('pluginRuncContent',$post);
 
-        View::make('admincp/footer'); 
+        define("THIS_URL", ROOT_URL.'admincp/plugins/runc/'.base64_encode($fileName).'/'.$foldername.'/');
+
+        define("THIS_PATH", ROOT_PATH.'contents/plugins/'.$foldername.'/');
+
+        View::make('admincp/pluginRuncContent',$post);           
+
+        // View::make('admincp/footer'); 
 	}
 
 	public function control()

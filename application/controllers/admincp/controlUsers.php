@@ -24,27 +24,7 @@ class controlUsers
 
 		if(Request::has('btnAction'))
 		{
-			if(Request::get('action')=='delete')
-			{
-				Users::remove(Request::get('id'));		
-			}
-			if(Request::get('action')=='approved')
-			{
-				publishUser(Request::get('id'));		
-			}
-			if(Request::get('action')=='unapproved')
-			{
-				unpublishUser(Request::get('id'));		
-			}
-			
-			if(Request::get('action')=='isadmin')
-			{
-				setAdmin(Request::get('id'));		
-			}
-			if(Request::get('action')=='notadmin')
-			{
-				setUser(Request::get('id'));		
-			}
+			actionProcess();
 
 		}		
 

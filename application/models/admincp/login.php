@@ -34,8 +34,11 @@ function isLogin()
     // }
 
     $loadUser=Users::get(array(
-        'where'=>"where email='$username' AND password='$password' AND is_admin='1'"
+        'where'=>"where email='$username' AND password='$password' AND is_admin='1' AND status='1'"
         ));
+
+    // die("where email='$username' AND password='$password' AND is_admin='1'");
+
 
     if(!isset($loadUser[0]['userid']))
     {
