@@ -14,6 +14,48 @@ class api
 
         echo $resultData;die();
     }
+
+    public function getPlugin()
+    {
+        if(!isset($_REQUEST['dir']))
+        {
+            Alert::make('Page not found');
+        }
+
+        $dirName=trim($_REQUEST['dir']);
+
+        if(!isset($dirName[1]) || preg_match('/\//i', $dirName))
+        {
+            Alert::make('Page not found');
+        }
+
+        $filePath=ROOT_PATH.'contents/plugins/'.$dirName.'/';
+
+        if(isset($_REQUEST['filename']))
+        {
+            $filePath=$filePath.trim($_REQUEST['filename'])'.php';
+        }
+        else
+        {
+            $filePath=ROOT_PATH.'contents/plugins/'.$dirName.'/'.$dirName.'.php';
+        }
+        
+        if(!file_exists($filePath))
+        {
+            Alert::make('Page not found');
+        }
+
+        include($filePath);
+
+        if(isset($_REQUEST['func']))
+        {
+            $func=trim($_REQUEST['func']);
+
+            $func();
+        }
+    }
+
+
     public function getDownload()
     {
         $resultData=array('error'=>'yes');

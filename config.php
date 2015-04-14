@@ -77,7 +77,7 @@ else
     }
     else
     {
-       define('THEME_NAME', 'simplecolor');     
+       define('THEME_NAME', 'mangablue');     
     }
 }
 
@@ -113,7 +113,7 @@ $db['default'] = array(
 
     "dbuser" => "root",
 
-    "dbpassword" => "test",
+    "dbpassword" => "",
 
     "dbname" => "2015_project_noblessecms"
 
@@ -138,7 +138,7 @@ $db['testdb'] = array(
 
     "dbpassword" => "",
 
-    "dbname" => "noblessecms_db2"
+    "dbname" => "noblessecms_db4shb7"
 
 );
 
@@ -154,7 +154,7 @@ $db['blogmssql'] = array(
 
     "dbpassword" => "",
 
-    "dbname" => "noblessecms_db2"
+    "dbname" => "noblessecms_db4shb7"
 
 );
 
@@ -170,7 +170,7 @@ $db['blog_api'] = array(
 
     "dbpassword" => "",
 
-    "dbname" => "noblessecms_db2"
+    "dbname" => "noblessecms_db4shb7"
 
 );
 
