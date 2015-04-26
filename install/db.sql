@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2015 at 07:50 PM
+-- Generation Time: Apr 26, 2015 at 07:18 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -108,28 +108,6 @@ INSERT INTO `categories` (`catid`, `cattitle`, `friendly_url`, `parentid`, `imag
 (19, 'Cat 1', 'Cat_1', '0', NULL, 0, '2015-03-31 09:41:40', 0, 1),
 (20, 'Cat 2', 'Cat_2', '0', NULL, 0, '2015-03-31 09:41:42', 0, 1),
 (21, 'Cat 3', 'Cat_3', '0', NULL, 0, '2015-03-31 09:41:46', 0, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `chapter_list`
---
-
-CREATE TABLE IF NOT EXISTS `chapter_list` (
-  `chapterid` int(9) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) DEFAULT NULL,
-  `friendly_url` varchar(255) DEFAULT NULL,
-  `content_type` varchar(50) NOT NULL DEFAULT 'url',
-  `content` longtext,
-  `number` int(5) NOT NULL DEFAULT '1',
-  `views` int(9) NOT NULL DEFAULT '0',
-  `date_added` datetime NOT NULL,
-  `is_featured` int(1) NOT NULL DEFAULT '0',
-  `featured_date` datetime DEFAULT NULL,
-  `mangaid` int(9) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`chapterid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -583,68 +561,6 @@ INSERT INTO `layouts` (`layoutid`, `nodeid`, `layoutname`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `manga_authors`
---
-
-CREATE TABLE IF NOT EXISTS `manga_authors` (
-  `authorid` int(9) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `rating` int(2) NOT NULL DEFAULT '0',
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`authorid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `manga_categories`
---
-
-CREATE TABLE IF NOT EXISTS `manga_categories` (
-  `mangaid` int(9) NOT NULL,
-  `catid` int(9) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `manga_list`
---
-
-CREATE TABLE IF NOT EXISTS `manga_list` (
-  `mangaid` int(9) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `friendly_url` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `summary` longtext,
-  `rating` int(2) NOT NULL DEFAULT '0',
-  `authorid` int(9) DEFAULT '0',
-  `keywords` varchar(255) DEFAULT NULL,
-  `date_added` datetime NOT NULL,
-  `views` int(9) NOT NULL DEFAULT '0',
-  `is_featured` int(1) NOT NULL DEFAULT '0',
-  `featured_date` datetime DEFAULT NULL,
-  `compeleted` int(1) NOT NULL DEFAULT '0',
-  `status` int(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`mangaid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `manga_tags`
---
-
-CREATE TABLE IF NOT EXISTS `manga_tags` (
-  `tagid` int(9) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `mangaid` int(9) NOT NULL,
-  PRIMARY KEY (`tagid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `manufacturers`
 --
 
@@ -770,7 +686,14 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `views` int(9) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`pageid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `pages`
+--
+
+INSERT INTO `pages` (`pageid`, `title`, `content`, `keywords`, `page_type`, `friendly_url`, `isreaded`, `date_added`, `allowcomment`, `views`, `status`) VALUES
+(2, 'Test page', '[p]Page content here (support BBCode)[/p]\r\n', '', 'fullwidth', 'Test_page', 0, '2015-04-15 04:51:24', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -826,17 +749,10 @@ CREATE TABLE IF NOT EXISTS `plugins_meta` (
   `pagename` varchar(50) DEFAULT NULL,
   `variablename` varchar(100) DEFAULT NULL,
   `child_menu` longtext,
+  `content` longtext,
   `status` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`metaid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `plugins_meta`
---
-
-INSERT INTO `plugins_meta` (`metaid`, `foldername`, `limit_number`, `func`, `path`, `zonename`, `layoutname`, `layoutposition`, `img_width`, `img_height`, `pagename`, `variablename`, `child_menu`, `status`) VALUES
-(1, 'firemanga', 0, '', '', 'admin_left_menu', '', 0, '0', '0', '', '', '[{"text":"Manga List","filename":"controller/controlManga.php"},{"text":"Chapter List","filename":"controller/controlChapter.php"},{"text":"Auto Leech","filename":"controller/controlLeech.php"}]', 1),
-(2, 'firemanga', 0, '', '', '', NULL, 0, '0', '0', NULL, NULL, NULL, 1);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
