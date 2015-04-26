@@ -10,6 +10,7 @@ class Url
 		return $str;
 	}
 
+
 	public function cronjob($id=0)
 	{
 		$url=((int)$id==0)?ROOT_URL.'cronjob/run/all.php':ROOT_URL.'cronjob/run/'.$id.'.php';

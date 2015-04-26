@@ -30,6 +30,8 @@ class GlobalCMS
 
 			header("Location: ".ROOT_URL);
 		}
+
+		Server::domainDetect();
 				
 		self::$load['start_time']=$_SESSION['start_time'];
 
@@ -38,6 +40,9 @@ class GlobalCMS
 		self::$setting=Server::getSetting();
 
 		// self::$load['currency']=
+
+
+		Database::connect();
 
 		self::defaultPage();
 				

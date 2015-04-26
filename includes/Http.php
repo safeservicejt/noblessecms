@@ -38,6 +38,10 @@ class Http
             case 'remotehost':
                 $result=$_SERVER['REMOTE_HOST'];
                 break;
+             case 'uri':
+                $result=$_SERVER['REQUEST_URI'];
+                break;
+
             case 'remoteport':
                 $result=$_SERVER['REMOTE_PORT'];
                 break;

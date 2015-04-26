@@ -26,7 +26,14 @@ class Model
         return $path;
     }
     
+    public function loadWithPath($modelName = '', $path)
+    {
+        self::setPath($path);
 
+        self::load($modelName);
+
+        self::resetPath();
+    }
     public function load($modelName = '')
     {
         // $path = MODELS_PATH . $modelName . '.php';

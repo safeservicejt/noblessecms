@@ -24,6 +24,15 @@ class View
 
         return $path;
     }
+    
+    public function makeWithPath($viewName = '', $viewData = array(),$path)
+    {
+        self::setPath($path);
+
+        self::make($viewName,$viewData);
+
+        self::resetPath();
+    }
 
     public function has($viewName)
     {
@@ -70,7 +79,15 @@ class View
             $viewName = str_replace('.', '/', $viewName);
         }
 
-        $path = THEME_PATH . $viewName . '.php';
+        if(!isset($_SESSION['themeName'][1]))
+        {
+            $path = THEME_PATH . $viewName . '.php';
+        }
+        else
+        {
+            $path = ROOT_PATH . 'contents/themes/' . $_SESSION['themeName'] .'/'. $viewName . '.php';    
+
+        }
 
         if (!file_exists($path)) {
 

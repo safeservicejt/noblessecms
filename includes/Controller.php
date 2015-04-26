@@ -24,7 +24,14 @@ class Controller
         return $path;
     }
     
+    public function loadWithPath($controlName = '', $funcName = 'index', $path)
+    {
+        self::setPath($path);
 
+        self::load($controlName,$funcName);
+
+        self::resetPath();
+    }
    
     public function load($controlName = '', $funcName = 'index')
     {  
