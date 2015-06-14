@@ -101,7 +101,7 @@
 
            });
 
- $( document ).on( "click", "span.removeTextChosen", function() {
+ $(document).on( "click", "span.removeTextChosen", function() {
 
   var txtAuto=$(this).parent().parent().parent().children('.txtAuto');
 
@@ -120,7 +120,7 @@
 
   	$(this).parent().remove();
 });		          
-$( document ).on( "mouseout", "div.listAutoSuggest > ul",function(){
+$(document).on( "mouseout", "div.listAutoSuggest > ul",function(){
   // $(this).slideUp('fast');
         });  
 

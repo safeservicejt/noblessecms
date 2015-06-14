@@ -17,16 +17,14 @@ class controlStats
 
 		$post=summary();
 
-		$headData=array('title'=>'Dashboard - FireManga');
-
-		self::makeContent('statsView',$post,$headData);	
+		self::makeContent('statsView',$post);	
 	}
 
-	public function makeContent($keyName='',$post=array(),$headData=array())
+	public function makeContent($keyName='',$post=array())
 	{
-		$post['headData']=$headData;
+		// Render::pluginView(ROOT_PATH.'contents/plugins/firemanga/views/',$keyName,$post);		
 
-		Render::pluginView(ROOT_PATH.'contents/plugins/firemanga/views/',$keyName,$post);		
+		View::makeWithPath($keyName,$post,ROOT_PATH.'contents/plugins/firemanga/views/');	
 	}
 
 }

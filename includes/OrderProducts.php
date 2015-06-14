@@ -20,13 +20,13 @@ class OrderProducts
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="orderid,productid,quantity,price,downloads";
+		$field="orderid,productid,quantity,downloads,price,date_added";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
 		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
 
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by orderid desc';
+		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by date_added desc';
 
 		$result=array();
 		
@@ -38,16 +38,24 @@ class OrderProducts
 
 		$queryCMD.=$limitQuery;
 
-		// Load dbcache
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
 
-		$loadCache=DBCache::get($queryCMD);
-
-		if($loadCache!=false)
+		if($cache=='yes')
 		{
-			return $loadCache;
+			// Load dbcache
+
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
 		}
 
-		// end load
 
 		$query=Database::query($queryCMD);
 		
@@ -56,19 +64,12 @@ class OrderProducts
 			return false;
 		}
 
+		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
 		
 		if((int)$query->num_rows > 0)
 		{
 			while($row=Database::fetch_assoc($query))
 			{
-				if(isset($row['price']))
-				{
-					$getData=Currency::parsePrice($row['price']);
-
-					$row['price']=$getData['real'];
-
-					$row['priceFormat']=$getData['format'];	
-				}
 											
 				$result[]=$row;
 			}		
@@ -78,6 +79,7 @@ class OrderProducts
 			return false;
 		}
 
+		
 		// Save dbcache
 		DBCache::make(md5($queryCMD),$result);
 		// end save
@@ -85,33 +87,68 @@ class OrderProducts
 
 		return $result;
 		
-	}	
+	}
+
 	public function insert($inputData=array())
 	{
-		$inputData['date_added']=date('Y-m-d h:i:s');
-		
-		$keyNames=array_keys($inputData);
+		// End addons
+		// $totalArgs=count($inputData);
 
-		$insertKeys=implode(',', $keyNames);
+		$addMultiAgrs='';
 
-		$keyValues=array_values($inputData);
+		if(isset($inputData[0]['orderid']))
+		{
+		    foreach ($inputData as $theRow) {
 
-		$insertValues="'".implode("','", $keyValues)."'";
+				$theRow['date_added']=date('Y-m-d h:i:s');
 
-		Database::query("insert into orders_products($insertKeys) values($insertValues)");
+				$keyNames=array_keys($theRow);
+
+				$insertKeys=implode(',', $keyNames);
+
+				$keyValues=array_values($theRow);
+
+				$insertValues="'".implode("','", $keyValues)."'";
+
+				$addMultiAgrs.="($insertValues), ";
+
+		    }
+
+		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
+		}
+		else
+		{
+			$inputData['date_added']=date('Y-m-d h:i:s');
+
+
+			$keyNames=array_keys($inputData);
+
+			$insertKeys=implode(',', $keyNames);
+
+			$keyValues=array_values($inputData);
+
+			$insertValues="'".implode("','", $keyValues)."'";	
+
+			$addMultiAgrs="($insertValues)";	
+		}		
+
+		Database::query("insert into orders_products($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
 			$id=Database::insert_id();
 
-			return $id;		
+			return $id;	
 		}
 
 		return false;
 	
 	}
+
 	public function remove($post=array(),$whereQuery='',$addWhere='')
 	{
+
+
 		if(is_numeric($post))
 		{
 			$id=$post;
@@ -132,6 +169,7 @@ class OrderProducts
 		$command="delete from orders_products where $whereQuery $addWhere";
 
 		Database::query($command);	
+
 		return true;
 	}
 
@@ -146,8 +184,8 @@ class OrderProducts
 			$listID=array($catid);
 		}
 
-		$listIDs="'".implode("','",$listID)."'";
-
+		$listIDs="'".implode("','",$listID)."'";		
+				
 		$keyNames=array_keys($post);
 
 		$total=count($post);
@@ -165,7 +203,6 @@ class OrderProducts
 		$whereQuery=isset($whereQuery[5])?$whereQuery:"orderid in ($listIDs)";
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
-
 
 		Database::query("update orders_products set $setUpdates where $whereQuery $addWhere");
 

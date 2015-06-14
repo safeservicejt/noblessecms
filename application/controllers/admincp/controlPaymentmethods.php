@@ -2,51 +2,27 @@
 
 class controlPaymentmethods
 {
-
 	public function index()
 	{
-		if(Uri::match('\/install'))
-		{
-			$this->install();
-			die();
-		}
-
-		if(Uri::match('\/uninstall'))
-		{
-			$this->uninstall();
-			die();
-		}
-		if(Uri::match('\/activate'))
-		{
-			$this->activate();
-			die();
-		}
-		if(Uri::match('\/deactivate'))
-		{
-			$this->deactivate();
-			die();
-		}
-
-		if(Uri::match('\/setting'))
-		{
-			$this->setting();
-			die();
-		}
-
-
+      
 		$post=array('alert'=>'');
 
-		Model::load('misc');
 		Model::load('admincp/paymentmethods');
 
-		if(Request::has('btnAction'))
+		if($match=Uri::match('\/paymentmethods\/(\w+)'))
 		{
-			if(Request::get('action')=='delete')
-			{
-				// removeNews(Request::get('id'));		
-			}
+			if(method_exists("controlPaymentmethods", $match[1]))
+			{	
+				$method=$match[1];
 
-		}		
+				$this->$method();
+
+				die();
+			}
+			
+		}
+
+
 
 		$curPage=0;
 
@@ -55,163 +31,205 @@ class controlPaymentmethods
 			$curPage=$match[1];
 		}
 
-		// $post['pages']=genPage('plugins',$curPage);
+		$post['theList']=Paymentmethods::getDirs();
 
-		$post['methods']=listPaymentmethods();
+		System::setTitle('Paymentmethods list - '.ADMINCP_TITLE);
 
+		View::make('admincp/head');
 
-		View::make('admincp/head',array('title'=>'List payment methods - '.ADMINCP_TITLE));
+		self::makeContents('paymentmethodsList',$post);
 
+		View::make('admincp/footer');
 
-        $this->makeContents('pmethodList',$post);        
-
-        View::make('admincp/footer'); 		
-	}
-
-	public function setting()
-	{
-		// Model::load('admincp/plugins');
-
-		$post=array();
-
-		$foldername=Uri::getNext('setting');
-
-		$func=Uri::getNext($foldername);
-
-		$func=base64_decode($func);
-
-		if(!isset($func[2]) || !isset($foldername[2]))
-		{
-			header("Location: ".ADMINCP_URL.'paymentmethods');
-		}
-
-		define("PAYMENTMETHOD_PATH", PMETHOD_PATH . $foldername .'/');
-
-		define("PAYMENTMETHOD_URL", PMETHOD_URL . $foldername .'/');
-
-		// $plugin=file(PLUGINS_PATH.$foldername.'/info.txt');
-
-		$filePath=PMETHOD_PATH.$foldername.'/index.php';
-
-		$post['foldername']=$foldername;
-		$post['filePath']=$filePath;
-
-		$post['func']=$func;
-
-		// $query=Database::query("select title from payment_methods where foldername='$foldername'");
-
-		// $num_rows=Database::num_rows($query);
-
-		// if((int)$num_rows==0)
-		// {
-		// 	Alert::make('Page not found');
-		// }
-
-		$loadData=Paymentmethods::get(array(
-			'where'=>"where foldername='$foldername'"
-			));
-
-		if(!isset($loadData[0]['methodid']))
-		{
-			Alert::make('Page not found');
-		}		
-
-		// $row=Database::fetch_assoc($query);
-
-		$row=$loadData[0];
-
-		$methodTitle=$row['title'];
-
-		$post['title']=$methodTitle;
-
-		View::make('admincp/head',array('title'=>$methodTitle.' - '.ADMINCP_TITLE));
-
-        $this->makeContents('PMethodSetting',$post);          
-
-        View::make('admincp/footer'); 
-	}
-	
-	public function activate()
-	{
-		$foldername=Uri::getNext('activate');
-
-		Paymentmethods::updateMethod($foldername,'1');
-	
-		header("Location: ".ADMINCP_URL.'paymentmethods');
-	}
-
-	public function deactivate()
-	{
-		$foldername=Uri::getNext('deactivate');
-
-		Paymentmethods::updateMethod($foldername,'0');
-	
-		header("Location: ".ADMINCP_URL.'paymentmethods');
 	}
 
 	public function install()
 	{
-		$foldername=Uri::getNext('install');
-
-		$loadData=Paymentmethods::get(array(
-			'where'=>"where foldername='$foldername'"
-			));
-
-		if(!isset($loadData[0]['methodid']))
+		if(!$match=Uri::match('\/install\/(\w+)'))
 		{
-			$pluginPath=PMETHOD_PATH.$foldername.'/index.php';
-
-			Paymentmethods::$isInstall='yes';
-
-			Paymentmethods::$folderName=$foldername;
-
-			if(file_exists($pluginPath))
-			{
-				require($pluginPath);	
-
-				Paymentmethods::systemInstall($foldername);							
-			}
+			Redirect::to(ADMINCP_URL);
 		}
 
-		header("Location: ".ADMINCP_URL.'paymentmethods');
+		$foldername=$match[1];
+
+		Paymentmethods::makeInstall($foldername);
+
+		$path=PAYMENTMETHODS_PATH.$foldername.'/index.php';
+
+		if(file_exists($path))
+		{
+			require($path);
+
+			$foldername=ucfirst($foldername);
+
+			if(method_exists($foldername, 'install'))
+			{
+				$foldername::install();
+			}
+			
+		}
+
+		Redirect::to(ADMINCP_URL.'paymentmethods');
+
+
+	}
+
+	public function run()
+	{
+		if(!$match=Uri::match('\/run\/(\w+)'))
+		{
+			Redirect::to(ADMINCP_URL);
+		}
+
+
+
+		$funcName=base64_decode($match[1]);
+
+		$parse=explode(':', $funcName);
+
+		$foldername=$parse[0];
+
+		$funcName=$parse[1];
+
+		$path=PAYMENTMETHODS_PATH.$foldername.'/index.php';
+
+		if(!file_exists($path))
+		{
+			Redirect::to(ADMINCP_URL);
+		}
+		
+		$post['title']=ucfirst($foldername);
+
+		$post['filePath']=$path;
+
+		$post['func']=$funcName;
+
+		View::make('admincp/head',array('title'=>ucfirst($foldername).' - '.ADMINCP_TITLE));
+
+		self::makeContents('paymentmethodRunFunc',$post);
+
+		View::make('admincp/footer');	
+	}
+
+	public function setting()
+	{
+		if(!$match=Uri::match('\/setting\/(\w+)'))
+		{
+			Redirect::to(ADMINCP_URL);
+		}
+
+		$foldername=$match[1];
+
+		$path=PAYMENTMETHODS_PATH.$foldername.'/setting.php';
+
+		if(!file_exists($path))
+		{
+			Redirect::to(ADMINCP_URL.'plugins');
+		}
+		
+		$post['title']=ucfirst($foldername);
+
+		$post['filePath']=$path;
+
+		View::make('admincp/head',array('title'=>'Setting payment method - '.ADMINCP_TITLE));
+
+		self::makeContents('paymentmethodSetting',$post);
+
+		View::make('admincp/footer');	
 	}
 
 	public function uninstall()
 	{
-		$foldername=Uri::getNext('uninstall');
-
-		// echo $foldername;die();
-
-		$pluginPath=PMETHOD_PATH.$foldername.'/index.php';
-
-		Paymentmethods::$isUninstall='yes';
-
-		Paymentmethods::$folderName=$foldername;
-
-		Paymentmethods::systemUninstall($foldername);
-
-		if(file_exists($pluginPath))
+		if(!$match=Uri::match('\/uninstall\/(\w+)'))
 		{
-			require($pluginPath);				
+			Redirect::to(ADMINCP_URL);
 		}
 
-		header("Location: ".ADMINCP_URL.'paymentmethods');
+		$foldername=$match[1];
+
+		Paymentmethods::makeUninstall($foldername);
+
+		$path=PAYMENTMETHODS_PATH.$foldername.'/index.php';
+
+		if(file_exists($path))
+		{
+			require($path);
+
+			$foldername=ucfirst($foldername);
+
+			if(method_exists($foldername, 'uninstall'))
+			{
+				$foldername::uninstall();
+			}
+		}
+
+		Paymentmethods::saveCache();
+
+		Redirect::to(ADMINCP_URL.'paymentmethods');
+
 	}
+	public function activate()
+	{
+		if(!$match=Uri::match('\/activate\/(\w+)'))
+		{
+			Redirect::to(ADMINCP_URL);
+		}
+
+		$foldername=$match[1];
+
+		Database::query("update payment_methods set status='1' where foldername='$foldername'");
+
+		Paymentmethods::saveCache();
+		
+		Redirect::to(ADMINCP_URL.'paymentmethods');
+	}
+	public function deactivate()
+	{
+		if(!$match=Uri::match('\/deactivate\/(\w+)'))
+		{
+			Redirect::to(ADMINCP_URL);
+		}
+
+		$foldername=$match[1];
+
+		Database::query("update payment_methods set status='0' where foldername='$foldername'");
+
+		Paymentmethods::saveCache();
+
+		Redirect::to(ADMINCP_URL.'paymentmethods');
+	}
+
+	public function import()
+	{
+		$post=array('alert'=>'');
+
+		if(Request::has('btnSend'))
+		{
+			try {
+				
+				Paymentmethods::import();
+
+				$post['alert']='<div class="alert alert-success">Import payment method success.</div>';
+
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}		
+		}
+
+		View::make('admincp/head',array('title'=>'Import payment method - '.ADMINCP_TITLE));
+
+		self::makeContents('paymentmethodImport',$post);
+
+		View::make('admincp/footer');		
+	}
+
 
     public function makeContents($viewPath,$inputData=array())
     {
-        View::make('admincp/nav');
-                
         View::make('admincp/left');  
-              
-        View::make('admincp/startContent');
 
         View::make('admincp/'.$viewPath,$inputData);
-
-        View::make('admincp/endContent');
-         // View::make('admincp/right');
-
-    }	
+    }
 }
 
 ?>

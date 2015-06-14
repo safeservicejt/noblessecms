@@ -20,13 +20,13 @@ class Pages
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="pageid,page_type,title,content,keywords,friendly_url,views,allowcomment,date_added,isreaded,status";
+		$field="pageid,title,content,image,keywords,page_type,friendly_url,date_added,allowcomment,views,status";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
 		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
 
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by date_added desc';
+		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by pageid desc';
 
 		$result=array();
 		
@@ -38,16 +38,24 @@ class Pages
 
 		$queryCMD.=$limitQuery;
 
-		// Load dbcache
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
 
-		$loadCache=DBCache::get($queryCMD);
-
-		if($loadCache!=false)
+		if($cache=='yes')
 		{
-			return $loadCache;
+			// Load dbcache
+
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
 		}
 
-		// end load
 
 		$query=Database::query($queryCMD);
 		
@@ -57,7 +65,7 @@ class Pages
 		}
 
 		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
-
+		
 		if((int)$query->num_rows > 0)
 		{
 			while($row=Database::fetch_assoc($query))
@@ -65,13 +73,24 @@ class Pages
 				if(isset($row['title']))
 				{
 					$row['title']=String::decode($row['title']);
-				}				
-				$row['url']=Url::page($row);	
-
-				if(isset($inputData['isHook']) && $inputData['isHook']=='yes')
+				}
+				if(isset($row['content']))
 				{
+					$row['content']=String::decode($row['content']);
+				}
+
+				if(isset($row['date_added']))
+				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
+
+				if($inputData['isHook']=='yes')
+				{
+					if(isset($row['content']))
+					{
+						$row['content']=Shortcode::loadInTemplate($row['content']);
+						
+						$row['content']=Shortcode::toHTML($row['content']);
+					}
 					
-					$row['content']=Shortcode::load($row['content']);
 				}
 											
 				$result[]=$row;
@@ -81,189 +100,157 @@ class Pages
 		{
 			return false;
 		}
-
-
-
-		if(isset($inputData['isHook']) && $inputData['isHook']=='yes')
-		{
-			$result=self::plugin_hook_page($result);
-		}
 		
 		// Save dbcache
 		DBCache::make(md5($queryCMD),$result);
 		// end save
 
+
 		return $result;
 		
 	}
-	private function plugin_hook_page($inputData=array())
-	{
-		$totalPost=count($inputData);
 
-		if(isset(Plugins::$zoneCaches['process_page_title']))
+	public function url($row)
+	{
+		$url=Url::page($row);
+
+		return $url;
+	}
+
+	public function insert($inputData=array())
+	{
+		// End addons
+		// $totalArgs=count($inputData);
+
+		$addMultiAgrs='';
+
+		if(isset($inputData[0]['title']))
 		{
-			if(isset(Plugins::$zoneCaches['process_page_title']))
+		    foreach ($inputData as $theRow) {
+
+				$theRow['date_added']=date('Y-m-d h:i:s');
+
+				$theRow['friendly_url']=String::makeFriendlyUrl($theRow['title']);
+
+				if(isset($theRow['title']))
+				$theRow['title']=String::encode($theRow['title']);
+
+
+				if(isset($theRow['content']))
+				{
+					$theRow['content']=Shortcode::toBBCode($theRow['content']);
+
+					$theRow['content']=String::encode($theRow['content']);
+				}
+
+				$keyNames=array_keys($theRow);
+
+				$insertKeys=implode(',', $keyNames);
+
+				$keyValues=array_values($theRow);
+
+				$insertValues="'".implode("','", $keyValues)."'";
+
+				$addMultiAgrs.="($insertValues), ";
+
+		    }
+
+		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
+		}
+		else
+		{		
+			$inputData['date_added']=date('Y-m-d h:i:s');
+
+			$inputData['friendly_url']=String::makeFriendlyUrl($inputData['title']);
+
+			if(isset($inputData['title']))
+			$inputData['title']=String::encode($inputData['title']);
+
+			if(isset($inputData['content']))
 			{
-				$totalPlugin=count(Plugins::$zoneCaches['process_page_title']);
+				$inputData['content']=Shortcode::toBBCode($inputData['content']);
 
-				for($i=0;$i<$totalPlugin;$i++)
-				{
-					$plugin=Plugins::$zoneCaches['process_page_title'][$i];
+				$inputData['content']=String::encode($inputData['content']);
+			}
 
-					$foldername=$plugin[$i]['foldername'];
+			$keyNames=array_keys($inputData);
 
-					$func=$plugin[$i]['func'];
+			$insertKeys=implode(',', $keyNames);
 
-					$pluginPath=PLUGINS_PATH.$foldername.'/'.$foldername.'.php';
+			$keyValues=array_values($inputData);
 
-					if(!file_exists($pluginPath))
-					{
-						continue;
-					}
+			$insertValues="'".implode("','", $keyValues)."'";	
 
-					if(!function_exists($func))
-					{
-						require($pluginPath);
-					}
-					$tmpStr='';
-					for($j=0;$j<$totalPost;$j++)
-					{
-						$tmpStr=$func($inputData[$j]['title']);
+			$addMultiAgrs="($insertValues)";	
+		}		
 
-						if(isset($tmpStr[1]))
-						{
-							$inputData[$j]['title']=$tmpStr;
-						}				
-					}
+		Database::query("insert into pages($insertKeys) values".$addMultiAgrs);
 
-				}			
-			}			
-		}
-
-
-		if(isset(Plugins::$zoneCaches['process_page_content']))
+		if(!$error=Database::hasError())
 		{
-			$totalPlugin=count(Plugins::$zoneCaches['process_page_content']);
+			$id=Database::insert_id();
 
-			for($i=0;$i<$totalPlugin;$i++)
-			{
-				$plugin=Plugins::$zoneCaches['process_page_content'][$i];
-
-				$foldername=$plugin[$i]['foldername'];
-
-				$func=$plugin[$i]['func'];
-
-				$pluginPath=PLUGINS_PATH.$foldername.'/'.$foldername.'.php';
-
-				if(!file_exists($pluginPath))
-				{
-					continue;
-				}
-
-				if(!function_exists($func))
-				{
-					require($pluginPath);
-				}
-				$tmpStr='';
-				for($j=0;$j<$totalPost;$j++)
-				{
-					$tmpStr=$func($inputData[$j]['content']);	
-
-					if(isset($tmpStr[1]))
-					{
-						$inputData[$j]['content']=$tmpStr;
-					}							
-				}
-
-			}			
+			return $id;	
 		}
 
-
-		return $inputData;
+		return false;
+	
 	}
 
-	public function url($row=array())
+	public function remove($post=array(),$whereQuery='',$addWhere='')
 	{
-		return Url::page($row);
-	}
-
-	public function add($post=array())
-	{
-		$title=trim($post['title']);
-
-		if(!isset($title[1]))return false;
 
 
-		$title=$post['title'];
-
-		$post['friendly_url']=Url::makeFriendly($post['title']);
-
-		if(isset($post['content']))
+		if(is_numeric($post))
 		{
-			$post['content']=Shortcode::toBBcode($post['content']);
+			$id=$post;
 
-			$post['content']=strip_tags($post['content']);
+			unset($post);
 
-			$post['content']=String::encode($post['content']);
-		}		
-		if(isset($post['keywords']))
-		{
-			$post['keywords']=String::encode($post['keywords']);
-		}		
-		if(isset($post['title']))
-		{
-			$post['title']=String::encode($post['title']);
-		}		
-
-		$post['date_added']=date('Y-m-d h:i:s');
-
-		$keyNames=array_keys($post);
-
-		$insertKeys=implode(',', $keyNames);
-
-		$keyValues=array_values($post);
-
-		$insertValues="'".implode("','", $keyValues)."'";
-
-		Plugins::load('before_insert_page',$post);
-
-		Database::query("insert into pages($insertKeys) values($insertValues)");
-
-		$error=Database::$error;
-
-		if(isset($error[5]))
-		{
-			return false;
+			$post=array($id);
 		}
 
-		$id=Database::insert_id();
+		$total=count($post);
 
-		$post['pageid']=$id;
-		
-		Plugins::load('after_insert_page',$post);
+		$listID="'".implode("','",$post)."'";
 
-		return $id;		
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"pageid in ($listID)";
+
+		$addWhere=isset($addWhere[5])?$addWhere:"";
+
+		$command="delete from pages where $whereQuery $addWhere";
+
+		Database::query($command);	
+
+		return true;
 	}
-
 
 	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
-		if(isset($post['content']))
-		{
-			$post['content']=Shortcode::toBBcode($post['content']);
-
-			$post['content']=strip_tags($post['content']);
-						
-			$post['content']=String::encode($post['content']);
-		}		
-		if(isset($post['keywords']))
-		{
-			$post['keywords']=String::encode($post['keywords']);
-		}		
 		if(isset($post['title']))
 		{
-			$post['title']=String::encode($post['title']);	
-		}	
+			$post['title']=String::encode($post['title']);
+
+			$post['friendly_url']=String::makeFriendlyUrl($post['title']);
+
+			$loadPage=self::get(array(
+				'where'=>"where friendly_url='".$post['friendly_url']."'"
+				));
+
+			if(isset($loadPage[0]['pageid']) && $loadPage[0]['pageid']<>$listID[0])
+			{
+				return false;
+			}
+		}		
+
+		if(isset($post['content']))
+		{
+			
+			$post['content']=Shortcode::toBBCode($post['content']);
+
+			$post['content']=String::encode(strip_tags($post['content'],'<p><br>'));
+
+		}
 
 		if(is_numeric($listID))
 		{
@@ -274,8 +261,8 @@ class Pages
 			$listID=array($catid);
 		}
 
-		$listIDs="'".implode("','",$listID)."'";
-
+		$listIDs="'".implode("','",$listID)."'";		
+				
 		$keyNames=array_keys($post);
 
 		$total=count($post);
@@ -289,49 +276,21 @@ class Pages
 		}
 
 		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
-
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"pageid IN ($listIDs)";
+		
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"pageid in ($listIDs)";
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update pages set $setUpdates where $whereQuery $addWhere");
 
-		if(isset(Database::$error[5]))
+		if(!$error=Database::hasError())
 		{
-			return false;
+			return true;
 		}
 
-		return true;
-	}	
-
-	public function remove($post=array(),$whereQuery='',$addWhere='')
-	{
+		return false;
+	}
 
 
-		if(is_numeric($post))
-		{
-			$catid=$post;
-
-			unset($post);
-
-			$post=array($catid);
-		}
-
-		$total=count($post);
-		// print_r($post);die();
-
-		$listID="'".implode("','",$post)."'";
-		
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"pageid in ($listID)";
-
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-	
-
-		$command="delete from pages where $whereQuery $addWhere";	
-
-		Database::query($command);	
-
-		return true;
-	}	
 }
 ?>

@@ -34,7 +34,7 @@ $total=count($categories);
 if(isset($categories[0]['catid']))
 for($i=0;$i<$total;$i++)
 {
-  $li.='<li><a href="'.$categories[$i]['url'].'">'.$categories[$i]['cattitle'].'</a></li>';
+  $li.='<li><a href="'.$categories[$i]['url'].'">'.$categories[$i]['title'].'</a></li>';
 }
 
 $listCat=$li;
@@ -85,7 +85,7 @@ $listPost=$li;
 <?php 
 $tags=PostTags::get(array(
   'limitShow'=>10,
-  'orderby'=>'group by tag_title order by count(tag_title) desc'
+  'orderby'=>'group by title order by count(title) desc'
   ));
 
 $total=count($tags);
@@ -96,7 +96,7 @@ if(isset($tags[0]['tagid']))
 for($i=0;$i<$total;$i++)
 {
   $li.='
-<li><a href="'.$tags[$i]['url'].'">'.$tags[$i]['tag_title'].'</a></li>
+<li><a href="'.$tags[$i]['url'].'">'.$tags[$i]['title'].'</a></li>
   ';
 }
 

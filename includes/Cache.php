@@ -16,6 +16,11 @@ class Cache
         self::$cachePath=$path;
     }
 
+    public function resetPath()
+    {
+        self::$cachePath=CACHES_PATH;
+    }
+    
     public function getPath()
     {
         $path=!isset(self::$cachePath[2])?CACHES_PATH:self::$cachePath;
@@ -24,10 +29,7 @@ class Cache
 
         return $path;
     }
-    public function resetPath()
-    {
-        self::$cachePath=CACHES_PATH;
-    }  
+  
     public function enable($liveTime = 360)
     {
         self::$cacheStatus = 'enable';
@@ -35,6 +37,49 @@ class Cache
         self::$cacheLiveTime = $liveTime;
 
         self::loadCache();
+    }
+
+    public function savePage($extension='.template')
+    {
+        $keyName=isset($_GET['load'])?trim($_GET['load']):'defaultHome';
+
+        $savePath=ROOT_PATH.'application/caches/templates/';
+
+        self::setPath($savePath);
+
+        $keyData=ob_get_contents();
+
+        $keyName=md5($keyName);
+
+        $keyData=gzcompress($keyData,5);
+
+        self::saveKey($keyName,serialize($keyData),$extension);
+
+        self::resetPath();
+    }
+
+    public function loadPage($liveTime=86400,$extension='.template')
+    {
+        $keyName=isset($_GET['load'])?trim($_GET['load']):'defaultHome';
+
+        $keyName=md5($keyName);
+
+        $savePath=ROOT_PATH.'application/caches/templates/';
+
+        self::setPath($savePath);        
+
+        if(!$loadData=self::loadKey($keyName,$liveTime,$extension))
+        {
+            return false;
+        }
+
+        $loadData=unserialize($loadData);
+
+        $loadData=gzuncompress($loadData);  
+
+        echo $loadData;
+
+        exit(0);
     }
 
     public function loadCache()
@@ -78,12 +123,10 @@ class Cache
     }
 
     // Default timeLive=1 day
-    public function saveKey($keyName,$keyData='')
+    public function saveKey($keyName,$keyData='',$extension='.cache')
     {
         // $filePath=CACHES_PATH.$keyName.'.cache';
-        $filePath=self::getPath().$keyName.'.cache';
-
-        // die($filePath);
+        $filePath=self::getPath().$keyName.$extension;
 
         $fp=fopen($filePath,'w');
 
@@ -92,10 +135,12 @@ class Cache
         fclose($fp);
     }
 
-    public function loadKey($keyName,$timeLive=86400)
+    public function loadKey($keyName,$timeLive=86400,$extension='.cache')
     {
         // $filePath=CACHES_PATH.$keyName.'.cache';
-        $filePath=self::getPath().$keyName.'.cache';
+        $filePath=self::getPath().$keyName.$extension;
+
+        // die($filePath);
 
         if(!file_exists($filePath))return false;
 
@@ -109,10 +154,10 @@ class Cache
 
         return false;        
     }
-    public function removeKey($keyName)
+    public function removeKey($keyName,$extension='.cache')
     {
         // $filePath=CACHES_PATH.$keyName.'.cache';
-        $filePath=self::getPath().$keyName.'.cache';
+        $filePath=self::getPath().$keyName.$extension;
 
         if(!file_exists($filePath))return true;
 

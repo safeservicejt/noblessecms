@@ -11,14 +11,14 @@ class App
 
 	function __construct()
 	{
-		// $locale=LANGUAGE;
+		$locale=LANGUAGE;
 
-		// if(isset($_SESSION['locale']))
-		// {
-		// 	$locale=$_SESSION['locale'];
-		// }
+		if(isset($_SESSION['locale']))
+		{
+			$locale=$_SESSION['locale'];
+		}
 
-		// self::$config['locale']=$locale;
+		self::$config['locale']=$locale;
 	}
 
 	public function get($keyName)

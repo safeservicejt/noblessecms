@@ -20,13 +20,13 @@ class Orders
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="orderid,customerid,payment_firstname,payment_lastname,payment_company,payment_address_1,payment_address_2,payment_city,payment_postcode,payment_country,payment_method,payment_email,payment_phone,payment_fax,shipping_firstname,shipping_lastname,shipping_company,shipping_address_1,shipping_address_2,shipping_city,shipping_postcode,shipping_country,shipping_method,shipping_phone,shipping_fax,comment,total,total_products,affiliate_id,commission,ip,date_added,date_modified,isreaded,order_status,tax_rate,vat_rate";
+		$field="orderid,customerid,payment_firstname,payment_lastname,payment_company,payment_address_1,payment_address_2,payment_city,payment_postcode,payment_country,payment_method,payment_email,payment_phone,payment_fax,shipping_firstname,shipping_lastname,shipping_company,shipping_address_1,shipping_address_2,shipping_city,shipping_postcode,shipping_country,shipping_method,shipping_phone,shipping_fax,comment,total,total_products,affiliate_id,commission,ip,date_added,date_modified,isreaded,status,tax_rate,vat_rate";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
 		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
 
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by date_added desc';
+		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by orderid desc';
 
 		$result=array();
 		
@@ -91,7 +91,7 @@ class Orders
 					$row['vat_rateFormat']=$getData['format'];
 				}
 				
-				$row['date_added']=isset($row['date_added'])?Render::dateFormat($row['date_added']):'';				
+				$row['date_addedFormat']=isset($row['date_added'])?Render::dateFormat($row['date_added']):'';				
 										
 				$result[]=$row;
 			}		
@@ -107,6 +107,19 @@ class Orders
 		return $result;
 		
 	}	
+
+
+	public function api($action)
+	{
+		Model::load('api/order');
+
+		try {
+			loadApi($action);
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+		}
+	}
+
 
 
 	public function insert($inputData=array())
@@ -185,8 +198,6 @@ class Orders
 		// {
 		// 	$inputData['price']=Currency::insertPrice($inputData['price']);
 		// }
-
-		$inputData['date_added']=date('Y-m-d h:i:s');
 
 		$keyNames=array_keys($inputData);
 

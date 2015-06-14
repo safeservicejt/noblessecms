@@ -3,14 +3,23 @@
 class Uri
 {
 
+    public function isNull()
+    {
+        $null=isset($_GET['load'])?true:false;
+
+        return $null;
+    }
+
     public function getNext($uriName)
     {
-        if(!isset($_GET['load']))
+        $uri=System::getUri();
+
+        if(!isset($uri[1]))
         {
             return false;
         }
         
-        $uri = explode('/', $_GET['load']);
+        $uri = explode('/', $uri);
 
         if (isset($uriName[1])) {
 
@@ -29,23 +38,16 @@ class Uri
         }
 
     }
-    public function isNull()
-    {
-        if(!isset($_GET['load']))
-        {
-            return true;
-        }
-        
-        return false;       
-    }
     public function has($uriName)
     {
-        if(!isset($_GET['load']))
+        $uri=System::getUri();
+
+        if(!isset($uri[1]))
         {
             return false;
         }
 
-        if(preg_match('/'.$uriName.'/i', $_GET['load']))
+        if(preg_match('/'.$uriName.'/i', $uri))
         {
             return true;
         }
@@ -54,9 +56,11 @@ class Uri
     }
     public function match($uriName)
     {
-        if(!isset($_GET['load']))return false;
+        $uri=System::getUri();
 
-        if(preg_match('/'.$uriName.'/i', $_GET['load'],$matches))
+        if(!isset($uri[1]))return false;
+
+        if(preg_match('/'.$uriName.'/i', $uri,$matches))
         {
             return $matches;
         }
@@ -65,9 +69,11 @@ class Uri
     }
     public function matchOnly($uriName)
     {
-        if(!isset($_GET['load']))return false;
+        $uri=System::getUri();
 
-        if(preg_match('/'.$uriName.'/i', $_GET['load'],$matches))
+        if(!isset($uri[1]))return false;
+
+        if(preg_match('/'.$uriName.'/i', $uri,$matches))
         {
             return $matches[1];
         }
@@ -76,11 +82,14 @@ class Uri
     }
     public function allow($uriName)
     {
-        if(!isset($_GET['load']))return false;
+        $uri=System::getUri();
 
-        if(!preg_match('/'.$uriName.'/i', $_GET['load'],$matches))
+        if(!isset($uri[1]))return false;
+
+        if(!preg_match('/'.$uriName.'/i', $uri,$matches))
         {
             Alert::make('Page not found');
+
         }
 
     }
@@ -101,34 +110,34 @@ class Uri
 
     public function length()
     {
-        global $uri;
+        global $cmsUri;
 
-        $total = strlen($uri);
+        $total = strlen($cmsUri);
 
         return $total;
     }
 
     public function maxLength($maxLen = 100)
     {
-        global $uri;
+        global $cmsUri;
 
-        $total = strlen($uri);
+        $total = strlen($cmsUri);
 
         $total++;
 
-        if (isset($total)) load_page_not_found();
+        if (isset($total)) Alert::make('Page not found');
     }
 
     public function onlyWord()
     {
-        global $uri;
+        global $cmsUri;
 
-//        echo $uri;
+//        echo $cmsUri;
 //        die();
 
-        if (preg_match('/[\<\>\$]/i', $uri))
+        if (preg_match('/[\<\>\$]/i', $cmsUri))
         {
-            load_page_not_found();
+           Alert::make('Page not found');
         }
 
     }

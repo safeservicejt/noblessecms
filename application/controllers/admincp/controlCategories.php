@@ -2,17 +2,15 @@
 
 class controlCategories
 {
-
 	public function index()
 	{
-
         if($match=Uri::match('\/jsonCategory'))
         {
             $keyword=String::encode(Request::get('keyword',''));
 
             $loadData=Categories::get(array(
-            	'where'=>"where cattitle LIKE '%$keyword%'",
-                'orderby'=>'order by cattitle asc'
+            	'where'=>"where title LIKE '%$keyword%'",
+                'orderby'=>'order by title asc'
                 ));
 
             $total=count($loadData);
@@ -21,79 +19,17 @@ class controlCategories
 
             for($i=0;$i<$total;$i++)
             {
-                $li.='<li><span data-method="category" data-id="'.$loadData[$i]['catid'].'" >'.$loadData[$i]['cattitle'].'</span></li>';
+                $li.='<li><span data-method="category" data-id="'.$loadData[$i]['catid'].'" >'.$loadData[$i]['title'].'</span></li>';
             }
 
             echo $li;
             die();
         }
-
+		
 		$post=array('alert'=>'');
 
 		Model::load('admincp/categories');
-
-		if(Request::has('btnAdd'))
-		{
-			try {
-
-				insertProcess();
-
-				$post['alert']='<div class="alert alert-success">Add new categories success.</div>';
-
-			} catch (Exception $e) {
-
-				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
-
-			}
-
-		}
-
-		if(Request::has('btnSave'))
-		{
-			try {
-
-				updateProcess();
-
-				$post['alert']='<div class="alert alert-success">Update changes success.</div>';
-
-			} catch (Exception $e) {
-
-				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
-
-			}
-
-
-		}
-
-		$post['showEdit']='no';
-		if(Request::has('btnAction'))
-		{
-			if(Request::get('action')=='delete')
-			{
-				if(Request::has('id'))
-				Categories::remove(Request::get('id'));	
-			}
-				
-
-		}
-
-		if(Uri::has('edit'))
-		{
-				$post['showEdit']='yes';
-
-				$id=Uri::getNext('edit');
-
-				$post['catid']=$id;
-
-				$data=Categories::get(array(
-					'where'=>"where catid='$id'"
-					));
-				$post['edit']=$data[0];
-
-
-		}
-
-
+		
 		$curPage=0;
 
 		if($match=Uri::match('\/page\/(\d+)'))
@@ -101,51 +37,80 @@ class controlCategories
 			$curPage=$match[1];
 		}
 
-		$post['pages']=Misc::genPage('admincp/categories',$curPage);
-
-		// DBCache::enable();
-
-		if(!Request::has('btnSearch'))
+		if(Request::has('btnAction'))
 		{
-			$post['categories']=Categories::get(array(
-				'limitShow'=>30,
-				'limitPage'=>$curPage,
-				'orderby'=>'order by date_added desc',
-				'isHook'=>'no'
-				));		
+			actionProcess();
+		}
+
+		if(Request::has('btnAdd'))
+		{
+			try {
+				
+				insertProcess();
+
+				$post['alert']='<div class="alert alert-success">Add new category success.</div>';
+
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}
+		}
+
+		if(Request::has('btnSave'))
+		{
+			$match=Uri::match('\/edit\/(\d+)');
+
+			try {
+				
+				updateProcess($match[1]);
+
+				$post['alert']='<div class="alert alert-success">Update category success.</div>';
+
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}
+		}
+
+		if(Request::has('btnSearch'))
+		{
+			filterProcess();
 		}
 		else
 		{
-			$searchData=searchProcess(Request::get('txtKeywords'));
+			$post['pages']=Misc::genPage('admincp/categories',$curPage);
 
-			$post['categories']=$searchData['categories'];
-
-			$post['pages']=$searchData['pages'];
-
+			$post['theList']=Categories::get(array(
+				'limitShow'=>20,
+				'limitPage'=>$curPage,
+				'orderby'=>'order by catid desc',
+				'cacheTime'=>5
+				));
 		}
 
+		if($match=Uri::match('\/edit\/(\d+)'))
+		{
+			$loadData=Categories::get(array(
+				'where'=>"where catid='".$match[1]."'"
+				));
 
-		View::make('admincp/head',array('title'=>'Categories manage - '.ADMINCP_TITLE));
+			$post['edit']=$loadData[0];
+		}
 
-        $this->makeContents('categories',$post);
+		System::setTitle('Categories list - '.ADMINCP_TITLE);
 
-        View::make('admincp/footer'); 		
+		View::make('admincp/head');
+
+		self::makeContents('categoriesList',$post);
+
+		View::make('admincp/footer');
+
 	}
 
     public function makeContents($viewPath,$inputData=array())
     {
-        View::make('admincp/nav');
-                
         View::make('admincp/left');  
-              
-        View::make('admincp/startContent');
 
         View::make('admincp/'.$viewPath,$inputData);
-
-        View::make('admincp/endContent');
-         // View::make('admincp/right');
-
-    }	
+    }
 }
 
 ?>

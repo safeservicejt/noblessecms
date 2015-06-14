@@ -10,34 +10,17 @@
 </div>
 <!-- slide -->
 
-
-<?php echo $content_top;?>
 <div class="row">
 <!-- left -->
 <div class="col-lg-8">
-<?php echo $content_left;?>
 <!-- items -->
 <div class="row">
-<?php
-  $thumbnail='';
 
-  if(isset($imageUrl[5]))
-  {
-    $thumbnail='
-    <div class="col-lg-12">
-    <img src="'.$imageUrl.'" class="img-responsive" />
-    </div>
-    ';
-  }
-
-  echo $thumbnail;
-
-?>
 <div class="col-lg-12">
 <div class="well well-post-content">
 <!-- title -->
 <div class="row">
-<div class="col-lg-12"><a href="sdsd"><h2><?php echo Lang::get('frontend/contactus.title');?></h2></a></div>
+<div class="col-lg-12"><a href="#"><h2>Contact us</h2></a></div>
 </div>
 <!-- title -->
 <!-- content -->
@@ -46,24 +29,24 @@
 <form action="" method="post" enctype="multipart/form-data">
 		<?php echo $alert;?>
 		<p>
-		<label><strong><?php echo Lang::get('frontend/contactus.fullname');?></h3></div>
+		<label><strong>Fullname</h3></div>
 	<div class="col-lg-12"></strong></label>
-		<input type="text" class="form-control" placeholder="<?php echo Lang::get('frontend/contactus.fullname');?>" name="send[fullname]" required />
+		<input type="text" class="form-control" placeholder="Fullname" name="send[fullname]" required />
 		</p>
 		<p>
-		<label><strong><?php echo Lang::get('frontend/contactus.email');?></h3></div>
+		<label><strong>Email</h3></div>
 	<div class="col-lg-12"></strong></label>
-		<input type="email" class="form-control" placeholder="<?php echo Lang::get('frontend/contactus.email');?>" name="send[email]" required />
+		<input type="email" class="form-control" placeholder="Email" name="send[email]" required />
 		</p>
 		<p>
-		<label><strong><?php echo Lang::get('frontend/contactus.content');?></h3></div>
+		<label><strong>Content</h3></div>
 	<div class="col-lg-12"></strong></label>
-		<textarea rows="10" class="form-control" placeholder="<?php echo Lang::get('frontend/contactus.content');?>" name="send[content]"></textarea>
+		<textarea rows="10" class="form-control" placeholder="Content" name="send[content]"></textarea>
 		</p>
 
-		<button type="submit" class="btn btn-primary" name="btnSend"><?php echo Lang::get('frontend/contactus.btnSend');?></button>
+		<button type="submit" class="btn btn-primary" name="btnSend">Send</button>
 
-		<a href="<?php echo ROOT_URL;?>" class="btn btn-default pull-right"><?php echo Lang::get('frontend/contactus.btnBack');?></a>
+		<a href="<?php echo ROOT_URL;?>" class="btn btn-default pull-right">Back</a>
 	</form>
 </div>
 </div>
@@ -80,10 +63,8 @@
 <!-- left -->
 
 <!-- right -->
-<?php Theme::view('right');?>
-<?php echo $content_right;?>
+<?php View::makeWithPath('right',array(),$themePath);?>
 <!-- right -->
 </div>
-<?php echo $content_bottom;?>
 </div>
 <!-- body -->

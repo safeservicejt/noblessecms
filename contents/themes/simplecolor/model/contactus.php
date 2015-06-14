@@ -21,14 +21,14 @@ function contactProcess()
 
 	if(!$valid)
 	{
-		$alert='<div class="alert alert-warning">'.Lang::get('frontend/contactus.errorSend').'</div>';
+		$alert='<div class="alert alert-warning">Contact information not valid.</div>';
 
 		return $alert;
 	}
 
 	if(!$id=Contactus::insert(Request::get('send')))
 	{
-		$alert='<div class="alert alert-warning">'.Lang::get('frontend/contactus.errorSend').'</div>';
+		$alert='<div class="alert alert-warning">Error. '.Database::$error.'</div>';
 
 		return $alert;		
 	}
@@ -48,7 +48,7 @@ function contactProcess()
 
 	
 
-		$alert='<div class="alert alert-success">'.Lang::get('frontend/contactus.successSend').'</div>';
+		$alert='<div class="alert alert-success">Success. We will response soon!</div>';
 
 		return $alert;	
 }

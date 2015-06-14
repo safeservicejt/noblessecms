@@ -50,7 +50,7 @@
         <div class="row">
         <div class="col-lg-12">
         <label><strong>Categories</strong></label>
-        <input type="text" class="form-control txtAuto" data-maxselect="10" data-numselected="0" data-method="category" data-key="jsonCategory" placeholder="Type here..." />
+        <input type="text" class="form-control txtAuto" data-maxselect="10" data-numselected="0" data-method="category" data-key="get_list_category" placeholder="Type here..." />
                 <div class="listAutoSuggest"><ul></ul></div>  
                   <ul class="ulChosen">
                   <?php if(isset($edit['listCat'])){
@@ -85,7 +85,7 @@
 				<div class="row">
 				<div class="col-lg-12">
 				<label><strong>Author</strong></label>
-				<input type="text" autocomplete="off" class="form-control txtAuto" data-maxselect="1" name="author_name" data-numselected="0" data-method="author" data-key="jsonAuthor" placeholder="Type here..." />
+				<input type="text" autocomplete="off" class="form-control txtAuto" data-maxselect="1" name="author_name" data-numselected="0" data-method="author" data-key="get_list_author" placeholder="Type here..." />
 	              <div class="listAutoSuggest"><ul></ul></div>	
                   <ul class="ulChosen">
                   <?php if(isset($edit['author_title'])){ ?>
@@ -201,26 +201,28 @@ $( document ).on( "keydown", "input.txtAuto", function() {
 
   var keyName=$(this).attr('data-key');
 
-
   if(theValue.length > 1 )
   {
     $.ajax({
      type: "POST",
-     url: root_url+keyName,
+     url: api_url+keyName,
      data: ({
         do : "load",
         keyword : theValue
         }),
-     dataType: "html",
+     dataType: "json",
      success: function(msg)
             {
 
-             // $('#listtenPhuongAuto').html('<ul>'+msg+'</ul>');
+              // alert(msg);return false;
+                  
+                 if(msg['error']=='no')
+                 {
+                    listUl.html('<ul>'+msg['data']+'</ul>');
 
-             // $('#listtenPhuongAuto').slideDown('fast');
-              listUl.html('<ul>'+msg+'</ul>');
+                  listUl.slideDown('fast');              
+                 }
 
-            listUl.slideDown('fast');
 
              }
        });            

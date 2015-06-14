@@ -13,6 +13,8 @@ class Database
 
     public static $dbinfo = array();
 
+    public static $dbName='';
+
     public static $totalQuery=0;
 
 //    public static $fieldList = array();
@@ -28,6 +30,16 @@ class Database
 
 
     //  Object-Relational Mapping (ORM)
+
+    public function getTotalQuery()
+    {
+        return self::$totalQuery;
+    }
+
+    public function getDbName()
+    {
+        return self::$dbName;
+    }
 
     public function table($tableName = '')
     {
@@ -67,10 +79,12 @@ class Database
 
                     self::$hasConnected = 'yes';
 
+                    self::$dbName=$db[$dbsortName]['dbname'];
+
                       if(isset($conn->connect_error[5]))
                       {
                         Log::error('Can not connect to your database. You must to edit file config.php now!');
-                      }                    
+                      }  
 
                     return $conn;
 
@@ -164,33 +178,12 @@ class Database
 
 
 
-    public function multiquery($queryStr = '', $objectStr = '')
-    {
-        switch (self::$dbType) {
-            case "mysqli":
-
-                $queryDB = self::$dbConnect->multi_query($queryStr);
-
-                // echo self::$dbConnect->error;die();
-
-                self::$error = self::$dbConnect->error;
-
-                if (is_object($objectStr)) {
-                    $objectStr($queryDB);
-                }
-
-                return $queryDB;
-
-                break;
-        }
-
-    }
     public function query($queryStr = '', $objectStr = '')
     {
-        self::$totalQuery+=1;
-        
         switch (self::$dbType) {
             case "mysqli":
+
+                self::$totalQuery++;
 
                 $queryDB = self::$dbConnect->query($queryStr);
 
@@ -200,10 +193,8 @@ class Database
 
                 if(isset(self::$error[5]))
                 {
-                    // Log::error('You query: '.$queryStr.' is error!<br> Information: '.self::$error);
-
                     return false;
-                }                
+                }
 
                 if (is_object($objectStr)) {
                     $objectStr($queryDB);
@@ -288,6 +279,10 @@ class Database
     {
         $totalRows=self::num_rows($query);
 
+        if(isset(self::$error[5]))
+        {
+            return false;
+        }
         
 
         $resultData=array();
@@ -305,6 +300,7 @@ class Database
     }
     public function fetch_array_all($queryDB, $objectStr = '', $fetchType = 'SQLSRV_FETCH_ASSOC')
     {
+        
         $totalRows=self::num_rows($query);
 
         $resultData=array();
@@ -328,10 +324,8 @@ class Database
 
                 if(isset(self::$error[5]))
                 {
-                    // Log::error('Can not fetch assoc from your query!<br> Information: '.self::$error);
-
                     return false;
-                }  
+                }
 
                 $row = $queryDB->fetch_assoc();
 
@@ -469,6 +463,23 @@ class Database
         }
 
     }
+    public function affected_rows($objectStr = '')
+    {
+        switch (self::$dbType) {
+            case "mysqli":
+
+                $totalRows = self::$dbConnect->affected_rows;
+
+                if (is_object($objectStr)) {
+                    $objectStr($totalRows);
+                }
+
+                return $totalRows;
+
+                break;
+        }
+
+    }
 
     public function insert_id($objectStr = '')
     {
@@ -553,7 +564,7 @@ class Database
                 Database::query($creates[0][$i]);
             }
 
-            preg_match_all('/INSERT.*?\;\n/is', $query, $creates);
+            preg_match_all('/INSERT.*?\;/is', $query, $creates);
 
             $total = count($creates[0]);
 

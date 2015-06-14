@@ -3,7 +3,6 @@
 
 class Input extends Request
 {
-	public static $dataFile=array();
 
     function __construct()
     {
@@ -19,8 +18,6 @@ class Input extends Request
         return $upload;
 
     }
-
-
 
 }
 

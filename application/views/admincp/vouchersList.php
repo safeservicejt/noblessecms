@@ -1,177 +1,131 @@
-  <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstrap/admincp/css/chosen.min.css">
+    <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstrap/datepicker/css/datepicker.css">
+    <script src="<?php echo ROOT_URL;?>bootstrap/datepicker/js/bootstrap-datepicker.js"></script>
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Gift Vouchers</h3>
+    <h3 class="panel-title">Voucher list</h3>
   </div>
   <div class="panel-body">
     <div class="row">
-		<div class="col-lg-8 showBorderRight">
-		<p>
-			<h4>List gift vouchers</h4>
-		</p>
+    	<div class="col-lg-8">
+    	<form action="" method="post" enctype="multipart/form-data">
+    		<!-- row -->
+    		<div class="row">
+    			<div class="col-lg-4">
+                    <div class="input-group input-group-sm">
+                        <select class="form-control" name="action">
+                            <option value="delete">Delete</option>
+                        </select>
+                       <span class="input-group-btn">
+                        <button class="btn btn-primary" name="btnAction" type="submit">Apply</button>
+                      </span>
 
-<!-- Form Action -->
-		<div class="row">
-		<form action="" method="post" enctype="multipart/form-data">
-		<div class="col-lg-3">
-			<select class="form-control" name="action">
-			<option value="delete">Delete</option>
-			<option value="publish">Set Published</option>
-			<option value="notpublish">Set Not Publish</option>
+                    </div><!-- /input-group -->   				
+    			</div>
+    			<div class="col-lg-4 col-lg-offset-4 text-right">
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" name="txtKeywords" placeholder="Search..." />
+                       <span class="input-group-btn">
+                        <button class="btn btn-primary" name="btnSearch" type="submit">Search</button>
+                      </span>
 
-			</select>
-		</div>
-		<div class="col-lg-2">
-			<button type="submit" class="btn btn-info" name="btnAction">Apply</button>
-		</div>
+                    </div><!-- /input-group -->       				
+    			</div>
 
-		<!-- right -->
-		<div class="col-lg-4 pull-right text-right">
-		
-    <div class="input-group">
-      <input type="text" class="form-control" name="txtKeywords" placeholder="Search for...">
-      <span class="input-group-btn">
-        <button class="btn btn-primary" name="btnSearch" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-      </span>
-    </div><!-- /input-group -->
-    
-		</div>
-		<!-- right -->
+    		</div>
+    		<!-- row -->
+     		<!-- row -->
+    		<div class="row">
+    			<div class="col-lg-12 table-responsive">
+    				<table class="table table-hover">
+    					<thead>
+    						<tr>
+    							<td class="col-lg-1"><input type="checkbox" id="selectAll" /></td>
+    							<td class="col-lg-2">Date added</td>
+                                <td class="col-lg-7">Code</td>
+    							<td class="col-lg-1">Amount</td>
+    							<td class="col-lg-1">#</td>
+    						</tr>
+    					</thead>
 
-		</div>
+    					<tbody>
+    					<?php
+    						$total=count($theList);
 
-		<!-- List -->
-		<div class="row">
-			<div class="col-lg-12">
+    						$li='';
 
-				<table class="table">
-				<thead>
-					<tr>
-					<td class="col-lg-1"><input type="checkbox" id="selectAll" /></td>
-					<td class="col-lg-2">Date Added</td>
-					<td class="col-lg-5">Code</td>
-					<td class="col-lg-3">Amount</td>
+    						if(isset($theList[0]['voucherid']))
+    						for ($i=0; $i < $total; $i++) { 
+    							$li.='
+	    						<!-- tr -->
+	    						<tr>
+	    							<td class="col-lg-1">
+	    								<input type="checkbox" id="cboxID" name="id[]" value="'.$theList[$i]['voucherid'].'" />
+	    							</td>
+                                    <td class="col-lg-2">'.$theList[$i]['date_added'].'
+                                    </td>
+                                    <td class="col-lg-7">'.$theList[$i]['code'].'</td>
+                                    <td class="col-lg-1">'.$theList[$i]['amount'].'</td>                                    
+	    							<td class="col-lg-1 text-right">
+	    							<a href="'.ADMINCP_URL.'vouchers/edit/'.$theList[$i]['voucherid'].'" class="btn btn-warning btn-xs">Edit</a>
+	    							</td>
+	    						</tr>    						
+	    						<!-- tr -->
+    							';
+    						}
 
-					<td class="col-lg-1">Status</td>
-						<td class="col-lg-1"></td>
+    						echo $li;
+    					?>
 
-					</tr>
-				</thead>
-				<tbody>
-				<?php
+    					</tbody>
+    				</table>
+    			</div>
 
-				$totalRow=count($vouchers);
+				<div class="col-lg-12 text-right">
+					<?php  echo $pages; ?>
+				</div>    			
+    		</div>
+    		<!-- row -->
+    	</form>
+    	</div>
+    	<div class="col-lg-4">
+        
 
-				$li='';
+        <?php if(!Uri::has('\/edit\/\d+')){ ?>
+    		<div class="divAddnew">
+            <form action="" method="post" enctype="multipart/form-data"> 
+            <?php echo $alert;?>
+            <h4>Add new</h4>
+                    <p>
+                    <label><strong>Amount:</strong></label>
+                    <input type="text" name="send[amount]" class="form-control" placeholder="$0.00" />
 
-				$status='';
+                    </p>
+                    <p>
+                    <button type="submit" class="btn btn-primary" name="btnAdd">Add new</button>
+                    </p>	
 
-				if(isset($vouchers[0]['amount']))
-				for($i=0;$i<$totalRow;$i++)
-				{
-					$status='<div class="label label-warning">Not Publish</div>';
-					if((int)$vouchers[$i]['status']==1)
-					{
-						$status='<div class="label label-success">Published</div>';
-					}
-					$li.='
+                </form>		
+    		</div>
+            <?php }else{ ?>
 
-					<tr>
-					<td>
-					<input type="checkbox" id="cboxID" name="id[]" value="'.$vouchers[$i]['voucherid'].'" />
-					</td>
-					<td>'.$vouchers[$i]['date_added'].'</td>
-					<td>'.$vouchers[$i]['code'].'</td>
-					<td>'.$vouchers[$i]['amountFormat'].'</td>
-
-					<td>'.$status.'</td>
-
-					<td><a href="'.ROOT_URL.'admincp/giftvouchers/edit/'.$vouchers[$i]['voucherid'].'" class="btn btn-xs btn-warning">Edit</a></td>
-
-					</tr>
-					';
-
-				}
-
-				echo $li;
-
-				?>
-
-
-				</tbody>
-				</table>
-			</div>
-
-			<div class="col-lg-12 text-right">
-				<?php  echo $pages; ?>
-			</div>
-		</div>
-		</form>
-
-
-
-		</div>		
-
-
-		<div class="col-lg-4">
-		<form action="" method="post" enctype="multipart/form-data">
-
-			<?php if($showEdit=='no'){ ?>
-			<!-- Add new -->
-			<div style="display:block;">
-			<p>
-			<h4>Add new voucher (Default currency is dollars)</h4>
-			</p>
-			<?php echo $alert;?>
-			<p>
-			<label><strong>Amount:</strong></label>
-			<input type="text" name="send[amount]" class="form-control" placeholder="Amount..." />
-			<input type="hidden" name="send[date_added]" class="form-control" value="<?php echo date('Y-m-d h:i:s');?>" />
-			<input type="hidden" name="send[code]" class="form-control" value="<?php echo String::randText(32);?>" />
-
-			</p>
-
-			<p>
-			<button type="submit" class="btn btn-info" name="btnAdd">Add new</button>
-			</p>
-			</div>
-			<?php } ?>
-
-
-			<?php if($showEdit=='yes'){ ?>
-			<!-- Edit -->
-			<div style="display:block;">
-			<p>
-			<h4>Edit voucher</h4>
-			</p>
-			<?php echo $alert;?>
-			<p>
-			<label><strong>Amount:</strong></label>
-			<input type="text" name="send[amount]" class="form-control" placeholder="Amount..." value="<?php if($showEdit=='yes')echo Render::numberFormat($edit['amount']);?>" />
-
-			</p>
-
-			<p>
-			<button type="submit" class="btn btn-info" name="btnSave">Save Changes</button>
-			</p>
-			</div>
-			<?php } ?>
-
-
-
-		</form>
-		</div>
-
-
-
-
-	</div>
+    		<div class="divEdit">
+            <form action="" method="post" enctype="multipart/form-data"> 
+            <?php echo $alert;?>
+	     		<h4>Edit</h4>
+                    <p>
+                    <label><strong>Amount:</strong></label>
+                    <input type="text" name="update[amount]" class="form-control" value="<?php echo $edit['amount'];?>" placeholder="$0.00" />
+                    </p>
+                    <p>
+                    <button type="submit" class="btn btn-primary" name="btnSave">Save Changes</button>
+                    </p> 		
+                </form> 	
+    		</div>
+            <?php } ?>
+        
+    	</div>
+    	
+    </div>
   </div>
 </div>
-
-
-<script src="<?php echo ROOT_URL;?>bootstrap/admincp/js/chosen.jquery.min.js"></script>
-  <script type="text/javascript">
-      $("#jsCategory").chosen({max_selected_options: 1});
-  </script>

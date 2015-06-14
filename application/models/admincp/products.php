@@ -5,15 +5,12 @@ function editInfo($id)
 	$resultData=array();
 
 	$loadData=Products::get(array(
-		'where'=>"where productid='$id'",
+		'query'=>"select p.*,c.title as cattitle from products p, categories c where c.catid=p.catid AND p.productid='$id'",
 		'isHook'=>'no'
 		));
 
+
 	$resultData['data']=$loadData[0];
-
-	$resultData['categories']=Products::categories($id);
-
-	$resultData['pages']=Products::pages($id);
 
 	$resultData['images']=Products::images($id);	
 
@@ -21,15 +18,15 @@ function editInfo($id)
 
 	$resultData['tags']='';
 
-	if(isset($loadData[0]['manufacturerid'][4]))
+	if((int)$loadData[0]['manufacturerid'] > 0)
 	{
 		$loadManu=Manufacturers::get(array(
-			'where'=>"where manufacturerid='".$loadData[0]['manufacturerid']."'"
+			'where'=>"where mid='".$loadData[0]['manufacturerid']."'"
 			));		
 
-		if(isset($loadManu[0]['manufacturerid']))
+		if(isset($loadManu[0]['mid']))
 		{
-			$resultData['data']['manufacturer_title']=$loadManu[0]['manufacturer_title'];
+			$resultData['data']['manufacturer_title']=$loadManu[0]['title'];
 		}
 	}
 
@@ -43,7 +40,7 @@ function editInfo($id)
 
 		for($i=0;$i<$total;$i++)
 		{
-			$li.=$loadTags[$i]['tag_title'].', ';
+			$li.=$loadTags[$i]['title'].', ';
 		}
 
 		$li=substr($li, 0,strlen($li)-2);
@@ -81,6 +78,23 @@ function updateProcess($id)
 	if(!$valid)
 	{
 		throw new Exception("Error. Save changes error!");
+		
+	}
+
+	$catid=Request::get('send.catid',0);
+
+	$manufacturerid=Request::get('send.manufacturerid',0);
+
+
+	if((int)$catid <= 0)
+	{
+		throw new Exception("You have to choose a category.");
+		
+	}
+
+	if((int)$manufacturerid <= 0)
+	{
+		throw new Exception("You have to choose a manufacturer.");
 		
 	}
 
@@ -151,23 +165,14 @@ function updateProcess($id)
 		Products::update($id,$updateData);		
 	}	
 
-	prodCategories::remove($id);
 	
-	prodDownloads::remove($id);
+	ProductDownloads::remove($id);
 
-	prodTags::remove($id);
-
-	prodPages::remove($id);
-
-	prodImages::remove($id);
-
-	Products::insertCategories($id,Request::get('catid'));
+	ProductTags::remove($id);
 
 	Products::insertDownloads($id,Request::get('downloadid'));
 
 	Products::insertTags($id,Request::get('tags'));
-
-	Products::insertPages($id,Request::get('pageid'));
 
 	Products::insertImages($id);
 }
@@ -198,6 +203,22 @@ function insertProcess()
 	if(!$valid)
 	{
 		throw new Exception("Error. Add new product error!");
+		
+	}
+
+	$catid=Request::get('send.catid');
+
+	$manufacturerid=Request::get('send.manufacturerid');
+
+	if((int)$catid <= 0)
+	{
+		throw new Exception("You have to choose a category.");
+		
+	}
+
+	if((int)$manufacturerid <= 0)
+	{
+		throw new Exception("You have to choose a manufacturer.");
 		
 	}
 
@@ -255,17 +276,11 @@ function insertProcess()
 
 	Products::update($id,$updateData);
 
-	Products::insertCategories($id,Request::get('catid'));
-
 	Products::insertDownloads($id,Request::get('downloadid'));
 
 	Products::insertTags($id,Request::get('tags'));
 
-	Products::insertPages($id,Request::get('pageid'));
-
 	Products::insertImages($id);
-
-	return $alert;
 }
 
 function actionProcess()
@@ -539,111 +554,10 @@ function searchProcess($txtKeyword)
 	return $resultData;
 }
 
-function topProdViews($limitShow=10)
-{
-    if($loadData=Cache::loadKey('topProdViews',300))
-    {
-        return $loadData;
-    }
-
-    $li='';
-
-    $loadData=Products::get(array(
-        'limitShow'=>$limitShow,
-        'orderby'=>'order by viewed desc'
-        ));
-
-    $total=count($loadData);
-
-    if(isset($loadData[0]['title']))
-    {
-        for($i=0;$i<$total;$i++)
-        {
-
-            $li.='
-                    <!-- tr -->
-                    <tr>
-                    <td>'.ucfirst($loadData[$i]['title']).'</td>
-                    <td class="text-right">'.$loadData[$i]['viewed'].'</td>
-                    </tr>
-                    <!-- tr -->
-
-            ';
-        }       
-    }
-    else
-    {
-        $li='
-                    <!-- tr -->
-                    <tr>
-                    <td colspan="2">There are not have any views.</td>
-                    </tr>
-                    <!-- tr -->
-
-        ';
-    }
-
-    Cache::saveKey('topProdViews',$li);
-    
-	return $li;
-}
-function lastSales($limitShow=10)
-{
-    // if($loadData=Cache::loadKey('lastSales',300))
-    // {
-    //     return $loadData;
-    // }	
-
-    $li='';
-
-	$resultData=OrderProducts::get(array(
-		'query'=>"select p.title,op.price,op.quantity from orders_products op, products p where p.status='1' AND p.productid=op.productid order by op.date_added desc limit 0,$limitShow"
-		));
-
-	$total=count($resultData);
-
-    if((int)$total > 0)
-    {
-    	if(isset($resultData[0]['title']))
-        for($i=0;$i<$total;$i++)
-        {
-        	$getData=Currency::parsePrice($resultData[$i]['price']);
-
-        	$resultData[$i]['title']=String::decode($resultData[$i]['title']);
-
-            $li.='
-                    <!-- tr -->
-                    <tr>
-                    <td>'.$resultData[$i]['title'].'</td>
-                    <td>'.$resultData[$i]['quantity'].'</td>
-                     <td class="text-right">'.$getData['format'].'</td>
-
-                    </tr>
-                    <!-- tr -->
-
-            ';
-        }
-    }
-    else
-    {
-        $li='
-                    <!-- tr -->
-                    <tr>
-                    <td colspan="2">There are not have any sales.</td>
-                    </tr>
-                    <!-- tr -->
-
-        ';
-    }
-
-    Cache::saveKey('lastSales',$li);
-
-	return $li;
-}
 
 function genProdImages($id)
 {
-	$selectImages=prodImages::get(array(
+	$selectImages=ProductImages::get(array(
 		'where'=>"where productid='$id'",
 		'orderby'=>'order by sort_order asc'
 		));

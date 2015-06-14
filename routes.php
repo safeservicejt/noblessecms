@@ -1,30 +1,18 @@
 <?php
 
-Database::connect();
+// Load 'before_system_start' plugins
+System::before_system_start();
 
-GlobalCMS::start();
+// Load sytem settings
 
-// echo Multidb::renderDb('sdfdf');
-// die();
+Route::get('api', 'controlApi');
 
+Route::get('admincp', 'controlAdmincp');
 
+Route::get('usercp', 'controlUsercp');
 
+Route::get('', 'controlFrontEnd');
 
-Route::get('admincp', 'admincp');
-
-Route::get('usercp', 'usercp');
-
-Route::get('api', 'api');
-
-Route::get('cronjob', 'cronjob');
-
-// Route::get('', 'frontend');
-
-DBCache::enable();
-
-Route::pattern('all', '.*?');
-Route::get('{all}', 'frontend');
-
-
+System::after_system_start();
 
 ?>

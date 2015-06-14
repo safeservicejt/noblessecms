@@ -11,12 +11,12 @@ class Model
 
         self::$loadPath=$path;
     }
-    
+
     public function resetPath()
     {
         self::$loadPath=MODELS_PATH;
     }
-
+    
     public function getPath()
     {
         $path=!isset(self::$loadPath[2])?MODELS_PATH:self::$loadPath;
@@ -25,7 +25,6 @@ class Model
 
         return $path;
     }
-    
     public function loadWithPath($modelName = '', $path)
     {
         self::setPath($path);
@@ -33,13 +32,15 @@ class Model
         self::load($modelName);
 
         self::resetPath();
-    }
+    }    
+
     public function load($modelName = '')
     {
         // $path = MODELS_PATH . $modelName . '.php';
         $path = self::getPath() . $modelName . '.php';
 
-        if (!file_exists($path)) Alert::make('Model <b>' . $modelName . '</b> not exists.');
+        if (!file_exists($path))
+        Log::warning('Model <b>' . $modelName . '</b> not exists.');
 
         include($path);
     }

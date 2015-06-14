@@ -10,7 +10,7 @@ class View
 
         self::$loadPath=$path;
     }
-
+    
     public function resetPath()
     {
         self::$loadPath=VIEWS_PATH;
@@ -34,37 +34,20 @@ class View
         self::resetPath();
     }
 
-    public function has($viewName)
-    {
-       $path = self::getPath() . $viewName . '.php';
-
-       if(!file_exists($path))
-       {
-            return false;
-       }        
-
-       return true;
-    }
     
-    public function make($viewName = '', $viewData = array(),$fullPath=0)
+
+    public function make($viewName = '', $viewData = array())
     {
         if (preg_match('/\./i', $viewName)) {
             $viewName = str_replace('.', '/', $viewName);
         }
 
+        // $path = VIEWS_PATH . $viewName . '.php';
         $path = self::getPath() . $viewName . '.php';
 
-        if($fullPath!=0)
-        {
-            $path = $viewName . '.php';
-        }
-
-
-
         if (!file_exists($path)) {
-            // ob_end_clean();
 
-            Alert::make('Page '.$path.' not found');
+            Log::warning("View $viewName not exists!");
         }
 
         $total_data = count($viewData);
@@ -73,39 +56,6 @@ class View
 
         include($path);
     }
-    public function themeMake($viewName = '', $viewData = array())
-    {
-        if (preg_match('/\./i', $viewName)) {
-            $viewName = str_replace('.', '/', $viewName);
-        }
-
-        if(!isset($_SESSION['themeName'][1]))
-        {
-            $path = THEME_PATH . $viewName . '.php';
-        }
-        else
-        {
-            $path = ROOT_PATH . 'contents/themes/' . $_SESSION['themeName'] .'/'. $viewName . '.php';    
-
-        }
-
-        if (!file_exists($path)) {
-
-            ob_end_clean();
-
-            Alert::make('Page not found');
-
-            die();
-        }
-
-        $total_data = count($viewData);
-
-        if ($total_data > 0) extract($viewData);
-
-        include($path);
-    }
-
-
 
     public function load($viewName = '', $viewData = array())
     {

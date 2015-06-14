@@ -26,17 +26,36 @@ class Vouchers
 
 		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
 
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by date_added desc';
+		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by voucherid desc';
 
 		$result=array();
 		
-		$command="select $selectFields from gift_vouchers $whereQuery";
+		$command="select $selectFields from vouchers $whereQuery";
 
 		$command.=" $orderBy";
 
 		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
 
 		$queryCMD.=$limitQuery;
+
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
+
+		if($cache=='yes')
+		{
+			// Load dbcache
+
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
+		}
+
 
 		$query=Database::query($queryCMD);
 		
@@ -46,25 +65,14 @@ class Vouchers
 		}
 
 		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
-
+		
 		if((int)$query->num_rows > 0)
 		{
 			while($row=Database::fetch_assoc($query))
 			{
 				if(isset($row['date_added']))
-				{
-					$row['date_added']=Render::dateFormat($row['date_added']);						
-				}				
-
-				if(isset($row['amount']))
-				{
-					$getData=Currency::parsePrice($row['amount']);
-
-					$row['amount']=$getData['real'];
-
-					$row['amountFormat']=$getData['format'];
-				}
-											
+				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
+						
 				$result[]=$row;
 			}		
 		}
@@ -72,51 +80,75 @@ class Vouchers
 		{
 			return false;
 		}
+		
+		// Save dbcache
+		DBCache::make(md5($queryCMD),$result);
+		// end save
 
-		// $result=self::plugin_hook_contact($result);
 
 		return $result;
 		
-	}	
+	}
 
 	public function insert($inputData=array())
 	{
-		if(isset($inputData['amount']))
+		// End addons
+		// $totalArgs=count($inputData);
+
+		$addMultiAgrs='';
+
+		if(isset($inputData[0]['code']))
 		{
-			$inputData['amount']=Currency::insertPrice($inputData['amount']);
+		    foreach ($inputData as $theRow) {
+
+				$theRow['date_added']=date('Y-m-d h:i:s');
+
+				$keyNames=array_keys($theRow);
+
+				$insertKeys=implode(',', $keyNames);
+
+				$keyValues=array_values($theRow);
+
+				$insertValues="'".implode("','", $keyValues)."'";
+
+				$addMultiAgrs.="($insertValues), ";
+
+		    }
+
+		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
 		}
+		else
+		{
+			$inputData['date_added']=date('Y-m-d h:i:s');
 
-		$inputData['date_added']=date('Y-m-d h:i:s');
-		
 
-		$keyNames=array_keys($inputData);
+			$keyNames=array_keys($inputData);
 
-		$insertKeys=implode(',', $keyNames);
+			$insertKeys=implode(',', $keyNames);
 
-		$keyValues=array_values($inputData);
+			$keyValues=array_values($inputData);
 
-		$insertValues="'".implode("','", $keyValues)."'";
+			$insertValues="'".implode("','", $keyValues)."'";	
 
-		// Plugins::load('before_insert_contactus',$inputData);
+			$addMultiAgrs="($insertValues)";	
+		}		
 
-		Database::query("insert into gift_vouchers($insertKeys) values($insertValues)");
+		Database::query("insert into vouchers($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
 			$id=Database::insert_id();
 
-			$inputData['voucherid']=$id;
-
-			// Plugins::load('after_insert_contactus',$inputData);
-
-			return $id;		
+			return $id;	
 		}
 
 		return false;
 	
 	}
+
 	public function remove($post=array(),$whereQuery='',$addWhere='')
 	{
+
 
 		if(is_numeric($post))
 		{
@@ -130,20 +162,21 @@ class Vouchers
 		$total=count($post);
 
 		$listID="'".implode("','",$post)."'";
-		
+
 		$whereQuery=isset($whereQuery[5])?$whereQuery:"voucherid in ($listID)";
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
-		
-		$command="delete from gift_vouchers where $whereQuery $addWhere";	
+
+		$command="delete from vouchers where $whereQuery $addWhere";
 
 		Database::query($command);	
 
 		return true;
 	}
 
-	public function update($listID,$post=array(),$whereQuery='')
-	{	
+	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	{
+
 		if(is_numeric($listID))
 		{
 			$catid=$listID;
@@ -153,13 +186,8 @@ class Vouchers
 			$listID=array($catid);
 		}
 
-		$listIDs="'".implode("','",$listID)."'";
-
-		if(isset($post['amount']))
-		{
-			$post['amount']=Currency::insertPrice($post['amount']);
-		}
-
+		$listIDs="'".implode("','",$listID)."'";		
+				
 		$keyNames=array_keys($post);
 
 		$total=count($post);
@@ -173,10 +201,12 @@ class Vouchers
 		}
 
 		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
-				
+		
 		$whereQuery=isset($whereQuery[5])?$whereQuery:"voucherid in ($listIDs)";
+		
+		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("update gift_vouchers set $setUpdates where $whereQuery");
+		Database::query("update vouchers set $setUpdates where $whereQuery $addWhere");
 
 		if(!$error=Database::hasError())
 		{

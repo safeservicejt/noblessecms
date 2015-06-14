@@ -236,14 +236,17 @@ function insertProcess()
 		'send.keywords'=>'slashes',
 		'tags'=>'slashes',
 		'authorid'=>'slashes',
+		'author_name'=>'slashes',
 		'send.preview_url'=>'slashes',
 		'uploadIMGMethod'=>'slashes',
 		'urlThumbnail'=>'slashes'
 		));
 
+	// print_r($_REQUEST);die();
+
 	if(!$valid)
 	{
-		throw new Exception("Error. Add new manga error!");
+		throw new Exception("Error. Add new manga error! Message: ".Validator::$message );
 		
 	}
 

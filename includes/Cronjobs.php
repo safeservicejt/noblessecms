@@ -50,7 +50,7 @@ class Cronjobs
 					$row['jobdata']=json_decode($row['jobdata'],true);
 				}
 
-				$row['date_added']=Render::dateFormat($row['date_added']);	
+				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
 											
 				$result[]=$row;
 			}		

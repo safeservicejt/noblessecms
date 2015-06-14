@@ -2,187 +2,129 @@
 
 class controlUserGroups
 {
-
 	public function index()
 	{
-		if(Uri::has('edit'))
-		{
-			$this->edit();
-			die();
-		}
-
-		if(Uri::has('addnew'))
-		{
-			$this->addnew();
-			die();
-		}
-
+		
 		$post=array('alert'=>'');
 
-		Model::load('misc');
+		Model::load('admincp/usergroups');
+
+		if($match=Uri::match('\/usergroups\/(\w+)'))
+		{
+			if(method_exists("controlUserGroups", $match[1]))
+			{	
+				$method=$match[1];
+
+				$this->$method();
+
+				die();
+			}
+			
+		}
+
+		$curPage=0;
+
+		if($match=Uri::match('\/page\/(\d+)'))
+		{
+			$curPage=$match[1];
+		}
 
 		if(Request::has('btnAction'))
 		{
-			if(Request::get('action')=='delete')
-			{
-				UserGroups::remove(Request::get('id'));
-			}
-
+			actionProcess();
 		}
 
-
-		$curPage=Uri::getNext('usergroups');
-
-		if($curPage=='page')
-		{
-			$curPage=Uri::getNext('page');
-		}
-		else
-		{
-			$curPage=0;
-		}
+		// $valid=UserGroups::getThisPermission('can_addnew_usergroup');
 
 
+		$post['pages']=Misc::genPage('admincp/usergroups',$curPage);
 
-		$post['pages']=genPage('usergroups',$curPage);
-
-		$post['usergroups']=UserGroups::get(array(
-
-			'limitPage'=>$curPage,
+		$post['theList']=UserGroups::get(array(
 			'limitShow'=>20,
-			'orderby'=>'order by group_title asc'			
-			
+			'limitPage'=>$curPage
 			));
+		
+		System::setTitle('Usergroups list - '.ADMINCP_TITLE);
 
-		// print_r($post['categories']);die();
+		View::make('admincp/head');
 
-		View::make('admincp/head',array('title'=>'List user groups - '.ADMINCP_TITLE));
+		self::makeContents('usergroupsList',$post);
 
-        // View::make('admincp/nav');
-   
-        // View::make('admincp/left');
-          
-        // View::make('admincp/newsList',$post);
+		View::make('admincp/footer');
 
-        $this->makeContents('usergroupsList',$post);        
-
-        View::make('admincp/footer'); 		
 	}
-
-
-	public function addnew()
-	{
-
-		$post=array('alert'=>'');
-
-		Model::load('misc');
-		// Model::load('admincp/news');
-		// Model::load('admincp/categories');
-		// Model::load('admincp/pages');
-
-		$post['id']=Uri::getNext('edit');
-
-		if(Request::has('btnAdd'))
-		{
-				$post['alert']='<div class="alert alert-success">Add new user group success.</div>';
-
-				$data=Request::get('groupdata');
-
-				$title=Request::get('title');
-
-				$data['group_title']=$title;
-
-				if(!isset($title[1]))
-				{
-					$post['alert']='<div class="alert alert-warning">Add new user group error.</div>';
-				}
-				else
-				{
-					$data['groupdata']=Request::get('groupdata');
-
-					UserGroups::add($data);					
-				}
-		}
-
-		// print_r($post['categories']);die();
-
-		View::make('admincp/head',array('title'=>'Add new user group - '.ADMINCP_TITLE));
-
-        // View::make('admincp/nav');
-   
-        // View::make('admincp/left');
-          
-        // View::make('admincp/newsAdd',$post);
-
-        $this->makeContents('usergroupsAdd',$post);        
-
-        View::make('admincp/footer'); 			
-	}	
 
 	public function edit()
 	{
+		if(!$match=Uri::match('\/edit\/(\d+)'))
+		{
+			Redirect::to(ADMINCP_URL.'usergroups/');
+		}
+
+
+		$groupid=$match[1];
 
 		$post=array('alert'=>'');
 
-		Model::load('misc');
-
-		$id=Uri::getNext('edit');
-
-		$post['id']=$id;
-
 		if(Request::has('btnSave'))
 		{
+			try {
+				
+				updateProcess($groupid);
+
 				$post['alert']='<div class="alert alert-success">Save changes success.</div>';
 
-				$data=array();
-
-				$title=Request::get('title');
-
-				$data['group_title']=$title;
-
-				// print_r($data);die();
-
-				$data['groupdata']=json_encode(Request::get('groupdata'));
-
-				UserGroups::update($id,$data);				
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}			
 		}
 
-		$postData=UserGroups::get(array('where'=>"where groupid='$id'"));
+		$loadData=UserGroups::get(array(
+			'where'=>"where groupid='$groupid'"
+			));
 
-		
+		$post['edit']=$loadData[0];
 
-		$post['title']=$postData[0]['group_title'];
+		System::setTitle('Edit group - '.ADMINCP_TITLE);
 
-		$post['data']=json_decode($postData[0]['groupdata'],true);
+		View::make('admincp/head');
 
-		// print_r($post['data']);die();
+		self::makeContents('usergroupsEdit',$post);
 
-		View::make('admincp/head',array('title'=>'Edit user group - '.ADMINCP_TITLE));
-
-        // View::make('admincp/nav');
-   
-        // View::make('admincp/left');
-          
-        // View::make('admincp/newsEdit',$post);
-
-        $this->makeContents('usergroupsEdit',$post);       
-
-        View::make('admincp/footer'); 			
+		View::make('admincp/footer');		
 	}
+	public function addnew()
+	{
+		$post=array('alert'=>'');
+
+		if(Request::has('btnAdd'))
+		{
+			try {
+				
+				insertProcess();
+
+				$post['alert']='<div class="alert alert-success">Add new user group success.</div>';
+
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}			
+		}
+
+		System::setTitle('Add new usergroup - '.ADMINCP_TITLE);
+
+		View::make('admincp/head');
+
+		self::makeContents('usergroupsAdd',$post);
+
+		View::make('admincp/footer');		
+	}
+
     public function makeContents($viewPath,$inputData=array())
     {
-        View::make('admincp/nav');
-                
         View::make('admincp/left');  
-              
-        View::make('admincp/startContent');
 
         View::make('admincp/'.$viewPath,$inputData);
-
-        View::make('admincp/endContent');
-         // View::make('admincp/right');
-
-    }	
+    }
 }
 
 ?>

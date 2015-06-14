@@ -1,3 +1,4 @@
+
 <script src="<?php echo ROOT_URL; ?>bootstrap/ckeditor/ckeditor.js"></script>
 
 
@@ -50,7 +51,7 @@
         <div class="row">
         <div class="col-lg-12">
         <label><strong>Categories</strong></label>
-        <input type="text" class="form-control txtAuto" data-maxselect="10" data-numselected="0" data-method="category" data-key="jsonCategory" placeholder="Type here..." />
+        <input type="text" class="form-control txtAuto" data-maxselect="10" data-numselected="0" data-method="category" data-key="get_list_category" placeholder="Type here..." />
                 <div class="listAutoSuggest"><ul></ul></div>  
                   <ul class="ulChosen"></ul>
         </div>
@@ -61,7 +62,7 @@
 				<div class="row">
 				<div class="col-lg-12">
 				<label><strong>Author</strong></label>
-				<input type="text" class="form-control txtAuto" data-maxselect="1" name="author_name" data-numselected="0" data-method="author" data-key="jsonAuthor" placeholder="Type here..." />
+				<input type="text" class="form-control txtAuto" data-maxselect="1" name="author_name" data-numselected="0" data-method="author" data-key="get_list_author" placeholder="Type here..." />
 	              <div class="listAutoSuggest"><ul></ul></div>	
                   <ul class="ulChosen"></ul>
 				</div>
@@ -110,9 +111,12 @@
 </div>
   <script type="text/javascript">
 
-			var root_url='<?php echo THIS_URL?>';
+      var this_url='<?php echo THIS_URL;?>';
+			var api_url='<?php echo ROOT_URL;?>api/plugin/firemanga/';
 
            $(document).ready(function(){
+
+            // alert(this_url);
 
            	$('.uploadIMGMethod').change(function(){
            		var thisVal=$(this).val();
@@ -172,21 +176,24 @@ $( document ).on( "keydown", "input.txtAuto", function() {
   {
     $.ajax({
      type: "POST",
-     url: root_url+keyName,
+     url: api_url+keyName,
      data: ({
         do : "load",
         keyword : theValue
         }),
-     dataType: "html",
+     dataType: "json",
      success: function(msg)
             {
 
-             // $('#listtenPhuongAuto').html('<ul>'+msg+'</ul>');
+              // alert(msg);return false;
+                  
+                 if(msg['error']=='no')
+                 {
+                    listUl.html('<ul>'+msg['data']+'</ul>');
 
-             // $('#listtenPhuongAuto').slideDown('fast');
-              listUl.html('<ul>'+msg+'</ul>');
+                  listUl.slideDown('fast');              
+                 }
 
-            listUl.slideDown('fast');
 
              }
        });            

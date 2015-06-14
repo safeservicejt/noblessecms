@@ -94,7 +94,7 @@ class Manga
 
 				if(isset($row['image']))
 				{
-					$row['imageUrl']=Render::thumbnail($row['image']);
+					$row['imageUrl']=System::getUrl().$row['image'];
 				}
 
 				$cattitle='';	

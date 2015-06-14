@@ -2,89 +2,8 @@
 
 class controlProducts
 {
-	function __construct()
-	{
-		if(GlobalCMS::ecommerce()==false){
-			Alert::make('Page not found');
-		}
-	}
 	public function index()
 	{
-		if(Uri::has('edit'))
-		{
-			$this->edit();
-			die();
-		}
-
-		if(Uri::has('addnew'))
-		{
-			$this->addnew();
-			die();
-		}
-
-        if($match=Uri::match('\/jsonCategory'))
-        {
-            $keyword=String::encode(Request::get('keyword',''));
-
-            $loadData=Categories::get(array(
-            	'where'=>"where cattitle LIKE '%$keyword%'",
-                'orderby'=>'order by cattitle asc'
-                ));
-
-            $total=count($loadData);
-
-            $li='';
-
-            for($i=0;$i<$total;$i++)
-            {
-                $li.='<li><span data-method="category" data-id="'.$loadData[$i]['catid'].'" >'.$loadData[$i]['cattitle'].'</span></li>';
-            }
-
-            echo $li;
-            die();
-        }
-        if($match=Uri::match('\/jsonPage'))
-        {
-            $keyword=String::encode(Request::get('keyword',''));
-
-            $loadData=Pages::get(array(
-            	'where'=>"where title LIKE '%$keyword%'",
-                'orderby'=>'order by title asc'
-                ));
-
-            $total=count($loadData);
-
-            $li='';
-
-            for($i=0;$i<$total;$i++)
-            {
-                $li.='<li><span data-method="page" data-id="'.$loadData[$i]['pageid'].'" >'.$loadData[$i]['title'].'</span></li>';
-            }
-
-            echo $li;
-            die();
-        }
-        if($match=Uri::match('\/jsonManufacturer'))
-        {
-            $keyword=String::encode(Request::get('keyword',''));
-
-            $loadData=Manufacturers::get(array(
-            	'where'=>"where manufacturer_title LIKE '%$keyword%'",
-                'orderby'=>'order by manufacturer_title asc'
-                ));
-
-            $total=count($loadData);
-
-            $li='';
-
-            for($i=0;$i<$total;$i++)
-            {
-                $li.='<li><span data-method="manufacturer" data-id="'.$loadData[$i]['manufacturerid'].'" >'.$loadData[$i]['manufacturer_title'].'</span></li>';
-            }
-
-            echo $li;
-            die();
-        }
 
         if($match=Uri::match('\/jsonDownload'))
         {
@@ -108,11 +27,53 @@ class controlProducts
             die();
         }
 
+        if($match=Uri::match('\/jsonCategory'))
+        {
+            $keyword=String::encode(Request::get('keyword',''));
+
+            $loadData=Categories::get(array(
+            	'where'=>"where title LIKE '%$keyword%'",
+                'orderby'=>'order by title asc'
+                ));
+
+            $total=count($loadData);
+
+            $li='';
+
+            for($i=0;$i<$total;$i++)
+            {
+                $li.='<li><span data-method="category" data-id="'.$loadData[$i]['catid'].'" >'.$loadData[$i]['title'].'</span></li>';
+            }
+
+            echo $li;
+            die();
+        }
+
+        if($match=Uri::match('\/jsonManufacturer'))
+        {
+            $keyword=String::encode(Request::get('keyword',''));
+
+            $loadData=Manufacturers::get(array(
+            	'where'=>"where title LIKE '%$keyword%'",
+                'orderby'=>'order by title asc'
+                ));
+
+            $total=count($loadData);
+
+            $li='';
+
+            for($i=0;$i<$total;$i++)
+            {
+                $li.='<li><span data-method="manufacturer" data-id="'.$loadData[$i]['mid'].'" >'.$loadData[$i]['title'].'</span></li>';
+            }
+
+            echo $li;
+            die();
+        }
+
 		$post=array('alert'=>'');
 
 		Model::load('admincp/products');
-		// Model::load('admincp/categories');
-
 
 		if(Uri::has('refreshImages'))
 		{
@@ -133,7 +94,7 @@ class controlProducts
 
 			// Database::query("delete from products_images where productNodeid='$prodid' AND image='$image'");
 
-			prodImages::remove(array($prodid),"AND images='$image'");
+			ProductImages::remove($prodid,"productid='$prodid' AND image='$image'");
 
 			// unlink(ROOT_PATH.$image);
 
@@ -149,13 +110,8 @@ class controlProducts
 
 			$image=Request::get('send_image');
 
-			// $dbName=Multidb::renderDb('products_images');
 
-			// Database::query("update $dbName set sort_order='$order' where productNodeid='$prodid' AND image='$image'");
-
-			prodImages::update($prodid,array(
-				'sort_order'=>$order
-				),"AND image='$image'");
+			Database::query("update products_images set sort_order='$order' where productid='$prodid' AND image='$image'");
 
 			echo 'OK';
 
@@ -163,14 +119,28 @@ class controlProducts
 		}
 
 
-
-
-
-
-		if(Request::has('btnAction'))
+		if($match=Uri::match('\/products\/(\w+)'))
 		{
-			actionProcess();
-		}		
+			if(method_exists("controlProducts", $match[1]))
+			{	
+				$method=$match[1];
+
+				$this->$method();
+
+				die();
+			}
+			
+		}
+
+		if(Request::has('btnAdd'))
+		{
+			try {
+				
+				$post['alert']='<div class="alert alert-success">Add product success</div>';
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}
+		}
 
 		$curPage=0;
 
@@ -179,102 +149,74 @@ class controlProducts
 			$curPage=$match[1];
 		}
 
-		$post['pages']=Misc::genPage('admincp/products',$curPage);
-
-		if(!Request::has('btnSearch'))
+		if(Request::has('btnAction'))
 		{
-			$post['products']=Products::get(array(
-				'limitShow'=>30,
-				'limitPage'=>$curPage,
-				'orderby'=>'order by date_added desc'
-				));		
+			actionProcess();
+		}
+
+		if(Request::has('btnSearch'))
+		{
+			filterProcess();
 		}
 		else
 		{
-			$searchData=searchProcess(Request::get('txtKeywords'));
+			$post['pages']=Misc::genPage('admincp/products',$curPage);
 
-			$post['products']=$searchData['products'];
+			$filterPending='';
 
-			$post['pages']=$searchData['pages'];
+			if(Uri::has('\/status\/pending'))
+			{
+				$filterPending=" AND p.status='0' ";
+			}
 
-		}		
-
-		$post['categories']=Categories::get(array(
-			'orderby'=>'order by date_added desc'
-			));
-
-
-		View::make('admincp/head',array('title'=>'List product - '.ADMINCP_TITLE));
-        
-        $this->makeContents('prodList',$post);        
-
-        View::make('admincp/footer'); 		
-	}
-
-
-	public function addnew()
-	{
-
-		$post=array('alert'=>'');
-
-		Model::load('admincp/products');
-
-		if(Request::has('btnAdd'))
-		{
-			try {
-
-				insertProcess();
-
-				$post['alert']='<div class="alert alert-success">Add new product success.</div>';
-
-			} catch (Exception $e) {
-
-				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
-
-			}				
+			$post['theList']=Products::get(array(
+				'limitShow'=>20,
+				'limitPage'=>$curPage,
+				'query'=>"select p.*,c.title as cattitle from products p,categories c where p.catid=c.catid order by p.productid desc",
+				'cacheTime'=>15
+				));
 		}
 
 
 
-		View::make('admincp/head',array('title'=>'Add new product - '.ADMINCP_TITLE));
+		System::setTitle('Products list - '.ADMINCP_TITLE);
 
-        $this->makeContents('prodAdd',$post);        
+		View::make('admincp/head');
 
-        View::make('admincp/footer'); 			
-	}	
+		self::makeContents('productsList',$post);
+
+		View::make('admincp/footer');
+
+	}
 
 	public function edit()
 	{
+		if(!$match=Uri::match('\/edit\/(\d+)'))
+		{
+			Redirect::to(ADMINCP_URL.'products/');
+		}
+
+
+		$postid=$match[1];
+
 		$post=array('alert'=>'');
-
-		Model::load('admincp/products');
-
-		$id=Uri::getNext('edit');
-		$post['id']=$id;
 
 		if(Request::has('btnSave'))
 		{
 			try {
-
-				updateProcess($id);
+				
+				updateProcess($postid);
 
 				$post['alert']='<div class="alert alert-success">Save changes success.</div>';
 
 			} catch (Exception $e) {
-
 				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
-
-			}					
+			}			
 		}
 
-		
-		$loadData=editInfo($id);
+		$loadData=editInfo($postid);
 
 		$post['edit']=$loadData['data'];
-
-		$post['selectCategories']=$loadData['categories'];
-
-		$post['selectPages']=$loadData['pages'];
 
 		$post['selectImages']=$loadData['images'];
 
@@ -282,29 +224,46 @@ class controlProducts
 
 		$post['tags']=$loadData['tags'];
 
-		// print_r($post['edit']);die();
+		System::setTitle('Edit product - '.ADMINCP_TITLE);
 
-		// $post['selectTags']=implode(',',$tags);
+		View::make('admincp/head');
 
-		View::make('admincp/head',array('title'=>'Edit product - '.ADMINCP_TITLE));
+		self::makeContents('productsEdit',$post);
 
-        $this->makeContents('prodEdit',$post);        
-
-        View::make('admincp/footer'); 			
+		View::make('admincp/footer');		
 	}
+	public function addnew()
+	{
+		$post=array('alert'=>'');
+
+		if(Request::has('btnAdd'))
+		{
+			try {
+				
+				insertProcess();
+
+				$post['alert']='<div class="alert alert-success">Add new post success.</div>';
+
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}			
+		}
+		
+		System::setTitle('Add new products - '.ADMINCP_TITLE);
+
+		View::make('admincp/head');
+
+		self::makeContents('productsAdd',$post);
+
+		View::make('admincp/footer');		
+	}
+
     public function makeContents($viewPath,$inputData=array())
     {
-        View::make('admincp/nav');
-                
         View::make('admincp/left');  
-              
-        View::make('admincp/startContent');
 
         View::make('admincp/'.$viewPath,$inputData);
-
-        View::make('admincp/endContent');
     }
-
 }
 
 ?>

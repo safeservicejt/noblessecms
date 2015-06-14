@@ -1,35 +1,5 @@
 <?php
 
-function listPage()
-{
-	$curPage=0;
-
-	$keywords='';
-
-	if($matches=Uri::match('tag-(.*?)-page-(\d+)'))
-	{
-		$curPage=$matches[2];
-
-		$keywords=$matches[1];
-	}
-	elseif($matches=Uri::match('tag-(.*?)$'))
-	{
-		$curPage=0;
-
-		$keywords=$matches[1];
-	}
-
-	$listPage=Misc::genPage('tag'.$keywords,$curPage,5,'-');	
-
-  $result=array(
-    'pages'=>$listPage,
-    'keywords'=>$keywords
-    );
-
-	return $result;
-
-}
-
 
 function searchResult()
 {
@@ -37,14 +7,14 @@ function searchResult()
 
   $keywords='';
 
-  if($matches=Uri::match('tag-(.*?)-page-(\d+)'))
+  if($matches=Uri::match('tag\/(.*?)\/page\/(\d+)'))
   {
     $curPage=$matches[2];
 
     $keywords=$matches[1];
 
   }
-	elseif($matches=Uri::match('tag-(.*?)$'))
+	elseif($matches=Uri::match('tag\/(.*?)$'))
 	{
 		$curPage=0;
 
@@ -71,7 +41,7 @@ function searchResult()
 	// $listID=substr($listID, 0, strlen($listID)-2);
 
 	$loadData=Post::get(array(
-		'where'=>"where postid IN (select postid from post_tags where tag_title LIKE '%$keywords%')",
+		'where'=>"where postid IN (select postid from post_tags where title='$keywords')",
 		'orderby'=>"group by postid order by date_added"
 		));
 

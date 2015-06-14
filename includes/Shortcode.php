@@ -5,12 +5,18 @@ class Shortcode
 
 // Shortcode::add('youtube','make_youtube_video');
 
-	public function templateAdd($scName,$funcName,$filePath='')
+	public function templateAdd($scName,$funcName)
 	{
-		if(!isset(Plugins::$zoneCaches['shortcode']))
+		if(!isset(Plugins::$listShortCodes['shortcode']))
 		{
-			Plugins::$zoneCaches['shortcode']=array();
+			Plugins::$listShortCodes['shortcode']=array();
 		}		
+
+		$data=debug_backtrace();	
+
+		$pluginPath=dirname($data[0]['file']).'/';
+
+		$folderName=basename($pluginPath);	
 
 		$post=array();
 
@@ -18,13 +24,9 @@ class Shortcode
 
 		$post['func']=$funcName;
 
-		$pluginPath=dirname($filePath);
-
-		$folderName=basename($pluginPath);
+		$post['path']=THEMES_PATH.$folderName.'/';
 
 		$post['foldername']=$folderName;
-
-		$post['path']=$pluginPath;
 
 		$post['zonename']='shortcode';
 
@@ -32,49 +34,63 @@ class Shortcode
 
 		$post['istemplate']='yes';
 
-		// print_r($post);
+		array_push(Plugins::$listShortCodes['shortcode'], $post);
+
+		if(isset(Plugins::$listShortCodes['loaded']))
+		{
+			unset(Plugins::$listShortCodes['loaded']);
+		}
+
+		// print_r(Plugins::$listShortCodes);
 		// die();
-		array_push(Plugins::$zoneCaches['shortcode'], $post);
 	}
 
 	public function add($scName,$funcName)
 	{
-		if(Plugins::$canAddZone=='no')
-		{
-			return false;
-		}
+		$data=debug_backtrace();	
+
+		$path=dirname($data[0]['file']).'/';
 
 		$post=array();
 
-		$post['name']=$scName;
+		$post['content']=$scName;
 
 		$post['func']=$funcName;
 
-		$pluginPath=dirname(__FILE__);
+		$pluginPath=$path;
 
-		$folderName=basename($pluginPath);
+		$folderName=basename($path);
 
 		$post['foldername']=$folderName;
 
-		$post['path']=$pluginPath;
-
 		$post['zonename']='shortcode';
 
-		Plugins::add('shortcode',$post);
+		$post['type']='shortcode';
+
+		// Plugins::add('shortcode',$post);
+		
+		if(!PluginsMeta::insert($post))
+		{
+			return false;			
+		}
+
+	
+		PluginsZone::addPlugin($post['zonename'],$post);
+
 	}
 
 
 	public function load($content)
 	{
 
-		$content=self::parse($content);
+		// $content=self::parse($content);
 
-		if(!isset(Plugins::$zoneCaches['shortcode']))
+		if(!isset(Plugins::$listCaches['shortcode']))
 		{
 			return $content;
 		}
 
-		$loadData=Plugins::$zoneCaches['shortcode'];
+		$loadData=Plugins::$listCaches['shortcode'];
 
 		// print_r($loadData);die();
 
@@ -113,7 +129,7 @@ class Shortcode
 
 			if(isset($theShortcode['path']) && isset($theShortcode['istemplate']))
 			{
-				$pluginPath=$theShortcode['path'].'/functions.php';
+				$pluginPath=$theShortcode['path'].'/shortcode.php';
 			}
 
 
@@ -151,6 +167,97 @@ class Shortcode
 
 		}
 
+
+		return $content;
+
+	}
+
+	public function loadInTemplate($content)
+	{
+
+		// $content=self::parse($content);
+
+		if(!isset(Plugins::$listShortCodes['shortcode']))
+		{
+			return $content;
+		}
+
+		$loadData=Plugins::$listShortCodes['shortcode'];
+
+		// print_r($loadData);die();
+
+		$total=count($loadData);
+
+		$foldername='';
+
+		$func='';
+
+		$scName='';
+
+		$pluginPath='';
+
+		$parse='';
+
+		$resultData='';
+
+		$resultSC='';
+
+		for($i=0;$i<$total;$i++)
+		{
+			$theShortcode=$loadData[$i];
+
+			if((int)$theShortcode['status']==0)
+			{
+				continue;
+			}
+
+			$foldername=$theShortcode['foldername'];
+
+			$func=$theShortcode['func'];
+
+			$scName=$theShortcode['name'];
+
+			$pluginPath=PLUGINS_PATH.$foldername.'/'.$foldername.'.php';
+
+			if(isset($theShortcode['path']) && isset($theShortcode['istemplate']))
+			{
+				$pluginPath=$theShortcode['path'].'shortcode.php';
+			}
+
+
+			$parse='';
+
+
+			if(!function_exists($func) || isset($theShortcode['istemplate']))
+			{
+				if(file_exists($pluginPath))
+				{
+					if(!isset($theShortcode['istemplate']))
+					include($pluginPath);
+				}
+
+				if(!$resultSC=self::parseOpenClose($scName,$content))
+				{
+					$resultSC=self::parseAlone($scName,$content);
+
+				}
+
+				// print_r($theShortcode);die();
+				$totalResult=count($resultSC);
+
+				for($e=0;$e<$totalResult;$e++)
+				{
+					$resultData=$func($resultSC[$e]);
+					
+				// print_r($resultSC);die();
+
+					$content=str_replace($resultSC[$e]['real'], $resultData, $content);
+					
+					$resultData='';
+				}
+			}
+
+		}
 
 		return $content;
 
@@ -255,9 +362,9 @@ class Shortcode
 
 	}
 
-	public function parse($str)
+	public function toHTML($str)
 	{
-
+		$str=trim($str);
 	// BBcode array
 	    $find = array(
 	        '~\[b\](.*?)\[/b\]~s',
@@ -392,6 +499,8 @@ class Shortcode
 	        '[p]' => '<p>', '[/p]' => '</p>',
 	        '[para]' => '<p>', '[/para]' => '</p>',
 	        '[p]' => '<p>', '[/p]' => '</p>',
+	        '[p][p]' => '','[p][p][p]' => '','[p][p][p][p]' => '',
+	        '[/p][/p]' => '','[/p][/p][/p]' => '','[/p][/p][/p][/p]' => '',
 	        '[b]' => '<b>', '[/b]' => '</b>',
 	        '[b]' => '<strong>', '[/b]' => '</strong>',
 	       	'<newline>'=>"\r\n"
@@ -413,7 +522,7 @@ class Shortcode
 
 	public function toBBcode($str)
 	{
-
+		$str=trim($str);
 	// HTML tags to replace BBcode
 	    $regex = array(
 	        '/<img class="(.*?)" src="(.*?)" \/>/i'=>'[img class=(.*?)]$2[/img]',
@@ -476,7 +585,12 @@ class Shortcode
 	        '[p]' => '<p>', '[/p]' => '</p>',
 	        '[para]' => '<p>', '[/para]' => '</p>',
 	        '[p]' => '<p>', '[/p]' => '</p>',
+	        '' => '<p><p>','' => '</p></p>',
+	        '' => '<p><p><p>','' => '</p></p></p>',
+	        '' => '<p><p><p><p>','' => '</p></p></p></p>',
+	        
 	        '[b]' => '<b>', '[/b]' => '</b>',
+
 	        '[b]' => '<strong>', '[/b]' => '</strong>',
 	        '' => '<br>', '' => '<br/>',
 	        "\r\n"=>'<newline>'

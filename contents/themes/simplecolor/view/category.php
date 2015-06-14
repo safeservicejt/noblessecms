@@ -9,12 +9,10 @@
 </div>
 <!-- slide -->
 
-<?php echo $content_top;?>
 
 <div class="row">
 <!-- left -->
 <div class="col-lg-8">
-<?php echo $content_left;?>
 
 <?php
 
@@ -133,11 +131,9 @@ echo $li;
 </div>
 <!-- left -->
 <!-- right -->
-<?php Theme::view('right');?>
-<?php echo $content_right;?>
+<?php View::makeWithPath('right',array(),$themePath);?>
 <!-- right -->
 </div>
 
-<?php echo $content_bottom;?>
 </div>
 <!-- body -->

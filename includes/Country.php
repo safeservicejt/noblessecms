@@ -2,45 +2,34 @@
 
 class Country
 {
-	public static $load=array();
 
 	public function get()
 	{
-		$result=Cache::loadKey('listCountries',-1);
 
-		$result=json_decode($result,true);
+		$loadData=Cache::loadKey('listCountries',-1);
 
-		$total=count($result);
+		$loadData=unserialize($loadData);
 
-		$result[$total]['name']='Worldwide';
-		$result[$total]['iso_code_2']='worldwide';
+		return $loadData;
+		
+	}
 
-		return $result;
-	}	
-
-	public function thisIP()
+	public function makeSelect()
 	{
-		$ip=$_SERVER['REMOTE_ADDR'];
+		$loadData=self::get();
 
-		$resultData=array();
+		$total=count($loadData);
 
-		if($ip=='127.0.0.1')
-		{
-			$resultData['name']='Worldwide';
-			$resultData['iso_code_2']='worldwide';
+		$li='';
 
-			return $resultData;
+		if(isset($loadData[0]['name']))
+		for ($i=0; $i < $total; $i++) { 
+			$li.='<option value="'.$loadData[$i]['iso_code_2'].'">'.$loadData[$i]['name'].'</option>';
 		}
 
-		$loadData=Http::getDataUrl('http://ipinfo.io/'.$ip.'/json','no');
-
-		$loadData=json_decode($loadData,true);
-
-		$resultData['name']=$loadData['region'];
-		$resultData['iso_code_2']=$loadData['country'];
-
-		return $resultData;
+		return $li;
 	}
+
 
 }
 ?>

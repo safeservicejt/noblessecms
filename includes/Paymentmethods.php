@@ -1,365 +1,114 @@
 <?php
 
-class Paymentmethods
+class PaymentMethods
 {
+	public static $canInstall='no';
 
-	public static $methods=array();
+	public static $canUninstall='no';
 
-	public static $isInstall='no';
+	public static $installFolderName='';
 
-	public static $isUninstall='no';
+	public static $uninstallFolderName='';
 
-	public static $folderName='';
+	public static $error='';
 
-	public static $setting='no';
+	public static $canAddZone='no';
 
-	public static $load=array();
+	public static $renderFolderName='';
 
-	public function loadMethods()
+	public static $renderPluginPath='';
+
+
+	public function makeInstall($foldername)
 	{
-		if(!$loadData=Cache::loadKey('listPMethods',-1))
-		{
-			return false;
-		}
+		self::$canInstall='yes';
 
-		$loadData=json_decode($loadData,true);
+		self::$canAddZone=='yes';
 
-		$keyNames=array_keys($loadData);
+		self::$installFolderName=$foldername;
 
-		$total=count($loadData);
-
-		for($i=0;$i<$total;$i++)
-		{
-			$keyName=$keyNames[$i];
-
-			if((int)$loadData[$keyName]['status']==1)
-			{
-				self::$methods[$keyName]=$loadData[$keyName];
-			}
-		}
-	}
-
-	public function listMethods()
-	{
-		$totalMethods=count(self::$methods);
-
-		if($totalMethods==0)
-		{
-			self::loadMethods();
-		}
-
-		$totalMethods=count(self::$methods);
-
-		$keyNames=array_keys(self::$methods);
-
-		$loadData=array();
-
-		for($i=0;$i<$totalMethods;$i++)
-		{
-			$keyName=$keyNames[$i];
-
-			$loadData[$i]=self::$methods[$keyName];
-		}		
-
-
-		return $loadData;
-
-	}
-
-	public function loadSetting($dirName,$fileName='setting.json')
-	{
-		$path=ROOT_PATH.'contents/paymentmethods/'.$dirName.'/'.$fileName;
-
-		if(!file_exists($path))
-		{
-			return false;
-		}
-
-		$data=json_decode(file_get_contents($path),true);
-
-		return $data;
-
-	}
-
-
-	public function load($actionName='',$folderName='',$inputData=array())
-	{
-		$totalMethods=count(self::$methods);
-
-		if($totalMethods==0)
-		{
-			self::loadMethods();
-		}
-
-		switch ($actionName) {
-			case 'methods_assoc':
-
-				return self::$methods;
-
-				break;
-			case 'methods_array':
-
-				return self::listMethods();
-
-				break;
-
-			case 'require_form_on_checkout':
-
-				$li=self::require_form();
-
-				return $li;
-
-				break;
-
-			case 'after_click_confirm_check_out':
-
-				$status=self::after_click_confirm_check_out($folderName,$inputData);
-
-				return $status;
-
-				break;
-		}
-	}
-
-	public function after_click_confirm_check_out($folderName,$inputData=array())
-	{
-		$totalMethods=count(self::$methods);
-
-		if($totalMethods==0)
-		{
-			self::loadMethods();
-		}
-
-		if(!isset(self::$methods[$folderName]))
-		{
-			return true;
-		}
-
-		$filePath=PMETHOD_PATH.$folderName.'/index.php';
-
-		$func=self::$methods[$folderName]['method_data']['after_click_confirm_check_out'];
-
-		$status=true;
-
-		if(!isset($func[1]))
-		{
-			return true;
-		}
-
-		if(file_exists($filePath))
-		{
-			if(!function_exists($func))
-			{
-				require($filePath);
-			}
-
-			// Return completed|error|process_page
-			$status=$func($inputData);
-
-			return $status;
-		}	
-
-		return false;	
-	}
-
-	public function require_form()
-	{
-		$li='';
-
-		$totalMethods=count(self::$methods);
-
-		if($totalMethods==0)
-		{
-			self::loadMethods();
-		}
-
-		$keyNames=array_keys(self::$methods);
-
-		$total=count($keyNames);
-
-		if($total==0)
-		{
-			return '';
-		}
-
-		// echo $total;
-
-		$status=0;
-
-		$func='';
-
-		$filePath='';
-
-		for($i=0;$i<$total;$i++)
-		{
-			$folderName=$keyNames[$i];
-
-			$func=self::$methods[$folderName]['method_data']['require_form_on_checkout'];
-
-			$status=self::$methods[$folderName]['status'];
-
-			if(!isset($func[1]) || (int)$status==0)
-			{
-				continue;
-			}
-
-			$filePath=PMETHOD_PATH.$folderName.'/index.php';
-
-			if(file_exists($filePath))
-			{
-				if(!function_exists($func))
-				{
-					require($filePath);
-				}
-
-				$li.='<div class="row paymentForm requireForm_'.$folderName.'"><div class="col-lg-12">'.$func().'</div></div>';
-			}
-		}
-
-		return $li;
-
-	}
-
-	public function install($funcName='')
-	{
-		if(self::$isInstall=='no')
-		{
-			return false;
-		}
-
-		$funcName();
-	}
-	public function systemInstall($folderName)
-	{
-		if(self::$isInstall=='no')
-		{
-			return false;
-		}
-
-		$methodData=array();
-
-		$require_form=isset(self::$load['require_form_on_checkout'])?self::$load['require_form_on_checkout']:'';
-
-		$after_checkout=isset(self::$load['after_click_confirm_check_out'])?self::$load['after_click_confirm_check_out']:'';
-
-		$methodData['require_form_on_checkout']=$require_form;
-
-		$methodData['after_click_confirm_check_out']=$after_checkout;
-
-		$methodData['title']=self::$load['title'];
-
-		$methodData['foldername']=self::$folderName;
-
-		$methodData=json_encode($methodData);
-
-		$loadData=array(
-			'title'=>self::$load['title'],
-			'foldername'=>self::$folderName,
-			'method_data'=>$methodData,
+		$insertData=array(
+			'foldername'=>$foldername,
+			'installed'=>1,
 			'status'=>0
 
 			);
 
-		self::insert($loadData);
+		self::insert($insertData);		
 
-		self::saveCache($loadData);
+	}
+	public function makeUninstall($foldername)
+	{
+		self::$canUninstall='yes';
+
+		self::$uninstallFolderName=$foldername;
+
+		Database::query("delete from payment_methods where foldername='$foldername'");		
+
 	}
 
-
-	public function uninstall($funcName='')
+	public function install($funcName)
 	{
-		if(self::$isUninstall=='no')
+		// $foldername=self::$installFolderName;
+
+		if(self::$canInstall=='no')
 		{
 			return false;
 		}
 
-		$funcName();
-	}
-	public function systemUninstall($folderName)
-	{
-		if(self::$isUninstall=='no')
+		$data=debug_backtrace();	
+
+		$pluginPath=dirname($data[0]['file']).'/';
+
+		$foldername=basename($pluginPath);	
+
+		$loadData=self::get(array(
+			'where'=>"where foldername='$foldername'"
+			));
+
+		if(isset($loadData[0]['foldername']))
 		{
 			return false;
+			
 		}
 
-		// $dbName=Multidb::renderDb('payment_methods');
+		$reFolderName=ucfirst($foldername);
 
-		Database::query("delete from payment_methods where foldername='$folderName'");
-
-		self::removeCache($folderName);
-	}
-
-	public function updateMethod($folderName,$status='1')
-	{
-		if(!isset($folderName[1]))
+		if(method_exists($reFolderName, $funcName))
 		{
-			return false;
+			$reFolderName::$funcName();
 		}
 
-		if(!$loadData=Cache::loadKey('listPMethods',-1))
-		{
-			return false;
-		}
+		// $insertData=array(
+		// 	'foldername'=>$foldername,
+		// 	'installed'=>1,
+		// 	'status'=>0
 
-		// $dbName=Multidb::renderDb('payment_methods');
+		// 	);
 
-		Database::query("update payment_methods set status='$status' where foldername='$folderName'");		
+		// self::insert($insertData);
 
-		$loadData=json_decode($loadData,true);
-
-		$loadData[$folderName]['status']=$status;
-
-		Cache::saveKey('listPMethods',json_encode($loadData));
 
 	}
 
-	public function removeCache($folderName)
-	{
-		if(!$loadData=Cache::loadKey('listPMethods',-1))
-		{
-			return true;
-		}
+	// public function uninstall($funcName)
+	// {
+	// 	$foldername=self::$uninstallFolderName;
 
-		$loadData=json_decode($loadData,true);
+	// 	if(self::$canUninstall=='no')
+	// 	{
+	// 		return false;
+	// 	}
 
-		if(isset($loadData[$folderName]))
-		{
-			unset($loadData[$folderName]);
-		}
+	// 	$reFolderName=ucfirst($foldername);
 
-		$loadData=json_encode($loadData);
+	// 	if(method_exists($reFolderName, $funcName))
+	// 	{
+	// 		$reFolderName::$funcName();
+	// 	}
 
-		Cache::saveKey('listPMethods',$loadData);
-
-		return true;
-	}
-
-	public function saveCache($inputData)
-	{
-		$loadData='';
-
-		if(!$loadData=Cache::loadKey('listPMethods',-1))
-		{
-			$loadData=array();
-		}
-		else
-		{
-			$loadData=json_decode($loadData,true);
-		}
-
-		$folderName=$inputData['foldername'];
-
-		$inputData['method_data']=json_decode($inputData['method_data'],true);
-
-		$loadData[$folderName]=$inputData;
-
-		$loadData=json_encode($loadData);
-
-		Cache::saveKey('listPMethods',$loadData);
-	}
-
-
-
+		
+	// }
 
 	public function get($inputData=array())
 	{
@@ -384,24 +133,59 @@ class Paymentmethods
 
 		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
 
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by methodid desc';
+		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by date_added desc';
 
 		$result=array();
+		
+		$command="select $selectFields from payment_methods $whereQuery";
 
-		// $dbName=Multidb::renderDb('payment_methods');
-
-		$command="select $selectFields from payment_methods $whereQuery $orderBy";
+		$command.=" $orderBy";
 
 		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
 
 		$queryCMD.=$limitQuery;
 
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
+
+		if($cache=='yes')
+		{
+			// Load dbcache
+
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
+		}
+
+
 		$query=Database::query($queryCMD);
+		
+		if(isset(Database::$error[5]))
+		{
+			return false;
+		}
+
+		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
 		
 		if((int)$query->num_rows > 0)
 		{
 			while($row=Database::fetch_assoc($query))
 			{
+				if(isset($row['title']))
+				{
+					$row['title']=String::decode($row['title']);
+				}
+
+				if(isset($row['date_added']))
+				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
+
+											
 				$result[]=$row;
 			}		
 		}
@@ -410,36 +194,201 @@ class Paymentmethods
 			return false;
 		}
 
+		// Save dbcache
+		DBCache::make(md5($queryCMD),$result);
+		// end save
+
 
 		return $result;
 		
-	}	
-	public function insert($inputData=array())
+	}
+
+	public function getDirs($inputData=array())
 	{
 
+		$loadData=self::get();
 
-		$keyNames=array_keys($inputData);
+		$total=count($loadData);
 
-		$insertKeys=implode(',', $keyNames);
+		$dbPlugins=array();
 
-		$keyValues=array_values($inputData);
+		if(isset($loadData[0]['foldername']))
+		for ($i=0; $i < $total; $i++) { 
 
-		$insertValues="'".implode("','", $keyValues)."'";
+			$foldername=$loadData[$i]['foldername'];
 
-		// $dbName=Multidb::getCurrentDb();
-		Database::query("insert into payment_methods($insertKeys) values($insertValues)");
+			$dbPlugins[$foldername]['status']=$loadData[$i]['status'];
+			$dbPlugins[$foldername]['installed']=$loadData[$i]['installed'];
+
+		}
+
+
+
+		$limitQuery="";
+
+		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:10;
+
+		$limitPage=isset($inputData['limitPage'])?$inputData['limitPage']:0;
+
+		$limitPage=((int)$limitPage > 0)?$limitPage:0;
+
+		$limitPosition=$limitPage*(int)$limitShow;
+
+		$listDir=Dir::listDir(PAYMENTMETHODS_PATH);
+
+		$total=count($listDir);
+
+		$resultData=array();
+
+		for($i=$limitPage;$i<$limitShow;$i++)
+		{
+			if(!isset($listDir[$i]))
+			{
+				continue;
+			}
+
+			$folderName=$listDir[$i];
+
+			$isSetting=0;
+			
+			$path=PAYMENTMETHODS_PATH.$folderName.'/';
+			$url=PAYMENTMETHODS_PATH.$folderName.'/';
+
+			$pluginInfo=file($path.'info.txt');
+
+			if(file_exists($path.'setting.php'))
+			{
+				$isSetting=1;
+			}
+
+			$resultData[$i]['title']=$pluginInfo[0];
+			$resultData[$i]['author']=$pluginInfo[1];
+			$resultData[$i]['version']=$pluginInfo[2];
+			$resultData[$i]['summary']=isset($pluginInfo[3])?$pluginInfo[3]:'';
+			$resultData[$i]['url']=isset($pluginInfo[4])?$pluginInfo[4]:'';
+			$resultData[$i]['foldername']=$folderName;
+			$resultData[$i]['status']=isset($dbPlugins[$folderName])?$dbPlugins[$folderName]['status']:'0';
+			$resultData[$i]['install']=isset($dbPlugins[$folderName])?$dbPlugins[$folderName]['installed']:'0';
+			$resultData[$i]['setting']=$isSetting;
+					
+
+		}
+
+		return $resultData;
+		
+	}
+
+	public function saveCache()
+	{
+		$loadData=self::get();
+
+		if(isset($loadData[0]['foldername']))
+		{
+			Cache::saveKey('listPaymentMethods',serialize($loadData));
+		}
+	}
+
+	public function loadCache()
+	{
+		if(!$loadData=Cache::loadKey('listPaymentMethods',-1))
+		{
+			return false;
+		}
+
+		$loadData=unserialize($loadData);
+
+		return $loadData;
+	}
+
+	public function import()
+	{
+		$resultData=File::uploadMultiple('theFile','uploads/tmp/');
+
+		$total=count($resultData);
+
+		for($i=0;$i<$total;$i++)
+		{
+			$targetPath='';
+
+			$theFile=$resultData[$i];
+
+			$sourcePath=ROOT_PATH.$theFile;
+
+			$shortPath='contents/paymentmethods/'.basename($theFile);
+
+			$targetPath.=$shortPath;
+
+			File::move($sourcePath,$targetPath);
+
+			$sourcePath=dirname($sourcePath);
+
+			rmdir($sourcePath);
+
+			File::unzipModule($targetPath,'yes');
+		}		
+	}
+	public function insert($inputData=array())
+	{
+		// End addons
+		// $totalArgs=count($inputData);
+
+		$addMultiAgrs='';
+
+		if(isset($inputData[0]['title']))
+		{
+		    foreach ($inputData as $theRow) {
+
+				$theRow['date_added']=date('Y-m-d h:i:s');
+
+				if(isset($theRow['title']))
+				$theRow['title']=String::encode($theRow['title']);
+
+				$keyNames=array_keys($theRow);
+
+				$insertKeys=implode(',', $keyNames);
+
+				$keyValues=array_values($theRow);
+
+				$insertValues="'".implode("','", $keyValues)."'";
+
+				$addMultiAgrs.="($insertValues), ";
+
+		    }
+
+		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
+		}
+		else
+		{
+			$inputData['date_added']=date('Y-m-d h:i:s');
+
+			if(isset($inputData['title']))
+			$inputData['title']=String::encode($inputData['title']);
+
+			$keyNames=array_keys($inputData);
+
+			$insertKeys=implode(',', $keyNames);
+
+			$keyValues=array_values($inputData);
+
+			$insertValues="'".implode("','", $keyValues)."'";	
+
+			$addMultiAgrs="($insertValues)";	
+		}		
+
+		Database::query("insert into payment_methods($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
 			$id=Database::insert_id();
 
-			return $id;		
+			return $id;	
 		}
 
 		return false;
 	
 	}
-	public function remove($post=array())
+
+	public function remove($post=array(),$whereQuery='',$addWhere='')
 	{
 
 
@@ -456,15 +405,35 @@ class Paymentmethods
 
 		$listID="'".implode("','",$post)."'";
 
-		// $dbName=Multidb::renderDb('payment_methods');
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"methodid in ($listID)";
 
-		Database::query("delete from payment_methods where methodid in ($listID)");	
+		$addWhere=isset($addWhere[5])?$addWhere:"";
+
+		$command="delete from payment_methods where $whereQuery $addWhere";
+
+		Database::query($command);	
 
 		return true;
 	}
 
-	public function update($id,$post=array())
+	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
+		if(isset($post['title']))
+		{
+			$post['title']=String::encode($post['title']);
+		}		
+
+		if(is_numeric($listID))
+		{
+			$catid=$listID;
+
+			unset($listID);
+
+			$listID=array($catid);
+		}
+
+		$listIDs="'".implode("','",$listID)."'";		
+				
 		$keyNames=array_keys($post);
 
 		$total=count($post);
@@ -478,10 +447,12 @@ class Paymentmethods
 		}
 
 		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
+		
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"methodid in ($listIDs)";
+		
+		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		// $dbName=Multidb::renderDb('payment_methods');
-
-		Database::query("update payment_methods set $setUpdates where methodid='$id'");
+		Database::query("update payment_methods set $setUpdates where $whereQuery $addWhere");
 
 		if(!$error=Database::hasError())
 		{

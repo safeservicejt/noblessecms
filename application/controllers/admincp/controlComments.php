@@ -2,48 +2,25 @@
 
 class controlComments
 {
-
 	public function index()
 	{
-		if(Uri::has('view'))
-		{
-			$this->view();
-			die();
-		}
-		if(Uri::has('approved'))
-		{
-			$this->approved();
-			die();
-		}
-		if(Uri::has('remove'))
-		{
-			$this->remove();
-			die();
-		}
-
-
+       
 		$post=array('alert'=>'');
 
 		Model::load('admincp/comments');
 
-		if(Request::has('btnAction'))
+		if($match=Uri::match('\/comments\/(\w+)'))
 		{
-			if(Request::get('action')=='delete')
-			{
-				if(Request::has('id'))				
-				Comments::remove(Request::get('id'));	
+			if(method_exists("controlComments", $match[1]))
+			{	
+				$method=$match[1];
+
+				$this->$method();
+
+				die();
 			}
-			if(Request::get('action')=='publish')
-			{
-				if(Request::has('id'))	
-				Comments::update(Request::get('id'),array('status'=>1));	
-			}
-			if(Request::get('action')=='unpublish')
-			{
-				if(Request::has('id'))	
-				Comments::update(Request::get('id'),array('status'=>0));			
-			}
-		}		
+			
+		}
 
 		$curPage=0;
 
@@ -52,119 +29,76 @@ class controlComments
 			$curPage=$match[1];
 		}
 
-		$post['pages']=Misc::genPage('admincp/comments',$curPage);
-
-
-
-		if(!Request::has('btnSearch'))
+		if(Request::has('btnAction'))
 		{
-			$post['listData']=Comments::get(array(
-				'limitPage'=>$curPage,
-				'limitShow'=>20,
-				'isHook'=>'no'			
-				));			
+			actionProcess();
+		}
+
+		if(Request::has('btnSearch'))
+		{
+			filterProcess();
 		}
 		else
 		{
-			$searchData=searchProcess(Request::get('txtKeywords'));
+			$post['pages']=Misc::genPage('admincp/comments',$curPage);
 
-			$post['listData']=$searchData['listData'];
+			$filterPending='';
 
-			$post['pages']=$searchData['pages'];
+			if(Uri::has('\/status\/pending'))
+			{
+				$filterPending=" AND c.status='0' ";
+			}
 
-		}
-		View::make('admincp/head',array('title'=>'List comments - '.ADMINCP_TITLE));
-
-        // View::make('admincp/nav');
-   
-        // View::make('admincp/left');
-          
-        // View::make('admincp/pagesList',$post);
-
-        $this->makeContents('commentsList',$post);        
-
-        View::make('admincp/footer'); 		
-	}
-
-
-	public function remove()
-	{
-
-		if(!$match=Uri::match('\/remove\/(\d+)'))
-		{
-			Redirect::to(ADMINCP_URL);
+			$post['theList']=Comments::get(array(
+				'limitShow'=>20,
+				'limitPage'=>$curPage,
+				'query'=>"select c.*,p.title from post p,comments c where c.postid=p.postid order by c.commentid desc",
+				'cacheTime'=>5
+				));
 		}
 
-		Comments::remove(array($match[1]));		
+		System::setTitle('Comments list - '.ADMINCP_TITLE);
 
-		Redirect::to('admincp/comments');
-	}
-	public function approved()
-	{
-		if(!$match=Uri::match('\/approved\/(\d+)'))
-		{
-			Redirect::to(ADMINCP_URL);
-		}
+		View::make('admincp/head');
 
-		Comments::update($match[1],array('status'=>'1'));		
+		self::makeContents('commentsList',$post);
 
-		Redirect::to('admincp/comments');
+		View::make('admincp/footer');
+
 	}
 
 	public function view()
 	{
+		if(!$match=Uri::match('\/view\/(\d+)'))
+		{
+			Redirect::to(ADMINCP_URL.'comments/');
+		}
 
-		$post=array('alert'=>'');
 
-		Model::load('misc');
-		// Model::load('admincp/pages');
+		$commentid=$match[1];
 
-		$id=Uri::getNext('view');
-		$post['id']=$id;
-
-		$loadData=Comments::get(array('where'=>"where commentid='$id'"));
-		$post['edit']=$loadData[0];	
-
-		$postid=$loadData[0]['postid'];
-
-		// print_r($loadData);die();
-
-		$thePost=Post::get(array(
-			'where'=>"where postid='$postid'",
-			'selectFields'=>'postid,title'
+		$loadData=Comments::get(array(
+			'query'=>"select p.title,c.* from post p,comments c where p.postid=c.postid AND c.commentid='$commentid'"
 			));
 
-		$post['thePost']=$thePost[0];
+		$post['edit']=$loadData[0];
+
+		System::setTitle('View comment - '.ADMINCP_TITLE);
 
 
-		View::make('admincp/head',array('title'=>'View comment #'.$id.' - '.ADMINCP_TITLE));
+		View::make('admincp/head');
 
-        // View::make('admincp/nav');
-   
-        // View::make('admincp/left');
-          
-        // View::make('admincp/pagesEdit',$post);
+		self::makeContents('commentView',$post);
 
-        $this->makeContents('commentView',$post);       
-
-        View::make('admincp/footer'); 			
+		View::make('admincp/footer');		
 	}
 
     public function makeContents($viewPath,$inputData=array())
     {
-        View::make('admincp/nav');
-                
         View::make('admincp/left');  
-              
-        View::make('admincp/startContent');
 
         View::make('admincp/'.$viewPath,$inputData);
-
-        View::make('admincp/endContent');
-         // View::make('admincp/right');
-
     }
-
 }
 
 ?>

@@ -19,8 +19,6 @@
 			<button type="submit" class="btn btn-info" name="btnAction">Apply</button>
 		</div>
 
-
-
 		</div>
 
 		<!-- List -->
@@ -39,11 +37,11 @@
 				<tbody>
 				<?php
 
-				$totalRow=count($usergroups);
+				$totalRow=count($theList);
 
 				$li='';
 
-				if(isset($usergroups[0]['groupid']))
+				if(isset($theList[0]['groupid']))
 				for($i=0;$i<$totalRow;$i++)
 				{
 
@@ -52,12 +50,12 @@
 
 					<tr>
 					<td>
-					<input type="checkbox" name="id[]" value="'.$usergroups[$i]['groupid'].'" />
+					<input type="checkbox" name="id[]" value="'.$theList[$i]['groupid'].'" />
 					</td>
-					<td>'.stripslashes($usergroups[$i]['group_title']).'
+					<td>'.stripslashes($theList[$i]['group_title']).'
 					</td>
 
-					<td><a href="'.ROOT_URL.'admincp/usergroups/edit/'.$usergroups[$i]['groupid'].'" class="btn btn-xs btn-warning">Edit</a></td>
+					<td><a href="'.ROOT_URL.'admincp/usergroups/edit/'.$theList[$i]['groupid'].'" class="btn btn-xs btn-warning">Edit</a></td>
 
 					</tr>
 					';

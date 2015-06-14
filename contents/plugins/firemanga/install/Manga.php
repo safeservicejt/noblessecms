@@ -94,7 +94,7 @@ class Manga
 
 				if(isset($row['image']))
 				{
-					$row['imageUrl']=Render::thumbnail($row['image']);
+					$row['imageUrl']=System::getUrl().$row['image'];
 				}
 
 				$cattitle='';	
@@ -138,7 +138,7 @@ class Manga
 			return '';
 		}
 
-		$resultData=ROOT_URL.'manga/'.$row['mangaid'].'-'.$row['friendly_url'].'.html';
+		$resultData=ROOT_URL.'manga/'.$row['friendly_url'].'.html';
 
 		return $resultData;
 	}
@@ -159,6 +159,8 @@ class Manga
 		if(isset($post['title']))
 		{
 			$post['title']=String::encode($post['title']);
+
+			$post['friendly_url']=Url::makeFriendly($post['title']);
 		}
 		
 		if(isset($post['keywords']))

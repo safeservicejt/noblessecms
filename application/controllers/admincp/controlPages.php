@@ -2,53 +2,25 @@
 
 class controlPages
 {
-
 	public function index()
 	{
-		if(Uri::has('edit'))
-		{
-			$this->edit();
-			die();
-		}
-
-		if(Uri::has('addnew'))
-		{
-			$this->addnew();
-			die();
-		}
-
 
 		$post=array('alert'=>'');
 
-		Model::load('misc');
 		Model::load('admincp/pages');
 
-		if(Request::has('btnAction'))
+		if($match=Uri::match('\/pages\/(\w+)'))
 		{
-			if(Request::get('action')=='delete')
-			{
-				if(Request::has('id'))
-				Pages::remove(Request::get('id'));	
+			if(method_exists("controlPages", $match[1]))
+			{	
+				$method=$match[1];
+
+				$this->$method();
+
+				die();
 			}
-			if(Request::get('action')=='publish')
-			{
-				if(Request::has('id'))
-				{
-					Pages::update(Request::get('id'),array(
-						'status'=>1
-						));
-				}					
-			}
-			if(Request::get('action')=='unpublish')
-			{
-				if(Request::has('id'))
-				{
-					Pages::update(Request::get('id'),array(
-						'status'=>0
-						));
-				}			
-			}
-		}		
+			
+		}
 
 		$curPage=0;
 
@@ -57,127 +29,112 @@ class controlPages
 			$curPage=$match[1];
 		}
 
-		$post['pages']=Misc::genPage('admincp/pages',$curPage);
-
-		if(!Request::has('btnSearch'))
+		if(Request::has('btnAction'))
 		{
-			$post['listPages']=Pages::get(array(
-				'limitPage'=>$curPage,
-				'limitShow'=>20,
-				'isHook'=>'no'			
-				));		
+			actionProcess();
+		}
+
+		if(Request::has('btnSearch'))
+		{
+			filterProcess();
 		}
 		else
-		{	
-			$searchData=searchProcess(Request::get('txtKeywords'));
-
-			$post['listPages']=$searchData['listPages'];
-
-			$post['pages']=$searchData['pages'];
-
-		}		
-
-
-
-
-		View::make('admincp/head',array('title'=>'List pages - '.ADMINCP_TITLE));
-
-        // View::make('admincp/nav');
-   
-        // View::make('admincp/left');
-          
-        // View::make('admincp/pagesList',$post);
-
-        $this->makeContents('pagesList',$post);        
-
-        View::make('admincp/footer'); 		
-	}
-
-
-	public function addnew()
-	{
-
-		$post=array('alert'=>'');
-
-		Model::load('misc');
-		// Model::load('admincp/pages');
-
-		if(Request::has('btnAdd'))
 		{
-				$post['alert']='<div class="alert alert-success">Add new page success.</div>';
+			$post['pages']=Misc::genPage('admincp/pages',$curPage);
 
-				// addPage(Request::get('send'));	
+			$filterPending='';
 
-				$inputData=Request::get('send');
 
-				$inputData['friendly_url']=Url::makeFriendly($inputData['title']);
-
-				Pages::add($inputData);
+			$post['theList']=Pages::get(array(
+				'limitShow'=>20,
+				'limitPage'=>$curPage,
+				'cacheTime'=>5
+				));
 		}
 
 
-		View::make('admincp/head',array('title'=>'Add new page - '.ADMINCP_TITLE));
 
-        // View::make('admincp/nav');
-   
-        // View::make('admincp/left');
-          
-        // View::make('admincp/pagesAdd',$post);
+		System::setTitle('Pages list - '.ADMINCP_TITLE);
 
-        $this->makeContents('pagesAdd',$post);        
+		View::make('admincp/head');
 
-        View::make('admincp/footer'); 			
-	}	
+		self::makeContents('pagesList',$post);
+
+		View::make('admincp/footer');
+
+	}
 
 	public function edit()
 	{
+		if(!$match=Uri::match('\/edit\/(\d+)'))
+		{
+			Redirect::to(ADMINCP_URL.'pages/');
+		}
+
+
+		$pageid=$match[1];
 
 		$post=array('alert'=>'');
 
-		Model::load('misc');
-		// Model::load('admincp/pages');
-
-		$id=Uri::getNext('edit');
-		$post['id']=$id;
-
 		if(Request::has('btnSave'))
 		{
+			try {
+				
+				updateProcess($pageid);
+
 				$post['alert']='<div class="alert alert-success">Save changes success.</div>';
 
-				Pages::update($id,Request::get('send'));
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}			
 		}
 
-		$loadData=Pages::get(array('where'=>"where pageid='$id'"));
-		$post['edit']=$loadData[0];	
+		$loadData=Pages::get(array(
+			'where'=>"where pageid='$pageid'"
+			));
 
+		$post['edit']=$loadData[0];
 
-		View::make('admincp/head',array('title'=>'Edit page'.ADMINCP_TITLE));
+		System::setTitle('Edit page - '.ADMINCP_TITLE);
 
-        // View::make('admincp/nav');
-   
-        // View::make('admincp/left');
-          
-        // View::make('admincp/pagesEdit',$post);
+		View::make('admincp/head');
 
-        $this->makeContents('pagesEdit',$post);       
+		self::makeContents('pagesEdit',$post);
 
-        View::make('admincp/footer'); 			
+		View::make('admincp/footer');		
 	}
+	public function addnew()
+	{
+		$post=array('alert'=>'');
+
+		if(Request::has('btnAdd'))
+		{
+			try {
+				
+				insertProcess();
+
+				$post['alert']='<div class="alert alert-success">Add new page success.</div>';
+
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}			
+		}
+		
+		System::setTitle('Add new page - '.ADMINCP_TITLE);
+
+		View::make('admincp/head');
+
+		self::makeContents('pagesAdd',$post);
+
+		View::make('admincp/footer');		
+	}
+
     public function makeContents($viewPath,$inputData=array())
     {
-        View::make('admincp/nav');
-                
         View::make('admincp/left');  
-              
-        View::make('admincp/startContent');
 
         View::make('admincp/'.$viewPath,$inputData);
-
-        View::make('admincp/endContent');
-         // View::make('admincp/right');
-
     }
-
 }
 
 ?>

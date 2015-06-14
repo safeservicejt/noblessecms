@@ -1,121 +1,99 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">List Users</h3>
+    <h3 class="panel-title">User list</h3>
   </div>
   <div class="panel-body">
-    
- <div class="row">
+    <div class="row">
+    	<div class="col-lg-12">
+    	<form action="" method="post" enctype="multipart/form-data">
+    		<!-- row -->
+    		<div class="row">
+    			<div class="col-lg-4">
+                    <div class="input-group input-group-sm">
+                        <select class="form-control" name="action">
+                            <option value="delete">Delete</option>
+                        </select>
+                       <span class="input-group-btn">
+                        <button class="btn btn-primary" name="btnAction" type="submit">Apply</button>
+                      </span>
 
-		<div class="col-lg-12">
-<!-- Form Action -->
-		<div class="row">
-		<form action="" method="post">
-		<div class="col-lg-2">
-			<select class="form-control" name="action">
-			<option value="delete">Delete</option>
-			<option value="isadmin">Set as administrator</option>
-			<option value="notadmin">unSet as administrator</option>
-			<option value="approved">Set as approved</option>
-			<option value="unapproved">Set as unapproved</option>
-			</select>
-		</div>
-		<div class="col-lg-2">
-			<button type="submit" class="btn btn-info" name="btnAction">Apply</button>
-		</div>
+                    </div><!-- /input-group -->   				
+    			</div>
+    			<div class="col-lg-4 col-lg-offset-4 text-right">
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" name="txtKeywords" placeholder="Search..." />
+                       <span class="input-group-btn">
+                        <button class="btn btn-primary" name="btnSearch" type="submit">Search</button>
+                      </span>
 
+                    </div><!-- /input-group -->       				
+    			</div>
 
+    		</div>
+    		<!-- row -->
+     		<!-- row -->
+    		<div class="row">
+    			<div class="col-lg-12 table-responsive">
+    				<table class="table table-hover">
+    					<thead>
+    						<tr>
+    							<td class="col-lg-1"><input type="checkbox" id="selectAll" /></td>
+    							<td class="col-lg-2">Date added</td>
+    							<td class="col-lg-8"></td>
+    							<td class="col-lg-1">#</td>
+    						</tr>
+    					</thead>
 
-		</div>
+    					<tbody>
+    					<?php
+    						$total=count($theList);
 
-		<!-- List -->
-		<div class="row">
-			<div class="col-lg-12">
+    						$li='';
 
-				<table class="table table-hover">
-				<thead>
-					<tr>
-					<td class="col-lg-1"><input type="checkbox" id="selectAll" /></td>
-					<td class="col-lg-6">Fullname</td>
-					<td class="col-lg-3">Email</td>
-					<td class="col-lg-1">Status</td>
-					<td class="col-lg-1"></td>
+    						if(isset($theList[0]['userid']))
+    						for ($i=0; $i < $total; $i++) { 
+    							$li.='
+	    						<!-- tr -->
+	    						<tr>
+	    							<td class="col-lg-1">
+	    								<input type="checkbox" id="cboxID" name="id[]" value="'.$theList[$i]['userid'].'" />
+	    							</td>
+	    							<td class="col-lg-2">'.$theList[$i]['date_addedFormat'].'</td>
+	    							<td class="col-lg-8 text-left">'.$theList[$i]['firstname'].' '.$theList[$i]['lastname'].' ('.$theList[$i]['username'].')
+                                    <br>
+                                    <small>Group: '.$theList[$i]['group_title'].'</small>&nbsp;&nbsp;<small>Email: '.$theList[$i]['email'].'</small>
+                                    </td>
+	    							<td class="col-lg-1 text-right">
+	    							<a href="'.ADMINCP_URL.'users/edit/'.$theList[$i]['userid'].'" class="btn btn-warning btn-xs">Edit</a>
+	    							</td>
+	    						</tr>    						
+	    						<!-- tr -->
+    							';
+    						}
 
-					</tr>
-				</thead>
-				<tbody>
-				<?php
+    						echo $li;
+    					?>
 
-				$totalRow=count($users);
+    					</tbody>
+    				</table>
+    			</div>
 
-				$li='';
-
-				$admin_status='';
-
-				$status='';
-
-				$date_added='';
-
-				if(isset($users[0]['userid']))
-				for($i=0;$i<$totalRow;$i++)
-				{
-					$admin_status='';
-
-					$status='<span class="label label-danger">Pending</span>';
-
-					$admin_status='<span class="label label-danger">'.$users[$i]['group_title'].'</span>';
-					if((int)$users[$i]['approved']==1)
-					{
-						$status='<span class="label label-success">Approved</span>';
-					}
-
-					$date_added='<span class="label label-default">Join date: '.$users[$i]['date_added'].'</span>';
-
-					$li.='
-
-					<tr>
-					<td>
-					<input type="checkbox" id="cboxID" name="id[]" value="'.$users[$i]['userid'].'" />
-					</td>
-					<td>'.$users[$i]['firstname'].' '.$users[$i]['lastname'].'
-					<br>
-					'.$admin_status.' '.$date_added.'
-
-					</td>
-					<td>'.$users[$i]['email'].'</td>
-					<td>'.$status.'</td>
-
-					<td><a href="'.ROOT_URL.'admincp/users/edit/'.$users[$i]['userid'].'" class="btn btn-xs btn-warning">Edit</a></td>
-
-					</tr>
-					';
-
-				}
-
-				echo $li;
-
-				?>
-
-
-				</tbody>
-				</table>
-			</div>
-
-			<div class="col-lg-12 text-right">
-				<?php  echo $pages; ?>
-			</div>
-		</div>
-		</form>
-
-
-
-		</div>		
-
-
-
-
-
-
-	</div>
-   
+				<div class="col-lg-12 text-right">
+					<?php  echo $pages; ?>
+				</div>    			
+    		</div>
+    		<!-- row -->
+    	</form>
+    	</div>
+    	
+    </div>
   </div>
 </div>
+
+<script>
+
+$(document).ready(function(){
+
+
+});
+</script>

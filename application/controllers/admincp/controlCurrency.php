@@ -2,70 +2,13 @@
 
 class controlCurrency
 {
-
 	public function index()
 	{
-
-
+		
 		$post=array('alert'=>'');
 
-		Model::load('misc');
 		Model::load('admincp/currency');
-
-		if(Request::has('btnAdd'))
-		{
-
-			$post['alert']='<div class="alert alert-success">Add new currency success.</div>';
-
-			$data=Request::get('send');
-
-			if(!$id=Currency::insert($data))
-			{	
-				$post['alert']='<div class="alert alert-warning">Add new currency error.</div>';
-			}
-
-		}
-
-		if(Request::has('btnSave'))
-		{
-			$post['alert']='<div class="alert alert-success">Edit currency success.</div>';
-
-			// editCategory(array('id'=>Request::get('send.id'),'title'=>Request::get('send.title'),'order'=>Request::get('send.sort_order','0'),'oldimage'=>Request::get('send.oldimage')));
-
-			$id=Uri::getNext('edit');
-
-			$data=array();
-
-			$data=Request::get('send');
-
-			Currency::update($id,$data);
-		}
-
-		$post['showEdit']='no';
-		if(Request::has('btnAction'))
-		{
-			if(Request::get('action')=='delete')
-			{
-				Currency::remove(Request::get('id'));	
-			}
-		}
-
-		if(Uri::has('edit'))
-		{
-				$post['showEdit']='yes';
-
-				$id=Uri::getNext('edit');
-
-				$post['id']=$id;
-
-				$data=Currency::get(array(
-					'where'=>"where currencyid='$id'"
-					));
-				
-				$post['edit']=$data[0];
-		}
-
-
+		
 		$curPage=0;
 
 		if($match=Uri::match('\/page\/(\d+)'))
@@ -73,36 +16,80 @@ class controlCurrency
 			$curPage=$match[1];
 		}
 
-		$post['pages']=genPage('currency',$curPage);
+		if(Request::has('btnAction'))
+		{
+			actionProcess();
+		}
 
-		$post['theList']=Currency::get(array(
-			'limitShow'=>30,
-			'limitPage'=>$curPage,
-			'orderby'=>'order by currencyid desc'
-			));
+		if(Request::has('btnAdd'))
+		{
+			try {
+				
+				insertProcess();
 
+				$post['alert']='<div class="alert alert-success">Add new currency success.</div>';
 
-		View::make('admincp/head',array('title'=>'Currency manage - '.ADMINCP_TITLE));
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}
+		}
 
-        $this->makeContents('currency',$post);
+		if(Request::has('btnSave'))
+		{
+			$match=Uri::match('\/edit\/(\d+)');
 
-        View::make('admincp/footer'); 		
+			try {
+				
+				updateProcess($match[1]);
+
+				$post['alert']='<div class="alert alert-success">Update currency success.</div>';
+
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}
+		}
+
+		if(Request::has('btnSearch'))
+		{
+			filterProcess();
+		}
+		else
+		{
+			$post['pages']=Misc::genPage('admincp/currency',$curPage);
+
+			$post['theList']=Currency::get(array(
+				'limitShow'=>20,
+				'limitPage'=>$curPage,
+				'orderby'=>'order by currencyid desc',
+				'cacheTime'=>5
+				));
+		}
+
+		if($match=Uri::match('\/edit\/(\d+)'))
+		{
+			$loadData=Currency::get(array(
+				'where'=>"where currencyid='".$match[1]."'"
+				));
+
+			$post['edit']=$loadData[0];
+		}
+
+		System::setTitle('Currency list - '.ADMINCP_TITLE);
+
+		View::make('admincp/head');
+
+		self::makeContents('currencyList',$post);
+
+		View::make('admincp/footer');
+
 	}
 
     public function makeContents($viewPath,$inputData=array())
     {
-        View::make('admincp/nav');
-                
         View::make('admincp/left');  
-              
-        View::make('admincp/startContent');
 
         View::make('admincp/'.$viewPath,$inputData);
-
-        View::make('admincp/endContent');
-         // View::make('admincp/right');
-
-    }	
+    }
 }
 
 ?>

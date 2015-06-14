@@ -2,86 +2,13 @@
 
 class controlTaxrate
 {
-
 	public function index()
 	{
-
-
+		
 		$post=array('alert'=>'');
 
-		Model::load('misc');
 		Model::load('admincp/taxrate');
-
-		if(Request::has('btnAdd'))
-		{
-			$post['alert']='<div class="alert alert-success">Add new tax rate success.</div>';
-
-			$data=Request::get('send');
-
-			$countries=renderInsert(Request::get('countries'));
-
-			$data['country_short']=$countries;
-
-			if(!$id=Taxrate::insert($data))
-			{
-				$post['alert']='<div class="alert alert-warning">Add new tax rate error.</div>';
-			}
-
-		}
-
-		if(Request::has('btnSave'))
-		{
-				$post['alert']='<div class="alert alert-success">Edit tax rate success.</div>';
-
-				$id=Uri::getNext('edit');
-
-				$data=array();
-
-				$inputData=array();
-
-				$data=Request::get('send');
-
-				$countries=renderInsert(Request::get('countries'));
-
-				// print_r($countries);die();
-
-				$data['country_short']=$countries;				
-
-				Taxrate::update($id,$data);
-
-		}
-
-		$post['showEdit']='no';
-		if(Request::has('btnAction'))
-		{
-			if(Request::get('action')=='delete')
-			{
-				Taxrate::remove(Request::get('id'));	
-			}
-				
-
-		}
-
-		if(Uri::has('edit'))
-		{
-				$post['showEdit']='yes';
-
-				$id=Uri::getNext('edit');
-
-				$post['id']=$id;
-
-				$data=Taxrate::get(array(
-					'where'=>"where taxid='$id'"
-					));
-
-				$post['edit']=$data[0];
-
-				$post['edit']['countries']=renderEdit($post['edit']['country_short']);
-
-				// print_r($post['edit']['country_short']);die();
-		}
-
-
+		
 		$curPage=0;
 
 		if($match=Uri::match('\/page\/(\d+)'))
@@ -89,39 +16,89 @@ class controlTaxrate
 			$curPage=$match[1];
 		}
 
-		$post['pages']=genPage('taxrate',$curPage);
+		if(Request::has('btnAction'))
+		{
+			actionProcess();
+		}
 
-		$post['taxrate']=Taxrate::get(array(
-			'limitShow'=>30,
-			'limitPage'=>$curPage
-			));
+		if(Request::has('btnAdd'))
+		{
+			try {
+				
+				insertProcess();
 
-		$post['countries']=Country::get();
+				$post['alert']='<div class="alert alert-success">Add new category success.</div>';
 
-		// print_r($post['countries']);die();
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}
+		}
+
+		if(Request::has('btnSave'))
+		{
+			$match=Uri::match('\/edit\/(\d+)');
+
+			try {
+				
+				updateProcess($match[1]);
+
+				$post['alert']='<div class="alert alert-success">Update category success.</div>';
+
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}
+		}
+
+		if(Request::has('btnSearch'))
+		{
+			filterProcess();
+		}
+		else
+		{
+			$post['pages']=Misc::genPage('admincp/taxrate',$curPage);
+
+			$post['theList']=Taxrates::get(array(
+				'limitShow'=>20,
+				'limitPage'=>$curPage,
+				'orderby'=>'order by taxid desc',
+				'cacheTime'=>5
+				));
+		}
+
+		if($match=Uri::match('\/edit\/(\d+)'))
+		{
+			$loadData=Taxrates::get(array(
+				'where'=>"where taxid='".$match[1]."'"
+				));
+
+			$post['edit']=$loadData[0];
 
 
-		View::make('admincp/head',array('title'=>ADMINCP_TITLE));
+			if(strlen($loadData[0]['country_short']) > 0)
+			$post['edit']['countries']=explode(',', $loadData[0]['country_short']);
 
-        $this->makeContents('taxrate',$post);
+			// print_r($post['countries']);die();
+		}
 
-        View::make('admincp/footer'); 		
+		$post['listCountries']=Country::get();
+
+
+		System::setTitle('Taxrate list - '.ADMINCP_TITLE);
+
+		View::make('admincp/head');
+
+		self::makeContents('taxrateList',$post);
+
+		View::make('admincp/footer');
+
 	}
 
     public function makeContents($viewPath,$inputData=array())
     {
-        View::make('admincp/nav');
-                
         View::make('admincp/left');  
-              
-        View::make('admincp/startContent');
 
         View::make('admincp/'.$viewPath,$inputData);
-
-        View::make('admincp/endContent');
-         // View::make('admincp/right');
-
-    }	
+    }
 }
 
 ?>

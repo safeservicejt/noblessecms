@@ -3,6 +3,44 @@
 
 class Request
 {
+    public function isImage($keyName)
+    {
+        if(preg_match('/(\w+)\.(\d+)/i', $keyName,$match))
+        {
+            if(isset($_FILES[$match[1]][$match[2]]) && preg_match('/.*?\.\w+$/i', $_FILES[$match[1]][$match[2]]['name']))
+            {
+                return true;
+            }               
+        }
+        else
+        {
+            if(isset($_FILES[$keyName]) && preg_match('/.*?\.\w+$/i', $_FILES[$keyName]['name']))
+            {
+                return true;
+            }            
+        }
+
+
+        return false;
+    }
+
+    public function hasFile($keyName)
+    {
+        if(preg_match('/(\w+)\.(\d+)/i', $keyName,$match))
+        {
+            return true;              
+        }
+        elseif(preg_match('/(\w+)/i', $keyName,$match))
+        {
+            return true;          
+        }
+
+
+        return false;
+    }
+
+
+
     public function get($reqName = '', $reqValue = '')
     {
         $result = '';
@@ -20,6 +58,7 @@ class Request
         return $result;
 
     }
+
     public function forget($reqName = '', $reqValue = '')
     {
         $result = '';
@@ -32,6 +71,29 @@ class Request
             $postion = $matchesName[2];
 
             unset($_REQUEST[$reqName][$postion]);
+        }
+
+        return $result;
+
+    }    
+    
+    public function getPost($reqName = '', $reqValue = '')
+    {
+        if(!isset($reqName[1]))
+        {
+            return $_POST;
+        }
+
+        $result = '';
+
+        if (!preg_match('/(\w+)\.(\w+)/i', $reqName, $matchesName)) {
+            $result = isset($_POST[$reqName]) ? $_POST[$reqName] : $reqValue;
+
+        } else {
+            $reqName = $matchesName[1];
+            $postion = $matchesName[2];
+
+            $result = isset($_POST[$reqName][$postion]) ? $_POST[$reqName][$postion] : $reqValue;
         }
 
         return $result;
@@ -95,7 +157,7 @@ class Request
         }
     }
 
-    public function has($reqName = '')
+    public function hasElement($reqName = '')
     {
         if (!preg_match('/(\w+)\.(\w+)/i', $reqName, $matchesName)) {
             if (!isset($_REQUEST[$reqName])) {
@@ -111,7 +173,35 @@ class Request
                 return false;
             }
             return true;
+        }        
+    }
+
+    public function has($reqName = '')
+    {
+
+        if(!is_array($reqName))
+        {
+            $result=self::hasElement($reqName);
+
+            return $result;
         }
+        else
+        {
+            $total=count($reqName);
+
+            for ($i=0; $i < $total; $i++) { 
+
+                $result=self::hasElement($reqName[$i]);
+
+                if(!$result)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
 
     }
 

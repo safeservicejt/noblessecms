@@ -9,12 +9,10 @@
 </div>
 <!-- slide -->
 
-<?php echo $content_top;?>
 
 <div class="row">
 <!-- left -->
 <div class="col-lg-8">
-<?php echo $content_left;?>
 
 <?php
 
@@ -63,7 +61,7 @@ for($i=0;$i<$total;$i++)
 	<!-- content -->
 	<div class="row">
 	<div class="col-lg-12">
-	'.Render::rawContent($newPost[$i]['content'],0,500).'
+	  '.Render::rawContent($newPost[$i]['content'],0,500).'
 	</div>
 	</div>
 	<!-- content -->
@@ -105,11 +103,10 @@ echo $li;
 </div>
 <!-- left -->
 <!-- right -->
-<?php Theme::view('right');?>
-<?php echo $content_right;?>
+<?php View::makeWithPath('right',array(),$themePath);?>
+
 <!-- right -->
 </div>
 
-<?php echo $content_bottom;?>
 </div>
 <!-- body -->

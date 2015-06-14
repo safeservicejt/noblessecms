@@ -4,6 +4,7 @@
 
 class File
 {
+
     public function md5($filePath='')
     {
         if(!file_exists($filePath))
@@ -88,13 +89,6 @@ class File
     public function write($filePath = '', $fileData = '')
     {
         self::create($filePath, $fileData, 'a');
-    }
-
-    public function remove($filePath = '')
-    {
-        if (file_exists($filePath)) {
-            unlink($filePath);
-        }
     }
 
     public function read($filePath = '')
@@ -342,6 +336,20 @@ class File
 
         return $shortPath;
     }
+
+    public function remove($filePath)
+    {
+        if(file_exists($filePath))
+        {
+            unlink($filePath);
+
+            $filePath=dirname($filePath);
+
+            rmdir($filePath);
+        }
+    }
+
+
 
 }
 

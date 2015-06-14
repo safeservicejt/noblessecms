@@ -3,10 +3,6 @@
 class Currency
 {
 
-	public static $theList=array();
-
-	public static $theCurrency=array();
-
 	public function get($inputData=array())
 	{
 
@@ -33,14 +29,42 @@ class Currency
 		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by currencyid desc';
 
 		$result=array();
+		
+		$command="select $selectFields from currency $whereQuery";
 
-		$command="select $selectFields from currency $whereQuery $orderBy";
+		$command.=" $orderBy";
 
 		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
 
 		$queryCMD.=$limitQuery;
 
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
+
+		if($cache=='yes')
+		{
+			// Load dbcache
+
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
+		}
+
+
 		$query=Database::query($queryCMD);
+		
+		if(isset(Database::$error[5]))
+		{
+			return false;
+		}
+
+		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
 		
 		if((int)$query->num_rows > 0)
 		{
@@ -50,27 +74,10 @@ class Currency
 				{
 					$row['title']=String::decode($row['title']);
 				}
-				if(isset($row['code']))
-				{
-					$row['code']=String::decode($row['code']);
-				}
-				if(isset($row['symbolLeft']))
-				{
-					$row['symbolLeft']=String::decode($row['symbolLeft']);
-				}
-				if(isset($row['symbolRight']))
-				{
-					$row['symbolRight']=String::decode($row['symbolRight']);
-				}
+				if(isset($row['date_added']))
+				$row['date_added']=Render::dateFormat($row['date_added']);	
 
-				if(isset($row['dataValue']))
-				{
-					$getData=self::parsePrice($row['dataValue']);
-
-					$row['dataValue']=$getData['real'];
-
-				}
-
+											
 				$result[]=$row;
 			}		
 		}
@@ -79,175 +86,83 @@ class Currency
 			return false;
 		}
 
+		
+		// Save dbcache
+		DBCache::make(md5($queryCMD),$result);
+		// end save
+
 
 		return $result;
 		
-	}	
-
-	public function loadCache($code)
-	{
-		if($match=Uri::match('^currency\/(\w+)$'))
-		{
-
-			$code=strtolower(trim($match[1]));
-
-			$_SESSION['currency']=$code;
-
-			Redirect::to(ROOT_URL);
-		}
-
-
-		if(!$loadData=Cache::loadKey('listCurrency',-1))
-		{
-			return false;
-		}		
-
-		$code=strtolower($code);
-
-		$loadData=json_decode($loadData,true);
-
-		$total=count($loadData);
-
-		$listID=array_keys($loadData);
-
-		for($i=0;$i<$total;$i++)
-		{
-			$theID=$listID[$i];
-
-			$theCode=strtolower($loadData[$theID]['code']);
-
-			if($theCode==$code)
-			{
-				self::$theCurrency=$loadData[$theID];
-
-				break;
-			}
-		}
-
-		// print_r(self::$theCurrency);die();
 	}
 
+	public function set($curName)
+	{
+		$_COOKIE['currency']=$curName;
+	}
 
 	public function insert($inputData=array())
 	{
-		if(isset($inputData['dataValue']))
+		// End addons
+		$totalArgs=count($inputData);
+
+		$addMultiAgrs='';
+
+		if(isset($inputData[0]['title']))
 		{
-			$inputData['dataValue']=self::insertPrice($inputData['dataValue']);
+		    foreach ($inputData as $theRow) {
+
+
+				if(isset($theRow['title']))
+				$theRow['title']=String::encode($theRow['title']);
+
+				$keyNames=array_keys($theRow);
+
+				$insertKeys=implode(',', $keyNames);
+
+				$keyValues=array_values($theRow);
+
+				$insertValues="'".implode("','", $keyValues)."'";
+
+				$addMultiAgrs.="($insertValues), ";
+
+		    }
+
+		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
 		}
+		else
+		{
+			if(isset($inputData['title']))
+			$inputData['title']=String::encode($inputData['title']);
 
-		$keyNames=array_keys($inputData);
+			$keyNames=array_keys($inputData);
 
-		$insertKeys=implode(',', $keyNames);
+			$insertKeys=implode(',', $keyNames);
 
-		$keyValues=array_values($inputData);
+			$keyValues=array_values($inputData);
 
-		$insertValues="'".implode("','", $keyValues)."'";
+			$insertValues="'".implode("','", $keyValues)."'";	
 
-		Database::query("insert into currency($insertKeys) values($insertValues)");
+			$addMultiAgrs="($insertValues)";	
+		}		
+
+		Database::query("insert into currency($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
 			$id=Database::insert_id();
 
-			$inputData['id']=$id;
-
-			// $inputData['currencyid']=$id;
-
-			self::saveCache();
-
-			return $id;		
+			return $id;	
 		}
 
 		return false;
 	
 	}
 
-	public function insertPrice($inputPrice)
-	{
-		$resultData=$inputPrice;
-
-		if((double)$resultData==0)
-		{
-			return $resultData;
-		}
-
-		$loadData=self::$theCurrency;
-
-		// print_r($loadData);die();
-		
-		$theRate=(double)$loadData['dataValue'];
-
-		$resultData=(double)$inputPrice/(double)$theRate;
-
-		return $resultData;
-	}
-
-	public function parsePrice($inputPrice)
-	{
-
-		// return $inputPrice;
-		
-		$resultData=(double)$inputPrice;
-
-		$theRate=isset(GlobalCMS::$load['currencyRate'])?GlobalCMS::$load['currencyRate']:1;
-
-		$defaultCode=isset(GlobalCMS::$load['currency'])?GlobalCMS::$load['currency']:'USD';
-
-		$symbolLeft='$';
-
-		$symbolRight='';
-
-		$outputData=array();
-
-		// print_r(GlobalCMS::$load);die();
-
-		$loadData=self::$theCurrency;
-
-		$defaultCode=GlobalCMS::$load['currency'];
-
-		// GlobalCMS::$load['currencyRate']=(double)$loadData[$theID]['dataValue'];
-
-		$theRate=(double)$loadData['dataValue'];
-
-		$symbolLeft=String::decode($loadData['symbolLeft']);
-
-		$symbolRight=String::decode($loadData['symbolRight']);		
-
-		$resultData=(double)$theRate*(double)$inputPrice;
-
-		$outputData['format']=$symbolLeft.' '.Render::numberFormat($resultData).' '.$symbolRight;
-
-		$outputData['format']=trim($outputData['format']);
-
-		$outputData['real']=$resultData;
-
-		// print_r($outputData);
-
-		return $outputData;
-	}
-
-	public function saveCache()
-	{
-		$loadData=self::get(array(
-			'orderby'=>'order by title asc'
-			));
-
-		$total=count($loadData);
-
-		$resultData=array();
-
-		for($i=0;$i<$total;$i++)
-		{
-			$theID=$loadData[$i]['currencyid'];
-
-			$resultData[$theID]=$loadData[$i];
-		}
-
-		Cache::saveKey('listCurrency',json_encode($resultData));
-
-	}
 	public function remove($post=array(),$whereQuery='',$addWhere='')
 	{
+
+
 		if(is_numeric($post))
 		{
 			$id=$post;
@@ -265,16 +180,20 @@ class Currency
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("delete from currency where $whereQuery $addWhere");		
+		$command="delete from currency where $whereQuery $addWhere";
 
-		self::saveCache();
-	
+		Database::query($command);	
 
 		return true;
 	}
 
 	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
+		if(isset($post['title']))
+		{
+			$post['title']=String::encode($post['title']);
+		}		
+
 		if(is_numeric($listID))
 		{
 			$catid=$listID;
@@ -285,12 +204,7 @@ class Currency
 		}
 
 		$listIDs="'".implode("','",$listID)."'";		
-
-		if(isset($post['dataValue']))
-		{
-			$post['dataValue']=self::insertPrice($post['dataValue']);
-		}
-
+				
 		$keyNames=array_keys($post);
 
 		$total=count($post);
@@ -302,7 +216,7 @@ class Currency
 			$keyName=$keyNames[$i];
 			$setUpdates.="$keyName='$post[$keyName]', ";
 		}
-		
+
 		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
 		
 		$whereQuery=isset($whereQuery[5])?$whereQuery:"currencyid in ($listIDs)";
@@ -310,8 +224,6 @@ class Currency
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update currency set $setUpdates where $whereQuery $addWhere");
-
-		self::saveCache();
 
 		if(!$error=Database::hasError())
 		{

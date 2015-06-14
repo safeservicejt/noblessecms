@@ -10,9 +10,16 @@ class Misc
 
 		$li='';
 
+		$startSplitChar=$splitChar;
+
+		if(!isset($title[0]))
+		{
+			$startSplitChar='';
+		}
+
 		for($i=$start;$i<=$endpage;$i++)
 		{
-			$li.='<li><a href="'.ROOT_URL.$title.$splitChar.'page'.$splitChar.$i.'">'.$i.'</a></li>';
+			$li.='<li><a href="'.ROOT_URL.$title.$startSplitChar.'page'.$splitChar.$i.'">'.$i.'</a></li>';
 		}
 
 		$prev=$start-1;
@@ -22,9 +29,9 @@ class Misc
 		return '
 		<nav>
 					<ul class="pagination">
-					  <li><a href="'.ROOT_URL.$title.$splitChar.'page'.$splitChar.$prev.'">&laquo;</a></li>
+					  <li><a href="'.ROOT_URL.$title.$startSplitChar.'page'.$splitChar.$prev.'">&laquo;</a></li>
 					  '.$li.'
-					  <li><a href="'.ROOT_URL.$title.$splitChar.'page'.$splitChar.$next.'">&raquo;</a></li>
+					  <li><a href="'.ROOT_URL.$title.$startSplitChar.'page'.$splitChar.$next.'">&raquo;</a></li>
 					</ul>
 		</nav> 
 		';

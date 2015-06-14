@@ -2,6 +2,7 @@
 
 class UserGroups
 {
+	public static $groupData=array();
 
 	public function get($inputData=array())
 	{
@@ -29,22 +30,55 @@ class UserGroups
 		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by groupid desc';
 
 		$result=array();
+		
+		$command="select $selectFields from usergroups $whereQuery";
 
-		// $dbName=Multidb::renderDb('usergroups');
-
-		$command="select $selectFields from usergroups $whereQuery $orderBy";
+		$command.=" $orderBy";
 
 		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
 
 		$queryCMD.=$limitQuery;
 
-		$query=Database::query($queryCMD);
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
 
+		if($cache=='yes')
+		{
+			// Load dbcache
+
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
+		}
+
+		$query=Database::query($queryCMD);
+		
+		if(isset(Database::$error[5]))
+		{
+			return false;
+		}
+
+		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
+		
 		if((int)$query->num_rows > 0)
 		{
 			while($row=Database::fetch_assoc($query))
 			{
+
+				if(isset($row['date_added']))
+				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
+
+				if(isset($row['groupdata']))
+				$row['groupdata']=self::arrayToLine($row['groupdata']);
+											
 				$result[]=$row;
+
 			}		
 		}
 		else
@@ -52,134 +86,333 @@ class UserGroups
 			return false;
 		}
 
+		// Save dbcache
+		DBCache::make(md5($queryCMD),$result);
+		// end save
+
 		return $result;
 		
 	}
-	public function enable($keyName)
+
+	public function loadGroup($groupid)
 	{
-		if(!isset($_SESSION['groupid']) || !isset(GlobalCMS::$usergroups[$keyName]))
+		if(!$loadData=Cache::loadKey('userGroup1_'.$groupid,-1))
 		{
-			return false;
-		}
-
-		$value=GlobalCMS::$usergroups[$keyName];
-
-		$resultData=is_numeric($value)?true:$value;
-
-		return $resultData;
-	}
-	public function loadCaches()
-	{
-
-		// print_r(Session::get('groupid'));die();
-
-		$groupid=Session::get('groupid');
-
-		$password=Cookie::has('password');
-
-		$email=Cookie::has('email');
-
-
-		// print_r($groupid);die();
-
-		if($groupid==false && $password==false)
-		{
-			return false;
-		}
-
-		if($groupid==false && $email==true && $password==true)
-		{
-			$email=Cookie::get('email');
-
-			$password=Cookie::get('password');
-
-			// $query=Database::query("select groupid from users where email='$email' AND password='$password'");
-
-			// $total=Database::num_rows($query);
-
-			// if((int)$total == 0)
-			// {
-			// 	return false;
-			// }
-
-			$loadUser=Users::get(array(
-				'where'=>"where email='$email' AND password='$password'"
+			$loadData=self::get(array(
+				'where'=>"where groupid='$groupid'"
 				));
 
-			// $row=Database::fetch_assoc($query);
-
-			if(!isset($loadUser[0]['groupid']))
+			if(!isset($loadData[0]['groupid']))
 			{
 				return false;
 			}
 
-			Session::make('groupid',$loadUser[0]['groupid']);
+			$loadData[0]['groupdata']=unserialize(self::lineToArray($loadData[0]['groupdata']));
+
+			self::$groupData=$loadData[0];
 		}
-
-		if(!$loadData=Cache::loadKey('usergroup_'.$groupid,-1))
-		{		
-			return false;
-		}
-
-		GlobalCMS::$usergroups=json_decode($loadData,true);
-
-		// print_r(GlobalCMS::$usergroups);die();
-
-
-	}
-
-	public function action($actionName='',$groupid)
-	{
-		if(!isset(GlobalCMS::$usergroups[$actionName]))
-		{
-			return false;
-		}
-		
-		switch ($actionName) {
-			case 'value':
-				# code...
-				break;
-
-		}
-
 	}
 
 
-	public function add($post=array())
+
+	public function removePermission($groupid,$inputData=array())
 	{
-		// $nodeid=String::genNode();
+		$loadData=self::get(array(
+			'where'=>"where groupid='$groupid'"
+			));
 
-		// $inputData['nodeid']=$nodeid;
-
-		$title=trim($post['group_title']);
-
-		if(!isset($title[1]))return false;
-
-		$title=addslashes($title);
-
-		$groupdata=json_encode($post['groupdata']);
-
-		Database::query("insert into usergroups(group_title,groupdata) values('$title','$groupdata')");
-
-		$error=Database::$error;
-
-		if(isset($error[5]))
+		if(!isset($loadData[0]['groupid']))
 		{
 			return false;
 		}
 
-		$id=Database::insert_id();
+		$total=count($inputData);
 
-		// $post['groupid']=$id;
+		if($total==0)
+		{
+			return false;
+		}
 
-		Cache::saveKey('usergroup_'.$id,$groupdata);
-		
-		return $id;		
+		$groupdata=unserialize(self::lineToArray($loadData[0]['groupdata']));
+
+		// $listKeys=array_keys($inputData);
+
+		for ($i=0; $i < $total; $i++) { 
+			$keyName=$inputData[$i];
+
+			// $groupdata[$keyName]=$inputData[$keyName];
+
+			if(isset($groupdata[$keyName]))
+			{
+				unset($groupdata[$keyName]);
+			}
+		}
+
+		$groupdata=serialize(self::arrayToLine($groupdata));
+
+		self::update($groupid,$groupdata);
+	}
+
+	public function addPermission($groupid,$inputData=array())
+	{
+		$loadData=self::get(array(
+			'where'=>"where groupid='$groupid'"
+			));
+
+		if(!isset($loadData[0]['groupid']))
+		{
+			return false;
+		}
+
+		$total=count($inputData);
+
+		if($total==0)
+		{
+			return false;
+		}
+
+		$groupdata=unserialize(self::lineToArray($loadData[0]['groupdata']));
+
+		$listKeys=array_keys($inputData);
+
+		for ($i=0; $i < $total; $i++) { 
+			$keyName=$listKeys[$i];
+
+			$groupdata[$keyName]=$inputData[$keyName];
+		}
+
+		$groupdata=serialize(self::arrayToLine($groupdata));
+
+		self::update($groupid,$groupdata);
+	}
+	
+	public function getPermission($groupid,$keyName)
+	{
+		$loadData=array();
+
+		if(!isset(self::$groupData['groupdata']))
+		{
+			if(!$loadData=Cache::loadKey('userGroup1_'.$groupid,-1))
+			{
+				$loadData=self::get(array(
+					'where'=>"where groupid='$groupid'"
+					));
+
+				if(!isset($loadData[0]['groupid']))
+				{
+					return false;
+				}
+
+				$loadData[0]['groupdata']=unserialize(self::lineToArray($loadData[0]['groupdata']));
+
+				$loadData=$loadData[0];
+			}
+			else
+			{
+				$loadData=unserialize($loadData);
+
+				$loadData['groupdata']=unserialize($loadData['groupdata']);
+			}
+
+			self::$groupData=$loadData;	
+
+			$groupData=$loadData['groupdata'];		
+		}
+		else
+		{
+			$groupData=self::$groupData['groupdata'];
+		}
+
+		$value=isset($groupData[$keyName])?$groupData[$keyName]:false;
+
+		return $value;
+
+	}
+
+	public function arrayToLine($data)
+	{
+		if(!isset($data[5]))
+		{
+			return '';
+		}
+
+		$data=unserialize($data);
+
+		$total=count($data);
+
+		$listKeys=array_keys($data);
+
+		$li='';
+
+		for ($i=0; $i < $total; $i++) { 
+			$theKey=$listKeys[$i];
+
+			$theValue=$data[$theKey];
+
+			$li.=$theKey.'|'.$theValue."\r\n";
+		}
+
+		return $li;
+
+	}
+
+	public function lineToArray($data)
+	{
+		$resultData=array();
+
+		$parse=explode("\r\n", $data);
+
+		if(!isset($parse[0][1]))
+		{
+			return '';
+		}
+
+
+		$total=count($parse);
+
+		for ($i=0; $i < $total; $i++) { 
+
+			if(!isset($parse[$i][5]))
+			{
+				continue;
+			}
+
+			$theLine=explode('|', $parse[$i]);
+
+			$theKey=trim($theLine[0]);
+
+			$theValue=trim($theLine[1]);
+
+			$resultData[$theKey]=$theValue;
+		}
+
+		$resultData=serialize($resultData);
+
+
+
+		return $resultData;
+	}
+
+	public function insert($inputData=array())
+	{
+		// End addons
+		// $totalArgs=count($inputData);
+
+		//groupdata: can_edit_post|yes/no
+		//				can_loggedin_to_admincp|yes/no
+		//				can_view_front_end|yes/no
+
+
+
+		$addMultiAgrs='';
+
+		if(isset($inputData[0]['group_title']))
+		{
+		    foreach ($inputData as $theRow) {
+
+		    	$theRow['groupdata']=self::lineToArray($theRow['groupdata']);
+
+				$keyNames=array_keys($theRow);
+
+				$insertKeys=implode(',', $keyNames);
+
+				$keyValues=array_values($theRow);
+
+				$insertValues="'".implode("','", $keyValues)."'";
+
+				$addMultiAgrs.="($insertValues), ";
+
+		    }
+
+		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
+		}
+		else
+		{
+			$inputData['groupdata']=self::lineToArray($inputData['groupdata']);
+
+			$keyNames=array_keys($inputData);
+
+			$insertKeys=implode(',', $keyNames);
+
+			$keyValues=array_values($inputData);
+
+			$insertValues="'".implode("','", $keyValues)."'";	
+
+			$addMultiAgrs="($insertValues)";	
+		}		
+
+		Database::query("insert into usergroups($insertKeys) values".$addMultiAgrs);
+
+		if(!$error=Database::hasError())
+		{
+			$id=Database::insert_id();
+
+			$inputData['groupdata']=self::lineToArray($inputData['groupdata']);
+
+			Cache::saveKey('userGroup_'.$id,serialize($inputData));
+
+			return $id;	
+		}
+
+		return false;
+	
 	}
 
 
-	public function update($id,$post=array())
+	public function remove($post=array(),$whereQuery='',$addWhere='')
 	{
+
+
+		if(is_numeric($post))
+		{
+			$id=$post;
+
+			unset($post);
+
+			$post=array($id);
+		}
+
+		$total=count($post);
+
+		$listID="'".implode("','",$post)."'";
+
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"groupid in ($listID)";
+
+		$addWhere=isset($addWhere[5])?$addWhere:"";
+
+		$command="delete from usergroups where $whereQuery $addWhere";
+
+		Database::query($command);	
+
+		for ($i=0; $i < $total; $i++) { 
+
+			$id=$post[$i];
+
+			Cache::removeKey('userGroup_'.$id);
+		}
+
+		return true;
+	}
+
+	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	{
+
+		if(isset($post['groupdata']))
+		{
+			$post['groupdata']=self::lineToArray($post['groupdata']);
+		}
+
+		if(is_numeric($listID))
+		{
+			$catid=$listID;
+
+			unset($listID);
+
+			$listID=array($catid);
+		}
+
+		$listIDs="'".implode("','",$listID)."'";		
+				
 		$keyNames=array_keys($post);
 
 		$total=count($post);
@@ -193,51 +426,33 @@ class UserGroups
 		}
 
 		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
+		
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"groupid in ($listIDs)";
+		
+		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("update usergroups set $setUpdates where groupid='$id'");
+		Database::query("update usergroups set $setUpdates where $whereQuery $addWhere");
 
 		if(!$error=Database::hasError())
 		{
 			$loadData=self::get(array(
-				'where'=>"where groupid='$id'"
-				));	
+				'where'=>"where groupid IN ($listIDs)"
+				));
 
-			Cache::saveKey('usergroup_'.$loadData[0]['groupid'],$loadData[0]['groupdata']);		
+			$total=count($loadData);
+
+			for ($i=0; $i < $total; $i++) { 
+
+				$loadData[$i]['groupdata']=self::lineToArray($loadData[$i]['groupdata']);
+				Cache::saveKey('userGroup_'.$loadData[$i]['groupid'],serialize($loadData[$i]));
+			}
 
 			return true;
 		}
 
 		return false;
-	}	
+	}
 
-	public function remove($post=array())
-	{
-
-
-		if(is_numeric($post))
-		{
-			$catid=$post;
-
-			unset($post);
-
-			$post=array($catid);
-		}
-
-		$total=count($post);
-
-		for($i=0;$i<$total;$i++)
-		{
-			Cache::removeKey('usergroup_'.$post[$i]);
-		}
-
-		$listID="'".implode("','",$post)."'";
-
-		Database::query("delete from usergroups where groupid in ($listID)");		
-
-		// Database::query("delete from products_pages where pageid in ($listID)");		
-
-		return true;
-	}	
 
 }
 ?>

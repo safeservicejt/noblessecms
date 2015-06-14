@@ -2,10 +2,10 @@
 
 class Manufacturers
 {
-	public static $listManufacturers=array();
 
 	public function get($inputData=array())
 	{
+
 		$limitQuery="";
 
 		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:0;
@@ -20,13 +20,13 @@ class Manufacturers
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="manufacturerid,manufacturer_title,manufacturer_image,date_added,friendly_url,status";
+		$field="mid,title,friendly_url,image,date_added";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
 		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
 
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by date_added desc';
+		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by mid desc';
 
 		$result=array();
 		
@@ -38,6 +38,25 @@ class Manufacturers
 
 		$queryCMD.=$limitQuery;
 
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
+
+		if($cache=='yes')
+		{
+			// Load dbcache
+
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
+		}
+
+
 		$query=Database::query($queryCMD);
 		
 		if(isset(Database::$error[5]))
@@ -45,17 +64,20 @@ class Manufacturers
 			return false;
 		}
 
+		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
+		
 		if((int)$query->num_rows > 0)
 		{
 			while($row=Database::fetch_assoc($query))
 			{
-				if(isset($row['manufacturer_title']))
+				if(isset($row['title']))
 				{
-					$row['manufacturer_title']=String::decode($row['manufacturer_title']);
+					$row['title']=String::decode($row['title']);
 				}
+				if(isset($row['date_added']))
+				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
 
-				$row['url']=Url::manufacturer($row);
-
+											
 				$result[]=$row;
 			}		
 		}
@@ -64,149 +86,65 @@ class Manufacturers
 			return false;
 		}
 
-		return $result;
-	}
-
-	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
-	{
-		if(isset($post['title']))
-		{
-			$post['title']=String::encode($post['title']);
-		}
-
-		if(is_numeric($listID))
-		{
-			$catid=$listID;
-
-			unset($listID);
-
-			$listID=array($catid);
-		}
-
-		$listIDs="'".implode("','",$listID)."'";
-
-		$keyNames=array_keys($post);
-
-		$total=count($post);
-
-		$setUpdates='';
-
-		for($i=0;$i<$total;$i++)
-		{
-			$keyName=$keyNames[$i];
-			$setUpdates.="$keyName='$post[$keyName]', ";
-		}
-
-		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
-
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"manufacturerid in ($listIDs)";
 		
-		$addWhere=isset($addWhere[5])?$addWhere:"";
+		// Save dbcache
+		DBCache::make(md5($queryCMD),$result);
+		// end save
 
-		Database::query("update manufacturers set $setUpdates where $whereQuery $addWhere");
 
-		if(!$error=Database::hasError())
-		{
-			return true;
-		}
-
-		return false;
-	}
-
-	public function url($row=array())
-	{
-		return Url::manufacturer($row);	
-	}
-
-	public function products($inputData=array())
-	{
-		if(!isset($inputData['manufacturerid']))
-			{
-				return false;
-			}
-
-		$manuid=$inputData['manufacturerid'];
-
-		$inputData['where']=" where manufacturerid='$manuid' AND status='1' ";
-
-		$resultData=Products::get($inputData);
-
-		return $resultData;
-	}
-
-	public function add($type='manufacturer',$inputData=array())
-	{
-		$resultData=array();
-
-		if($type=='manu')
-		{
-			$type='manufacturer';
-		}
-
-		if($type=='thumb')
-		{
-			$type='image';
-		}
-
-		if($type=='thumbnail')
-		{
-			$type='image';
-		}
-
-		switch ($type) {
-			case 'manufacturer':
-				$resultData=self::insert($post);
-				break;
-
-				case 'image':
-
-				$catid=0;
-					
-				if(!isset($inputData['id']))
-				{
-					$catid=$inputData['id'];
-
-					if(!isset($inputData['id']))
-					{
-						return false;						
-					}
-
-				}
-
-				$catid=$inputData['id'];
-				$resultData=self::insertThumbnail($catid,$post);
-				break;
-			
-			default:
-				$resultData=self::insert($post);
-				break;
-		}
-
-		return $resultData;
+		return $result;
+		
 	}
 
 	public function insert($inputData=array())
 	{
-		$title=trim($inputData['manufacturer_title']);
+		// End addons
+		// $totalArgs=count($inputData);
 
-		if(!isset($title[1]))return false;
-		
-		$inputData['friendly_url']=Url::makeFriendly($inputData['manufacturer_title']);	
-		
-		if(isset($inputData['manufacturer_title']))
+		$addMultiAgrs='';
+
+		if(isset($inputData[0]['title']))
 		{
-			$inputData['manufacturer_title']=String::encode($inputData['manufacturer_title']);
+		    foreach ($inputData as $theRow) {
+
+				$theRow['date_added']=date('Y-m-d h:i:s');
+
+				if(isset($theRow['title']))
+				$theRow['title']=String::encode($theRow['title']);
+
+				$keyNames=array_keys($theRow);
+
+				$insertKeys=implode(',', $keyNames);
+
+				$keyValues=array_values($theRow);
+
+				$insertValues="'".implode("','", $keyValues)."'";
+
+				$addMultiAgrs.="($insertValues), ";
+
+		    }
+
+		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
 		}
+		else
+		{
+			$inputData['date_added']=date('Y-m-d h:i:s');
 
-		$keyNames=array_keys($inputData);
+			if(isset($inputData['title']))
+			$inputData['title']=String::encode($inputData['title']);
 
-		$insertKeys=implode(',', $keyNames);
+			$keyNames=array_keys($inputData);
 
-		$keyValues=array_values($inputData);
+			$insertKeys=implode(',', $keyNames);
 
-		$insertValues="'".implode("','", $keyValues)."'";
+			$keyValues=array_values($inputData);
 
-		Database::query("insert into manufacturers($insertKeys) values($insertValues)");
+			$insertValues="'".implode("','", $keyValues)."'";	
+
+			$addMultiAgrs="($insertValues)";	
+		}		
+
+		Database::query("insert into manufacturers($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
@@ -216,7 +154,8 @@ class Manufacturers
 		}
 
 		return false;
-	} 
+	
+	}
 
 	public function remove($post=array(),$whereQuery='',$addWhere='')
 	{
@@ -234,22 +173,11 @@ class Manufacturers
 		$total=count($post);
 
 		$listID="'".implode("','",$post)."'";
-		
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"manufacturerid in ($listID)";
+
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"mid in ($listID)";
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$query=Database::query("select manufacturer_image from manufacturers where manufacturerid in ($listID)");
-
-		while($row=Database::fetch_assoc($query))
-		{
-			$thumbnail=$row['manufacturer_image'];
-
-			if(file_exists(ROOT_PATH.$thumbnail))
-			{
-				unlink(ROOT_PATH.$thumbnail);
-			}
-		}
 		$command="delete from manufacturers where $whereQuery $addWhere";
 
 		Database::query($command);	
@@ -257,8 +185,51 @@ class Manufacturers
 		return true;
 	}
 
+	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	{
+		if(isset($post['title']))
+		{
+			$post['title']=String::encode($post['title']);
+		}		
 
+		if(is_numeric($listID))
+		{
+			$catid=$listID;
 
+			unset($listID);
+
+			$listID=array($catid);
+		}
+
+		$listIDs="'".implode("','",$listID)."'";		
+				
+		$keyNames=array_keys($post);
+
+		$total=count($post);
+
+		$setUpdates='';
+
+		for($i=0;$i<$total;$i++)
+		{
+			$keyName=$keyNames[$i];
+			$setUpdates.="$keyName='$post[$keyName]', ";
+		}
+
+		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
+		
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"mid in ($listIDs)";
+		
+		$addWhere=isset($addWhere[5])?$addWhere:"";
+
+		Database::query("update manufacturers set $setUpdates where $whereQuery $addWhere");
+
+		if(!$error=Database::hasError())
+		{
+			return true;
+		}
+
+		return false;
+	}
 
 
 }

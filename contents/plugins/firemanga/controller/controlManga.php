@@ -9,111 +9,75 @@ class controlManga
 	{
 		self::$thisPath=ROOT_PATH.'contents/plugins/firemanga/';
 
-		if(Uri::has('\/edit'))
-		{
-			$this->edit();
-			die();
-		}
-
-		if(Uri::has('\/addnew'))
-		{
-			$this->addnew();
-			die();
-		}
-        if($match=Uri::match('\/jsonCategory'))
-        {
-            $keyword=String::encode(Request::get('keyword',''));
-
-            $loadData=Categories::get(array(
-            	'where'=>"where cattitle LIKE '%$keyword%'",
-                'orderby'=>'order by cattitle asc'
-                ));
-
-            $total=count($loadData);
-
-            $li='';
-
-            for($i=0;$i<$total;$i++)
-            {
-                $li.='<li><span data-method="category" data-id="'.$loadData[$i]['catid'].'" >'.$loadData[$i]['cattitle'].'</span></li>';
-            }
-
-            echo $li;
-            die();
-        }
-        if($match=Uri::match('\/jsonAuthor'))
-        {
-            $keyword=String::encode(Request::get('keyword',''));
-
-            $loadData=MangaAuthors::get(array(
-            	'where'=>"where title LIKE '%$keyword%'",
-                'orderby'=>'order by title asc'
-                ));
-
-            $total=count($loadData);
-
-            $li='';
-
-            for($i=0;$i<$total;$i++)
-            {
-                $li.='<li><span data-method="author" data-id="'.$loadData[$i]['authorid'].'" >'.$loadData[$i]['title'].'</span></li>';
-            }
-
-            echo $li;
-            die();
-        }
-
 		$post=array('alert'=>'');
 
 		Model::setPath(self::$thisPath.'model/');
 		Model::load('manga');
 		Model::resetPath();
 
-		if(Request::has('btnAction'))
+		if($match=Uri::match('\/firemanga\/manga\/(\w+)'))
 		{
-			actionProcess();
-		}
+			if(method_exists("controlManga", $match[1]))
+			{	
+				$method=$match[1];
 
-
-		$curPage=0;
-
-		if($match=Uri::match('\/page\/(\d+)'))
-		{
-			$curPage=$match[1];
-		}
-
-		$theUrl=str_replace(ROOT_URL, '', THIS_URL);
-
-		$post['pages']=Misc::genPage($theUrl,$curPage);
-
-		if(!Request::has('btnSearch'))
-		{
-			$post['posts']=listPostProcess($curPage);
+				$this->$method();
+				
+			}
+			
 		}
 		else
 		{
-			$searchData=searchProcess(Request::get('txtKeywords'));
 
-			$post['posts']=$searchData['posts'];
+			if(Request::has('btnAction'))
+			{
+				actionProcess();
+			}
 
-			$post['pages']=$searchData['pages'];
 
-		}		
+			$curPage=0;
 
-		$headData=array('title'=>'Manga List - FireManga');
+			if($match=Uri::match('\/page\/(\d+)'))
+			{
+				$curPage=$match[1];
+			}
 
-		self::makeContent('mangaList',$post,$headData);	
+			$theUrl=str_replace(ROOT_URL, '', THIS_URL);
+
+			$post['pages']=Misc::genPage($theUrl,$curPage);
+
+			if(!Request::has('btnSearch'))
+			{
+				$post['posts']=listPostProcess($curPage);
+			}
+			else
+			{
+				$searchData=searchProcess(Request::get('txtKeywords'));
+
+				$post['posts']=$searchData['posts'];
+
+				$post['pages']=$searchData['pages'];
+
+			}		
+
+			// $headData=array('title'=>'Manga List - FireManga');
+
+
+			self::makeContent('mangaList',$post);	
+			
+		}
+
+
 	}
 
 	public function addnew()
 	{
 		$post=array('alert'=>'');
 
-		Model::setPath(self::$thisPath.'model/');
-		Model::load('manga');
-		Model::resetPath();
+		// Model::setPath(self::$thisPath.'model/');
+		// Model::load('manga');
+		// Model::resetPath();
 
-		$post['id']=Uri::getNext('edit');
 
 		if(Request::has('btnAdd'))
 		{
@@ -129,17 +93,16 @@ class controlManga
 
 			}
 		}	
-		$headData=array('title'=>'Add new manga - FireManga');
 
-		self::makeContent('mangaAdd',$post,$headData);	
+		self::makeContent('mangaAdd',$post);	
 	}
 	public function edit()
 	{
 		$post=array('alert'=>'');
 
-		Model::setPath(self::$thisPath.'model/');
-		Model::load('manga');
-		Model::resetPath();
+		// Model::setPath(self::$thisPath.'model/');
+		// Model::load('manga');
+		// Model::resetPath();
 
 		$id=Uri::getNext('edit');
 		$post['id']=$id;
@@ -170,12 +133,14 @@ class controlManga
 		self::makeContent('mangaEdit',$post,$headData);	
 	}
 
-	public function makeContent($keyName='',$post=array(),$headData=array())
+	public function makeContent($keyName='',$post=array())
 	{
 
-		$post['headData']=$headData;
+		// $post['headData']=$headData;
 
-		Render::pluginView(ROOT_PATH.'contents/plugins/firemanga/views/',$keyName,$post);		
+		// Render::pluginView(ROOT_PATH.'contents/plugins/firemanga/views/',$keyName,$post);	
+
+		View::makeWithPath($keyName,$post,ROOT_PATH.'contents/plugins/firemanga/views/');	
 	}
 
 }

@@ -4,18 +4,25 @@ $pageData=array();
 
 $pageName='home';
 
-if(Uri::isNull() || Uri::match('^home\/?'))
+
+if(Uri::isNull())
 {
 	$pageName='home';
 }
-elseif($matches=Uri::match('^(\w+)\/?'))
+
+if($matches=Uri::match('^(\w+)\/?'))
 {
 	$pageName=$matches[1];
 }
 
+if($matches=Uri::match('^page\/?'))
+{
+	$pageName='home';
+}
+
 // Theme::view('head');
 
-Theme::controller($pageName);
+Controller::loadWithPath('theme'.ucfirst($pageName),'index',System::getThemePath().'controller/');
 
 // Theme::view('footer');
 

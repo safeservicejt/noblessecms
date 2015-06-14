@@ -1,140 +1,90 @@
 <?php
 
-function updateProcess()
+function actionProcess()
 {
-	$id=Uri::getNext('edit');
+	$id=Request::get('id');
 
-	$data=array();
-
-	$data=Request::get('send');
-
-	$data['parentid']=Request::get('send.parentid',0);
-
-	if(preg_match('/.*?\.\w+/i', $_FILES['thumbnail']['name']))
+	if(!isset($id[0]))
 	{
-		if(!$shortPath=File::upload('thumbnail','/uploads/images/'))
-		{
-			throw new Exception("Upload thumbnail image error !");
-		}
-		else
-		{
-			$data['image']=$shortPath;				
-		}		
+		return false;
 	}
 
+	$listID="'".implode("','", $id)."'";
 
-	Categories::update($id,$data);	
+	$action=Request::get('action');
+
+	// die($action);
+
+	switch ($action) {
+		case 'delete':
+			Categories::remove($id);
+			break;
+		
+	}
 }
 
-function insertProcess()
+function updateProcess($id)
 {
-	$alert='Add new categories error.';
-
-	$data=Request::get('send');
-
-	$data['parentid']=Request::get('send.parentid',0);
-
-	if(!$id=Categories::insert($data))
-	{
-		throw new Exception("Error. ".Database::$error);
-	}
-	else
-	{
-		if(preg_match('/.*?\.\w+/i', $_FILES['thumbnail']['name']))
-		{
-			if(!$shortPath=File::upload('thumbnail','/uploads/images/'))
-			{
-				throw new Exception("Upload thumbnail image error !");
-			}
-			else
-			{
-				$updateData=array(
-					'image'=>$shortPath
-					);					
-
-				Categories::update($id,$updateData);
-			}			
-		}
-
-	}	
-}
-
-function searchProcess($txtKeyword)
-{
-
-	$curPage=Uri::getNext('news');
-
-	if($curPage=='page')
-	{
-		$curPage=Uri::getNext('page');
-	}
-	else
-	{
-		$curPage=0;
-	}
-
-	$resultData=array();
-
-	$resultData['pages']=genPage('news',$curPage);	
-
-	$txtKeyword=trim($txtKeyword);
-
-	Request::make('txtKeyword',$txtKeyword);
+	$update=Request::get('update');
 
 	$valid=Validator::make(array(
-		'txtKeyword'=>'min:1|slashes'
+		'update.title'=>'required|min:1|slashes',
+		'update.parentid'=>'slashes'
 		));
 
 	if(!$valid)
 	{
-		$resultData['listPages']='';
-
-		$resultData['pages']='';
-
-		return $resultData;
+		throw new Exception("Error Processing Request");
 	}
 
-	if(preg_match('/^(\w+)\:(.*?)$/i', $txtKeyword,$matches))
+	if(Request::hasFile('image'))
 	{
-		$method=strtolower($matches[1]);
+		if(Request::isImage('image'))
+		{
+			$update['image']=File::upload('image');
 
-		$keyword=strtolower(trim($matches[2]));
-
-		$method=($method=='nodeid')?'id':$method;
-		$method=($method=='cat')?'category':$method;
-
-		switch ($method) {
-			case 'id':
-			$resultData['categories']=Categories::get(array(
-				'limitShow'=>20,			
-				'limitPage'=>$curPage,
-				'where'=>"where nodeid='$keyword'",
-				'orderby'=>'order by date_added desc',
-				'isHook'=>'no'
+			$loadData=Categories::get(array(
+				'where'=>"where catid='$id'"
 				));
-				break;
+
+			if(isset($loadData[0]['catid']))
+			{
+				File::remove($loadData[0]['image']);
+			}
 		}
-		// print_r($matches);die();
-	}
-	else
-	{
-		$txtKeyword=String::encode($txtKeyword);
-
-		preg_match('/"(.*?)"/i', $txtKeyword,$matches);
-
-		$txtKeyword=$matches[1];
-		
-		$resultData['categories']=Categories::get(array(
-			'limitShow'=>20,			
-			'limitPage'=>$curPage,
-			'where'=>"where cattitle LIKE '%$txtKeyword%'",
-			'orderby'=>'order by catid desc',
-			'isHook'=>'no'
-			));	
 	}
 
-	// print_r($txtKeyword);die();
-
-	return $resultData;
+	Categories::update($id,$update);
+	
 }
+
+function insertProcess()
+{
+	$send=Request::get('send');
+
+	$valid=Validator::make(array(
+		'send.title'=>'required|min:1|slashes',
+		'send.parentid'=>'slashes'
+		));
+
+	if(!$valid)
+	{
+		throw new Exception("Error Processing Request");
+	}
+
+	if(Request::hasFile('image'))
+	{
+		if(Request::isImage('image'))
+		{
+			$send['image']=File::upload('image');
+		}
+	}
+
+	if(!$id=Categories::insert($send))
+	{
+		throw new Exception("Error. ".Database::$error);
+	}
+
+}
+
 ?>

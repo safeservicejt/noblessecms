@@ -1,77 +1,169 @@
 <?php
-function searchProcess($txtKeyword)
+
+function actionProcess()
 {
+	$id=Request::get('id');
 
-	$curPage=0;
-
-	if($match=Uri::match('\/page\/(\d+)'))
+	if(!isset($id[0]))
 	{
-		$curPage=$match[1];
+		return false;
 	}
 
-	$resultData=array();
+	$listID="'".implode("','", $id)."'";
 
-	$resultData['pages']=genPage('news',$curPage);	
+	$action=Request::get('action');
 
-	$txtKeyword=trim($txtKeyword);
+	// die($action);
 
-	Request::make('txtKeyword',$txtKeyword);
+	switch ($action) {
+		case 'delete':
+			Pages::remove($id);
+
+			break;
+		case 'publish':
+
+			Pages::update($id,array(
+				'status'=>1
+				));
+			break;
+		case 'unfeatured':
+			Pages::update($id,array(
+				'is_featured'=>0
+				));
+			break;
+		case 'allowcomment':
+			Pages::update($id,array(
+				'allowcomment'=>1
+				));
+			break;
+		case 'unallowcomment':
+			Pages::update($id,array(
+				'allowcomment'=>0
+				));
+			break;
+		
+	}
+}
+
+function updateProcess($id)
+{
+	$send=Request::get('send');
 
 	$valid=Validator::make(array(
-		'txtKeyword'=>'min:1|slashes'
+		'send.title'=>'min:1|slashes',
+		'send.content'=>'min:1|slashes',
+		'send.keywords'=>'slashes'
 		));
 
 	if(!$valid)
 	{
-		$resultData['listPages']='';
-
-		$resultData['pages']='';
-
-		return $resultData;
+		throw new Exception("Error Processing Request");
 	}
 
-	if(preg_match('/^(\w+)\:(.*?)$/i', $txtKeyword,$matches))
+	$uploadMethod=Request::get('uploadMethod');
+
+
+	$loadData=Pages::get(array(
+		'where'=>"where pageid='$id'"
+		));
+
+	if(!isset($loadData[0]['pageid']))
 	{
-		$method=strtolower($matches[1]);
-
-		$keyword=strtolower(trim($matches[2]));
-
-		$method=($method=='pageid')?'id':$method;
-		$method=($method=='cat')?'category':$method;
-
-		switch ($method) {
-			case 'id':
-			$resultData['listPages']=Pages::get(array(
-				'limitShow'=>20,			
-				'limitPage'=>$curPage,
-				'where'=>"where pageid='$keyword'",
-				'orderby'=>'order by date_added desc',
-				'isHook'=>'no'
-				));
-				break;
-		}
-		// print_r($matches);die();
-	}
-	else
-	{
-		$txtKeyword=String::encode($txtKeyword);
-
-		preg_match('/"(.*?)"/i', $txtKeyword,$matches);
-
-		$txtKeyword=$matches[1];
+		throw new Exception("This page not exists.");
 		
-		$resultData['listPages']=Pages::get(array(
-			'limitShow'=>20,			
-			'limitPage'=>$curPage,
-			'where'=>"where title LIKE '%$txtKeyword%'",
-			'orderby'=>'order by date_added desc',
-			'isHook'=>'no'
-			));	
 	}
 
-	// print_r($txtKeyword);die();
+	switch ($uploadMethod) {
+		case 'frompc':
+			if(Request::hasFile('imageFromPC'))
+			{
+				if(Request::isImage('imageFromPC'))
+				{
+					$send['image']=File::upload('imageFromPC');
 
-	return $resultData;
+					File::remove($loadData[0]['image']);
+				}
+			}
+			break;
+		case 'fromurl':
+
+			if(Request::isImage('imageFromUrl'))
+			{
+				$url=Request::get('imageFromUrl');
+
+				$send['image']=File::upload('uploadFromUrl');
+
+				File::remove($loadData[0]['image']);
+			}
+
+			break;
+	}
+
+
+	if(!Pages::update($id,$send))
+	{
+		throw new Exception("Error. ".Database::$error);
+	}
+	
+}
+
+function insertProcess()
+{
+	$send=Request::get('send');
+
+	$valid=Validator::make(array(
+		'send.title'=>'min:1|slashes',
+		'send.content'=>'min:1|slashes',
+		'send.keywords'=>'slashes',
+		'send.page_type'=>'slashes',
+		'send.allowcomment'=>'slashes'
+		));
+
+	if(!$valid)
+	{
+		throw new Exception("Error Processing Request");
+	}
+
+	$friendlyUrl=trim(String::makeFriendlyUrl($send['title']));
+
+	$getData=Pages::get(array(
+		'where'=>"where friendly_url='$friendlyUrl'"
+		));
+
+	if(isset($getData[0]['pageid']))
+	{
+		throw new Exception("This page exists in database.");
+	}
+
+	$uploadMethod=Request::get('uploadMethod');
+
+	switch ($uploadMethod) {
+		case 'frompc':
+			if(Request::hasFile('imageFromPC'))
+			{
+				if(Request::isImage('imageFromPC'))
+				{
+					$send['image']=File::upload('imageFromPC');
+				}
+			}
+			break;
+		case 'fromurl':
+
+			if(Request::isImage('imageFromUrl'))
+			{
+				$url=Request::get('imageFromUrl');
+
+				$send['image']=File::upload('uploadFromUrl');
+			}
+
+			break;
+	}
+
+	if(!$id=Pages::insert($send))
+	{
+		throw new Exception("Error. ".Database::$error);
+	}
+
 }
 
 ?>

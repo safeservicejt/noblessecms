@@ -1,152 +1,85 @@
 <?php
 
-function statsProcess($method)
-{
-	$resultData='';
-
-	$method=strtolower($method);
-
-	switch ($method) {
-
-		case 'topviews':
-		// die('dfdf');
-		Model::load('admincp/post');
-
-		$resultData=topViews(5);
-			# code...
-			break;
-		case 'topcomments':
-		// die('dfdf');
-		Model::load('admincp/post');
-
-		$resultData=topComments(5);
-			# code...
-			break;
-		case 'lastpostcomments':
-		// die('dfdf');
-		Model::load('admincp/post');
-
-		$resultData=lastComments(5);
-			# code...
-			break;
-		case 'lastcontactus':
-		// die('dfdf');
-		Model::load('admincp/contactus');
-
-		$resultData=lastContactus(5);
-			# code...
-			break;
-		case 'summarystats':
-		// die('dfdf');
-		// Model::load('admincp/contactus');
-
-		$resultData=summaryStats();
-			# code...
-			break;
-
-	}
-
-	echo $resultData;die();
-}
-
-
-
-function summaryStats()
+function countStats()
 {
 	$resultData=array();
 
-	if($loadData=Cache::loadKey('summaryStats',120))
-	{
-		$resultData=$loadData;
+	$today=date('Y-m-d');
 
-		return $resultData;
-	}
+	$loadData=Post::get(array(
+		'query'=>"select count(postid)as totalcount from post"
+		));
+
+	$resultData['post']['total']=$loadData[0]['totalcount'];
+	
+	$loadData=Post::get(array(
+		'query'=>"select count(postid)as totalcount from post where DATE(date_added)='$today'"
+		));
+
+	$resultData['post']['today']=$loadData[0]['totalcount'];
+	
+	$loadData=Post::get(array(
+		'query'=>"select count(postid)as totalcount from post where status='1'"
+		));
+
+	$resultData['post']['published']=$loadData[0]['totalcount'];
+	
+	$loadData=Post::get(array(
+		'query'=>"select count(postid)as totalcount from post where status='0'"
+		));
+
+	$resultData['post']['pending']=$loadData[0]['totalcount'];
+
+	$loadData=Comments::get(array(
+		'query'=>"select count(commentid)as totalcount from comments"
+		));
+
+	$resultData['comments']['total']=$loadData[0]['totalcount'];
+
+	$loadData=Comments::get(array(
+		'query'=>"select count(commentid)as totalcount from comments where DATE(date_added)='$today'"
+		));
+
+	$resultData['comments']['today']=$loadData[0]['totalcount'];
+
+	$loadData=Comments::get(array(
+		'query'=>"select count(commentid)as totalcount from comments where status='1'"
+		));
+
+	$resultData['comments']['approved']=$loadData[0]['totalcount'];
+
+	$loadData=Comments::get(array(
+		'query'=>"select count(commentid)as totalcount from comments where status='0'"
+		));
+
+	$resultData['comments']['pending']=$loadData[0]['totalcount'];
+
+	$loadData=Contactus::get(array(
+		'query'=>"select count(contactid)as totalcount from contactus"
+		));
+
+	$resultData['contactus']['total']=$loadData[0]['totalcount'];
+
+	$loadData=Contactus::get(array(
+		'query'=>"select count(contactid)as totalcount from contactus where DATE(date_added)='$today'"
+		));
+
+	$resultData['contactus']['today']=$loadData[0]['totalcount'];
+
+	$loadData=Users::get(array(
+		'query'=>"select count(userid)as totalcount from users"
+		));
+
+	$resultData['users']['total']=$loadData[0]['totalcount'];
+
+	$loadData=Users::get(array(
+		'query'=>"select count(userid)as totalcount from users where DATE(date_added)='$today'"
+		));
+
+	$resultData['users']['today']=$loadData[0]['totalcount'];
 
 
-	$startToday=date('Y-m-d 00:00:00');
-	$endToday=date('Y-m-d h:i:s');
-
-	$query=Database::query("select count(postid) as totalID from post where date_added BETWEEN '$startToday' AND '$endToday'");
-
-	$row=Database::fetch_assoc($query);
-
-	$resultData['todayPost']=$row['totalID'];
-
-	$query=Database::query("select count(postid) as totalID from post");
-
-	$row=Database::fetch_assoc($query);
-
-	$resultData['totalPost']=$row['totalID'];
-
-	$query=Database::query("select count(postid) as totalID from post where status='1'");
-
-	$row=Database::fetch_assoc($query);
-
-	$resultData['publishPost']=$row['totalID'];
-
-	$query=Database::query("select count(postid) as totalID from post where status='0'");
-
-	$row=Database::fetch_assoc($query);
-
-	$resultData['pendingPost']=$row['totalID'];
-
-	$query=Database::query("select count(commentid) as totalID from comments where  date_added BETWEEN '$startToday' AND '$endToday'");
-
-	$row=Database::fetch_assoc($query);
-
-	$resultData['todayComment']=$row['totalID'];
-
-	$query=Database::query("select count(commentid) as totalID from comments");
-
-	$row=Database::fetch_assoc($query);
-
-	$resultData['totalComment']=$row['totalID'];
-
-	$query=Database::query("select count(commentid) as totalID from comments where status = '1'");
-
-	$row=Database::fetch_assoc($query);
-
-	$resultData['approvedComment']=$row['totalID'];
-
-	$query=Database::query("select count(commentid) as totalID from comments where status = '0'");
-
-	$row=Database::fetch_assoc($query);
-
-	$resultData['pendingComment']=$row['totalID'];
-
-	$query=Database::query("select count(contactid) as totalID from contactus where date_added BETWEEN '$startToday' AND '$endToday'");
-
-	$row=Database::fetch_assoc($query);
-
-	$resultData['todayContact']=$row['totalID'];
-
-	$query=Database::query("select count(contactid) as totalID from contactus");
-
-	$row=Database::fetch_assoc($query);
-
-	$resultData['totalContact']=$row['totalID'];
-
-	$query=Database::query("select count(userid) as totalID from users where date_added BETWEEN '$startToday' AND '$endToday'");
-
-	$row=Database::fetch_assoc($query);
-
-	$resultData['todayUsers']=$row['totalID'];
-
-	$query=Database::query("select count(userid) as totalID from users");
-
-	$row=Database::fetch_assoc($query);
-
-	$resultData['totalUsers']=$row['totalID'];
-
-	$query=Database::query("select count(userid) as totalID from users where groupid='8'");
-
-	$row=Database::fetch_assoc($query);
-
-	$resultData['pendingUsers']=$row['totalID'];
-
-	Cache::saveKey('summaryStats',json_encode($resultData));
-
-	return json_encode($resultData);
+	return $resultData;
 }
 
 ?>

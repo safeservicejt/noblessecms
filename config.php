@@ -1,18 +1,15 @@
 <?php
 
-static $root_path = 'D:\wamp\htdocs\project\2015\noblessecms/';
-static $root_url = 'http://test.vn/project/2015/noblessecms/';
+static $root_path = 'D:\wamp\htdocs\project\2015/noblessecmsv2/';
+static $root_url = 'http://test.vn/project/2015/noblessecmsv2/';
+
+date_default_timezone_set("Asia/Saigon");
 
 define("ENCRYPT_SECRET_KEY", "*&^@#&)@#)(*)(@#");
-
-// Root path & url
 
 define("ROOT_PATH", $root_path);
 
 define("ROOT_URL", $root_url);
-
-
-// Application path & url
 
 define("APP_PATH", $root_path . 'application/');
 
@@ -32,10 +29,6 @@ define("MODELS_URL", APP_URL . 'models/');
 
 define("VIEWS_URL", APP_URL . 'views/');
 
-define("ADMINCP_URL", ROOT_URL . 'admincp/');
-
-define("USERCP_URL", ROOT_URL . 'usercp/');
-
 define("LANGUAGE", 'en');
 
 define("LANG_URL", APP_URL . 'lang/');
@@ -44,65 +37,40 @@ define("LANG_PATH", APP_PATH . 'lang/');
 
 define("INCLUDES_PATH", ROOT_PATH . 'includes/');
 
-define("SYSTEM_VERSION", '1.0');
+define("ADMINCP_URL", ROOT_URL . 'admincp/');
 
-define("PLUGINS_PATH", ROOT_PATH . 'contents/plugins/');
+define("USERCP_URL", ROOT_URL . 'usercp/');
 
-define("PLUGINS_URL", ROOT_URL . 'contents/plugins/');
+define("ADMINCP_PATH", ROOT_PATH . 'admincp/');
 
-define("PMETHOD_PATH", ROOT_PATH . 'contents/paymentmethods/');
+define("USERCP_PATH", ROOT_PATH . 'usercp/');
 
-define("PMETHOD_URL", ROOT_URL . 'contents/paymentmethods/');
+define("THEME_NAME", 'simplecolor');
 
-define("THEMES_PATH", ROOT_PATH . 'contents/themes/');
+define("THEMES_URL", ROOT_URL.'contents/themes/');
 
-define("THEMES_URL", ROOT_URL . 'contents/themes/');
+define("THEME_URL", ROOT_URL.'contents/themes/'.THEME_NAME.'/');
 
-define("NOBLESSECMS_URL", 'http://test.vn/project/2015/nobleserver/');
+define("THEMES_PATH", ROOT_PATH.'contents/themes/');
+
+define("PAYMENTMETHODS_PATH", ROOT_PATH.'contents/paymentmethods/');
+
+define("PLUGINS_PATH", ROOT_PATH.'contents/plugins/');
+
+define("PLUGINS_URL", ROOT_URL.'contents/plugins/');
+
+define("ADMINCP_TITLE", 'Cpanel Noblesse CMS');
+
+define("API_URL", ROOT_URL.'api/');
 
 
-// Theme path & url
-
-if(isset($_GET['load']) && preg_match('/^theme\/(\w+)$/', $_GET['load'],$matches))
-{
-    define('THEME_NAME', $matches[1]);
-
-    $_SESSION['themeName']=THEME_NAME;
-}
-else
-{
-    if(isset($_SESSION['themeName']))
-    {
-     define('THEME_NAME', $_SESSION['themeName']);       
-    }
-    else
-    {
-       define('THEME_NAME', 'mangablue');     
-    }
-}
-
-// define('THEME_PATH', VIEWS_PATH.'frontend/themes/'.THEME_NAME.'/');
-
-// define('THEME_URL', VIEWS_URL.'frontend/themes/'.THEME_NAME.'/');
-
-define('THEME_PATH', THEMES_PATH.THEME_NAME.'/');
-
-define('THEME_URL', THEMES_URL.THEME_NAME.'/');
-
-define('ADMINCP_TITLE', 'Welcome to Cpanel - Noblesse CMS');
-
-$uri = isset($_GET['load']) ? $_GET['load'] : '';
-
-$_SESSION['start_time']=!isset($_SESSION['start_time'])?time():$_SESSION['start_time'];
+$cmsUri = isset($_GET['load']) ? $_GET['load'] : '';
 
 //Setting database
 
 // Support DbType: mysqli|sqlserver|pdo|mssql
 
 //Default or you can custom db short name
-
-//Dabatase info
-
 $db['default'] = array(
 
     "dbtype" => "mysqli",
@@ -115,7 +83,7 @@ $db['default'] = array(
 
     "dbpassword" => "",
 
-    "dbname" => "2015_project_noblessecms"
+    "dbname" => "2015_project_noblessev2"
 
 );
 
@@ -132,13 +100,23 @@ $db['testdb'] = array(
 
     "dbhost" => "serverName\sqlexpress",
 
-    "dbport" => "3306",
+    "dbport" => "1433",
 
     "dbuser" => "root",
 
     "dbpassword" => "",
 
-    "dbname" => "noblessecms_db4shb7"
+    "dbname" => "2014_testdb"
+
+);
+
+$db['mongodb'] = array(
+
+    "dbtype" => "mongodb",
+
+    "dbhost" => "mongodb://localhost:27017,localhost:27017",
+
+    "dbname" => "2014_testdb"
 
 );
 
@@ -148,13 +126,13 @@ $db['blogmssql'] = array(
 
     "dbhost" => "localhost",
 
-    "dbport" => "3306",
+    "dbport" => "1433",
 
     "dbuser" => "root",
 
     "dbpassword" => "",
 
-    "dbname" => "noblessecms_db4shb7"
+    "dbname" => "2014_wordpress"
 
 );
 
@@ -170,7 +148,7 @@ $db['blog_api'] = array(
 
     "dbpassword" => "",
 
-    "dbname" => "noblessecms_db4shb7"
+    "dbname" => "2014_wordpress"
 
 );
 
@@ -191,22 +169,17 @@ $db['blog_api'] = array(
  *
  *
  */
-
 function mainClassess($className) {
-
 
     if(file_exists(INCLUDES_PATH . $className . '.php'))
     {
         require INCLUDES_PATH . $className . '.php';       
     }
-
- 
     
 }
 
-
-
 spl_autoload_register('mainClassess');
+
 // set_error_handler('codemeErrorHandler');
 
 register_shutdown_function('codemeFatalErrorShutdownHandler');
@@ -224,5 +197,4 @@ function codemeFatalErrorShutdownHandler()
     codemeErrorHandler(E_ERROR, $last_error['message'], $last_error['file'], $last_error['line']);
   }
 }
-
 ?>

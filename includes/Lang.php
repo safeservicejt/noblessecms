@@ -9,6 +9,30 @@ class Lang
 
 	private static $totalRow=0;
 
+    public static $loadPath = '';
+
+    
+    public function setPath($path)
+    {
+        $path=!isset($path[2])?LANG_PATH:$path;
+
+        self::$loadPath=$path;
+    }
+
+    public function resetPath()
+    {
+        self::$loadPath=LANG_PATH;
+    }
+    
+    public function getPath()
+    {
+        $path=!isset(self::$loadPath[2])?LANG_PATH:self::$loadPath;
+
+        self::$loadPath=$path;
+
+        return $path;
+    }
+
 	public function get($keyName,$addOns=array())
 	{
 		if(!isset($keyName[1]))
@@ -24,7 +48,7 @@ class Lang
 
 		$childName='';
 
-		$langPath=LANG_PATH.$dirName.'/';
+		$langPath=self::getPath().$dirName.'/';
 
 		$loadData=self::parseName($keyName);
 
@@ -43,7 +67,7 @@ class Lang
 
 			if(!file_exists($langPath))
 			{
-				Alert::make('Language '.ucfirst($fileName).' not exists in system.');
+				Log::warning('Language '.ucfirst($fileName).' not exists in system.');
 
 				return false;
 			}
@@ -58,14 +82,18 @@ class Lang
 
 			if(!isset($lang))
 			{
-				Alert::make('The language '.ucfirst($lang).' not exists inside system.');
+				// Alert::make('The language '.ucfirst($lang).' not exists inside system.');
+
+				Log::warning('The language '.ucfirst($lang).' not exists inside system.');
 
 				return false;			
 			}		
 
 			if(isset($fieldName[1]) && !isset($lang[$fieldName]))
 			{
-				Alert::make('The field '.ucfirst($fieldName).' not exists inside language '.ucfirst($fileName));
+				// Alert::make('The field '.ucfirst($fieldName).' not exists inside language '.ucfirst($fileName));
+
+				Log::warning('The field '.ucfirst($fieldName).' not exists inside language '.ucfirst($fileName));
 
 				return false;			
 			}		
@@ -108,19 +136,8 @@ class Lang
 
 	}
 
-	public function loadLang($lang)
+	public function set($lang)
 	{
-		if($matches=Uri::match('^language\/([a-zA-Z]+)$'))
-		{
-			$lang=strtolower(trim($matches[1]));
-
-			$_SESSION['locale']=$lang;
-
-			Redirect::to(ROOT_URL);
-		}
-
-		$lang=isset($_SESSION['locale'])?$_SESSION['locale']:$lang;
-
 		App::setLocale($lang);
 	}
 

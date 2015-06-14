@@ -3,10 +3,6 @@
 class Users
 {
 
-	private static $groups=array();
-
-	private static $isLogin='no';
-
 	public function get($inputData=array())
 	{
 
@@ -24,7 +20,7 @@ class Users
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="userid,groupid,image,firstname,lastname,balance,email,password,ip,date_added,is_affiliate,is_admin,approved,isreaded";
+		$field="userid,groupid,username,firstname,lastname,image,email,password,userdata,ip,verify_code,parentid,date_added";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
@@ -42,16 +38,26 @@ class Users
 
 		$queryCMD.=$limitQuery;
 
-		// Load dbcache
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
 
-		$loadCache=DBCache::get($queryCMD);
-
-		if($loadCache!=false)
+		if($cache=='yes')
 		{
-			return $loadCache;
+			// Load dbcache
+
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
 		}
 
-		// end load
+		// echo $queryCMD;die();
+
 
 		$query=Database::query($queryCMD);
 		
@@ -59,17 +65,16 @@ class Users
 		{
 			return false;
 		}
-
-		// echo Database::$error;
-
+		
 		if((int)$query->num_rows > 0)
 		{
 			while($row=Database::fetch_assoc($query))
 			{
-				$row['date_added']=Render::dateFormat($row['date_added']);
 
-				$row['group_title']=self::group($row['groupid']);
-								
+				if(isset($row['date_added']))
+				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
+
+											
 				$result[]=$row;
 			}		
 		}
@@ -77,331 +82,314 @@ class Users
 		{
 			return false;
 		}
+		
 		// Save dbcache
 		DBCache::make(md5($queryCMD),$result);
 		// end save
+
 
 		return $result;
 		
 	}
 
-	public function changePassword($userid,$newPassword)
+	public function api($action)
 	{
-		$password=md5($newPassword);
+		Model::load('api/user');
 
-		$isUser=self::get(array(
-			'where'=>"where userid='$userid'"
+		try {
+			loadApi($action);
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+		}
+	}
+
+	public function forgotPassword($email)
+	{
+		$email=trim($email);
+
+		$loadUser=self::get(array(
+			'where'=>"where email='$email'"
 			));
 
-		if(!isset($isUser[0]['userid']))
+		if(!isset($loadUser[0]['userid']))
+		{
+			throw new Exception("Email not exists in database");
+			
+		}
+
+		$newPass=String::randText(10);
+
+		self::update($loadUser[0]['userid'],array(
+			'password'=>String::encrypt($newPass)
+			));
+
+		$replaces=array(
+			'{username}'=>$loadUser[0]['username'],
+			'{password}'=>$newPass,
+			'{email}'=>$loadUser[0]['email'],
+			'{firstname}'=>$loadUser[0]['firstname'],
+			'{lastname}'=>$loadUser[0]['lastname']
+			);
+
+		$subject=System::getMailSetting('forgotSubject');
+		$content=System::getMailSetting('forgotContent');
+
+		$listKeys=array_keys($replaces);
+
+		$listValues=array_values($replaces);
+
+		$content=str_replace($listKeys, $listValues, $content);
+
+		Mail::send(array(
+			'toEmail'=>$email,
+			'toName'=>$loadUser[0]['username'],
+			'subject'=>$subject,
+			'content'=>$content
+			));
+	}
+
+	public function makeRegister()
+	{
+		$valid=Validator::make(array(
+			'send.firstname'=>'required|min:1|slashes',
+			'send.lastname'=>'required|min:1|slashes',
+			'send.username'=>'required|min:1|slashes',
+			'send.email'=>'required|email|slashes',
+			'send.password'=>'required|min:1|slashes',
+			'send.image'=>'slashes'
+			));
+
+		if(!$valid)
+		{
+			throw new Exception("Check your infomartion again!");
+		}
+
+		$insertData=Request::get('send');
+
+		if(!$id=Users::insert($insertData))
+		{
+			throw new Exception("Check your infomartion again, pls!");
+		}	
+
+		return $id;
+	}
+
+	public function makeLogin($username,$password)
+	{
+		$_REQUEST['username']=$username;
+
+		$_REQUEST['password']=$password;
+
+		$valid=Validator::make(array(
+			'username'=>'min:3|slashes',
+			'password'=>'min:3|slashes'
+			));
+
+		if(!$valid)
+		{
+			throw new Exception("Check your login infomartion again, pls!");
+			
+		}
+
+		$encryptPassword=String::encrypt($password);
+
+
+		$getData=self::get(array(
+			'where'=>"where (username='$username' OR email='$username') AND password='$encryptPassword'"
+			));
+
+		if(!isset($getData[0]['userid']))
+		{
+			throw new Exception("User not exists in system.");
+			
+		}
+
+		Cookie::make('username',$username,1440*7);
+
+		Cookie::make('password',$encryptPassword,1440*7);
+
+		Cookie::make('firstname',$getData[0]['firstname'],1440*7);
+
+		Cookie::make('lastname',$getData[0]['lastname'],1440*7);
+
+		Session::make('groupid',$getData[0]['groupid']);
+
+		Session::make('userid',$getData[0]['userid']);
+
+	}
+
+
+	public function hasLogin()
+	{
+		if(!Cookie::has('username') || !Cookie::has('password') || !isset($_SESSION['groupid']))
+		{
+			return false;
+		}
+
+		$username=Cookie::get('username');
+
+		$password=Cookie::get('password');
+
+		try {
+
+			self::makeLogin($username,$password);
+
+			return true;
+
+		} catch (Exception $e) {
+
+			return false;
+
+		}
+	}
+
+	public function logout()
+	{
+		Cookie::destroy('username');
+
+		Cookie::destroy('password');
+
+		unset($_SESSION['groupid'], $_SESSION['userid']);
+
+		return true;
+
+	}
+
+	public function changePassword($userid,$newPassword='')
+	{
+
+		if(!isset($newPassword[1]))
+		{
+			return false;
+		}
+
+		$thisUserid=$_SESSION['userid'];
+
+		$encryptPassword=String::encrypt($newPassword);
+
+		self::update($userid,array(
+			'password'=>$encryptPassword
+			));
+
+		if($userid==$thisUserid)
+		{
+			Cookie::make('password',$encryptPassword,1440*7);
+		}
+
+	}
+
+	public function upBalance($userid,$money)
+	{
+		Database::query("update users set balance=balance+$money where userid='$userid'");
+	}
+
+	public function downBalance($userid,$money)
+	{
+		Database::query("update users set balance=balance-$money where userid='$userid'");
+	}
+
+
+
+	public function changeGroup($userid,$groupid)
+	{
+
+		$getData=UserGroups::get(array(
+			'where'=>"where groupid='$groupid'"
+			));
+
+		if(!isset($getData[0]['groupid']))
 		{
 			return false;
 		}
 
 		self::update($userid,array(
-			'password'=>$password
-			));	
-
-		if(isset($_SESSION['userid']))
-		{
-			Session::make('password',$password);
-		}
-			
-		return true;	
-
-	}
-
-	public function logout()
-	{
-      Cookie::destroy('username');
-      Cookie::destroy('password');
-
-      Session::forget('userid');
-      
-      Session::forget('groupid');		
-	}
-
-	public function isenable()
-	{
-		if((int)GlobalCMS::$setting['enable_register']==1)
-		{
-			return true;
-		}
-
-		return false;
-	}
-	
-	public function isUser($email,$pword)
-	{
-		Request::make('email',$email);
-
-		Request::make('password',$pword);
-
-		$valid=Validator::make(array(
-			'email'=>'email|slashes',
-			'password'=>'min:5|slashes'
+			'groupid'=>$groupid
 			));
-
-		if(!$valid)
-		{
-			return false;
-		}
-
-		$password=md5($pword);
-
-		$loadData=self::get(array(
-			'where'=>"where email='$email' AND password='$password' AND status='1'"
-			));
-
-		if(!isset($loadData[0]['userid']))
-		{
-			return false;
-		}
-
-		return json_encode($loadData[0]);
-	}
-
-	public function isLogined()
-	{
-		if(self::$isLogin=='yes')
-		{
-			return true;
-		}
-
-		
-		if(Cookie::has('email')==false || Cookie::has('password')==false)
-		{
-			return false;
-		}
-
-	    $valid=Validator::check(array(
-
-	    Cookie::get('email')=>'email|max:150|slashes',
-
-	    Cookie::get('password')=>'min:2|slashes',
-
-	    Cookie::get('userid')=>'min:2|slashes'
-
-	    ));
-
-	    if(!$valid)
-	    {
-	        return false;
-	    }
-
-	    $username = Cookie::get('email');
-	    $password = Cookie::get('password');
-
-	    DBCache::disable();
-	    $loadData=self::get(array(
-	    	'where'=>"where email='$username' AND password='$password' AND status='1'"
-	    	));
-	    DBCache::enable();	    
-
-	    if (!isset($loadData[0]['userid']))
-	    {
-	        return false;      
-	    }
-
-	    $row=$loadData[0];
-
-	    Session::make('groupid',$row['groupid']);    
-
-	    // Session::make('userid',$row['userid']);
-
-	    Session::make('userid',$row['userid']);
-
-	    self::$isLogin='yes';
 
 		return true;
 	}
 
-	public function registerEmail()
+	public function insert($inputData=array())
 	{
-		if(Session::has('register'))
+		// End addons
+		// $totalArgs=count($inputData);
+
+		$addMultiAgrs='';
+
+		if(isset($inputData[0]['username']))
 		{
-			return true;
+		    foreach ($inputData as $theRow) {
+
+				$theRow['date_added']=date('Y-m-d h:i:s');
+
+				$keyNames=array_keys($theRow);
+
+				$insertKeys=implode(',', $keyNames);
+
+				$keyValues=array_values($theRow);
+
+				$insertValues="'".implode("','", $keyValues)."'";
+
+				$addMultiAgrs.="($insertValues), ";
+
+		    }
+
+		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
 		}
-
-		$valid=Validator::make(array(
-			'send.email'=>'min:5|email|slashes'
-			));
-
-		if(!$valid)
+		else
 		{
-			return false;
-		}
+			$inputData['date_added']=date('Y-m-d h:i:s');
 
-		$email=trim(Request::get('send.email'));
+			$keyNames=array_keys($inputData);
 
+			$insertKeys=implode(',', $keyNames);
 
-		$tmp=Cache::loadKey('mailSetting',-1);
+			$keyValues=array_values($inputData);
 
-		$dataSetting=json_decode($tmp,true);
+			$insertValues="'".implode("','", $keyValues)."'";	
 
-		$sendMethod=$dataSetting['send_method'];
+			$addMultiAgrs="($insertValues)";	
+		}		
 
-		$firstname=trim(Request::get('send.firstname'));
+		Database::query("insert into users($insertKeys) values".$addMultiAgrs);
 
-		$lastname=trim(Request::get('send.lastname'));
-
-		$fullname=$firstname.' '.$lastname;
-
-		if(!isset($fullname[2]))
+		if(!$error=Database::hasError())
 		{
-			$fullname='Customer';
+			$id=Database::insert_id();
+
+			return $id;	
 		}
 
-		switch ($sendMethod) {
-			case 'local':
-
-			$post=array(
-				'toName'=>$fullname,
-				'toEmail'=>$email,
-				'fromName'=>$dataSetting['fromName'],
-				'fromEmail'=>$dataSetting['fromEmail'],
-				'subject'=>$dataSetting['registerSubject'],
-				'message'=>$dataSetting['registerContent']
-				);
-
-			if(Mail::sendMailFromLocal($post))
-			{
-				Session::make('register','1');
-				return true;
-			}
-
-			return false;
-
-				break;
-			case 'account':
-
-			$post=array(
-				'toName'=>$fullname,
-				'toEmail'=>$email,
-
-				'fromName'=>$dataSetting['fromName'],
-				'fromEmail'=>$dataSetting['fromEmail'],
-
-				'subject'=>$dataSetting['registerSubject'],
-				'message'=>$dataSetting['registerContent'],
-
-				'smtpAddress'=>$dataSetting['smtpAddress'],
-				'smtpUser'=>$dataSetting['smtpUser'],
-				'smtpPass'=>$dataSetting['smtpPass'],
-				'smtpPort'=>$dataSetting['smtpPort']
-				);
-
-			if(Mail::sendMail($post))
-			{
-				Session::make('register','1');
-				return true;
-			}
-
-				break;
-
-		}
-
-
-
-		return true;		
-	}
-
-	public function makeLogin()
-	{
-
-	    $valid=Validator::make(array(
-
-	    'email'=>'email|max:150|slashes',
-
-	    'password'=>'min:2|slashes'
-
-	    ));
-
-	    if(!$valid)
-	    {
-	        return false;
-	    }
-	    $username=Request::get('email');
-
-	    $password=Request::get('password');
-	   
-	    $password = md5($password);
-
-	    DBCache::disable();
-	    $loadData=self::get(array(
-	    	'where'=>"where email='$username' AND password='$password' AND status='1'"
-	    	));
-	    DBCache::enable();	    
-
-
-	    if (!isset($loadData[0]['userid']))
-	    {
-	        return false;      
-	    }
-
-	    $row=$loadData[0];
-
-        Cookie::make('email', $username, 8460);
-
-        Cookie::make('password', $password, 8460);
-
-        Session::make('groupid',$row['groupid']);
-
-        // Session::make('userid',$row['userid']);
-
-        Session::make('userid',$row['userid']);
-
-        UserGroups::loadCaches();
-
-        return true;
-
-	}
-
-	public function address($id)
-	{
-		$loadData=Address::get(array(
-			'where'=>"where userid='$id'"
-			));
-
-		return $loadData[0];
-	}
-
-
-	public function affiliate($id)
-	{
-		$loadData=Affiliate::get(array(
-			'where'=>"where userid='$id'"
-			));
-
-		return $loadData[0];
-	}
-
-
+		return false;
 	
-	
-	public function group($groupid)
+	}
+
+	public function remove($post=array(),$whereQuery='',$addWhere='')
 	{
-		if(!isset(self::$groups[1]['groupid']))
+
+
+		if(is_numeric($post))
 		{
-			self::$groups=Usergroups::get();			
+			$id=$post;
+
+			unset($post);
+
+			$post=array($id);
 		}
 
-		$total=count(self::$groups);
+		$total=count($post);
 
-		$title='Member';
+		$listID="'".implode("','",$post)."'";
 
-		for($i=0;$i<$total;$i++)
-		{
-			if($groupid==self::$groups[$i]['groupid'])
-			{
-				$title=self::$groups[$i]['group_title'];
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"userid in ($listID)";
 
-				break;
-			}
-		}
+		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		return $title;
+		$command="delete from users where $whereQuery $addWhere";
 
+		Database::query($command);	
+
+		return true;
 	}
 
 	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
@@ -416,8 +404,8 @@ class Users
 			$listID=array($catid);
 		}
 
-		$listIDs="'".implode("','",$listID)."'";
-
+		$listIDs="'".implode("','",$listID)."'";		
+				
 		$keyNames=array_keys($post);
 
 		$total=count($post);
@@ -426,13 +414,12 @@ class Users
 
 		for($i=0;$i<$total;$i++)
 		{
-
 			$keyName=$keyNames[$i];
 			$setUpdates.="$keyName='$post[$keyName]', ";
 		}
 
 		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
-
+		
 		$whereQuery=isset($whereQuery[5])?$whereQuery:"userid in ($listIDs)";
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
@@ -446,87 +433,7 @@ class Users
 
 		return false;
 	}
-	public function insert($inputData=array())
-	{
-		if(!isset($inputData['refer_code']))
-		{
-			$inputData['refer_code']=String::randText(8);
-		}
-		
-		// Addons
-		if(!isset($inputData['groupid']))
-		{
-			$inputData['groupid']=isset(GlobalCMS::$setting['default_groupid'])?GlobalCMS::$setting['default_groupid']:'2';
-		}
-		// End addons
 
-		// $inputData['nodeid']=String::genNode();
-		
-		$inputData['date_added']=date('Y-m-d h:i:s');
-
-		$keyNames=array_keys($inputData);
-
-		$insertKeys=implode(',', $keyNames);
-
-		$keyValues=array_values($inputData);
-
-		$insertValues="'".implode("','", $keyValues)."'";
-
-		Plugins::load('before_insert_users',$inputData);
-
-		Database::query("insert into users($insertKeys) values($insertValues)");
-
-		if(!$error=Database::hasError())
-		{
-			$id=Database::insert_id();	
-
-			$inputData['userid']=$id;
-
-			Plugins::load('after_insert_users',$inputData);
-
-			return $id;	
-		}
-
-		return false;
-	
-	}
-	public function remove($post,$whereQuery='',$addWhere='')
-	{
-		if(is_numeric($post))
-		{
-			$id=$post;
-
-			unset($post);
-
-			$post=array($id);
-		}
-
-		$total=count($post);
-
-		$listID="'".implode("','",$post)."'";
-		
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"userid in ($listID)";
-
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-
-		$command="delete from users where $whereQuery $addWhere";
-
-		Database::query($command);	
-
-		$command="delete from address where userid in ($listID)";
-
-		Database::query($command);	
-
-		$command="delete from affiliate where userid in ($listID)";
-
-		Database::query($command);	
-
-
-		return true;
-
-
-	}
 
 }
-
 ?>

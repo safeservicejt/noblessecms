@@ -3,113 +3,195 @@
 class Theme
 {
 
+	public function get($inputData=array())
+	{
 
+		$limitQuery="";
+
+		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:10;
+
+		$limitPage=isset($inputData['limitPage'])?$inputData['limitPage']:0;
+
+		$limitPage=((int)$limitPage > 0)?$limitPage:0;
+
+		$limitPosition=$limitPage*(int)$limitShow;
+
+		$listDir=Dir::listDir(THEMES_PATH);
+
+		$total=count($listDir);
+
+		$result=array();
+
+		for($i=$limitPage;$i<$limitShow;$i++)
+		{
+			if(!isset($listDir[$i]))
+			{
+				continue;
+			}
+
+			if($listDir[$i]==THEME_NAME)
+			{
+				continue;
+			}
+			
+			$path=THEMES_PATH.$listDir[$i].'/';
+			$url=THEMES_URL.$listDir[$i].'/';
+
+
+			$result[$listDir[$i]]=file($path.'info.txt');
+
+			$result[$listDir[$i]]['thumbnail']=$url.'thumb.jpg';
+
+		}
+		return $result;
+		
+	}
+
+	public function setActivate($themeName)
+	{
+		$path=ROOT_PATH.'contents/themes/'.$themeName.'/';
+
+		if(!is_dir($path))
+		{
+			throw new Exception("This theme not exists");
+		}
+
+		$info=$path.'info.txt';
+
+		if(!file_exists($info))
+		{
+			throw new Exception("This theme not valid.");
+		}
+
+		$configPath=ROOT_PATH.'config.php';
+
+		$data=file_get_contents($configPath);
+
+		$data=preg_replace('/"THEME_NAME", \'\w+\'/i', '"THEME_NAME", \''.$themeName.'\'', $data);
+
+		File::create($configPath,$data);
+
+	}
+
+	public function getDefault()
+	{
+		$path=ROOT_PATH.'contents/themes/'.THEME_NAME.'/';
+
+		$resultData=array();
+
+		$resultData=file($path.'info.txt');
+
+		$resultData['name']=THEME_NAME;
+
+		return $resultData;		
+	}
+
+	public function getThemeHeader()
+	{
+		$data=Plugins::load('site_header');
+
+		return $data;
+	}
+
+	public function getThemeFooter()
+	{
+		$data=Plugins::load('site_footer');
+
+		return $data;
+	}
+
+	public function getAdmincpHeader()
+	{
+		$data=Plugins::load('admincp_header');
+
+		return $data;
+	}
+
+	public function getAdmincpFooter()
+	{
+		$data=Plugins::load('admincp_footer');
+
+		return $data;
+	}
+
+	public function getUsercpHeader()
+	{
+		$data=Plugins::load('usercp_header');
+
+		return $data;
+	}
+
+	public function getUsercpFooter()
+	{
+		$data=Plugins::load('usercp_footer');
+
+		return $data;
+	}
 
     public function loadShortCode()
     {
-        $path=THEME_PATH.'functions.php';
+        $path=System::getThemePath().'shortcode.php';
 
         if(!file_exists($path))
         {
             return false;
         }
 
-        try {
+        require($path);
 
-            require($path);
+        // try {
 
-        } catch (Exception $e) {
+        //     require($path);
 
-            throw new Exception("Error while require functions of theme ".THEME_NAME);
+        // } catch (Exception $e) {
 
-        }
+        //     throw new Exception("Error while require functions of theme ".THEME_NAME);
 
-    }
-
-    public function controller($controlName = '', $funcName = 'index')
-    {  
-        $funcOfController = '';
-
-        if (preg_match('/(\w+)\@(\w+)/i', $controlName, $matchesName)) {
-            $controlName = $matchesName[1];
-
-            $funcOfController = $matchesName[2];
-
-            $funcName = $funcOfController;
-        }
-
-        $path = THEME_PATH . 'controller/' . $controlName . '.php';
-
-
-        if (!file_exists($path)) Alert::make('Controller <b>'.$controlName.'</b> not exists.');
-
-        include($path);
+        // }
 
     }
-    public function model($modelName = '')
+
+    public function controller($pageName,$func='index',$otherPath='')
     {
-        $path = THEME_PATH . 'model/' . $modelName . '.php';
+    	$themePath=System::getThemePath().'controller/';
 
-        if (!file_exists($path)) Alert::make('Model <b>' . $modelName . '</b> not exists.');
+    	if(isset($otherPath[1]))
+    	{
+    		$themePath=$otherPath;
+    	}
 
-        include($path);
+    	Controller::loadWithPath('theme'.ucfirst($pageName),$func,$themePath);
     }
-    public function view($viewName = '', $viewData = array())
+
+    public function model($pageName,$otherPath='')
     {
-        if (preg_match('/\./i', $viewName)) {
-            $viewName = str_replace('.', '/', $viewName);
-        }
+    	$themePath=System::getThemePath().'model/';
 
-        $path = THEME_PATH . 'view/' . $viewName . '.php';
+    	if(isset($otherPath[1]))
+    	{
+    		$themePath=$otherPath;
+    	}
 
-        if (!file_exists($path)) {
-            Alert::make('Page '.$viewName.' is not found');
-        }
-
-        $total_data = count($viewData);
-
-        if ($total_data > 0) extract($viewData);
-
-        include($path);
+    	Model::loadWithPath($pageName,$themePath);
     }
 
-    public function viewHas($viewName = '', $viewData = array())
+    public function view($pageName,$inputData=array(),$otherPath='')
     {
-        if (preg_match('/\./i', $viewName)) {
-            $viewName = str_replace('.', '/', $viewName);
-        }
+    	$themePath=System::getThemePath().'view/';
+    	
+    	if(isset($otherPath[1]))
+    	{
+    		$themePath=$otherPath;
+    	}
 
-        $path = THEME_PATH . 'view/' . $viewName . '.php';
-
-        if (!file_exists($path)) {
-            return false;
-        }
-
-        return true;
+    	View::makeWithPath($pageName,$inputData,$themePath);
     }
 
-    public function load($viewName = '', $viewData = array())
-    {
-        if (preg_match('/\./i', $viewName)) {
-            $viewName = str_replace('.', '/', $viewName);
-        }
+	public function remove($themeName)
+	{
 
-        $path = THEME_PATH . $viewName . '.php';
+	}
 
-        if (!file_exists($path)) {
-            Alert::make('Page not found');
-        }
 
-        $total_data = count($viewData);
-
-        if ($total_data > 0) extract($viewData);
-
-        include($path);
-    }
-
-    
-    
-	
 }
-
 ?>

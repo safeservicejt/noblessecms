@@ -4,18 +4,18 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="keywords" content="<?php echo $keywords;?>">
-        <meta name="description" content="<?php echo $description;?>">
+        <meta name="keywords" content="<?php echo System::getKeywords();?>">
+        <meta name="description" content="<?php echo System::getDescriptions();?>">
         <link rel="shortcut icon" href="<?php echo ROOT_URL;?>bootstrap/favicon.ico">
         <meta name="author" content="Safeservicejt">
         <meta name="url" id="rootUrl" content="<?php echo ROOT_URL;?>">
 
-        <title><?php echo $title;?></title>
+        <title><?php echo System::getTitle();?></title>
 
     <!-- Bootstrap theme -->
-     <link href="<?php echo THEME_URL;?>css/bootstrap.css" rel="stylesheet">
+     <link href="<?php echo System::getThemeUrl();?>css/bootstrap.css" rel="stylesheet">
     
-       <link href="<?php echo THEME_URL;?>css/custom.css" rel="stylesheet">
+       <link href="<?php echo System::getThemeUrl();?>css/custom.css" rel="stylesheet">
 
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -23,16 +23,18 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-        <script src="<?php echo ROOT_URL;?>bootstrap/js/system.js"></script>
-        
-      <script src="<?php echo THEME_URL;?>js/jquery-2.1.1.min.js"></script>
-      <script src="<?php echo THEME_URL;?>js/jquery-2.1.1.min.map"></script>
+       
+      <script src="<?php echo System::getThemeUrl();?>js/jquery-2.1.1.min.js"></script>
+      <script src="<?php echo System::getThemeUrl();?>js/jquery-2.1.1.min.map"></script>
+              <script src="<?php echo ROOT_URL;?>bootstrap/js/system.js"></script>
+ 
         <!-- bxSlider Javascript file -->
-        <script src="<?php echo ROOT_URL;?>bootstrap/js/jquery.bxslider.min.js"></script>
+        <script src="<?php echo ROOT_URL;?>bootstrap/bxslider/jquery.bxslider.min.js"></script>
         <!-- bxSlider CSS file -->
-        <link href="<?php echo ROOT_URL;?>bootstrap/css/jquery.bxslider.css" rel="stylesheet" />
+        <link href="<?php echo ROOT_URL;?>bootstrap/bxslider/jquery.bxslider.css" rel="stylesheet" />
       
-      <script src="<?php echo THEME_URL;?>js/custom.js"></script>
+      <script src="<?php echo System::getThemeUrl();?>js/custom.js"></script>
+
             
   </head>
 

@@ -2,16 +2,7 @@
 
 class Post
 {
-	private static $postData=array();
 
-	private static $postid=0;
-
-	private static $isGet='no';
-
-	private static $categories=array();
-
-	private static $totalPost=0;
-	
 	public function get($inputData=array())
 	{
 
@@ -29,15 +20,16 @@ class Post
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="postid,title,post_type,allowcomment,catid,userid,parentid,image,sort_order,date_added,views,content,keywords,friendly_url,pageid,is_featured,date_featured,status,isreaded";
+		$field="postid,title,catid,userid,parentid,image,sort_order,date_added,views,content,type,keywords,friendly_url,is_featured,date_featured,expires_date,rating,allowcomment,status";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
 		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
 
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by date_added desc';
+		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by postid desc';
 
-		$result=array();		
+		$result=array();
+		
 		$command="select $selectFields from post $whereQuery";
 
 		$command.=" $orderBy";
@@ -46,24 +38,24 @@ class Post
 
 		$queryCMD.=$limitQuery;
 
-		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
 
-		// self::category();
-
-		$catid=0;
-
-		$cattitle='';
-
-
-		// Load dbcache
-		$loadCache=DBCache::get($queryCMD);
-
-		if($loadCache!=false)
+		if($cache=='yes')
 		{
-			return $loadCache;
+			// Load dbcache
+
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
 		}
 
-		// end load
 
 		$query=Database::query($queryCMD);
 		
@@ -72,66 +64,43 @@ class Post
 			return false;
 		}
 
-		$total=Database::num_rows($query);
-
-		if((int)$total > 0)
+		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
+		
+		if((int)$query->num_rows > 0)
 		{
 			while($row=Database::fetch_assoc($query))
 			{
-
 				if(isset($row['title']))
 				{
 					$row['title']=String::decode($row['title']);
 				}
-				if(isset($row['keywords']))
+
+				if(isset($row['friendly_url']))
 				{
-					$row['keywords']=String::decode($row['keywords']);
+					$row['url']=self::url($row);
 				}
+
 				if(isset($row['content']))
 				{
 					$row['content']=String::decode($row['content']);
 				}
 
-				if(isset($row['image']))
+				if(isset($row['date_added']))
+				$row['date_added']=Render::dateFormat($row['date_added']);	
+
+				if($inputData['isHook']=='yes')
 				{
-					$row['imageUrl']=Render::thumbnail($row['image']);
-				}
-
-				$cattitle='';	
-							
-				$row['date_added']=isset($row['date_added'])?Render::dateFormat($row['date_added']):'';
-
-				if(isset($row['friendly_url']))
-				{
-					$row['url']=Url::post($row);
-				}
-				
-
-				// $row['cattitle']='';
-
-				// $row['caturl']='';	
-
-				// if(isset($row['catid']))
-				// {
-				// 	$catid=$row['catid'];
-
-				// 	if(isset(self::$categories[$catid]))
-				// 	{
-				// 		$cattitle=self::$categories[$catid]['cattitle'];
-
-				// 		$row['cattitle']=$cattitle;
-
-				// 		$row['caturl']=self::$categories[$catid]['url'];	
-				// 	}					
-				// }
-
-
-				if(isset($inputData['isHook']) && $inputData['isHook']=='yes')
-				{	
 					if(isset($row['content']))
-					$row['content']=Shortcode::load($row['content']);
+					{
+						$row['content']=Shortcode::loadInTemplate($row['content']);
+						
+						$row['content']=Shortcode::toHTML($row['content']);
+						
+						$row['content']=Plugins::load('shortcode',$row['content']);
+					}
+					
 				}
-
+											
 				$result[]=$row;
 			}		
 		}
@@ -139,218 +108,117 @@ class Post
 		{
 			return false;
 		}
-
-		if(isset($inputData['isHook']) && $inputData['isHook']=='yes')
-		{
-
-			$result=self::plugin_hook_post($result);
-
-		}
-
+		
 		// Save dbcache
-		// print_r($result);
-		// die();
 		DBCache::make(md5($queryCMD),$result);
 		// end save
+
 
 		return $result;
 		
 	}
 
-
-
-	private function plugin_hook_post($inputData=array())
+	public function url($row)
 	{
-		$totalPost=count($inputData);
+		$url=Url::post($row);
 
-		if(isset(Plugins::$zoneCaches['process_post_title']))
+		return $url;
+	}
+
+	public function upView($postid)
+	{
+		Database::query("update post set views=views+1 where postid='$postid'");
+	}
+
+	public function downView($postid)
+	{
+		Database::query("update post set views=views-1 where postid='$postid'");
+	}
+
+	public function insert($inputData=array())
+	{
+		// End addons
+		// $totalArgs=count($inputData);
+
+		$addMultiAgrs='';
+
+		if(isset($inputData[0]['title']))
 		{
+		    foreach ($inputData as $theRow) {
 
-			$totalPlugin=count(Plugins::$zoneCaches['process_post_title']);
+				$theRow['date_added']=date('Y-m-d h:i:s');
 
-			for($i=0;$i<$totalPlugin;$i++)
+				$theRow['friendly_url']=String::makeFriendlyUrl($theRow['title']);
+
+				if(isset($theRow['title']))
+				$theRow['title']=String::encode($theRow['title']);
+
+
+				if(isset($theRow['content']))
+				{
+					$theRow['content']=Shortcode::toBBCode($theRow['content']);
+
+					$theRow['content']=String::encode($theRow['content']);
+				}
+
+				$keyNames=array_keys($theRow);
+
+				$insertKeys=implode(',', $keyNames);
+
+				$keyValues=array_values($theRow);
+
+				$insertValues="'".implode("','", $keyValues)."'";
+
+				$addMultiAgrs.="($insertValues), ";
+
+		    }
+
+		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
+		}
+		else
+		{		
+			$inputData['date_added']=date('Y-m-d h:i:s');
+
+			$inputData['friendly_url']=String::makeFriendlyUrl($inputData['title']);
+
+			if(isset($inputData['title']))
+			$inputData['title']=String::encode($inputData['title']);
+
+			if(isset($inputData['content']))
 			{
-				$plugin=Plugins::$zoneCaches['process_post_title'][$i];
+				$inputData['content']=Shortcode::toBBCode($inputData['content']);
 
-				$foldername=$plugin[$i]['foldername'];
-
-				$func=$plugin[$i]['func'];
-
-				$pluginPath=PLUGINS_PATH.$foldername.'/'.$foldername.'.php';
-
-				if(!file_exists($pluginPath))
-				{
-					continue;
-				}
-
-				if(!function_exists($func))
-				{
-					require($pluginPath);
-				}
-				$tmpStr='';
-				for($j=0;$j<$totalPost;$j++)
-				{
-					$tmpStr=$func($inputData[$j]['title']);
-
-					if(isset($tmpStr[1]))
-					{
-						$inputData[$j]['title']=$tmpStr;
-					}				
-				}
-
+				$inputData['content']=String::encode($inputData['content']);
 			}
 
+			$keyNames=array_keys($inputData);
 
-		}
+			$insertKeys=implode(',', $keyNames);
 
-		if(isset(Plugins::$zoneCaches['process_post_content']))
+			$keyValues=array_values($inputData);
+
+			$insertValues="'".implode("','", $keyValues)."'";	
+
+			$addMultiAgrs="($insertValues)";	
+		}		
+
+		Database::query("insert into post($insertKeys) values".$addMultiAgrs);
+
+		if(!$error=Database::hasError())
 		{
+			$id=Database::insert_id();
 
-			$totalPlugin=count(Plugins::$zoneCaches['process_post_content']);
-
-			for($i=0;$i<$totalPlugin;$i++)
-			{
-				$plugin=Plugins::$zoneCaches['process_post_content'][$i];
-
-				$foldername=$plugin[$i]['foldername'];
-
-				$func=$plugin[$i]['func'];
-
-				$pluginPath=PLUGINS_PATH.$foldername.'/'.$foldername.'.php';
-
-				if(!file_exists($pluginPath))
-				{
-					continue;
-				}
-
-				if(!function_exists($func))
-				{
-					require($pluginPath);
-				}
-				$tmpStr='';
-				for($j=0;$j<$totalPost;$j++)
-				{
-					$tmpStr=$func($inputData[$j]['content']);	
-
-					if(isset($tmpStr[1]))
-					{
-						$inputData[$j]['content']=$tmpStr;
-					}							
-				}
-
-			}
-
+			return $id;	
 		}
 
-		return $inputData;
-	}
-
-	// public function category()
-	// {
-	// 	$totalCat=count(self::$categories);
-
-	// 	if((int)$totalCat == 0)
-	// 	{
-	// 		$loadData=Categories::get();	
-
-	// 		$totalCat=count($loadData);
-
-	// 		for($i=0;$i<$totalCat;$i++)
-	// 		{
-	// 			$catid=$loadData[$i]['catid'];
-
-	// 			self::$categories[$catid]=$loadData[$i];
-	// 		}
-
-
-	// 	}
-	// }
-
-	public function url($row=array())
-	{
-		return Url::post($row);
-	}
-
-	public function tags($id)
-	{
-		$loadData=PostTags::get(array(
-			'where'=>"where postid='$id'"
-			));
-
-		return $loadData;
-	}
-
-	public function comments($id)
-	{
-		$loadData=Comments::get(array(
-			'where'=>"where postid='$id'"
-			));
-
-		return $loadData;
-	}
-
-	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
-	{
-		if(isset($post['title']))
-		{
-			$post['title']=String::encode($post['title']);
-		}
-		
-		if(isset($post['keywords']))
-		{
-			$post['keywords']=String::encode($post['keywords']);
-		}
-
-		if(isset($post['content']))
-		{
-			$post['content']=Shortcode::toBBcode($post['content']);
-			
-			$post['content']=strip_tags($post['content']);
-			
-			$post['content']=String::encode($post['content']);
-		}
-
-		if(is_numeric($listID))
-		{
-			$catid=$listID;
-
-			unset($listID);
-
-			$listID=array($catid);
-		}
-
-		$listIDs="'".implode("','",$listID)."'";
-
-		$keyNames=array_keys($post);
-
-		$total=count($post);
-
-		$setUpdates='';
-
-		for($i=0;$i<$total;$i++)
-		{
-			$keyName=$keyNames[$i];
-			$setUpdates.="$keyName='$post[$keyName]', ";
-		}
-
-		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
-
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"postid in ($listIDs)";
-		
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-
-		Database::query("update post set $setUpdates where $whereQuery $addWhere");
-
-		if(isset(Database::$error[5]))
-		{
-			return false;
-		}
-
-		return true;
+		return false;
+	
 	}
 
 	public function remove($post=array(),$whereQuery='',$addWhere='')
 	{
+
+
 		if(is_numeric($post))
 		{
 			$id=$post;
@@ -368,162 +236,79 @@ class Post
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$command="select image from post where postid in ($listID)";
-
-		$query=Database::query($command);
-
-		while($row=Database::fetch_assoc($query))
-		{
-			$thumbnail=ROOT_PATH.$row['image'];
-
-			if(!is_dir($thumbnail) && file_exists($thumbnail))
-			{
-				unlink($thumbnail);
-
-				$thumbnail=dirname($thumbnail);
-
-				rmdir($thumbnail);
-			}
-		}		
-
 		$command="delete from post where $whereQuery $addWhere";
 
 		Database::query($command);	
-		
-		// PostImages::remove($post);
-		
-		Postmeta::remove($post);
-
-		PostTags::remove($post);
 
 		return true;
 	}
 
-	public function insert($inputData=array())
+	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
-		$inputData['friendly_url']=String::encode(Url::makeFriendly($inputData['title']));
-
-		if(isset($inputData['title']))
+		if(isset($post['title']))
 		{
-			$inputData['title']=String::encode($inputData['title']);
-		}
-		if(isset($inputData['keywords']))
-		{
-			$inputData['keywords']=String::encode($inputData['keywords']);
-		}
+			$post['title']=String::encode($post['title']);
 
-		if(isset($inputData['content']))
-		{
-			$inputData['content']=Shortcode::toBBcode($inputData['content']);
+			$post['friendly_url']=String::makeFriendlyUrl($post['title']);
 
-			$inputData['content']=strip_tags($inputData['content']);
-
-			$inputData['content']=String::encode($inputData['content']);
-		}
-
-		if(!isset($inputData['catid']))
-		{
-			$loadCat=Categories::get(array(
-				'limitShow'=>1,
-				'orderby'=>'order by date_added'
+			$loadPost=self::get(array(
+				'where'=>"where friendly_url='".$post['friendly_url']."'"
 				));
 
-			if(isset($loadCat[0]['catid']))
+			if(isset($loadPost[0]['postid']) && $loadPost[0]['postid']<>$listID[0])
 			{
-				$inputData['catid']=$loadCat[0]['catid'];
+				return false;
 			}
-		}
+		}		
 
-
-		if(Session::has('userid'))
+		if(isset($post['content']))
 		{
-			$inputData['userid']=Session::get('userid');
+			
+			$post['content']=Shortcode::toBBCode($post['content']);
+
+			$post['content']=String::encode(strip_tags($post['content'],'<p><br>'));
+
 		}
 
+		if(is_numeric($listID))
+		{
+			$catid=$listID;
+
+			unset($listID);
+
+			$listID=array($catid);
+		}
+
+		$listIDs="'".implode("','",$listID)."'";		
 				
-		$inputData['date_added']=date('Y-m-d h:i:s');
+		$keyNames=array_keys($post);
 
-		$keyNames=array_keys($inputData);
+		$total=count($post);
 
-		$insertKeys=implode(',', $keyNames);
+		$setUpdates='';
 
-		$keyValues=array_values($inputData);
+		for($i=0;$i<$total;$i++)
+		{
+			$keyName=$keyNames[$i];
+			$setUpdates.="$keyName='$post[$keyName]', ";
+		}
 
-		$insertValues="'".implode("','", $keyValues)."'";
+		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
+		
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"postid in ($listIDs)";
+		
+		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Plugins::load('before_insert_post',$inputData);
-
-		Database::query("insert into post($insertKeys) values($insertValues)");
+		Database::query("update post set $setUpdates where $whereQuery $addWhere");
 
 		if(!$error=Database::hasError())
 		{
-			$id=Database::insert_id();
-
-			// Multidb::increasePost();
-			// self::saveTotal();
-
-			$inputData['postid']=$id;
-
-			Plugins::load('after_insert_post',$inputData);
-
-			Database::query("update post set sort_order='$id' where postid='$id'");	
-
-			return $id;	
+			return true;
 		}
 
 		return false;
 	}
 
-	public function insertTags($id,$tagStr='')
-	{
-		if(!isset($tagStr[1]))
-		{
-			return false;
-		}
-
-		$loadData=array();
-
-		if(preg_match('/\,/i', $tagStr))
-		{
-			$listTags=explode(',', $tagStr);
-
-			$total=count($listTags);	
-
-			for($i=0;$i<$total;$i++)
-			{
-				$loadData[$i]['tag_title']=trim($listTags[$i]);
-
-				$loadData[$i]['postid']=$id;
-			}		
-		}
-		else
-		{
-			$loadData[0]['tag_title']=trim($tagStr);
-			$loadData[0]['postid']=$id;			
-		}
-
-		$totalTag=count($loadData);
-
-		$theTag='';
-
-		PostTags::remove(array($id));
-
-		for($i=0;$i<$totalTag;$i++)
-		{
-			$theTag=$loadData[$i]['tag_title'];
-
-			if(preg_match('/\'|\"|\//', $theTag))
-			{
-				continue;
-			}
-
-			PostTags::insert($loadData[$i]);
-		}
-
-	}	
-
-
 
 }
-
 ?>

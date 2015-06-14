@@ -1,107 +1,74 @@
 <?php
-function searchProcess($txtKeyword)
+
+function actionProcess()
 {
+	$id=Request::get('id');
 
-	$curPage=0;
-
-	if($match=Uri::match('\/page\/(\d+)'))
+	if(!isset($id[0]))
 	{
-		$curPage=$match[1];
+		return false;
 	}
 
-	$resultData=array();
+	$listID="'".implode("','", $id)."'";
 
-	$resultData['pages']=genPage('news',$curPage);	
+	$action=Request::get('action');
 
-	$txtKeyword=trim($txtKeyword);
+	// die($action);
 
-	Request::make('txtKeyword',$txtKeyword);
+	switch ($action) {
+		case 'delete':
+			Downloads::remove($id);
+			break;
+		
+	}
+}
+
+function updateProcess($id)
+{
+	$update=Request::get('update');
 
 	$valid=Validator::make(array(
-		'txtKeyword'=>'min:1|slashes'
+		'update.title'=>'min:1|slashes',
+		'update.remaining'=>'min:1|slashes'
 		));
 
 	if(!$valid)
 	{
-		$resultData['downloads']='';
-
-		$resultData['pages']='';
-
-		return $resultData;
+		throw new Exception("Error Processing Request");
 	}
 
-	if(preg_match('/^(\w+)\:(.*?)$/i', $txtKeyword,$matches))
-	{
-		$method=strtolower($matches[1]);
-
-		$keyword=strtolower(trim($matches[2]));
-
-		$method=($method=='downloadid')?'id':$method;
-
-		switch ($method) {
-			case 'id':
-			$resultData['downloads']=Downloads::get(array(
-				'limitShow'=>20,			
-				'limitPage'=>$curPage,
-				'where'=>"where downloadid='$keyword'",
-				'orderby'=>'order by date_added desc',
-				'isHook'=>'no'
-				));
-				break;
-		}
-		// print_r($matches);die();
-	}
-	else
-	{
-		$txtKeyword=String::encode($txtKeyword);
-
-		preg_match('/"(.*?)"/i', $txtKeyword,$matches);
-
-		$txtKeyword=$matches[1];
-		
-		$resultData['downloads']=Downloads::get(array(
-			'limitShow'=>20,			
-			'limitPage'=>$curPage,
-			'where'=>"where title LIKE '%$txtKeyword%'",
-			'orderby'=>'order by date_added desc',
-			'isHook'=>'no'
-			));	
-	}
-
-	// print_r($txtKeyword);die();
-
-	return $resultData;
+	Downloads::update($id,$update);
+	
 }
-
 
 function insertProcess()
 {
+	$send=Request::get('send');
+
 	$valid=Validator::make(array(
-		'send.title'=>'min:2|slashes',
-		'send.remaining'=>'slashes'
+		'send.title'=>'min:1|slashes',
+		'send.remaining'=>'min:1|slashes'
 		));
 
 	if(!$valid)
 	{
-		return false;
+		throw new Exception("Error Processing Request");
 	}
 
 	if(!$shortPath=File::upload('theFile'))
 	{
-		return false;
+		throw new Exception("File uploaded not valid.");
+		
 	}
 
-	$post=array(
-		'title'=>Request::get('send.title'),
-		'remaining'=>Request::get('send.remaining',9999),
-		'filename'=>$shortPath
-		);
+	$send['filename']=$shortPath;
 
-	if(!$downloadid=Downloads::insert($post))
+
+	if(!$id=Downloads::insert($send))
 	{
-		return false;
-	}	
+		throw new Exception("Error. ".Database::$error);
+	}
 
-	return true;
 }
+
 ?>

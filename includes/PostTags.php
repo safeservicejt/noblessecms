@@ -20,7 +20,7 @@ class PostTags
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="tagid,tag_title,postid";
+		$field="tagid,title,postid";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
@@ -38,32 +38,46 @@ class PostTags
 
 		$queryCMD.=$limitQuery;
 
-		// Load dbcache
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
 
-		$loadCache=DBCache::get($queryCMD);
-
-		if($loadCache!=false)
+		if($cache=='yes')
 		{
-			return $loadCache;
+			// Load dbcache
+
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
 		}
 
-		// end load
-
 		$query=Database::query($queryCMD);
-
+		
 		if(isset(Database::$error[5]))
 		{
 			return false;
-		}		
+		}
+
+		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
+		
 		if((int)$query->num_rows > 0)
 		{
 			while($row=Database::fetch_assoc($query))
 			{
-				if(isset($row['tag_title']))
+				if(isset($row['title']))
 				{
-					$row['url']=Url::tag($row['tag_title']);
+					$row['title']=String::decode($row['title']);
 				}
-				
+				if(isset($row['title']))
+				{
+					$row['url']=self::url($row);
+				}				
+											
 				$result[]=$row;
 			}		
 		}
@@ -71,62 +85,133 @@ class PostTags
 		{
 			return false;
 		}
+
+
+		
 		// Save dbcache
 		DBCache::make(md5($queryCMD),$result);
 		// end save
 
+
 		return $result;
 		
-	}	
+	}
 
-	public function render($inputData=array())
+	public function renderToText($postid)
 	{
 
-		if(!$loadData=self::get($inputData))
+		$loadData=self::get(array(
+			'where'=>"where postid='$postid'"
+			));
+
+		if(!isset($loadData[0]['postid']))
 		{
-			return false;
+			return '';
 		}
 
-		$tags='';
 
 		$total=count($loadData);
 
+		$li='';
 
-
-		for($i=0;$i<$total;$i++)
-		{
-			$tags=$tags.$loadData[$i]['tag_title'].", ";
+		for ($i=0; $i < $total; $i++) { 
+			$li.=$loadData[$i]['title'].', ';
 		}
 
-		$tags=substr($tags, 0,strlen($tags)-2);
+		$li=substr($li, 0,strlen($li)-2);
 
-		return $tags;
+		return $li;
 	}
+	
+	public function renderToLink($postid)
+	{
+		$loadData=self::get(array(
+			'where'=>"where postid='$postid'"
+			));
+
+		if(!isset($loadData[0]['postid']))
+		{
+			return '';
+		}
+
+		$total=count($loadData);
+
+		$li='';
+
+		for ($i=0; $i < $total; $i++) { 
+			$li.='<a href="'.self::url($loadData[$i]).'">'.$loadData[$i]['title'].'</a>, ';
+		}
+		
+		$li=substr($li, 0,strlen($li)-2);
+
+		return $li;
+	}
+
+	public function url($row)
+	{
+		$url=Url::tag($row);
+
+		return $url;
+	}
+
 	public function insert($inputData=array())
 	{
+		// End addons
+		// $totalArgs=count($inputData);
 
-		$inputData['tag_title']=strtolower($inputData['tag_title']);
+		$addMultiAgrs='';
 
-		$keyNames=array_keys($inputData);
+		if(isset($inputData[0]['title']))
+		{
+		    foreach ($inputData as $theRow) {
 
-		$insertKeys=implode(',', $keyNames);
 
-		$keyValues=array_values($inputData);
+				if(isset($theRow['title']))
+				$theRow['title']=String::encode($theRow['title']);
 
-		$insertValues="'".implode("','", $keyValues)."'";
+				$keyNames=array_keys($theRow);
 
-		Database::query("insert into post_tags($insertKeys) values($insertValues)");
+				$insertKeys=implode(',', $keyNames);
+
+				$keyValues=array_values($theRow);
+
+				$insertValues="'".implode("','", $keyValues)."'";
+
+				$addMultiAgrs.="($insertValues), ";
+
+		    }
+
+		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
+		}
+		else
+		{
+			if(isset($inputData['title']))
+			$inputData['title']=String::encode($inputData['title']);
+
+			$keyNames=array_keys($inputData);
+
+			$insertKeys=implode(',', $keyNames);
+
+			$keyValues=array_values($inputData);
+
+			$insertValues="'".implode("','", $keyValues)."'";	
+
+			$addMultiAgrs="($insertValues)";	
+		}		
+
+		Database::query("insert into post_tags($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
-			$id=Database::insert_id();		
+			$id=Database::insert_id();
 
-			return $id;		
+			return $id;	
 		}
 
 		return false;
 	
 	}
+
 	public function remove($post=array(),$whereQuery='',$addWhere='')
 	{
 
@@ -143,17 +228,64 @@ class PostTags
 		$total=count($post);
 
 		$listID="'".implode("','",$post)."'";
-		
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"postid in ($listID)";
+
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"tagid in ($listID)";
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
-			
+
 		$command="delete from post_tags where $whereQuery $addWhere";
 
-		Database::query($command);		
+		Database::query($command);	
 
 		return true;
 	}
+
+	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	{
+		if(isset($post['title']))
+		{
+			$post['title']=String::encode($post['title']);
+		}		
+
+		if(is_numeric($listID))
+		{
+			$catid=$listID;
+
+			unset($listID);
+
+			$listID=array($catid);
+		}
+
+		$listIDs="'".implode("','",$listID)."'";		
+				
+		$keyNames=array_keys($post);
+
+		$total=count($post);
+
+		$setUpdates='';
+
+		for($i=0;$i<$total;$i++)
+		{
+			$keyName=$keyNames[$i];
+			$setUpdates.="$keyName='$post[$keyName]', ";
+		}
+
+		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
+		
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"tagid in ($listIDs)";
+		
+		$addWhere=isset($addWhere[5])?$addWhere:"";
+
+		Database::query("update post_tags set $setUpdates where $whereQuery $addWhere");
+
+		if(!$error=Database::hasError())
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 
 }
 ?>

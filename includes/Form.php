@@ -16,18 +16,14 @@ class Form
 
 		$result="<form $attr >";
 
-		echo $result;
-
-		// return $result;
+		return $result;
 	}
 
 	public function close()
 	{
 		$result='</form>';
 
-		echo $result;
-
-		// return $result;
+		return $result;
 	}
 
 	public function button($text='button',$inputData=array())

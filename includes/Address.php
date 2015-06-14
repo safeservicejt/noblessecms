@@ -20,7 +20,7 @@ class Address
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="userid,company,firstname,lastname,address_1,address_2,city,state,postcode,country,phone,fax";
+		$field="userid,";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
@@ -29,14 +29,35 @@ class Address
 		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by userid desc';
 
 		$result=array();
+
+		$dbname=Database::getDbName();
 		
-		$command="select $selectFields from address $whereQuery";
+		$command="select $selectFields from $dbname.address $whereQuery";
 
 		$command.=" $orderBy";
 
 		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
 
 		$queryCMD.=$limitQuery;
+
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
+
+		if($cache=='yes')
+		{
+			// Load dbcache
+
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
+		}
+
 
 		$query=Database::query($queryCMD);
 		
@@ -45,35 +66,13 @@ class Address
 			return false;
 		}
 
+		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
+		
 		if((int)$query->num_rows > 0)
 		{
 			while($row=Database::fetch_assoc($query))
 			{
-				if(isset($row['company']))
-				{
-					$row['company']=String::decode($row['company']);
-				}				
-				if(isset($row['firstname']))
-				{
-					$row['firstname']=String::decode($row['firstname']);
-				}				
-				if(isset($row['lastname']))
-				{
-					$row['lastname']=String::decode($row['lastname']);
-				}				
-				if(isset($row['address_1']))
-				{
-					$row['address_1']=String::decode($row['address_1']);
-				}				
-				if(isset($row['address_2']))
-				{
-					$row['address_2']=String::decode($row['address_2']);
-				}				
-				if(isset($row['city']))
-				{
-					$row['city']=String::decode($row['city']);
-				}				
-
+											
 				$result[]=$row;
 			}		
 		}
@@ -82,58 +81,71 @@ class Address
 			return false;
 		}
 
+		
+		// Save dbcache
+		DBCache::make(md5($queryCMD),$result);
+		// end save
+
+
 		return $result;
 		
-	}	
-
+	}
 
 	public function insert($inputData=array())
 	{
+		// End addons
+		// $totalArgs=count($inputData);
 
-		if(isset($inputData['company']))
-		{
-			$inputData['company']=String::encode($inputData['company']);
-		}				
-		if(isset($inputData['firstname']))
-		{
-			$inputData['firstname']=String::encode($inputData['firstname']);
-		}				
-		if(isset($inputData['lastname']))
-		{
-			$inputData['lastname']=String::encode($inputData['lastname']);
-		}				
-		if(isset($inputData['address_1']))
-		{
-			$inputData['address_1']=String::encode($inputData['address_1']);
-		}				
-		if(isset($inputData['address_2']))
-		{
-			$inputData['address_2']=String::encode($inputData['address_2']);
-		}				
-		if(isset($inputData['city']))
-		{
-			$inputData['city']=String::encode($inputData['city']);
-		}				
-		$keyNames=array_keys($inputData);
+		$addMultiAgrs='';
 
-		$insertKeys=implode(',', $keyNames);
+		if(isset($inputData[0]['userid']))
+		{
+		    foreach ($inputData as $theRow) {
 
-		$keyValues=array_values($inputData);
 
-		$insertValues="'".implode("','", $keyValues)."'";
+				$keyNames=array_keys($theRow);
 
-		Database::query("insert into address($insertKeys) values($insertValues)");
+				$insertKeys=implode(',', $keyNames);
+
+				$keyValues=array_values($theRow);
+
+				$insertValues="'".implode("','", $keyValues)."'";
+
+				$addMultiAgrs.="($insertValues), ";
+
+		    }
+
+		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
+		}
+		else
+		{
+
+			$keyNames=array_keys($inputData);
+
+			$insertKeys=implode(',', $keyNames);
+
+			$keyValues=array_values($inputData);
+
+			$insertValues="'".implode("','", $keyValues)."'";	
+
+			$addMultiAgrs="($insertValues)";	
+		}		
+
+		$dbname=Database::getDbName();
+
+		Database::query("insert into $dbname.address($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
 			$id=Database::insert_id();
 
-			return $id;		
+			return $id;	
 		}
 
 		return false;
 	
 	}
+
 	public function remove($post=array(),$whereQuery='',$addWhere='')
 	{
 
@@ -150,46 +162,34 @@ class Address
 		$total=count($post);
 
 		$listID="'".implode("','",$post)."'";
-		
-		$whereQuery=isset($whereQuery[5])?$whereQuery:" userid in ($listID)";
+
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"userid in ($listID)";
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
-	
-		$command="delete from address where $whereQuery $addWhere";
+
+		$dbname=Database::getDbName();
+
+		$command="delete from $dbname.address where $whereQuery $addWhere";
 
 		Database::query($command);	
 
 		return true;
 	}
 
-	public function update($id,$post=array(),$whereQuery='',$addWhere='')
+	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
-		if(isset($post['company']))
-		{
-			$post['company']=String::encode($post['company']);
-		}				
-		if(isset($post['firstname']))
-		{
-			$post['firstname']=String::encode($post['firstname']);
-		}				
-		if(isset($post['lastname']))
-		{
-			$post['lastname']=String::encode($post['lastname']);
-		}				
-		if(isset($post['address_1']))
-		{
-			$post['address_1']=String::encode($post['address_1']);
-		}				
-		if(isset($post['address_2']))
-		{
-			$post['address_2']=String::encode($post['address_2']);
-		}				
-		if(isset($post['city']))
-		{
-			$post['city']=String::encode($post['city']);
-		}				
 
+		if(is_numeric($listID))
+		{
+			$catid=$listID;
 
+			unset($listID);
+
+			$listID=array($catid);
+		}
+
+		$listIDs="'".implode("','",$listID)."'";		
+				
 		$keyNames=array_keys($post);
 
 		$total=count($post);
@@ -203,11 +203,14 @@ class Address
 		}
 
 		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
-
-		$whereQuery=isset($whereQuery[5])?$whereQuery:" userid='$id'";
+		
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"userid in ($listIDs)";
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
+
+		// $dbname=Database::getDbName();
+		
 		Database::query("update address set $setUpdates where $whereQuery $addWhere");
 
 		if(!$error=Database::hasError())

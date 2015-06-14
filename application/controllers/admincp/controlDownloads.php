@@ -2,91 +2,13 @@
 
 class controlDownloads
 {
-	function __construct()
-	{
-		// if(GlobalCMS::ecommerce()==false){
-		// 	Alert::make('Page not found');
-		// }
-	}
 	public function index()
 	{
 		
-
 		$post=array('alert'=>'');
 
-		Model::load('misc');
 		Model::load('admincp/downloads');
-
-		if(Request::has('btnAction'))
-		{
-			if(Request::get('action')=='delete')
-			{
-				if(Request::has('id'))
-				Downloads::remove(Request::get('id'));	
-			}
-		}			
-
-		if(Request::has('btnAdd'))
-		{
-
-			if(!insertProcess())
-			{
-				$post['alert']='<div class="alert alert-warning">Error. Have error while uploading your file!</div>';
-			}
-			else
-			{
-				$post['alert']='<div class="alert alert-success">Success. Add new download success!</div>';
-				
-			}
-		}
-
-		if(Request::has('btnSave'))
-		{
-			$valid=Validator::make(array(
-				'send.title'=>'min:2|slashes',
-				'send.remaining'=>'number|slashes'
-				));
-
-			if(!$valid)
-			{
-				$post['alert']='<div class="alert alert-warning">Error. Have error while update file information!</div>';
-			}	
-			else
-			{
-				Downloads::update(Request::get('send'));
-
-				$post['alert']='<div class="alert alert-success">Success.Update download success!</div>';				
-			}
-
-		}
-
-		$post['showEdit']='no';
-		if(Request::has('btnAction'))
-		{
-			if(Request::get('action')=='delete')
-			{
-				if(Request::has('id'))
-				Downloads::remove(Request::get('id'));	
-			}
-				
-
-		}
-
-		if(Uri::has('edit'))
-		{
-				$post['showEdit']='yes';
-
-				$id=Uri::getNext('edit');
-
-				$post['id']=$id;
-
-				$data=Downloads::get(array(
-					'where'=>"where downloadid='$id'"
-					));
-				$post['edit']=$data[0];
-		}
-
-
+		
 		$curPage=0;
 
 		if($match=Uri::match('\/page\/(\d+)'))
@@ -94,52 +16,80 @@ class controlDownloads
 			$curPage=$match[1];
 		}
 
-		$post['pages']=genPage('downloads',$curPage);
-		
-		if(!Request::has('btnSearch'))
+		if(Request::has('btnAction'))
 		{
-			$post['downloads']=Downloads::get(array(
-				'limitPage'=>$curPage,
-				'limitShow'=>20,
-				'isHook'=>'no'				
-				));		
+			actionProcess();
+		}
+
+		if(Request::has('btnAdd'))
+		{
+			try {
+				
+				insertProcess();
+
+				$post['alert']='<div class="alert alert-success">Add new file success.</div>';
+
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}
+		}
+
+		if(Request::has('btnSave'))
+		{
+			$match=Uri::match('\/edit\/(\d+)');
+
+			try {
+				
+				updateProcess($match[1]);
+
+				$post['alert']='<div class="alert alert-success">Update file success.</div>';
+
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}
+		}
+
+		if(Request::has('btnSearch'))
+		{
+			filterProcess();
 		}
 		else
 		{
-			$searchData=searchProcess(Request::get('txtKeywords'));
+			$post['pages']=Misc::genPage('admincp/downloads',$curPage);
 
-			$post['downloads']=$searchData['downloads'];
-
-			$post['pages']=$searchData['pages'];
-
+			$post['theList']=Downloads::get(array(
+				'limitShow'=>20,
+				'limitPage'=>$curPage,
+				'orderby'=>'order by downloadid desc',
+				'cacheTime'=>5
+				));
 		}
 
+		if($match=Uri::match('\/edit\/(\d+)'))
+		{
+			$loadData=Downloads::get(array(
+				'where'=>"where downloadid='".$match[1]."'"
+				));
 
-		View::make('admincp/head',array('title'=>'List downloads - '.ADMINCP_TITLE));
+			$post['edit']=$loadData[0];
+		}
+		
+		System::setTitle('File list - '.ADMINCP_TITLE);
 
-        // View::make('admincp/nav');
-   
-        // View::make('admincp/left');
-          
-        // View::make('admincp/downloads',$post);
-        $this->makeContents('downloads',$post);        
+		View::make('admincp/head');
 
-        View::make('admincp/footer'); 		
+		self::makeContents('downloadList',$post);
+
+		View::make('admincp/footer');
+
 	}
+
     public function makeContents($viewPath,$inputData=array())
     {
-        View::make('admincp/nav');
-                
         View::make('admincp/left');  
-              
-        View::make('admincp/startContent');
 
         View::make('admincp/'.$viewPath,$inputData);
-
-        View::make('admincp/endContent');
-         // View::make('admincp/right');
-
-    }	
+    }
 }
 
 ?>

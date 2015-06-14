@@ -8,48 +8,40 @@ class controlLeech
 	public function index()
 	{
 		self::$thisPath=ROOT_PATH.'contents/plugins/firemanga/';
-
-        if($match=Uri::match('\/jsonManga'))
-        {
-            $keyword=String::encode(Request::get('keyword',''));
-
-            $loadData=Manga::get(array(
-            	'where'=>"where title LIKE '%$keyword%'",
-                'orderby'=>'order by title asc'
-                ));
-
-            $total=count($loadData);
-
-            $li='';
-
-            for($i=0;$i<$total;$i++)
-            {
-                $li.='<li><span data-method="manga" data-id="'.$loadData[$i]['mangaid'].'" >'.$loadData[$i]['title'].'</span></li>';
-            }
-
-            echo $li;
-            die();
-        }
         
 		$post=array('alert'=>'');
 
 		Model::setPath(self::$thisPath.'model/');
 		Model::load('leech');
 		Model::resetPath();
-		
-		if(Uri::has('\/process'))
+
+		if($match=Uri::match('\/firemanga\/leech\/(\w+)'))
 		{
-			$this->process();
-			die();
+			if(method_exists("controlLeech", $match[1]))
+			{	
+				$method=$match[1];
+
+				$this->$method();
+				
+			}
+			
+		}
+		else
+		{
+			if(Uri::has('\/process'))
+			{
+				$this->process();
+				die();
+			}
+
+			$post['listSite']=listSite();
+
+			// print_r($post);die();
+
+			self::makeContent('leechView',$post);	
 		}
 
-		$post['listSite']=listSite();
 
-		// print_r($post);die();
-
-		$headData=array('title'=>'Auto Fetch - FireManga');
-
-		self::makeContent('leechView',$post,$headData);	
 	}
 
 	public function process()
@@ -57,11 +49,10 @@ class controlLeech
 		fetchProcess();
 	}
 
-	public function makeContent($keyName='',$post=array(),$headData=array())
+	public function makeContent($keyName='',$post=array())
 	{
-		$post['headData']=$headData;
-
-		Render::pluginView(ROOT_PATH.'contents/plugins/firemanga/views/',$keyName,$post);		
+		View::makeWithPath($keyName,$post,ROOT_PATH.'contents/plugins/firemanga/views/');	
+				
 	}
 
 }

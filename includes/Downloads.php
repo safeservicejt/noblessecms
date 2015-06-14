@@ -1,4 +1,3 @@
-
 <?php
 
 class Downloads
@@ -21,42 +20,65 @@ class Downloads
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="downloadid,title,filename,remaining,date_added,isreaded";
+		$field="downloadid,type,title,filename,remaining,date_added";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
 		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
 
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by date_added desc';
+		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by downloadid desc';
 
 		$result=array();
+		
+		$command="select $selectFields from downloads $whereQuery";
 
-
-		$command="select $selectFields from downloads $whereQuery $orderBy";
+		$command.=" $orderBy";
 
 		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
 
 		$queryCMD.=$limitQuery;
 
-		$query=Database::query($command);
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
+
+		if($cache=='yes')
+		{
+			// Load dbcache
+
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
+		}
+
+
+		$query=Database::query($queryCMD);
 		
 		if(isset(Database::$error[5]))
 		{
 			return false;
 		}
 
+		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
+		
 		if((int)$query->num_rows > 0)
 		{
 			while($row=Database::fetch_assoc($query))
 			{
-				$row['date_added']=isset($row['date_added'])?Render::dateFormat($row['date_added']):'';
-				
-				if(isset($row['downloadid']) && isset($row['title']))
+				if(isset($row['title']))
 				{
-					$row['url']=Url::download($row);						
+					$row['title']=String::decode($row['title']);
 				}
 
+				if(isset($row['date_added']))
+				$row['date_added']=Render::dateFormat($row['date_added']);	
 
+											
 				$result[]=$row;
 			}		
 		}
@@ -65,10 +87,16 @@ class Downloads
 			return false;
 		}
 
+
+		// Save dbcache
+		DBCache::make(md5($queryCMD),$result);
+		// end save
+
+
 		return $result;
 		
-	}	
-
+	}
+	
 	public function getFile($downloadid)
 	{
 		$loadData=self::get(array(
@@ -83,155 +111,71 @@ class Downloads
 		Response::download(ROOT_PATH.$loadData[0]['filename']);
 	}
 
-	public function uploadFileFromUrl($fileUrl='')
-	{
-		$valid=Validator::make(array(
-			'send.title'=>'min:2|slashes',
-			'send.remaining'=>'number|slashes'
-			));
-
-		if(!$valid)
-		{
-			return false;
-		}	
-		
-		if(preg_match('/.*?\.\w+/i', $fileUrl))
-		{
-			$post=array(
-				'title'=>Request::get('send.title'),
-				'remaining'=>Request::get('send.remaining','99999')
-				);
-
-			if(!$downloadid=self::insert($post))
-			{
-				return false;
-			}
-
-			$fileName=basename($fileUrl);
-
-			$newName=String::randNumber(10);
-
-			preg_match('/.*?\.(\w+)/i', $fileName,$matches);
-
-			$newName=$newName.'.'.$matches[1];
-
-			$shortDir='uploads/files/'.$downloadid;
-
-			mkdir(ROOT_PATH.$shortDir);
-
-			$shortPath=$shortDir.'/'.$fileName;
-
-			$fileData=Http::getDataUrl($fileUrl);
-
-			File::create(ROOT_PATH.$shortPath,$fileData);
-
-			$post=array(
-				'filename'=>$shortPath
-				);
-
-			self::update($downloadid,$post);
-
-			$resultData=array(
-				'path'=>$shortPath,
-				'downloadid'=>$downloadid
-				);
-
-			return $resultData;
-		}
-
-		return false;			
-	}
-
-	public function uploadFile($keyName='theFile')
-	{
-		$valid=Validator::make(array(
-			'send.title'=>'min:2|slashes',
-			'send.remaining'=>'number|slashes'
-			));
-
-		if(!$valid)
-		{
-			return false;
-		}	
-		
-		if(preg_match('/.*?\.\w+/i', $_FILES[$keyName]['name']))
-		{
-			$post=array(
-				'title'=>Request::get('send.title'),
-				'remaining'=>Request::get('send.remaining','999999')
-				);
-
-			if(!$downloadid=self::insert($post))
-			{
-				return false;
-			}
-
-			$fileName=$_FILES[$keyName]['name'];
-
-			$newName=String::randNumber(10);
-
-			preg_match('/.*?\.(\w+)/i', $fileName,$matches);
-
-			$newName=$newName.'.'.$matches[1];
-
-			$shortDir='uploads/files/'.$downloadid;
-
-			mkdir(ROOT_PATH.$shortDir);
-
-			$shortPath=$shortDir.'/'.$fileName;
-
-			move_uploaded_file($_FILES[$keyName]['tmp_name'], ROOT_PATH.$shortPath);
-
-			$post=array(
-				'filename'=>$shortPath
-				);
-
-			self::update($downloadid,$post);
-
-			$resultData=array(
-				'path'=>$shortPath,
-				'downloadid'=>$downloadid
-				);
-
-			return $resultData;
-		}
-
-		return false;			
-	}
-
-
 	public function insert($inputData=array())
 	{
-		if(!isset($inputData['filename'][4]))
+		// End addons
+		// $totalArgs=count($inputData);
+
+		$addMultiAgrs='';
+
+		if(isset($inputData[0]['title']))
 		{
-			return false;
+		    foreach ($inputData as $theRow) {
+
+				$theRow['date_added']=date('Y-m-d h:i:s');
+
+				if(isset($theRow['title']))
+				$theRow['title']=String::encode($theRow['title']);
+
+				$keyNames=array_keys($theRow);
+
+				$insertKeys=implode(',', $keyNames);
+
+				$keyValues=array_values($theRow);
+
+				$insertValues="'".implode("','", $keyValues)."'";
+
+				$addMultiAgrs.="($insertValues), ";
+
+		    }
+
+		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
 		}
-				
-		$inputData['date_added']=date('Y-m-d h:i:s');
-		
+		else
+		{
+			$inputData['date_added']=date('Y-m-d h:i:s');
 
-		$keyNames=array_keys($inputData);
+			if(isset($inputData['title']))
+			$inputData['title']=String::encode($inputData['title']);
 
-		$insertKeys=implode(',', $keyNames);
+			$keyNames=array_keys($inputData);
 
-		$keyValues=array_values($inputData);
+			$insertKeys=implode(',', $keyNames);
 
-		$insertValues="'".implode("','", $keyValues)."'";
+			$keyValues=array_values($inputData);
 
-		Database::query("insert into downloads($insertKeys) values($insertValues)");
+			$insertValues="'".implode("','", $keyValues)."'";	
+
+			$addMultiAgrs="($insertValues)";	
+		}		
+
+		Database::query("insert into downloads($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
 			$id=Database::insert_id();
 
-			return $id;		
+			return $id;	
 		}
 
 		return false;
 	
 	}
+
 	public function remove($post=array(),$whereQuery='',$addWhere='')
 	{
+
+
 		if(is_numeric($post))
 		{
 			$id=$post;
@@ -249,38 +193,41 @@ class Downloads
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$command="select filename from downloads where downloadid in ($listID)";
-
-		$query=Database::query($command);
-
-		if(isset(Database::$error[5]))
-		{
-			return false;
-		}
-
-		while($row=Database::fetch_assoc($query))
-		{
-			$filepath=$row['filename'];
-
-			if(isset($filepath[4]) && file_exists(ROOT_PATH.$filepath))
-			{
-				unlink(ROOT_PATH.$filepath);
-
-				$dirpath=dirname(ROOT_PATH.$filepath);
-
-				rmdir($dirpath);
-			}
-		}
-		
 		$command="delete from downloads where $whereQuery $addWhere";
 
-		Database::query($command);		
+		$loadData=self::get(array(
+			'where'=>"where downloadid in ($listID)"
+			));
+
+		$total=count($loadData);
+
+		if(isset($loadData[0]['downloadid']))
+		for ($i=0; $i < $total; $i++) { 
+			$filePath=$loadData[0]['filename'];
+
+			if(file_exists($filePath))
+			{
+				unlink($filePath);
+
+				$filePath=dirname($filePath);
+
+				rmdir($filePath);
+			}
+		}
+
+		Database::query($command);	
 
 		return true;
 	}
+	
 
 	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
+		if(isset($post['title']))
+		{
+			$post['title']=String::encode($post['title']);
+		}		
+
 		if(is_numeric($listID))
 		{
 			$catid=$listID;
@@ -290,8 +237,8 @@ class Downloads
 			$listID=array($catid);
 		}
 
-		$listIDs="'".implode("','",$listID)."'";
-
+		$listIDs="'".implode("','",$listID)."'";		
+				
 		$keyNames=array_keys($post);
 
 		$total=count($post);

@@ -2,83 +2,13 @@
 
 class controlManufacturers
 {
-	function __construct()
-	{
-		if(GlobalCMS::ecommerce()==false){
-			Alert::make('Page not found');
-		}
-	}
 	public function index()
 	{
-
-
+		
 		$post=array('alert'=>'');
 
-		Model::load('misc');
-		// Model::load('admincp/manufacturers');
-
-		if(Request::has('btnAdd'))
-		{
-
-			$post['alert']='<div class="alert alert-success">Add new manufacturer success.</div>';
-
-			$insertData=Request::get('send');
-
-			if(!$id=Manufacturers::insert($insertData))
-			{
-				$post['alert']='<div class="alert alert-danger">Add new manufacturer error.</div>';
-			}
-			else
-			{
-				Manufacturers::insertThumbnail($id,array('urlThumbnail'=>''));				
-			}
-
-		}
-
-		if(Request::has('btnSave'))
-		{
-				$post['alert']='<div class="alert alert-success">Edit manufacturer success.</div>';
-
-
-				$id=Uri::getNext('edit');			
-
-				$updateData=Request::get('send');
-
-				$updateData['nodeid']=$id;
-
-				Manufacturers::update($id,$updateData);
-
-				Manufacturers::insertThumbnail($id,array('urlThumbnail'=>''));
-
-		}
-
-		$post['showEdit']='no';
-		if(Request::has('btnAction'))
-		{
-			if(Request::get('action')=='delete')
-			{
-				Manufacturers::remove(Request::get('id'));		
-			}
-				
-		}
-
-		if(Uri::has('edit'))
-		{
-				$post['showEdit']='yes';
-
-				$id=Uri::getNext('edit');
-
-				$post['id']=$id;
-
-				$manu=Manufacturers::get(array(
-				'where'=>"where manufacturerid='$id'",
-				'isHook'=>'no'			
-					));	
-
-				$post['edit']=$manu[0];					
-		}
-
-
+		Model::load('admincp/manufacturers');
+		
 		$curPage=0;
 
 		if($match=Uri::match('\/page\/(\d+)'))
@@ -86,46 +16,80 @@ class controlManufacturers
 			$curPage=$match[1];
 		}
 
-		$post['pages']=genPage('manufacturers',$curPage);
+		if(Request::has('btnAction'))
+		{
+			actionProcess();
+		}
 
-		$post['manu']=Manufacturers::get(array(
-		'limitShow'=>20,			
-		'limitPage'=>$curPage,
-		'orderby'=>'order by date_added desc',
-		'isHook'=>'no'			
-			));
+		if(Request::has('btnAdd'))
+		{
+			try {
+				
+				insertProcess();
 
-		// $post['allmanu']=allManu();
+				$post['alert']='<div class="alert alert-success">Add new manufacturer success.</div>';
 
-		// print_r($post);die();
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}
+		}
 
+		if(Request::has('btnSave'))
+		{
+			$match=Uri::match('\/edit\/(\d+)');
 
-		View::make('admincp/head',array('title'=>'List manufacturers'.ADMINCP_TITLE));
+			try {
+				
+				updateProcess($match[1]);
 
-        // View::make('admincp/nav');
-   
-        // View::make('admincp/left');
-          
-        // View::make('admincp/manufacturers',$post);
-        
-        $this->makeContents('manufacturers',$post);
+				$post['alert']='<div class="alert alert-success">Update manufacturers success.</div>';
 
-        View::make('admincp/footer'); 		
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}
+		}
+
+		if(Request::has('btnSearch'))
+		{
+			filterProcess();
+		}
+		else
+		{
+			$post['pages']=Misc::genPage('admincp/manufacturers',$curPage);
+
+			$post['theList']=Manufacturers::get(array(
+				'limitShow'=>20,
+				'limitPage'=>$curPage,
+				'orderby'=>'order by mid desc',
+				'cacheTime'=>5
+				));
+		}
+
+		if($match=Uri::match('\/edit\/(\d+)'))
+		{
+			$loadData=Manufacturers::get(array(
+				'where'=>"where mid='".$match[1]."'"
+				));
+
+			$post['edit']=$loadData[0];
+		}
+		
+		System::setTitle('Manufacturers list - '.ADMINCP_TITLE);
+
+		View::make('admincp/head');
+
+		self::makeContents('manufacturersList',$post);
+
+		View::make('admincp/footer');
+
 	}
+
     public function makeContents($viewPath,$inputData=array())
     {
-        View::make('admincp/nav');
-                
         View::make('admincp/left');  
-              
-        View::make('admincp/startContent');
 
         View::make('admincp/'.$viewPath,$inputData);
-
-        View::make('admincp/endContent');
-         // View::make('admincp/right');
-
-    }	
+    }
 }
 
 ?>

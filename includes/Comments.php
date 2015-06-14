@@ -20,13 +20,13 @@ class Comments
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="commentid,postid,parentid,fullname,email,date_added,isreaded,status,content";
+		$field="commentid,postid,type,fullname,email,parentid,date_added,status,content";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
 		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
 
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by date_added desc';
+		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by commentid desc';
 
 		$result=array();
 		
@@ -38,16 +38,24 @@ class Comments
 
 		$queryCMD.=$limitQuery;
 
-		// Load dbcache
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
 
-		$loadCache=DBCache::get($queryCMD);
-
-		if($loadCache!=false)
+		if($cache=='yes')
 		{
-			return $loadCache;
+			// Load dbcache
+
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
 		}
 
-		// end load
 
 		$query=Database::query($queryCMD);
 		
@@ -72,12 +80,12 @@ class Comments
 				}
 
 				if(isset($row['date_added']))
-				$row['date_added']=Render::dateFormat($row['date_added']);	
+				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
 
-				if(isset($inputData['isHook']) && $inputData['isHook']=='yes')
+				if($inputData['isHook']=='yes')
 				{
 					if(isset($row['content']))
-					$row['content']=Shortcode::load($row['content']);
+					$row['content']=Shortcode::toHTML($row['content']);
 				}
 											
 				$result[]=$row;
@@ -87,14 +95,6 @@ class Comments
 		{
 			return false;
 		}
-
-
-
-
-		if(isset($inputData['isHook']) && $inputData['isHook']=='yes')
-		{
-			$result=self::plugin_hook_comment($result);
-		}
 		
 		// Save dbcache
 		DBCache::make(md5($queryCMD),$result);
@@ -103,113 +103,88 @@ class Comments
 
 		return $result;
 		
-	}	
-	private function plugin_hook_comment($inputData=array())
-	{
-		if(!isset(Plugins::$zoneCaches['process_comment_content']))
-		{
-			return $inputData;
-		}
-
-		
-		
-		$totalPost=count($inputData);
-
-		$totalPlugin=count(Plugins::$zoneCaches['process_comment_content']);
-
-		for($i=0;$i<$totalPlugin;$i++)
-		{
-			$plugin=Plugins::$zoneCaches['process_comment_content'][$i];
-
-			$foldername=$plugin[$i]['foldername'];
-
-			$func=$plugin[$i]['func'];
-
-			$pluginPath=PLUGINS_PATH.$foldername.'/'.$foldername.'.php';
-
-			if(!file_exists($pluginPath))
-			{
-				continue;
-			}
-
-			if(!function_exists($func))
-			{
-				require($pluginPath);
-			}
-			$tmpStr='';
-			for($j=0;$j<$totalPost;$j++)
-			{
-				$tmpStr=$func($inputData[$j]['content']);	
-
-				if(isset($tmpStr[1]))
-				{
-					$inputData[$j]['content']=$tmpStr;
-				}							
-			}
-
-		}
-
-		return $inputData;
-	}
-
-	public function isenable()
-	{
-		if((int)GlobalCMS::$setting['enable_comment']==1)
-		{
-			return true;
-		}
-
-		return false;
 	}
 
 	public function insert($inputData=array())
 	{
+		// End addons
+		// $totalArgs=count($inputData);
 
-		if(!isset(GlobalCMS::$setting['enable_comment']) || (int)GlobalCMS::$setting['enable_comment']==0)
+		$addMultiAgrs='';
+
+		if(isset($inputData[0]['postid']))
 		{
-			return false;
+		    foreach ($inputData as $theRow) {
+
+				$theRow['date_added']=date('Y-m-d h:i:s');
+
+				if(isset($theRow['fullname']))
+				$theRow['fullname']=String::encode($theRow['fullname']);
+
+
+				if(isset($theRow['content']))
+				{
+					$theRow['content']=Shortcode::toBBCode($theRow['content']);
+
+					$theRow['content']=String::encode($theRow['content']);
+				}
+
+				$keyNames=array_keys($theRow);
+
+				$insertKeys=implode(',', $keyNames);
+
+				$keyValues=array_values($theRow);
+
+				$insertValues="'".implode("','", $keyValues)."'";
+
+				$addMultiAgrs.="($insertValues), ";
+
+		    }
+
+		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
 		}
+		else
+		{		
+			$inputData['date_added']=date('Y-m-d h:i:s');
 
-		if(isset($inputData['content']))
-		{
-			$inputData['content']=strip_tags($inputData['content']);
-			$inputData['content']=String::encode($inputData['content']);
-		}		
-		if(isset($inputData['fullname']))
-		{
+			if(isset($inputData['fullname']))
 			$inputData['fullname']=String::encode($inputData['fullname']);
+
+			if(isset($inputData['content']))
+			{
+				$inputData['content']=Shortcode::toBBCode($inputData['content']);
+
+				$inputData['content']=String::encode($inputData['content']);
+			}
+
+			$keyNames=array_keys($inputData);
+
+			$insertKeys=implode(',', $keyNames);
+
+			$keyValues=array_values($inputData);
+
+			$insertValues="'".implode("','", $keyValues)."'";	
+
+			$addMultiAgrs="($insertValues)";	
 		}		
 
-		$inputData['date_added']=date('Y-m-d h:i:s');
-
-		$keyNames=array_keys($inputData);
-
-		$insertKeys=implode(',', $keyNames);
-
-		$keyValues=array_values($inputData);
-
-		$insertValues="'".implode("','", $keyValues)."'";
-
-		Plugins::load('before_insert_comments',$inputData);
-
-		Database::query("insert into comments($insertKeys) values($insertValues)");
+		Database::query("insert into comments($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
 			$id=Database::insert_id();
 
-			$inputData['commentid']=$id;
-			
-			Plugins::load('after_insert_comments',$inputData);
-
-			return $id;		
+			return $id;	
 		}
 
 		return false;
 	
 	}
+
 	public function remove($post=array(),$whereQuery='',$addWhere='')
 	{
+
+
 		if(is_numeric($post))
 		{
 			$id=$post;
@@ -230,6 +205,7 @@ class Comments
 		$command="delete from comments where $whereQuery $addWhere";
 
 		Database::query($command);	
+
 		return true;
 	}
 
@@ -237,13 +213,10 @@ class Comments
 	{
 		if(isset($post['content']))
 		{
-			$post['content']=strip_tags($post['content']);
-			$post['content']=String::encode($post['content']);
-		}		
-		if(isset($post['fullname']))
-		{
-			$post['fullname']=String::encode($post['fullname']);
-		}		
+			$post['content']=Shortcode::toBBCode($post['content']);
+
+			$post['content']=String::encode(strip_tags($post['content'],'<p><br>'));
+		}
 
 		if(is_numeric($listID))
 		{
@@ -254,8 +227,8 @@ class Comments
 			$listID=array($catid);
 		}
 
-		$listIDs="'".implode("','",$listID)."'";
-
+		$listIDs="'".implode("','",$listID)."'";		
+				
 		$keyNames=array_keys($post);
 
 		$total=count($post);
@@ -273,7 +246,6 @@ class Comments
 		$whereQuery=isset($whereQuery[5])?$whereQuery:"commentid in ($listIDs)";
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
-
 
 		Database::query("update comments set $setUpdates where $whereQuery $addWhere");
 

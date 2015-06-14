@@ -20,13 +20,13 @@ class Contactus
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="contactid,fullname,email,content,date_added,isreaded";
+		$field="contactid,fullname,email,content,date_added";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
 		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
 
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by date_added desc';
+		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by contactid desc';
 
 		$result=array();
 		
@@ -38,6 +38,25 @@ class Contactus
 
 		$queryCMD.=$limitQuery;
 
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
+
+		if($cache=='yes')
+		{
+			// Load dbcache
+
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
+		}
+
+
 		$query=Database::query($queryCMD);
 		
 		if(isset(Database::$error[5]))
@@ -46,25 +65,23 @@ class Contactus
 		}
 
 		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
-
+		
 		if((int)$query->num_rows > 0)
 		{
 			while($row=Database::fetch_assoc($query))
 			{
-				if(isset($row['fullname']))
-				{
-					$row['fullname']=String::decode($row['fullname']);
-				}
 				if(isset($row['content']))
 				{
 					$row['content']=String::decode($row['content']);
 				}
 
-				$row['date_added']=Render::dateFormat($row['date_added']);	
+				if(isset($row['date_added']))
+				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
 
-				if(isset($inputData['isHook']) && $inputData['isHook']=='yes')
+				if($inputData['isHook']=='yes')
 				{
-					$row['content']=Shortcode::load($row['content']);
+					if(isset($row['content']))
+					$row['content']=Shortcode::toHTML($row['content']);
 				}
 											
 				$result[]=$row;
@@ -74,98 +91,85 @@ class Contactus
 		{
 			return false;
 		}
+		
+		// Save dbcache
+		DBCache::make(md5($queryCMD),$result);
+		// end save
 
-		// $result=self::plugin_hook_contact($result);
 
 		return $result;
 		
-	}	
-
-	private function plugin_hook_contact($inputData=array())
-	{
-		if(!isset(Plugins::$zoneCaches['process_contactus_content']))
-		{
-			return $inputData;
-		}
-
-		$totalPost=count($inputData);
-
-		$totalPlugin=count(Plugins::$zoneCaches['process_contactus_content']);
-
-		for($i=0;$i<$totalPlugin;$i++)
-		{
-			$plugin=Plugins::$zoneCaches['process_contactus_content'][$i];
-
-			$foldername=$plugin[$i]['foldername'];
-
-			$func=$plugin[$i]['func'];
-
-			$pluginPath=PLUGINS_PATH.$foldername.'/'.$foldername.'.php';
-
-			if(!file_exists($pluginPath))
-			{
-				continue;
-			}
-
-			if(!function_exists($func))
-			{
-				require($pluginPath);
-			}
-			$tmpStr='';
-			for($j=0;$j<$totalPost;$j++)
-			{
-				$tmpStr=$func($inputData[$j]['content']);	
-
-				if(isset($tmpStr[1]))
-				{
-					$inputData[$j]['content']=$tmpStr;
-				}							
-			}
-
-		}
-
-		return $inputData;
 	}
 
 	public function insert($inputData=array())
 	{
-		if(isset($inputData['fullname']))
+		// End addons
+		// $totalArgs=count($inputData);
+
+		$addMultiAgrs='';
+
+		if(isset($inputData[0]['content']))
 		{
-			$inputData['fullname']=String::encode($inputData['fullname']);
+		    foreach ($inputData as $theRow) {
+
+				$theRow['date_added']=date('Y-m-d h:i:s');
+
+				if(isset($theRow['content']))
+				{
+					$theRow['content']=Shortcode::toBBCode($theRow['content']);
+
+					$theRow['content']=String::encode($theRow['content']);
+				}
+
+				$keyNames=array_keys($theRow);
+
+				$insertKeys=implode(',', $keyNames);
+
+				$keyValues=array_values($theRow);
+
+				$insertValues="'".implode("','", $keyValues)."'";
+
+				$addMultiAgrs.="($insertValues), ";
+
+		    }
+
+		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
+		}
+		else
+		{		
+			$inputData['date_added']=date('Y-m-d h:i:s');
+
+			if(isset($inputData['content']))
+			{
+				$inputData['content']=Shortcode::toBBCode($inputData['content']);
+
+				$inputData['content']=String::encode($inputData['content']);
+			}
+
+			$keyNames=array_keys($inputData);
+
+			$insertKeys=implode(',', $keyNames);
+
+			$keyValues=array_values($inputData);
+
+			$insertValues="'".implode("','", $keyValues)."'";	
+
+			$addMultiAgrs="($insertValues)";	
 		}		
-		if(isset($inputData['content']))
-		{
-			$inputData['content']=String::encode(strip_tags($inputData['content'],'<p><br>'));
-		}		
 
-		$inputData['date_added']=date('Y-m-d h:i:s');
-
-		$keyNames=array_keys($inputData);
-
-		$insertKeys=implode(',', $keyNames);
-
-		$keyValues=array_values($inputData);
-
-		$insertValues="'".implode("','", $keyValues)."'";
-
-		Plugins::load('before_insert_contactus',$inputData);
-
-		Database::query("insert into contactus($insertKeys) values($insertValues)");
+		Database::query("insert into contactus($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
 			$id=Database::insert_id();
 
-			$inputData['contactid']=$id;
-
-			Plugins::load('after_insert_contactus',$inputData);
-
-			return $id;		
+			return $id;	
 		}
 
 		return false;
 	
 	}
+
 	public function remove($post=array(),$whereQuery='',$addWhere='')
 	{
 
@@ -196,13 +200,14 @@ class Contactus
 
 	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
-		if(isset($post['fullname']))
-		{
-			$post['fullname']=String::encode($post['fullname']);
-		}		
+
 		if(isset($post['content']))
 		{
+			
+			$post['content']=Shortcode::toBBCode($post['content']);
+
 			$post['content']=String::encode(strip_tags($post['content'],'<p><br>'));
+
 		}
 
 		if(is_numeric($listID))

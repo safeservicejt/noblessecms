@@ -11,11 +11,9 @@
 <!-- slide -->
 
 
-<?php echo $content_top;?>
 <div class="row">
 <!-- left -->
 <div class="col-lg-8">
-<?php echo $content_left;?>
 <!-- items -->
 <div class="row">
 <?php
@@ -37,7 +35,7 @@
 <div class="well well-post-content">
 <!-- title -->
 <div class="row">
-<div class="col-lg-12"><a href="sdsd"><h2><?php echo $title;?></h2></a></div>
+<div class="col-lg-12"><a href="<?php echo $url;?>"><h2><?php echo $title;?></h2></a></div>
 </div>
 <!-- title -->
 <!-- post info -->
@@ -63,26 +61,10 @@
 
 <!-- tags -->
 
-<?php 
-$tags=Post::tags($postid);
-
-$total=count($tags);
-
-$li='';
-
-if(isset($tags[0]['tagid']))
-for($i=0;$i<$total;$i++)
-{
-  $li.='
-<li><a href="'.$tags[$i]['url'].'">'.$tags[$i]['tag_title'].'</a></li>
-  ';
-}
-
-$listTag=$li;
-
-?>
 <div class="row">
 <div class="col-lg-12">
+<hr>
+<strong>Tags:</strong>
 <ul class="ulTag">
 <?php echo $listTag;?>
 </ul>
@@ -95,7 +77,7 @@ $listTag=$li;
 </div>
 <!-- items -->
 
-<?php if(Comments::isenable()){ ?>
+<?php if((int)$allowcomment==1){ ?>
 <!-- Comment box -->
 <form action="" method="post" enctype="multipart/form-data">
 <div class="row">
@@ -104,7 +86,7 @@ $listTag=$li;
 <!-- row -->
 <div class="row">
 <div class="col-lg-12">
-<?php echo $commentAlert;?>
+<?php if(isset($commentAlert))echo $commentAlert;?>
 <label>Fullname:</label>
 <input type="text" name="comment[fullname]" class="form-control" placeholder="Fullname..." required />
 </div>
@@ -135,13 +117,14 @@ $listTag=$li;
 <!-- Comment box -->
 <?php } ?>
 
-<?php if(Comments::isenable()){ ?>
+<?php if((int)$allowcomment==1){ ?>
 <!-- Comment list -->
 <?php
 $total=count($listComments);
 
 $li='';
 
+if(isset($listComments[0]['postid']))
 for($i=0;$i<$total;$i++)
 {
   $li.='
@@ -182,10 +165,8 @@ $comments=$li;
 <!-- left -->
 
 <!-- right -->
-<?php Theme::view('right');?>
-<?php echo $content_right;?>
+<?php View::makeWithPath('right',array(),$themePath);?>
 <!-- right -->
 </div>
-<?php echo $content_bottom;?>
 </div>
 <!-- body -->

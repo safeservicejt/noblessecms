@@ -2,76 +2,13 @@
 
 class controlCoupons
 {
-	function __construct()
-	{
-		if(GlobalCMS::ecommerce()==false){
-			Alert::make('Page not found');
-		}
-	}
 	public function index()
 	{
-
-
+		
 		$post=array('alert'=>'');
 
-		Model::load('misc');
 		Model::load('admincp/coupons');
-
-		if(Request::has('btnAdd'))
-		{
-
-			$post['alert']='<div class="alert alert-success">Add new coupon success.</div>';
-
-			$data=Request::get('send');
-
-			if(!$id=Coupons::insert($data))
-			{
-				$post['alert']='<div class="alert alert-warning">Add new coupon error.</div>';
-			}
-
-		}
-
-		if(Request::has('btnSave'))
-		{
-				$post['alert']='<div class="alert alert-success">Edit coupon success.</div>';
-
-				// editCategory(array('id'=>Request::get('send.id'),'title'=>Request::get('send.title'),'order'=>Request::get('send.sort_order','0'),'oldimage'=>Request::get('send.oldimage')));
-
-				$id=Uri::getNext('edit');
-
-				$data=array();
-
-				$inputData=array();
-
-				$data=Request::get('send');
-
-				Coupons::update($id,$data);
-
-		}
-
-		$post['showEdit']='no';
-		if(Request::has('btnAction'))
-		{
-			actionProcess();
-		}
-
-		if(Uri::has('edit'))
-		{
-				$post['showEdit']='yes';
-
-				$id=Uri::getNext('edit');
-
-				$post['id']=$id;
-
-				$data=Coupons::get(array(
-					'where'=>"where nodeid='$id'"
-					));
-				$post['edit']=$data[0];
-
-
-		}
-
-
+		
 		$curPage=0;
 
 		if($match=Uri::match('\/page\/(\d+)'))
@@ -79,52 +16,80 @@ class controlCoupons
 			$curPage=$match[1];
 		}
 
-		$post['pages']=genPage('coupons',$curPage);
-
-
-		if(!Request::has('btnSearch'))
+		if(Request::has('btnAction'))
 		{
-			$post['coupons']=Coupons::get(array(
-				'limitShow'=>30,
-				'limitPage'=>$curPage,
-				'orderby'=>'order by date_added desc'
-				));	
+			actionProcess();
+		}
+
+		if(Request::has('btnAdd'))
+		{
+			try {
+				
+				insertProcess();
+
+				$post['alert']='<div class="alert alert-success">Add new coupon success.</div>';
+
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}
+		}
+
+		if(Request::has('btnSave'))
+		{
+			$match=Uri::match('\/edit\/(\d+)');
+
+			try {
+				
+				updateProcess($match[1]);
+
+				$post['alert']='<div class="alert alert-success">Update coupon success.</div>';
+
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}
+		}
+
+		if(Request::has('btnSearch'))
+		{
+			filterProcess();
 		}
 		else
 		{
-			$searchData=searchProcess(Request::get('txtKeywords'));
+			$post['pages']=Misc::genPage('admincp/coupons',$curPage);
 
-			$post['coupons']=$searchData['coupons'];
-
-			$post['pages']=$searchData['pages'];
-
+			$post['theList']=Coupons::get(array(
+				'limitShow'=>20,
+				'limitPage'=>$curPage,
+				'orderby'=>'order by couponid desc',
+				'cacheTime'=>5
+				));
 		}
-		// print_r($post);die();
 
-		// $post['allcategories']=allCategories();
+		if($match=Uri::match('\/edit\/(\d+)'))
+		{
+			$loadData=Coupons::get(array(
+				'where'=>"where couponid='".$match[1]."'"
+				));
 
+			$post['edit']=$loadData[0];
+		}
+		
+		System::setTitle('Coupons list - '.ADMINCP_TITLE);
 
-		View::make('admincp/head',array('title'=>ADMINCP_TITLE));
+		View::make('admincp/head');
 
-        $this->makeContents('couponsList',$post);
+		self::makeContents('couponsList',$post);
 
-        View::make('admincp/footer'); 		
+		View::make('admincp/footer');
+
 	}
 
     public function makeContents($viewPath,$inputData=array())
     {
-        View::make('admincp/nav');
-                
         View::make('admincp/left');  
-              
-        View::make('admincp/startContent');
 
         View::make('admincp/'.$viewPath,$inputData);
-
-        View::make('admincp/endContent');
-         // View::make('admincp/right');
-
-    }	
+    }
 }
 
 ?>
