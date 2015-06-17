@@ -52,13 +52,22 @@ class Manga
 
 		$cattitle='';
 
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
 
-		// Load dbcache
-		$loadCache=DBCache::get($queryCMD);
-
-		if($loadCache!=false)
+		if($cache=='yes')
 		{
-			return $loadCache;
+			// Load dbcache
+
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
 		}
 
 		// end load
@@ -90,6 +99,13 @@ class Manga
 				if(isset($row['summary']))
 				{
 					$row['summary']=String::decode($row['summary']);
+
+					$row['summary']=Shortcode::loadInTemplate($row['summary']);
+					
+					$row['summary']=Shortcode::toHTML($row['summary']);
+					
+					$row['summary']=Plugins::load('shortcode',$row['summary']);	
+					
 				}
 
 				if(isset($row['image']))
@@ -103,7 +119,7 @@ class Manga
 
 				if(isset($row['friendly_url']))
 				{
-					$row['url']=Url::post($row);
+					$row['url']=self::url($row);
 				}
 
 				if(isset($inputData['isHook']) && $inputData['isHook']=='yes')
@@ -131,6 +147,53 @@ class Manga
 		
 	}
 
+	public function getDetails($friendly_url='')
+	{
+		if(!isset($friendly_url[1]))
+		{
+			return false;
+		}
+
+		$resultData=array();
+
+		$loadData=self::get(array(
+			'query'=>"select m.*, a.title as author_title,a.friendly_url as author_friendly_url from manga_list m left join manga_authors a ON m.friendly_url='$friendly_url' AND m.authorid=a.authorid "
+			));
+
+		if(!isset($loadData[0]['mangaid']))
+		{
+			return false;
+		}
+
+		$loadData[0]['compeleted']='Completed';
+
+		if((int)$loadData[0]['compeleted']==0)
+		{
+			$loadData[0]['compeleted']='Continue';
+		}
+
+		$loadData[0]['completed']='<span class="label label-success">'.$loadData[0]['compeleted'].'</span>';
+
+		$loadData[0]['categories']=MangaCategories::getLinkByMangaId($loadData[0]['mangaid']);
+
+		$loadData[0]['tags']=MangaTags::getLinkByMangaId($loadData[0]['mangaid']);
+
+		$loadChapter=MangaChapters::get(array(
+			'where'=>"where mangaid='".$loadData[0]['mangaid']."'",
+			'orderby'=>"order by number asc"
+			));
+
+		if(isset($loadChapter[0]['mangaid']))
+		{
+			$loadData[0]['chapters']=$loadChapter;
+		}
+
+		// print_r($loadData);die();
+
+		return $loadData;
+
+	}
+
 	public function url($row=array(0))
 	{
 		if(!isset($row['mangaid']) || !isset($row['friendly_url']))
@@ -138,9 +201,19 @@ class Manga
 			return '';
 		}
 
-		$resultData=ROOT_URL.'manga/'.$row['mangaid'].'-'.$row['friendly_url'].'.html';
+		$resultData=ROOT_URL.'manga/'.$row['friendly_url'].'.html';
 
 		return $resultData;
+	}
+
+	public function upView($mangaid)
+	{
+		if((int)$mangaid==0)
+		{
+			return false;
+		}
+
+		Database::query("update manga_list set views=views+1 where mangaid='$mangaid'");
 	}
 
 
@@ -159,6 +232,8 @@ class Manga
 		if(isset($post['title']))
 		{
 			$post['title']=String::encode($post['title']);
+
+			$post['friendly_url']=Url::makeFriendly($post['title']);
 		}
 		
 		if(isset($post['keywords']))

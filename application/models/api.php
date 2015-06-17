@@ -77,6 +77,18 @@ function apiProcess()
 			}
 
 			break;
+		case 'theme':
+			try {
+
+				$foldername=$action;
+
+				$result['data']=ThemeApi::get($foldername);
+
+			} catch (Exception $e) {
+				$result=array('error'=>'yes','message'=>$e->getMessage());
+			}
+
+			break;
 		
 	}
 

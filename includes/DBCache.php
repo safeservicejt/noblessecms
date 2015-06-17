@@ -39,7 +39,8 @@ class DBCache
 		self::$enable='no';
 
 		// $loadData=json_decode($loadData,true);
-		$loadData=unserialize(base64_decode($loadData));
+		$loadData=unserialize($loadData);
+		// $loadData=unserialize(base64_decode($loadData));
 
 		return $loadData;
 	}
@@ -51,7 +52,9 @@ class DBCache
 			return false;
 		}
 		
-		$inputData=base64_encode(serialize($inputData));
+		// $inputData=base64_encode(serialize($inputData));
+		$inputData=serialize($inputData);
+		
 		// print_r($inputData);
 		// die();
 		Cache::setPath(CACHES_PATH.'dbcache/');
@@ -60,6 +63,7 @@ class DBCache
 
 		Cache::setPath(CACHES_PATH);
 	}
+
 
 }
 

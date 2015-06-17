@@ -54,6 +54,10 @@ class themePost
 
 		System::setTitle(ucfirst($loadData[0]['title']));
 
+		$keywords=isset($loadData[0]['keywords'][4])?$loadData[0]['keywords']:System::getKeywords();
+
+		System::setKeywords($keywords);
+
 		self::makeContent('post',$inputData);
 	}
 

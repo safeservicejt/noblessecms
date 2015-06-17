@@ -20,7 +20,7 @@ class MangaAuthors
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="authorid,title,rating,date_added";
+		$field="authorid,title,rating,friendly_url,date_added";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
@@ -40,11 +40,22 @@ class MangaAuthors
 
 		// Load dbcache
 
-		$loadCache=DBCache::get($queryCMD);
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
 
-		if($loadCache!=false)
+		if($cache=='yes')
 		{
-			return $loadCache;
+			// Load dbcache
+
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
 		}
 
 		// end load
@@ -83,8 +94,23 @@ class MangaAuthors
 		
 	}	
 
+	public function url($row=array(0))
+	{
+		if(!isset($row['authorid']) || !isset($row['friendly_url']))
+		{
+			return '';
+		}
+
+		// $friendly_url=String::makeFriendlyUrl($row['title']);
+
+		$resultData=ROOT_URL.'author/'.$row['friendly_url'].'-'.$row['authorid'];
+
+		return $resultData;
+	}	
+
 	public function insert($inputData=array())
 	{
+		$inputData['friendly_url']=String::encode(Url::makeFriendly($inputData['title']));
 
 		$inputData['title']=String::encode($inputData['title']);
 
@@ -116,6 +142,8 @@ class MangaAuthors
 		if(isset($post['title']))
 		{
 			$post['title']=String::encode($post['title']);
+			
+			$post['friendly_url']=String::encode(Url::makeFriendly($post['title']));
 		}
 
 		if(is_numeric($listID))

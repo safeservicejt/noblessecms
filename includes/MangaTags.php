@@ -75,6 +75,44 @@ class MangaTags
 		
 	}	
 
+	public function url($title)
+	{
+		if(!isset($title[0]))
+		{
+			return '';
+		}
+
+		$resultData=ROOT_URL.'tag/'.$title;
+
+		return $resultData;
+	}
+
+	public function getLinkByMangaId($mangaid)
+	{
+		if((int)$mangaid==0)
+		{
+			return false;
+		}
+
+		$loadData=self::get(array(
+			'where'=>"where mangaid='$mangaid'"
+			));
+
+		$total=count($loadData);
+
+		$li='';
+
+		for ($i=0; $i < $total; $i++) { 
+
+			$li.='<a href="'.self::url($loadData[$i]['title']).'" title="Tags: '.$loadData[$i]['title'].'"><span class="label label-default">'.$loadData[$i]['title'].'</span></a>, ';
+		}
+
+		$li=substr($li,0,strlen($li)-2);
+
+		return $li;
+
+	}
+
 	public function insert($inputData=array())
 	{
 

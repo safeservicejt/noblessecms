@@ -128,7 +128,7 @@
                           <li><a href="<?php echo ADMINCP_URL;?>theme">Theme</a></li>
                           <!-- <li><a href="<?php echo ADMINCP_URL;?>widgets">Widgets</a></li> -->
                               <li><a href="<?php echo ADMINCP_URL;?>theme/filemanager">File Manager</a>
-                          <li><a href="<?php echo ADMINCP_URL;?>templatestore">Themes Store</a></li>      
+                          <li><a href="http://noblessecms.com/" target="_blank">Themes Store</a></li>      
                           <li><a href="<?php echo ADMINCP_URL;?>theme/import">Import</a></li>  
                         </ul>
                     </li>
@@ -136,7 +136,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#plugins"><span class="glyphicon glyphicon-wrench"></span> Plugins <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="plugins" class="collapse">
                             <li><a href="<?php echo ADMINCP_URL;?>plugins">List Plugins</a></li>
-                              <li><a href="<?php echo ADMINCP_URL;?>pluginstore">Plugins Store</a></li>
+                              <li><a href="http://noblessecms.com/" target="_blank">Plugins Store</a></li>
                                   <li><a href="<?php echo ADMINCP_URL;?>plugins/import">Import</a></li>
                         </ul>
                     </li>

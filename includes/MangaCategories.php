@@ -40,13 +40,23 @@ class MangaCategories
 
 		// Load dbcache
 
-		$loadCache=DBCache::get($queryCMD);
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
 
-		if($loadCache!=false)
+		if($cache=='yes')
 		{
-			return $loadCache;
-		}
+			// Load dbcache
 
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
+		}
 		// end load
 
 		$query=Database::query($queryCMD);
@@ -74,6 +84,49 @@ class MangaCategories
 		return $result;
 		
 	}	
+
+	public function getLinkByMangaId($mangaid)
+	{
+		$loadData=Categories::get(array(
+			'query'=>"select c.* from categories c, manga_categories mc where mc.mangaid='$mangaid' AND mc.catid=c.catid order by c.title asc"
+			));
+
+		$total=count($loadData);
+
+		$li='';
+
+		for ($i=0; $i < $total; $i++) { 
+
+			$li.='<a href="'.$loadData[$i]['url'].'" title="Category '.$loadData[$i]['title'].'"><span class="label label-default">'.$loadData[$i]['title'].'</span></a>, ';
+		}
+
+		$li=substr($li,0,strlen($li)-2);
+
+		return $li;
+
+	}
+
+	public function getLink($resultData=array())
+	{
+		$total=count($resultData);
+
+		$li='';
+
+		for ($i=0; $i < $total; $i++) { 
+
+			if(!isset($resultData[$i]['cattitle']) || !isset($resultData[$i]['friendly_url']))
+			{
+				continue;
+			}
+
+			$theUrl=Categories::url($resultData[$i]);
+
+			$li.=', <a href="'.$theUrl.'">'.$resultData[$i]['cattitle'].'</a>';
+
+		}
+
+		return $li;
+	}
 
 	public function insert($inputData=array())
 	{

@@ -215,6 +215,17 @@ class Categories
 		if(isset($post['title']))
 		{
 			$post['title']=String::encode($post['title']);
+
+			$post['friendly_url']=String::makeFriendlyUrl($post['title']);
+
+			$loadPost=self::get(array(
+				'where'=>"where friendly_url='".$post['friendly_url']."'"
+				));
+
+			if(isset($loadPost[0]['catid']) && $loadPost[0]['catid']<>$listID[0])
+			{
+				return false;
+			}			
 		}		
 
 		if(is_numeric($listID))

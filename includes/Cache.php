@@ -39,6 +39,7 @@ class Cache
         self::loadCache();
     }
 
+
     public function savePage($extension='.template')
     {
         $keyName=isset($_GET['load'])?trim($_GET['load']):'defaultHome';

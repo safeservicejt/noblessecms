@@ -40,11 +40,22 @@ class MangaChapters
 
 		// Load dbcache
 
-		$loadCache=DBCache::get($queryCMD);
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
 
-		if($loadCache!=false)
+		if($cache=='yes')
 		{
-			return $loadCache;
+			// Load dbcache
+
+			$loadCache=DBCache::get($queryCMD,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				return $loadCache;
+			}
+
+			// end load			
 		}
 
 		// end load
@@ -103,6 +114,29 @@ class MangaChapters
 		return $result;
 		
 	}	
+
+	public function url($row=array())
+	{
+		if(!isset($row['friendly_url']) || !isset($row['number']))
+		{
+			return '';
+		}
+
+		$resultData=ROOT_URL.'manga/'.$row['friendly_url'].'-chapter-'.$row['number'].'.html';
+
+		return $resultData;
+	}
+	
+	public function upView($chapterid)
+	{
+		if((int)$chapterid==0)
+		{
+			return false;
+		}
+
+		Database::query("update chapter_list set views=views+1 where chapterid='$chapterid'");
+	}
+
 
 	public function insert($inputData=array())
 	{
