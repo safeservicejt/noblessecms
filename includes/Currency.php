@@ -95,7 +95,6 @@ class Currency
 		return $result;
 		
 	}
-
 	public function set($curName)
 	{
 		$_COOKIE['currency']=$curName;
@@ -114,7 +113,7 @@ class Currency
 
 
 				if(isset($theRow['title']))
-				$theRow['title']=String::encode($theRow['title']);
+				$theRow['title']=String::encode(strip_tags($theRow['title']));
 
 				$keyNames=array_keys($theRow);
 
@@ -133,7 +132,7 @@ class Currency
 		else
 		{
 			if(isset($inputData['title']))
-			$inputData['title']=String::encode($inputData['title']);
+			$inputData['title']=String::encode(strip_tags($inputData['title']));
 
 			$keyNames=array_keys($inputData);
 
@@ -191,7 +190,7 @@ class Currency
 	{
 		if(isset($post['title']))
 		{
-			$post['title']=String::encode($post['title']);
+			$post['title']=String::encode(strip_tags($post['title']));
 		}		
 
 		if(is_numeric($listID))

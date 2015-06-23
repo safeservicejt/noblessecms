@@ -96,7 +96,19 @@ class Downloads
 		return $result;
 		
 	}
-	
+
+	public function api($action)
+	{
+		Model::load('api/downloads');
+
+		try {
+			$result=loadApi($action);
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+		}
+
+		return $result;
+	}	
 	public function getFile($downloadid)
 	{
 		$loadData=self::get(array(
@@ -125,7 +137,7 @@ class Downloads
 				$theRow['date_added']=date('Y-m-d h:i:s');
 
 				if(isset($theRow['title']))
-				$theRow['title']=String::encode($theRow['title']);
+				$theRow['title']=String::encode(strip_tags($theRow['title']));
 
 				$keyNames=array_keys($theRow);
 
@@ -146,7 +158,7 @@ class Downloads
 			$inputData['date_added']=date('Y-m-d h:i:s');
 
 			if(isset($inputData['title']))
-			$inputData['title']=String::encode($inputData['title']);
+			$inputData['title']=String::encode(strip_tags($inputData['title']));
 
 			$keyNames=array_keys($inputData);
 

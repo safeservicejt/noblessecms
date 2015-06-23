@@ -44,10 +44,17 @@
     
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo Cookie::get('firstname').' '.Cookie::get('lastname');?> <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" style="min-width:180px;">
+                        <li>
+                            <a href="<?php echo ADMINCP_URL;?>users/profile"><i class="glyphicon glyphicon-cog"></i> Profile</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo ADMINCP_URL;?>users/profile"><i class="glyphicon glyphicon-cog"></i> Change Password</a>
+                        </li>
                         <li>
                             <a href="<?php echo ADMINCP_URL;?>logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                         </li>
+
                     </ul>
                 </li>
             </ul>
@@ -128,7 +135,7 @@
                           <li><a href="<?php echo ADMINCP_URL;?>theme">Theme</a></li>
                           <!-- <li><a href="<?php echo ADMINCP_URL;?>widgets">Widgets</a></li> -->
                               <li><a href="<?php echo ADMINCP_URL;?>theme/filemanager">File Manager</a>
-                          <li><a href="http://noblessecms.com/" target="_blank">Themes Store</a></li>      
+                          <li><a href="<?php echo ADMINCP_URL;?>templatestore">Templates Store</a></li>      
                           <li><a href="<?php echo ADMINCP_URL;?>theme/import">Import</a></li>  
                         </ul>
                     </li>
@@ -136,8 +143,8 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#plugins"><span class="glyphicon glyphicon-wrench"></span> Plugins <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="plugins" class="collapse">
                             <li><a href="<?php echo ADMINCP_URL;?>plugins">List Plugins</a></li>
-                              <li><a href="http://noblessecms.com/" target="_blank">Plugins Store</a></li>
-                                  <li><a href="<?php echo ADMINCP_URL;?>plugins/import">Import</a></li>
+                            <li><a href="<?php echo ADMINCP_URL;?>pluginstore">Plugins Store</a></li>
+                            <li><a href="<?php echo ADMINCP_URL;?>plugins/import">Import</a></li>
                         </ul>
                     </li>
 

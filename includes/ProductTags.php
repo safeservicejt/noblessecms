@@ -107,7 +107,7 @@ class ProductTags
 
 
 				if(isset($theRow['title']))
-				$theRow['title']=String::encode(trim($theRow['title']));
+				$theRow['title']=String::encode(trim(strip_tags($theRow['title'])));
 
 				$keyNames=array_keys($theRow);
 
@@ -126,7 +126,7 @@ class ProductTags
 		else
 		{
 			if(isset($inputData['title']))
-			$inputData['title']=String::encode(trim($inputData['title']));
+			$inputData['title']=String::encode(trim(strip_tags($inputData['title'])));
 
 			$keyNames=array_keys($inputData);
 
@@ -184,7 +184,7 @@ class ProductTags
 	{
 		if(isset($post['title']))
 		{
-			$post['title']=String::encode($post['title']);
+			$post['title']=String::encode(strip_tags($post['title']));
 		}		
 
 		if(is_numeric($listID))

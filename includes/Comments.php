@@ -119,7 +119,7 @@ class Comments
 				$theRow['date_added']=date('Y-m-d h:i:s');
 
 				if(isset($theRow['fullname']))
-				$theRow['fullname']=String::encode($theRow['fullname']);
+				$theRow['fullname']=String::encode(strip_tags($theRow['fullname']));
 
 
 				if(isset($theRow['content']))
@@ -148,7 +148,7 @@ class Comments
 			$inputData['date_added']=date('Y-m-d h:i:s');
 
 			if(isset($inputData['fullname']))
-			$inputData['fullname']=String::encode($inputData['fullname']);
+			$inputData['fullname']=String::encode(strip_tags($inputData['fullname']));
 
 			if(isset($inputData['content']))
 			{

@@ -42,7 +42,9 @@ class Cache
 
     public function savePage($extension='.template')
     {
-        $keyName=isset($_GET['load'])?trim($_GET['load']):'defaultHome';
+        $keyName=System::getUri();
+
+        $keyName=isset($keyName[1])?$keyName:'defaultHome';
 
         $savePath=ROOT_PATH.'application/caches/templates/';
 
@@ -61,7 +63,9 @@ class Cache
 
     public function loadPage($liveTime=86400,$extension='.template')
     {
-        $keyName=isset($_GET['load'])?trim($_GET['load']):'defaultHome';
+        $keyName=System::getUri();
+
+        $keyName=isset($keyName[1])?$keyName:'defaultHome';
 
         $keyName=md5($keyName);
 

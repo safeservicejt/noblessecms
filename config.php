@@ -45,7 +45,7 @@ define("ADMINCP_PATH", ROOT_PATH . 'admincp/');
 
 define("USERCP_PATH", ROOT_PATH . 'usercp/');
 
-define("THEME_NAME", 'simplecolor');
+define("THEME_NAME", 'bluemanga');
 
 define("THEMES_URL", ROOT_URL.'contents/themes/');
 
@@ -62,6 +62,8 @@ define("PLUGINS_URL", ROOT_URL.'contents/plugins/');
 define("ADMINCP_TITLE", 'Cpanel Noblesse CMS');
 
 define("API_URL", ROOT_URL.'api/');
+
+define("SERVER_URL", 'http://test.vn/project/2015/noblessecmsserver/');
 
 
 $cmsUri = isset($_GET['load']) ? $_GET['load'] : '';
@@ -81,7 +83,7 @@ $db['default'] = array(
 
     "dbuser" => "root",
 
-    "dbpassword" => "",
+    "dbpassword" => "test",
 
     "dbname" => "2015_project_noblessev2"
 

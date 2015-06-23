@@ -114,7 +114,19 @@ class Products
 		
 	}
 
+	public function api($action)
+	{
+		Model::load('api/products');
 
+		try {
+			$result=loadApi($action);
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+		}
+
+		return $result;
+	}
+	
 	public function url($row=array())
 	{
 		return Url::product($row);
@@ -249,10 +261,10 @@ class Products
 
 				$theRow['date_added']=date('Y-m-d h:i:s');
 
-				$theRow['friendly_url']=String::makeFriendlyUrl($theRow['title']);
+				$theRow['friendly_url']=String::makeFriendlyUrl(strip_tags($theRow['title']));
 
 				if(isset($theRow['title']))
-				$theRow['title']=String::encode($theRow['title']);
+				$theRow['title']=String::encode(strip_tags($theRow['title']));
 
 
 				if(isset($theRow['content']))
@@ -280,10 +292,10 @@ class Products
 		{		
 			$inputData['date_added']=date('Y-m-d h:i:s');
 
-			$inputData['friendly_url']=String::makeFriendlyUrl($inputData['title']);
+			$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($inputData['title']));
 
 			if(isset($inputData['title']))
-			$inputData['title']=String::encode($inputData['title']);
+			$inputData['title']=String::encode(strip_tags($inputData['title']));
 
 			if(isset($inputData['content']))
 			{
@@ -382,9 +394,9 @@ class Products
 	{
 		if(isset($post['title']))
 		{
-			$post['title']=String::encode($post['title']);
+			$post['title']=String::encode(strip_tags($post['title']));
 
-			$post['friendly_url']=String::makeFriendlyUrl($post['title']);
+			$post['friendly_url']=String::makeFriendlyUrl(strip_tags($post['title']));
 
 			$loadPage=self::get(array(
 				'where'=>"where friendly_url='".$post['friendly_url']."'"

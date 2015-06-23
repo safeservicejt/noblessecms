@@ -90,6 +90,19 @@ class Vouchers
 		
 	}
 
+	public function api($action)
+	{
+		Model::load('api/vouchers');
+
+		try {
+			$result=loadApi($action);
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+		}
+
+		return $result;
+	}
+
 	public function insert($inputData=array())
 	{
 		// End addons

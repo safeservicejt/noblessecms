@@ -94,6 +94,16 @@ class UserGroups
 		
 	}
 
+	public function api($action)
+	{
+		Model::load('api/usergroups');
+
+		try {
+			loadApi($action);
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+		}
+	}	
 	public function loadGroup($groupid)
 	{
 		if(!$loadData=Cache::loadKey('userGroup1_'.$groupid,-1))

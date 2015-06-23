@@ -110,7 +110,7 @@ class Manufacturers
 				$theRow['date_added']=date('Y-m-d h:i:s');
 
 				if(isset($theRow['title']))
-				$theRow['title']=String::encode($theRow['title']);
+				$theRow['title']=String::encode(strip_tags($theRow['title']));
 
 				$keyNames=array_keys($theRow);
 
@@ -131,7 +131,7 @@ class Manufacturers
 			$inputData['date_added']=date('Y-m-d h:i:s');
 
 			if(isset($inputData['title']))
-			$inputData['title']=String::encode($inputData['title']);
+			$inputData['title']=String::encode(strip_tags($inputData['title']));
 
 			$keyNames=array_keys($inputData);
 
@@ -189,7 +189,7 @@ class Manufacturers
 	{
 		if(isset($post['title']))
 		{
-			$post['title']=String::encode($post['title']);
+			$post['title']=String::encode(strip_tags($post['title']));
 		}		
 
 		if(is_numeric($listID))

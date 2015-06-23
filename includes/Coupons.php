@@ -94,7 +94,18 @@ class Coupons
 		return $result;
 		
 	}
+	public function api($action)
+	{
+		Model::load('api/coupons');
 
+		try {
+			$result=loadApi($action);
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+		}
+
+		return $result;
+	}
 	public function insert($inputData=array())
 	{
 		// End addons
@@ -109,7 +120,7 @@ class Coupons
 				$theRow['date_added']=date('Y-m-d h:i:s');
 
 				if(isset($theRow['title']))
-				$theRow['title']=String::encode($theRow['title']);
+				$theRow['title']=String::encode(strip_tags($theRow['title']));
 
 				$keyNames=array_keys($theRow);
 
@@ -130,7 +141,7 @@ class Coupons
 			$inputData['date_added']=date('Y-m-d h:i:s');
 
 			if(isset($inputData['title']))
-			$inputData['title']=String::encode($inputData['title']);
+			$inputData['title']=String::encode(strip_tags($inputData['title']));
 
 			$keyNames=array_keys($inputData);
 
@@ -188,7 +199,7 @@ class Coupons
 	{
 		if(isset($post['title']))
 		{
-			$post['title']=String::encode($post['title']);
+			$post['title']=String::encode(strip_tags($post['title']));
 		}		
 
 		if(is_numeric($listID))

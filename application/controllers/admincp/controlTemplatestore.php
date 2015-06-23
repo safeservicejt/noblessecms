@@ -1,53 +1,36 @@
 <?php
 
-class controlTemplatestore
+class controlTemplateStore
 {
-	function __construct()
-	{
-		// if(GlobalCMS::ecommerce()==false){
-		// 	Alert::make('Page not found');
-		// }
-	}
 	public function index()
 	{
-		$post=array();
 
-		$curPage=0;
+		$post=array('alert'=>'');
 
-		if($match=Uri::match('\/page\/(\d+)'))
-		{
-			$curPage=$match[1];
-		}
+		// Model::load('admincp/dbstore');
 
-		$post['pages']=Misc::genPage('admincp/templatestore',$curPage);		
-
-		$post['theList']=TemplateStore::get(array(
-			'limitPage'=>$curPage,
-			'orderBy'=>'date_added',
-			'sortBy'=>'desc'
+		$post['theList']=PluginStoreApi::getHtml(array(
+			'send_method'=>'template'
 			));
 
-		View::make('admincp/head',array('title'=>'Templates Store - '.ADMINCP_TITLE));
+		System::setTitle('Template list - '.ADMINCP_TITLE);
 
-        $this->makeContents('templateStore',$post);        
+		View::make('admincp/head');
 
-        View::make('admincp/footer'); 		
+		self::makeContents('templatsStore',$post);
+
+		View::make('admincp/footer');
+
 	}
+
+
 
     public function makeContents($viewPath,$inputData=array())
     {
-        View::make('admincp/nav');
-                
         View::make('admincp/left');  
-              
-        View::make('admincp/startContent');
 
         View::make('admincp/'.$viewPath,$inputData);
-
-        View::make('admincp/endContent');
-         // View::make('admincp/right');
-
-    }	
+    }
 }
 
 ?>

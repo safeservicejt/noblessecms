@@ -94,15 +94,16 @@ class Users
 
 	public function api($action)
 	{
-		Model::load('api/user');
+		Model::load('api/users');
 
 		try {
-			loadApi($action);
+			$result=loadApi($action);
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
-	}
 
+		return $result;
+	}	
 	public function forgotPassword($email)
 	{
 		$email=trim($email);
