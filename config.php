@@ -63,7 +63,7 @@ define("ADMINCP_TITLE", 'Cpanel Noblesse CMS');
 
 define("API_URL", ROOT_URL.'api/');
 
-define("SERVER_URL", 'http://test.vn/project/2015/noblessecmsserver/');
+define("SERVER_URL", 'http://noblessecms.com/');
 
 
 $cmsUri = isset($_GET['load']) ? $_GET['load'] : '';
