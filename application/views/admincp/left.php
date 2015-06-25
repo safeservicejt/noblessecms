@@ -113,6 +113,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#users"><span class="glyphicon glyphicon-user"></span> Users <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="users" class="collapse">
                          <li><a href="<?php echo ADMINCP_URL;?>users">List users</a></li>
+                         <li><a href="<?php echo ADMINCP_URL;?>users/addnew">Add new</a></li>
 
                         </ul>
                     </li>

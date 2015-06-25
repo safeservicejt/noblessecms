@@ -1,112 +1,104 @@
-  <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstrap/admincp/css/chosen.min.css">
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Add New User</h3>
+    <h3 class="panel-title">Add new user</h3>
   </div>
   <div class="panel-body">
-    
+    <div class="row">
+        <div class="col-lg-12">
+        <?php echo $alert;?>
+        <form action="" method="post" enctype="multipart/form-data">
+            <!-- row -->
+            <div class="row">
+                <div class="col-lg-6">
+                      <p>
+                            <strong>Group:</strong>
+                          <select class="form-control" name="send[groupid]">
 
-<div class="row">
-<?php echo $alert;?>
-		<div class="col-lg-6">
-		<form action="" method="post" enctype="multipart/form-data">
-		<p>
-			<label><strong>Usergroup:</strong></label>
-			<select name="send[groupid]" class="form-control chosen-select" id="jsGroup" data-placeholder="Choose a user group...">
+                              <?php 
+                              $total=count($listGroups);
 
-			<?php
-			$total=count($usergroups);
-
-			for($i=0;$i<$total;$i++)
-			{
-				echo '<option value="'.$usergroups[$i]['groupid'].'">'.stripslashes($usergroups[$i]['group_title']).'</option>';
-
-			}
-
-			?>
-			</select>
-
-			</p>		
-			<p>
-			<label><strong>First name:</strong></label>
-			<input type="text" name="send[firstname]" class="form-control" placeholder="First name..." />
-			</p>
-					
-			<p>
-			<label><strong>Last name:</strong></label>
-			<input type="text" name="send[lastname]" class="form-control" placeholder="Last name..." />
-			</p>
-					
-			<p>
-			<label><strong>Email:</strong></label>
-			<input type="email" name="send[email]" class="form-control" placeholder="Email..." required />
-			</p>
-					
-				<p>
-			<label><strong>Password:</strong></label>
-			<input type="text" name="send[password]" class="form-control" placeholder="Password..."  />
-			</p>
-				<p>
-			<label><strong>Telephone:</strong></label>
-			<input type="text" name="address[phone]" class="form-control" placeholder="Phone..."  />
-			</p>
+                              $li='';
 
 
+                              if(isset($listGroups[0]['groupid']))
+                                for ($i=0; $i < $total; $i++) { 
+                                    
+                                    $li.='<option value="'.$listGroups[$i]['groupid'].'">'.$listGroups[$i]['group_title'].'</option>';
+                                }
 
+                                echo $li;
+                              ?>
+                          </select>
+                      </p>  
 
-		</div>
+                      <p>
+                            <strong>First name:</strong>
+                          <input type="text" class="form-control" placeholder="First name" name="send[firstname]" />
+                      </p>
 
-		<div class="col-lg-6">
-				<p>
-			<label><strong>Fax:</strong></label>
-			<input type="text" name="address[fax]" class="form-control" placeholder="Fax..."  />
-			</p>		
-				<p>
-			<label><strong>Address 1:</strong></label>
-			<input type="text" name="address[address_1]" class="form-control" placeholder="Address 1..."  />
-			</p>
+                      <p>
+                            <strong>Last name:</strong>
+                          <input type="text" class="form-control" placeholder="Last name" name="send[lastname]" />
+                      </p>
 
-				<p>
-			<label><strong>Address 2:</strong></label>
-			<input type="text" name="address[address_2]" class="form-control" placeholder="Address 2..."  />
-			</p>
+                      <p>
+                            <strong>Username:</strong>
+                          <input type="text" class="form-control" placeholder="Username" name="send[username]"  />
+                      </p>
 
+                      <p>
+                            <strong>Email:</strong>
+                          <input type="email" class="form-control" placeholder="Email" name="send[email]" />
+                      </p>
 
-				<p>
-			<label><strong>City:</strong></label>
-			<input type="text" name="address[city]" class="form-control" placeholder="City..."  />
-			</p>
+                </div>
+                <div class="col-lg-6">
+                      <p>
+                            <strong>Address 1:</strong>
+                          <input type="text" class="form-control" placeholder="Address 1" name="address[address_1]"  />
+                      </p>
+                      <p>
+                            <strong>Address 2:</strong>
+                          <input type="text" class="form-control" placeholder="Address 2" name="address[address_2]" />
+                      </p>
+                      <p>
+                            <strong>City:</strong>
+                          <input type="text" class="form-control" placeholder="City" name="address[city]" />
+                      </p>
+                      <p>
+                            <strong>State:</strong>
+                          <input type="text" class="form-control" placeholder="State" name="address[state]" />
+                      </p>
+                      <p>
+                            <strong>Post code:</strong>
+                          <input type="text" class="form-control" placeholder="Post code" name="address[postcode]" />
+                      </p>
+                      <p>
+                            <strong>Country:</strong>
+                          <input type="text" class="form-control" placeholder="Country" name="address[country]" />
+                      </p>
 
-				<p>
-			<label><strong>Postcode:</strong></label>
-			<input type="text" name="address[postcode]" class="form-control" placeholder="Postcode..." />
-			</p>
+                </div>
 
-				<p>
-			<label><strong>Country:</strong></label>
-			<input type="text" name="address[country]" class="form-control" placeholder="Country..."  />
-			</p>
+            </div>
+            <!-- row -->
 
-
-
-		
-		</div>
-
-
-		<div class="col-lg-12">
-		<button type="submit" class="btn btn-info" name="btnAdd">Add new</button>
-		</div>
-
-
-	</form>
-
-
-
-	</div>    
+            <div class="row">
+                <div class="col-lg-12">
+                    <button type="submit" name="btnAdd" class="btn btn-primary">Add new</button>
+                </div>
+            </div>
+        </form>
+        </div>
+        
+    </div>
   </div>
 </div>
 
-<script src="<?php echo ROOT_URL;?>bootstrap/admincp/js/chosen.jquery.min.js"></script>
-  <script type="text/javascript">
-    $(".chosen-select").chosen({max_selected_options: 1});
-  </script>
+<script>
+
+$(document).ready(function(){
+
+
+});
+</script>

@@ -8,7 +8,7 @@ border-color: #333333;
 
 div#page-wrapper
 {
-	min-height: 1024px;
+	min-height: 624px;
 	background-color: #f1f1f1;
 }
 
@@ -120,3 +120,30 @@ text-decoration: none;
 }
 
 /*Auto complete*/
+
+
+.plugin-store-ul
+{
+  list-style: none;
+  padding: 0px;
+  margin:0px;
+
+}
+
+.plugin-store-ul > li
+{
+  float: left;
+
+  margin-right: 30px;
+}
+
+.plugin-store-item .head-title a
+{
+  color: #242424;
+  font-size: 20px;
+}
+
+.plugin-store-item .more-info
+{
+  padding-top: 20px;
+}

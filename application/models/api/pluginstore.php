@@ -30,6 +30,17 @@ function loadApi($action)
 
 			File::downloadModule($url,$path,'yes');
 
+			$fileName=basename($url);
+
+			preg_match('/^(.*?)\.\w+$/i', $fileName,$match);
+
+			$filePath=ROOT_PATH.$path.$match[1];
+
+			if(is_dir($filePath))
+			{
+				rmdir($filePath);
+			}
+
 			break;
 
 		case 'load':

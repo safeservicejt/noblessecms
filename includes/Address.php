@@ -20,7 +20,7 @@ class Address
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="userid,";
+		$field="userid,company,firstname,lastname,address_1,address_2,city,state,postcode,country,phone,fax";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
@@ -29,10 +29,8 @@ class Address
 		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by userid desc';
 
 		$result=array();
-
-		$dbname=Database::getDbName();
 		
-		$command="select $selectFields from $dbname.address $whereQuery";
+		$command="select $selectFields from address $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -58,7 +56,6 @@ class Address
 			// end load			
 		}
 
-
 		$query=Database::query($queryCMD);
 		
 		if(isset(Database::$error[5]))
@@ -72,6 +69,18 @@ class Address
 		{
 			while($row=Database::fetch_assoc($query))
 			{
+				if(isset($row['title']))
+				{
+					$row['title']=String::decode($row['title']);
+				}
+				
+				if(isset($row['friendly_url']))
+				{
+					$row['url']=self::url($row);
+				}
+
+				if(isset($row['date_added']))
+				$row['date_addedFormat']=Render::dateFormat($row['date_added']);
 											
 				$result[]=$row;
 			}		
@@ -81,7 +90,6 @@ class Address
 			return false;
 		}
 
-		
 		// Save dbcache
 		DBCache::make(md5($queryCMD),$result);
 		// end save
@@ -131,9 +139,7 @@ class Address
 			$addMultiAgrs="($insertValues)";	
 		}		
 
-		$dbname=Database::getDbName();
-
-		Database::query("insert into $dbname.address($insertKeys) values".$addMultiAgrs);
+		Database::query("insert into address($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
@@ -167,9 +173,7 @@ class Address
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$dbname=Database::getDbName();
-
-		$command="delete from $dbname.address where $whereQuery $addWhere";
+		$command="delete from address where $whereQuery $addWhere";
 
 		Database::query($command);	
 
@@ -181,11 +185,11 @@ class Address
 
 		if(is_numeric($listID))
 		{
-			$catid=$listID;
+			$userid=$listID;
 
 			unset($listID);
 
-			$listID=array($catid);
+			$listID=array($userid);
 		}
 
 		$listIDs="'".implode("','",$listID)."'";		
@@ -208,9 +212,6 @@ class Address
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-
-		// $dbname=Database::getDbName();
-		
 		Database::query("update address set $setUpdates where $whereQuery $addWhere");
 
 		if(!$error=Database::hasError())

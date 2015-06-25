@@ -28,6 +28,53 @@ function actionProcess()
 	}
 }
 
+function insertProcess()
+{
+	$valid=Validator::make(array(
+		'send.firstname'=>'min:1|slashes',
+		'send.lastname'=>'min:1|slashes',
+		'send.groupid'=>'number|slashes',
+		'send.username'=>'min:3|slashes',
+		'send.email'=>'email|slashes',
+		'address.address_1'=>'slashes',
+		'address.address_2'=>'slashes',
+		'address.city'=>'slashes',
+		'address.state'=>'slashes',
+		'address.postcode'=>'slashes',
+		'address.country'=>'slashes'
+
+		));
+
+	$username=Request::get('send.username');
+
+	$email=Request::get('send.email');
+
+	$loadData=Users::get(array(
+		'where'=>"where username='$username' OR email='$email'"
+		));
+
+	if(isset($loadData[0]['userid']))
+	{
+		throw new Exception("This user have been exist in database.");
+		
+	}
+
+	$send=Request::get('send');
+
+	$address=Request::get('address');
+
+
+	$address['firstname']=$send['firstname'];
+
+	$address['lastname']=$send['lastname'];
+
+	$userid=Users::insert($send);
+
+	$address['userid']=$userid;
+
+	Address::insert($address);
+	
+}
 function updateProcess($id)
 {
 	$send=Request::get('send');

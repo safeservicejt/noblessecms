@@ -60,6 +60,34 @@ class controlUsers
 	}
 
 
+	public function addnew()
+	{
+		$post=array('alert'=>'');
+
+		if(Request::has('btnAdd'))
+		{
+			try {
+				
+				insertProcess();
+
+				$post['alert']='<div class="alert alert-success">Add new user success.</div>';
+
+			} catch (Exception $e) {
+				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}
+		}
+
+
+		$post['listGroups']=UserGroups::get();
+		
+		System::setTitle('Add new User - '.ADMINCP_TITLE);
+
+		View::make('admincp/head');
+
+		self::makeContents('userAdd',$post);
+
+		View::make('admincp/footer');		
+	}
 	public function edit()
 	{
 		$post=array('alert'=>'');
