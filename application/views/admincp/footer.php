@@ -5,10 +5,10 @@
         <!-- Author -->
                 <div class="row">
                     <div class="col-lg-5">
-                        <span>Noblesse CMS</span>
+                        <span>Noblesse CMS <?php echo SYSTEM_VERSION;?></span>
                     </div>
                 <div class="col-lg-7 text-right">
-                      <span>Contact us: Safeservicejt@gmail.com</span> - <span>Skype: <a href="skype:freshcodeteam">freshcodeteam</a></span> - <span>Facebook: <a href="https://www.facebook.com/safeservicejt" target="_blank">Safeservicejt</a></span>
+                      <span>Contact us: Safeservicejt@gmail.com</span> - <span>Skype: <a href="skype:freshcodeteam">freshcodeteam</a></span> - <span>Facebook: <a href="https://www.facebook.com/isafeservicejt" target="_blank">Safeservicejt</a></span>
                   </div>
 
                 </div>     

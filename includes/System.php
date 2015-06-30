@@ -345,6 +345,22 @@ class System
 		Cache::saveKey('systemSetting',serialize($data));
 	}
 
+	public function dateTime($str)
+	{
+		$str=isset($str[1])?$str:'Y-m-d H:i:s';
+
+		if((int)$thisTime > 0)
+		{
+			$result=date($str,$thisTime);
+		}
+		else
+		{
+			$result=date($str);
+		}
+
+		return $result;
+	}
+
 
 
 }

@@ -114,7 +114,7 @@ class Vouchers
 		{
 		    foreach ($inputData as $theRow) {
 
-				$theRow['date_added']=date('Y-m-d h:i:s');
+				$theRow['date_added']=System::dateTime();
 
 				$keyNames=array_keys($theRow);
 
@@ -132,7 +132,7 @@ class Vouchers
 		}
 		else
 		{
-			$inputData['date_added']=date('Y-m-d h:i:s');
+			$inputData['date_added']=System::dateTime();
 
 
 			$keyNames=array_keys($inputData);

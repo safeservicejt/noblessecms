@@ -117,7 +117,7 @@ class Coupons
 		{
 		    foreach ($inputData as $theRow) {
 
-				$theRow['date_added']=date('Y-m-d h:i:s');
+				$theRow['date_added']=System::dateTime();
 
 				if(isset($theRow['title']))
 				$theRow['title']=String::encode(strip_tags($theRow['title']));
@@ -138,7 +138,7 @@ class Coupons
 		}
 		else
 		{
-			$inputData['date_added']=date('Y-m-d h:i:s');
+			$inputData['date_added']=System::dateTime();
 
 			if(isset($inputData['title']))
 			$inputData['title']=String::encode(strip_tags($inputData['title']));

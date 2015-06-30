@@ -123,7 +123,7 @@ class Reviews
 		{
 		    foreach ($inputData as $theRow) {
 
-				$theRow['date_added']=date('Y-m-d h:i:s');
+				$theRow['date_added']=System::dateTime();
 
 				if(isset($theRow['content']))
 				{
@@ -148,7 +148,7 @@ class Reviews
 		}
 		else
 		{		
-			$inputData['date_added']=date('Y-m-d h:i:s');
+			$inputData['date_added']=System::dateTime();
 
 
 			if(isset($inputData['content']))

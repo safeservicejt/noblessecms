@@ -139,7 +139,7 @@ class Pages
 		{
 		    foreach ($inputData as $theRow) {
 
-				$theRow['date_added']=date('Y-m-d h:i:s');
+				$theRow['date_added']=System::dateTime();
 
 				$theRow['friendly_url']=String::makeFriendlyUrl(strip_tags($theRow['title']));
 
@@ -170,7 +170,7 @@ class Pages
 		}
 		else
 		{		
-			$inputData['date_added']=date('Y-m-d h:i:s');
+			$inputData['date_added']=System::dateTime();
 
 			$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($inputData['title']));
 

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 27, 2015 at 02:04 AM
+-- Generation Time: Jun 30, 2015 at 08:21 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `address` (
 --
 
 INSERT INTO `address` (`userid`, `company`, `firstname`, `lastname`, `address_1`, `address_2`, `city`, `state`, `postcode`, `country`, `phone`, `fax`) VALUES
-(1, '', 'James', 'Brown', '5756hgh', 'fdf', '', '', '', 'vn', '', '');
+(1, '', 'James', 'Brown', '5756hghddd', 'fdf', '', '', '', 'vn', '', '');
 
 -- --------------------------------------------------------
 
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
 INSERT INTO `categories` (`catid`, `title`, `friendly_url`, `parentid`, `image`, `sort_order`, `date_added`, `status`) VALUES
 (15, 'United', 'United', '0', '/uploads/images/2231793638/post_2.jpg', 15, '2015-01-18 07:57:36', 1),
 (19, 'Cat 1', 'Cat_1', '0', NULL, 0, '2015-03-31 09:41:40', 1),
-(20, 'Cat 2', 'Cat_2', '0', NULL, 0, '2015-03-31 09:41:42', 1);
+(20, 'Cat 2 test', 'Cat-2-test', '0', NULL, 0, '2015-03-31 09:41:42', 1);
 
 -- --------------------------------------------------------
 
@@ -117,7 +117,14 @@ CREATE TABLE IF NOT EXISTS `contactus` (
   `content` longtext CHARACTER SET utf8 NOT NULL,
   `date_added` datetime DEFAULT NULL,
   PRIMARY KEY (`contactid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `contactus`
+--
+
+INSERT INTO `contactus` (`contactid`, `fullname`, `email`, `content`, `date_added`) VALUES
+(1, 'asas', 'asasas@gmail.com', 'sdsd', '2015-06-15 05:15:32');
 
 -- --------------------------------------------------------
 
@@ -404,8 +411,6 @@ CREATE TABLE IF NOT EXISTS `coupons` (
   `date_start` datetime NOT NULL,
   `date_end` datetime NOT NULL,
   `date_added` datetime NOT NULL,
-  `limitperuser` int(9) DEFAULT NULL,
-  `limituse` int(9) DEFAULT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`couponid`),
   UNIQUE KEY `coupon_code` (`code`)
@@ -454,7 +459,7 @@ INSERT INTO `currency` (`currencyid`, `title`, `code`, `symbolLeft`, `symbolRigh
 (2, 'USD Dollars', 'USD', '$', '', '1.00000', 1),
 (3, 'Viet Nam Dong', 'VND', '', 'VND', '21370.00000', 1),
 (4, 'Euro', 'EUR', '', '"::u20ac"', '0.83316', 1),
-(5, 'British Pound', 'GBP', '"::u00a3"', '', '0.65242', 1),
+(5, 'British Pound', 'GBP', '', '', '0.65242', 1),
 (6, 'Indian Rupee', 'INR', '', 'INR', '63.24500', 1),
 (7, 'Australian Dollar', 'AUD', '', 'AUD', '1.23556', 1);
 
@@ -472,7 +477,14 @@ CREATE TABLE IF NOT EXISTS `downloads` (
   `remaining` int(9) NOT NULL DEFAULT '100',
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`downloadid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `downloads`
+--
+
+INSERT INTO `downloads` (`downloadid`, `type`, `title`, `filename`, `remaining`, `date_added`) VALUES
+(1, 'file', 'aca', 'uploads/files/2715749450/hgignore_global.txt', 1, '2015-05-30 10:26:57');
 
 -- --------------------------------------------------------
 
@@ -575,7 +587,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `date_added` datetime NOT NULL,
   `date_modified` datetime NOT NULL,
   `isreaded` int(1) NOT NULL DEFAULT '0',
-  `order_status` varchar(64) CHARACTER SET utf8 NOT NULL DEFAULT 'pending',
+  `status` varchar(64) CHARACTER SET utf8 NOT NULL DEFAULT 'pending',
   PRIMARY KEY (`orderid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -620,7 +632,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
 --
 
 INSERT INTO `pages` (`pageid`, `title`, `content`, `image`, `keywords`, `page_type`, `friendly_url`, `date_added`, `allowcomment`, `views`, `status`) VALUES
-(3, 'test page test', '[p]test pagetest pagetest pagetest page sds[/p]', 'uploads/files/5241876061/10009844_637003356387151_1768897436_n.png', 'test page,page,test,avcvc', 'normal', 'test_page', '2015-05-09 04:19:36', 1, 0, 0);
+(3, 'test page test', '[p]test pagetest pagetest pagetest page sds[/p]', 'uploads/files/5241876061/10009844_637003356387151_1768897436_n.png', 'test page,page,test,avcvc', 'normal', 'test-page-test', '2015-05-09 04:19:36', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -635,14 +647,7 @@ CREATE TABLE IF NOT EXISTS `payment_methods` (
   `method_data` longtext,
   `status` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`methodid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
-
---
--- Dumping data for table `payment_methods`
---
-
-INSERT INTO `payment_methods` (`methodid`, `title`, `foldername`, `method_data`, `status`) VALUES
-(4, 'Cash on delivery', 'cashondelivery', '{"require_form_on_checkout":"","after_click_confirm_check_out":"","title":"Cash on delivery","foldername":"cashondelivery"}', 1);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -705,15 +710,20 @@ CREATE TABLE IF NOT EXISTS `post` (
   `allowcomment` int(1) NOT NULL DEFAULT '1',
   `status` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`postid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `post`
 --
 
 INSERT INTO `post` (`postid`, `title`, `catid`, `userid`, `parentid`, `image`, `sort_order`, `date_added`, `views`, `content`, `type`, `keywords`, `friendly_url`, `is_featured`, `date_featured`, `expires_date`, `rating`, `allowcomment`, `status`) VALUES
-(1, 'Lorem Ipsum is simply dummy text', 15, 1, 0, 'uploads/images/8976702431/post_2.jpg', 1, '2015-03-16 05:35:00', 18, '[p][p][p][p][b]Lorem Ipsum[/b]&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.[/p][/p][/p][/p][/p]\r\n', 'normal', '', 'Lorem_Ipsum_is_simply_dummy_text', 0, NULL, NULL, 5, 1, 1),
-(3, 'test post dfdf', 15, 1, 0, 'uploads/files/9268394083/10015083_731256536961832_6563942372742164578_n.png', 0, '2015-05-09 05:48:59', 7, '[p]test posttest posttest [hide]posttest posttest[/hide] posttest post[/p]', 'normal', 'test post,post,erer', 'test_post', 0, NULL, NULL, 5, 1, 1);
+(1, 'Lorem Ipsum is simply dummy text', 15, 1, 0, 'uploads/images/8976702431/post_2.jpg', 1, '2015-03-16 05:35:00', 98, '[p][p][p][p][b]Lorem Ipsum[/b]&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.[/p][/p][/p][/p][/p]\r\n', 'normal', '', 'Lorem_Ipsum_is_simply_dummy_text', 0, NULL, NULL, 5, 1, 1),
+(3, 'test 6', 20, 1, 0, 'uploads/files/9268394083/10015083_731256536961832_6563942372742164578_n.png', 0, '2015-05-09 05:48:59', 67, '[p]test [b]posttest[/b] posttest [hide]posttest posttest[/hide] posttest post[/p]\r\n\r\n[p][youtube]5owzBgbidd8[/youtube][/p]', 'normal', 'test post,post,erer', 'test_post', 0, NULL, NULL, 5, 1, 1),
+(4, 'test 5', 20, 1, 0, NULL, 0, '2015-06-03 06:43:39', 39, '[p]Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.[/p]', 'normal', '', 'Lorem_Ipsum_is_simply', 0, NULL, NULL, 5, 1, 1),
+(5, 'test 4', 20, 1, 0, NULL, 0, '2015-06-03 10:23:59', 17, '[p]rd dummy text ever since the 1500s, when an[/p]\r\n\r\n[p][img]https://s-media-cache-ak0.pinimg.com/236x/f0/64/a6/f064a6b4f57e9d05b5f97b8e2e5a8dfb.jpg[/img][/p]\r\n\r\n[p]unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu[/p]', 'normal', '', 'Lorem_Ipsum_is_simply_3434', 0, NULL, NULL, 5, 1, 1),
+(6, 'test 3', 20, 1, 0, NULL, 0, '2015-06-03 10:24:07', 23, '[p]rd dummy text ever s[/p]\r\n\r\n[p][img]https://s-media-cache-ak0.pinimg.com/236x/f0/64/a6/f064a6b4f57e9d05b5f97b8e2e5a8dfb.jpg[/img][/p]\r\n\r\n[p]ince the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu[/p]', 'normal', '', 'Lorem_Ipsum_is_simply435545', 0, NULL, NULL, 5, 1, 1),
+(7, 'test 2', 20, 1, 0, NULL, 0, '2015-06-03 10:24:14', 142, '[p]rd dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was po[/p]\r\n\r\n[p][img]https://s-media-cache-ak0.pinimg.com/236x/f0/64/a6/f064a6b4f57e9d05b5f97b8e2e5a8dfb.jpg[/img][/p]\r\n\r\n[p]pularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu[/p]', 'normal', '', 'Lorem_Ip343434sum_is_simply', 0, NULL, NULL, 5, 1, 1),
+(8, 'test post 1', 20, 1, 0, NULL, 0, '2015-06-03 10:24:21', 249, '[p]rd dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only[/p]\r\n\r\n[p][img]https://s-media-cache-ak0.pinimg.com/236x/f0/64/a6/f064a6b4f57e9d05b5f97b8e2e5a8dfb.jpg[/img][/p]\r\n\r\n[p]five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu[/p]', 'normal', 'this keywords, test post 1', 'test-post-1', 0, NULL, NULL, 5, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -750,7 +760,7 @@ CREATE TABLE IF NOT EXISTS `post_tags` (
   `title` varchar(128) NOT NULL,
   `postid` int(9) NOT NULL,
   PRIMARY KEY (`tagid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=92 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=154 ;
 
 --
 -- Dumping data for table `post_tags`
@@ -762,12 +772,17 @@ INSERT INTO `post_tags` (`tagid`, `title`, `postid`) VALUES
 (33, 'test theme', 1),
 (34, 'test post', 2),
 (35, 'post', 2),
-(86, 'dfdf', 3),
-(87, 'hghg', 3),
-(88, 'test post', 3),
-(89, 'post', 3),
-(90, '45656', 3),
-(91, '8989', 3);
+(134, 'dfdf', 3),
+(135, 'hghg', 3),
+(136, 'test post', 3),
+(137, 'post', 3),
+(138, '45656', 3),
+(139, '8989', 3),
+(140, '', 4),
+(148, '', 7),
+(149, '', 6),
+(150, '', 5),
+(153, '', 8);
 
 -- --------------------------------------------------------
 
@@ -777,6 +792,7 @@ INSERT INTO `post_tags` (`tagid`, `title`, `postid`) VALUES
 
 CREATE TABLE IF NOT EXISTS `products` (
   `productid` int(9) NOT NULL AUTO_INCREMENT,
+  `catid` int(9) NOT NULL DEFAULT '0',
   `sku` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
   `upc` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
   `model` varchar(32) CHARACTER SET utf8 NOT NULL,
@@ -808,7 +824,16 @@ CREATE TABLE IF NOT EXISTS `products` (
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`productid`),
   UNIQUE KEY `productid` (`productid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`productid`, `catid`, `sku`, `upc`, `model`, `price`, `quantity`, `date_added`, `title`, `content`, `attributes`, `friendly_url`, `image`, `points`, `userid`, `is_featured`, `date_featured`, `is_shipping`, `manufacturerid`, `minimum`, `sort_order`, `viewed`, `keywords`, `date_discount`, `date_enddiscount`, `date_available`, `price_discount`, `options_command`, `quantity_discount`, `rating`, `status`) VALUES
+(3, 15, 'SK03839', '', 'TP01', 6.99, 10000, '2015-06-02 03:09:58', 'Test product 1', '[p]Content here (support BBCode)[/p]', NULL, 'Test_product_1', 'uploads/images/3717754521/BeefJoint-300x300.jpg', 0, 0, 0, NULL, 1, 6, 1, 0, 0, 'test, productt, test prod', '2015-06-02 00:00:00', '2015-06-02 00:00:00', '2015-06-02 00:00:00', 0, NULL, 0, 5, 1),
+(4, 15, 'SK03839', '', 'TP01', 6.99, 10000, '2015-06-02 03:13:44', 'Test product 1', '[p]Content here (support BBCode)[/p]', NULL, 'Test_product_1', 'uploads/images/0252451379/BeefJoint-300x300.jpg', 0, 0, 0, NULL, 1, 6, 1, 0, 0, 'test, productt, test prod', '2015-06-02 00:00:00', '2015-06-02 00:00:00', '2015-06-02 00:00:00', 0, NULL, 0, 5, 1),
+(5, 15, 'SK03839', '', 'TP01', 6.99, 10000, '2015-06-02 03:15:41', 'Test product 12 test', '[p][p][p][p][p][p][p][p][p]Content here (support BBCode)[/p][/p][/p][/p][/p][/p][/p][/p][/p]', NULL, 'Test-product-12-test', 'uploads/images/4334225977/potats-300x300.jpg', 0, 0, 0, NULL, 1, 2, 1, 0, 0, 'test, productt, test prod', '2015-06-02 00:00:00', '2015-06-02 00:00:00', '2015-06-02 00:00:00', 0, NULL, 0, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -834,6 +859,13 @@ CREATE TABLE IF NOT EXISTS `products_downloads` (
   KEY `productid` (`productid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `products_downloads`
+--
+
+INSERT INTO `products_downloads` (`productid`, `downloadid`) VALUES
+(5, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -847,6 +879,21 @@ CREATE TABLE IF NOT EXISTS `products_images` (
   `date_added` datetime NOT NULL,
   KEY `productid` (`productid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `products_images`
+--
+
+INSERT INTO `products_images` (`productid`, `image`, `sort_order`, `date_added`) VALUES
+(3, 'uploads/images/5767560696/BeefJoint-300x300.jpg', 0, '2015-06-02 03:09:58'),
+(3, 'uploads/images/8957978543/ChickenBreasts-300x300.jpg', 1, '2015-06-02 03:09:58'),
+(3, 'uploads/images/9341615705/potats-300x300.jpg', 2, '2015-06-02 03:09:58'),
+(4, 'uploads/images/7164285585/BeefJoint-300x300.jpg', 0, '2015-06-02 03:13:44'),
+(4, 'uploads/images/2436482804/ChickenBreasts-300x300.jpg', 1, '2015-06-02 03:13:45'),
+(4, 'uploads/images/9517315959/potats-300x300.jpg', 2, '2015-06-02 03:13:45'),
+(5, 'uploads/images/3979842688/ChickenBreasts-300x300.jpg', 1, '2015-06-02 04:01:24'),
+(5, 'uploads/images/1146813667/potats-300x300.jpg', 2, '2015-06-02 04:01:24'),
+(5, 'uploads/images/4014814171/BeefJoint-300x300.jpg', 0, '2015-06-02 04:15:48');
 
 -- --------------------------------------------------------
 
@@ -871,7 +918,19 @@ CREATE TABLE IF NOT EXISTS `products_tags` (
   `title` varchar(255) NOT NULL,
   `productid` int(9) NOT NULL,
   PRIMARY KEY (`tagid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
+
+--
+-- Dumping data for table `products_tags`
+--
+
+INSERT INTO `products_tags` (`tagid`, `title`, `productid`) VALUES
+(1, 'test', 4),
+(2, ' productt', 4),
+(3, ' test prod', 4),
+(33, 'test prod', 5),
+(34, 'test prod', 5),
+(35, 'test', 5);
 
 -- --------------------------------------------------------
 
@@ -1021,7 +1080,14 @@ CREATE TABLE IF NOT EXISTS `vouchers` (
   `status` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`voucherid`),
   UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `vouchers`
+--
+
+INSERT INTO `vouchers` (`voucherid`, `code`, `amount`, `date_added`, `status`) VALUES
+(4, '234488316619', 19.99, '2015-05-28 09:54:52', 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

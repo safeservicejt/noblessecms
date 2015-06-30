@@ -23,7 +23,7 @@
 
                 </ul>
               </li>
-              <li class="dropdown">
+<!--               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-th"></span>&nbsp;&nbsp;Ecommerce <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="<?php echo ADMINCP_URL;?>products/addnew">Add new product</a></li>
@@ -33,7 +33,7 @@
                  <li><a href="<?php echo ADMINCP_URL;?>coupons/addnew">Add new coupons</a></li>
 
                 </ul>
-              </li>
+              </li> -->
               
             </ul>
 
@@ -65,26 +65,26 @@
                     <li>
                         <a href="<?php echo ADMINCP_URL;?>"><span class="glyphicon glyphicon-globe"></span> Dashboard</a></a>
                     </li>
-                    <li>
+                   <!--  <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#ecommerce"><span class="glyphicon glyphicon-shopping-cart"></span> Ecommerce <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="ecommerce" class="collapse">
-                          <li><a href="<?php echo ADMINCP_URL;?>ecommerce">Statistics</a></li>
+                          <li><a href="<?php echo ADMINCP_URL;?>ecommerce">Statistics</a></li> -->
                           <!-- <li><a href="<?php echo ADMINCP_URL;?>affiliates">Affiliates</a></li> -->
-                          <li><a href="<?php echo ADMINCP_URL;?>coupons">Coupons</a></li>
+                          <!-- <li><a href="<?php echo ADMINCP_URL;?>coupons">Coupons</a></li>
                           <li><a href="<?php echo ADMINCP_URL;?>currency">Currency</a></li>
                           <li><a href="<?php echo ADMINCP_URL;?>downloads">Downloads</a></li>
                           <li><a href="<?php echo ADMINCP_URL;?>vouchers">Gift Vouchers</a></li>
                          <li><a href="<?php echo ADMINCP_URL;?>manufacturers">Manufacturers</a></li>
                            <li><a href="<?php echo ADMINCP_URL;?>products">Product</a></li>
                            <li><a href="<?php echo ADMINCP_URL;?>paymentmethods">Payment Methods</a></li>
-                            <li><a href="<?php echo ADMINCP_URL;?>reviews">Reviews</a></li>
+                            <li><a href="<?php echo ADMINCP_URL;?>reviews">Reviews</a></li> -->
                          <!-- <li><a href="<?php echo ADMINCP_URL;?>requestpayment">Request Payments</a> </li>        -->
-                         <li><a href="<?php echo ADMINCP_URL;?>orders">Orders</a></li>
+                        <!--  <li><a href="<?php echo ADMINCP_URL;?>orders">Orders</a></li>
                          <li><a href="<?php echo ADMINCP_URL;?>taxrate">Tax Rate</a></li>
                          
 
                         </ul>
-                    </li>                    
+                    </li>  -->                   
                     <li>
                         <a href="<?php echo ADMINCP_URL;?>categories"><span class="glyphicon glyphicon-list-alt"></span> Categories</a>
                     </li>
