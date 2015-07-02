@@ -386,7 +386,7 @@ class Shortcode
 	        '~\[panelbody\](.*?)\[\/panelbody\]~s',
 	        '~\[paneltitle\](.*?)\[\/paneltitle\]~s',
 	        '~\[panel\](.*?)\[\/panel\]~s',
-	        '~\[panel class=.*?\](.*?)\[\/panel\]~s',
+	        '~\[panel (.*?)\](.*?)\[\/panel\]~s',
 
 	        '~\[taburl:active id=(.*?)\](.*?)\[\/taburl\]~s',
 	        '~\[taburl id=(.*?)\](.*?)\[\/taburl\]~s',
@@ -417,7 +417,24 @@ class Shortcode
 
 	        '~\[bxslider\](.*?)\[\/bxslider\]~s',
 	        '~\[bximg src=(.*?)\]~s',
-	        '~\[bximg class=(.*?) src=(.*?)\]~s'
+	        '~\[bximg class=(.*?) src=(.*?)\]~s',
+
+	        '~\[button class=(.*?)\](.*?)\[\/button\]~s',
+	        '~\[button id=(.*?)\](.*?)\[\/button\]~s',
+	        '~\[button class=(.*?) id=(.*?)\](.*?)\[\/button\]~s',
+	        '~\[button id=(.*?) class=(.*?)\](.*?)\[\/button\]~s',
+	        '~\[button (.*?)\](.*?)\[\/button\]~s',
+
+	        '~\[progress (.*?)\](.*?)\[\/progress\]~s',
+	        '~\[progress:success (.*?)\](.*?)\[\/progress\]~s',
+	        '~\[progress:primary (.*?)\](.*?)\[\/progress\]~s',
+	        '~\[progress:warning (.*?)\](.*?)\[\/progress\]~s',
+	        '~\[progress:danger (.*?)\](.*?)\[\/progress\]~s',
+
+	        '~\[badge\](.*?)\[\/badge\]~s',
+	        '~\[badge (.*?)\](.*?)\[\/badge\]~s',
+
+	        '~\[icon:(.*?)\]~s'
 
 	    );
 
@@ -442,7 +459,7 @@ class Shortcode
 	        '<div class="panel-body">$1</div>',
 	        '<div class="panel-heading">$1</div>',
 	        '<div class="panel panel-default">$1</div>',
-	        '<div class="panel panel-default $1">$2</div>',
+	        '<div $1>$2</div>',
 
 	        '<li role="presentation" class="active"><a href="#$1" aria-controls="$1" role="tab" data-toggle="tab">$2</a></li>',
 	        '<li role="presentation"><a href="#$1" aria-controls="$1" role="tab" data-toggle="tab">$2</a></li>',
@@ -473,7 +490,24 @@ class Shortcode
 
 	        '<ul class="bxslider">$1</ul><script>$(document).ready(function(){$(\'.bxslider\').bxSlider({auto: true});});</script>',
 	        '<li><img src="$1" /></li>',
-	        '<li><img class="$1" src="$2" /></li>'
+	        '<li><img class="$1" src="$2" /></li>',
+
+	        '<button type="button" class="btn btn-default $1">$2</button>',
+	        '<button type="button" class="btn btn-default" id="$1">$2</button>',
+	        '<button type="button" class="btn btn-default $1" id="$2">$3</button>',
+	        '<button type="button" id="$1" class="btn btn-default $2">$3</button>',
+	        '<button $1>$2</button>',
+
+			'<div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="$2" aria-valuemin="0" aria-valuemax="100" style="width: $2%;" $1><span class="sr-only">$2% Complete</span></div></div>',	        
+			'<div class="progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="$2" aria-valuemin="0" aria-valuemax="100" style="width: $2%;" $1><span class="sr-only">$2% Complete</span></div></div>',	        
+			'<div class="progress"><div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="$2" aria-valuemin="0" aria-valuemax="100" style="width: $2%;" $1><span class="sr-only">$2% Complete</span></div></div>',	        
+			'<div class="progress"><div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="$2" aria-valuemin="0" aria-valuemax="100" style="width: $2%;" $1><span class="sr-only">$2% Complete</span></div></div>',	        
+			'<div class="progress"><div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="$2" aria-valuemin="0" aria-valuemax="100" style="width: $2%;" $1><span class="sr-only">$2% Complete</span></div></div>',
+
+			'<span class="badge">$1</span>',        
+			'<span class="badge" $1>$2</span>',
+
+			'<span class="glyphicon glyphicon-$1" aria-hidden="true"></span>'
 
 	    );
 

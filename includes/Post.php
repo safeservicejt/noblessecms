@@ -83,6 +83,8 @@ class Post
 				if(isset($row['content']))
 				{
 					$row['content']=String::decode($row['content']);
+
+					// die($row['content']);
 				}
 
 				if(isset($row['date_added']))

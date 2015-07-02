@@ -116,6 +116,8 @@ class controlPost
 		}
 
 		$loadData=Post::get(array(
+			'cacheTime'=>1,
+			'isHook'=>'no',
 			'query'=>"select p.*,c.title as cattitle from post p,categories c where p.catid=c.catid AND p.postid='$postid'"
 			));
 

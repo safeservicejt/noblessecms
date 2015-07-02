@@ -110,7 +110,7 @@
                 <div class="col-lg-12">
                       <p>
                             <strong>New password:</strong>
-                          <input type="text" class="form-control" name="password" placeholder="New password" />
+                          <input type="text" class="form-control" name="thepass" placeholder="New password" />
                       </p>
 
                 </div>

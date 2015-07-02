@@ -62,7 +62,12 @@ function insertProcess()
 	$send=Request::get('send');
 
 	$address=Request::get('address');
+	
+	$thepass=Request::get('thepass');
 
+	$passMd5=String::encrypt($thepass);
+
+	$send['password']=$passMd5;
 
 	$address['firstname']=$send['firstname'];
 

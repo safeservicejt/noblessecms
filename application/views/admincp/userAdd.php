@@ -43,12 +43,16 @@
 
                       <p>
                             <strong>Username:</strong>
-                          <input type="text" class="form-control" placeholder="Username" name="send[username]"  />
+                          <input type="text" class="form-control" placeholder="Username" name="send[username]" required/>
                       </p>
 
                       <p>
                             <strong>Email:</strong>
-                          <input type="email" class="form-control" placeholder="Email" name="send[email]" />
+                          <input type="email" class="form-control" placeholder="Email" name="send[email]" required/>
+                      </p>
+                      <p>
+                            <strong>Password:</strong>
+                          <input type="text" class="form-control" placeholder="Password" name="thepass" required />
                       </p>
 
                 </div>

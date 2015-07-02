@@ -83,6 +83,9 @@ class Contactus
 					if(isset($row['content']))
 					$row['content']=Shortcode::toHTML($row['content']);
 				}
+
+				if(isset($row['contactid']))
+				$row['url']=ADMINCP_URL.'contacts/view/'.$row['contactid'];
 											
 				$result[]=$row;
 			}		
@@ -116,6 +119,8 @@ class Contactus
 
 				if(isset($theRow['content']))
 				{
+					$theRow['content']=strip_tags($theRow['content'],'<p><br><a>');
+					
 					$theRow['content']=Shortcode::toBBCode($theRow['content']);
 
 					$theRow['content']=String::encode($theRow['content']);
@@ -141,6 +146,8 @@ class Contactus
 
 			if(isset($inputData['content']))
 			{
+				$inputData['content']=strip_tags($inputData['content'],'<p><br><a>');
+
 				$inputData['content']=Shortcode::toBBCode($inputData['content']);
 
 				$inputData['content']=String::encode($inputData['content']);

@@ -2,6 +2,7 @@
 
 class String
 {
+
     public function stripUnicode($str)
     {
         if (!$str) return false;
@@ -67,6 +68,7 @@ class String
     return $decrypted_string;
 
     }
+
 
 
     public function encode($str)

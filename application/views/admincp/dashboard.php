@@ -21,7 +21,7 @@
         <div class="col-lg-4">
             <h4>Next Steps</h4> 
             <ul class="ulDashboard">
-            <li><a href="<?php echo ROOT_URL;?>admincp/news/addnew"><span class="glyphicon glyphicon-plus-sign"></span> Write a post</a></li>
+            <li><a href="<?php echo ROOT_URL;?>admincp/post/addnew"><span class="glyphicon glyphicon-plus-sign"></span> Write a post</a></li>
             <li><a href="<?php echo ROOT_URL;?>admincp/pages/addnew"><span class="glyphicon glyphicon-th-large"></span> Create a page</a></li>
             <li><a href="<?php echo ROOT_URL;?>admincp/categories"><span class="glyphicon glyphicon-th-list"></span> Manage categories</a></li>
 

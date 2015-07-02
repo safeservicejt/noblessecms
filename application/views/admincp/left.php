@@ -40,7 +40,77 @@
 
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-                
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
+                    <ul class="dropdown-menu message-dropdown">
+                        <?php
+
+                        $today=date('Y-m-d');
+
+                        $loadData=Contactus::get(array(
+                          'limitShow'=>5,
+                          'cacheTime'=>30,
+                          'where'=>"where DATE(date_added)='$today'",
+                          'orderby'=>'order by contactid desc'
+                          ));
+
+                        if(isset($loadData[0]['contactid']))
+                        {
+                          $li='';
+
+                          $total=count($loadData);
+
+                          for ($i=0; $i < $total; $i++) { 
+                            $li.='
+                            <li class="message-preview">
+                                <a href="'.$loadData[$i]['url'].'">
+                                    <div class="media">
+                                        
+                                        <div class="media-body">
+                                            <h5 class="media-heading"><strong>'.$loadData[$i]['fullname'].'</strong>
+                                            </h5>
+                                            <p class="small text-muted"><i class="fa fa-clock-o"></i> '.$loadData[$i]['date_addedFormat'].'</p>
+                                            <p>'.substr($loadData[$i]['content'], 0,50).'...</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                            ';
+                          }
+
+                          
+                        }
+                        else
+                        {
+                          $li='
+                            <li class="message-preview">
+                                <a href="#">
+                                    <div class="media">
+                                        
+                                        <div class="media-body">
+                                            <h5 class="media-heading"><strong>There is not have any new contact(s)</strong>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                          ';
+                        }
+
+                        echo $li;
+                        
+                        ?>
+
+
+                        
+                        <li class="message-footer">
+                            <a href="<?php echo ADMINCP_URL;?>contacts">Read All New Messages</a>
+                        </li>
+                    </ul>
+                </li>                
     
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo Cookie::get('firstname').' '.Cookie::get('lastname');?> <b class="caret"></b></a>
@@ -156,6 +226,8 @@
 
                               <li><a href="<?php echo ADMINCP_URL;?>setting/ecommerce">Ecommerce</a></li>
                               <li><a href="<?php echo ADMINCP_URL;?>setting/mailsystem">Mail System</a></li>
+                              <!-- <li><a href="<?php echo ADMINCP_URL;?>setting/update">Update</a></li> -->
+
                         </ul>
                     </li>
 

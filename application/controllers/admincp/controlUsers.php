@@ -78,8 +78,10 @@ class controlUsers
 		}
 
 
-		$post['listGroups']=UserGroups::get();
-		
+		$post['listGroups']=UserGroups::get(array(
+			'orderby'=>'order by group_title asc'
+			));
+			
 		System::setTitle('Add new User - '.ADMINCP_TITLE);
 
 		View::make('admincp/head');
@@ -111,7 +113,9 @@ class controlUsers
 
 		if(Request::has('btnChangePassword'))
 		{
-			Users::changePassword($userid,Request::get('password',''));
+			Users::changePassword($userid,Request::get('thepass',''));
+
+			$post['alert']='<div class="alert alert-success">Save change password success.</div>';
 		}
 
 
@@ -123,8 +127,10 @@ class controlUsers
 
 		$post['edit']=$loadData[0];
 
-		$post['listGroups']=UserGroups::get();
-		
+		$post['listGroups']=UserGroups::get(array(
+			'orderby'=>'order by group_title asc'
+			));
+			
 		System::setTitle('Edit User - '.ADMINCP_TITLE);
 
 		View::make('admincp/head');
