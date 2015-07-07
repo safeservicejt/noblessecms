@@ -231,7 +231,7 @@ class File
                 }
                 $Entry = $source . '/' . $entry; 
                 if ( is_dir( $Entry ) ) {
-                    full_copy( $Entry, $target . '/' . $entry );
+                    self::fullCopy( $Entry, $target . '/' . $entry );
                     continue;
                 }
                 copy( $Entry, $target . '/' . $entry );

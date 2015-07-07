@@ -46,6 +46,29 @@ class controlSetting
 		View::make('admincp/footer');
 
 	}
+	public function update()
+	{
+		$post=array('alert'=>'');
+
+		if(Request::has('btnStart'))
+		{
+			// System::saveMailSetting(Request::get('mail'));
+			Update::make();
+			
+			$post['alert']='<div class="alert alert-success">Update system success.</div>';
+		}
+
+
+		$post['data']=Update::get();
+
+		// print_r($post);die();
+
+		View::make('admincp/head',array('title'=>'Update System - '.ADMINCP_TITLE));
+
+		self::makeContents('updateVersion',$post);
+
+		View::make('admincp/footer');		
+	}
 	public function mailsystem()
 	{
 		$post=array('alert'=>'');
@@ -69,6 +92,7 @@ class controlSetting
 
 		View::make('admincp/footer');		
 	}
+
 	public function ecommerce()
 	{
 		$post=array('alert'=>'');

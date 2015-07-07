@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="<?php echo ROOT_URL; ?>bootstrap/wysibb/theme/default/wbbtheme.css" />
+
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">Add new page</h3>
@@ -15,7 +17,7 @@
  
             <p>
                 <label><strong>Content</strong></label>
-                <textarea id="editor1" rows="15" name="send[content]" class="form-control ckeditor"></textarea>
+                <textarea id="editor" rows="15" name="send[content]" class="form-control ckeditor"></textarea>
             </p>
             <p>
                 <label><strong>Keywords</strong></label>
@@ -84,8 +86,12 @@
     </div>
   </div>
 </div>
-<script src="<?php echo ROOT_URL; ?>bootstrap/ckeditor/ckeditor.js"></script>
-
+<script src="<?php echo ROOT_URL; ?>bootstrap/wysibb/jquery.wysibb.min.js"></script>
+<script type="text/javascript">
+$(function() {
+  $("#editor").wysibb();
+})  
+</script>
   <script type="text/javascript">
             var root_url='<?php echo ROOT_URL;?>';
 

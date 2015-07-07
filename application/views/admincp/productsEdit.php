@@ -1,4 +1,5 @@
-<script src="<?php echo ROOT_URL; ?>bootstrap/ckeditor/ckeditor.js"></script>
+<link rel="stylesheet" href="<?php echo ROOT_URL; ?>bootstrap/wysibb/theme/default/wbbtheme.css" />
+
   <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstrap/admincp/css/chosen.min.css">
     <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstrap/datepicker/css/datepicker.css">
  	<script src="<?php echo ROOT_URL;?>bootstrap/datepicker/js/bootstrap-datepicker.js"></script>
@@ -46,7 +47,7 @@
 
 			<p>
 			<label><strong>Content:</strong></label>
-			<textarea id="editor1" class="form-control ckeditor" rows="20" name="send[content]"><?php echo $edit['content'];?></textarea>
+			<textarea id="editor" class="form-control" rows="20" name="send[content]"><?php echo $edit['content'];?></textarea>
 			</p>
 			<p>
 			<label><strong>Reward points:</strong></label>
@@ -344,6 +345,12 @@
 					?>
 					</div>
 
+<script src="<?php echo ROOT_URL; ?>bootstrap/wysibb/jquery.wysibb.min.js"></script>
+<script type="text/javascript">
+$(function() {
+  $("#editor").wysibb();
+})  
+</script>
 					<script>
 
 					var admincpUrl='<?php echo ROOT_URL;?>admincp/';

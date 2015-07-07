@@ -226,7 +226,7 @@
 
                               <li><a href="<?php echo ADMINCP_URL;?>setting/ecommerce">Ecommerce</a></li>
                               <li><a href="<?php echo ADMINCP_URL;?>setting/mailsystem">Mail System</a></li>
-                              <!-- <li><a href="<?php echo ADMINCP_URL;?>setting/update">Update</a></li> -->
+                              <li><a href="<?php echo ADMINCP_URL;?>setting/update">Update</a></li>
 
                         </ul>
                     </li>

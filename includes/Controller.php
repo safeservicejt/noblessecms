@@ -51,7 +51,12 @@ class Controller
 
 
         if (!file_exists($path))
-        Log::warning('Controller <b>'.$controlName.'</b> not exists.');
+        {
+            Response::headerCode(404);
+
+            Log::warning('Controller <b>'.$controlName.'</b> not exists.');
+
+        }
 
         include($path);
 
@@ -67,7 +72,12 @@ class Controller
         $funcName=($funcName=='index')?$funcName:'get'.ucfirst($funcName);
 
         if (!method_exists($load, $funcName)) 
-        Log::warning('Function <b>'.$funcName.'</b> not exists inside controller <b>'.$controlName.'</b> .');
+        {
+            Response::headerCode(404);     
+                  
+            Log::warning('Function <b>'.$funcName.'</b> not exists inside controller <b>'.$controlName.'</b> .');
+
+        }
 
         $load->$funcName();
 

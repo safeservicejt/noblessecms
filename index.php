@@ -3,6 +3,12 @@ ob_start();
 session_start();
 // error_reporting(0);
 
+define("SERVER_URL", 'http://test.vn/project/2015/noblessecmsserver/');
+
+define("SYSTEM_VERSION", '1.0');
+
+define("ADMINCP_TITLE", 'Cpanel Noblesse CMS');
+
 require('./config.php');
 
 require(ROOT_PATH . 'routes.php');

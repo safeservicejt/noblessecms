@@ -4,7 +4,7 @@ class themeTag
 {
 	public function index()
 	{
-		Cache::loadPage(30);
+		// Cache::loadPage(30);
 				
 		$inputData=array();
 
@@ -47,7 +47,7 @@ class themeTag
 
 		self::makeContent('tag',$inputData);
 
-		Cache::savePage();	
+		// Cache::savePage();	
 	}
 
 	public function makeContent($viewName,$inputData=array())

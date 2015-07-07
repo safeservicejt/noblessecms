@@ -1,5 +1,11 @@
 <?php
 
+/*Shortcode
+Title: Youtube Shortcode
+Description: Show youtube video.
+Code: youtube
+*/
+
 // Shortcode::templateAdd('youtube','simple_youtube_parse');
 
 

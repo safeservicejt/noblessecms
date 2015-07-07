@@ -1,0 +1,5 @@
+FastBB - Lightweight Bulletin Board System
+James
+1.0
+Build your own lightweight bulletin board system.
+https://www.facebook.com/safeservicejt

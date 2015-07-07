@@ -3,6 +3,24 @@
 class String
 {
 
+    public function viewToFriendly($total)
+    {
+        // $replaces=array(
+        //     '/([0]+)/i'=>'k'
+        //     );
+        if((int)$total >= 1000)
+        {
+            $total=preg_replace('/000$/i', '', $total);
+
+            $total=number_format($total).'k';
+
+        }
+
+
+        return $total;
+
+    }
+
     public function stripUnicode($str)
     {
         if (!$str) return false;

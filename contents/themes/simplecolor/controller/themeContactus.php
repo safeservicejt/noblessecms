@@ -4,7 +4,7 @@ class themeContactus
 {
 	public function index()
 	{
-		Cache::loadPage(30);
+		// Cache::loadPage(30);
 
 		$inputData=array('alert'=>'');
 
@@ -24,7 +24,7 @@ class themeContactus
 
 		self::makeContent('contactus',$inputData);
 		
-		Cache::savePage();		
+		// Cache::savePage();		
 	}
 
 	public function makeContent($viewName,$inputData=array())

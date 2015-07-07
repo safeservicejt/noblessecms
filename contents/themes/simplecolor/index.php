@@ -15,7 +15,7 @@ if($matches=Uri::match('^(\w+)\/?'))
 	$pageName=$matches[1];
 }
 
-if($matches=Uri::match('^page\/?'))
+if($matches=Uri::match('^page\/(\d+)'))
 {
 	$pageName='home';
 }

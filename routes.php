@@ -6,7 +6,6 @@ System::before_system_start();
 // Load sytem settings
 
 
-
 Route::get('api', 'controlApi');
 
 Route::get('admincp', 'controlAdmincp');

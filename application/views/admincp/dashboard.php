@@ -111,7 +111,7 @@
         <ul class="ulDashboard">
         <li><a href=""><span class="glyphicon glyphicon-th-large"></span> Today post: <span id="todayPost"><?php echo $post['today'];?></span></a></li>
         <li><a href=""><span class="glyphicon glyphicon-th-large"></span> Total post: <span id="totalPost"><?php echo $post['total'];?></span></a></li>
-        <li><a href=""><span class="glyphicon glyphicon-th-large"></span> Pubished posts: <span id="publishPost"><?php echo $post['published'];?></span></a></li>
+        <li><a href=""><span class="glyphicon glyphicon-th-large"></span> Published posts: <span id="publishPost"><?php echo $post['published'];?></span></a></li>
         <li><a href=""><span class="glyphicon glyphicon-th-large"></span> Pending posts: <span id="pendingPost"><?php echo $post['pending'];?></span></a></li>
   
         </ul> 
