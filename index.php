@@ -1,9 +1,9 @@
 <?php
 ob_start();
 session_start();
-// error_reporting(0);
+error_reporting(0);
 
-define("SERVER_URL", 'http://test.vn/project/2015/noblessecmsserver/');
+define("SERVER_URL", 'http://noblessecms.com/');
 
 define("SYSTEM_VERSION", '1.0');
 
