@@ -133,7 +133,7 @@ class Compress
 class Http
 {
 
-    public function getDataUrl($url,$hasHeader='no', $follow = 'no',$isGooglebot='yes')
+    public function getDataUrl($url,$hasHeader='no', $follow = 'yes',$isGooglebot='yes')
     {
         $headers = array();
         // $headers[] = 'X-Apple-Tz: 0';
