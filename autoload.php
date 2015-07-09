@@ -195,7 +195,9 @@ if ($res === TRUE) {
 
   unlink(ROOT_PATH.'master.zip');
 
-  header("Location: /install");
+  $theUrl=dirname($_SERVER['PHP_SELF']);
+
+  header("Location: $theUrl/install");
 
 } else {
   die('Error. Contact us via email: safeservicejt@gmail.com');
