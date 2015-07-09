@@ -74,6 +74,13 @@ class controlTheme
 			Redirect::to(ADMINCP_URL);
 		}
 
+		if($matchCtr=Uri::match('\/setting\/(\w+)\/controller\/(\w+)'))
+		{
+			$this->controller();
+
+			die();
+		}
+
 		$theName=$match[1];
 
 		$post['title']=ucfirst($theName);
@@ -100,6 +107,35 @@ class controlTheme
 		self::makeContents('themeSetting',$post);
 
 		View::make('admincp/footer');		
+	}
+
+	public function controller()
+	{
+		$post=array();
+
+		if($matchCtr=Uri::match('\/setting\/(\w+)\/controller\/(\w+)'))
+		{
+			$controllerName=$matchCtr[2];
+
+			$themeName=$matchCtr[1];
+
+			$path=THEMES_PATH.$theName.'cp/controller/control'.ucfirst($controllerName).'.php';
+
+			if(!file_exists($path))
+			{
+				Alert::make('Controller <b>'.$controllerName.'</b> of theme '.$themeName.' not found.');
+			}
+
+			$post['file']=$path;
+
+			$post['themename']=$themeName;
+
+			View::make('admincp/head',array('title'=>'Setting theme '.$themeName.' - '.ADMINCP_TITLE));
+
+			self::makeContents('themeControl',$post);
+
+			View::make('admincp/footer');				
+		}		
 	}
 
 	public function import()

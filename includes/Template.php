@@ -2,6 +2,23 @@
 
 class Template
 {
+    public function makeWithPath($viewName,$inputData,$themePath)
+    {
+        $filepath=$themePath.$viewName.'.php';
+
+        if(!file_exists($filepath))
+        {
+            Alert::make('View '.$viewName.' not exists.');
+        }
+
+        // $data=file_get_contents($themePath.$viewName);
+
+        $data=self::parseData($filepath);
+
+        extract($inputData);
+
+        include($data);
+    }
 
     public function parseData($path)
     {
@@ -11,16 +28,16 @@ class Template
 
     	// die($loadData);
 
-    	$fileMD5=md5_file($path.$loadData);
+    	$fileMD5=md5_file($path);
 
     	$md5Path=ROOT_PATH.'application/caches/templates/'.$fileMD5.'.php';
 
-    	if(file_exists($md5Path))
-    	{
-    		$resultPath=$md5Path;
-    		// die('dsd');
-    		return $resultPath;
-    	}
+        if(Cache::hasKey('templates/'.$fileMD5,-1,'.php'))
+        {
+            $resultPath=$md5Path;
+
+            return $resultPath;            
+        }
         
         $loadData=file_get_contents($path);
 
@@ -37,6 +54,7 @@ class Template
     		'/\{\{\$(.*?) (.*?)\}\}/i'=>'<?php $$1 $2;?>',
 
             '/\{\{\$(.*?)\}\}/i'=>'<?php echo $$1;?>',
+            '/\{\{([a-zA-Z0-9_\-\_]+)\}\}/i'=>'<?php echo $1;?>',
 
     		'/\{\{(\w+)::(\w+)\((.*?)\)\}\}/i'=>'<?php $1::$2($3);?>',
 

@@ -38,6 +38,8 @@ class themeHome
 
 	public function makeContent($viewName,$inputData=array())
 	{
+		// View::onCache();
+		
 		$themePath=System::getThemePath().'view/';
 
 		$inputData['themePath']=$themePath;

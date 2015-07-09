@@ -9,6 +9,13 @@ class Captcha
     {
         global $uri;
 
+        // $db1=array('so','feel','catch','great','well','type','run','fast','call','like','hot','cold','cool','can','write','read','speed');
+
+        // $db2=array('me','what','baby','care','rank','park','summer','katy');
+
+        // shuffle($db1);
+
+        // shuffle($db2);
 
         $main_img = imagecreatetruecolor(250, 78);
 
@@ -17,6 +24,8 @@ class Captcha
         imagefill($main_img, 0, 0, $bg_color);
 
         $captcha_str = String::randNumber(5) . '' . String::randNumber(5);
+ 
+        // $captcha_str = $db1[0] . ' ' . $db2[0];
 
         $dbColor = array(
             0 => array(100, 161, 39),

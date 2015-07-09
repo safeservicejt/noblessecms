@@ -2,6 +2,13 @@
 
 class Url
 {
+	public function themeController($controlName,$themeName)
+	{
+		$url=ADMINCP_URL.'theme/setting/'.$themeName.'/controller/'.$controlName.'/';
+
+		return $url;
+	}
+
 	public function makeFriendly($text)
 	{
 		$text=String::makeFriendlyUrl($text);

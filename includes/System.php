@@ -10,6 +10,18 @@ class System
 
 	public static $adminTitle='Cpanel Noblesse CMS';
 
+	public static $listVar=array('global'=>array());
+
+	public function addVar($keyName,$keyVal,$layout='global')
+	{
+		self::$listVar[$layout][$keyName]=$keyVal;
+	}
+
+	public function addGlobalVar($keyName,$keyVal)
+	{
+		self::addVar($keyName,$keyVal);
+	}
+
 	public function before_system_start()
 	{
 		/*

@@ -9,6 +9,7 @@ class Cache
 
     public static $cachePath = '';
 
+
     public function setPath($path)
     {
         $path=!isset($path[2])?CACHES_PATH:$path;
@@ -38,6 +39,7 @@ class Cache
 
         self::loadCache();
     }
+
 
 
     public function savePage($extension='.template')
@@ -138,6 +140,30 @@ class Cache
         fwrite($fp,$keyData);
 
         fclose($fp);
+    }
+
+    public function hasKey($keyName,$timeLive=86400,$extension='.cache')
+    {
+        $filePath=self::getPath().$keyName.$extension;
+
+        if(!file_exists($filePath))
+        {
+            return false;
+        }
+        else
+        {
+            $cacheExpires = time() - filemtime($filePath);
+
+            if ((int)$timeLive == -1 || $cacheExpires <= (int)$timeLive) {
+                return true;
+
+            }
+
+            return false;
+        }        
+
+
+        return false;  
     }
 
     public function loadKey($keyName,$timeLive=86400,$extension='.cache')

@@ -63,6 +63,7 @@
                 <select class="form-control" id="postType" name="send[type]">
                 <option value="normal">Normal</option>
                   <option value="image">Image</option>
+                  <option value="video">Video</option>
                   <option value="fullwidth">Full Width</option>
                   <option value="news">News</option>
                   <option value="post">Post</option>
