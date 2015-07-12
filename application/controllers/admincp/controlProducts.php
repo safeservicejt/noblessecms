@@ -160,7 +160,7 @@ class controlProducts
 		}
 		else
 		{
-			$post['pages']=Misc::genPage('admincp/products',$curPage);
+			$post['pages']=Misc::genSmallPage('admincp/products',$curPage);
 
 			$filterPending='';
 

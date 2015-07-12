@@ -61,7 +61,7 @@ class controlPost
 		}
 		else
 		{
-			$post['pages']=Misc::genPage('admincp/post',$curPage);
+			$post['pages']=Misc::genSmallPage('admincp/post',$curPage);
 
 			$filterPending='';
 

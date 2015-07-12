@@ -2,8 +2,14 @@
 
 class Misc
 {
+	public function genSmallPage($title,$start=0,$max=5,$splitChar='/')
+	{
+		$result=self::genPage($title,$start,$max,$splitChar,'pagination-sm');
 
-	public function genPage($title,$start=0,$max=5,$splitChar='/')
+		return $result;
+	}
+	
+	public function genPage($title,$start=0,$max=5,$splitChar='/',$isLarge='')
 	{
 		$endpage=$start+$max;
 
@@ -28,7 +34,7 @@ class Misc
 
 		return '
 		<nav>
-					<ul class="pagination">
+					<ul class="pagination '.$isLarge.'">
 					  <li><a href="'.ROOT_URL.$title.$startSplitChar.'page'.$splitChar.$prev.'">&laquo;</a></li>
 					  '.$li.'
 					  <li><a href="'.ROOT_URL.$title.$startSplitChar.'page'.$splitChar.$next.'">&raquo;</a></li>

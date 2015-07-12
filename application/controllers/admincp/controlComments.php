@@ -40,7 +40,7 @@ class controlComments
 		}
 		else
 		{
-			$post['pages']=Misc::genPage('admincp/comments',$curPage);
+			$post['pages']=Misc::genSmallPage('admincp/comments',$curPage);
 
 			$filterPending='';
 

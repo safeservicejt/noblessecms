@@ -76,7 +76,7 @@ class controlCategories
 		}
 		else
 		{
-			$post['pages']=Misc::genPage('admincp/categories',$curPage);
+			$post['pages']=Misc::genSmallPage('admincp/categories',$curPage);
 
 			$post['theList']=Categories::get(array(
 				'limitShow'=>20,

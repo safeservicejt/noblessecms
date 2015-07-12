@@ -55,7 +55,7 @@ class controlCurrency
 		}
 		else
 		{
-			$post['pages']=Misc::genPage('admincp/currency',$curPage);
+			$post['pages']=Misc::genSmallPage('admincp/currency',$curPage);
 
 			$post['theList']=Currency::get(array(
 				'limitShow'=>20,

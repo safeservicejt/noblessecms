@@ -55,7 +55,7 @@ class controlDownloads
 		}
 		else
 		{
-			$post['pages']=Misc::genPage('admincp/downloads',$curPage);
+			$post['pages']=Misc::genSmallPage('admincp/downloads',$curPage);
 
 			$post['theList']=Downloads::get(array(
 				'limitShow'=>20,

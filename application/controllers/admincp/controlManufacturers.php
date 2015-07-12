@@ -55,7 +55,7 @@ class controlManufacturers
 		}
 		else
 		{
-			$post['pages']=Misc::genPage('admincp/manufacturers',$curPage);
+			$post['pages']=Misc::genSmallPage('admincp/manufacturers',$curPage);
 
 			$post['theList']=Manufacturers::get(array(
 				'limitShow'=>20,

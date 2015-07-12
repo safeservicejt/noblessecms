@@ -12,12 +12,12 @@ class System
 
 	public static $listVar=array('global'=>array());
 
-	public function addVar($keyName,$keyVal,$layout='global')
+	public function defineVar($keyName,$keyVal,$layout='global')
 	{
 		self::$listVar[$layout][$keyName]=$keyVal;
 	}
 
-	public function addGlobalVar($keyName,$keyVal)
+	public function defineGlobalVar($keyName,$keyVal)
 	{
 		self::addVar($keyName,$keyVal);
 	}

@@ -40,7 +40,7 @@ class controlContacts
 		}
 		else
 		{
-			$post['pages']=Misc::genPage('admincp/contacts',$curPage);
+			$post['pages']=Misc::genSmallPage('admincp/contacts',$curPage);
 
 			$filterPending='';
 

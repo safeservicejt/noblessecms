@@ -55,7 +55,7 @@ class controlVouchers
 		}
 		else
 		{
-			$post['pages']=Misc::genPage('admincp/vouchers',$curPage);
+			$post['pages']=Misc::genSmallPage('admincp/vouchers',$curPage);
 
 			$post['theList']=Vouchers::get(array(
 				'limitShow'=>20,

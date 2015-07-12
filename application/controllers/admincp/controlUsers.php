@@ -39,7 +39,7 @@ class controlUsers
 		}
 		else
 		{
-			$post['pages']=Misc::genPage('admincp/users',$curPage);
+			$post['pages']=Misc::genSmallPage('admincp/users',$curPage);
 
 			$post['theList']=Users::get(array(
 				'limitShow'=>20,

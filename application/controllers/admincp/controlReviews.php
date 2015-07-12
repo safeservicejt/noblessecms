@@ -40,7 +40,7 @@ class controlReviews
 		}
 		else
 		{
-			$post['pages']=Misc::genPage('admincp/reviews',$curPage);
+			$post['pages']=Misc::genSmallPage('admincp/reviews',$curPage);
 
 			$filterPending='';
 

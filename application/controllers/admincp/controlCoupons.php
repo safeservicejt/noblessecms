@@ -55,7 +55,7 @@ class controlCoupons
 		}
 		else
 		{
-			$post['pages']=Misc::genPage('admincp/coupons',$curPage);
+			$post['pages']=Misc::genSmallPage('admincp/coupons',$curPage);
 
 			$post['theList']=Coupons::get(array(
 				'limitShow'=>20,

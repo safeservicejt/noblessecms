@@ -21,9 +21,6 @@ class Route
         //     return false;
         // }
 
-
-
-
         $subFunc='index';
 
 
