@@ -357,7 +357,7 @@ class System
 		Cache::saveKey('systemSetting',serialize($data));
 	}
 
-	public function dateTime($str)
+	public function dateTime($str='',$thisTime=0)
 	{
 		$str=isset($str[1])?$str:'Y-m-d H:i:s';
 

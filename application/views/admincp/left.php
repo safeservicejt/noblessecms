@@ -20,6 +20,7 @@
                   <li><a href="<?php echo ADMINCP_URL;?>categories">Category</a></li>
                  <li><a href="<?php echo ADMINCP_URL;?>pages/addnew">Page</a></li>
                  <li><a href="<?php echo ADMINCP_URL;?>post/addnew">Post</a></li>
+                 <li><a href="<?php echo ADMINCP_URL;?>links/addnew">Links</a></li>
 
                 </ul>
               </li>
@@ -175,6 +176,13 @@
                         <ul id="page" class="collapse">
                          <li><a href="<?php echo ADMINCP_URL;?>pages">List page</a></li>
                          <li><a href="<?php echo ADMINCP_URL;?>pages/addnew">Add new</a></li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#links"><span class="glyphicon glyphicon-link"></span> Links <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="links" class="collapse">
+                         <li><a href="<?php echo ADMINCP_URL;?>links">List links</a></li>
 
                         </ul>
                     </li>
