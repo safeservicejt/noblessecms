@@ -413,7 +413,9 @@ class Plugins
 
 		Database::query("delete from plugins where foldername='$foldername'");		
 
-		Database::query("delete from plugins_meta where foldername='$foldername'");		
+		Database::query("delete from plugins_meta where foldername='$foldername'");	
+
+		PluginsZone::removeCache($foldername);	
 
 	}
 

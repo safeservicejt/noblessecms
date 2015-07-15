@@ -147,7 +147,7 @@ class PaymentMethods
 
 		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
 		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
 
 		if($cache=='yes')
 		{
