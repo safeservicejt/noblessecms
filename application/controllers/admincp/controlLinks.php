@@ -60,7 +60,7 @@ class controlLinks
 			$post['theList']=Links::get(array(
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
-				'orderby'=>'order by id desc',
+				'orderby'=>'order by sort_order asc',
 				'cacheTime'=>5
 				));
 		}

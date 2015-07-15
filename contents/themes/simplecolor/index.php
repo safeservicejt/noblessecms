@@ -22,6 +22,13 @@ if($matches=Uri::match('^page\/(\d+)'))
 
 // Theme::view('head');
 
+$links=Links::get(array(
+	'cacheTime'=>3,
+	'orderby'=>'order by sort_order asc'
+	));
+
+System::defineVar('linkList',$links,'head');
+
 Controller::loadWithPath('theme'.ucfirst($pageName),'index',System::getThemePath().'controller/');
 
 // Theme::view('footer');

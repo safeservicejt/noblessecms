@@ -38,9 +38,10 @@
     					<thead>
     						<tr>
     							<td class="col-lg-1"><input type="checkbox" id="selectAll" /></td>
-    							<td class="col-lg-9">Title</td>
-    							<td class="col-lg-2">Status</td>
-    							<td class="col-lg-2">#</td>
+                                <td class="col-lg-5">Title</td>
+    							<td class="col-lg-2 text-right">Sort Order</td>
+    							<td class="col-lg-2 text-right">Status</td>
+    							<td class="col-lg-2 text-right">#</td>
     						</tr>
     					</thead>
 
@@ -58,8 +59,10 @@
 	    							<td class="col-lg-1">
 	    								<input type="checkbox" id="cboxID" name="id[]" value="'.$theList[$i]['id'].'" />
 	    							</td>
-	    							<td class="col-lg-9">'.$theList[$i]['title'].'</td>
-	    							<td class="col-lg-2 text-right">'.ucfirst($theList[$i]['status']).'</td>
+	    							<td class="col-lg-5">'.$theList[$i]['title'].'</td>
+                                    <td class="col-lg-2 text-right">'.$theList[$i]['sort_order'].'</td>
+ 	    							<td class="col-lg-2 text-right">'.ucfirst($theList[$i]['status']).'</td>
+
 	    							<td class="col-lg-2 text-right">
 	    							<a href="'.ADMINCP_URL.'links/edit/'.$theList[$i]['id'].'" class="btn btn-warning btn-xs">Edit</a>
 	    							</td>
@@ -94,10 +97,11 @@
                     <label><strong>Title</strong></label>
                     <input type="text" class="form-control" name="send[title]" placeholder="Title" id="txtTitle" />
                 </p>
-	    		<p>
-	    			<label><strong>Url</strong></label>
-	    			<input type="text" class="form-control" name="send[url]" placeholder="Url" id="txtTitle" />
-	    		</p>
+
+                <p>
+                    <label><strong>Url</strong></label>
+                    <input type="text" class="form-control" name="send[url]" placeholder="Url" id="txtTitle" />
+                </p>
                  
 	    		<p>
 	    			<button type="submit" class="btn btn-primary" name="btnAdd">Add new</button>
@@ -117,7 +121,11 @@
 	    		</p>
                 <p>
                     <label><strong>Url</strong></label>
-                    <input type="text" class="form-control" name="send[url]" value="<?php if(isset($edit['url']))echo $edit['url'];?>" placeholder="Url" id="txtTitle" />
+                    <input type="text" class="form-control" name="update[url]" value="<?php if(isset($edit['url']))echo $edit['url'];?>" placeholder="Url" id="txtTitle" />
+                </p>
+                 <p>
+                    <label><strong>Sort Order</strong></label>
+                    <input type="text" class="form-control" name="update[sort_order]" value="<?php if(isset($edit['sort_order']))echo $edit['sort_order'];?>" placeholder="Sort Order" id="txtSortOrder" />
                 </p>
  
 	    		<p>

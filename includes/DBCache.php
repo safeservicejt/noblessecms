@@ -2,7 +2,7 @@
 
 class DBCache
 {
-	private static $enable='no';
+	private static $enable='yes';
 
 	public function enable()
 	{
@@ -26,17 +26,16 @@ class DBCache
 
 		$queryStr=md5($queryStr);
 
+		// Cache::setPath(CACHES_PATH.'dbcache/');
 
-		Cache::setPath(CACHES_PATH.'dbcache/');
-
-		if(!$loadData=Cache::loadKey($queryStr,$timeLive))
+		if(!$loadData=Cache::loadKey('dbcache/'.$queryStr,$timeLive))
 		{
 			return false;
 		}
 
-		Cache::setPath(CACHES_PATH);
+		// Cache::setPath(CACHES_PATH);
 
-		self::$enable='no';
+		// self::$enable='no';
 
 		// $loadData=json_decode($loadData,true);
 		$loadData=unserialize($loadData);
@@ -55,13 +54,13 @@ class DBCache
 		// $inputData=base64_encode(serialize($inputData));
 		$inputData=serialize($inputData);
 		
-		// print_r($inputData);
+		// print_r($keyName);
 		// die();
-		Cache::setPath(CACHES_PATH.'dbcache/');
+		// Cache::setPath(CACHES_PATH.'dbcache/');
 
-		Cache::saveKey($keyName,$inputData);
+		Cache::saveKey('dbcache/'.$keyName,$inputData);
 
-		Cache::setPath(CACHES_PATH);
+		// Cache::setPath(CACHES_PATH);
 	}
 
 

@@ -20,7 +20,7 @@ class Links
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="id,date_added,title,url,status";
+		$field="id,date_added,title,url,status,sort_order";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
@@ -48,11 +48,12 @@ class Links
 
 			$loadCache=DBCache::get($queryCMD,$cacheTime);
 
+
 			if($loadCache!=false)
 			{
 				return $loadCache;
 			}
-
+			
 			// end load			
 		}
 
@@ -70,22 +71,25 @@ class Links
 		{
 			while($row=Database::fetch_assoc($query))
 			{
-				if(isset($row['content']))
-				{
-					$row['content']=String::decode($row['content']);
-				}
+
+				if(isset($row['title']))
+				$row['title']=String::decode($row['title']);	
 
 				if(isset($row['date_added']))
 				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
 
-				if($inputData['isHook']=='yes')
+				if(isset($row['url']) && !preg_match('/^http/i',$row['url']))
 				{
-					if(isset($row['content']))
-					$row['content']=Shortcode::toHTML($row['content']);
-				}
+					if(preg_match('/^\/(.*?)$/i', $row['url'],$matches))
+					{
+						$tmp=$matches[1];
 
-				if(isset($row['id']))
-				$row['url']=ADMINCP_URL.'contacts/view/'.$row['id'];
+						$row['urlFormat']=System::getUrl().$tmp;
+					}
+
+					
+				}
+				
 											
 				$result[]=$row;
 			}		

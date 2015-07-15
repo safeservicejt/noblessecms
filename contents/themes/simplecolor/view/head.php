@@ -58,9 +58,21 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
      
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="<?php echo ROOT_URL;?>">Home</a></li>
-        <li><a href="<?php echo ROOT_URL;?>contactus">Contact us</a></li>
+        <?php
 
+        $total=count($linkList);
+
+        $li='';
+
+        if(isset($linkList[0]['id']))
+        {
+          for ($i=0; $i < $total; $i++) { 
+            $li.='<li><a href="'.$linkList[$i]['urlFormat'].'">'.$linkList[$i]['title'].'</a></li>';
+          }
+        }
+
+        echo $li;
+        ?>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div>

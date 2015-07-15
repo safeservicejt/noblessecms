@@ -182,6 +182,10 @@ class Cache
 
             return $cacheData;
         }
+        else
+        {
+            unlink($filePath);
+        }
 
         return false;        
     }
