@@ -126,6 +126,8 @@ class controlTheme
 				Alert::make('Controller <b>'.$controllerName.'</b> of theme '.$themeName.' not found.');
 			}
 
+			define("THEME_CP_PATH", THEMES_PATH.$theName.'cp/');
+
 			$post['file']=$path;
 
 			$post['themename']=$themeName;
