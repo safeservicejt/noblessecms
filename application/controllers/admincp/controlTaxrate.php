@@ -61,7 +61,7 @@ class controlTaxrate
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
 				'orderby'=>'order by taxid desc',
-				'cacheTime'=>5
+				'cacheTime'=>1
 				));
 		}
 

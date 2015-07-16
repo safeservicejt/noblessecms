@@ -45,7 +45,7 @@ class controlUsers
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
 				'query'=>"select u.*,ug.*,a.* from users u,usergroups ug,address a where u.groupid=ug.groupid AND u.userid=a.userid order by u.userid desc",
-				'cacheTime'=>15
+				'cacheTime'=>1
 				));
 		}
 

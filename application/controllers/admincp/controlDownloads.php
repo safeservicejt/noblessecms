@@ -61,7 +61,7 @@ class controlDownloads
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
 				'orderby'=>'order by downloadid desc',
-				'cacheTime'=>5
+				'cacheTime'=>1
 				));
 		}
 

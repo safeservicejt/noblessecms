@@ -61,7 +61,7 @@ class controlVouchers
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
 				'orderby'=>'order by voucherid desc',
-				'cacheTime'=>5
+				'cacheTime'=>1
 				));
 		}
 

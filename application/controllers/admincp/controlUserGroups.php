@@ -40,6 +40,7 @@ class controlUserGroups
 		$post['pages']=Misc::genPage('admincp/usergroups',$curPage);
 
 		$post['theList']=UserGroups::get(array(
+			'cacheTime'=>1,
 			'limitShow'=>20,
 			'limitPage'=>$curPage
 			));

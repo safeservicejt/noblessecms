@@ -61,7 +61,7 @@ class controlCurrency
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
 				'orderby'=>'order by currencyid desc',
-				'cacheTime'=>5
+				'cacheTime'=>1
 				));
 		}
 

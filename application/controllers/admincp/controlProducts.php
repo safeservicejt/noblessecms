@@ -173,7 +173,7 @@ class controlProducts
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
 				'query'=>"select p.*,c.title as cattitle from products p,categories c where p.catid=c.catid order by p.productid desc",
-				'cacheTime'=>15
+				'cacheTime'=>1
 				));
 		}
 

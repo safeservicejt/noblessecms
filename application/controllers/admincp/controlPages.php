@@ -48,7 +48,7 @@ class controlPages
 			$post['theList']=Pages::get(array(
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
-				'cacheTime'=>5
+				'cacheTime'=>1
 				));
 		}
 

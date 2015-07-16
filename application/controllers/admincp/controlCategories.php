@@ -82,7 +82,7 @@ class controlCategories
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
 				'orderby'=>'order by catid desc',
-				'cacheTime'=>5
+				'cacheTime'=>1
 				));
 		}
 

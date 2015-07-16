@@ -74,7 +74,7 @@ class controlPost
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
 				'query'=>"select p.*,u.username,c.title as cattitle from post p,users u,categories c where p.userid=u.userid AND p.catid=c.catid $filterPending order by p.postid desc",
-				'cacheTime'=>5
+				'cacheTime'=>1
 				));
 		}
 

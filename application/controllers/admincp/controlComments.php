@@ -53,7 +53,7 @@ class controlComments
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
 				'query'=>"select c.*,p.title from post p,comments c where c.postid=p.postid order by c.commentid desc",
-				'cacheTime'=>5
+				'cacheTime'=>1
 				));
 		}
 
