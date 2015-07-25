@@ -6,7 +6,7 @@ class Mail
     private static $listAccounts = array();
 
     public function verify($toemail, $fromemail, $getdetails = false){
-
+        // print_r(Mail::verify('tctinhoc@gmail.com','safeservicejt@gmail.com')); | valid|invalid
         $details='';        
         $email_arr = explode("@", $toemail);
         $domain = array_slice($email_arr, -1);
@@ -111,73 +111,105 @@ class Mail
 
     }
 
-    public function send($inputData=array())
+    public function test()
     {
-        
-        self::sendMail(array(
-            'smtpAddress'=>$inputData['smtpAddress'],
-            'smtpUser'=>$inputData['smtpUser'],
-            'smtpPass'=>$inputData['smtpPass'],
-            'smtpPort'=>$inputData['smtpPort'],
-            'fromEmail'=>$inputData['fromEmail'],
-            'fromName'=>$inputData['fromName'],
-            'toEmail'=>$inputData['toEmail'],
-            'toName'=>$inputData['toName'],
-            'subject'=>$inputData['subject'],
-            'message'=>$inputData['content']
-            ));
+        require INCLUDES_PATH . 'extentions/PHPMailer/PHPMailerAutoload.php';
 
+        $mail = new PHPMailer;
+
+  
     }
 
-    public function sendMail($accountPosition = 0)
+
+    public function send($mailConfig=array(),$is_smtp=1)
     {
-        $mailConfig = $this->listAccounts[$accountPosition];
+        // $mailConfig = $this->listAccounts[$accountPosition];
+
+        $mailData=System::getMailSetting();
+
+        if($mailData['send_method']=='local')
+        {
+            $is_smtp=0;
+        }
+
+        if((int)$is_smtp==1 && !isset($mailConfig['smtpAddress']))
+        {
+            $mailConfig['smtpAddress']=$mailData['smtpAddress'];
+
+            $mailConfig['smtpUser']=$mailData['smtpUser'];
+
+            $mailConfig['smtpPass']=$mailData['smtpPass'];
+
+            $mailConfig['smtpPort']=$mailData['smtpPort'];
+        }
 
         require INCLUDES_PATH . 'extentions/PHPMailer/PHPMailerAutoload.php';
 
         $mail = new PHPMailer;
 
+        //$mail->SMTPDebug = 3;                               // Enable verbose debug output
 
-//$mail->SMTPDebug = 3;                               // Enable verbose debug output
+        $mailConfig['smtpSecure']=isset($mailConfig['smtpSecure'])?$mailConfig['smtpSecure']:'ssl';
 
-        $mail->isSMTP(); // Set mailer to use SMTP
-        $mail->Host = $mailConfig['Host']; // Specify main and backup SMTP servers
-        $mail->SMTPAuth = true; // Enable SMTP authentication
-        $mail->Username = $mailConfig['Username']; // SMTP username
-        $mail->Password = $mailConfig['Password']; // SMTP password
-        $mail->SMTPSecure = $mailConfig['SMTPSecure']; // Enable TLS encryption, `ssl` also accepted
-        $mail->Port = $mailConfig['Port']; // TCP port to connect to
+        $mailConfig['smtpPort']=isset($mailConfig['smtpPort'])?$mailConfig['smtpPort']:465;
+
+        $mailConfig['fromEmail']=isset($mailConfig['fromEmail'])?$mailConfig['fromEmail']:$mailConfig['smtpUser'];
+
+        $mailConfig['fromName']=isset($mailConfig['fromName'])?$mailConfig['fromName']:$mailConfig['smtpUser'];
 
 
-        /*
-        $mail->From = $mailConfig['From'];
-        $mail->FromName = 'Mailer';
-        $mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
-        $mail->addAddress('ellen@example.com');               // Name is optional
-        $mail->addReplyTo('info@example.com', 'Information');
-        $mail->addCC('cc@example.com');
-        $mail->addBCC('bcc@example.com');
 
-        $mail->WordWrap = 50;                                 // Set word wrap to 50 characters
-        $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-        $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
-        $mail->isHTML(true);                                  // Set email format to HTML
-
-        $mail->Subject = 'Here is the subject';
-        $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-        if(!$mail->send()) {
-            echo 'Message could not be sent.';
-            echo 'Mailer Error: ' . $mail->ErrorInfo;
-        } else {
-            echo 'Message has been sent';
+        if(is_array($mailConfig['toEmail']))
+        {
+            $mailConfig['toEmail']="'".implode("','", $mailConfig['toEmail'])."'";
         }
 
-        */
+        $mail->CharSet = 'UTF-8';
 
-        return $mail;
+        if((int)$is_smtp==1)
+        {
+            $mail->isSMTP(); // Set mailer to use SMTP
+        }
+        
+        $mail->Host = $mailConfig['smtpAddress']; // Specify main and backup SMTP servers
+        $mail->SMTPAuth = true; // Enable SMTP authentication
+        $mail->Username = $mailConfig['smtpUser']; // SMTP username
+        $mail->Password = $mailConfig['smtpPass']; // SMTP password
+        $mail->SMTPSecure = $mailConfig['smtpSecure'];  // Enable TLS encryption, `ssl` also accepted
+        $mail->Port = $mailConfig['smtpPort']; // TCP port to connect to
 
+        $mail->From =  $mailConfig['fromEmail'];
+        $mail->FromName = $mailConfig['fromName'];
+        $mail->addAddress($mailConfig['toEmail']);               // Name is optional
+        $mail->addReplyTo($mailConfig['smtpUser'],  $mailConfig['fromName']);
+
+        // $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+        // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+
+        $mail->isHTML(true);                                  // Set email format to HTML
+
+        $mail->Subject = $mailConfig['subject'];
+        $mail->Body    = $mailConfig['body'];
+
+        if(isset($mailConfig['files']))
+        {
+            if(!is_array($mailConfig['files']) && preg_match('/.*?\.\w+/i', $mailConfig['files']))
+            {
+                $mail->addAttachment($mailConfig['files']);
+            }
+            else
+            {
+                $totalfiles=count($mailConfig['files']);
+
+                for ($i=0; $i < $totalfiles; $i++) { 
+                    $mail->addAttachment($mailConfig['files'][$i]);
+                }
+            }
+        }
+
+        if(!$mail->send()) {
+            throw new Exception("Message could not be sent: ".$mail->ErrorInfo);
+        } 
 
     }
 

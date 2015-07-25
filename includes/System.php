@@ -271,9 +271,14 @@ class System
         self::$newUri=$uri;	
 	}
 
-	public function getMailSetting($keyName)
+	public function getMailSetting($keyName='')
 	{
 		$data=self::$setting;
+
+		if(!isset($keyName[2]))
+		{
+			return $data['mail'];
+		}
 
 		if(!isset($data['mail'][$keyName]))
 		{

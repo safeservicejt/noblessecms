@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2015 at 06:43 AM
+-- Generation Time: Jul 25, 2015 at 07:27 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -117,14 +117,7 @@ CREATE TABLE IF NOT EXISTS `contactus` (
   `content` longtext CHARACTER SET utf8 NOT NULL,
   `date_added` datetime DEFAULT NULL,
   PRIMARY KEY (`contactid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `contactus`
---
-
-INSERT INTO `contactus` (`contactid`, `fullname`, `email`, `content`, `date_added`) VALUES
-(1, 'asas', 'asasas@gmail.com', 'sdsd', '2015-06-15 05:15:32');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -539,7 +532,6 @@ CREATE TABLE IF NOT EXISTS `links` (
 
 INSERT INTO `links` (`id`, `title`, `url`, `sort_order`, `date_added`, `status`) VALUES
 (6, 'Home', '/', 6, '2015-07-14 08:12:42', 'published'),
-(7, 'Category', '/category', 7, '2015-07-14 08:12:59', 'published'),
 (8, 'Contact Us', '/contactus', 8, '2015-07-14 08:13:13', 'published');
 
 -- --------------------------------------------------------
@@ -1078,6 +1070,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `userdata` longtext,
   `ip` varchar(64) NOT NULL,
   `verify_code` varchar(255) DEFAULT NULL,
+  `forgot_code` varchar(255) DEFAULT NULL,
+  `forgot_date` datetime DEFAULT NULL,
   `parentid` int(9) NOT NULL DEFAULT '0',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`userid`),
@@ -1088,8 +1082,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userid`, `groupid`, `username`, `firstname`, `lastname`, `image`, `email`, `password`, `userdata`, `ip`, `verify_code`, `parentid`, `date_added`) VALUES
-(1, 1, 'safeservicejt', 'James', 'Brown', NULL, 'safeservicejt@gmail.com', 'g5Y6QFaADnY=', NULL, '127.0.0.1', NULL, 0, '2014-11-01 00:00:00');
+INSERT INTO `users` (`userid`, `groupid`, `username`, `firstname`, `lastname`, `image`, `email`, `password`, `userdata`, `ip`, `verify_code`, `forgot_code`, `forgot_date`, `parentid`, `date_added`) VALUES
+(1, 1, 'safeservicejt', 'James', 'Brown', NULL, 'safeservicejt@gmail.com', 'g5Y6QFaADnY=', NULL, '127.0.0.1', NULL, NULL, NULL, 0, '2014-11-01 00:00:00');
 
 -- --------------------------------------------------------
 

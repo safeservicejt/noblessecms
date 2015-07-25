@@ -23,7 +23,7 @@ class Captcha
 
         imagefill($main_img, 0, 0, $bg_color);
 
-        $captcha_str = String::randNumber(5) . '' . String::randNumber(5);
+        $captcha_str = String::randNumber(6);
  
         // $captcha_str = $db1[0] . ' ' . $db2[0];
 

@@ -20,7 +20,7 @@ class Users
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="userid,groupid,username,firstname,lastname,image,email,password,userdata,ip,verify_code,parentid,date_added";
+		$field="userid,groupid,username,firstname,lastname,image,email,password,userdata,ip,verify_code,parentid,date_added,forgot_code,forgot_date";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
@@ -74,6 +74,9 @@ class Users
 				if(isset($row['date_added']))
 				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
 
+				if(isset($row['image']))
+				$row['imageFormat']=self::getAvatar($row['image']);	
+
 											
 				$result[]=$row;
 			}		
@@ -104,7 +107,95 @@ class Users
 
 		return $result;
 	}	
+
+	public function getAvatar($row)
+	{
+		$img='bootstrap/images/noavatar.jpg';
+
+		if(is_array($row))
+		{
+			$img=isset($row['image'])?$row['image']:'';
+		}
+
+
+		if(!preg_match('/^.*?\.\w+$/', $img))
+		{
+			$img='bootstrap/images/noavatar.jpg';
+		}
+
+		$img=ROOT_URL.$img;
+
+		return $img;
+	}
+
+
 	public function forgotPassword($email)
+	{
+		$email=trim($email);
+
+		$validtime=date('Y-m-d');
+
+		$loadUser=self::get(array(
+			'where'=>"where email='$email'"
+			));
+
+		if(!isset($loadUser[0]['userid']))
+		{
+			throw new Exception("Email not exists in database");
+		}
+
+
+		$checkDate=self::get(array(
+			'where'=>"where DATE(forgot_date)='$validtime'"
+			));		
+
+		if(isset($checkDate[0]['userid']))
+		{
+			throw new Exception("We have been send email for verify to your email ".$email.' .Check your inbox/spam page. Thanks!');
+		}
+
+		$verifyCode=String::randText(10);
+
+		self::update($loadUser[0]['userid'],array(
+			'forgot_code'=>$verifyCode
+			));
+
+		$codeUrl=ROOT_URL.'api/user/verify_forgotpassword?verify_code='.$verifyCode;
+
+		$replaces=array(
+			'{username}'=>$loadUser[0]['username'],
+			'{email}'=>$loadUser[0]['email'],
+			'{firstname}'=>$loadUser[0]['firstname'],
+			'{lastname}'=>$loadUser[0]['lastname'],
+			'{fullname}'=>$loadUser[0]['firstname'].' '.$loadUser[0]['lastname'],
+			'{verify_url}'=>$verifyCode
+			);
+
+		$subject=System::getMailSetting('forgotSubject');
+		
+		$content=System::getMailSetting('forgotContent');
+
+		$listKeys=array_keys($replaces);
+
+		$listValues=array_values($replaces);
+
+		$content=str_replace($listKeys, $listValues, $content);
+		$subject=str_replace($listKeys, $listValues, $subject);
+
+		try {
+			Mail::send(array(
+			'toEmail'=>$email,
+			'toName'=>$loadUser[0]['username'],
+			'subject'=>$subject,
+			'body'=>$content
+			));
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+			
+		}
+	}
+
+	public function sendNewPassword($email)
 	{
 		$email=trim($email);
 
@@ -124,16 +215,22 @@ class Users
 			'password'=>String::encrypt($newPass)
 			));
 
+		// $codeUrl=ROOT_URL.'api/user/verify_forgotpassword?verify_code='.$verifyCode;
+
 		$replaces=array(
 			'{username}'=>$loadUser[0]['username'],
-			'{password}'=>$newPass,
 			'{email}'=>$loadUser[0]['email'],
 			'{firstname}'=>$loadUser[0]['firstname'],
-			'{lastname}'=>$loadUser[0]['lastname']
+			'{lastname}'=>$loadUser[0]['lastname'],
+			'{fullname}'=>$loadUser[0]['firstname'].' '.$loadUser[0]['lastname'],
+			'{password}'=>$newPass
 			);
 
-		$subject=System::getMailSetting('forgotSubject');
-		$content=System::getMailSetting('forgotContent');
+		$parse=parse_url(ROOT_URL);
+
+		$subject='Your new password - '.ucfirst($parse['host']);
+
+		$content='<h3>Dear {fullname},</h3><p>Your new password is: '.$newPass.'</p>';
 
 		$listKeys=array_keys($replaces);
 
@@ -141,23 +238,30 @@ class Users
 
 		$content=str_replace($listKeys, $listValues, $content);
 
-		Mail::send(array(
+		$subject=str_replace($listKeys, $listValues, $subject);
+
+		try {
+			Mail::send(array(
 			'toEmail'=>$email,
 			'toName'=>$loadUser[0]['username'],
 			'subject'=>$subject,
-			'content'=>$content
+			'content'=>$content3
+
 			));
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+			
+		}
 	}
 
 	public function makeRegister()
 	{
 		$valid=Validator::make(array(
-			'send.firstname'=>'required|min:1|slashes',
-			'send.lastname'=>'required|min:1|slashes',
-			'send.username'=>'required|min:1|slashes',
-			'send.email'=>'required|email|slashes',
-			'send.password'=>'required|min:1|slashes',
-			'send.image'=>'slashes'
+			'send.firstname'=>'required|min:1|max:20|slashes',
+			'send.lastname'=>'required|min:1|max:20|slashes',
+			'send.username'=>'required|min:1|max:30|slashes',
+			'send.email'=>'required|email|max:120|slashes',
+			'send.password'=>'required|min:1|max:30|slashes'
 			));
 
 		if(!$valid)
@@ -172,7 +276,49 @@ class Users
 			throw new Exception("Check your infomartion again, pls!");
 		}	
 
-		return $id;
+		$addData=array(
+			'firstname'=>trim($insertData['firstname']),
+			'lastname'=>trim($insertData['lastname']),
+			'userid'=>$id
+			);
+
+		Address::insert($addData);
+
+		$replaces=array(
+			'{username}'=>$insertData['username'],
+			'{email}'=>$insertData['email'],
+			'{firstname}'=>$insertData['firstname'],
+			'{lastname}'=>$insertData['lastname'],
+			'{fullname}'=>$insertData['firstname'].' '.$insertData['lastname'],
+			'{siteurl}'=>ROOT_URL,
+			'{site_url}'=>ROOT_URL,
+			'{root_url}'=>ROOT_URL
+			);
+
+		$subject=System::getMailSetting('registerSubject');
+		
+		$content=System::getMailSetting('registerContent');
+
+		$listKeys=array_keys($replaces);
+
+		$listValues=array_values($replaces);
+
+		$content=str_replace($listKeys, $listValues, $content);
+
+		$subject=str_replace($listKeys, $listValues, $subject);
+
+		try {
+			Mail::send(array(
+			'toEmail'=>$email,
+			'toName'=>$insertData['username'],
+			'subject'=>$subject,
+			'body'=>$content
+			));
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+			
+		}
+
 	}
 
 	public function makeLogin($username,$password)
@@ -182,8 +328,8 @@ class Users
 		$_REQUEST['password']=$password;
 
 		$valid=Validator::make(array(
-			'username'=>'min:3|slashes',
-			'password'=>'min:3|slashes'
+			'username'=>'min:3|max:30|slashes',
+			'password'=>'min:3|max:30|slashes'
 			));
 
 		if(!$valid)

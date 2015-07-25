@@ -268,6 +268,8 @@ class UserGroups
 
 	public function lineToArray($data)
 	{
+		$data=trim($data);
+
 		$resultData=array();
 
 		$parse=explode("\r\n", $data);
@@ -288,6 +290,11 @@ class UserGroups
 			}
 
 			$theLine=explode('|', $parse[$i]);
+
+			if(!isset($theLine[1]))
+			{
+				continue;
+			}
 
 			$theKey=trim($theLine[0]);
 
