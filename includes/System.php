@@ -36,6 +36,8 @@ class System
 
 		*/
 
+		self::checkTheme();
+
 		self::checkCurrency();
 
 		self::checkLang();
@@ -64,6 +66,36 @@ class System
 
 			header("Location: ".self::getUrl());
 
+			exit();
+
+		}
+
+	}
+	public function checkTheme()
+	{
+		if($match=Uri::match('^theme\/(\w+)'))
+		{
+			$curName=$match[1];
+
+			$path=THEMES_PATH.$curName;
+
+			if(is_dir($path))
+			{
+				$_SESSION['theme_name']=$curName;
+
+				self::setUri('/');
+
+				// header("Location: ".self::getUrl());
+
+				// exit();
+
+			}
+			else
+			{
+				Alert::make('This theme not exist on our system.');
+			}
+
+
 		}
 
 	}
@@ -76,6 +108,8 @@ class System
 			Currency::set($curName);
 
 			header("Location: ".self::getUrl());
+
+			exit();
 
 		}
 
