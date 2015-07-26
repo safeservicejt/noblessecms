@@ -3,6 +3,31 @@
 class String
 {
 
+    public function jsonToArray($str='')
+    {
+        if(!isset($str[3]))
+        {
+            return false;
+        }
+
+        if(!preg_match_all('/"(\w+)"\:"(.*?)"/i', $str, $matches))
+        {
+            return false;
+        }
+
+        $total=count($matches[1]);
+
+        $result=array();
+
+        for ($i=0; $i < $total; $i++) { 
+            $theKey=$matches[1][$i];
+
+            $result[$theKey]=$matches[2][$i];
+        }
+
+        return $result;
+    }
+
     public function viewToFriendly($total)
     {
         // $replaces=array(

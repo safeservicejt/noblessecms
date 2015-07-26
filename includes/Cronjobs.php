@@ -47,7 +47,7 @@ class Cronjobs
 			{
 				if(isset($row['jobdata']))
 				{
-					$row['jobdata']=json_decode($row['jobdata'],true);
+					$row['jobdata']=String::jsonToArray($row['jobdata']);
 				}
 
 				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
@@ -60,6 +60,7 @@ class Cronjobs
 			return false;
 		}
 
+		// print_r($result);die();
 
 		return $result;
 		
@@ -76,6 +77,7 @@ class Cronjobs
 	{
 		$loadData=self::get();	
 
+
 		$total=count($loadData);
 
 		if(!isset($loadData[0]['cronid']))
@@ -83,11 +85,13 @@ class Cronjobs
 			return false;
 		}	
 
+
 		for($i=0;$i<$total;$i++)
 		{
 			if(!self::isReady($loadData[$i]))
 			{
-				return false;
+				// return false;
+				continue;
 			}
 
 			self::runCron($loadData[$i]);	
@@ -97,7 +101,7 @@ class Cronjobs
 	}
 	public function runSingle($id)
 	{
-		$thisTime=date('Y-m-d h:i:s');
+		$thisTime=date('Y-m-d H:i:s');
 
 		$loadData=self::get(array(
 			'where'=>"where cronid='$id'"
@@ -165,13 +169,26 @@ class Cronjobs
 	}
 	public function updateActive($id)
 	{
-		$thisTime()=time();
+		$thisTime=date('Y-m-d H:i:s');
 
 		self::update($id,array('last_update'=>$thisTime));
 	}
 
-	public function add($timeInterval=5,$timeType='minutes',$filePath,$fileFunc='')
+	public function add($filePath,$fileFunc='',$timeInterval=5,$timeType='minutes')
 	{
+		$data=array(
+				'path'=>$filePath,
+				'func'=>$fileFunc
+				);
+
+		$loadData=self::get(array(
+			'where'=>"where jobdata='".json_encode($data)."'"
+			));
+
+		if(isset($loadData[0]['cronid']))
+		{
+			return false;
+		}
 
 		$timeDB=array('minutes','hours','days','months','years');
 
@@ -199,7 +216,7 @@ class Cronjobs
 		$timeType=($timeType=='month')?'months':$timeType;
 		$timeType=($timeType=='year')?'years':$timeType;
 
-		switch ($timetype) {
+		switch ($timeType) {
 			case 'hours':
 				$totalTime=(int)$timeInterval*60;
 				break;
@@ -217,6 +234,10 @@ class Cronjobs
 
 		$insertData['timeinterval']=$totalTime;
 
+		$insertData['jobdata']=json_encode($insertData['jobdata']);
+
+		// print_r($insertData);die();
+
 		if(!$id=self::insert($insertData))
 		{
 			return false;
@@ -225,12 +246,25 @@ class Cronjobs
 		return $id;
 
 	}
+
+	public function delete($filePath,$fileFunc='')
+	{
+		$data=array(
+				'path'=>$filePath,
+				'func'=>$fileFunc
+				);
+
+		$data=json_encode($data);
+
+		Database::query("delete from cronjobs where jobdata='$data'");
+	}
+	
 	public function insert($inputData=array())
 	{
 
-		$inputData['date_added']=date('Y-m-d h:i:s');
+		$inputData['date_added']=date('Y-m-d H:i:s');
 
-		$inputData['last_update']=date('Y-m-d h:i:s');
+		$inputData['last_update']=date('Y-m-d H:i:s');
 
 		$keyNames=array_keys($inputData);
 
@@ -239,6 +273,8 @@ class Cronjobs
 		$keyValues=array_values($inputData);
 
 		$insertValues="'".implode("','", $keyValues)."'";
+
+
 
 		Database::query("insert into cronjobs($insertKeys) values($insertValues)");
 
