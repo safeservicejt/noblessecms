@@ -21,6 +21,10 @@ class Database
 
     public static $error;
 
+    public static $prefix='';
+
+    public static $use_prefix='no';
+
 
 //
 //    public function __set($varName = '', $varValue = '')
@@ -30,6 +34,34 @@ class Database
 
 
     //  Object-Relational Mapping (ORM)
+
+    public function setPrefix($str='')
+    {
+        self::$prefix='str';
+
+        self::$use_prefix='yes';
+    }
+
+    public function genPrefix($queryStr='')
+    {
+        $tablelist=array(
+            'address','categories','comments','contactus','country','coupons','cronjobs','currency','downloads','layouts','links','manufacturers','orders','orders_products','pages','payment_methods','plugins','plugins_meta','post','post_categories','post_images','post_tags','products','products_categories','products_downloads','products_images','products_pages','products_tags','request_payments','reviews','server_setting','tax_rates','usergroups','users','vouchers'
+            );
+
+        $replaces=array();
+
+        $total=count($tablelist);
+
+        for ($i=0; $i < $total; $i++) { 
+            $theTable=$tablelist[$i];
+
+            $replaces[$theTable]=self::$prefix.$theTable;
+        }
+
+        $queryStr=str_replace(array_keys($replaces), array_values($replaces), $queryStr);
+
+        return $queryStr;
+    }
 
     public function getTotalQuery()
     {

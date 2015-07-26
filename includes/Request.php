@@ -93,7 +93,7 @@ class Request
 
 
 
-    public function get($reqName = '', $reqValue = '')
+    public function get($reqName = '', $reqValue = false)
     {
         self::parseGetData();
 
