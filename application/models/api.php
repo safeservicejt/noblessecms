@@ -1,5 +1,9 @@
 <?php
 
+/*
+Call: http://site.com/api/cronjob/run.php
+*/
+
 function apiProcess()
 {
 	if(!$match=Uri::match('^api\/(\w+)\/(\w+)'))
@@ -89,6 +93,21 @@ function apiProcess()
 			}
 
 			break;
+
+		case 'cronjob':
+
+			if(!$match=Uri::match('run\.php$'))
+			{
+				// throw new Exception("Error Processing Request");
+
+				$result=array('error'=>'yes','message'=>"Error Processing Request");
+			}
+
+			Cronjobs::run();
+
+			break;
+
+			
 		
 	}
 

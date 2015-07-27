@@ -52,6 +52,8 @@ class Update
 			Dir::remove($sourcePath.'install');
 
 			Dir::remove($sourcePath.'contents');
+			
+			Dir::remove($sourcePath.'application/caches');
 
 		}
 
