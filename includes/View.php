@@ -45,8 +45,54 @@ class View
 
         self::resetPath();
     }
-
     
+    public function parseWithPath($viewName = '', $viewData = array(),$path)
+    {
+        self::setPath($path);
+
+        self::parse($viewName,$viewData);
+
+        self::resetPath();
+    }
+
+    public function parse($viewName = '', $viewData = array())
+    {
+
+        $path = self::getPath() . $viewName . '.php';
+
+        if(!file_exists($path))
+        {
+            return false;
+        }
+
+        $pathMd5=md5($path);
+
+   
+
+        if(!Cache::hasKey('templates/'.$pathMd5,10,'.php'))
+        {
+
+            $fileData=file_get_contents($path);
+
+            $fileData=Shortcode::loadInTemplate($fileData);
+            
+            $fileData=Shortcode::toHTML($fileData);
+            
+            $fileData=Shortcode::load($fileData);  
+            
+            // $fileMd5=md5($fileData);
+
+            Cache::saveKey('templates/'.$pathMd5,$fileData,'.php');              
+        }
+        
+        $path=ROOT_PATH.'application/caches/templates/';
+
+        self::setPath($path); 
+
+        self::make($pathMd5,$viewData);
+
+        self::resetPath();
+    }
 
     public function make($viewName = '', $viewData = array())
     {
