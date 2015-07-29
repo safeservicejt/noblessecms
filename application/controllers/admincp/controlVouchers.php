@@ -68,7 +68,8 @@ class controlVouchers
 		if($match=Uri::match('\/edit\/(\d+)'))
 		{
 			$loadData=Vouchers::get(array(
-				'where'=>"where voucherid='".$match[1]."'"
+				'where'=>"where voucherid='".$match[1]."'",
+				'cache'=>'no'
 				));
 
 			$post['edit']=$loadData[0];

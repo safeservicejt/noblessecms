@@ -90,7 +90,8 @@ class controlPages
 		}
 
 		$loadData=Pages::get(array(
-			'where'=>"where pageid='$pageid'"
+			'where'=>"where pageid='$pageid'",
+			'cache'=>'no'
 			));
 
 		$post['edit']=$loadData[0];

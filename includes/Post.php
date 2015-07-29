@@ -98,7 +98,7 @@ class Post
 						
 						$row['content']=Shortcode::toHTML($row['content']);
 						
-						$row['content']=Plugins::load('shortcode',$row['content']);
+						$row['content']=Shortcode::load($row['content']);
 					}
 					
 				}

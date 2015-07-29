@@ -61,14 +61,15 @@ class controlCurrency
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
 				'orderby'=>'order by currencyid desc',
-				'cacheTime'=>1
+				'cache'=>'no'
 				));
 		}
 
 		if($match=Uri::match('\/edit\/(\d+)'))
 		{
 			$loadData=Currency::get(array(
-				'where'=>"where currencyid='".$match[1]."'"
+				'where'=>"where currencyid='".$match[1]."'",
+				'cache'=>'no'
 				));
 
 			$post['edit']=$loadData[0];

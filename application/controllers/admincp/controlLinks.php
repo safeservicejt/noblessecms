@@ -61,14 +61,15 @@ class controlLinks
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
 				'orderby'=>'order by sort_order asc',
-				'cacheTime'=>5
+				'cache'=>'no'
 				));
 		}
 
 		if($match=Uri::match('\/edit\/(\d+)'))
 		{
 			$loadData=Links::get(array(
-				'where'=>"where id='".$match[1]."'"
+				'where'=>"where id='".$match[1]."'",
+				'cache'=>'no'
 				));
 
 			$post['edit']=$loadData[0];

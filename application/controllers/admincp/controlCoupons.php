@@ -61,14 +61,15 @@ class controlCoupons
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
 				'orderby'=>'order by couponid desc',
-				'cacheTime'=>1
+				'cache'=>'no'
 				));
 		}
 
 		if($match=Uri::match('\/edit\/(\d+)'))
 		{
 			$loadData=Coupons::get(array(
-				'where'=>"where couponid='".$match[1]."'"
+				'where'=>"where couponid='".$match[1]."'",
+				'cache'=>'no'
 				));
 
 			$post['edit']=$loadData[0];

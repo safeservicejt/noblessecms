@@ -122,6 +122,7 @@ class controlUsers
 
 		$loadData=Users::get(array(
 				'query'=>"select u.*,ug.*,a.* from users u,usergroups ug,address a where u.groupid=ug.groupid AND u.userid=a.userid AND u.userid='$userid' order by u.userid desc",
+				'cache'=>'no'
 
 			));
 

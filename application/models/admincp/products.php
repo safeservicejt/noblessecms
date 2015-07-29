@@ -6,7 +6,8 @@ function editInfo($id)
 
 	$loadData=Products::get(array(
 		'query'=>"select p.*,c.title as cattitle from products p, categories c where c.catid=p.catid AND p.productid='$id'",
-		'isHook'=>'no'
+		'isHook'=>'no',
+		'cache'=>'no'
 		));
 
 

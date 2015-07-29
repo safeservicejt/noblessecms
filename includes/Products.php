@@ -92,6 +92,8 @@ class Products
 						$row['content']=Shortcode::loadInTemplate($row['content']);
 						
 						$row['content']=Shortcode::toHTML($row['content']);
+						
+						$row['content']=Shortcode::load($row['content']);
 
 					}
 					

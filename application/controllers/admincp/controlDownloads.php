@@ -61,14 +61,15 @@ class controlDownloads
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
 				'orderby'=>'order by downloadid desc',
-				'cacheTime'=>1
+				'cache'=>'no'
 				));
 		}
 
 		if($match=Uri::match('\/edit\/(\d+)'))
 		{
 			$loadData=Downloads::get(array(
-				'where'=>"where downloadid='".$match[1]."'"
+				'where'=>"where downloadid='".$match[1]."'",
+				'cache'=>'no'
 				));
 
 			$post['edit']=$loadData[0];

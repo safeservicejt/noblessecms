@@ -10,15 +10,15 @@ function install_bbcodeHide()
 
 }
 
-function parse_bbcodeHide($loadData='')
+function parse_bbcodeHide($loadData=array())
 {
-
-	if(!isset($_SESSION['groupid']))
+	if(!isset($_SESSION['userid']))
 	{
-		$loadData=preg_replace('/\[hide\].*?\[\/hide\]/is', '<p><strong><i>You must login to see this content.</i></strong></p>', $loadData);
+		return '<p><i>This content hidden with guest. You must login to see this content!</i></p>';
 	}
 
-	return $loadData;
+	return $loadData['value'];
+	
 }
 
 ?>

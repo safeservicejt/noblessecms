@@ -68,7 +68,8 @@ class controlManufacturers
 		if($match=Uri::match('\/edit\/(\d+)'))
 		{
 			$loadData=Manufacturers::get(array(
-				'where'=>"where mid='".$match[1]."'"
+				'where'=>"where mid='".$match[1]."'",
+				'cache'=>'no'
 				));
 
 			$post['edit']=$loadData[0];

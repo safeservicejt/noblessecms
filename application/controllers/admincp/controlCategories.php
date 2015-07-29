@@ -82,14 +82,15 @@ class controlCategories
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
 				'orderby'=>'order by catid desc',
-				'cacheTime'=>1
+				'cache'=>'no'
 				));
 		}
 
 		if($match=Uri::match('\/edit\/(\d+)'))
 		{
 			$loadData=Categories::get(array(
-				'where'=>"where catid='".$match[1]."'"
+				'where'=>"where catid='".$match[1]."'",
+				'cache'=>'no'
 				));
 
 			$post['edit']=$loadData[0];

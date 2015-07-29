@@ -123,9 +123,10 @@ class Shortcode
 
 			$func=$theShortcode['func'];
 
-			$scName=$theShortcode['name'];
+			$scName=isset($theShortcode['name'])?$theShortcode['name']:$theShortcode['content'];
 
-			$pluginPath=PLUGINS_PATH.$foldername.'/'.$foldername.'.php';
+
+			$pluginPath=PLUGINS_PATH.$foldername.'/index.php';
 
 			if(isset($theShortcode['path']) && isset($theShortcode['istemplate']))
 			{
@@ -144,25 +145,26 @@ class Shortcode
 					include($pluginPath);
 				}
 
-				if(!$resultSC=self::parseOpenClose($scName,$content))
-				{
-					$resultSC=self::parseAlone($scName,$content);
 
-				}
+				$resultSC=self::parseProcess($scName,$content);
 
 				// print_r($theShortcode);die();
 				$totalResult=count($resultSC);
+				
+				$replaces=array();
 
 				for($e=0;$e<$totalResult;$e++)
 				{
 					$resultData=$func($resultSC[$e]);
-					
-				// print_r($resultSC);die();
 
-					$content=str_replace($resultSC[$e]['real'], $resultData, $content);
+					$replaces[$resultSC[$e]['real']]=$resultData;
 					
 					$resultData='';
 				}
+
+				$content=str_replace(array_keys($replaces), array_values($replaces), $content);
+
+
 			}
 
 		}
@@ -174,7 +176,6 @@ class Shortcode
 
 	public function loadInTemplate($content)
 	{
-
 		// $content=self::parse($content);
 
 		if(!isset(Plugins::$listShortCodes['shortcode']))
@@ -217,7 +218,8 @@ class Shortcode
 
 			$scName=$theShortcode['name'];
 
-			$pluginPath=PLUGINS_PATH.$foldername.'/'.$foldername.'.php';
+			$pluginPath=PLUGINS_PATH.$foldername.'/shortcode.php';
+
 
 			if(isset($theShortcode['path']) && isset($theShortcode['istemplate']))
 			{
@@ -236,25 +238,35 @@ class Shortcode
 					include($pluginPath);
 				}
 
-				if(!$resultSC=self::parseOpenClose($scName,$content))
-				{
-					$resultSC=self::parseAlone($scName,$content);
+				$resultSC=self::parseProcess($scName,$content);
 
-				}
-
-				// print_r($theShortcode);die();
 				$totalResult=count($resultSC);
+
+				// for($e=0;$e<$totalResult;$e++)
+				// {
+				// 	$resultData=$func($resultSC[$e]);
+					
+				// // print_r($resultSC);die();
+
+				// 	$content=str_replace($resultSC[$e]['real'], $resultData, $content);
+					
+				// 	$resultData='';
+				// }
+
+				$replaces=array();
 
 				for($e=0;$e<$totalResult;$e++)
 				{
 					$resultData=$func($resultSC[$e]);
-					
-				// print_r($resultSC);die();
 
-					$content=str_replace($resultSC[$e]['real'], $resultData, $content);
+					$replaces[$resultSC[$e]['real']]=$resultData;
 					
 					$resultData='';
 				}
+
+				$content=str_replace(array_keys($replaces), array_values($replaces), $content);
+
+
 			}
 
 		}
@@ -263,104 +275,96 @@ class Shortcode
 
 	}
 
-	public function parseAlone($scName='',$inputData='')
+	public function parseProcess($scName='',$inputData='')
 	{
+		$result=array();
 
-		$loadData=array();
-
-		if(!preg_match_all('/\['.$scName.'(.*?)\]/i', $inputData, $matches))
+		// Check if it is openclose
+		if(!preg_match_all('/(\['.$scName.'(.*?)\](.*?)\[\/'.$scName.'\])/is', $inputData,$match))
 		{
-			return false;
-		}
-
-		$totalSC=count($matches[1]);
-
-		for($j=0;$j<$totalSC;$j++)
-		{
-
-			$attr=$matches[1][$j];
-
-			$reAttr=$attr;
-			if(isset($attr[2]))
+			// Alone parse process
+			if(preg_match_all('/(\['.$scName.'(.*?)\])/i', $inputData,$match))
 			{
-				$reAttr=' '.$attr;
+				$listReal=$match[1];
 
-				$loadData[$j]['real']='['.$scName.$reAttr.']';
+				$listAttr=$match[2];	
+				
+				$total=count($listReal);
 
-				$replaces=array('"',"'");
+				for ($i=0; $i < $total; $i++) { 
 
-				$listReplaces=str_replace($replaces, array(), $attr);
+					$result[$i]['real']=$listReal[$i];
 
-				$listExplode=explode(' ',$listReplaces);
+					$result[$i]['attr']=array();
 
-				$total=count($listExplode);
+					$attr=$listAttr[$i];
 
-				for($i=0;$i<$total;$i++)
+					if(isset($attr[1]))
+					{
+						// die($attr);
+						if(preg_match_all('/(\w+)\=[\'|\"](.*?)[\'|\"]/i', $attr, $matchAttrs))
+						{
+
+							$totalAttr=count($matchAttrs[1]);
+
+							for ($j=0; $j < $totalAttr; $j++) { 
+								$theKey=$matchAttrs[1][$j];
+
+								$result[$i]['attr'][$theKey]=$matchAttrs[2][$j];
+							}
+						}
+					}
+
+				}							
+			}
+		}	
+		else
+		{
+			// Openclose parse process
+
+			$listReal=$match[1];
+
+			$listAttr=$match[2];
+
+			$listVal=$match[3];
+
+			$total=count($listReal);
+
+			for ($i=0; $i < $total; $i++) { 
+
+				$result[$i]['real']=$listReal[$i];
+
+				$result[$i]['value']=trim($listVal[$i]);
+
+				$result[$i]['attr']=array();
+
+				$attr=$listAttr[$i];
+
+				if(isset($attr[1]))
 				{
-					$parse=explode("=", $listExplode[$i]);
+					// die($attr);
+					if(preg_match_all('/(\w+)\=[\'|\"](.*?)[\'|\"]/i', $attr, $matchAttrs))
+					{
 
-					$loadData[$j][$parse[0]]=$parse[1];
-				}				
-			}			
+						$totalAttr=count($matchAttrs[1]);
 
-		}
+						for ($j=0; $j < $totalAttr; $j++) { 
+							$theKey=$matchAttrs[1][$j];
 
-		return $loadData;
+							$result[$i]['attr'][$theKey]=$matchAttrs[2][$j];
+						}
+					}
+				}
 
-	}
-	public function parseOpenClose($scName='',$inputData='')
-	{
-
-		$loadData=array();
-
-		if(!preg_match_all('/\['.$scName.'(.*?)\](.*?)\[\/'.$scName.'\]/i', $inputData, $matches))
-		{
-			return false;
-		}
-
-		$totalSC=count($matches[1]);
-
-		for($j=0;$j<$totalSC;$j++)
-		{
-
-			$attr=$matches[1][$j];
-
-			$value=$matches[2][$j];
-
-			$loadData[$j]['value']=$value;
-
-			$reAttr=$attr;
-			if(isset($attr[2]))
-			{
-				$reAttr=' '.$attr;
 			}
 
-			$loadData[$j]['real']='['.$scName.$reAttr.']'.$value.'[/'.$scName.']';
-
-			$loadData[$j]['attr']=array();
-
-			if(isset($attr[2]))
-			{
-				$replaces=array('"',"'");
-
-				$listReplaces=str_replace($replaces, array(), $attr);
-
-				$listExplode=explode(' ',$listReplaces);
-
-				$total=count($listExplode);
-
-				for($i=0;$i<$total;$i++)
-				{
-					$parse=explode("=", $listExplode[$i]);
-
-					$loadData[$j]['attr'][$parse[0]]=$parse[1];
-				}				
-			}
 		}
 
-		return $loadData;
+		// print_r($result);die();
 
+		return $result;
 	}
+
 
 	public function toHTML($str)
 	{
