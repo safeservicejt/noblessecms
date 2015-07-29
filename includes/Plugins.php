@@ -337,6 +337,8 @@ class Plugins
 
 		$li='';
 
+		$tmp='';
+
 		$resultData=array();
 
 		$stringData='';
@@ -383,13 +385,62 @@ class Plugins
 			{
 				include($zonePath);
 			}
-			
-			$li=$funcName($inputData);
 
-			if(is_array($li))
-			{
-				$inputData=$li;
+			$tmp=$funcName($inputData);
+
+			switch ($zoneName) {
+
+				case 'site_header':
+					$li.=$tmp;
+					break;
+
+				case 'site_footer':
+					$li.=$tmp;
+					break;
+					
+				case 'admincp_header':
+					$li.=$tmp;
+					break;
+
+				case 'admincp_footer':
+					$li.=$tmp;
+					break;
+
+				case 'usercp_footer':
+					$li.=$tmp;
+					break;
+
+				case 'usercp_header':
+					$li.=$tmp;
+					break;
+
+				case 'content_top':
+					$li.=$tmp;
+					break;
+
+				case 'content_bottom':
+					$li.=$tmp;
+					break;
+
+				case 'content_left':
+					$li.=$tmp;
+					break;
+
+				case 'content_right':
+					$li.=$tmp;
+					break;
+				
+				default:
+						if(is_array($tmp))
+						{
+							$li=$tmp;
+
+							$inputData=$li;
+						}
+					break;
 			}
+			
+
 		}
 
 
