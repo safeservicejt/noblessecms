@@ -41,19 +41,34 @@
 		  	<p>
 		  	<input type="text" class="form-control" placeholder="SMTP Port..." name="mail[smtpPort]" value="<?php echo $mail['smtpPort'];?>" />
 		  	</p>
-			<p>New user email content: (use {email}, {fullname}, {password}, {siteurl})</p>
+			<p>New user email content: (use {email}, {username}, {fullname}, {password}, {siteurl})</p>
 		  	<p>
 		  	<input type="text" class="form-control" placeholder="Subject..." name="mail[registerSubject]" value="<?php echo $mail['registerSubject'];?>" />
 		  	</p>			
 		  	<p>
 		  	<textarea rows="10" class="form-control" name="mail[registerContent]"><?php echo $mail['registerContent'];?></textarea>
 		  	</p>
-			<p>Forgot password email content: (use {email}, {fullname}, {password}, {siteurl})</p>
+			<p>New user email with verify code content: (use {email}, {username}, {fullname}, {password}, {siteurl}, {verify_code})</p>
+		  	<p>
+		  	<input type="text" class="form-control" placeholder="Subject..." name="mail[registerConfirmSubject]" value="<?php echo $mail['registerConfirmSubject'];?>" />
+		  	</p>
+		  	<p>
+		  	<textarea rows="10" class="form-control" name="mail[registerConfirmContent]"><?php echo $mail['registerConfirmContent'];?></textarea>
+		  	</p>		  	
+			<p>Forgot password email content: (use {email}, {username}, {fullname}, {password}, {siteurl})</p>
 		  	<p>
 		  	<input type="text" class="form-control" placeholder="Subject..." name="mail[forgotSubject]" value="<?php echo $mail['forgotSubject'];?>" />
 		  	</p>			
 		  	<p>
 		  	<textarea rows="10" class="form-control" name="mail[forgotContent]"><?php echo $mail['forgotContent'];?></textarea>
+		  	</p>
+
+			<p>Forgot password send new password email content: (use {email}, {username}, {fullname}, {password}, {siteurl})</p>
+		  	<p>
+		  	<input type="text" class="form-control" placeholder="Subject..." name="mail[forgotNewPasswordSubject]" value="<?php echo $mail['forgotNewPasswordSubject'];?>" />
+		  	</p>			
+		  	<p>
+		  	<textarea rows="10" class="form-control" name="mail[forgotNewPasswordContent]"><?php echo $mail['forgotNewPasswordContent'];?></textarea>
 		  	</p>
 
 		  	<p>

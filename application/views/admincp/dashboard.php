@@ -46,49 +46,6 @@
   </div>
 </div>
  <!-- End panel -->
-<!-- Panel -->
-<div class="panel panel-default">
-  <div class="panel-body">
-
-
-    <!-- Row -->
-    <div class="row">
-        <div class="col-lg-12">
-            <h4>News feed:</h4>           
-        </div>
-    </div>
-    <!-- End Row -->
-
-    <!-- Row -->
-    <div class="row">
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=882186538492766&version=v2.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>    
-        <div class="col-lg-6">
-<div class="fb-post" data-href="https://www.facebook.com/permalink.php?story_fbid=858563977529771&id=858562830863219" data-width="500"></div>              
- 
-        </div>
-        <div class="col-lg-6">
-
-
-<div class="fb-post" data-href="https://www.facebook.com/permalink.php?story_fbid=1600068756891459&id=1600068363558165" data-width="500"></div>              
-      </div>
-
-  
-    </div>
-    <!-- End Row -->
-
-
-
-
-  </div>
-</div>
- <!-- End panel -->
 
 <!-- Panel -->
 <div class="panel panel-default">

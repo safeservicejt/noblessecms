@@ -42,6 +42,37 @@ function loadApi($action)
 			}
 			
 			break;
+			
+		case 'verify_email':
+
+			$code=Request::get('verify_code','');
+
+			if($code=='')
+			{
+				throw new Exception("Error Processing Request");
+			}
+
+			$loadData=Users::get(array(
+				'where'=>"where verify_code='$code'"
+				));
+
+			if(isset($loadData[0]['userid']))
+			{
+				Users::update($loadData[0]['userid'],array(
+					'verify_code'=>''
+					));
+
+				Redirect::to(ROOT_URL);
+
+				// Users::sendNewPassword($loadData[0]['email']);
+			}
+			else
+			{
+				throw new Exception("Verify link not valid.");
+				
+			}
+			
+			break;
 
 		case 'verify_forgotpassword':
 
@@ -63,6 +94,8 @@ function loadApi($action)
 					));
 
 				Users::sendNewPassword($loadData[0]['email']);
+
+				Redirect::to(ROOT_URL);
 			}
 			else
 			{

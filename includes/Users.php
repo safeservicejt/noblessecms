@@ -195,6 +195,61 @@ class Users
 		}
 	}
 
+	public function newRegister($inputData=array())
+	{
+		$fullname=isset($inputData['firstname'])?$inputData['firstname'].' '.$inputData['lastname']:$inputData['fullname'];
+
+		$replaces=array(
+			'{fullname}'=>$fullname,
+			'{username}'=>$inputData['username'],
+			'{password}'=>$inputData['password'],
+			'{email}'=>$inputData['email']
+			);
+
+		$subject='';
+
+		$content='';
+
+		$is_verify=isset(System::$setting['register_verify_email'])?Setting::$setting['register_verify_email']:'disable';
+
+		if($is_verify=='enable')
+		{
+			// $replaces['{verify_code}']=$inputData['verify_code'];
+
+			$replaces['{verify_code}']=ROOT_URL.'api/user/verify_email?verify_code='.$inputData['verify_code'];
+
+			$subject=System::getMailSetting('registerSubject');
+
+			$content=System::getMailSetting('registerContent');
+
+		}
+		else
+		{
+			$subject=System::getMailSetting('registerConfirmSubject');
+
+			$content=System::getMailSetting('registerConfirmContent');
+
+		}
+
+		$listKeys=array_keys($replaces);
+
+		$listValues=array_values($replaces);
+
+		$content=str_replace($listKeys, $listValues, $content);
+
+		try {
+			Mail::send(array(
+			'toEmail'=>$inputData['email'],
+			'toName'=>$inputData['username'],
+			'subject'=>$subject,
+			'content'=>$content
+			));
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+			
+		}
+	}
+
 	public function sendNewPassword($email)
 	{
 		$email=trim($email);
@@ -223,7 +278,9 @@ class Users
 			'{firstname}'=>$loadUser[0]['firstname'],
 			'{lastname}'=>$loadUser[0]['lastname'],
 			'{fullname}'=>$loadUser[0]['firstname'].' '.$loadUser[0]['lastname'],
-			'{password}'=>$newPass
+			'{password}'=>$newPass,
+			'{siteurl}'=>ROOT_URL,
+			'{site_url}'=>ROOT_URL
 			);
 
 		$parse=parse_url(ROOT_URL);
@@ -231,6 +288,10 @@ class Users
 		$subject='Your new password - '.ucfirst($parse['host']);
 
 		$content='<h3>Dear {fullname},</h3><p>Your new password is: '.$newPass.'</p>';
+		
+		$subject=System::getMailSetting('forgotNewPasswordSubject');
+
+		$content=System::getMailSetting('forgotNewPasswordContent');
 
 		$listKeys=array_keys($replaces);
 

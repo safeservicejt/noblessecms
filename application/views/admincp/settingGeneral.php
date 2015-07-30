@@ -64,7 +64,19 @@
 			    		</div>
 
 			    	</div>
+			    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
+			    		<div class="col-lg-9">
+			    		<strong>Verify email user after register completed :</strong>
+			    		</div>
+			    		<div class="col-lg-3 text-right">
+							<select name="general[register_verify_email]" id="register_verify_email" class="form-control">
+							<option value="enable">Enable</option>
+								<option value="disable">Disable</option>
 
+							</select>
+			    		</div>
+
+			    	</div>
 			    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
 			    		<div class="col-lg-9">
 			    		<strong>Default member user group :</strong>
@@ -269,6 +281,7 @@ $(document).ready(function(){
 	setSelect('register_user_status','<?php echo $register_user_status;?>');
 	setSelect('system_lang','<?php echo $system_lang;?>');
 	setSelect('system_status','<?php echo $system_status;?>');
+	setSelect('register_verify_email','<?php echo $register_verify_email;?>');
 
 });
 

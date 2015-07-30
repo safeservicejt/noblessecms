@@ -322,18 +322,64 @@ class System
 		return $data['mail'][$keyName];
 	}
 
-	public function getSetting()
-	{
-		if(!$data=Cache::loadKey('systemSetting',-1))
+	public function getSetting($keyName='',$keyValue='')
+	{	
+
+		$data=array();
+
+		if(!isset(self::$setting['register_user_status']))
 		{
-			$data=self::makeSetting();
+			if(!$data=Cache::loadKey('systemSetting',-1))
+			{
+				$data=self::makeSetting();
+			}
+			else
+			{
+				$data=unserialize($data);
+			}
 		}
 		else
 		{
-			$data=unserialize($data);
+			$data=self::$setting;
 		}
 
-		return $data;
+		if(!isset($keyName[1]))
+		{
+			return $data;
+		}
+		else
+		{
+			$keyValue=false;
+
+			$keyValue=isset($data[$keyName])?$data[$keyName]:$keyValue;
+
+			return $keyValue;
+
+		}
+	}
+	
+	public function setSetting($keyName='',$keyValue='')
+	{	
+
+		$data=array();
+
+		if(!isset(self::$setting['register_user_status']))
+		{
+			return false;
+		}
+		else
+		{
+			$data=self::$setting;
+
+			if(!isset($keyName[1]))
+			{
+				return false;
+			}
+
+			$data[$keyName]=$keyValue;			
+		}
+
+
 	}
 
 	public function makeSetting()

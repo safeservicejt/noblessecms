@@ -27,9 +27,15 @@ class controlSetting
 			System::saveSetting(Request::get('general'));
 		}
 
-		if(!$data=System::getSetting())
+		$data=array();
+
+		if(!$data=Cache::loadKey('systemSetting',-1))
 		{
 			$data=System::makeSetting();
+		}
+		else
+		{
+			$data=unserialize($data);
 		}
 
 
@@ -79,9 +85,15 @@ class controlSetting
 		}
 
 
-		if(!$data=System::getSetting())
+		$data=array();
+
+		if(!$data=Cache::loadKey('systemSetting',-1))
 		{
 			$data=System::makeSetting();
+		}
+		else
+		{
+			$data=unserialize($data);
 		}
 
 		$post=$data;
@@ -103,9 +115,15 @@ class controlSetting
 		}
 		
 
-		if(!$data=System::getSetting())
+		$data=array();
+
+		if(!$data=Cache::loadKey('systemSetting',-1))
 		{
 			$data=System::makeSetting();
+		}
+		else
+		{
+			$data=unserialize($data);
 		}
 
 		$post=$data;
