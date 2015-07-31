@@ -35,6 +35,8 @@
       
       <script src="<?php echo System::getThemeUrl();?>js/custom.js"></script>
 
+      <?php echo $header;?>
+
             
   </head>
 

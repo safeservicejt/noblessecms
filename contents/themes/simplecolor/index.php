@@ -29,6 +29,14 @@ $links=Links::get(array(
 
 System::defineVar('linkList',$links,'head');
 
+$codeHead=Plugins::load('site_header');
+
+$codeHead=is_array($codeHead)?'':$codeHead;
+
+// print_r($codeHead);die();
+
+System::defineVar('header',$codeHead,'head');
+
 Controller::loadWithPath('theme'.ucfirst($pageName),'index',System::getThemePath().'controller/');
 
 // Theme::view('footer');

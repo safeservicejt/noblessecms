@@ -210,7 +210,7 @@ class Users
 
 		$content='';
 
-		$is_verify=isset(System::$setting['register_verify_email'])?Setting::$setting['register_verify_email']:'disable';
+		$is_verify=isset(System::$setting['register_verify_email'])?System::$setting['register_verify_email']:'disable';
 
 		if($is_verify=='enable')
 		{
@@ -218,16 +218,16 @@ class Users
 
 			$replaces['{verify_code}']=ROOT_URL.'api/user/verify_email?verify_code='.$inputData['verify_code'];
 
-			$subject=System::getMailSetting('registerSubject');
+			$subject=System::getMailSetting('registerConfirmSubject');
 
-			$content=System::getMailSetting('registerContent');
+			$content=System::getMailSetting('registerConfirmContent');
 
 		}
 		else
 		{
-			$subject=System::getMailSetting('registerConfirmSubject');
+			$subject=System::getMailSetting('registerSubject');
 
-			$content=System::getMailSetting('registerConfirmContent');
+			$content=System::getMailSetting('registerContent');
 
 		}
 
@@ -236,6 +236,8 @@ class Users
 		$listValues=array_values($replaces);
 
 		$content=str_replace($listKeys, $listValues, $content);
+		
+		$subject=str_replace($listKeys, $listValues, $subject);
 
 		try {
 			Mail::send(array(
@@ -285,10 +287,7 @@ class Users
 
 		$parse=parse_url(ROOT_URL);
 
-		$subject='Your new password - '.ucfirst($parse['host']);
 
-		$content='<h3>Dear {fullname},</h3><p>Your new password is: '.$newPass.'</p>';
-		
 		$subject=System::getMailSetting('forgotNewPasswordSubject');
 
 		$content=System::getMailSetting('forgotNewPasswordContent');
@@ -315,8 +314,13 @@ class Users
 		}
 	}
 
-	public function makeRegister()
+	public function makeRegister($inputData=array())
 	{
+		if(!isset($_REQUEST['send']['firstname']) && isset($inputData['firstname']))
+		{
+			$_REQUEST['send']=$inputData;
+		}
+
 		$valid=Validator::make(array(
 			'send.firstname'=>'required|min:1|max:20|slashes',
 			'send.lastname'=>'required|min:1|max:20|slashes',
@@ -327,7 +331,7 @@ class Users
 
 		if(!$valid)
 		{
-			throw new Exception("Check your infomartion again!");
+			throw new Exception("Check your infomartion again: ".Validator::getMessage());
 		}
 
 		$insertData=Request::get('send');
@@ -345,36 +349,8 @@ class Users
 
 		Address::insert($addData);
 
-		$replaces=array(
-			'{username}'=>$insertData['username'],
-			'{email}'=>$insertData['email'],
-			'{firstname}'=>$insertData['firstname'],
-			'{lastname}'=>$insertData['lastname'],
-			'{fullname}'=>$insertData['firstname'].' '.$insertData['lastname'],
-			'{siteurl}'=>ROOT_URL,
-			'{site_url}'=>ROOT_URL,
-			'{root_url}'=>ROOT_URL
-			);
-
-		$subject=System::getMailSetting('registerSubject');
-		
-		$content=System::getMailSetting('registerContent');
-
-		$listKeys=array_keys($replaces);
-
-		$listValues=array_values($replaces);
-
-		$content=str_replace($listKeys, $listValues, $content);
-
-		$subject=str_replace($listKeys, $listValues, $subject);
-
 		try {
-			Mail::send(array(
-			'toEmail'=>$email,
-			'toName'=>$insertData['username'],
-			'subject'=>$subject,
-			'body'=>$content
-			));
+			self::newRegister($insertData);
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 			
@@ -401,6 +377,8 @@ class Users
 
 		$encryptPassword=String::encrypt($password);
 
+		$must_verify=isset(System::$setting['register_verify_email'])?System::$setting['register_verify_email']:'disable';
+
 
 		$getData=self::get(array(
 			'where'=>"where (username='$username' OR email='$username') AND password='$encryptPassword'"
@@ -410,6 +388,17 @@ class Users
 		{
 			throw new Exception("User not exists in system.");
 			
+		}
+
+		if($must_verify=='enable')
+		{
+			$verify_code=$getData[0]['verify_code'];
+
+			if(isset($verify_code[4]))
+			{
+				throw new Exception("Your email not confirmed. You have to confirm your email, check your inbox/spam.");
+				
+			}
 		}
 
 		Cookie::make('username',$username,1440*7);

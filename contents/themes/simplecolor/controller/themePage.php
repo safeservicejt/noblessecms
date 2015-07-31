@@ -28,10 +28,12 @@ class themePage
 
 		$inputData=$loadData[0];
 
-
 		$postid=$loadData[0]['pageid'];
 
-		System::setTitle(ucfirst($loadData[0]['title']));
+		if(Uri::isNull())
+		{
+			System::setTitle(ucfirst($loadData[0]['title']));
+		}
 
 		$keywords=isset($loadData[0]['keywords'][4])?$loadData[0]['keywords']:System::getKeywords();
 

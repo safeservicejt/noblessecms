@@ -7,6 +7,13 @@ class Validator
 
     public static $message=array();
 
+    public function getMessage()
+    {
+        $text=implode(', ', self::$message);
+
+        return $text;
+    }
+
     public function regex($varName=array())
     {
         $total=count($varName);
@@ -35,6 +42,8 @@ class Validator
 
         }
     }
+
+
 
     public function make($varName = array(),$alert=array())
     {

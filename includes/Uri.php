@@ -2,10 +2,17 @@
 
 class Uri
 {
+    public function get()
+    {
+        $uri=System::getUri();
+
+        return $uri;
+    }
 
     public function isNull()
     {
         $null=isset($_GET['load'])?true:false;
+
 
         return $null;
     }
@@ -54,6 +61,7 @@ class Uri
 
         return false;
     }
+
     public function match($uriName)
     {
         $uri=System::getUri();
