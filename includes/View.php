@@ -46,16 +46,16 @@ class View
         self::resetPath();
     }
     
-    public function parseWithPath($viewName = '', $viewData = array(),$path)
+    public function parseWithPath($viewName = '', $viewData = array(),$path,$timeLive=10)
     {
         self::setPath($path);
 
-        self::parse($viewName,$viewData);
+        self::parse($viewName,$viewData,$timeLive);
 
         self::resetPath();
     }
 
-    public function parse($viewName = '', $viewData = array())
+    public function parse($viewName = '', $viewData = array(),$timeLive=10)
     {
 
         $path = self::getPath() . $viewName . '.php';
@@ -69,7 +69,7 @@ class View
 
    
 
-        if(!Cache::hasKey('templates/'.$pathMd5,10,'.php'))
+        if(!Cache::hasKey('templates/'.$pathMd5,$timeLive,'.php'))
         {
 
             $fileData=file_get_contents($path);

@@ -13,7 +13,6 @@ class Uri
     {
         $null=isset($_GET['load'])?true:false;
 
-
         return $null;
     }
 
