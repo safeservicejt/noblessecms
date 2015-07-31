@@ -72,12 +72,6 @@
   background-image: url("../img/bootstrap-colorpicker/alpha.png");
 }
 
-.colorpicker-saturation,
-.colorpicker-hue,
-.colorpicker-alpha {
-  background-size: contain;
-}
-
 .colorpicker {
   top: 0;
   left: 0;
@@ -220,14 +214,4 @@
 
 .colorpicker-inline.colorpicker-visible {
   display: inline-block;
-}
-
-.colorpicker-right:before {
-  right: 6px;
-  left: auto;
-}
-
-.colorpicker-right:after {
-  right: 7px;
-  left: auto;
 }

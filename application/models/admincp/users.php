@@ -45,6 +45,12 @@ function insertProcess()
 
 		));
 
+	if(!$valid)
+	{
+		throw new Exception("Error Processing Request: ".Validator::getMessage());
+		
+	}
+
 	$username=Request::get('send.username');
 
 	$email=Request::get('send.email');

@@ -33,7 +33,7 @@ function updateProcess($id)
 
 	if(!$valid)
 	{
-		throw new Exception("Error Processing Request");
+		throw new Exception("Error Processing Request: ".Validator::getMessage());
 	}
 
 	$amount=Request::get('update.amount');
@@ -56,7 +56,7 @@ function insertProcess()
 
 	if(!$valid)
 	{
-		throw new Exception("Error Processing Request");
+		throw new Exception("Error Processing Request: ".Validator::getMessage());
 	}
 
 	$amount=Request::get('send.amount');

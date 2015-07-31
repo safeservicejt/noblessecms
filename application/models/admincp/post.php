@@ -74,7 +74,7 @@ function updateProcess($id)
 
 	if(!$valid)
 	{
-		throw new Exception("Error Processing Request. Error: ".Validator::$message);
+		throw new Exception("Error Processing Request. Error: ".Validator::getMessage());
 	}
 
 	$uploadMethod=Request::get('uploadMethod');
@@ -170,7 +170,7 @@ function insertProcess()
 
 	if(!$valid)
 	{
-		throw new Exception("Error Processing Request");
+		throw new Exception("Error Processing Request: ".Validator::getMessage());
 	}
 
 	$friendlyUrl=trim(String::makeFriendlyUrl($send['title']));

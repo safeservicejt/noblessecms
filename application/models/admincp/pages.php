@@ -51,13 +51,13 @@ function updateProcess($id)
 
 	$valid=Validator::make(array(
 		'send.title'=>'min:1|slashes',
-		'send.content'=>'min:1|slashes',
+		'send.content'=>'min:1',
 		'send.keywords'=>'slashes'
 		));
 
 	if(!$valid)
 	{
-		throw new Exception("Error Processing Request");
+		throw new Exception("Error Processing Request: ".Validator::getMessage());
 	}
 
 	$uploadMethod=Request::get('uploadMethod');
@@ -113,7 +113,7 @@ function insertProcess()
 
 	$valid=Validator::make(array(
 		'send.title'=>'min:1|slashes',
-		'send.content'=>'min:1|slashes',
+		'send.content'=>'min:1',
 		'send.keywords'=>'slashes',
 		'send.page_type'=>'slashes',
 		'send.allowcomment'=>'slashes'
@@ -121,7 +121,7 @@ function insertProcess()
 
 	if(!$valid)
 	{
-		throw new Exception("Error Processing Request");
+		throw new Exception("Error Processing Request: ".Validator::getMessage());
 	}
 
 	$friendlyUrl=trim(String::makeFriendlyUrl($send['title']));

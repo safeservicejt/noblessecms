@@ -34,7 +34,7 @@ function updateProcess($id)
 
 	if(!$valid)
 	{
-		throw new Exception("Error Processing Request");
+		throw new Exception("Error Processing Request: ".Validator::getMessage());
 	}
 
 	if(Request::hasFile('image'))
@@ -69,7 +69,7 @@ function insertProcess()
 
 	if(!$valid)
 	{
-		throw new Exception("Error Processing Request");
+		throw new Exception("Error Processing Request: ".Validator::getMessage());
 	}
 
 	if(Request::hasFile('image'))

@@ -35,7 +35,7 @@ function updateProcess($id)
 
 	if(!$valid)
 	{
-		throw new Exception("Error Processing Request");
+		throw new Exception("Error Processing Request: ".Validator::getMessage());
 	}
 
 	Links::update($id,$update);
@@ -54,7 +54,7 @@ function insertProcess()
 
 	if(!$valid)
 	{
-		throw new Exception("Error Processing Request");
+		throw new Exception("Error Processing Request: ".Validator::getMessage());
 	}
 
 	$loadData=Links::get(array(
