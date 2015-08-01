@@ -84,7 +84,7 @@ class Database
 
     }
 
-    public function newField($table='',$keyName='',$inputData=array())
+    public function addField($table='',$keyName='',$inputData=array())
     {
         $queryCMD='ALTER TABLE '.$table.' ADD '.$keyName.' ';
 

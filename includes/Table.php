@@ -219,16 +219,17 @@ class Table
 		return true;
 	}
 
-	public function newField($table='',$keyName='',$inputData=array())
+	public function addField($keyName='',$inputData=array())
 	{
-		$status=Database::newField($table,$keyName,$inputData);
+
+		$status=Database::addField($this->table,$keyName,$inputData);
 
 		return $status;
 	}
 
-	public function dropField($table='',$keyName='')
+	public function dropField($keyName='')
 	{
-		Database::dropField($table,$keyName,$inputData);
+		Database::dropField($this->table,$keyName);
 
 	}
 
