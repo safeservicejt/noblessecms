@@ -84,6 +84,42 @@ class Database
 
     }
 
+    public function newField($table='',$keyName='',$inputData=array())
+    {
+        $queryCMD='ALTER TABLE '.$table.' ADD '.$keyName.' ';
+
+        $dataType=isset($inputData['type'])?$inputData['type']:'INT';
+
+        $dataLen=isset($inputData['len'])?'('.$inputData['length'].')':'';
+
+        $fieldType=$dataType.$dataLen;
+
+        $isNull=isset($inputData['null'])?' NULL ':' NOT NULL ';
+
+        $defaultVal=isset($inputData['default'])?' DEFAULT '."'".$inputData['default']."' ":'';
+
+        $queryCMD.=$fieldType.$isNull.$defaultVal;
+
+        self::query($queryCMD);
+
+        if(isset(Database::$error[5]))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function dropField($table='',$keyName='')
+    {
+        self::query('ALTER TABLE '.$table.' DROP '.$keyName);
+    }
+
+    public function drop($table='')
+    {
+        self::query("DROP TABLE ".$table);
+    }
+
     //  Object-Relational Mapping (ORM)
 
 

@@ -1,7 +1,38 @@
 <?php
 
+/*
+
+class Test extends Table
+{
+	public $table='users';
+
+	public $id='userid';
+
+	public $fields='userid,groupid,username,firstname,lastname,image,email,password,userdata,ip,verify_code,parentid,date_added,forgot_code,forgot_date';
+
+	public function __construct()
+	{
+		
+
+	}
+
+}
+
+
+*/
+
 class Table
 {
+	public $table='';
+
+	public $id='';
+
+	public $fields='';
+
+	public function __construct()
+	{
+		
+	}
 
 	public function get($inputData=array())
 	{
@@ -20,17 +51,19 @@ class Table
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="commentid,";
+		$field=$this->fields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
 		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
 
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by date_added desc';
+		$groupBy=isset($inputData['groupby'])?$inputData['groupby']:'';
+
+		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by '.$this->id.' desc';
 
 		$result=array();
 		
-		$command="select $selectFields from contactus $whereQuery";
+		$command="select $selectFields from ".$this->table." $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -40,7 +73,8 @@ class Table
 
 		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
 		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
+
 
 		if($cache=='yes')
 		{
@@ -63,31 +97,11 @@ class Table
 		{
 			return false;
 		}
-
-		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
 		
 		if((int)$query->num_rows > 0)
 		{
 			while($row=Database::fetch_assoc($query))
-			{
-				if(isset($row['fullname']))
-				{
-					$row['fullname']=String::decode($row['fullname']);
-				}
-				if(isset($row['content']))
-				{
-					$row['content']=String::decode($row['content']);
-				}
-
-				if(isset($row['date_added']))
-				$row['date_added']=Render::dateFormat($row['date_added']);	
-
-				if($inputData['isHook']=='yes')
-				{
-					if(isset($row['content']))
-					$row['content']=Shortcode::load($row['content']);
-				}
-											
+			{						
 				$result[]=$row;
 			}		
 		}
@@ -95,37 +109,65 @@ class Table
 		{
 			return false;
 		}
-
-
-		if($inputData['isHook']=='yes')
-		{
-			$result=self::plugin_hook_comment($result);
-		}
 		
 		// Save dbcache
 		DBCache::make(md5($queryCMD),$result);
 		// end save
 
-
 		return $result;
-		
+
 	}
 
-	public function insert($inputData=array())
+	public function all()
+	{
+
+		$loadData=$this->get();
+
+		return $loadData;
+	}
+
+	public function first()
+	{
+		$loadData=$this->get(array(
+			'limitShow'=>1,
+			'orderby'=>'order by '.$this->$id.' asc'
+			));
+
+		return $loadData;		
+	}
+
+	public function last()
+	{
+		$loadData=$this->get(array(
+			'limitShow'=>1
+			));
+
+		return $loadData;
+	}
+
+	public function up($keyName='',$total=1)
+	{
+		if(!isset($keyName[1]))
+		{
+			return false;
+		}
+
+		Database::query("update ".$this->$table." set $keyName=$keyName+$total");
+	}
+
+	public  function insert($inputData=array())
 	{
 		// End addons
 		// $totalArgs=count($inputData);
 
 		$addMultiAgrs='';
 
-		if(isset($inputData[0]['username']))
+
+
+		if(is_array($inputData[0]))
 		{
 		    foreach ($inputData as $theRow) {
 
-				$theRow['date_added']=date('Y-m-d h:i:s');
-
-				if(isset($theRow['tensanpham']))
-				$theRow['tensanpham']=String::encode($theRow['tensanpham']);
 
 				$keyNames=array_keys($theRow);
 
@@ -142,11 +184,8 @@ class Table
 		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
 		}
 		else
-		{
-			$inputData['date_added']=date('Y-m-d h:i:s');
-
-			if(isset($inputData['tensanpham']))
-			$inputData['tensanpham']=String::encode($inputData['tensanpham']);
+		{		
+			
 
 			$keyNames=array_keys($inputData);
 
@@ -159,88 +198,60 @@ class Table
 			$addMultiAgrs="($insertValues)";	
 		}		
 
-		Database::query("insert into contactus($insertKeys) values".$addMultiAgrs);
+		Database::query("insert into ".$this->table."($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
-			$id=Database::insert_id();
-
-			return $id;	
+			return true;
 		}
 
 		return false;
 	
 	}
 
-	public function remove($post=array(),$whereQuery='',$addWhere='')
+	public  function remove($queryCMD='')
 	{
 
-
-		if(is_numeric($post))
-		{
-			$id=$post;
-
-			unset($post);
-
-			$post=array($id);
-		}
-
-		$total=count($post);
-
-		$listID="'".implode("','",$post)."'";
-
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"contactid in ($listID)";
-
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-
-		$command="delete from contactus where $whereQuery $addWhere";
+		$command="delete from ".$this->table.' '.$queryCMD;
 
 		Database::query($command);	
 
 		return true;
 	}
 
-	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	public function newField($table='',$keyName='',$inputData=array())
 	{
-		if(isset($post['fullname']))
-		{
-			$post['fullname']=String::encode($post['fullname']);
-		}		
-		if(isset($post['content']))
-		{
-			$post['content']=String::encode(strip_tags($post['content'],'<p><br>'));
-		}
+		$status=Database::newField($table,$keyName,$inputData);
 
-		if(is_numeric($listID))
-		{
-			$catid=$listID;
+		return $status;
+	}
 
-			unset($listID);
+	public function dropField($table='',$keyName='')
+	{
+		Database::dropField($table,$keyName,$inputData);
 
-			$listID=array($catid);
-		}
+	}
+
+	public  function update($inputData=array(),$queryCMD='')
+	{
 
 		$listIDs="'".implode("','",$listID)."'";		
 				
-		$keyNames=array_keys($post);
+		$keyNames=array_keys($inputData);
 
-		$total=count($post);
+		$total=count($inputData);
 
 		$setUpdates='';
 
 		for($i=0;$i<$total;$i++)
 		{
 			$keyName=$keyNames[$i];
-			$setUpdates.="$keyName='$post[$keyName]', ";
+			$setUpdates.="$keyName='$inputData[$keyName]', ";
 		}
 
 		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
-		
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"contactid in ($listIDs)";
-		
-		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("update contactus set $setUpdates where $whereQuery $addWhere");
+		Database::query("update ".$this->table." set $setUpdates where ".$queryCMD);
 
 		if(!$error=Database::hasError())
 		{
@@ -252,4 +263,5 @@ class Table
 
 
 }
+
 ?>
