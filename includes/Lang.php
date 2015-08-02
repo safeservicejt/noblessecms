@@ -33,6 +33,17 @@ class Lang
         return $path;
     }
 
+    public function getWithPath($keyName,$path)
+    {
+    	self::setPath($path);
+
+    	$result=self::get($keyName);
+
+    	self::resetPath();
+
+    	return $result;
+    }
+
 	public function get($keyName,$addOns=array())
 	{
 		if(!isset($keyName[1]))

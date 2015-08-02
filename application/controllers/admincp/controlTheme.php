@@ -27,8 +27,13 @@ class controlTheme
 			$theName=$match[1];
 
 			try {
+				
 				Theme::setActivate($theName);
+
 				$post['alert']='<div class="alert alert-success">Change theme success</div>';
+
+				Redirect::to(ADMINCP_URL.'theme');
+
 			} catch (Exception $e) {
 				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
 			}
