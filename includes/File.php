@@ -118,7 +118,7 @@ class File
     {
         /*
         'application/octet-stream'
-        
+
          $mime_types = array(
 
                     'txt' => 'text/plain',
@@ -434,6 +434,13 @@ class File
         }
     }
 
+    public function removeOnly($filePath)
+    {
+        if(file_exists($filePath))
+        {
+            unlink($filePath);
+        }
+    }
 
 
 }
