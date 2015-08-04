@@ -108,7 +108,49 @@ class Http
         return $data;
     }
 
-    public function getDataUrl($url,$hasHeader='no', $follow = 'yes',$isGooglebot='yes')
+    public function pingToUrl($url,$hasHeader='yes', $follow = 'yes')
+    {
+        $headers = array();
+
+        $headers[] = 'Cache-Control: max-age=0';
+        $headers[] = 'Content-Type: text/html';
+         $headers[] = 'Connection: keep-alive';
+         $headers[] = 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8';
+         $headers[] = 'Accept-Encoding: gzip, deflate, sdch';
+
+
+        $ch = curl_init();
+        if ($follow == 'yes') curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        if($hasHeader=='yes')
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // curl_setopt($ch, CURLOPT_HEADER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+        curl_exec($ch);
+
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if ($httpcode >= 200 && $httpcode < 300)
+        {
+            $result=true;          
+        }
+        else
+        {
+            $result=false;
+        }
+
+        return $result;        
+    }
+
+    public function getDataUrl($url,$hasHeader='no', $follow = 'yes')
     {
         $headers = array();
         // $headers[] = 'X-Apple-Tz: 0';
@@ -141,12 +183,18 @@ class Http
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         $result = curl_exec($ch);
 
-        // $result=gzuncompress($result);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        if($hasHeader=='yes')
-        $result=Compress::gzdecode($result);
 
-         // File::create(ROOT_PATH.'accc.txt',$result);
+        if ($httpcode >= 200 && $httpcode < 300)
+        {
+            if($hasHeader=='yes')
+            $result=Compress::gzdecode($result);            
+        }
+        else
+        {
+            $result=false;
+        }
 
         return $result;
     }
