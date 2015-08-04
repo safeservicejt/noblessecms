@@ -57,29 +57,57 @@ class Image
         return $resultData;
     }
 
-    public function uploadFromUrl($imgUrl,$shortPath='uploads/images/')
+    public function isImage($inputData='')
     {
-        $imgUrl=trim($imgUrl);
-
-        if(!preg_match('/http.*?\.(\w+)/i', $imgUrl,$match))
+        if(!isset($inputData[1]))
         {
             return false;
         }
 
-        $newName=String::randNumber(10).'.'.$match[1];
+        if(preg_match('/(https?:\/\/[a-zA-Z0-9_\-\_\=\+\/\.\{\}\(\)\&\$\#\@\*\?\!\;]+\.(gif|png|jpg|jpeg|bmp))/i', $inputData))
+        {
+            return false;
+        }
 
-        $shortPath.=$newName;
+        $type=File::getcontenttype(ROOT_PATH.$inputData);
 
-        $fullPath=ROOT_PATH.$shortPath;
+        if(!preg_match('/image\//i', $inputData))
+        {
+            return false;
+        }        
 
-        $imgData=Http::getDataUrl($imgUrl);
+        return true;
+    }
 
-        File::create($fullPath,$imgData);
+    public function uploadFromUrl($imgUrl,$shortPath='uploads/images/')
+    {
+        $shortPath=File::uploadFromUrl($imgUrl,$shortPath);
+
+        $result=self::isImage($shortPath);
+
+        if(!$result)
+        {
+            File::remove($shortPath);
+            
+            return false;
+        }
 
         return $shortPath;
     }
 
-    public function getsize($imagePath)
+    public function getSizeFromUrl($url='')
+    {
+        $url=trim($url);
+
+        if(!preg_match('/^http/i', $url))
+        {
+            return false;
+        }
+
+
+    }
+
+    public function getSize($imagePath)
     {
         list($width, $height) = getimagesize($imagePath);
 
@@ -100,7 +128,7 @@ class Image
         imagejpeg($image);
     }
 
-    public function cropcenter($imagePath, $imageWidth = 100, $imageHeight = 100, $savePath = '')
+    public function cropCenter($imagePath, $imageWidth = 100, $imageHeight = 100, $savePath = '')
     {
         $gis = getimagesize($imagePath);
         $type = $gis[2];
@@ -157,7 +185,7 @@ class Image
         imagejpeg($thumb, $savePath, 100);
     }
 
-    public function resize($imagePath, $imageWidth = 100, $imageHeight = 'auto', $savePath = '')
+    public function reSize($imagePath, $imageWidth = 100, $imageHeight = 'auto', $savePath = '')
     {
         $imagePath = trim($imagePath);
 

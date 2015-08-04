@@ -2,6 +2,19 @@
 
 class String
 {
+    public function matchUrls($str='')
+    {
+        $result=Match::getUrls($str);
+
+        return $result;
+    }
+    
+    public function matchImages($str='')
+    {
+        $result=Match::getImages($str);
+
+        return $result;
+    }
 
     public function jsonToArray($str='')
     {
