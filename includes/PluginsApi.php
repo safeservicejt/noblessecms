@@ -14,7 +14,7 @@ class PluginsApi
 
 		$pluginPath=PLUGINS_PATH.$foldername.'/api.php';
 
-		define("THIS_URL",PLUGINS_PATH.$foldername.'/');
+		define("THIS_URL",PLUGINS_URL.$foldername.'/');
 
 		define("THIS_PATH",PLUGINS_PATH.$foldername.'/');
 
@@ -34,7 +34,17 @@ class PluginsApi
 
 		$func=$routes[$routeName];
 
-		$result=SelfApi::$func();
+		if(!method_exists('SelfApi', $func))
+		{
+			throw new Exception('Route '.$routeName.' not ready for runc.');
+		}
+
+		try {
+			$result=SelfApi::$func();
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+		}
+		
 
 		return $result;
 	}
