@@ -62,7 +62,7 @@ class Http
 
     public function sendPostTo($url = '', $post = array(), $cookiepath = '/.cookie_tmp.txt', $is_follow = 'no')
     {
-        ob_flush();
+        // ob_flush();
         $ch = curl_init();
 //    curl_setopt($ch, CURLOPT_HEADER, $header);
         curl_setopt($ch, CURLOPT_VERBOSE, 0);
@@ -82,13 +82,13 @@ class Http
         curl_setopt($ch, CURLOPT_TIMEOUT, 15);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
         $data = curl_exec($ch);
-        ob_end_flush();
+        // ob_end_flush();
         return $data;
     }
 
     public function sendGetTo($url = '', $post = array(), $cookiepath = '/.cookie_tmp.txt')
     {
-        ob_flush();
+        // ob_flush();
         $ch = curl_init();
 //    curl_setopt($ch, CURLOPT_HEADER, $header);
         curl_setopt($ch, CURLOPT_VERBOSE, 0);
@@ -100,11 +100,11 @@ class Http
         curl_setopt($ch, CURLOPT_REFERER, $url);
         curl_setopt($ch, CURLOPT_COOKIEJAR, $cookiepath);
         curl_setopt($ch, CURLOPT_COOKIEFILE, $cookiepath);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 500);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 500);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         $data = curl_exec($ch);
-        ob_end_flush();
+        // ob_end_flush();
         return $data;
     }
 
