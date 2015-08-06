@@ -15,6 +15,13 @@ class String
 
         return $result;
     }
+    
+    public function matchEmails($str='')
+    {
+        $result=Match::getEmails($str);
+
+        return $result;
+    }
 
     public function jsonToArray($str='')
     {
