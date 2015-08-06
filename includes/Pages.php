@@ -46,7 +46,7 @@ class Pages
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/page');
 
 			if($loadCache!=false)
 			{
@@ -104,7 +104,7 @@ class Pages
 		}
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		DBCache::make(md5($queryCMD),$result,'system/page');
 		// end save
 
 
@@ -235,6 +235,8 @@ class Pages
 
 		Database::query($command);	
 
+		DBCache::removeDir('system/page');
+
 		return true;
 	}
 
@@ -295,6 +297,8 @@ class Pages
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update pages set $setUpdates where $whereQuery $addWhere");
+
+		DBCache::removeDir('system/page');
 
 		if(!$error=Database::hasError())
 		{

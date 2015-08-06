@@ -46,7 +46,7 @@ class ProductTags
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/producttag');
 
 			if($loadCache!=false)
 			{
@@ -85,7 +85,7 @@ class ProductTags
 
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		DBCache::make(md5($queryCMD),$result,'system/producttag');
 		// end save
 
 
@@ -177,6 +177,8 @@ class ProductTags
 
 		Database::query($command);	
 
+		DBCache::removeDir('system/producttag');
+
 		return true;
 	}
 
@@ -217,6 +219,8 @@ class ProductTags
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update products_tags set $setUpdates where $whereQuery $addWhere");
+
+		DBCache::removeDir('system/producttag');
 
 		if(!$error=Database::hasError())
 		{

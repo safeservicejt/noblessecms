@@ -46,7 +46,7 @@ class Categories
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/category');
 
 			if($loadCache!=false)
 			{
@@ -91,7 +91,7 @@ class Categories
 		}
 
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		DBCache::make(md5($queryCMD),$result,'system/category');
 		// end save
 
 
@@ -208,6 +208,8 @@ class Categories
 
 		Database::query($command);	
 
+		DBCache::removeDir('system/category');
+
 		return true;
 	}
 
@@ -259,6 +261,8 @@ class Categories
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update categories set $setUpdates where $whereQuery $addWhere");
+
+		DBCache::removeDir('system/category');
 
 		if(!$error=Database::hasError())
 		{

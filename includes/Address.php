@@ -46,7 +46,7 @@ class Address
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/address');
 
 			if($loadCache!=false)
 			{
@@ -91,7 +91,7 @@ class Address
 		}
 
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		DBCache::make(md5($queryCMD),$result,'system/address');
 		// end save
 
 
@@ -177,6 +177,8 @@ class Address
 
 		Database::query($command);	
 
+		DBCache::removeDir('system/address');
+
 		return true;
 	}
 
@@ -213,6 +215,8 @@ class Address
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update address set $setUpdates where $whereQuery $addWhere");
+
+		DBCache::removeDir('system/address');
 
 		if(!$error=Database::hasError())
 		{

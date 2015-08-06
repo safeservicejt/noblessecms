@@ -46,7 +46,7 @@ class Links
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/link');
 
 
 			if($loadCache!=false)
@@ -100,7 +100,7 @@ class Links
 		}
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		DBCache::make(md5($queryCMD),$result,'system/link');
 		// end save
 
 
@@ -206,7 +206,9 @@ class Links
 
 		$command="delete from links where $whereQuery $addWhere";
 
-		Database::query($command);	
+		Database::query($command);
+
+		DBCache::removeDir('system/link');
 
 		return true;
 	}
@@ -253,6 +255,8 @@ class Links
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update links set $setUpdates where $whereQuery $addWhere");
+
+		DBCache::removeDir('system/link');
 
 		if(!$error=Database::hasError())
 		{

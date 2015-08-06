@@ -247,7 +247,7 @@ class Contactus
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update contactus set $setUpdates where $whereQuery $addWhere");
-
+		
 		if(!$error=Database::hasError())
 		{
 			return true;

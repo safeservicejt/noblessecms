@@ -46,7 +46,7 @@ class Post
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/post');
 
 			if($loadCache!=false)
 			{
@@ -112,7 +112,7 @@ class Post
 		}
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		DBCache::make(md5($queryCMD),$result,'system/post');
 		// end save
 
 
@@ -255,6 +255,8 @@ class Post
 
 		Database::query($command);	
 
+		DBCache::removeDir('system/post');
+
 		return true;
 	}
 
@@ -315,6 +317,8 @@ class Post
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update post set $setUpdates where $whereQuery $addWhere");
+
+		DBCache::removeDir('system/post');
 
 		if(!$error=Database::hasError())
 		{

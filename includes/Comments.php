@@ -46,7 +46,7 @@ class Comments
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/comment');
 
 			if($loadCache!=false)
 			{
@@ -97,7 +97,7 @@ class Comments
 		}
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		DBCache::make(md5($queryCMD),$result,'system/comment');
 		// end save
 
 
@@ -204,7 +204,9 @@ class Comments
 
 		$command="delete from comments where $whereQuery $addWhere";
 
-		Database::query($command);	
+		Database::query($command);
+
+		DBCache::removeDir('system/comment');
 
 		return true;
 	}
@@ -248,6 +250,8 @@ class Comments
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update comments set $setUpdates where $whereQuery $addWhere");
+
+		DBCache::removeDir('system/comment');
 
 		if(!$error=Database::hasError())
 		{

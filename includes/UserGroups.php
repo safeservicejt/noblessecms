@@ -47,7 +47,7 @@ class UserGroups
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/usergroup');
 
 			if($loadCache!=false)
 			{
@@ -87,7 +87,7 @@ class UserGroups
 		}
 
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		DBCache::make(md5($queryCMD),$result,'system/usergroup');
 		// end save
 
 		return $result;
@@ -401,6 +401,8 @@ class UserGroups
 
 		Database::query($command);	
 
+		DBCache::removeDir('system/usergroup');
+
 		for ($i=0; $i < $total; $i++) { 
 
 			$id=$post[$i];
@@ -449,6 +451,8 @@ class UserGroups
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update usergroups set $setUpdates where $whereQuery $addWhere");
+
+		DBCache::removeDir('system/usergroup');
 
 		if(!$error=Database::hasError())
 		{

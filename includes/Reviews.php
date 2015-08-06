@@ -46,7 +46,7 @@ class Reviews
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/review');
 
 			if($loadCache!=false)
 			{
@@ -93,7 +93,7 @@ class Reviews
 		}
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		DBCache::make(md5($queryCMD),$result,'system/review');
 		// end save
 
 
@@ -207,6 +207,8 @@ class Reviews
 
 		Database::query($command);	
 
+		DBCache::removeDir('system/review');
+
 		return true;
 	}
 
@@ -251,6 +253,8 @@ class Reviews
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update reviews set $setUpdates where $whereQuery $addWhere");
+
+		DBCache::removeDir('system/review');
 
 		if(!$error=Database::hasError())
 		{

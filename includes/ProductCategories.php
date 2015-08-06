@@ -46,7 +46,7 @@ class ProductCategories
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/productcategory');
 
 			if($loadCache!=false)
 			{
@@ -81,7 +81,7 @@ class ProductCategories
 
 
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		DBCache::make(md5($queryCMD),$result,'system/productcategory');
 		// end save
 
 
@@ -167,6 +167,8 @@ class ProductCategories
 
 		Database::query($command);	
 
+		DBCache::removeDir('system/productcategory');
+
 		return true;
 	}
 
@@ -203,6 +205,8 @@ class ProductCategories
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update products_categories set $setUpdates where $whereQuery $addWhere");
+
+		DBCache::removeDir('system/productcategory');
 
 		if(!$error=Database::hasError())
 		{

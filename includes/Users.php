@@ -46,7 +46,7 @@ class Users
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/user');
 
 			if($loadCache!=false)
 			{
@@ -87,7 +87,7 @@ class Users
 		}
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		DBCache::make(md5($queryCMD),$result,'system/user');
 		// end save
 
 
@@ -586,6 +586,8 @@ class Users
 
 		Database::query($command);	
 
+		DBCache::removeDir('system/user');
+
 		return true;
 	}
 
@@ -622,6 +624,8 @@ class Users
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update users set $setUpdates where $whereQuery $addWhere");
+
+		DBCache::removeDir('system/user');
 
 		if(!$error=Database::hasError())
 		{

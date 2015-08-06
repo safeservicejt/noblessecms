@@ -46,7 +46,7 @@ class Manufacturers
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/manufacturer');
 
 			if($loadCache!=false)
 			{
@@ -88,7 +88,7 @@ class Manufacturers
 
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		DBCache::make(md5($queryCMD),$result,'system/manufacturer');
 		// end save
 
 
@@ -182,6 +182,8 @@ class Manufacturers
 
 		Database::query($command);	
 
+		DBCache::removeDir('system/manufacturer');
+
 		return true;
 	}
 
@@ -222,6 +224,8 @@ class Manufacturers
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update manufacturers set $setUpdates where $whereQuery $addWhere");
+
+		DBCache::removeDir('system/manufacturer');
 
 		if(!$error=Database::hasError())
 		{

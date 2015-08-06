@@ -46,7 +46,7 @@ class PostTags
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=DBCache::get($queryCMD,$cacheTime,'system//posttag');
 
 			if($loadCache!=false)
 			{
@@ -89,7 +89,7 @@ class PostTags
 
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		DBCache::make(md5($queryCMD),$result,'system/posttag');
 		// end save
 
 
@@ -237,6 +237,8 @@ class PostTags
 
 		Database::query($command);	
 
+		DBCache::removeDir('system/posttag');
+
 		return true;
 	}
 
@@ -277,6 +279,8 @@ class PostTags
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update post_tags set $setUpdates where $whereQuery $addWhere");
+
+		DBCache::removeDir('system/posttag');
 
 		if(!$error=Database::hasError())
 		{

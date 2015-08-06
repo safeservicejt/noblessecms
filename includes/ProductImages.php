@@ -46,7 +46,7 @@ class ProductImages
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/productimage');
 
 			if($loadCache!=false)
 			{
@@ -88,7 +88,7 @@ class ProductImages
 		}
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		DBCache::make(md5($queryCMD),$result,'system/productimage');
 		// end save
 
 
@@ -140,6 +140,8 @@ class ProductImages
 		}		
 
 		Database::query("insert into products_images($insertKeys) values".$addMultiAgrs);
+
+		DBCache::removeDir('system/productimage');
 
 		if(!$error=Database::hasError())
 		{
@@ -237,6 +239,8 @@ class ProductImages
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update products_images set $setUpdates where $whereQuery $addWhere");
+
+		DBCache::removeDir('system/productimage');
 
 		if(!$error=Database::hasError())
 		{
