@@ -18,6 +18,7 @@ class themePage
 		$friendly_url=addslashes($match[1]);
 
 		$loadData=Pages::get(array(
+			'cacheTime'=>-1,
 			'where'=>"where friendly_url='$friendly_url'"
 			));
 

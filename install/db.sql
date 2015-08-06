@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2015 at 06:04 PM
+-- Generation Time: Aug 06, 2015 at 06:48 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -739,8 +739,7 @@ INSERT INTO `post` (`postid`, `title`, `catid`, `userid`, `parentid`, `image`, `
 (4, 'test 5', 20, 1, 0, NULL, 0, '2015-06-03 06:43:39', 39, '[p]Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.[/p]', 'normal', '', 'Lorem_Ipsum_is_simply', 0, NULL, NULL, 5, 1, 1),
 (5, 'test 4', 20, 1, 0, NULL, 0, '2015-06-03 10:23:59', 17, '[p]rd dummy text ever since the 1500s, when an[/p]\r\n\r\n[p][img]https://s-media-cache-ak0.pinimg.com/236x/f0/64/a6/f064a6b4f57e9d05b5f97b8e2e5a8dfb.jpg[/img][/p]\r\n\r\n[p]unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu[/p]', 'normal', '', 'Lorem_Ipsum_is_simply_3434', 0, NULL, NULL, 5, 1, 1),
 (6, 'test 3', 20, 1, 0, NULL, 0, '2015-06-03 10:24:07', 23, '[p]rd dummy text ever s[/p]\r\n\r\n[p][img]https://s-media-cache-ak0.pinimg.com/236x/f0/64/a6/f064a6b4f57e9d05b5f97b8e2e5a8dfb.jpg[/img][/p]\r\n\r\n[p]ince the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu[/p]', 'normal', '', 'Lorem_Ipsum_is_simply435545', 0, NULL, NULL, 5, 1, 1),
-(7, 'test 2', 20, 1, 0, NULL, 0, '2015-06-03 10:24:14', 142, '[p]rd dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was po[/p]\r\n\r\n[p][img]https://s-media-cache-ak0.pinimg.com/236x/f0/64/a6/f064a6b4f57e9d05b5f97b8e2e5a8dfb.jpg[/img][/p]\r\n\r\n[p]pularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu[/p]', 'normal', '', 'Lorem_Ip343434sum_is_simply', 0, NULL, NULL, 5, 1, 1),
-(8, 'test post 1', 20, 1, 0, NULL, 0, '2015-06-03 10:24:21', 274, '[p][p][p][p][p]fdf545dfrd56677 dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only[/p][/p] [p][p][img]https://s-media-cache-ak0.pinimg.com/236x/f0/64/a6/f064a6b4f57e9d05b5f97b8e2e5a8dfb.jpg[/img][/p][/p] [p][p]five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu[/p][/p] [p][/p][/p][/p]\r\n\r\n[p][icon:search][/p]', 'normal', 'this keywords, test post 1', 'test-post-1', 0, NULL, NULL, 5, 1, 1);
+(7, 'test 2', 20, 1, 0, NULL, 0, '2015-06-03 10:24:14', 144, '[p]rd dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was po[/p]\r\n\r\n[p][img]https://s-media-cache-ak0.pinimg.com/236x/f0/64/a6/f064a6b4f57e9d05b5f97b8e2e5a8dfb.jpg[/img][/p]\r\n\r\n[p]pularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu[/p]', 'normal', '', 'Lorem_Ip343434sum_is_simply', 0, NULL, NULL, 5, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -798,8 +797,7 @@ INSERT INTO `post_tags` (`tagid`, `title`, `postid`) VALUES
 (140, '', 4),
 (148, '', 7),
 (149, '', 6),
-(150, '', 5),
-(162, '', 8);
+(150, '', 5);
 
 -- --------------------------------------------------------
 

@@ -28,6 +28,7 @@ class themeTag
 		$loadData=Post::get(array(
 			'limitShow'=>10,
 			'limitPage'=>$curPage,
+			'cacheTime'=>-1,
 			'where'=>"where postid IN (select postid from post_tags where title='$friendly_url')",
 			'orderby'=>"order by postid desc"
 			));

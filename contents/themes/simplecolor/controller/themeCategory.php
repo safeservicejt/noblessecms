@@ -28,6 +28,7 @@ class themeCategory
 		$loadData=Post::get(array(
 			'limitShow'=>2,
 			'limitPage'=>$curPage,
+			'cacheTime'=>-1,
 			'query'=>"select p.*,c.title as cattitle from post p,categories c where c.friendly_url='$friendly_url' AND p.catid=c.catid order by p.postid desc"
 			));
 		if(!isset($loadData[0]['postid']))

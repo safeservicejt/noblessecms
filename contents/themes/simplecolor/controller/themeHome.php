@@ -21,7 +21,8 @@ class themeHome
 
 		$inputData['newPost']=Post::get(array(
 			'limitShow'=>2,
-			'limitPage'=>$curPage
+			'limitPage'=>$curPage,
+			'cacheTime'=>-1
 			));
 
 		if(!isset($inputData['newPost'][0]['postid']))

@@ -29,6 +29,7 @@ function loginProcess()
 		throw new Exception($e->getMessage());
 	}
 
+
 	Redirect::to(ADMINCP_URL);
 }
 
