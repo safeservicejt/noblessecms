@@ -1,4 +1,4 @@
-Noblesse CMS is a modern and lightweight Content Management System. Faster more than 70% -> 250% others system!
+Noblesse CMS is a modern and lightweight Content Management System. Faster more than 300% -> 500% others system!
 
 Homepage: http://noblessecms.com/
 
