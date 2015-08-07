@@ -112,7 +112,22 @@ class Post
 		}
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result,'system/post');
+		$addPostid='';
+
+		$saveName='';
+
+		if(!isset($result[1]) && isset($result[0]['postid']))
+		{
+			$saveName=$addPostid.'_'.md5($queryCMD);
+		}
+		else
+		{
+			$saveName=md5($queryCMD);
+		}
+
+		DBCache::make($saveName,$result,'system/post');
+
+		DBCache::makeIDCache($saveName,$result,'postid','system/post');
 		// end save
 
 
@@ -255,7 +270,9 @@ class Post
 
 		Database::query($command);	
 
-		DBCache::removeDir('system/post');
+		// DBCache::removeDir('system/post');
+
+		DBCache::removeCache($listID,'system/post');
 
 		return true;
 	}
@@ -318,7 +335,10 @@ class Post
 
 		Database::query("update post set $setUpdates where $whereQuery $addWhere");
 
-		DBCache::removeDir('system/post');
+		// DBCache::removeDir('system/post');
+
+		DBCache::removeCache($listIDs,'system/post');
+
 
 		if(!$error=Database::hasError())
 		{

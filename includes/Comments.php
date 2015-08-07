@@ -206,7 +206,9 @@ class Comments
 
 		Database::query($command);
 
-		DBCache::removeDir('system/comment');
+		// DBCache::removeDir('system/comment');
+		
+		DBCache::removeCache($listID,'system/comment');
 
 		return true;
 	}
@@ -251,7 +253,9 @@ class Comments
 
 		Database::query("update comments set $setUpdates where $whereQuery $addWhere");
 
-		DBCache::removeDir('system/comment');
+		// DBCache::removeDir('system/comment');
+
+		DBCache::removeCache($listIDs,'system/comment');
 
 		if(!$error=Database::hasError())
 		{

@@ -381,7 +381,9 @@ class Products
 
 		Database::query($command);
 
-		DBCache::removeDir('system/product');
+		// DBCache::removeDir('system/product');
+		
+		DBCache::removeCache($listID,'system/product');
 
 		ProductDownloads::remove($post);
 
@@ -452,7 +454,9 @@ class Products
 
 		Database::query("update products set $setUpdates where $whereQuery $addWhere");
 
-		DBCache::removeDir('system/product');
+		// DBCache::removeDir('system/product');
+
+		DBCache::removeCache($listIDs,'system/product');
 
 		if(!$error=Database::hasError())
 		{

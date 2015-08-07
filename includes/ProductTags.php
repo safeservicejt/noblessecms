@@ -177,7 +177,9 @@ class ProductTags
 
 		Database::query($command);	
 
-		DBCache::removeDir('system/producttag');
+		// DBCache::removeDir('system/producttag');
+		
+		DBCache::removeCache($listID,'system/producttag');
 
 		return true;
 	}
@@ -220,7 +222,9 @@ class ProductTags
 
 		Database::query("update products_tags set $setUpdates where $whereQuery $addWhere");
 
-		DBCache::removeDir('system/producttag');
+		// DBCache::removeDir('system/producttag');
+
+		DBCache::removeCache($listIDs,'system/producttag');
 
 		if(!$error=Database::hasError())
 		{

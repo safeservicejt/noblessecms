@@ -586,7 +586,9 @@ class Users
 
 		Database::query($command);	
 
-		DBCache::removeDir('system/user');
+		// DBCache::removeDir('system/user');
+		
+		DBCache::removeCache($listID,'system/user');
 
 		return true;
 	}
@@ -625,7 +627,9 @@ class Users
 
 		Database::query("update users set $setUpdates where $whereQuery $addWhere");
 
-		DBCache::removeDir('system/user');
+		// DBCache::removeDir('system/user');
+
+		DBCache::removeCache($listIDs,'system/user');
 
 		if(!$error=Database::hasError())
 		{

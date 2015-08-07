@@ -401,7 +401,9 @@ class UserGroups
 
 		Database::query($command);	
 
-		DBCache::removeDir('system/usergroup');
+		// DBCache::removeDir('system/usergroup');
+		
+		DBCache::removeCache($listID,'system/usergroup');
 
 		for ($i=0; $i < $total; $i++) { 
 
@@ -452,7 +454,9 @@ class UserGroups
 
 		Database::query("update usergroups set $setUpdates where $whereQuery $addWhere");
 
-		DBCache::removeDir('system/usergroup');
+		// DBCache::removeDir('system/usergroup');
+
+		DBCache::removeCache($listIDs,'system/usergroup');
 
 		if(!$error=Database::hasError())
 		{

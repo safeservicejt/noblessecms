@@ -202,6 +202,8 @@ class ProductImages
 		}
 
 		Database::query($command);	
+		
+		DBCache::removeCache($listID,'system/productimage');
 
 		return true;
 	}
@@ -240,7 +242,9 @@ class ProductImages
 
 		Database::query("update products_images set $setUpdates where $whereQuery $addWhere");
 
-		DBCache::removeDir('system/productimage');
+		// DBCache::removeDir('system/productimage');
+
+		DBCache::removeCache($listIDs,'system/productimage');
 
 		if(!$error=Database::hasError())
 		{

@@ -235,7 +235,9 @@ class Pages
 
 		Database::query($command);	
 
-		DBCache::removeDir('system/page');
+		// DBCache::removeDir('system/page');
+		
+		DBCache::removeCache($listID,'system/page');
 
 		return true;
 	}
@@ -298,7 +300,9 @@ class Pages
 
 		Database::query("update pages set $setUpdates where $whereQuery $addWhere");
 
-		DBCache::removeDir('system/page');
+		// DBCache::removeDir('system/page');
+
+		DBCache::removeCache($listIDs,'system/page');
 
 		if(!$error=Database::hasError())
 		{

@@ -207,7 +207,9 @@ class Reviews
 
 		Database::query($command);	
 
-		DBCache::removeDir('system/review');
+		// DBCache::removeDir('system/review');
+		
+		DBCache::removeCache($listID,'system/review');
 
 		return true;
 	}
@@ -254,7 +256,9 @@ class Reviews
 
 		Database::query("update reviews set $setUpdates where $whereQuery $addWhere");
 
-		DBCache::removeDir('system/review');
+		// DBCache::removeDir('system/review');
+
+		DBCache::removeCache($listIDs,'system/review');
 
 		if(!$error=Database::hasError())
 		{

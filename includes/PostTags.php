@@ -237,7 +237,9 @@ class PostTags
 
 		Database::query($command);	
 
-		DBCache::removeDir('system/posttag');
+		// DBCache::removeDir('system/posttag');
+		
+		DBCache::removeCache($listID,'system/posttag');
 
 		return true;
 	}
@@ -280,7 +282,9 @@ class PostTags
 
 		Database::query("update post_tags set $setUpdates where $whereQuery $addWhere");
 
-		DBCache::removeDir('system/posttag');
+		// DBCache::removeDir('system/posttag');
+
+		DBCache::removeCache($listIDs,'system/posttag');
 
 		if(!$error=Database::hasError())
 		{

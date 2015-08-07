@@ -182,7 +182,9 @@ class Manufacturers
 
 		Database::query($command);	
 
-		DBCache::removeDir('system/manufacturer');
+		// DBCache::removeDir('system/manufacturer');
+		
+		DBCache::removeCache($listID,'system/manufacturer');
 
 		return true;
 	}
@@ -225,7 +227,9 @@ class Manufacturers
 
 		Database::query("update manufacturers set $setUpdates where $whereQuery $addWhere");
 
-		DBCache::removeDir('system/manufacturer');
+		// DBCache::removeDir('system/manufacturer');
+
+		DBCache::removeCache($listIDs,'system/manufacturer');
 
 		if(!$error=Database::hasError())
 		{

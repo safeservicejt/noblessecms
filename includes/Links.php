@@ -208,7 +208,9 @@ class Links
 
 		Database::query($command);
 
-		DBCache::removeDir('system/link');
+		// DBCache::removeDir('system/link');
+		
+		DBCache::removeCache($listID,'system/link');
 
 		return true;
 	}
@@ -256,7 +258,9 @@ class Links
 
 		Database::query("update links set $setUpdates where $whereQuery $addWhere");
 
-		DBCache::removeDir('system/link');
+		// DBCache::removeDir('system/link');
+
+		DBCache::removeCache($listIDs,'system/link');
 
 		if(!$error=Database::hasError())
 		{

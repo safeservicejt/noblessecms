@@ -208,7 +208,9 @@ class Categories
 
 		Database::query($command);	
 
-		DBCache::removeDir('system/category');
+		// DBCache::removeDir('system/category');
+		
+		DBCache::removeCache($listID,'system/category');
 
 		return true;
 	}
@@ -262,7 +264,9 @@ class Categories
 
 		Database::query("update categories set $setUpdates where $whereQuery $addWhere");
 
-		DBCache::removeDir('system/category');
+		// DBCache::removeDir('system/category');
+
+		DBCache::removeCache($listIDs,'system/category');
 
 		if(!$error=Database::hasError())
 		{

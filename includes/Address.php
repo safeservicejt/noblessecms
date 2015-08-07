@@ -177,7 +177,9 @@ class Address
 
 		Database::query($command);	
 
-		DBCache::removeDir('system/address');
+		// DBCache::removeDir('system/address');
+		
+		DBCache::removeCache($listID,'system/address');
 
 		return true;
 	}
@@ -216,7 +218,9 @@ class Address
 
 		Database::query("update address set $setUpdates where $whereQuery $addWhere");
 
-		DBCache::removeDir('system/address');
+		// DBCache::removeDir('system/address');
+
+		DBCache::removeCache($listIDs,'system/address');
 
 		if(!$error=Database::hasError())
 		{
