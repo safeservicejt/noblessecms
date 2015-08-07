@@ -41,7 +41,7 @@ class UserGroups
 
 		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
 		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
 		if($cache=='yes')
 		{
@@ -87,7 +87,22 @@ class UserGroups
 		}
 
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result,'system/usergroup');
+		$addPostid='';
+
+		$saveName='';
+
+		if(!isset($result[1]) && isset($result[0]['groupid']))
+		{
+			$saveName=$addPostid.'_'.md5($queryCMD);
+		}
+		else
+		{
+			$saveName=md5($queryCMD);
+		}
+
+		DBCache::make($saveName,$result,'system/usergroup');
+
+		DBCache::makeIDCache($saveName,$result,'groupid','system/usergroup');		
 		// end save
 
 		return $result;
@@ -359,6 +374,8 @@ class UserGroups
 		}		
 
 		Database::query("insert into usergroups($insertKeys) values".$addMultiAgrs);
+
+		DBCache::removeDir('system/usergroup');
 
 		if(!$error=Database::hasError())
 		{

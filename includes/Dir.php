@@ -94,7 +94,9 @@ class Dir
 
                 if(!is_dir($megerPath))
                 {
-                    mkdir($megerPath);     
+                    mkdir($megerPath); 
+
+                    File::create($megerPath.'/index.html','');
                 }
 
  
@@ -104,6 +106,8 @@ class Dir
         else
         {
             mkdir($dirPath);
+
+            File::create($dirPath.'/index.html','');
         }
   
     }

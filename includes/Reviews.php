@@ -40,7 +40,7 @@ class Reviews
 
 		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
 		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
 		if($cache=='yes')
 		{
@@ -93,7 +93,22 @@ class Reviews
 		}
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result,'system/review');
+		$addPostid='';
+
+		$saveName='';
+
+		if(!isset($result[1]) && isset($result[0]['reviewid']))
+		{
+			$saveName=$addPostid.'_'.md5($queryCMD);
+		}
+		else
+		{
+			$saveName=md5($queryCMD);
+		}
+
+		DBCache::make($saveName,$result,'system/review');
+
+		DBCache::makeIDCache($saveName,$result,'reviewid','system/review');		
 		// end save
 
 
@@ -170,6 +185,8 @@ class Reviews
 		}		
 
 		Database::query("insert into reviews($insertKeys) values".$addMultiAgrs);
+
+		DBCache::removeDir('system/review');
 
 		if(!$error=Database::hasError())
 		{

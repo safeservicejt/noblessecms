@@ -40,7 +40,7 @@ class Manufacturers
 
 		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
 		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
 		if($cache=='yes')
 		{
@@ -88,7 +88,22 @@ class Manufacturers
 
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result,'system/manufacturer');
+		$addPostid='';
+
+		$saveName='';
+
+		if(!isset($result[1]) && isset($result[0]['mid']))
+		{
+			$saveName=$addPostid.'_'.md5($queryCMD);
+		}
+		else
+		{
+			$saveName=md5($queryCMD);
+		}
+
+		DBCache::make($saveName,$result,'system/manufacturer');
+
+		DBCache::makeIDCache($saveName,$result,'mid','system/manufacturer');		
 		// end save
 
 

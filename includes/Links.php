@@ -40,7 +40,7 @@ class Links
 
 		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
 		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
 		if($cache=='yes')
 		{
@@ -100,7 +100,22 @@ class Links
 		}
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result,'system/link');
+		$addPostid='';
+
+		$saveName='';
+
+		if(!isset($result[1]) && isset($result[0]['id']))
+		{
+			$saveName=$addPostid.'_'.md5($queryCMD);
+		}
+		else
+		{
+			$saveName=md5($queryCMD);
+		}
+
+		DBCache::make($saveName,$result,'system/link');
+
+		DBCache::makeIDCache($saveName,$result,'id','system/link');		
 		// end save
 
 
@@ -171,6 +186,8 @@ class Links
 		}		
 
 		Database::query("insert into links($insertKeys) values".$addMultiAgrs);
+
+		DBCache::removeDir('system/link');
 
 		if(!$error=Database::hasError())
 		{

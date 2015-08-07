@@ -40,13 +40,13 @@ class PostTags
 
 		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
 		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime,'system//posttag');
+			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/posttag');
 
 			if($loadCache!=false)
 			{
@@ -89,7 +89,22 @@ class PostTags
 
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result,'system/posttag');
+		$addPostid='';
+
+		$saveName='';
+
+		if(!isset($result[1]) && isset($result[0]['tagid']))
+		{
+			$saveName=$addPostid.'_'.md5($queryCMD);
+		}
+		else
+		{
+			$saveName=md5($queryCMD);
+		}
+
+		DBCache::make($saveName,$result,'system/posttag');
+
+		DBCache::makeIDCache($saveName,$result,'tagid','system/posttag');		
 		// end save
 
 
@@ -200,6 +215,8 @@ class PostTags
 		}		
 
 		Database::query("insert into post_tags($insertKeys) values".$addMultiAgrs);
+
+		DBCache::removeDir('system/posttag');
 
 		if(!$error=Database::hasError())
 		{

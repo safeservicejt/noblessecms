@@ -40,7 +40,7 @@ class ProductPages
 
 		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
 		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
 		if($cache=='yes')
 		{
@@ -82,6 +82,7 @@ class ProductPages
 		
 		// Save dbcache
 		DBCache::make(md5($queryCMD),$result);
+		
 		// end save
 
 

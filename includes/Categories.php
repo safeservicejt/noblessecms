@@ -91,7 +91,22 @@ class Categories
 		}
 
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result,'system/category');
+		$addPostid='';
+
+		$saveName='';
+
+		if(!isset($result[1]) && isset($result[0]['catid']))
+		{
+			$saveName=$addPostid.'_'.md5($queryCMD);
+		}
+		else
+		{
+			$saveName=md5($queryCMD);
+		}
+
+		DBCache::make($saveName,$result,'system/category');
+
+		DBCache::makeIDCache($saveName,$result,'catid','system/category');		
 		// end save
 
 
@@ -171,6 +186,8 @@ class Categories
 		}		
 
 		Database::query("insert into categories($insertKeys) values".$addMultiAgrs);
+
+		DBCache::removeDir('system/category');
 
 		if(!$error=Database::hasError())
 		{

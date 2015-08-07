@@ -40,7 +40,7 @@ class Address
 
 		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
 		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
 		if($cache=='yes')
 		{
@@ -91,7 +91,22 @@ class Address
 		}
 
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result,'system/address');
+		$addPostid='';
+
+		$saveName='';
+
+		if(!isset($result[1]) && isset($result[0]['userid']))
+		{
+			$saveName=$addPostid.'_'.md5($queryCMD);
+		}
+		else
+		{
+			$saveName=md5($queryCMD);
+		}
+
+		DBCache::make($saveName,$result,'system/address');
+
+		DBCache::makeIDCache($saveName,$result,'userid','system/address');		
 		// end save
 
 
@@ -140,6 +155,8 @@ class Address
 		}		
 
 		Database::query("insert into address($insertKeys) values".$addMultiAgrs);
+
+		DBCache::removeDir('system/address');
 
 		if(!$error=Database::hasError())
 		{

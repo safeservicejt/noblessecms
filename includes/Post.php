@@ -40,7 +40,7 @@ class Post
 
 		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
 		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
 		if($cache=='yes')
 		{
@@ -50,6 +50,7 @@ class Post
 
 			if($loadCache!=false)
 			{
+
 				return $loadCache;
 			}
 
@@ -233,6 +234,9 @@ class Post
 		}		
 
 		Database::query("insert into post($insertKeys) values".$addMultiAgrs);
+
+		DBCache::removeDir('system/post');
+		
 
 		if(!$error=Database::hasError())
 		{

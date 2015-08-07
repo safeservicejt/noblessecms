@@ -40,13 +40,13 @@ class ProductDownloads
 
 		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
 		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/productdownload');
 
 			if($loadCache!=false)
 			{
@@ -81,7 +81,23 @@ class ProductDownloads
 
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		// DBCache::make(md5($queryCMD),$result);
+		$addPostid='';
+
+		$saveName='';
+
+		if(!isset($result[1]) && isset($result[0]['postid']))
+		{
+			$saveName=$addPostid.'_'.md5($queryCMD);
+		}
+		else
+		{
+			$saveName=md5($queryCMD);
+		}
+
+		DBCache::make($saveName,$result,'system/productdownload');
+
+		DBCache::makeIDCache($saveName,$result,'postid','system/productdownload');		
 		// end save
 
 
@@ -130,6 +146,8 @@ class ProductDownloads
 
 		Database::query("insert into products_downloads($insertKeys) values".$addMultiAgrs);
 
+		DBCache::removeDir('system/productdownload');
+
 		if(!$error=Database::hasError())
 		{
 			$id=Database::insert_id();
@@ -163,6 +181,8 @@ class ProductDownloads
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		$command="delete from products_downloads where $whereQuery $addWhere";
+		
+		DBCache::removeCache($listID,'system/productdownload');
 
 		Database::query($command);	
 
@@ -202,6 +222,8 @@ class ProductDownloads
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
 		Database::query("update products_downloads set $setUpdates where $whereQuery $addWhere");
+
+		DBCache::removeCache($listIDs,'system/productdownload');
 
 		if(!$error=Database::hasError())
 		{

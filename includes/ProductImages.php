@@ -40,7 +40,7 @@ class ProductImages
 
 		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
 		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
 		if($cache=='yes')
 		{
@@ -88,7 +88,22 @@ class ProductImages
 		}
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result,'system/productimage');
+		$addPostid='';
+
+		$saveName='';
+
+		if(!isset($result[1]) && isset($result[0]['productid']))
+		{
+			$saveName=$addPostid.'_'.md5($queryCMD);
+		}
+		else
+		{
+			$saveName=md5($queryCMD);
+		}
+
+		DBCache::make($saveName,$result,'system/productimage');
+
+		DBCache::makeIDCache($saveName,$result,'productid','system/productimage');		
 		// end save
 
 

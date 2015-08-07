@@ -40,7 +40,7 @@ class ProductTags
 
 		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
 		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
 		if($cache=='yes')
 		{
@@ -85,7 +85,22 @@ class ProductTags
 
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result,'system/producttag');
+		$addPostid='';
+
+		$saveName='';
+
+		if(!isset($result[1]) && isset($result[0]['tagid']))
+		{
+			$saveName=$addPostid.'_'.md5($queryCMD);
+		}
+		else
+		{
+			$saveName=md5($queryCMD);
+		}
+
+		DBCache::make($saveName,$result,'system/producttag');
+
+		DBCache::makeIDCache($saveName,$result,'tagid','system/producttag');		
 		// end save
 
 
@@ -140,6 +155,8 @@ class ProductTags
 		}		
 
 		Database::query("insert into products_tags($insertKeys) values".$addMultiAgrs);
+
+		DBCache::removeDir('system/producttag');
 
 		if(!$error=Database::hasError())
 		{

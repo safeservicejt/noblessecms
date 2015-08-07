@@ -40,7 +40,7 @@ class Products
 
 		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
 		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
 		if($cache=='yes')
 		{
@@ -108,7 +108,22 @@ class Products
 		}
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result,'system/product');
+		$addPostid='';
+
+		$saveName='';
+
+		if(!isset($result[1]) && isset($result[0]['productid']))
+		{
+			$saveName=$addPostid.'_'.md5($queryCMD);
+		}
+		else
+		{
+			$saveName=md5($queryCMD);
+		}
+
+		DBCache::make($saveName,$result,'system/product');
+
+		DBCache::makeIDCache($saveName,$result,'productid','system/product');		
 		// end save
 
 
@@ -318,6 +333,8 @@ class Products
 		}		
 
 		Database::query("insert into products($insertKeys) values".$addMultiAgrs);
+
+		DBCache::removeDir('system/product');
 
 		if(!$error=Database::hasError())
 		{

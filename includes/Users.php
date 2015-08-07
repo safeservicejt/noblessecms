@@ -40,7 +40,7 @@ class Users
 
 		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
 		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
 		if($cache=='yes')
 		{
@@ -87,7 +87,22 @@ class Users
 		}
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result,'system/user');
+		$addPostid='';
+
+		$saveName='';
+
+		if(!isset($result[1]) && isset($result[0]['userid']))
+		{
+			$saveName=$addPostid.'_'.md5($queryCMD);
+		}
+		else
+		{
+			$saveName=md5($queryCMD);
+		}
+
+		DBCache::make($saveName,$result,'system/user');
+
+		DBCache::makeIDCache($saveName,$result,'userid','system/user');		
 		// end save
 
 
@@ -549,6 +564,8 @@ class Users
 		}		
 
 		Database::query("insert into users($insertKeys) values".$addMultiAgrs);
+
+		DBCache::removeDir('system/user');
 
 		if(!$error=Database::hasError())
 		{
