@@ -65,9 +65,51 @@ class DBCache
 
 	public function removeDir($path='')
 	{
-		$path=CACHES_PATH.'dbcache/'.$path;
+		// $path=CACHES_PATH.'dbcache/'.$path;
 
-		Dir::remove($path);
+		// Dir::remove($path);
+
+		self::removeMulti($path);
+	}
+
+	public function removeMulti($path='')
+	{
+
+		$realPath=CACHES_PATH.'dbcache/'.$path.'/';
+
+		$path=$realPath.'multi_*';
+
+		$result=glob($path);
+
+		// print_r($result);die();
+
+		if(isset($result[0]))
+		{
+			$total=count($result);
+
+			for ($i=0; $i < $total; $i++) { 
+
+				$filePath=$result[$i];
+
+			
+
+				if(preg_match('/\/multi_(.*?)$/i', $filePath,$match))
+				{
+					$dataPath=$realPath.$match[1];
+					
+					// die($dataPath);
+
+					if(file_exists($dataPath) && !is_dir($dataPath))
+					{
+						unlink($dataPath);
+					}
+				}
+
+				unlink($result[$i]);
+			}
+		}
+
+		// Dir::remove($path);
 	}
 
 
@@ -112,6 +154,13 @@ class DBCache
 							{
 								unlink($dataPath);
 							}
+
+							$multiPath=$matchPath[2].'multi_'.$matchPath[3];
+
+							if(file_exists($multiPath))
+							{
+								unlink($multiPath);
+							}
 						}
 
 						unlink($result[$j]);
@@ -144,6 +193,9 @@ class DBCache
 			}
 		}
 
+		$savePath='dbcache/'.$addPath.'/multi_'.$keyName;
+
+		Cache::saveKey($savePath,'');
 	}
 
 	public function make($keyName,$inputData=array(),$addPath='')
