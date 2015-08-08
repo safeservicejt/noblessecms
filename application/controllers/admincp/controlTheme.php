@@ -50,7 +50,7 @@ class controlTheme
 
 		$post['theme']=Theme::getDefault();
 
-		System::setTitle('Post list - '.ADMINCP_TITLE);
+		System::setTitle('Theme list - '.ADMINCP_TITLE);
 
 		View::make('admincp/head');
 

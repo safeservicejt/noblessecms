@@ -2,7 +2,14 @@
 
 class Lang
 {
+	/*
+	
+	Lang::set('en');
 
+	$text=Lang::get('admincp/login.title');
+
+
+	*/
 	private static $lang=array();
 
 	public static $data=array();
@@ -42,6 +49,11 @@ class Lang
     	self::resetPath();
 
     	return $result;
+    }
+
+    public function set($lang)
+    {
+    	App::setLocale($lang);
     }
 
 	public function get($keyName,$addOns=array())
@@ -147,10 +159,6 @@ class Lang
 
 	}
 
-	public function set($lang)
-	{
-		App::setLocale($lang);
-	}
 
 	public function has($keyName)
 	{

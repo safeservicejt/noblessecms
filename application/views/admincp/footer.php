@@ -21,6 +21,24 @@
     </div>
     <!-- /#wrapper -->
 
+    <script type="text/javascript">
+
+    var control='<?php if($match=Uri::match("admincp\/(\w+)")){ echo $match[1];} ?>';
+
+    $(document).ready(function(){
+        var target='li-'+control;
+
+        if($('.'+target).length==1)
+        {
+            $('.'+target).children('a').removeClass('collapsed').attr('aria-expanded','true');
+            $('.'+target).children('ul').removeClass('collapse').addClass('collapse in').attr('aria-expanded','true');
+      
+        }
+
+
+    });
+    </script>
+
 
     <!-- Bootstrap Core JavaScript -->
     <script src="<?php echo ROOT_URL;?>bootstrap/sbnoblesse/js/bootstrap.min.js"></script>

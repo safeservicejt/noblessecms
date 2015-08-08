@@ -1,1 +1,0 @@
-[{"text":"FireManga","filename":"load.php","child_menu":[{"text":"Manga List","filename":"controller\/controlManga.php"},{"text":"Chapter List","filename":"controller\/controlChapter.php"},{"text":"Auto Leech","filename":"controller\/controlLeech.php"}],"foldername":"firemanga","metaid":1,"zonename":"admin_left_menu","status":"1"}]

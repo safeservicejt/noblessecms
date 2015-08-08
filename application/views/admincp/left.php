@@ -133,7 +133,7 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li>
+                    <li class="li-dashboard">
                         <a href="<?php echo ADMINCP_URL;?>"><span class="glyphicon glyphicon-globe"></span> Dashboard</a></a>
                     </li>
                    <!--  <li>
@@ -156,11 +156,11 @@
 
                         </ul>
                     </li>  -->                   
-                    <li>
+                    <li class="li-categories">
                         <a href="<?php echo ADMINCP_URL;?>categories"><span class="glyphicon glyphicon-list-alt"></span> Categories</a>
                     </li>
 
-                    <li>
+                    <li class="li-post">
                         <a href="javascript:;" data-toggle="collapse" data-target="#post"><span class="glyphicon glyphicon-file"></span> Post <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="post" class="collapse">
                         <li><a href="<?php echo ADMINCP_URL;?>post">List post</a></li>
@@ -171,7 +171,7 @@
 
                         </ul>
                     </li>
-                    <li>
+                    <li class="li-pages">
                         <a href="javascript:;" data-toggle="collapse" data-target="#page"><span class="glyphicon glyphicon-th-large"></span> Page <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="page" class="collapse">
                          <li><a href="<?php echo ADMINCP_URL;?>pages">List page</a></li>
@@ -179,7 +179,7 @@
 
                         </ul>
                     </li>
-                    <li>
+                    <li class="li-links">
                         <a href="javascript:;" data-toggle="collapse" data-target="#links"><span class="glyphicon glyphicon-link"></span> Links <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="links" class="collapse">
                          <li><a href="<?php echo ADMINCP_URL;?>links">List links</a></li>
@@ -187,7 +187,7 @@
                         </ul>
                     </li>
 
-                    <li>
+                    <li class="li-users">
                         <a href="javascript:;" data-toggle="collapse" data-target="#users"><span class="glyphicon glyphicon-user"></span> Users <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="users" class="collapse">
                          <li><a href="<?php echo ADMINCP_URL;?>users">List users</a></li>
@@ -195,7 +195,7 @@
 
                         </ul>
                     </li>
-                    <li>
+                    <li class="li-usergroups">
                         <a href="javascript:;" data-toggle="collapse" data-target="#usergroup"><span class="glyphicon glyphicon-user"></span> User Groups <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="usergroup" class="collapse">
                          <li><a href="<?php echo ADMINCP_URL;?>usergroups">List groups</a></li>
@@ -205,10 +205,10 @@
                     </li>
 
 
-                    <li>
+                    <li class="li-contact">
                         <a href="<?php echo ADMINCP_URL;?>contacts"><span class="glyphicon glyphicon-comment"></span> Contacts</a>
                     </li>
-                    <li>
+                    <li class="li-theme">
                         <a href="javascript:;" data-toggle="collapse" data-target="#appearance"><span class="glyphicon glyphicon-th"></span> Appearance <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="appearance" class="collapse">
                           <li><a href="<?php echo ADMINCP_URL;?>theme">Theme</a></li>
@@ -218,7 +218,7 @@
                           <li><a href="<?php echo ADMINCP_URL;?>theme/import">Import</a></li>  
                         </ul>
                     </li>
-                     <li>
+                     <li class="li-plugins">
                         <a href="javascript:;" data-toggle="collapse" data-target="#plugins"><span class="glyphicon glyphicon-wrench"></span> Plugins <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="plugins" class="collapse">
                             <li><a href="<?php echo ADMINCP_URL;?>plugins">List Plugins</a></li>
@@ -227,7 +227,7 @@
                         </ul>
                     </li>
 
-                       <li>
+                       <li class="li-setting">
                         <a href="javascript:;" data-toggle="collapse" data-target="#setting"><span class="glyphicon glyphicon-cog"></span> Setting <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="setting" class="collapse">
                               <li><a href="<?php echo ADMINCP_URL;?>setting">General</a></li>
