@@ -23,7 +23,8 @@
 
     <script type="text/javascript">
 
-    var control='<?php if($match=Uri::match("admincp\/(\w+)")){ echo $match[1];} ?>';
+    var control='<?php if($match=Uri::match("plugins\/controller\/(\w+)")){ echo $match[1];}elseif($match=Uri::match("admincp\/(\w+)")){echo $match[1];} ?>';
+
 
     $(document).ready(function(){
         var target='li-'+control;
