@@ -135,6 +135,11 @@ class Cache
         // $filePath=CACHES_PATH.$keyName.'.cache';
         $filePath=self::getPath().$keyName.$extension;
 
+        if(!file_exists($filePath))
+        {
+            return false;
+        }
+
         $fp=fopen($filePath,'w');
 
         fwrite($fp,$keyData);

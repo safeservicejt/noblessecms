@@ -66,7 +66,7 @@ class Render
                 }
                 else
                 {
-                    $start='<li><a href="javascript:;" data-toggle="collapse" data-target="#'.md5($menu[$i]['title']).'"><span class="glyphicon glyphicon-list-alt"></span> '.$menu[$i]['title'].' <i class="fa fa-fw fa-caret-down"></i></a>
+                    $start='<li class="li-'.$folderName.'"><a href="javascript:;" data-toggle="collapse" data-target="#'.md5($menu[$i]['title']).'"><span class="glyphicon glyphicon-list-alt"></span> '.$menu[$i]['title'].' <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="'.md5($menu[$i]['title']).'" class="collapse">';
 
                     $end='</ul></li>';
