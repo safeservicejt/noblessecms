@@ -92,18 +92,20 @@ class ProductImages
 
 		$saveName='';
 
-		if(!isset($result[1]) && isset($result[0]['productid']))
-		{
-			$saveName=$addPostid.'_'.md5($queryCMD);
-		}
-		else
-		{
-			$saveName=md5($queryCMD);
-		}
+		$saveName=md5($queryCMD);
+
+		// if(!isset($result[1]) && isset($result[0]['productid']))
+		// {
+		// 	$saveName=$addPostid.'_'.md5($queryCMD);
+		// }
+		// else
+		// {
+		// 	$saveName=md5($queryCMD);
+		// }
 
 		DBCache::make($saveName,$result,'system/productimage');
 
-		DBCache::makeIDCache($saveName,$result,'productid','system/productimage');		
+		// DBCache::makeIDCache($saveName,$result,'productid','system/productimage');		
 		// end save
 
 

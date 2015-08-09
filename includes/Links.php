@@ -104,18 +104,20 @@ class Links
 
 		$saveName='';
 
-		if(!isset($result[1]) && isset($result[0]['id']))
-		{
-			$saveName=$addPostid.'_'.md5($queryCMD);
-		}
-		else
-		{
-			$saveName=md5($queryCMD);
-		}
+		$saveName=md5($queryCMD);
+
+		// if(!isset($result[1]) && isset($result[0]['id']))
+		// {
+		// 	$saveName=$addPostid.'_'.md5($queryCMD);
+		// }
+		// else
+		// {
+		// 	$saveName=md5($queryCMD);
+		// }
 
 		DBCache::make($saveName,$result,'system/link');
 
-		DBCache::makeIDCache($saveName,$result,'id','system/link');		
+		// DBCache::makeIDCache($saveName,$result,'id','system/link');		
 		// end save
 
 

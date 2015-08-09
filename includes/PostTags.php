@@ -93,18 +93,20 @@ class PostTags
 
 		$saveName='';
 
-		if(!isset($result[1]) && isset($result[0]['tagid']))
-		{
-			$saveName=$addPostid.'_'.md5($queryCMD);
-		}
-		else
-		{
-			$saveName=md5($queryCMD);
-		}
+		$saveName=md5($queryCMD);
+
+		// if(!isset($result[1]) && isset($result[0]['tagid']))
+		// {
+		// 	$saveName=$addPostid.'_'.md5($queryCMD);
+		// }
+		// else
+		// {
+		// 	$saveName=md5($queryCMD);
+		// }
 
 		DBCache::make($saveName,$result,'system/posttag');
 
-		DBCache::makeIDCache($saveName,$result,'tagid','system/posttag');		
+		// DBCache::makeIDCache($saveName,$result,'tagid','system/posttag');		
 		// end save
 
 

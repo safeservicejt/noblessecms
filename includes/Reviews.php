@@ -97,18 +97,20 @@ class Reviews
 
 		$saveName='';
 
-		if(!isset($result[1]) && isset($result[0]['reviewid']))
-		{
-			$saveName=$addPostid.'_'.md5($queryCMD);
-		}
-		else
-		{
-			$saveName=md5($queryCMD);
-		}
+		$saveName=md5($queryCMD);
+
+		// if(!isset($result[1]) && isset($result[0]['reviewid']))
+		// {
+		// 	$saveName=$addPostid.'_'.md5($queryCMD);
+		// }
+		// else
+		// {
+		// 	$saveName=md5($queryCMD);
+		// }
 
 		DBCache::make($saveName,$result,'system/review');
 
-		DBCache::makeIDCache($saveName,$result,'reviewid','system/review');		
+		// DBCache::makeIDCache($saveName,$result,'reviewid','system/review');		
 		// end save
 
 

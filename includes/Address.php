@@ -95,18 +95,20 @@ class Address
 
 		$saveName='';
 
-		if(!isset($result[1]) && isset($result[0]['userid']))
-		{
-			$saveName=$addPostid.'_'.md5($queryCMD);
-		}
-		else
-		{
-			$saveName=md5($queryCMD);
-		}
+		$saveName=md5($queryCMD);
+
+		// if(!isset($result[1]) && isset($result[0]['userid']))
+		// {
+		// 	$saveName=$addPostid.'_'.md5($queryCMD);
+		// }
+		// else
+		// {
+		// 	$saveName=md5($queryCMD);
+		// }
 
 		DBCache::make($saveName,$result,'system/address');
 
-		DBCache::makeIDCache($saveName,$result,'userid','system/address');		
+		// DBCache::makeIDCache($saveName,$result,'userid','system/address');		
 		// end save
 
 

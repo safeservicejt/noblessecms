@@ -173,29 +173,29 @@ class DBCache
 
 	public function makeIDCache($keyName,$inputData=array(),$fieldName,$addPath='')
 	{
-		if(self::$enable=='no')
-		{
-			return false;
-		}
+		// if(self::$enable=='no')
+		// {
+		// 	return false;
+		// }
 
-		$savePath='dbcache/'.$addPath.'/'.$keyName;
+		// $savePath='dbcache/'.$addPath.'/'.$keyName;
 
-		if(isset($inputData[0][$fieldName]))
-		{
-			$total=count($inputData);
+		// if(isset($inputData[0][$fieldName]))
+		// {
+		// 	$total=count($inputData);
 
-			for ($i=0; $i < $total; $i++) { 
-				$id=$inputData[$i][$fieldName];
+		// 	for ($i=0; $i < $total; $i++) { 
+		// 		$id=$inputData[$i][$fieldName];
 
-				$savePath='dbcache/'.$addPath.'/'.$id.'_'.$keyName;
+		// 		$savePath='dbcache/'.$addPath.'/'.$id.'_'.$keyName;
 
-				Cache::saveKey($savePath,'');
-			}
-		}
+		// 		Cache::saveKey($savePath,'');
+		// 	}
+		// }
 
-		$savePath='dbcache/'.$addPath.'/multi_'.$keyName;
+		// $savePath='dbcache/'.$addPath.'/multi_'.$keyName;
 
-		Cache::saveKey($savePath,'');
+		// Cache::saveKey($savePath,'');
 	}
 
 	public function make($keyName,$inputData=array(),$addPath='')
@@ -211,6 +211,7 @@ class DBCache
 		// print_r($keyName);
 		// die();
 		// Cache::setPath(CACHES_PATH.'dbcache/');
+
 
 		Cache::saveKey('dbcache/'.$addPath.'/'.$keyName,$inputData);
 

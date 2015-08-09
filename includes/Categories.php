@@ -95,18 +95,20 @@ class Categories
 
 		$saveName='';
 
-		if(!isset($result[1]) && isset($result[0]['catid']))
-		{
-			$saveName=$addPostid.'_'.md5($queryCMD);
-		}
-		else
-		{
-			$saveName=md5($queryCMD);
-		}
+		$saveName=md5($queryCMD);
+
+		// if(!isset($result[1]) && isset($result[0]['catid']))
+		// {
+		// 	$saveName=$addPostid.'_'.md5($queryCMD);
+		// }
+		// else
+		// {
+		// 	$saveName=md5($queryCMD);
+		// }
 
 		DBCache::make($saveName,$result,'system/category');
 
-		DBCache::makeIDCache($saveName,$result,'catid','system/category');		
+		// DBCache::makeIDCache($saveName,$result,'catid','system/category');		
 		// end save
 
 

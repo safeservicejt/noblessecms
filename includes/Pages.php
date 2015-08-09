@@ -108,18 +108,20 @@ class Pages
 
 		$saveName='';
 
-		if(!isset($result[1]) && isset($result[0]['pageid']))
-		{
-			$saveName=$addPostid.'_'.md5($queryCMD);
-		}
-		else
-		{
-			$saveName=md5($queryCMD);
-		}
+		$saveName=md5($queryCMD);
+
+		// if(!isset($result[1]) && isset($result[0]['pageid']))
+		// {
+		// 	$saveName=$addPostid.'_'.md5($queryCMD);
+		// }
+		// else
+		// {
+		// 	$saveName=md5($queryCMD);
+		// }
 
 		DBCache::make($saveName,$result,'system/page');
 
-		DBCache::makeIDCache($saveName,$result,'pageid','system/page');		
+		// DBCache::makeIDCache($saveName,$result,'pageid','system/page');		
 		// end save
 
 

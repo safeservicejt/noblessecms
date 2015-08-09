@@ -92,18 +92,20 @@ class Manufacturers
 
 		$saveName='';
 
-		if(!isset($result[1]) && isset($result[0]['mid']))
-		{
-			$saveName=$addPostid.'_'.md5($queryCMD);
-		}
-		else
-		{
-			$saveName=md5($queryCMD);
-		}
+		$saveName=md5($queryCMD);
+
+		// if(!isset($result[1]) && isset($result[0]['mid']))
+		// {
+		// 	$saveName=$addPostid.'_'.md5($queryCMD);
+		// }
+		// else
+		// {
+		// 	$saveName=md5($queryCMD);
+		// }
 
 		DBCache::make($saveName,$result,'system/manufacturer');
 
-		DBCache::makeIDCache($saveName,$result,'mid','system/manufacturer');		
+		// DBCache::makeIDCache($saveName,$result,'mid','system/manufacturer');		
 		// end save
 
 

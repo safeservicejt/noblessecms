@@ -132,15 +132,26 @@ class Cache
     // Default timeLive=1 day
     public function saveKey($keyName,$keyData='',$extension='.cache')
     {
+        $f_type='w';
         // $filePath=CACHES_PATH.$keyName.'.cache';
+
+        $filePath=self::getPath().$keyName.$extension;
+
+        if(preg_match('/^(.*?)\/\w+\.\w+$/i', $filePath,$match))
+        {
+            $path=$match[1];
+
+            Dir::create($path);
+        }
+
         $filePath=self::getPath().$keyName.$extension;
 
         if(!file_exists($filePath))
         {
-            return false;
+            $f_type='x';
         }
 
-        $fp=fopen($filePath,'w');
+        $fp=fopen($filePath,$f_type);
 
         fwrite($fp,$keyData);
 
