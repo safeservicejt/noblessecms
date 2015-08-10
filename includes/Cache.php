@@ -75,6 +75,11 @@ class Cache
 
     public function loadPage($addPath='',$liveTime=86400,$extension='.template')
     {
+        if((int)$liveTime==-1)
+        {
+            return false;
+        }
+        
         $keyName=System::getUri();
 
         $keyName=isset($keyName[1])?$keyName:'defaultHome';
@@ -94,6 +99,8 @@ class Cache
         {
             return false;
         }
+
+        self::resetPath();
 
         $loadData=unserialize($loadData);
 
