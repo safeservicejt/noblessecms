@@ -186,7 +186,7 @@ class Http
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
 
-        if ($httpcode >= 200 && $httpcode < 300)
+        if ($httpcode >= 200 && $httpcode < 303)
         {
             if($hasHeader=='yes')
             $result=Compress::gzdecode($result);            

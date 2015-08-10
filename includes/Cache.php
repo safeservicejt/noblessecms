@@ -42,13 +42,23 @@ class Cache
 
 
 
-    public function savePage($extension='.template')
+    public function savePage($addPath='',$extension='.template')
     {
         $keyName=System::getUri();
 
         $keyName=isset($keyName[1])?$keyName:'defaultHome';
 
         $savePath=ROOT_PATH.'application/caches/templates/';
+
+        if(isset($addPath[2]))
+        {
+            $savePath=ROOT_PATH.'application/caches/'.$addPath;
+
+            if(!is_dir($savePath))
+            {
+                Dir::create($savePath);
+            }
+        }        
 
         self::setPath($savePath);
 
@@ -63,7 +73,7 @@ class Cache
         self::resetPath();
     }
 
-    public function loadPage($liveTime=86400,$extension='.template')
+    public function loadPage($addPath='',$liveTime=86400,$extension='.template')
     {
         $keyName=System::getUri();
 
@@ -72,6 +82,11 @@ class Cache
         $keyName=md5($keyName);
 
         $savePath=ROOT_PATH.'application/caches/templates/';
+
+        if(isset($addPath[2]))
+        {
+            $savePath=ROOT_PATH.'application/caches/'.$addPath;
+        }
 
         self::setPath($savePath);        
 

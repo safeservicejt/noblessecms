@@ -400,7 +400,7 @@ class File
     {
         $imgUrl=trim($imgUrl);
 
-        if(!preg_match('/^http.*?\.(\w+)$/i', $imgUrl,$match))
+        if(!preg_match('/^http.*?\.(\w+)/i', $imgUrl,$match))
         {
             return false;
         }
