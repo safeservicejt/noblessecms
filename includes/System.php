@@ -99,6 +99,33 @@ class System
 		}
 
 	}
+
+	public function isMobile()
+	{
+		$detect = new Mobile_Detect;
+
+		$deviceType = $detect->isMobile()?true:false;
+
+		return $deviceType;
+	}
+
+	public function deviceType()
+	{
+		$detect = new Mobile_Detect;
+
+		$deviceType = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') : 'computer');
+		
+		return $deviceType;
+	}
+
+	public function deviceVersion()
+	{
+		$detect = new Mobile_Detect;
+
+		$scriptVersion = $detect->getScriptVersion();
+
+		return $scriptVersion;
+	}
 	
 	public function checkCurrency()
 	{
