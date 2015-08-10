@@ -79,7 +79,7 @@
 						</div>
 						<div class="col-lg-12 themeButton">
 							<a href="<?php echo ROOT_URL;?>admincp/theme/activate/<?php echo $themeNames[$i];?>" class="btn btn-primary">Activate</a>
-						
+						<a href="<?php echo ROOT_URL;?>admincp/theme/setting/<?php echo $themeNames[$i];?>" class="btn btn-warning pull-right">Setting</a>
 						</div>
 					</div>
 				</div>
