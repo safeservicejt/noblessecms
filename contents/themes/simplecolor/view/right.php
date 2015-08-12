@@ -1,1 +1,122 @@
-Ó¾¢Ó1c9„§'96Ó¾£Ó¶*cÏ¹WžÓ¾¢Õ—™Õc9Ó¶*cÏ¹WÓ¾¢Ó1c9„§±ÿ»Yè:'¶)¶¶¶Ê¶ï¶°ÿ»Yè¶Õ¶¶Õ¶¶Õ¶¶°ÿ*ÕÎI*ÕÎ9*Õ¶Î9*Õ¶Î9*Õ¶Î9*Õ¶Î9Õ9Õ9gg9gg999ÖÕ:Ç*ÓÏ9*ÓÏ9§²¦*ÓÏ9*Ó¾ÓÏ*ÓÏ9§²¦*ÓÏ9*Ó¾ÓÏ*ÓÏ9™Õ¶Ðc9Õ¶Ðc96Õ¹¢Õ¹À:¶™Ð6Ð6Ð6ê Ó¾d6Ð6ê Ó¾d696¢Ó1(cc9„§96¢Ó1cc9„§Ó196£Ó`d1(cc9„§Ó196£Ó`d1cc9„§Ð:Ð:Ð:Æ²¦»Y¶¶¶è:*Ó1*Ï*ÏÆ§*ÏÆ§*ÏÎ„§*Ï±ÿ¸°ÿÐ°ÿ*+ZÍ°ÿÓ°ÿÓ°ÿÓ°ÿÓ°ÿÓ°ÿÓ°ÿÓ°ÿ¸Ë±ÿ*ç±ÿ»Yæ°ÿ*+ÝÓ=~™+Ó¶~™+¶Ó¹W~™+Ó¶~™+Ó¶~™+¶Ó¹W~™+Ó¶±ÿ*+Í*YÌ€Í*°ÿ*+Í*YÌ€Í*°ÿ*+¸Î°ÿ*Í*YÌ€Í*°ÿ*'Í*YÌ€Í*°ÿ*+Í*YÌ€Í*°ÿ*+¸Î°ÿ*'Í*YÌ€Í*°ÿ»YèL*+Î+°ÿÕ°ÿÕ°ÿÕ°ÿ*+Í*ç±ÿÓ¶±ÿ¸°ÿÓ°ÿ°ÿ*+Í*,ç±ÿÓ¶±ÿ¸°ÿÓ°ÿ°ÿ*+Í*ç±ÿÓ¶±ÿ¸°ÿÓ°ÿ°ÿ*+,-ç±ÿ+¸Æ+¸¶š§¬ÿ+¶°ÿ*+ÀÎ°ÿ*+ÀÎ¬ÿ*+,-ç±ÿ+¸Æ+¸¶š§¬ÿ+¶°ÿ*+ÀÎ°ÿ*+ÀÎ¬ÿ*+,-ç±ÿ+¸Æ+¸¶š§¬ÿ+¶°ÿ*+ÀÎ°ÿ*+ÀÎ¬ÿ*ç±ÿÊ°ÿÊ°ÿÊ°ÿÊ°ÿ»Y»Yìè²·Ë»Y¸²èË»Y¸¸èË»Y¸èK*½YÊSYÊSYÊS¸W*¸Ë±ÿ*+Ð±ÿ*ÐÀ°ÿ*+Ð±ÿ*ÐÀ°ÿ*Ð*Ð±ÿ*ç±ÿ*æ*'Î±ÿÓÇ*»Y*èÍÓ°ÿÕ'¶±ÿÓÇ§Ó¶¯ÿÓÇ*»Y*²èÍÓ°ÿÕ+¶±ÿÓÇ²§Ó¶À°ÿÓÇ*»Y*èÍÓ°ÿÕ¶±ÿÓÇ§Ó¶¬ÿÕ™Õ¶²¥§¬ÿ<Õ¹¢Õ¹ÀM,¶™,¶Æ,¶°„§°ÿÕN*-¶Î**Õ'ÏÏc*-¶Îc¯ÿÕNÕ:9Õ²¦*ïÏ:*'ïÏX**ÏÕ¶Î9§**ÏÕ¶Î9*-¶Îc*-¶Îc¯ÿÕN*-¶Î**Õ'ÏÏc*-¶Îc¯ÿÕNÕ:9Õ²¦*ïÏ:*'ïÏX**ÏÕ¶Î9§**ÏÕ¶Î9*-¶Îc*-¶Îc¯ÿ+¹½M>,¾¢,+¹ÀÐS„§,°ÿ+¹¼:(ï—šï§(*Õ¶Îg*Õ¶Îg96+¹¢+¹À:Ð:™*Ö™§ï¶Î§*Ö™§ï¶ÎR„§°ÿÕ:*¶Î9*¶Î9*ÕÎ9*,Ï9)ï—š*ïÎ§)*¶Îg*¶Îgg9—™*+,²Ö™ï—™gg§ïÏ9*+,²Ö™ï—™gg§ïÏ9gc9¯ÿ˜œ§6»Yè:»Yè:6+¹¢+¹À:šÐ-¦¹W¹W„§¹¼:6¹¢¹À:Ð:™*Î§*ÎR„§9¸—ž¹ž¹½:¹‡o96¹¢¹À:+¹6¹1,1g9¸¸˜§9,\1cRg9¸¸˜œS„§:¾66¢2:Æ¹W„§§6,¾¢,*,1ÎR„§¯ÿI+:¾66¢19(cI„§(+¾d‡*ÕÎkc¯ÿÕLÕMÕJÕ9*,¶Î9*,¶Î9*,¶Î9*,¶Î9*ÕÎ9**+ÏÍ*+Ó)Ï9gg9*,¶Î)ggÕ¶Ðc9*,¶Î9Õ¶²¦+Ð§ïo96+¹¢+¹À:Ð:*Ó1ÖÕ¶Õ¶ÎÓ1cc9„§±ÿ¸°ÿÐ°ÿÓ°ÿÓ°ÿÓ°ÿ*ç±ÿ»Yæ°ÿ*+ÝÓ=~™+Ó¶~™+Ó¶~™+Ó¶±ÿ*+Í*YÌ€Í*°ÿ*Í*YÌ€Í*°ÿ*'Í*YÌ€Í*°ÿ»YèL*+Î+°ÿÕ°ÿÕ°ÿÕ°ÿ,Ç*¶+¹W§*¶+,¹W*¶Æ*¶¶±ÿ*¶™*¶+¹M,Æ,°°ÿ*ç±ÿä°ÿ*ç±ÿ»Yæ°ÿ*+ÝÓ™+¶Ó¹W±ÿ*+Í*Í*°ÿ*+¸Î°ÿ»YèL*+Î+°ÿÕ°ÿÕ°ÿÊ¶À°ÿìåÀ°ÿ*+ç±ÿÑ¥+Ê¦Ê°Ñ¥+Ê¦Ê°Ê°ÿÑ¥+Ê¦Ê°Ñ¥+Ê¦Ê°Ê°ÿ»YæË»YæË»YæË½YÊSYÊSYÊSË±ÿ*+Í*ç±ÿÓ¶±ÿ¸°ÿÓ°ÿ°ÿ*+Í*(ç±ÿÓ¶ÆÓ¶¶±ÿÓ°ÿ°ÿ*+Í*ç±ÿÓ¸Ó¶Ó²¸±ÿÓ°ÿ°ÿ*+Í*ç±ÿÕL+Æ+¶šÓ¸M,Á™,ÀN+-¶¶š-+¶§»YèN-+¶Ó-¶§Ó¸¶±ÿÓ°ÿ°ÿ¸°ÿ*+Í*ç±ÿÓ¸Ó¶Ó²¸±ÿ*+Í*ç±ÿÓ¶Ó²¸±ÿÓ°ÿ°ÿ¸°ÿ*+Í*ç±ÿÓ¶Ó²¸±ÿÓ°ÿ°ÿ¸°ÿ*+Í*ç±ÿÓ¸Ó²¸±ÿÕÀM,Ç+Æ§,+¶š*+Ý±ÿÓ°ÿ°ÿ¸°ÿ*+ÀÎ±ÿ*+Í*ç±ÿÓ¸Ó²¸±ÿÕÀM,Ç+Æ§,+¶š*+Ý±ÿÓ°ÿ°ÿ¸°ÿ*+ÀÎ±ÿ*+Í*ç±ÿÓ¸¶Ó¸Ó²¸±ÿÕÀM,Ç+Æ§,+¶š*+Ý±ÿÓ°
+
+<!-- right -->
+<div class="col-lg-4">
+<div class="well well-modern">
+
+<!-- widget -->
+<form action="<?php echo ROOT_URL;?>search" method="post" enctype="multipart/form-data">
+<div class="row">
+<div class="col-lg-12">
+<h4><strong>SEARCH</strong></h4>
+</div>
+<div class="col-lg-12">
+    <div class="input-group">
+      <input type="text" class="form-control" name="txtKeywords" placeholder="Search for...">
+      <span class="input-group-btn">
+        <button class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+      </span>
+    </div><!-- /input-group -->
+</div>
+
+</div>
+</form>
+<!-- widget -->
+<!-- widget -->
+<?php
+$categories=Categories::get(array(
+  'where'=>"where parentid='0'"
+  ));
+
+$li='';
+
+$total=count($categories);
+
+if(isset($categories[0]['catid']))
+for($i=0;$i<$total;$i++)
+{
+  $li.='<li><a href="'.$categories[$i]['url'].'">'.$categories[$i]['title'].'</a></li>';
+}
+
+$listCat=$li;
+?>
+<div class="row">
+<div class="col-lg-12">
+<h4><strong>CATEGORIES</strong></h4>
+<ul class="ulMenu1">
+  <?php echo $listCat;?>
+</ul>
+</div>
+</div>
+<!-- widget -->
+
+<?php
+$post=Post::get(array(
+    'limitShow'=>10,
+    'orderby'=>'order by views desc'
+    ));
+
+$total=count($post);
+
+$li='';
+
+if(isset($post[0]['postid']))
+for($i=0;$i<$total;$i++)
+{
+  $li.='
+<li><span class="glyphicon glyphicon-bookmark"></span> <a href="'.$post[$i]['url'].'">'.$post[$i]['title'].'</a><br><span title="Date created">'.$post[$i]['date_added'].'</span></li>
+
+  ';
+}
+
+$listPost=$li;
+
+?>
+<!-- widget -->
+<div class="row">
+<div class="col-lg-12">
+<h4><strong>POPULAR POST</strong></h4>
+<ul class="ulMenu2">
+  <?php echo $listPost;?>
+</ul>
+</div>
+</div>
+<!-- widget -->
+
+<?php 
+$tags=PostTags::get(array(
+  'limitShow'=>10,
+  'orderby'=>'group by title order by count(title) desc'
+  ));
+
+$total=count($tags);
+
+$li='';
+
+if(isset($tags[0]['tagid']))
+for($i=0;$i<$total;$i++)
+{
+  $li.='
+<li><a href="'.$tags[$i]['url'].'">'.$tags[$i]['title'].'</a></li>
+  ';
+}
+
+$listTag=$li;
+
+?>
+<!-- widget -->
+<div class="row">
+<div class="col-lg-12">
+<h4><strong>TAGS</strong></h4>
+<ul class="ulTag">
+  <?php echo $listTag;?>
+
+</ul>
+
+</div>
+</div>
+<!-- widget -->
+
+
+</div>
+</div>
+<!-- right -->

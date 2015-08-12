@@ -44,6 +44,8 @@ class System
 
 		self::$setting=self::getSetting();
 
+		self::setTimeZone();
+
 		PluginsZone::loadCache();
 		// self::systemStatus();
 
@@ -55,6 +57,13 @@ class System
 
 		self::userStatus();
 		
+	}
+
+	public function setTimeZone()
+	{
+		$zone=self::$setting['default_timezone'];
+
+		date_default_timezone_set($zone);
 	}
 
 	public function checkLang()
@@ -183,6 +192,11 @@ class System
 	public function after_system_start()
 	{
 
+	}
+
+	public function getTimeZone()
+	{
+		return self::$setting['default_timezone'];
 	}
 
 	public function setTitle($title)

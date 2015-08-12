@@ -185,6 +185,19 @@
 			    		</div>
 
 			    	</div>
+				    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
+			    		<div class="col-lg-8">
+			    		<strong>Default Time Zone</strong>
+			    		</div>
+			    		<div class="col-lg-4 text-right">
+							<select name="general[default_timezone]" id="default_timezone" class="form-control">
+							<?php echo TimeZones::getBySelectBox();?>
+							</select>								
+			    		</div>
+
+			    	</div>
+
+
 		  	<p>
 		  	<button type="submit" name="btnSave" class="btn btn-info">Save Changes</button>
 		  	</p>
@@ -282,6 +295,7 @@ $(document).ready(function(){
 	setSelect('system_lang','<?php echo $system_lang;?>');
 	setSelect('system_status','<?php echo $system_status;?>');
 	setSelect('register_verify_email','<?php echo $register_verify_email;?>');
+	setSelect('default_timezone','<?php echo $default_timezone;?>');
 
 });
 
