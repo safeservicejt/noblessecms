@@ -80,6 +80,7 @@ class System
 		}
 
 	}
+	
 	public function checkTheme()
 	{
 		if($match=Uri::match('^theme\/(\w+)'))
