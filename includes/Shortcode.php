@@ -429,7 +429,10 @@ class Shortcode
 
 	public function toHTML($str)
 	{
+
 		$str=trim($str);
+
+		$str=String::clearSpace($str);
 	// BBcode array
 	    $find = array(
 	        '~\[b\](.*?)\[/b\]~s',
@@ -514,11 +517,11 @@ class Shortcode
 	        '<pre>$1</pre>',
 	        '<span style="font-size:$1px;">$2</span>',
 	        '<span style="color:$1;">$2</span>',
-	        '<a href="$1">$1</a>',
-	        '<img src="$1" class="img-responsive" alt="" />',
-	        '<img src="$1" class="img-responsive" alt="" />',
-	        '<img src="" class="js-auto" data-src="$1" alt="" />',
-	        '<img src="" class="js-auto-responsive" data-src="$1" class="img-responsive" alt="" />',
+	        '<a href="$1" title="$1">$1</a>',
+	        '<img src="$1" alt="image" class="img-responsive" alt="" />',
+	        '<img src="$1" alt="image" class="img-responsive" alt="" />',
+	        '<img src="" alt="image" class="js-auto" data-src="$1" alt="" />',
+	        '<img src="" alt="image" class="js-auto-responsive" data-src="$1" class="img-responsive" alt="" />',
 
 	        '<a href="$1" class="$2">$3</a>',
 	        '<span class="label label-default $1">$2</span>',
@@ -549,7 +552,7 @@ class Shortcode
 	        '<div class="col-lg-12 $1" id="$2">$3</div>',
 	        '<div class="col-lg-12 $2" id="$1">$3</div>',
 
-	        '<img class="$1" src="$2" />',
+	        '<img class="$1" alt="Image" src="$2" />',
 
 	        '<div class="dropdown">$1</div>',
 	        '<button class="btn btn-default $1 dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">$2<span class="caret"></span></button>',
@@ -557,8 +560,8 @@ class Shortcode
 	        '<li role="presentation"><a role="menuitem" tabindex="-1" href="$1">$2</a></li>',
 
 	        '<ul class="bxslider">$1</ul><script>$(document).ready(function(){$(\'.bxslider\').bxSlider({auto: true});});</script>',
-	        '<li><img src="$1" /></li>',
-	        '<li><img class="$1" src="$2" /></li>',
+	        '<li><img src="$1" alt="Image" /></li>',
+	        '<li><img class="$1" alt="Image" src="$2" /></li>',
 
 	        '<button type="button" class="btn btn-default $1">$2</button>',
 	        '<button type="button" class="btn btn-default" id="$1">$2</button>',
@@ -628,6 +631,8 @@ class Shortcode
 	public function toBBcode($str)
 	{
 		$str=trim($str);
+
+		$str=String::clearSpace($str);
 	// HTML tags to replace BBcode
 	    $regex = array(
 	        '/<img class="(.*?)" src="(.*?)" \/>/i'=>'[img class="(.*?)"]$2[/img]',
