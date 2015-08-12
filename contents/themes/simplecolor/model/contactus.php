@@ -1,57 +1,1 @@
-<?php
-
-function contactProcess()
-{
-	if(Session::has('contactus'))
-	{
-		$total=(int)Session::get('contactus');
-
-		if($total >= 5)
-		{
-			Redirect::to('404page');
-			// Alert::make('Page not found'); 
-		}
-	}
-
-	$valid=Validator::make(array(
-		'send.fullname'=>'min:2|slashes',
-		'send.email'=>'min:5|slashes',
-		'send.content'=>'min:3|slashes'
-		));
-
-	if(!$valid)
-	{
-		$alert='<div class="alert alert-warning">Contact information not valid.</div>';
-
-		return $alert;
-	}
-
-	if(!$id=Contactus::insert(Request::get('send')))
-	{
-		$alert='<div class="alert alert-warning">Error. '.Database::$error.'</div>';
-
-		return $alert;		
-	}
-
-	if(Session::has('contactus'))
-	{
-		$total=(int)Session::get('contactus');
-
-		$total++;
-
-		Session::make('contactus',$total);
-	}
-	else
-	{
-		Session::make('contactus','1');
-	}
-
-	
-
-		$alert='<div class="alert alert-success">Success. We will response soon!</div>';
-
-		return $alert;	
-}
-
-
-?>
+±ÿ*+ç*½Y,SÍ*Í*½Y-SÍ*Í*+¹ÀÍ±ÿ*+ç*½Y,SÍ*Í*½Y-SÍ*Í*+¹ÀÍ±ÿ*+ç*½Y,SÍ*Í*½Y-SÍ*Í*+¹ÀÍ±ÿÓÇ*½Y+SÍ*Í§Ó¾=Ó™Ó¢§hl`>*Ó¸ÀÍ§Ó *ÓÓÐÍÓ hl`>*Ó¸ÀÍÓ*YÌZ`Í+S*°ÿÓÆ=Ó¢+Ó2¶™Ó Ó Óš»YÓÓ2è°ÓšÓ »YÓÓ2è°*Í*Í§Ódd>Ó:Ó™*Ó¾½ÍÓ`¸ž`Ó¸ÓšÓ*YÌdZÍS§„§*°ÿÓÇ*½Y+SÍ*Í§Ó¾=Ó™Ó¢§hl`>*Ó¸ÀÍ§Ó *ÓÓÐÍÓ hl`>*Ó¸ÀÍÓ*YÌZ`Í+SÓ *Ó¹ÀÍ*°ÿÓÆ=Ó¢+Ó2¶™Ó Ó Óš»YÓÓ2è°ÓšÓ »YÓÓ2è°*Í*Í§Ódd>Ó:Ó™*Ó¾½ÍÓ`¸ž`Ó¸ÓšÓ*YÌdZÍS§„§*°ÿÓÇ*½Y+SÍ*Í§Ó¾=Ó™Ó¢§hl`>*Ó¸ÀÍ§Ó *ÓÓÐÍÓ hl`>*Ó¸ÀÍÓ*YÌZ`Í+SÓ *Ó¹ÀÍ*°ÿÓÆ=Ó¢+Ó2¶™Ó Ó Óš»YÓÓ2è°ÓšÓ »YÓÓ2è°*Í*Í§Ódd>Ó:Ó™*Ó¾½ÍÓ`¸ž`Ó¸ÓšÓ*YÌdZÍS§„§*°ÿÓšÓš*ÓÏ§ÓL*Ó¹ÀÍ*+Ï±ÿÓš§»YÓ+èM*Ó,Ï±ÿÓNÓ6Ó:Ó6Ó:Ó6*Í6¢-2Ó¹„§Ó+¦,Æ6¢2Ó+Ó¹„§ž,Æ6¢2,¹„§§»YÓèMÓÇ+¹¹:¹™¹À:,¹¹¶W6¢2,¹„§§§+ÇÓ¹¹:¹™¹À:,¹¹¶W6¢2,¹„§§§+¹¹:¹™¹À:¹:¹:Ó¹:Æ¶š,¶W6¢2,¹„§§,¶W6¢2,¹„§§Ó¹¹:¹™¹À:¹:+¹š,¹¶W6¢2,¹„§§*Í§:*Í¿±ÿ*+,-æ±ÿ*+,-æ±ÿ*+,-æ±ÿ*+,-æ±ÿ*

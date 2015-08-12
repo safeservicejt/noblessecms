@@ -1,5 +1,66 @@
 <?php
 
+/*
+[b]
+[i]
+[u]
+[color=#4545][/color]
+[size=23][/size]
+[url=""][/url]
+
+[img:auto][/img]
+[img:auto-responsive][/img]
+[label class=""][/label]
+[alert class=""][/alert]
+
+[panelbody][/panelbody]
+[paneltitle][/paneltitle]
+[panel][/panel]
+[panel][/panel]
+
+[taburl:active id=""][/taburl]
+[taburl id=""][/taburl]
+[navtabs][/navtabs]
+[tabpanel:active id=""][/tabpanel]
+[tabpanel id=""][/tabpanel]
+[tabcontent][/tabcontent]
+[tab][/tab]
+
+[row][/row]
+
+[col][/col]
+
+[dropdown][/dropdown]
+[drbutton class=][/drbutton]
+[drmenu][/drmenu]
+[drlink href=][/drlink]
+
+[bxslider][/bxslider\]
+[bximg src=]
+[bximg class= src=]
+
+[button class=""][/button]
+[button id=""][/button]
+[button class="" id=""][/button]
+[button id="" class=""][/button]
+[button ][/button]
+
+[progress ][/progress]
+[progress:success ][/progress]
+[progress:primary ][/progress]
+[progress:warning ][/progress]
+[progress:danger ][/progress]
+
+[badge][/badge]
+[badge][/badge]
+
+[icon:]
+
+[root_url]
+[site_url]
+
+*/
+
 class Shortcode
 {
 
@@ -383,28 +444,28 @@ class Shortcode
 	        '~\[img:auto\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~s',
 	        '~\[img:auto-responsive\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~s',
 
-	        '~\[url href=(.*?) class=(.*?)\](.*?)\[\/url\]~s',
-	        '~\[label class=(.*?)\](.*?)\[\/label\]~s',
-	        '~\[alert class=(.*?)\](.*?)\[\/alert\]~s',
+	        '~\[url href="(.*?)" class="(.*?)"\](.*?)\[\/url\]~s',
+	        '~\[label class="(.*?)"\](.*?)\[\/label\]~s',
+	        '~\[alert class="(.*?)"\](.*?)\[\/alert\]~s',
 
 	        '~\[panelbody\](.*?)\[\/panelbody\]~s',
 	        '~\[paneltitle\](.*?)\[\/paneltitle\]~s',
 	        '~\[panel\](.*?)\[\/panel\]~s',
 	        '~\[panel (.*?)\](.*?)\[\/panel\]~s',
 
-	        '~\[taburl:active id=(.*?)\](.*?)\[\/taburl\]~s',
-	        '~\[taburl id=(.*?)\](.*?)\[\/taburl\]~s',
+	        '~\[taburl:active id="(.*?)"\](.*?)\[\/taburl\]~s',
+	        '~\[taburl id="(.*?)"\](.*?)\[\/taburl\]~s',
 	        '~\[navtabs\](.*?)\[\/navtabs\]~s',
-	        '~\[tabpanel:active id=(.*?)\](.*?)\[\/tabpanel\]~s',
-	        '~\[tabpanel id=(.*?)\](.*?)\[\/tabpanel\]~s',
+	        '~\[tabpanel:active id="(.*?)"\](.*?)\[\/tabpanel\]~s',
+	        '~\[tabpanel id="(.*?)"\](.*?)\[\/tabpanel\]~s',
 	        '~\[tabcontent\](.*?)\[\/tabcontent\]~s',
 	        '~\[tab\](.*?)\[\/tab\]~s',
 
 	        '~\[row\](.*?)\[\/row\]~s',
-	        '~\[row class=(.*?)\](.*?)\[\/row\]~s',
-	        '~\[row id=(.*?)\](.*?)\[\/row\]~s',
-	        '~\[row class=(.*?) id=(.*?)\](.*?)\[\/row\]~s',
-	        '~\[row id=(.*?) class=(.*?)\](.*?)\[\/row\]~s',
+	        '~\[row class="(.*?)"\](.*?)\[\/row\]~s',
+	        '~\[row id="(.*?)"\](.*?)\[\/row\]~s',
+	        '~\[row class="(.*?)" id="(.*?)"\](.*?)\[\/row\]~s',
+	        '~\[row id="(.*?)" class="(.*?)"\](.*?)\[\/row\]~s',
 
 	        '~\[col\](.*?)\[\/col\]~s',
 	        '~\[col class=(.*?)\](.*?)\[\/col\]~s',
@@ -412,21 +473,21 @@ class Shortcode
 	        '~\[col class=(.*?) id=(.*?)\](.*?)\[\/col\]~s',
 	        '~\[col id=(.*?) class=(.*?)\](.*?)\[\/col\]~s',
 
-	        '~\[img class=(.*?)\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~s',
+	        '~\[img class="(.*?)"\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~s',
 
 	        '~\[dropdown\](.*?)\[\/dropdown\]~s',
-	        '~\[drbutton class=(.*?)\](.*?)\[\/drbutton\]~s',
+	        '~\[drbutton class="(.*?)"\](.*?)\[\/drbutton\]~s',
 	        '~\[drmenu\](.*?)\[\/drmenu\]~s',
-	        '~\[drlink href=(.*?)\](.*?)\[\/drlink\]~s',
+	        '~\[drlink href="(.*?)"\](.*?)\[\/drlink\]~s',
 
 	        '~\[bxslider\](.*?)\[\/bxslider\]~s',
-	        '~\[bximg src=(.*?)\]~s',
-	        '~\[bximg class=(.*?) src=(.*?)\]~s',
+	        '~\[bximg src="(.*?)"\]~s',
+	        '~\[bximg class="(.*?)" src="(.*?)"\]~s',
 
-	        '~\[button class=(.*?)\](.*?)\[\/button\]~s',
-	        '~\[button id=(.*?)\](.*?)\[\/button\]~s',
-	        '~\[button class=(.*?) id=(.*?)\](.*?)\[\/button\]~s',
-	        '~\[button id=(.*?) class=(.*?)\](.*?)\[\/button\]~s',
+	        '~\[button class="(.*?)"\](.*?)\[\/button\]~s',
+	        '~\[button id="(.*?)"\](.*?)\[\/button\]~s',
+	        '~\[button class="(.*?)" id="(.*?)"\](.*?)\[\/button\]~s',
+	        '~\[button id="(.*?)" class="(.*?)"\](.*?)\[\/button\]~s',
 	        '~\[button (.*?)\](.*?)\[\/button\]~s',
 
 	        '~\[progress (.*?)\](.*?)\[\/progress\]~s',
@@ -438,7 +499,10 @@ class Shortcode
 	        '~\[badge\](.*?)\[\/badge\]~s',
 	        '~\[badge (.*?)\](.*?)\[\/badge\]~s',
 
-	        '~\[icon:(.*?)\]~s'
+	        '~\[icon:(.*?)\]~s',
+
+	        '~\[root_url\]~s',
+	        '~\[site_url\]~s'
 
 	    );
 
@@ -511,7 +575,10 @@ class Shortcode
 			'<span class="badge">$1</span>',        
 			'<span class="badge" $1>$2</span>',
 
-			'<span class="glyphicon glyphicon-$1" aria-hidden="true"></span>'
+			'<span class="glyphicon glyphicon-$1" aria-hidden="true"></span>',
+
+			ROOT_URL,
+			ROOT_URL
 
 	    );
 
@@ -563,40 +630,42 @@ class Shortcode
 		$str=trim($str);
 	// HTML tags to replace BBcode
 	    $regex = array(
-	        '/<img class="(.*?)" src="(.*?)" \/>/i'=>'[img class=(.*?)]$2[/img]',
-	        '/<div class="col-lg-12 (.*?)" id="(.*?)">(.*?)<\/div>/i'=>'[col id=$2 class=$1]$3[/col]',
-	        '/<div class="col-lg-12 (.*?)" id="(.*?)">(.*?)<\/div>/i'=>'[col class=$1 id=$2]$3[/col]',
-	        '/<div class="col-lg-12" id="(.*?)">(.*?)<\/div>/i'=>'[col id=$1]$2[/col]',
-	        '/<div class="col-lg-12 (.*?)">(.*?)<\/div>/i'=>'[col class=$1]$2[/col]',
+	        '/<img class="(.*?)" src="(.*?)" \/>/i'=>'[img class="(.*?)"]$2[/img]',
+	        '/<div class="col-lg-12 (.*?)" id="(.*?)">(.*?)<\/div>/i'=>'[col id="$2" class="$1"]$3[/col]',
+	        '/<div class="col-lg-12 (.*?)" id="(.*?)">(.*?)<\/div>/i'=>'[col class="$1" id="$2"]$3[/col]',
+	        '/<div class="col-lg-12" id="(.*?)">(.*?)<\/div>/i'=>'[col id="$1"]$2[/col]',
+	        '/<div class="col-lg-12 (.*?)">(.*?)<\/div>/i'=>'[col class="$1"]$2[/col]',
 	        '/<div class="col-lg-12">(.*?)<\/div>/i'=>'[col]$1[/col]',
 
-	        '/<div class="row (.*?)" id="(.*?)">(.*?)<\/div>/i'=>'[row id=$2 class=$1]$3[/row]',
-	        '/<div class="row" id="(.*?)">(.*?)<\/div>/i'=>'[row id=$1]$2[/row]',
-	        '/<div class="row (.*?)">(.*?)<\/div>/i'=>'[row class=$1]$2[/row]',
+	        '/<div class="row (.*?)" id="(.*?)">(.*?)<\/div>/i'=>'[row id="$2" class="$1"]$3[/row]',
+	        '/<div class="row" id="(.*?)">(.*?)<\/div>/i'=>'[row id="$1"]$2[/row]',
+	        '/<div class="row (.*?)">(.*?)<\/div>/i'=>'[row class="$1"]$2[/row]',
 	        '/<div class="row">(.*?)<\/div>/i'=>'[row]$1[/row]',
 
 	        '/<div role="tabpanel">(.*?)<\/div>/i'=>'[tab]$1[/tab]',
 	        '/<div class="tab-content">(.*?)<\/div>/i'=>'[tabcontent]$1[/tabcontent]',
-	        '/<div role="tabpanel" class="tab-pane" id="(.*?)">(.*?)<\/div>/i'=>'[tabpanel id=$1]$2[/tabpanel]',
-	        '/<div role="tabpanel" class="tab-pane active" id="(.*?)">(.*?)<\/div>/i'=>'[tabpanel:active id=$1]$2[/tabpanel]',
+	        '/<div role="tabpanel" class="tab-pane" id="(.*?)">(.*?)<\/div>/i'=>'[tabpanel id="$1"]$2[/tabpanel]',
+	        '/<div role="tabpanel" class="tab-pane active" id="(.*?)">(.*?)<\/div>/i'=>'[tabpanel:active id="$1"]$2[/tabpanel]',
 	        '/<ul class="nav nav-tabs" role="tablist">(.*?)<\/ul>/i'=>'[navtabs]$1[/navtabs]',
-	        '/<li role="presentation"><a href="#(.*?)" aria-controls="(.*?)" role="tab" data-toggle="tab">(.*?)<\/a><\/li>/i'=>'[taburl id=$1]$3[/taburl]',
-	        '/<li role="presentation" class="active"><a href="#(.*?)" aria-controls="(.*?)" role="tab" data-toggle="tab">(.*?)<\/a><\/li>/i'=>'[taburl:active id=$1]$3[/taburl]',
+	        '/<li role="presentation"><a href="#(.*?)" aria-controls="(.*?)" role="tab" data-toggle="tab">(.*?)<\/a><\/li>/i'=>'[taburl id="$1"]$3[/taburl]',
+	        '/<li role="presentation" class="active"><a href="#(.*?)" aria-controls="(.*?)" role="tab" data-toggle="tab">(.*?)<\/a><\/li>/i'=>'[taburl:active id="$1"]$3[/taburl]',
 
-	        '/<div class="panel panel-default (.*?)">(.*?)<\/div>/i'=>'[panel class=$1]$2[/panel]',
+	        '/<div class="panel panel-default (.*?)">(.*?)<\/div>/i'=>'[panel class="$1"]$2[/panel]',
 	        '/<div class="panel panel-default">(.*?)<\/div>/i'=>'[panel]$1[/panel]',
 	        '/<div class="panel-heading">(.*?)<\/div>/i'=>'[paneltitle]$1[/paneltitle]',
 	        '/<div class="panel-body">(.*?)<\/div>/i'=>'[panelbody]$1[/panelbody]',
 
-	        '/<div class="alert alert-default (.*?)">(.*?)<\/div>/i'=>'[alert class=$1]$2[/alert]',
-	        '/<span class="label label-default (.*?)">(.*?)<\/span>/i'=>'[label class=$1]$2[/label]',
-	        '/<a href="(.*?)" class="(.*?)">(.*?)<\/a>/i'=>'[url href=$1 class=$2]$3[/url]',
+	        '/<div class="alert alert-default (.*?)">(.*?)<\/div>/i'=>'[alert class="$1"]$2[/alert]',
+	        '/<span class="label label-default (.*?)">(.*?)<\/span>/i'=>'[label class="$1"]$2[/label]',
+	        '/<a href="(.*?)" class="(.*?)">(.*?)<\/a>/i'=>'[url href="$1" class="$2"]$3[/url]',
 
-	        '/<img alt="" src="(.*?)" .*? \/>/i'=>'[img]$1[/img]',
-	        '/<img alt="(.*?)" src="(.*?)" .*? \/>/i'=>'[img]$2[/img]',
-	        '/<img.*? src="(.*?)" .*?>/i'=>'[img]$1[/img]',
-	        '/<img.*? src="(.*?)".*?>/i'=>'[img]$1[/img]',
-	        '/<img alt src="(.*?)".*?>/i'=>'[img]$1[/img]'
+			'/<img.*?src="(.*?)".*?class="img-responsive".*?\/>/i'=>'[img:auto-responsive]$1[/img]',
+			'/<img.*?class="img-responsive".*?src="(.*?)".*?\/>/i'=>'[img:auto-responsive]$1[/img]',
+	        '/<img alt="" src="(.*?)" .*? \/>/i'=>'[img:auto]$1[/img]',
+	        '/<img alt="(.*?)" src="(.*?)" .*? \/>/i'=>'[img:auto]$2[/img]',
+	        '/<img.*? src="(.*?)" .*?>/i'=>'[img:auto]$1[/img]',
+	        '/<img.*? src="(.*?)".*?>/i'=>'[img:auto]$1[/img]',
+	        '/<img alt src="(.*?)".*?>/i'=>'[img:auto]$1[/img]'
 
 	    );
 
