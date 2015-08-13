@@ -1,7 +1,64 @@
 <?php
 
+/*
+
+Theme install & uninstall: Create file functions.php in root dir of theme then call to below functions
+
+Theme::install(function(){
+	
+// Do you need
+
+});
+
+Theme::uninstall(function(){
+	
+// Do you need
+
+});
+
+
+*/
 class Theme
 {
+	public static $can_install='no';
+
+	public static $can_uninstall='no';
+
+	public function install($func)
+	{
+		if(self::$can_install=='no')
+		{
+			return false;
+		}
+
+        if (is_object($func)) {
+
+            (object)$varObject = $func;
+
+            $func = '';
+
+            $varObject();
+
+        } 
+	}
+
+	public function uninstall($func)
+	{
+		if(self::$can_install=='no')
+		{
+			return false;
+		}
+
+        if (is_object($func)) {
+
+            (object)$varObject = $func;
+
+            $func = '';
+
+            $varObject();
+
+        } 
+	}
 
 	public function get($inputData=array())
 	{
@@ -63,6 +120,23 @@ class Theme
 			throw new Exception("This theme not valid.");
 		}
 
+		$oldthemeName=THEME_NAME;
+
+		// Make uninstall old theme
+		if(isset($oldthemeName[1]))
+		{
+			$oldPath=ROOT_PATH.'contents/themes/'.$oldthemeName.'/';
+
+			if(file_exists($oldPath.'functions.php'))
+			{
+				include($oldPath.'functions.php');
+
+				self::$can_uninstall='yes';
+
+				self::$can_install='no';
+			}
+		}
+
 		$configPath=ROOT_PATH.'config.php';
 
 		$data=file_get_contents($configPath);
@@ -71,7 +145,19 @@ class Theme
 
 		File::create($configPath,$data);
 
+		if(file_exists($path.'functions.php'))
+		{
+			include($path.'functions.php');
+
+			self::$can_install='yes';
+
+			self::$can_uninstall='no';
+
+		}		
+
 	}
+
+
 
 	public function getDefault()
 	{
