@@ -31,6 +31,7 @@ class Theme
 			return false;
 		}
 
+
         if (is_object($func)) {
 
             (object)$varObject = $func;
@@ -44,7 +45,7 @@ class Theme
 
 	public function uninstall($func)
 	{
-		if(self::$can_install=='no')
+		if(self::$can_uninstall=='no')
 		{
 			return false;
 		}
@@ -129,11 +130,12 @@ class Theme
 
 			if(file_exists($oldPath.'functions.php'))
 			{
-				include($oldPath.'functions.php');
-
 				self::$can_uninstall='yes';
 
 				self::$can_install='no';
+								
+				include($oldPath.'functions.php');
+
 			}
 		}
 
@@ -147,11 +149,11 @@ class Theme
 
 		if(file_exists($path.'functions.php'))
 		{
-			include($path.'functions.php');
-
 			self::$can_install='yes';
 
 			self::$can_uninstall='no';
+
+			include($path.'functions.php');
 
 		}		
 
