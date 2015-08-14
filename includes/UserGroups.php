@@ -1,7 +1,7 @@
 <?php
 
-/*
 
+/*
 UserGroups::addPermission($_SESSION['userid'],array(
 	'can_view_me'=>'no'
 	));
@@ -10,11 +10,23 @@ UserGroups::removePermission($_SESSION['userid'],array(
 	'can_view_me'
 	));
 
+UserGroups::addPermissionToAll(array(
+	'can_view_me'=>'no'
+	));
+
+UserGroups::updatePermissionToAll(array(
+	'can_view_me'=>'no'
+	));	
+
+UserGroups::removePermissionToAll(array(
+	'can_view_me'
+	));	
+
 $text=UserGroups::getPermission($_SESSION['userid'],'can_view_me');
-
-
-
 */
+
+
+
 class UserGroups
 {
 	public static $groupData=array();
@@ -197,6 +209,106 @@ class UserGroups
 
 	}
 
+	public function updatePermissionToAll($inputData=array())
+	{
+		$loadData=self::get(array(
+			'cache'=>'no'
+			));
+
+		if(!isset($loadData[0]['groupid']))
+		{
+			return false;
+		}
+
+		$total=count($loadData);
+
+		$totalKeys=count($inputData);
+
+		$listKeys=array_keys($inputData);
+
+		for ($i=0; $i < $total; $i++) { 
+
+			$row=$loadData[$i];
+
+			$groupid=$row['groupid'];
+
+			if(!is_array($row['groupdata']))
+			{
+				$row['groupdata']=unserialize(self::lineToArray($row['groupdata']));
+			}
+
+			// print_r($loadData);die();
+
+			for ($j=0; $j < $totalKeys; $j++) { 
+				$theKey=$listKeys[$j];
+
+				$row['groupdata'][$theKey]=$inputData[$theKey];
+
+			}
+			
+			$row['groupdata']=self::arrayToLine($row['groupdata']);
+
+			$updateData=array(
+				'groupdata'=>$row['groupdata']
+				);
+
+			self::update($groupid,$updateData);
+		}
+
+		
+
+	}
+
+	public function removePermissionToAll($inputData=array())
+	{
+		$loadData=self::get(array(
+			'cache'=>'no'
+			));
+
+		if(!isset($loadData[0]['groupid']))
+		{
+			return false;
+		}
+
+		$total=count($loadData);
+
+		$totalKeys=count($inputData);
+
+		for ($i=0; $i < $total; $i++) { 
+
+			$row=$loadData[$i];
+
+			$groupid=$row['groupid'];
+
+			$groupdata=unserialize(self::lineToArray($row['groupdata']));
+
+			// $listKeys=array_keys($inputData);
+
+			for ($j=0; $j < $totalKeys; $j++) { 
+
+				$keyName=$inputData[$j];
+
+				// $groupdata[$keyName]=$inputData[$keyName];
+
+				if(isset($groupdata[$keyName]))
+				{
+					unset($groupdata[$keyName]);
+				}
+			}
+
+			// $groupdata=serialize(self::arrayToLine($groupdata));
+			$groupdata=self::arrayToLine($groupdata);
+
+			$updateData=array(
+				'groupdata'=>$groupdata
+				);
+
+			self::update($groupid,$updateData);
+		}
+
+
+	}
+
 	public function removePermission($groupid,$inputData=array())
 	{
 		$loadData=self::get(array(
@@ -239,6 +351,59 @@ class UserGroups
 			);
 
 		self::update($groupid,$updateData);
+	}
+
+	public function addPermissionToAll($inputData=array())
+	{
+		$loadData=self::get(array(
+			'cache'=>'no'
+			));
+
+		if(!isset($loadData[0]['groupid']))
+		{
+			return false;
+		}
+
+		$total=count($loadData);
+
+		$totalKey=count($inputData);
+
+		$listKeys=array_keys($inputData);
+
+		if($total==0)
+		{
+			return false;
+		}
+
+		for ($i=0; $i < $total; $i++) { 
+
+			$row=$loadData[$i];
+
+			$groupid=$row['groupid'];
+
+			$groupdata=unserialize(self::lineToArray($row['groupdata']));
+
+
+			// print_r($groupdata);die();
+
+			for ($j=0; $j < $totalKey; $j++) { 
+				$keyName=$listKeys[$j];
+
+				$groupdata[$keyName]=$inputData[$keyName];
+			}
+
+			// $groupdata=serialize(self::arrayToLine($groupdata));
+			$groupdata=self::arrayToLine($groupdata);
+
+			$updateData=array(
+				'groupdata'=>$groupdata
+				);
+
+			self::update($groupid,$updateData);
+
+		}
+
+
 	}
 
 	public function addPermission($groupid,$inputData=array())
@@ -328,8 +493,13 @@ class UserGroups
 	{
 		if(!is_array($data))
 		{
+			if(!isset($data[5]))
+			{
+				return '';
+			}			
 			$data=unserialize($data);
 		}
+
 
 		$total=count($data);
 
