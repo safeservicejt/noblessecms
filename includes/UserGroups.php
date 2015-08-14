@@ -1,5 +1,20 @@
 <?php
 
+/*
+
+UserGroups::addPermission($_SESSION['userid'],array(
+	'can_view_me'=>'no'
+	));
+
+UserGroups::removePermission($_SESSION['userid'],array(
+	'can_view_me'
+	));
+
+$text=UserGroups::getPermission($_SESSION['userid'],'can_view_me');
+
+
+
+*/
 class UserGroups
 {
 	public static $groupData=array();
@@ -177,7 +192,11 @@ class UserGroups
 
 		$groupdata=serialize(self::arrayToLine($groupdata));
 
-		self::update($groupid,$groupdata);
+		$updateData=array(
+			'groupdata'=>$groupdata
+			);
+
+		self::update($groupid,$updateData);
 	}
 
 	public function addPermission($groupid,$inputData=array())
@@ -210,10 +229,14 @@ class UserGroups
 
 		$groupdata=serialize(self::arrayToLine($groupdata));
 
-		self::update($groupid,$groupdata);
+		$updateData=array(
+			'groupdata'=>$groupdata
+			);
+
+		self::update($groupid,$updateData);
 	}
 	
-	public function getPermission($groupid,$keyName)
+	public function getPermission($groupid,$keyName='')
 	{
 		$loadData=array();
 
@@ -258,12 +281,10 @@ class UserGroups
 
 	public function arrayToLine($data)
 	{
-		if(!isset($data[5]))
+		if(!is_array($data))
 		{
-			return '';
+			$data=unserialize($data);
 		}
-
-		$data=unserialize($data);
 
 		$total=count($data);
 
