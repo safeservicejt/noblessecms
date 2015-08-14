@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2015 at 06:48 PM
+-- Generation Time: Aug 14, 2015 at 09:54 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -46,9 +46,6 @@ CREATE TABLE IF NOT EXISTS `address` (
 -- Dumping data for table `address`
 --
 
-INSERT INTO `address` (`userid`, `company`, `firstname`, `lastname`, `address_1`, `address_2`, `city`, `state`, `postcode`, `country`, `phone`, `fax`) VALUES
-(1, '', 'James', 'Brown', '5756hghddd', 'fdf', '', '', '', 'vn', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -65,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`catid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
 
 --
 -- Dumping data for table `categories`
@@ -74,7 +71,27 @@ CREATE TABLE IF NOT EXISTS `categories` (
 INSERT INTO `categories` (`catid`, `title`, `friendly_url`, `parentid`, `image`, `sort_order`, `date_added`, `status`) VALUES
 (15, 'United', 'United', '0', '/uploads/images/2231793638/post_2.jpg', 15, '2015-01-18 07:57:36', 1),
 (19, 'Cat 1', 'Cat_1', '0', NULL, 0, '2015-03-31 09:41:40', 1),
-(20, 'Cat 2 test', 'Cat-2-test', '0', NULL, 0, '2015-03-31 09:41:42', 1);
+(20, 'Cat 2 test', 'Cat-2-test', '0', NULL, 0, '2015-03-31 09:41:42', 1),
+(24, 'Manhua', 'Manhua', '0', NULL, 0, '2015-08-08 03:06:00', 1),
+(25, 'Huyá»n Huyá»…n', 'Huyen-Huyen', '0', NULL, 0, '2015-08-08 03:06:00', 1),
+(26, 'Supernatural', 'Supernatural', '0', NULL, 0, '2015-08-08 03:06:00', 1),
+(27, 'Action', 'Action', '0', NULL, 0, '2015-08-08 03:12:40', 1),
+(28, 'Fantasy', 'Fantasy', '0', NULL, 0, '2015-08-08 04:59:27', 1),
+(29, 'Shounen', 'Shounen', '0', NULL, 0, '2015-08-08 04:59:27', 1),
+(30, 'Adventure', 'Adventure', '0', NULL, 0, '2015-08-08 04:59:27', 1),
+(31, 'Manhwa', 'Manhwa', '0', NULL, 0, '2015-08-08 04:59:27', 1),
+(32, 'Manga', 'Manga', '0', NULL, 0, '2015-08-08 05:01:08', 1),
+(33, 'Drama', 'Drama', '0', NULL, 0, '2015-08-10 02:23:18', 1),
+(34, 'Shoujo Ai', 'Shoujo-Ai', '0', NULL, 0, '2015-08-10 02:23:18', 1),
+(35, 'Slice Of Life', 'Slice-Of-Life', '0', NULL, 0, '2015-08-10 02:23:18', 1),
+(36, 'School Life', 'School-Life', '0', NULL, 0, '2015-08-10 02:24:37', 1),
+(37, 'Shounen Ai', 'Shounen-Ai', '0', NULL, 0, '2015-08-10 02:24:37', 1),
+(38, 'Josei', 'Josei', '0', NULL, 0, '2015-08-10 02:25:19', 1),
+(39, 'Shoujo', 'Shoujo', '0', NULL, 0, '2015-08-10 02:25:19', 1),
+(40, 'One Shot', 'One-Shot', '0', NULL, 0, '2015-08-10 02:26:21', 1),
+(41, 'Comedy', 'Comedy', '0', NULL, 0, '2015-08-10 02:27:07', 1),
+(42, 'Seinen', 'Seinen', '0', NULL, 0, '2015-08-10 02:27:07', 1),
+(43, 'Romance', 'Romance', '0', NULL, 0, '2015-08-10 02:28:04', 1);
 
 -- --------------------------------------------------------
 
@@ -420,9 +437,9 @@ CREATE TABLE IF NOT EXISTS `cronjobs` (
   `timenumber` int(9) NOT NULL DEFAULT '0',
   `timetype` varchar(30) NOT NULL DEFAULT 'min',
   `timeinterval` int(9) NOT NULL DEFAULT '0',
-  `last_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_update` datetime DEFAULT NULL,
   `jobdata` varchar(1000) NOT NULL,
-  `date_added` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_added` datetime NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`cronid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -524,15 +541,15 @@ CREATE TABLE IF NOT EXISTS `links` (
   `date_added` datetime NOT NULL,
   `status` varchar(30) NOT NULL DEFAULT 'published',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `links`
 --
 
 INSERT INTO `links` (`id`, `title`, `url`, `sort_order`, `date_added`, `status`) VALUES
-(6, 'Home', '/', 6, '2015-07-14 08:12:42', 'published'),
-(8, 'Contact Us', '/contactus', 8, '2015-07-14 08:13:13', 'published');
+(6, 'Home', '/', 0, '2015-07-14 08:12:42', 'published'),
+(8, 'Contact Us', '/contactus', 1, '2015-07-14 08:13:13', 'published');
 
 -- --------------------------------------------------------
 
@@ -637,7 +654,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `keywords` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `page_type` varchar(50) NOT NULL DEFAULT 'normal',
   `friendly_url` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `date_added` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_added` datetime NOT NULL,
   `allowcomment` int(1) NOT NULL DEFAULT '1',
   `views` int(9) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL DEFAULT '1',
@@ -698,7 +715,7 @@ CREATE TABLE IF NOT EXISTS `plugins_meta` (
   `type` varchar(100) NOT NULL DEFAULT 'plugin',
   `status` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`metaid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -727,19 +744,14 @@ CREATE TABLE IF NOT EXISTS `post` (
   `allowcomment` int(1) NOT NULL DEFAULT '1',
   `status` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`postid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `post`
 --
 
 INSERT INTO `post` (`postid`, `title`, `catid`, `userid`, `parentid`, `image`, `sort_order`, `date_added`, `views`, `content`, `type`, `keywords`, `friendly_url`, `is_featured`, `date_featured`, `expires_date`, `rating`, `allowcomment`, `status`) VALUES
-(1, 'Lorem Ipsum is simply dummy text', 15, 1, 0, 'uploads/images/8976702431/post_2.jpg', 1, '2015-03-16 05:35:00', 98, '[p][p][p][p][b]Lorem Ipsum[/b]&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.[/p][/p][/p][/p][/p]\r\n', 'normal', '', 'Lorem_Ipsum_is_simply_dummy_text', 0, NULL, NULL, 5, 1, 1),
-(3, 'test 6', 20, 1, 0, 'uploads/files/9268394083/10015083_731256536961832_6563942372742164578_n.png', 0, '2015-05-09 05:48:59', 67, '[p]test [b]posttest[/b] posttest [hide]posttest posttest[/hide] posttest post[/p]\r\n\r\n[p][youtube]5owzBgbidd8[/youtube][/p]', 'normal', 'test post,post,erer', 'test_post', 0, NULL, NULL, 5, 1, 1),
-(4, 'test 5', 20, 1, 0, NULL, 0, '2015-06-03 06:43:39', 39, '[p]Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.[/p]', 'normal', '', 'Lorem_Ipsum_is_simply', 0, NULL, NULL, 5, 1, 1),
-(5, 'test 4', 20, 1, 0, NULL, 0, '2015-06-03 10:23:59', 17, '[p]rd dummy text ever since the 1500s, when an[/p]\r\n\r\n[p][img]https://s-media-cache-ak0.pinimg.com/236x/f0/64/a6/f064a6b4f57e9d05b5f97b8e2e5a8dfb.jpg[/img][/p]\r\n\r\n[p]unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu[/p]', 'normal', '', 'Lorem_Ipsum_is_simply_3434', 0, NULL, NULL, 5, 1, 1),
-(6, 'test 3', 20, 1, 0, NULL, 0, '2015-06-03 10:24:07', 23, '[p]rd dummy text ever s[/p]\r\n\r\n[p][img]https://s-media-cache-ak0.pinimg.com/236x/f0/64/a6/f064a6b4f57e9d05b5f97b8e2e5a8dfb.jpg[/img][/p]\r\n\r\n[p]ince the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu[/p]', 'normal', '', 'Lorem_Ipsum_is_simply435545', 0, NULL, NULL, 5, 1, 1),
-(7, 'test 2', 20, 1, 0, NULL, 0, '2015-06-03 10:24:14', 144, '[p]rd dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was po[/p]\r\n\r\n[p][img]https://s-media-cache-ak0.pinimg.com/236x/f0/64/a6/f064a6b4f57e9d05b5f97b8e2e5a8dfb.jpg[/img][/p]\r\n\r\n[p]pularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu[/p]', 'normal', '', 'Lorem_Ip343434sum_is_simply', 0, NULL, NULL, 5, 1, 1);
+(1, 'Lorem Ipsum is simply dummy text', 15, 1, 0, 'uploads/images/8976702431/post_2.jpg', 1, '2015-03-16 05:35:00', 98, '[p][p][p][p][b]Lorem Ipsum[/b]&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.[/p][/p][/p][/p][/p]\r\n', 'normal', '', 'Lorem_Ipsum_is_simply_dummy_text', 0, NULL, NULL, 5, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -776,7 +788,7 @@ CREATE TABLE IF NOT EXISTS `post_tags` (
   `title` varchar(128) NOT NULL,
   `postid` int(9) NOT NULL,
   PRIMARY KEY (`tagid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=163 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=141 ;
 
 --
 -- Dumping data for table `post_tags`
@@ -788,16 +800,7 @@ INSERT INTO `post_tags` (`tagid`, `title`, `postid`) VALUES
 (33, 'test theme', 1),
 (34, 'test post', 2),
 (35, 'post', 2),
-(134, 'dfdf', 3),
-(135, 'hghg', 3),
-(136, 'test post', 3),
-(137, 'post', 3),
-(138, '45656', 3),
-(139, '8989', 3),
-(140, '', 4),
-(148, '', 7),
-(149, '', 6),
-(150, '', 5);
+(140, '', 4);
 
 -- --------------------------------------------------------
 
@@ -1013,7 +1016,7 @@ CREATE TABLE IF NOT EXISTS `tax_rates` (
   `rate` double NOT NULL DEFAULT '0',
   `type` varchar(30) NOT NULL DEFAULT 'percent',
   `country_short` varchar(100) DEFAULT NULL,
-  `date_added` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_added` datetime NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`taxid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
@@ -1044,7 +1047,7 @@ CREATE TABLE IF NOT EXISTS `usergroups` (
 --
 
 INSERT INTO `usergroups` (`groupid`, `group_title`, `groupdata`) VALUES
-(1, 'Administrator', 'a:32:{s:16:"can_view_admincp";s:3:"yes";s:15:"can_view_usercp";s:3:"yes";s:17:"can_view_homepage";s:3:"yes";s:13:"can_view_post";s:3:"yes";s:18:"can_insert_comment";s:3:"yes";s:15:"can_manage_post";s:3:"yes";s:15:"can_addnew_post";s:3:"yes";s:13:"can_edit_post";s:3:"yes";s:15:"can_remove_post";s:3:"yes";s:19:"can_addnew_category";s:3:"yes";s:17:"can_edit_category";s:3:"yes";s:19:"can_remove_category";s:3:"yes";s:20:"can_manage_contactus";s:3:"yes";s:20:"can_remove_contactus";s:3:"yes";s:15:"can_addnew_page";s:3:"yes";s:13:"can_edit_page";s:3:"yes";s:15:"can_remove_page";s:3:"yes";s:15:"can_addnew_user";s:3:"yes";s:13:"can_edit_user";s:3:"yes";s:15:"can_remove_user";s:3:"yes";s:19:"can_edit_user_group";s:3:"yes";s:20:"can_addnew_usergroup";s:3:"yes";s:18:"can_edit_usergroup";s:3:"yes";s:20:"can_remove_usergroup";s:3:"yes";s:18:"can_setting_system";s:3:"yes";s:18:"can_manage_plugins";s:3:"yes";s:17:"can_manage_themes";s:3:"yes";s:19:"can_manage_category";s:3:"yes";s:15:"can_manage_user";s:3:"yes";s:20:"can_manage_usergroup";s:3:"yes";s:20:"can_login_to_admincp";s:3:"yes";s:19:"can_login_to_usercp";s:3:"yes";}'),
+(1, 'Administrator', 'a:30:{s:16:"can_view_admincp";s:3:"yes";s:15:"can_view_usercp";s:3:"yes";s:17:"can_view_homepage";s:3:"yes";s:13:"can_view_post";s:3:"yes";s:18:"can_insert_comment";s:3:"yes";s:15:"can_manage_post";s:3:"yes";s:15:"can_addnew_post";s:3:"yes";s:13:"can_edit_post";s:3:"yes";s:15:"can_remove_post";s:3:"yes";s:19:"can_addnew_category";s:3:"yes";s:17:"can_edit_category";s:3:"yes";s:19:"can_remove_category";s:3:"yes";s:20:"can_manage_contactus";s:3:"yes";s:20:"can_remove_contactus";s:3:"yes";s:15:"can_addnew_page";s:3:"yes";s:13:"can_edit_page";s:3:"yes";s:15:"can_remove_page";s:3:"yes";s:15:"can_addnew_user";s:3:"yes";s:13:"can_edit_user";s:3:"yes";s:15:"can_remove_user";s:3:"yes";s:19:"can_edit_user_group";s:3:"yes";s:20:"can_addnew_usergroup";s:3:"yes";s:18:"can_edit_usergroup";s:3:"yes";s:20:"can_remove_usergroup";s:3:"yes";s:18:"can_setting_system";s:3:"yes";s:18:"can_manage_plugins";s:3:"yes";s:17:"can_manage_themes";s:3:"yes";s:19:"can_manage_category";s:3:"yes";s:15:"can_manage_user";s:3:"yes";s:20:"can_manage_usergroup";s:3:"yes";}'),
 (2, 'Member', 'a:32:{s:16:"can_view_admincp";s:2:"no";s:15:"can_view_usercp";s:3:"yes";s:17:"can_view_homepage";s:3:"yes";s:13:"can_view_post";s:3:"yes";s:18:"can_insert_comment";s:3:"yes";s:15:"can_manage_post";s:3:"yes";s:15:"can_addnew_post";s:3:"yes";s:13:"can_edit_post";s:3:"yes";s:15:"can_remove_post";s:3:"yes";s:19:"can_addnew_category";s:2:"no";s:17:"can_edit_category";s:2:"no";s:19:"can_remove_category";s:2:"no";s:20:"can_manage_contactus";s:2:"no";s:20:"can_remove_contactus";s:2:"no";s:15:"can_addnew_page";s:2:"no";s:13:"can_edit_page";s:2:"no";s:15:"can_remove_page";s:2:"no";s:15:"can_addnew_user";s:2:"no";s:13:"can_edit_user";s:2:"no";s:15:"can_remove_user";s:2:"no";s:19:"can_edit_user_group";s:2:"no";s:20:"can_addnew_usergroup";s:2:"no";s:18:"can_edit_usergroup";s:2:"no";s:20:"can_remove_usergroup";s:2:"no";s:18:"can_setting_system";s:2:"no";s:18:"can_manage_plugins";s:2:"no";s:17:"can_manage_themes";s:2:"no";s:19:"can_manage_category";s:2:"no";s:15:"can_manage_user";s:2:"no";s:20:"can_manage_usergroup";s:2:"no";s:20:"can_login_to_admincp";s:2:"no";s:19:"can_login_to_usercp";s:3:"yes";}'),
 (5, 'Banned Member', 'a:32:{s:16:"can_view_admincp";s:2:"no";s:15:"can_view_usercp";s:2:"no";s:17:"can_view_homepage";s:3:"yes";s:13:"can_view_post";s:3:"yes";s:18:"can_insert_comment";s:2:"no";s:15:"can_manage_post";s:2:"no";s:15:"can_addnew_post";s:2:"no";s:13:"can_edit_post";s:2:"no";s:15:"can_remove_post";s:2:"no";s:19:"can_addnew_category";s:2:"no";s:17:"can_edit_category";s:2:"no";s:19:"can_remove_category";s:2:"no";s:20:"can_manage_contactus";s:2:"no";s:20:"can_remove_contactus";s:2:"no";s:15:"can_addnew_page";s:2:"no";s:13:"can_edit_page";s:2:"no";s:15:"can_remove_page";s:2:"no";s:15:"can_addnew_user";s:2:"no";s:13:"can_edit_user";s:2:"no";s:15:"can_remove_user";s:2:"no";s:19:"can_edit_user_group";s:2:"no";s:20:"can_addnew_usergroup";s:2:"no";s:18:"can_edit_usergroup";s:2:"no";s:20:"can_remove_usergroup";s:2:"no";s:18:"can_setting_system";s:2:"no";s:18:"can_manage_plugins";s:2:"no";s:17:"can_manage_themes";s:2:"no";s:19:"can_manage_category";s:2:"no";s:15:"can_manage_user";s:2:"no";s:20:"can_manage_usergroup";s:2:"no";s:20:"can_login_to_admincp";s:2:"no";s:19:"can_login_to_usercp";s:2:"no";}'),
 (6, 'Plugins & Theme Manager', ''),
@@ -1079,9 +1082,6 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 -- Dumping data for table `users`
 --
-
-INSERT INTO `users` (`userid`, `groupid`, `username`, `firstname`, `lastname`, `image`, `email`, `password`, `userdata`, `ip`, `verify_code`, `forgot_code`, `forgot_date`, `parentid`, `date_added`) VALUES
-(1, 1, 'safeservicejt', 'James', 'Brown', NULL, 'safeservicejt@gmail.com', 'g5Y6QFaADnY=', NULL, '127.0.0.1', NULL, NULL, NULL, 0, '2014-11-01 00:00:00');
 
 -- --------------------------------------------------------
 
