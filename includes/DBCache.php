@@ -69,11 +69,14 @@ class DBCache
 
 		// Dir::remove($path);
 
+		return false;
+
 		self::removeMulti($path);
 	}
 
 	public function removeMulti($path='')
 	{
+		return false;
 
 		$realPath=CACHES_PATH.'dbcache/'.$path.'/';
 
@@ -117,6 +120,8 @@ class DBCache
 	public function removeCache($listID,$addPath='')
 	{
 		// $cachePath='dbcache/'.$addPath.'/'.$keyName;
+
+		return false;
 
 		if(!is_array($listID))
 		{

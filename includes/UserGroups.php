@@ -141,6 +141,7 @@ class UserGroups
 		if(!$loadData=Cache::loadKey('userGroup1_'.$groupid,-1))
 		{
 			$loadData=self::get(array(
+				'cache'=>'no',
 				'where'=>"where groupid='$groupid'"
 				));
 
@@ -155,11 +156,51 @@ class UserGroups
 		}
 	}
 
+	public function updatePermission($groupid,$inputData=array())
+	{
+		$loadData=self::get(array(
+			'cache'=>'no',
+			'where'=>"where groupid='$groupid'"
+			));
 
+		if(!isset($loadData[0]['groupid']))
+		{
+			return false;
+		}
+
+		if(!is_array($loadData[0]['groupdata']))
+		{
+			$loadData[0]['groupdata']=unserialize(self::lineToArray($loadData[0]['groupdata']));
+
+		}
+
+		$total=count($inputData);
+
+		$listKeys=array_keys($inputData);
+
+		// print_r($loadData);die();
+
+		for ($i=0; $i < $total; $i++) { 
+			$theKey=$listKeys[$i];
+
+			$loadData[0]['groupdata'][$theKey]=$inputData[$theKey];
+
+		}
+		
+		$loadData[0]['groupdata']=self::arrayToLine($loadData[0]['groupdata']);
+
+		$updateData=array(
+			'groupdata'=>$loadData[0]['groupdata']
+			);
+
+		self::update($groupid,$updateData);		
+
+	}
 
 	public function removePermission($groupid,$inputData=array())
 	{
 		$loadData=self::get(array(
+			'cache'=>'no',
 			'where'=>"where groupid='$groupid'"
 			));
 
@@ -190,7 +231,8 @@ class UserGroups
 			}
 		}
 
-		$groupdata=serialize(self::arrayToLine($groupdata));
+		// $groupdata=serialize(self::arrayToLine($groupdata));
+		$groupdata=self::arrayToLine($groupdata);
 
 		$updateData=array(
 			'groupdata'=>$groupdata
@@ -202,6 +244,7 @@ class UserGroups
 	public function addPermission($groupid,$inputData=array())
 	{
 		$loadData=self::get(array(
+			'cache'=>'no',
 			'where'=>"where groupid='$groupid'"
 			));
 
@@ -227,7 +270,8 @@ class UserGroups
 			$groupdata[$keyName]=$inputData[$keyName];
 		}
 
-		$groupdata=serialize(self::arrayToLine($groupdata));
+		// $groupdata=serialize(self::arrayToLine($groupdata));
+		$groupdata=self::arrayToLine($groupdata);
 
 		$updateData=array(
 			'groupdata'=>$groupdata
@@ -245,6 +289,7 @@ class UserGroups
 			if(!$loadData=Cache::loadKey('userGroup1_'.$groupid,-1))
 			{
 				$loadData=self::get(array(
+					'cache'=>'no',
 					'where'=>"where groupid='$groupid'"
 					));
 
@@ -458,7 +503,7 @@ class UserGroups
 	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
 
-		if(isset($post['groupdata']))
+		if(isset($post['groupdata']) && !is_array($post['groupdata']))
 		{
 			$post['groupdata']=self::lineToArray($post['groupdata']);
 		}
