@@ -71,27 +71,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
 INSERT INTO `categories` (`catid`, `title`, `friendly_url`, `parentid`, `image`, `sort_order`, `date_added`, `status`) VALUES
 (15, 'United', 'United', '0', '/uploads/images/2231793638/post_2.jpg', 15, '2015-01-18 07:57:36', 1),
 (19, 'Cat 1', 'Cat_1', '0', NULL, 0, '2015-03-31 09:41:40', 1),
-(20, 'Cat 2 test', 'Cat-2-test', '0', NULL, 0, '2015-03-31 09:41:42', 1),
-(24, 'Manhua', 'Manhua', '0', NULL, 0, '2015-08-08 03:06:00', 1),
-(25, 'Huyá»n Huyá»…n', 'Huyen-Huyen', '0', NULL, 0, '2015-08-08 03:06:00', 1),
-(26, 'Supernatural', 'Supernatural', '0', NULL, 0, '2015-08-08 03:06:00', 1),
-(27, 'Action', 'Action', '0', NULL, 0, '2015-08-08 03:12:40', 1),
-(28, 'Fantasy', 'Fantasy', '0', NULL, 0, '2015-08-08 04:59:27', 1),
-(29, 'Shounen', 'Shounen', '0', NULL, 0, '2015-08-08 04:59:27', 1),
-(30, 'Adventure', 'Adventure', '0', NULL, 0, '2015-08-08 04:59:27', 1),
-(31, 'Manhwa', 'Manhwa', '0', NULL, 0, '2015-08-08 04:59:27', 1),
-(32, 'Manga', 'Manga', '0', NULL, 0, '2015-08-08 05:01:08', 1),
-(33, 'Drama', 'Drama', '0', NULL, 0, '2015-08-10 02:23:18', 1),
-(34, 'Shoujo Ai', 'Shoujo-Ai', '0', NULL, 0, '2015-08-10 02:23:18', 1),
-(35, 'Slice Of Life', 'Slice-Of-Life', '0', NULL, 0, '2015-08-10 02:23:18', 1),
-(36, 'School Life', 'School-Life', '0', NULL, 0, '2015-08-10 02:24:37', 1),
-(37, 'Shounen Ai', 'Shounen-Ai', '0', NULL, 0, '2015-08-10 02:24:37', 1),
-(38, 'Josei', 'Josei', '0', NULL, 0, '2015-08-10 02:25:19', 1),
-(39, 'Shoujo', 'Shoujo', '0', NULL, 0, '2015-08-10 02:25:19', 1),
-(40, 'One Shot', 'One-Shot', '0', NULL, 0, '2015-08-10 02:26:21', 1),
-(41, 'Comedy', 'Comedy', '0', NULL, 0, '2015-08-10 02:27:07', 1),
-(42, 'Seinen', 'Seinen', '0', NULL, 0, '2015-08-10 02:27:07', 1),
-(43, 'Romance', 'Romance', '0', NULL, 0, '2015-08-10 02:28:04', 1);
+(20, 'Cat 2 test', 'Cat-2-test', '0', NULL, 0, '2015-03-31 09:41:42', 1);
 
 -- --------------------------------------------------------
 
