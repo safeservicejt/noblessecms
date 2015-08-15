@@ -71,6 +71,105 @@ class controlTheme
 
 		View::make('admincp/footer');		
 	}
+
+	public function edit()
+	{
+		if(!$match=Uri::match('\/edit\/(\w+)'))
+		{
+			Redirect::to(ADMINCP_URL);
+		}
+
+		$themeName=$match[1];
+
+		$thePath=THEMES_PATH.$themeName.'/';
+
+		if(!is_dir($thePath))
+		{
+			Redirect::to(ADMINCP_URL);
+		}
+
+		$subPath=Request::get('path','');
+
+		if(preg_match('/\.\./i', $subPath))
+		{
+			// Alert::make('You can not do this action.');
+
+			$subPath=dirname($subPath);
+		}
+
+		$thePath.=$subPath;
+
+		$queryPath=$thePath;
+
+		$pageData=array();
+
+		if(preg_match('/.*?\.\w+/i', $subPath))
+		{
+			if(!preg_match('/(\w+)\/\w+\.\w+/i', $subPath,$match))
+			{
+				$subPath=dirname($subPath);
+			}
+			else
+			{
+				$subPath=$match[1];
+			}
+			
+
+			$pageData['file']['name']=basename($queryPath);
+
+			$pageData['file']['data']=file_get_contents($queryPath);
+
+			$queryPath=dirname($queryPath);
+
+			if(Request::has('btnSave'))
+			{
+				$savePath=$queryPath.'/'.$pageData['file']['name'];
+
+				$saveData=trim(Request::get('send.file_content',''));
+
+				File::create($savePath,$saveData);
+
+				$pageData['file']['data']=file_get_contents($savePath);
+			}
+		}		
+
+		$listFiles=Dir::all($queryPath);
+
+		if(isset($listFiles[0])=='.')
+		{
+			unset($listFiles[0]);
+		}
+		if(isset($listFiles[1])=='..')
+		{
+			unset($listFiles[1]);
+		}
+
+		sort($listFiles);
+
+
+		$pageData['listFiles']=$listFiles;
+
+		$pageData['themeName']=$themeName;
+
+		$pageData['themePath']=THEMES_PATH.$themeName.'/';
+
+		$pageData['thisPath']=$queryPath;	
+
+		$pageData['subPath']=$subPath.'/';
+
+
+
+		// print_r($pageData['listFiles']);die();
+
+		System::setTitle('Edit theme '.$themeName.' - '.ADMINCP_TITLE);
+
+		View::make('admincp/head',array());
+
+		self::makeContents('themeEdit',$pageData);
+
+		View::make('admincp/footer');
+
+	}
 	
 	public function setting()
 	{
@@ -106,8 +205,9 @@ class controlTheme
 
 		$post['filePath']=$info;
 
+		System::setTitle('Setting theme '.$theName.' - '.ADMINCP_TITLE);
 
-		View::make('admincp/head',array('title'=>'Setting theme - '.ADMINCP_TITLE));
+		View::make('admincp/head',array());
 
 		self::makeContents('themeSetting',$post);
 

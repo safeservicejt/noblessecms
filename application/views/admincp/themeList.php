@@ -34,6 +34,8 @@
 				<div class="row">
 					<div class="col-lg-12">
 					<a href="<?php echo ROOT_URL;?>admincp/theme/setting/<?php echo THEME_NAME;?>" class="btn btn-primary">Setting</a>
+					<a href="<?php echo ROOT_URL;?>admincp/theme/edit/<?php echo THEME_NAME;?>" class="btn btn-danger">Edit</a>
+
 					</div>					
 				</div>
 				<!-- row -->
