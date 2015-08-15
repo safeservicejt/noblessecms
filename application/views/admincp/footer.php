@@ -49,6 +49,8 @@
 
 
     <script src="<?php echo ROOT_URL;?>bootstrap/sbnoblesse/js/custom.js"></script>
+    
+    <?php echo System::getVar('admincp_footer');?>
 
 </body>
 

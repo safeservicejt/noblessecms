@@ -32,6 +32,20 @@ class controlAdmincp
 			}			
 		}
 
+		$codeHead=Plugins::load('admincp_header');
+
+		$codeHead=is_array($codeHead)?'':$codeHead;
+
+		$codeFooter=Plugins::load('admincp_footer');
+
+		$codeFooter=is_array($codeFooter)?'':$codeFooter;
+
+		// print_r($codeHead);die();
+
+		System::defineGlobalVar('admincp_header',$codeHead);
+
+		System::defineGlobalVar('admincp_footer',$codeFooter);
+
 		Controller::load($controlName);
 	}
 }

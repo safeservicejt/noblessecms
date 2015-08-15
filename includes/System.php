@@ -19,7 +19,17 @@ class System
 
 	public function defineGlobalVar($keyName,$keyVal)
 	{
-		self::addVar($keyName,$keyVal);
+		self::defineVar($keyName,$keyVal);
+	}
+
+	public function getVar($keyName,$zoneName='global')
+	{
+		if(!isset(self::$listVar[$zoneName][$keyName]))
+		{
+			return false;
+		}
+
+		return self::$listVar[$zoneName][$keyName];
 	}
 
 	public function before_system_start()
