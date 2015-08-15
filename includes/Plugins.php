@@ -380,7 +380,6 @@ class Plugins
 			$funcName=$theZone['func'];
 
 
-
 			if(!function_exists($funcName))
 			{
 				include($zonePath);

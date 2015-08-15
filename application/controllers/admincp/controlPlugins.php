@@ -186,9 +186,18 @@ class controlPlugins
 
 		$path=PLUGINS_PATH.$foldername.'/index.php';
 
+
 		if(file_exists($path))
 		{
-			require($path);
+			$loadFuncs=get_defined_functions();
+
+			$tmp=implode(',', $loadFuncs['user']);
+
+			if(!preg_match('/'.$foldername.'/i', $tmp))
+			{
+				require($path);
+			}
+			
 		}
 
 		PluginsZone::saveCache();
