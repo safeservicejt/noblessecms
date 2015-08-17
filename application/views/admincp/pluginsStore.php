@@ -8,7 +8,7 @@
 
     <!-- row -->
   <div class="row">
-  	<div class="col-lg-6">
+    <div class="col-lg-6">
         <ul class="plugin-store-ul">
           <li><a href="#" id="showLastest">Lastest</a> </li>
            <li><a href="#" id="showFeatured">Featured</a> </li>
@@ -19,9 +19,9 @@
 
     <div class="col-lg-3 col-lg-offset-3 text-right">
       <div class="input-group input-group-sm">
-        <input type="text" class="form-control" placeholder="Search for...">
+        <input type="text" class="form-control" id="txt-keyword" placeholder="Search for...">
         <span class="input-group-btn">
-          <button class="btn btn-primary" type="button"><span  class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+          <button class="btn btn-primary" id="btn-search" type="button"><span  class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
         </span>
       </div><!-- /input-group -->      
     </div>
@@ -37,14 +37,14 @@
 </div>
 
 <div class="row">
-	<div class="col-lg-12 text-right">
+  <div class="col-lg-12 text-right">
   <nav>
     <ul class="pagination pagination-sm">
     <li class="previous"><a href="#" id="btnShowOlder"><span aria-hidden="true">&larr;</span> Older</a></li>
     <li class="next"><a href="#" id="btnShowNewer">Newer <span aria-hidden="true">&rarr;</span></a></li>
     </ul>
-  </nav>		
-	</div>
+  </nav>    
+  </div>
 </div>
 
 
@@ -57,6 +57,14 @@ var showType='lastest';
 
 var thePage=0;
 
+var is_search='no';
+
+var search_keyword='';
+
+var search_page=0;
+
+var search_limit_show=20;
+
   function panda_show_loading()
   {
     // $('.panda-loading').show();
@@ -67,6 +75,49 @@ var thePage=0;
     // $('.panda-loading').hide();
   }
 
+
+  function searchItem(keyword)
+  {
+    $.ajax({
+      async: false,
+       type: "POST",
+       url: api_url+'pluginstore/loadhtml',
+       dataType: "json",
+     data: ({
+            is_filter : 'yes',
+            send_keyword : keyword,
+            send_page : search_page,
+            search_limit_show : search_limit_show
+            }),
+       error : function(XMLHttpRequest, textStatus, errorThrown){
+
+        alert('Error: '+textStatus);
+
+        $('#btn-search').attr('disabled',false);
+
+       },
+       success: function(msg)
+              {
+
+                $('#btn-search').attr('disabled',false);
+
+                if(msg['error']=='no')
+                {
+                  panda_hide_loading();
+
+                  $(this).attr('disabled',false);
+
+                  $('.rowListItem').html(msg['data']);
+                }
+                else
+                {
+                  alert(msg['message']);
+                }
+                
+               }
+         }); 
+  }
+
 $(document).ready(function(){
 
   $('#showLastest').click(function(){
@@ -74,6 +125,8 @@ $(document).ready(function(){
     panda_show_loading();
 
     showType='lastest';
+
+    is_search='no';
 
     thePage=0;
 
@@ -96,6 +149,8 @@ $(document).ready(function(){
      success: function(msg)
             {
               // alert(msg);return false;
+
+
               panda_hide_loading();
 
               $(this).attr('disabled',false);
@@ -110,6 +165,8 @@ $(document).ready(function(){
     panda_show_loading();
 
     showType='featured';
+
+    is_search='no';
 
     thePage=0;
 
@@ -140,11 +197,13 @@ $(document).ready(function(){
                }
          });     
   });
-	$('#showPopular').click(function(){
+  $('#showPopular').click(function(){
 
     panda_show_loading();
 
     showType='popular';
+
+    is_search='no';
 
     thePage=0;
 
@@ -183,6 +242,17 @@ $( document ).on( "click", "#btnShowNewer", function() {
 
 panda_show_loading();
 
+if(is_search=='yes')
+{
+  search_page=parseInt(search_page)+1;
+
+  searchItem(search_keyword);
+
+  return false;
+}
+
+// is_search='no';
+
   $(this).attr('disabled',true);
 
   // alert(theUrl);return false;
@@ -220,6 +290,20 @@ panda_show_loading();
 $( document ).on( "click", "#btnShowOlder", function() {
 
 panda_show_loading();
+
+if(is_search=='yes')
+{
+  if(parseInt(search_page) <= 0)
+  {
+    search_page=1;
+  }
+  
+  search_page=parseInt(search_page)-1;
+  
+  searchItem(search_keyword); 
+  return false;
+}
+
 
   $(this).attr('disabled',true);
 
@@ -295,6 +379,29 @@ $( document ).on( "click", "button#btnInstall", function() {
               
              }
        }); 
+}); 
+
+$( document ).on( "click", "button#btn-search", function() {
+
+  var txtKeyword=$('#txt-keyword').val();
+
+  is_search='yes';
+
+  if(txtKeyword.length <= 1)
+  {
+    alert('Not valid.');
+
+    return false;
+  }
+
+  $(this).attr('disabled',true);
+
+  // alert(theUrl);return false;
+
+  search_keyword=txtKeyword;
+
+  searchItem(txtKeyword);
+
 }); 
 
 </script>
