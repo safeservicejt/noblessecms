@@ -102,6 +102,28 @@
                     <label><strong>Url</strong></label>
                     <input type="text" class="form-control" name="send[url]" placeholder="Url" id="txtTitle" />
                 </p>
+
+                <p>
+                    <label><strong>Parent</strong></label>
+                    <select class="form-control" name="send[parentid]">
+                        <?php 
+                        if(isset($listLinks[0]['id']))
+                        {
+                            $li='';
+
+                            $total=count($listLinks);
+
+                            for ($i=0; $i < $total; $i++) { 
+                                $li.='<option value="'.$listLinks[$i]['id'].'">'.$listLinks[$i]['title'].'</option>';
+                            }
+
+                            echo $li;
+                        }
+
+                        ?>
+                        
+                    </select>
+                </p>
                  
 	    		<p>
 	    			<button type="submit" class="btn btn-primary" name="btnAdd">Add new</button>
@@ -127,7 +149,27 @@
                     <label><strong>Sort Order</strong></label>
                     <input type="text" class="form-control" name="update[sort_order]" value="<?php if(isset($edit['sort_order']))echo $edit['sort_order'];?>" placeholder="Sort Order" id="txtSortOrder" />
                 </p>
- 
+                 <p>
+                    <label><strong>Parent</strong></label>
+                    <select class="form-control" name="update[parentid]">
+                        <?php 
+                        if(isset($listLinks[0]['id']))
+                        {
+                            $li='';
+
+                            $total=count($listLinks);
+
+                            for ($i=0; $i < $total; $i++) { 
+                                $li.='<option value="'.$listLinks[$i]['id'].'">'.$listLinks[$i]['title'].'</option>';
+                            }
+
+                            echo $li;
+                        }
+
+                        ?>
+                        
+                    </select>
+                </p>
 	    		<p>
 	    			<button type="submit" class="btn btn-primary" name="btnSave">Save changes</button>
 	    		</p>   		

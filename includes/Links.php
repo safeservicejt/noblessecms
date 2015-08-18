@@ -20,7 +20,7 @@ class Links
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="id,date_added,title,url,status,sort_order";
+		$field="id,parentid,date_added,title,url,status,sort_order";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

@@ -29,6 +29,8 @@ function updateProcess($id)
 
 	$valid=Validator::make(array(
 		'update.title'=>'required|min:1|slashes',
+		'update.parentid'=>'required|min:1|slashes',
+		
 		'update.url'=>'required|min:1|slashes',
 		'update.sort_order'=>'required|min:1|slashes'
 		));
@@ -48,6 +50,7 @@ function insertProcess()
 
 	$valid=Validator::make(array(
 		'send.title'=>'required|min:1|slashes',
+		'send.parentid'=>'required|min:1|slashes',
 		'send.url'=>'required|min:1|slashes'
 
 		));

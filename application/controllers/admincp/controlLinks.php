@@ -75,6 +75,11 @@ class controlLinks
 			$post['edit']=$loadData[0];
 		}
 
+		$post['listLinks']=Links::get(array(
+			'orderby'=>'order by sort_order asc',
+			'cache'=>'no'
+			));
+
 		System::setTitle('Links list - '.ADMINCP_TITLE);
 
 		View::make('admincp/head');
