@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 14, 2015 at 09:54 AM
+-- Generation Time: Aug 18, 2015 at 11:13 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `address` (
 -- Dumping data for table `address`
 --
 
+
 -- --------------------------------------------------------
 
 --
@@ -62,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`catid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `categories`
@@ -515,21 +516,22 @@ INSERT INTO `layouts` (`layoutid`, `nodeid`, `layoutname`) VALUES
 
 CREATE TABLE IF NOT EXISTS `links` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
+  `parentid` int(9) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
   `sort_order` int(9) NOT NULL DEFAULT '0',
   `date_added` datetime NOT NULL,
   `status` varchar(30) NOT NULL DEFAULT 'published',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `links`
 --
 
-INSERT INTO `links` (`id`, `title`, `url`, `sort_order`, `date_added`, `status`) VALUES
-(6, 'Home', '/', 0, '2015-07-14 08:12:42', 'published'),
-(8, 'Contact Us', '/contactus', 1, '2015-07-14 08:13:13', 'published');
+INSERT INTO `links` (`id`, `parentid`, `title`, `url`, `sort_order`, `date_added`, `status`) VALUES
+(6, 0, 'Home', '/', 0, '2015-07-14 08:12:42', 'published'),
+(8, 0, 'Contact Us', '/contactus', 1, '2015-07-14 08:13:13', 'published');
 
 -- --------------------------------------------------------
 
@@ -695,7 +697,7 @@ CREATE TABLE IF NOT EXISTS `plugins_meta` (
   `type` varchar(100) NOT NULL DEFAULT 'plugin',
   `status` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`metaid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
