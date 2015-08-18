@@ -29,7 +29,40 @@ switch ($do) {
 	
 
 }
+function cronjob_exists($command){
 
+    $cronjob_exists=false;
+
+    exec('crontab -l', $crontab);
+
+
+    if(isset($crontab)&&is_array($crontab)){
+
+        $crontab = array_flip($crontab);
+
+        if(isset($crontab[$command])){
+
+            $cronjob_exists=true;
+
+        }
+
+    }
+    return $cronjob_exists;
+}
+// Append a cronjob
+
+function append_cronjob($command){
+
+    if(is_string($command)&&!empty($command)&&cronjob_exists($command)===FALSE){
+
+        //add job to crontab
+        exec('echo -e "`crontab -l`\n'.$command.'" | crontab -', $output);
+
+
+    }
+
+    return $output;
+}
 function startInstall()
 {
   $dbhost=trim($_REQUEST['dbhost']);
@@ -49,6 +82,16 @@ function startInstall()
   $username=trim($_REQUEST['username']);
   
   $password=md5(trim($_REQUEST['password']));
+
+  if(!preg_match('/^http/i', $url))
+  {
+    $url='http://'.$url;
+  }
+
+  if(!preg_match('/^http.*?\/$/i', $url))
+  {
+    $url=$url.'/';
+  }
 
   $conn = new mysqli($dbhost, $dbuser, $dbpass, $dbname, $dbport);	
 
@@ -114,6 +157,10 @@ function startInstall()
   }
 
   rename('../install','../installBackup');
+
+  exec('crontab -r', $crontab);
+
+  append_cronjob('* * * * * curl -s '.$url.'api/cronjob/run.php');  
   
 	$result['username']=Request::get('username');
 	$result['password']=Request::get('password');

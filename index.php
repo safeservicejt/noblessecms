@@ -3,6 +3,12 @@ ob_start();
 session_start();
 error_reporting(0);
 
+// Check install or not
+if(file_exists('install/index.php'))
+{
+	header("Location: install/");
+}
+
 define("SERVER_URL", 'http://noblessecms.com/');
 
 define("SYSTEM_VERSION", '1.0');
