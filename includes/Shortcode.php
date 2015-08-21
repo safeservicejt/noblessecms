@@ -433,6 +433,9 @@ class Shortcode
 		$str=trim($str);
 
 		$str=String::clearSpace($str);
+		
+		$str=preg_replace('/[\s]+\]/i', ']', $str);
+
 	// BBcode array
 	    $find = array(
 	        '~\[b\](.*?)\[/b\]~s',
@@ -640,6 +643,9 @@ class Shortcode
 		$str=trim($str);
 
 		$str=String::clearSpace($str);
+
+		$str=preg_replace('/[\s]+\]/i', ']', $str);
+
 	// HTML tags to replace BBcode
 	    $regex = array(
 	        '/<img class="(.*?)" src="(.*?)" \/>/i'=>'[img class="(.*?)"]$2[/img]',
