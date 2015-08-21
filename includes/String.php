@@ -117,7 +117,7 @@ class String
             
         $iv_size = mcrypt_get_iv_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
         $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-        $encrypted_string = mcrypt_encrypt(MCRYPT_BLOWFISH, ENCRYPT_SECRET_KEY, utf8_encode($pure_string), MCRYPT_MODE_ECB, $iv);
+        $encrypted_string = mcrypt_encrypt(MCRYPT_BLOWFISH, $secretKey, utf8_encode($pure_string), MCRYPT_MODE_ECB, $iv);
 
         $encrypted_string=base64_encode($encrypted_string);
 
