@@ -475,10 +475,10 @@ class Shortcode
 	        '~\[row id="(.*?)" class="(.*?)"\](.*?)\[\/row\]~s',
 
 	        '~\[col\](.*?)\[\/col\]~s',
-	        '~\[col class=(.*?)\](.*?)\[\/col\]~s',
-	        '~\[col id=(.*?)\](.*?)\[\/col\]~s',
-	        '~\[col class=(.*?) id=(.*?)\](.*?)\[\/col\]~s',
-	        '~\[col id=(.*?) class=(.*?)\](.*?)\[\/col\]~s',
+	        '~\[col class="(.*?)"\](.*?)\[\/col\]~s',
+	        '~\[col id="(.*?)"\](.*?)\[\/col\]~s',
+	        '~\[col class="(.*?)" id="(.*?)"\](.*?)\[\/col\]~s',
+	        '~\[col id="(.*?)" class="(.*?)"\](.*?)\[\/col\]~s',
 
 	        '~\[img class="(.*?)"\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~s',
 
@@ -679,7 +679,11 @@ class Shortcode
 	        '/<img alt="(.*?)" src="(.*?)" .*? \/>/i'=>'[img:auto]$2[/img]',
 	        '/<img.*?src="(.*?)" .*?>/i'=>'[img:auto]$1[/img]',
 	        '/<img.*?src="(.*?)".*?>/i'=>'[img:auto]$1[/img]',
-	        '/<img alt src="(.*?)".*?>/i'=>'[img:auto]$1[/img]'
+	        '/<img alt src="(.*?)".*?>/i'=>'[img:auto]$1[/img]',
+
+	        '/<row>(.*?)<\/row>/is'=>'[row]$1[/row]',
+	        '/<col>(.*?)<\/col>/is'=>'[col]$1[/col]'
+	   
 
 	    );
 
