@@ -66,6 +66,18 @@ class Shortcode
 
 // Shortcode::add('youtube','make_youtube_video');
 
+	public function strip($text='')
+	{
+		$replaces=array(
+			'/\[\w+.*?\].*?\[\/\w+\]/i'=>'',
+			'/\[\w+.*?\/\]/i'=>'',
+			'/\[\w+.*?\]/i'=>''
+			);
+		$text=preg_replace(array_keys($replaces), array_values($replaces), $text);		
+
+		return $text;
+	}
+	
 	public function templateAdd($scName,$funcName)
 	{
 		if(!isset(Plugins::$listShortCodes['shortcode']))
@@ -433,7 +445,7 @@ class Shortcode
 		$str=trim($str);
 
 		$str=String::clearSpace($str);
-		
+
 		$str=preg_replace('/[\s]+\]/i', ']', $str);
 
 	// BBcode array
