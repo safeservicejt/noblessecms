@@ -83,11 +83,11 @@ function startInstall()
 
   $email=trim($_REQUEST['email']);
   
-  $password=md5(trim($_REQUEST['password']));
+  $password=trim($_REQUEST['password']);
 
   $secretKey=String::randAlpha(20);
 
-  define("ENCRYPT_SECRET_KEY", $secretKey);
+  // define("ENCRYPT_SECRET_KEY", $secretKey);
 
   if(!preg_match('/^http/i', $url))
   {
@@ -130,11 +130,11 @@ function startInstall()
   $loadData=file_get_contents($rootPath.'config.php');
 
   $replace=array(
-    '/"dbhost" \=\> "\w+"/i'=>'"dbhost" => "'.$dbhost.'"',
-    '/"dbuser" \=\> "\w+"/i'=>'"dbuser" => "'.$dbuser.'"',
+    '/"dbhost" \=\> ".*?"/i'=>'"dbhost" => "'.$dbhost.'"',
+    '/"dbuser" \=\> ".*?"/i'=>'"dbuser" => "'.$dbuser.'"',
     '/"dbpassword" \=\> ""/i'=>'"dbpassword" => "'.$dbpass.'"',
-    '/"dbname" \=\> "\w+"/i'=>'"dbname" => "'.$dbname.'"',
-    '/"dbport" \=\> "\w+"/i'=>'"dbport" => "'.$dbport.'"',
+    '/"dbname" \=\> ".*?"/i'=>'"dbname" => "'.$dbname.'"',
+    '/"dbport" \=\> ".*?"/i'=>'"dbport" => "'.$dbport.'"',
    '/root_path = \'.*?\';/i'=>'root_path = \''.$path.'\';',
    '/root_url = \'.*?\';/i'=>'root_url = \''.$url.'\';',
    '/"ENCRYPT_SECRET_KEY", ".*?"/i'=>'"ENCRYPT_SECRET_KEY", "'.$secretKey.'"'
@@ -154,7 +154,7 @@ function startInstall()
 
   $date_added=date('Y-m-d H:i:s');
 
-  $md5Pass=String::encrypt($password);
+  $md5Pass=String::encrypt($password,$secretKey);
 
   $query=$conn->query("insert into users(groupid,firstname,lastname,username,email,password,ip,date_added) values('1','Admin','System','$username','$email','$md5Pass','$ip','$date_added')");
    
