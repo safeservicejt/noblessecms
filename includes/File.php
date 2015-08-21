@@ -18,6 +18,11 @@ class File
     
     public function unzipModule($fullPath,$remove='no')
     {
+        if(!isset($fullPath[5]) || !file_exists($fullPath))
+        {
+            return false;
+        }
+
         $zip = new Unzip($fullPath);
 
         $zip->extract();
@@ -424,7 +429,7 @@ class File
 
     public function remove($filePath)
     {
-        if(file_exists($filePath))
+        if(file_exists($filePath) && !is_dir($filePath))
         {
             unlink($filePath);
 

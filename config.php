@@ -3,7 +3,6 @@
 static $root_path = 'D:\wamp\htdocs\project\2015/noblessecmsv2/';
 static $root_url = 'http://test.vn/project/2015/noblessecmsv2/';
 
-date_default_timezone_set("Asia/Saigon");
 
 define("ENCRYPT_SECRET_KEY", "*&^@#&)@#)(*)(@#");
 
