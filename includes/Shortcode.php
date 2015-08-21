@@ -447,7 +447,11 @@ class Shortcode
 	        '~\[img:auto\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~s',
 	        '~\[img:auto-responsive\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~s',
 
+	        '~\[url="?\'?(.*?)"?\'?\](.*?)\[\/url\]~s',
 	        '~\[url href="(.*?)" class="(.*?)"\](.*?)\[\/url\]~s',
+	        '~\[url href=(.*?)\](.*?)\[\/url\]~s',
+
+
 	        '~\[label class="(.*?)"\](.*?)\[\/label\]~s',
 	        '~\[alert class="(.*?)"\](.*?)\[\/alert\]~s',
 
@@ -523,7 +527,10 @@ class Shortcode
 	        '<img src="" alt="image" class="js-auto" data-src="$1" alt="" />',
 	        '<img src="" alt="image" class="js-auto-responsive" data-src="$1" class="img-responsive" alt="" />',
 
+	        '<a href="$1">$2</a>',
 	        '<a href="$1" class="$2">$3</a>',
+	        '<a href="$1">$2</a>',
+
 	        '<span class="label label-default $1">$2</span>',
 	        '<div class="alert alert-default $1">$2</div>',
 
@@ -663,13 +670,15 @@ class Shortcode
 	        '/<div class="alert alert-default (.*?)">(.*?)<\/div>/i'=>'[alert class="$1"]$2[/alert]',
 	        '/<span class="label label-default (.*?)">(.*?)<\/span>/i'=>'[label class="$1"]$2[/label]',
 	        '/<a href="(.*?)" class="(.*?)">(.*?)<\/a>/i'=>'[url href="$1" class="$2"]$3[/url]',
+	        '/<a.*?href="(.*?)" class="(.*?)">(.*?)<\/a>/i'=>'[url href="$1" class="$2"]$3[/url]',
+	        '/<a.*?href="(.*?)".*?>(.*?)<\/a>/i'=>'[url="$1"]$2[/url]',
 
 			'/<img.*?src="(.*?)".*?class="img-responsive".*?\/>/i'=>'[img:auto-responsive]$1[/img]',
 			'/<img.*?class="img-responsive".*?src="(.*?)".*?\/>/i'=>'[img:auto-responsive]$1[/img]',
 	        '/<img alt="" src="(.*?)" .*? \/>/i'=>'[img:auto]$1[/img]',
 	        '/<img alt="(.*?)" src="(.*?)" .*? \/>/i'=>'[img:auto]$2[/img]',
-	        '/<img.*? src="(.*?)" .*?>/i'=>'[img:auto]$1[/img]',
-	        '/<img.*? src="(.*?)".*?>/i'=>'[img:auto]$1[/img]',
+	        '/<img.*?src="(.*?)" .*?>/i'=>'[img:auto]$1[/img]',
+	        '/<img.*?src="(.*?)".*?>/i'=>'[img:auto]$1[/img]',
 	        '/<img alt src="(.*?)".*?>/i'=>'[img:auto]$1[/img]'
 
 	    );
