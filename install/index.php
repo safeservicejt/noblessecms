@@ -141,9 +141,13 @@ include('../includes/Request.php');
                           <strong>Your site path</strong><br>
                           <input type="text" class="form-control txtPath" name="info[path]" value="<?php echo Request::get('info.path',dirname(dirname(__FILE__))).'/';?>" placeholder="/home/yoursite/" required />
                           <br>
-                          <strong>Administrator email:</strong><br>
-                          <input type="email" class="form-control txtUsername" name="info[username]" value="<?php echo Request::get('info.username','admin@gmail.com');?>" required />
+                          <strong>Administrator Username:</strong><br>
+                          <input type="email" class="form-control txtUsername" name="info[username]" value="<?php echo Request::get('info.username','admin');?>" required />
                           <br>
+                          <strong>Administrator email:</strong><br>
+                          <input type="email" class="form-control txtEmail" name="info[email]" value="<?php echo Request::get('info.email','admin@gmail.com');?>" required />
+                          <br>
+
                           <strong>Administrator password</strong><br>
                           <input type="text" class="form-control txtPassword" name="info[password]" value="<?php echo Request::get('info.password','password');?>" required />
 

@@ -28,6 +28,8 @@ $(document).ready(function(){
 
 		var txtUsername=$('.txtUsername').val();
 
+		var txtEmail=$('.txtEmail').val();
+
 		var txtPassword=$('.txtPassword').val();
 
 		// if(txtDBName.length <= 1)
@@ -66,12 +68,19 @@ $(document).ready(function(){
 
 			return false;
 		}
+		if(txtEmail.length <= 1)
+		{
+			showError('.notifyPanel-2','Enter administrator email');
+
+			return false;
+		}
 		if(txtUsername.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter administrator username');
 
 			return false;
 		}
+
 		if(txtPassword.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter administrator password');
@@ -138,6 +147,8 @@ $(document).ready(function(){
 
 		var txtUsername=$('.txtUsername').val();
 
+		var txtEmail=$('.txtEmail').val();
+
 		var txtPassword=$('.txtPassword').val();
 
 		// if(txtDBName.length <= 1)
@@ -182,6 +193,13 @@ $(document).ready(function(){
 
 			return false;
 		}
+		if(txtEmail.length <= 1)
+		{
+			showError('.notifyPanel-2','Enter administrator email');
+
+			return false;
+		}
+
 		if(txtPassword.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter administrator password');
@@ -205,16 +223,19 @@ $(document).ready(function(){
 			  dbport : txtDBPort,
 			  url : txtUrl,
 			  path : txtPath,
+			  email : txtEmail,
 			  username : txtUsername,
 			  password : txtPassword
 			  }),
 	   dataType: "json",
 	   success: function(msg)
 						{
+							// alert(msg);return false;
 						$('.wrapper').slideUp('fast');
 							// alert(msg['error']);return false;
 						 if(msg['error']=='yes')
 						 {
+						 	alert(msg['message']);
 						 	showError('.notifyPanel-2','Can not connect to database');
 
 						 	$(this).val('Complete');

@@ -110,25 +110,30 @@ class String
         return $inputData;
     }
     
-    public function encrypt($pure_string) {
-        
-    $iv_size = mcrypt_get_iv_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
-    $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-    $encrypted_string = mcrypt_encrypt(MCRYPT_BLOWFISH, ENCRYPT_SECRET_KEY, utf8_encode($pure_string), MCRYPT_MODE_ECB, $iv);
+    public function encrypt($pure_string,$secretKey='') 
+    {
 
-    $encrypted_string=base64_encode($encrypted_string);
+        $secretKey=isset($secretKey[5])?$secretKey:ENCRYPT_SECRET_KEY;
+            
+        $iv_size = mcrypt_get_iv_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
+        $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+        $encrypted_string = mcrypt_encrypt(MCRYPT_BLOWFISH, ENCRYPT_SECRET_KEY, utf8_encode($pure_string), MCRYPT_MODE_ECB, $iv);
 
-    return $encrypted_string;   
+        $encrypted_string=base64_encode($encrypted_string);
+
+        return $encrypted_string;   
     }
 
-    public function decrypt($encrypted_string) {
+    public function decrypt($encrypted_string,$secretKey='') 
+    {
+        $secretKey=isset($secretKey[5])?$secretKey:ENCRYPT_SECRET_KEY;
 
-    $encrypted_string=base64_decode($encrypted_string);
+        $encrypted_string=base64_decode($encrypted_string);
 
-    $iv_size = mcrypt_get_iv_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
-    $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-    $decrypted_string = mcrypt_decrypt(MCRYPT_BLOWFISH, ENCRYPT_SECRET_KEY, $encrypted_string, MCRYPT_MODE_ECB, $iv);
-    return $decrypted_string;
+        $iv_size = mcrypt_get_iv_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
+        $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+        $decrypted_string = mcrypt_decrypt(MCRYPT_BLOWFISH, $secretKey, $encrypted_string, MCRYPT_MODE_ECB, $iv);
+        return $decrypted_string;
 
     }
 

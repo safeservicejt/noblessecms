@@ -10,23 +10,23 @@ include('import.php');
 
 if(!isset($_REQUEST['do']))
 {
-	die('Hi you !');
+  die('Hi you !');
 }
 
 $do=$_REQUEST['do'];
 
 switch ($do) {
-	case 'connect':
-	
-		checkConnect();
+  case 'connect':
+  
+    checkConnect();
 
-		break;
-	case 'complete':
+    break;
+  case 'complete':
 
-		startInstall();
+    startInstall();
 
-		break;
-	
+    break;
+  
 
 }
 function cronjob_exists($command){
@@ -80,8 +80,14 @@ function startInstall()
   $path=trim($_REQUEST['path']);
   
   $username=trim($_REQUEST['username']);
+
+  $email=trim($_REQUEST['email']);
   
   $password=md5(trim($_REQUEST['password']));
+
+  $secretKey=String::randAlpha(20);
+
+  define("ENCRYPT_SECRET_KEY", $secretKey);
 
   if(!preg_match('/^http/i', $url))
   {
@@ -93,12 +99,12 @@ function startInstall()
     $url=$url.'/';
   }
 
-  $conn = new mysqli($dbhost, $dbuser, $dbpass, $dbname, $dbport);	
+  $conn = new mysqli($dbhost, $dbuser, $dbpass, $dbname, $dbport);  
 
   if(isset($conn->connect_error[5]))
   {
-  	echo json_encode(array('error'=>'yes'));
-  	die();
+    echo json_encode(array('error'=>'yes'));
+    die();
   }
 
   if(!isset($dbname[1]))
@@ -111,7 +117,7 @@ function startInstall()
 
     if(isset($conn->connect_error[5]))
     {
-      echo json_encode(array('error'=>'yes'));
+      echo json_encode(array('error'=>'yes','message'=>'Can not connect to database'));
       die();     
     }
 
@@ -131,7 +137,7 @@ function startInstall()
     '/"dbport" \=\> "\w+"/i'=>'"dbport" => "'.$dbport.'"',
    '/root_path = \'.*?\';/i'=>'root_path = \''.$path.'\';',
    '/root_url = \'.*?\';/i'=>'root_url = \''.$url.'\';',
-
+   '/"ENCRYPT_SECRET_KEY", ".*?"/i'=>'"ENCRYPT_SECRET_KEY", "'.$secretKey.'"'
     );
 
   $loadData=preg_replace(array_keys($replace), array_values($replace), $loadData);
@@ -146,13 +152,15 @@ function startInstall()
 
   $ip=$_SERVER['REMOTE_ADDR'];
 
-  $date_added=date('Y-m-d h:i:s');
+  $date_added=date('Y-m-d H:i:s');
 
-  $query=$conn->query("insert into users(groupid,email,password,ip,date_added,is_admin) values('1','$username','$password','$ip','$date_added','1')");
+  $md5Pass=String::encrypt($password);
+
+  $query=$conn->query("insert into users(groupid,firstname,lastname,username,email,password,ip,date_added) values('1','Admin','System','$username','$email','$md5Pass','$ip','$date_added')");
    
   if(isset($conn->error[5]))
   {
-    echo json_encode(array('error'=>'yes'));
+    echo json_encode(array('error'=>'yes','message'=>$conn->error));
     die();    
   }
 
@@ -162,13 +170,13 @@ function startInstall()
 
   append_cronjob('* * * * * curl -s '.$url.'api/cronjob/run.php');  
   
-	$result['username']=Request::get('username');
-	$result['password']=Request::get('password');
-	$result['siteurl']=Request::get('url').'admincp/';
+  $result['username']=Request::get('username');
+  $result['password']=Request::get('password');
+  $result['siteurl']=Request::get('url').'admincp/';
   $result['Urlfontend']=Request::get('url');
-	$result['error']='no';
+  $result['error']='no';
 
-	echo json_encode($result);
+  echo json_encode($result);
   die();
 }
 function checkConnect()
@@ -190,11 +198,11 @@ function checkConnect()
     die('ERRORURL');    
   }
 
-  $conn = new mysqli($dbhost, $dbuser, $dbpass, '', $dbport);	
+  $conn = new mysqli($dbhost, $dbuser, $dbpass, '', $dbport); 
 
   if(isset($conn->connect_error[5]))
   {
-  	die('ERRORCONNECT');
+    die('ERRORCONNECT');
   }
 
   die('OK');
