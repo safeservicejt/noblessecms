@@ -650,7 +650,7 @@ class Shortcode
 	    return $str;		
 	}
 
-	public function toBBcode($str)
+	public function toBBCode($str)
 	{
 		$str=trim($str);
 

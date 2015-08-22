@@ -213,7 +213,8 @@ class Cache
 
         if(!file_exists($filePath))return false;
 
-        $cacheExpires = time() - filemtime($filePath);
+        // $cacheExpires = time() - filemtime($filePath);
+        $cacheExpires = time() - filectime($filePath);
 
         if ((int)$timeLive == -1 || $cacheExpires <= (int)$timeLive) {
             $cacheData = file_get_contents($filePath);
