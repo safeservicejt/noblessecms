@@ -18,7 +18,7 @@ class File
     
     public function unzipModule($fullPath,$remove='no')
     {
-        if(!isset($fullPath[5]) || !file_exists($fullPath))
+        if(!preg_match('/.*?\.(zip|rar)/i', $fullPath))
         {
             return false;
         }
@@ -31,6 +31,12 @@ class File
         {
             unlink($fullPath);
         }
+
+        $dirPath=dirname($fullPath).'/';
+
+        $listFiles=Dir::listFiles($dirPath);
+
+        return $listFiles;
 
     }
     public function downloadModule($fileUrl,$savePath,$unzip='no')
@@ -47,8 +53,12 @@ class File
 
         if($unzip!='no')
         {
-            self::unzipModule($fullPath,'yes');
+            $listFiles=self::unzipModule($fullPath,'yes');
+
+            return $listFiles;
         }
+
+        return $savePath.$fileName;
 
     }
 
@@ -429,7 +439,7 @@ class File
 
     public function remove($filePath)
     {
-        if(file_exists($filePath) && !is_dir($filePath))
+        if(preg_match('/.*?\.\w+/i', $filePath) && file_exists($filePath))
         {
             unlink($filePath);
 
@@ -441,7 +451,7 @@ class File
 
     public function removeOnly($filePath)
     {
-        if(file_exists($filePath))
+        if(preg_match('/.*?\.\w+/i', $filePath) && file_exists($filePath))
         {
             unlink($filePath);
         }
