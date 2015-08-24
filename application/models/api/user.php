@@ -5,7 +5,7 @@ function loadApi($action)
 	switch ($action) {
 		case 'login':
 			
-			if(isset($_SESSION['userid']))
+			if(isset($_COOKIE['userid']))
 			{
 				throw new Exception("You have been loggedin.");
 

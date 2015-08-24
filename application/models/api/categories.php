@@ -5,7 +5,7 @@ function loadApi($action)
 	switch ($action) {
 		case 'insert':
 			
-			if(!isset($_SESSION['groupid']))
+			if(!isset($_COOKIE['groupid']))
 			{
 				throw new Exception("You must be login.");
 

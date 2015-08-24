@@ -6,7 +6,7 @@ function loadApi($action)
 
 		case 'install':
 
-			if(!isset($_SESSION['groupid']))
+			if(!isset($_COOKIE['groupid']))
 			{
 				throw new Exception("Error Processing Request");
 			}

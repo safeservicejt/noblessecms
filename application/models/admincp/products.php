@@ -343,7 +343,7 @@ function searchProcess($txtKeyword)
 
 	$resultData=array();
 
-	$resultData['pages']=genPage('news',$curPage);	
+	$resultData['pages']=genSmallPage('news',$curPage);	
 
 	$txtKeyword=trim($txtKeyword);
 

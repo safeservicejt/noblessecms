@@ -147,7 +147,7 @@ class controlUsers
 				
 		$match=Uri::match('\/profile$');
 
-		$userid=$_SESSION['userid'];
+		$userid=Users::getCookieUserId();
 
 		if(Request::has('btnSave'))
 		{
