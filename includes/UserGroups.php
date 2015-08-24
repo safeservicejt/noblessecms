@@ -482,6 +482,24 @@ class UserGroups
 		else
 		{
 			$groupData=self::$groupData['groupdata'];
+
+			if((int)$groupid!=(int)$groupData['groupid'])
+			{
+				$loadData=self::get(array(
+					'cache'=>'no',
+					'where'=>"where groupid='$groupid'"
+					));
+
+				if(!isset($loadData[0]['groupid']))
+				{
+					return false;
+				}
+
+				$loadData[0]['groupdata']=unserialize(self::lineToArray($loadData[0]['groupdata']));
+
+				$groupData=$loadData[0]['groupdata'];		
+
+			}
 		}
 
 		$value=isset($groupData[$keyName])?$groupData[$keyName]:false;
