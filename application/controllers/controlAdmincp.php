@@ -6,9 +6,9 @@ class controlAdmincp
 	{
 		$controlName='admincp/controlDashboard';
 
-		if(Session::has('userid'))
+		if(Cookie::has('userid'))
 		{
-			$valid=UserGroups::getPermission($_SESSION['groupid'],'can_view_admincp');
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_view_admincp');
 
 			if($valid!='yes')
 			{

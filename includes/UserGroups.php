@@ -451,7 +451,8 @@ class UserGroups
 
 		if(!isset(self::$groupData['groupdata']))
 		{
-			if(!$loadData=Cache::loadKey('userGroup1_'.$groupid,-1))
+
+			if(!$loadData=Cache::loadKey('userGroup_'.$groupid,-1))
 			{
 				$loadData=self::get(array(
 					'cache'=>'no',

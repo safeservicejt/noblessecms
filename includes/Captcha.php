@@ -92,6 +92,7 @@ class Captcha
 //        self::$thisHash=$hash;
 
         $_SESSION['captcha'][$hash] = 'OK';
+        
 
 //        End create session
 

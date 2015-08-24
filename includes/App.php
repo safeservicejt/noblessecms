@@ -13,9 +13,9 @@ class App
 	{
 		$locale=LANGUAGE;
 
-		if(isset($_SESSION['locale']))
+		if(isset($_COOKIE['locale']))
 		{
-			$locale=$_SESSION['locale'];
+			$locale=$_COOKIE['locale'];
 		}
 
 		self::$config['locale']=$locale;
@@ -50,7 +50,7 @@ class App
 
 		self::$config['locale']=$keyValue;
 
-		$_SESSION['locale']=$keyValue;
+		Cookie::make('locale',$keyValue,1440*7);
 	}
 
 

@@ -418,6 +418,10 @@ class Users
 			}
 		}
 
+		Cookie::make('userid',String::encrypt($getData[0]['userid']),1440*7);
+
+		Cookie::make('groupid',String::encrypt($getData[0]['groupid']),1440*7);
+
 		Cookie::make('username',$username,1440*7);
 
 		Cookie::make('password',$encryptPassword,1440*7);
@@ -426,16 +430,45 @@ class Users
 
 		Cookie::make('lastname',$getData[0]['lastname'],1440*7);
 
-		Session::make('groupid',$getData[0]['groupid']);
+		// Session::make('groupid',$getData[0]['groupid']);
 
-		Session::make('userid',$getData[0]['userid']);
+		// Session::make('userid',$getData[0]['userid']);
 
 	}
+
+	public function getCookieUserId()
+	{
+		$userid=isset($_COOKIE['userid'])?$_COOKIE['userid']:0;
+
+		$userid=String::decrypt($userid);
+
+		if((int)$userid <= 0)
+		{
+			return false;
+		}
+
+		return $userid;
+	}
+
+	public function getCookieGroupId()
+	{
+		$groupid=isset($_COOKIE['groupid'])?$_COOKIE['groupid']:0;
+
+		$groupid=String::decrypt($groupid);
+
+		if((int)$groupid <= 0)
+		{
+			return false;
+		}
+
+		return $groupid;
+	}
+
 
 
 	public function hasLogin()
 	{
-		if(!Cookie::has('username') || !Cookie::has('password') || !isset($_SESSION['groupid']))
+		if(!Cookie::has('username') || !Cookie::has('password') || !isset($_COOKIE['groupid']))
 		{
 			return false;
 		}
@@ -444,26 +477,34 @@ class Users
 
 		$password=Cookie::get('password');
 
-		try {
+		$userid=self::getCookieUserId();
 
-			self::makeLogin($username,$password);
+		$groupid=self::getCookieGroupId();
 
-			return true;
+		$loadData=self::get(array(
+			'cache'=>'no',
+			'where'=>"where userid='$userid' AND groupid='$groupid' AND username='$username' AND password='$password'"
+			));
 
-		} catch (Exception $e) {
-
+		if(!isset($loadData[0]['userid']))
+		{
 			return false;
-
 		}
+
+		return true;
 	}
 
 	public function logout()
 	{
+		Cookie::destroy('userid');
+
+		Cookie::destroy('groupid');
+
 		Cookie::destroy('username');
 
 		Cookie::destroy('password');
 
-		unset($_SESSION['groupid'], $_SESSION['userid']);
+		// unset($_SESSION['groupid'], $_SESSION['userid']);
 
 		return true;
 
@@ -477,7 +518,7 @@ class Users
 			return false;
 		}
 
-		$thisUserid=$_SESSION['userid'];
+		$thisUserid=self::getCookieUserId();
 
 		$encryptPassword=String::encrypt($newPassword);
 

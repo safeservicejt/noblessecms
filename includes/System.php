@@ -101,7 +101,9 @@ class System
 
 			if(is_dir($path))
 			{
-				$_SESSION['theme_name']=$curName;
+				// $_COOKIE['theme_name']=$curName;
+
+				Cookie::make('theme_name',$curName,1440*7);
 
 				self::setUri('/');
 
@@ -179,9 +181,9 @@ class System
 
 	public function userStatus()
 	{
-		if(isset($_SESSION['groupid']))
+		if(isset($_COOKIE['groupid']))
 		{
-			UserGroups::loadGroup($_SESSION['groupid']);
+			UserGroups::loadGroup(Users::getCookieUserId());
 		}
 		
 	}
@@ -249,7 +251,7 @@ class System
 	{
 		$sysLang=self::$setting['system_lang'];
 
-		$sysLang=isset($_SESSION['locale'])?$_SESSION['locale']:$sysLang;
+		$sysLang=isset($_COOKIE['locale'])?$_COOKIE['locale']:$sysLang;
 
 		return $sysLang;
 	}
@@ -310,7 +312,7 @@ class System
 
 	public function getUrl()
 	{
-		$url=isset($_SESSION['root_url'])?$_SESSION['root_url']:ROOT_URL;
+		$url=isset($_COOKIE['root_url'])?$_COOKIE['root_url']:ROOT_URL;
 
 		return $url;
 	}
@@ -324,7 +326,7 @@ class System
 
 	public function getThemeName()
 	{
-		$url=isset($_SESSION['theme_name'])?$_SESSION['theme_name']:THEME_NAME;
+		$url=isset($_COOKIE['theme_name'])?$_COOKIE['theme_name']:THEME_NAME;
 
 		return $url;
 	}

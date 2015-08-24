@@ -209,7 +209,15 @@ class Cache
         // $filePath=CACHES_PATH.$keyName.'.cache';
         $filePath=self::getPath().$keyName.$extension;
 
-        // die($filePath);
+        if(!isset($keyName[2]) || !isset($filePath[2]))
+        {
+            return false;
+        }
+
+        if(!preg_match('/.*?\.\w+$/i', $filePath))
+        {
+            return false;
+        }
 
         if(!file_exists($filePath))return false;
 
