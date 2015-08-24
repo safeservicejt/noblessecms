@@ -483,7 +483,7 @@ class UserGroups
 		{
 			$groupData=self::$groupData['groupdata'];
 
-			if((int)$groupid!=(int)$groupData['groupid'])
+			if((int)$groupid!=(int)self::$groupData['groupid'])
 			{
 				$loadData=self::get(array(
 					'cache'=>'no',

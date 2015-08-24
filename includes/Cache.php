@@ -218,7 +218,7 @@ class Cache
         {
             return false;
         }
-
+        var_dump($filePath);
         if(!file_exists($filePath))return false;
 
         // $cacheExpires = time() - filemtime($filePath);
