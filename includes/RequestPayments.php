@@ -3,7 +3,7 @@
 class RequestPayments
 {
 
-	public function get($inputData=array())
+	public static function get($inputData=array())
 	{
 
 		$limitQuery="";
@@ -101,7 +101,7 @@ class RequestPayments
 		return $result;
 		
 	}
-	public function api($action)
+	public static function api($action)
 	{
 		Model::load('api/requestpayment');
 
@@ -113,7 +113,7 @@ class RequestPayments
 
 		return $result;
 	}
-	public function insert($inputData=array())
+	public static function insert($inputData=array())
 	{
 		// End addons
 		// $totalArgs=count($inputData);
@@ -182,7 +182,7 @@ class RequestPayments
 	
 	}
 
-	public function remove($post=array(),$whereQuery='',$addWhere='')
+	public static function remove($post=array(),$whereQuery='',$addWhere='')
 	{
 
 
@@ -210,7 +210,7 @@ class RequestPayments
 		return true;
 	}
 
-	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
 		if(isset($post['content']))
 		{

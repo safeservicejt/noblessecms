@@ -3,7 +3,7 @@
 class Render
 {
     
-	public function rawContent($inputData,$offset=-1,$to=0)
+	public static function rawContent($inputData,$offset=-1,$to=0)
 	{
 		$replaces=array(
 			 '~<script.*?>.*?<\/script>~s'=>'',
@@ -19,7 +19,7 @@ class Render
 	 	return $inputData;
 	}
 
-	public function dateFormat($inputDate)
+	public static function dateFormat($inputDate)
 	{
 		// $formatStr=GlobalCMS::$setting['default_dateformat'];
 		$formatStr=System::getDateFormat();
@@ -31,7 +31,7 @@ class Render
 		return $formatStr;
 	}
 
-	public function cpanel_menu($zoneName)
+	public static function cpanel_menu($zoneName)
 	{
        $menu=Plugins::load($zoneName);
 

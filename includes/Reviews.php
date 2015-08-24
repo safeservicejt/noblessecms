@@ -117,7 +117,7 @@ class Reviews
 		return $result;
 		
 	}
-	public function api($action)
+	public static function api($action)
 	{
 		Model::load('api/reviews');
 

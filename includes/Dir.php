@@ -3,7 +3,7 @@
 class Dir
 {
 
-    public function md5($dir)
+    public static function md5($dir)
     {
         if (!is_dir($dir))
         {
@@ -32,7 +32,7 @@ class Dir
         return md5(implode('', $filemd5s));
     }
 
-    public function copy($source, $dest) {
+    public static function copy($source, $dest) {
         // Dir::copy(ROOT_PATH.'application/lang/',ROOT_PATH.'caches/');
         if(is_dir($source)) {
             $dir_handle=opendir($source);
@@ -54,9 +54,18 @@ class Dir
         }
     }
     
-    public function remove($path)
+    public static function remove($path)
     {
         // Dir::remove(ROOT_PATH.'test');
+        if($path==ROOT_PATH)
+        {
+            return false;
+        }
+
+        if(preg_match('/\.\./', $path))
+        {
+            return false;
+        }
         
         if (is_dir($path) === true)
         {
@@ -78,7 +87,7 @@ class Dir
         return false;        
     }
     
-    public function create($dirPath = '')
+    public static function create($dirPath = '')
     {
         $filterPath=str_replace(ROOT_PATH,'',$dirPath);
 
@@ -112,7 +121,7 @@ class Dir
   
     }
 
-    public function allDir($dir){
+    public static function allDir($dir){
 
         $result=array();
 
@@ -135,7 +144,7 @@ class Dir
         return $result;
     }    
 
-    public function all($dirPath = '')
+    public static function all($dirPath = '')
     {
         if (is_dir($dirPath)) {
             return scandir($dirPath);
@@ -144,7 +153,7 @@ class Dir
         return false;
     }
 
-    public function listMatch($pattern)
+    public static function listMatch($pattern)
     {
         // $listTxt=listMatch("*.txt");
         
@@ -153,7 +162,7 @@ class Dir
         return $dataMatches;
     }
 
-    public function listDir($dirPath = '')
+    public static function listDir($dirPath = '')
     {
         if (is_dir($dirPath)) {
             $files= scandir($dirPath);
@@ -176,7 +185,7 @@ class Dir
 
         return false;        
     }
-    public function listFiles($dirPath = '')
+    public static function listFiles($dirPath = '')
     {
         if (is_dir($dirPath)) {
             $files= scandir($dirPath);

@@ -2,21 +2,21 @@
 
 class Uri
 {
-    public function get()
+    public static function get()
     {
         $uri=System::getUri();
 
         return $uri;
     }
 
-    public function isNull()
+    public static function isNull()
     {
         $null=isset($_GET['load'])?true:false;
 
         return $null;
     }
 
-    public function getNext($uriName)
+    public static function getNext($uriName)
     {
         $uri=System::getUri();
 
@@ -44,7 +44,7 @@ class Uri
         }
 
     }
-    public function has($uriName)
+    public static function has($uriName)
     {
         $uri=System::getUri();
 
@@ -61,7 +61,7 @@ class Uri
         return false;
     }
 
-    public function match($uriName)
+    public static function match($uriName)
     {
         $uri=System::getUri();
 
@@ -74,7 +74,7 @@ class Uri
 
         return false;
     }
-    public function matchOnly($uriName)
+    public static function matchOnly($uriName)
     {
         $uri=System::getUri();
 
@@ -87,7 +87,7 @@ class Uri
 
         return false;
     }
-    public function allow($uriName)
+    public static function allow($uriName)
     {
         $uri=System::getUri();
 
@@ -101,7 +101,7 @@ class Uri
 
     }
 
-    public function pattern($reGex)
+    public static function pattern($reGex)
     {
         if(!isset($_GET['load']))return false;
 
@@ -115,7 +115,7 @@ class Uri
         return false;
     }
 
-    public function length()
+    public static function length()
     {
         global $cmsUri;
 
@@ -124,7 +124,7 @@ class Uri
         return $total;
     }
 
-    public function maxLength($maxLen = 100)
+    public static function maxLength($maxLen = 100)
     {
         global $cmsUri;
 
@@ -135,7 +135,7 @@ class Uri
         if (isset($total)) Alert::make('Page not found');
     }
 
-    public function onlyWord()
+    public static function onlyWord()
     {
         global $cmsUri;
 

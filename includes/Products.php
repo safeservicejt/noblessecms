@@ -3,7 +3,7 @@
 class Products
 {
 
-	public function get($inputData=array())
+	public static function get($inputData=array())
 	{
 
 		$limitQuery="";
@@ -133,7 +133,7 @@ class Products
 		
 	}
 
-	public function api($action)
+	public static function api($action)
 	{
 		Model::load('api/products');
 
@@ -146,12 +146,12 @@ class Products
 		return $result;
 	}
 	
-	public function url($row=array())
+	public static function url($row=array())
 	{
 		return Url::product($row);
 	}	
 
-	public function tags($id)
+	public static function tags($id)
 	{
 		$resultData=ProductTags::get(array(
 			'where'=>"where productid='$id'"
@@ -160,7 +160,7 @@ class Products
 		return $resultData;
 	}
 
-	public function downloads($id)
+	public static function downloads($id)
 	{
 		$resultData=array();
 
@@ -178,7 +178,7 @@ class Products
 
 		return $resultData;
 	}
-	public function images($id)
+	public static function images($id)
 	{
 		$resultData=ProductImages::get(array(
 			'where'=>"where productid='$id'",
@@ -188,7 +188,7 @@ class Products
 		return $resultData;
 	}
 
-	public function insertDownloads($id,$listDownloads=array())
+	public static function insertDownloads($id,$listDownloads=array())
 	{
 
 		if(!isset($listDownloads[0]))
@@ -211,14 +211,14 @@ class Products
 
 	}
 
-	public function upView($productid)
+	public static function upView($productid)
 	{
 		Database::query("update products set viewed=viewed+1 where productid='$productid'");
 	}
 
 	
 
-	public function insertTags($id,$strTags)
+	public static function insertTags($id,$strTags)
 	{
 		if(!isset($strTags[1]))
 		{
@@ -242,7 +242,7 @@ class Products
 	}
 	
 
-	public function insertImages($id,$keyName='images')
+	public static function insertImages($id,$keyName='images')
 	{
 		$resultData=File::uploadMultiple($keyName,'uploads/images/');
 
@@ -267,7 +267,7 @@ class Products
 		}		
 	}
 
-	public function insert($inputData=array())
+	public static function insert($inputData=array())
 	{
 		// End addons
 		// $totalArgs=count($inputData);
@@ -349,7 +349,7 @@ class Products
 	
 	}
 
-	public function remove($post=array(),$whereQuery='',$addWhere='')
+	public static function remove($post=array(),$whereQuery='',$addWhere='')
 	{
 
 
@@ -415,7 +415,7 @@ class Products
 
 
 
-	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
 		if(isset($post['title']))
 		{

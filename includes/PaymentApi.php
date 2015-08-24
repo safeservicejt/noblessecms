@@ -3,7 +3,7 @@
 class PaymentApi
 {
 
-	public function get($foldername)
+	public static function get($foldername)
 	{
 		if(!$match=Uri::match($foldername.'\/(\w+)'))
 		{

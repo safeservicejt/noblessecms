@@ -2,7 +2,7 @@
 
 class Form
 {
-	public function open($inputData=array())
+	public static function open($inputData=array())
 	{
 		$inputData['attr']['action']=isset($inputData['attr']['action'])?$inputData['attr']['action']:'';
 
@@ -19,14 +19,14 @@ class Form
 		return $result;
 	}
 
-	public function close()
+	public static function close()
 	{
 		$result='</form>';
 
 		return $result;
 	}
 
-	public function button($text='button',$inputData=array())
+	public static function button($text='button',$inputData=array())
 	{
 		$inputData['attr']['type']=isset($inputData['attr']['type'])?$inputData['attr']['type']:'button';
 
@@ -36,7 +36,7 @@ class Form
 
 		return $result;
 	}
-	public function submit($text='button',$inputData=array())
+	public static function submit($text='button',$inputData=array())
 	{
 		$inputData['attr']['type']=isset($inputData['attr']['type'])?$inputData['attr']['type']:'submit';
 
@@ -47,7 +47,7 @@ class Form
 		return $result;
 	}
 
-	public function text($inputData=array())
+	public static function text($inputData=array())
 	{
 		$inputData['attr']=$inputData;
 		
@@ -57,7 +57,7 @@ class Form
 
 		return $result;
 	}
-	public function email($inputData=array())
+	public static function email($inputData=array())
 	{
 		$inputData['attr']=$inputData;
 
@@ -67,7 +67,7 @@ class Form
 
 		return $result;
 	}
-	public function password($inputData=array())
+	public static function password($inputData=array())
 	{
 		$inputData['attr']=$inputData;
 
@@ -78,7 +78,7 @@ class Form
 		return $result;
 	}
 
-	public function select($inputData=array())
+	public static function select($inputData=array())
 	{
 		$attr=self::attr($inputData);
 

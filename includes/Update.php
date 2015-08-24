@@ -4,7 +4,7 @@ class Update
 {
 
 	
-	public function get()
+	public static function get()
 	{
 		$loadData=Http::getDataUrl(SERVER_URL.'api/update/get');
 
@@ -21,7 +21,7 @@ class Update
 
 	*/
 
-	public function make($inputData=array())
+	public static function make($inputData=array())
 	{
 		$loadData=self::get();
 

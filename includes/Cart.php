@@ -20,7 +20,7 @@ $cart['total']
 
 class Cart
 {
-	public function api($action)
+	public static function api($action)
 	{
 		Model::load('api/cart');
 
@@ -31,7 +31,7 @@ class Cart
 		}
 	}
 
-	public function isEmpty()
+	public static function isEmpty()
 	{
 		if(!isset($_SESSION['cart']))
 		{
@@ -48,7 +48,7 @@ class Cart
 		return false;
 	}
 
-	public function get()
+	public static function get()
 	{
 		if(!isset($_SESSION['cart']))
 		{
@@ -60,7 +60,7 @@ class Cart
 		return $cart;
 	}
 
-	public function jsonData()
+	public static function jsonData()
 	{
 		if(!isset($_SESSION['cart']))
 		{
@@ -72,7 +72,7 @@ class Cart
 		return $cart;
 	}
 
-	public function jsonFullData()
+	public static function jsonFullData()
 	{
 		if(!isset($_SESSION['cart']))
 		{
@@ -114,7 +114,7 @@ class Cart
 	}
 
 
-	public function htmlPopupData()
+	public static function htmlPopupData()
 	{
 		$totalProd=0;
 
@@ -218,7 +218,7 @@ class Cart
 		return $resultData;		
 	}
 
-	public function addPaymentMethod($name)
+	public static function addPaymentMethod($name)
 	{
 		$name=strtolower($name);
 		
@@ -232,7 +232,7 @@ class Cart
 		$_SESSION['cart']['payment']=$name;
 	}
 
-	public function addProduct($prodid,$quantity=1)
+	public static function addProduct($prodid,$quantity=1)
 	{
 		if((int)$quantity <= 0)
 		{
@@ -278,7 +278,7 @@ class Cart
 		}
 	}
 
-	public function has($prodid)
+	public static function has($prodid)
 	{
 		if(!isset($_SESSION['cart']['products'][$prodid]))
 		{
@@ -289,7 +289,7 @@ class Cart
 
 	}
 
-	public function addCoupon($code)
+	public static function addCoupon($code)
 	{
 		$today=date('Y-m-d');
 
@@ -316,7 +316,7 @@ class Cart
 		}
 	}
 
-	public function addVoucher($code)
+	public static function addVoucher($code)
 	{
 		$today=date('Y-m-d');
 
@@ -332,7 +332,7 @@ class Cart
 		}
 	}
 
-	public function discountProcess($cartData=array())
+	public static function discountProcess($cartData=array())
 	{
 		$cartData['discount']=0;		
 
@@ -395,13 +395,13 @@ class Cart
 
 	}
 
-	public function removeProduct($prodid)
+	public static function removeProduct($prodid)
 	{
 		if(isset($_SESSION['cart']['products'][$prodid]))
 		unset($_SESSION['cart']['products'][$prodid]);
 	}
 
-	public function removeCoupon()
+	public static function removeCoupon()
 	{
 		if(isset($_SESSION['cart']['discount']['coupon']))
 		{
@@ -409,7 +409,7 @@ class Cart
 		}
 	}
 	
-	public function removeVoucher()
+	public static function removeVoucher()
 	{
 		if(isset($_SESSION['cart']['discount']['voucher']))
 		{
@@ -417,7 +417,7 @@ class Cart
 		}
 	}
 
-	public function updateTotal()
+	public static function updateTotal()
 	{
 		if(!isset($_SESSION['cart']))
 		{
@@ -470,7 +470,7 @@ class Cart
 						
 	}
 
-	public function data()
+	public static function data()
 	{
 		if(!isset($_SESSION['cart']))
 		{
@@ -499,7 +499,7 @@ class Cart
 		return $resultData;
 	}
 
-	public function clear()
+	public static function clear()
 	{
 		unset($_SESSION['cart']);
 
@@ -507,7 +507,7 @@ class Cart
 	}
 
 
-	public function theVAT()
+	public static function theVAT()
 	{
 		$vat=System::getVatPercent();
 

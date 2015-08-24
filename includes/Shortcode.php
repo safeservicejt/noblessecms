@@ -66,7 +66,7 @@ class Shortcode
 
 // Shortcode::add('youtube','make_youtube_video');
 
-	public function strip($text='')
+	public static function strip($text='')
 	{
 		$replaces=array(
 			'/\[\w+.*?\].*?\[\/\w+\]/i'=>'',
@@ -78,7 +78,7 @@ class Shortcode
 		return $text;
 	}
 	
-	public function templateAdd($scName,$funcName)
+	public static function templateAdd($scName,$funcName)
 	{
 		if(!isset(Plugins::$listShortCodes['shortcode']))
 		{
@@ -118,7 +118,7 @@ class Shortcode
 		// die();
 	}
 
-	public function add($scName,$funcName)
+	public static function add($scName,$funcName)
 	{
 		$data=debug_backtrace();	
 
@@ -153,7 +153,7 @@ class Shortcode
 	}
 
 
-	public function load($content)
+	public static function load($content)
 	{
 
 		// $content=self::parse($content);
@@ -247,7 +247,7 @@ class Shortcode
 
 	}
 
-	public function loadInTemplate($content)
+	public static function loadInTemplate($content)
 	{
 		// $content=self::parse($content);
 
@@ -348,7 +348,7 @@ class Shortcode
 
 	}
 
-	public function parseProcess($scName='',$inputData='')
+	public static function parseProcess($scName='',$inputData='')
 	{
 		$result=array();
 
@@ -439,7 +439,7 @@ class Shortcode
 	}
 
 
-	public function toHTML($str)
+	public static function toHTML($str)
 	{
 
 		$str=trim($str);
@@ -650,7 +650,7 @@ class Shortcode
 	    return $str;		
 	}
 
-	public function toBBCode($str)
+	public static function toBBCode($str)
 	{
 		$str=trim($str);
 

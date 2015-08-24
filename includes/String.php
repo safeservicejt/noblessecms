@@ -2,28 +2,28 @@
 
 class String
 {
-    public function matchUrls($str='')
+    public static function matchUrls($str='')
     {
         $result=Match::getUrls($str);
 
         return $result;
     }
     
-    public function matchImages($str='')
+    public static function matchImages($str='')
     {
         $result=Match::getImages($str);
 
         return $result;
     }
     
-    public function matchEmails($str='')
+    public static function matchEmails($str='')
     {
         $result=Match::getEmails($str);
 
         return $result;
     }
 
-    public function jsonToArray($str='')
+    public static function jsonToArray($str='')
     {
         if(!isset($str[3]))
         {
@@ -48,7 +48,7 @@ class String
         return $result;
     }
 
-    public function viewToFriendly($total)
+    public static function viewToFriendly($total)
     {
         // $replaces=array(
         //     '/([0]+)/i'=>'k'
@@ -66,7 +66,7 @@ class String
 
     }
 
-    public function stripUnicode($str)
+    public static function stripUnicode($str)
     {
         if (!$str) return false;
         $unicode = array(
@@ -81,7 +81,7 @@ class String
         foreach ($unicode as $nonUnicode => $uni) $str = preg_replace("/($uni)/i", $nonUnicode, $str);
         return $str;
     }
-    public function makeFriendlyUrl($inputStr='',$type='-')
+    public static function makeFriendlyUrl($inputStr='',$type='-')
     {
         if(!isset($inputStr[2]))
         {
@@ -98,7 +98,7 @@ class String
         
         return $retext;
     }    
-    public function action($funcName='',$inputData=array())
+    public static function action($funcName='',$inputData=array())
     {
         if(!function_exists($funcName))
         {
@@ -110,7 +110,7 @@ class String
         return $inputData;
     }
     
-    public function encrypt($pure_string,$secretKey='') 
+    public static function encrypt($pure_string,$secretKey='') 
     {
 
         $secretKey=isset($secretKey[5])?$secretKey:ENCRYPT_SECRET_KEY;
@@ -124,7 +124,7 @@ class String
         return $encrypted_string;   
     }
 
-    public function decrypt($encrypted_string,$secretKey='') 
+    public static function decrypt($encrypted_string,$secretKey='') 
     {
         $secretKey=isset($secretKey[5])?$secretKey:ENCRYPT_SECRET_KEY;
 
@@ -139,21 +139,21 @@ class String
 
 
 
-    public function encode($str)
+    public static function encode($str)
     {
         $str=addslashes($str);
 
         return $str;
     }
 
-    public function decode($text)
+    public static function decode($text)
     {
         $text=stripslashes($text);
 
         return $text;
     } 
        
-    public function trimLines($Str = '')
+    public static function trimLines($Str = '')
     {
         $parseStr = explode("\r\n", $Str);
 
@@ -170,7 +170,7 @@ class String
 
     }
 
-    public function clearSpace($Str = '')
+    public static function clearSpace($Str = '')
     {
         if (isset($Str[1])) {
             preg_match_all('/([\w\S]+)/i', $Str, $matches);
@@ -184,29 +184,29 @@ class String
 
     }
 
-    public function utf8ToLower($inputData)
+    public static function utf8ToLower($inputData)
     {
         $inputData=mb_convert_case(trim($inputData), MB_CASE_LOWER, "UTF-8");
     }
     
-    public function utf8ToUpper($inputData)
+    public static function utf8ToUpper($inputData)
     {
         $inputData=mb_convert_case(trim($inputData), MB_CASE_UPPER, "UTF-8");
     }
 
-    public function utf8ToTitle($inputData)
+    public static function utf8ToTitle($inputData)
     {
         $inputData=mb_convert_case(trim($inputData), MB_CASE_TITLE, "UTF-8");
     }
 
-    public function Split($Char = '', $Str = '')
+    public static function Split($Char = '', $Str = '')
     {
         $strResult = explode($Char, $Str);
 
         return $strResult;
     }
 
-    public function randNumber($len = 10)
+    public static function randNumber($len = 10)
     {
         $str = '012010123456789234560123450123456789234560123456789789345012345601234567892345601234567897893450123456678978934501234567896789';
 
@@ -216,7 +216,7 @@ class String
 
     }
 
-    public function randAlpha($len = 10)
+    public static function randAlpha($len = 10)
     {
         $str = 'abcdefghijklmnopfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUqrstufghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -226,7 +226,7 @@ class String
 
     }
 
-    public function randText($len = 10)
+    public static function randText($len = 10)
     {
         $str = 'abcdefghijkl0123456789mnopqrstuvwxyzhijklmnopqrs0123456789tuvwxyzABCDEFGHIJKLM0123456789NOPQRSTUVWXYZ01234567ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
@@ -236,7 +236,7 @@ class String
 
     }
 
-    public function moneyToText($number) {
+    public static function moneyToText($number) {
  
         $hyphen      = ' ';
         $conjunction = '  ';

@@ -4,7 +4,7 @@ class Cronjobs
 {
 	//Cronjobs::add(5,'min',ROOT_PATH.'ac.php','autoPostProcess');
 
-	public function get($inputData=array())
+	public static function get($inputData=array())
 	{
 
 		$limitQuery="";
@@ -66,14 +66,14 @@ class Cronjobs
 		
 	}	
 
-	public function url($id=0)
+	public static function url($id=0)
 	{
 		$url=Url::cronjob($id);
 
 		return $url;
 	}
 
-	public function run()
+	public static function run()
 	{
 		$loadData=self::get();	
 
@@ -99,7 +99,7 @@ class Cronjobs
 			self::updateActive($loadData[$i]['cronid']);
 		}
 	}
-	public function runSingle($id)
+	public static function runSingle($id)
 	{
 		$thisTime=date('Y-m-d H:i:s');
 
@@ -122,7 +122,7 @@ class Cronjobs
 		self::updateActive($id);
 	}
 
-	public function runCron($loadData)
+	public static function runCron($loadData)
 	{
 		$jobData=$loadData['jobdata'];
 
@@ -150,7 +150,7 @@ class Cronjobs
 		}
 	}
 
-	public function isReady($loadData)
+	public static function isReady($loadData)
 	{
 		$timeNumber=strtotime($loadData['last_update']);
 
@@ -167,14 +167,14 @@ class Cronjobs
 
 		return true;
 	}
-	public function updateActive($id)
+	public static function updateActive($id)
 	{
 		$thisTime=date('Y-m-d H:i:s');
 
 		self::update($id,array('last_update'=>$thisTime));
 	}
 
-	public function add($filePath,$fileFunc='',$timeInterval=5,$timeType='minutes')
+	public static function add($filePath,$fileFunc='',$timeInterval=5,$timeType='minutes')
 	{
 		$data=array(
 				'path'=>$filePath,
@@ -247,7 +247,7 @@ class Cronjobs
 
 	}
 
-	public function delete($filePath,$fileFunc='')
+	public static function delete($filePath,$fileFunc='')
 	{
 		$data=array(
 				'path'=>$filePath,
@@ -259,7 +259,7 @@ class Cronjobs
 		Database::query("delete from cronjobs where jobdata='$data'");
 	}
 	
-	public function insert($inputData=array())
+	public static function insert($inputData=array())
 	{
 
 		$inputData['date_added']=date('Y-m-d H:i:s');
@@ -288,7 +288,7 @@ class Cronjobs
 		return false;
 	
 	}
-	public function remove($post=array(),$whereQuery='',$addWhere='')
+	public static function remove($post=array(),$whereQuery='',$addWhere='')
 	{
 		if(is_numeric($post))
 		{
@@ -312,7 +312,7 @@ class Cronjobs
 		return true;
 	}
 
-	public function update($id,$post=array(),$whereQuery='',$addWhere='')
+	public static function update($id,$post=array(),$whereQuery='',$addWhere='')
 	{
 				
 		$keyNames=array_keys($post);

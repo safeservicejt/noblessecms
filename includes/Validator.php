@@ -7,14 +7,14 @@ class Validator
 
     public static $message=array();
 
-    public function getMessage()
+    public static function getMessage()
     {
         $text=implode(', ', self::$message);
 
         return $text;
     }
 
-    public function regex($varName=array())
+    public static function regex($varName=array())
     {
         $total=count($varName);
 
@@ -45,7 +45,7 @@ class Validator
 
 
 
-    public function make($varName = array(),$alert=array())
+    public static function make($varName = array(),$alert=array())
     {
         $totalVarName = count($varName);
 

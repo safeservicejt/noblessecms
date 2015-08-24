@@ -3,7 +3,7 @@
 class Currency
 {
 
-	public function get($inputData=array())
+	public static function get($inputData=array())
 	{
 
 		$limitQuery="";
@@ -95,12 +95,12 @@ class Currency
 		return $result;
 		
 	}
-	public function set($curName)
+	public static function set($curName)
 	{
 		$_COOKIE['currency']=$curName;
 	}
 
-	public function insert($inputData=array())
+	public static function insert($inputData=array())
 	{
 		// End addons
 		$totalArgs=count($inputData);
@@ -158,7 +158,7 @@ class Currency
 	
 	}
 
-	public function remove($post=array(),$whereQuery='',$addWhere='')
+	public static function remove($post=array(),$whereQuery='',$addWhere='')
 	{
 
 
@@ -186,7 +186,7 @@ class Currency
 		return true;
 	}
 
-	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
 		if(isset($post['title']))
 		{

@@ -2,7 +2,7 @@
 
 class Template
 {
-    public function makeWithPath($viewName,$inputData,$themePath)
+    public static function makeWithPath($viewName,$inputData,$themePath)
     {
         $filepath=$themePath.$viewName.'.php';
 
@@ -20,7 +20,7 @@ class Template
         include($data);
     }
 
-    public function parseData($path)
+    public static function parseData($path)
     {
     	$resultPath=$path;
 
@@ -98,7 +98,7 @@ class Template
     	return $resultPath;
     }
 
-    public function parseFriendlyFunction($loadData)
+    public static function parseFriendlyFunction($loadData)
     {
          preg_match_all('/(\{\{(\w+|\w+\.\w+) | .*?\}\})/i', $loadData, $matches);
 
@@ -178,7 +178,7 @@ class Template
 
     }
 
-    public function parseExtends($loadData)
+    public static function parseExtends($loadData)
     {
     	// $replace=array(
     	// 	'/\{\{extends file=\'(.*?)\'\}\}/i'=>self::loadExtends("$1"),
@@ -227,7 +227,7 @@ class Template
     	return $loadData;
     }
 
-    public function loadExtends($viewName)
+    public static function loadExtends($viewName)
     {
     	$path=self::getPath().$viewName.'.php';
 

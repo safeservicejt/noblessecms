@@ -3,7 +3,7 @@
 class Session
 {
 
-    public function get($sessionName = '',$defaultValue=false)
+    public static function get($sessionName = '',$defaultValue=false)
     {
         $resultData = $defaultValue;
         
@@ -24,7 +24,7 @@ class Session
 
     }
 
-    public function has($sessionName='')
+    public static function has($sessionName='')
     {
 
         if (!preg_match('/(\w+)\.(\w+)/i', $sessionName, $matches)) {
@@ -47,7 +47,7 @@ class Session
         return true;
     }
 
-    public function make($sessionName = '', $sessionValue = '')
+    public static function make($sessionName = '', $sessionValue = '')
     {
         if(preg_match('/(\w+)\.(\w+)/i', $sessionName,$matches))
         {   
@@ -63,7 +63,7 @@ class Session
         }
     }
 
-    public function forget($sessionName = '')
+    public static function forget($sessionName = '')
     {
         if (!preg_match('/(\w+)\.(\w+)/i', $sessionName, $matches)) {
             unset($_SESSION[$sessionName]);
@@ -78,17 +78,17 @@ class Session
         }
     }
 
-    public function remove($sessionName = '')
+    public static function remove($sessionName = '')
     {
         self::forget($sessionName);
     }
 
-    public function flush()
+    public static function flush()
     {
         session_unset();
     }
 
-    public function push($sessionName = '', $sessionValue = '')
+    public static function push($sessionName = '', $sessionValue = '')
     {
         preg_match('/(\w+)\.(\w+)/i', $sessionName, $matches);
 
@@ -100,7 +100,7 @@ class Session
         $_SESSION[$sessionMain][$sessionChild] = $sessionValue;
     }
 
-    public function put($sessionName = '', $sessionValue = '')
+    public static function put($sessionName = '', $sessionValue = '')
     {
         self::make($sessionName, $sessionValue);
     }

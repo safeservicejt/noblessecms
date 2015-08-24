@@ -4,7 +4,7 @@
 class Response
 {
 
-    public function headerCode($code=0)
+    public static function headerCode($code=0)
     {
         /*
         case 100: $text = 'Continue'; break;
@@ -108,12 +108,12 @@ class Response
         
     }
 
-    public function rss()
+    public static function rss()
     {
         header("Content-Type: application/xml; charset=UTF-8");
     }
 
-    public function json($jsonData = '')
+    public static function json($jsonData = '')
     {
         if (is_array($jsonData)) {
             return json_encode($jsonData);
@@ -122,11 +122,11 @@ class Response
         return json_decode($jsonData, true);
     }
 
-    public function download($filePath = '', $fileName = null)
+    public static function download($filePath = '', $fileName = null)
     {
         if (file_exists($filePath)) {
 
-            $fileName = is_null($fileName) ? basename($fileName) : $fileName;
+            $fileName = is_null($fileName) ? basename($filePath) : $fileName;
 
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
@@ -138,7 +138,7 @@ class Response
             header('Content-Length: ' . filesize($filePath));
             ob_clean();
             flush();
-            readfile($file);
+            readfile($filePath);
 
         }
 

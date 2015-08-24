@@ -2,14 +2,14 @@
 
 class Misc
 {
-	public function genSmallPage($title,$start=0,$max=5,$splitChar='/')
+	public static function genSmallPage($title,$start=0,$max=5,$splitChar='/')
 	{
 		$result=self::genPage($title,$start,$max,$splitChar,'pagination-sm');
 
 		return $result;
 	}
 	
-	public function genPage($title,$start=0,$max=5,$splitChar='/',$isLarge='')
+	public static function genPage($title,$start=0,$max=5,$splitChar='/',$isLarge='')
 	{
 		$endpage=$start+$max;
 

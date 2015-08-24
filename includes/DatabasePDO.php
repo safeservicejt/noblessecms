@@ -12,7 +12,7 @@ class DatabasePDO
 
     private static $runQuery = 'no';
 
-    public function connect()
+    public static function connect()
     {
         global $db;
 
@@ -26,7 +26,7 @@ class DatabasePDO
 
     }
 
-    public function query($queryStr = '')
+    public static function query($queryStr = '')
     {
 
         self::$runQuery = 'no';
@@ -37,7 +37,7 @@ class DatabasePDO
 
     }
 
-    public function exec($queryStr = '')
+    public static function exec($queryStr = '')
     {
 
         self::$runQuery = 'no';
@@ -46,7 +46,7 @@ class DatabasePDO
 
     }
 
-    public function fetch_assoc($queryDB)
+    public static function fetch_assoc($queryDB)
     {
         if (self::$runQuery == 'no') {
             $queryDB->execute();
@@ -60,7 +60,7 @@ class DatabasePDO
         return $row;
     }
 
-    public function fetch_obj($queryDB)
+    public static function fetch_obj($queryDB)
     {
         if (self::$runQuery == 'no') {
             $queryDB->execute();
@@ -74,7 +74,7 @@ class DatabasePDO
         return $row;
     }
 
-    public function insert_id($objectStr = '')
+    public static function insert_id($objectStr = '')
     {
         $id = self::$dbConnect->lastInsertId();
 
@@ -85,7 +85,7 @@ class DatabasePDO
         return $id;
     }
 
-    public function num_rows($queryDB = '', $objectStr = '')
+    public static function num_rows($queryDB = '', $objectStr = '')
     {
         $numRows = $queryDB->rowCount();
 

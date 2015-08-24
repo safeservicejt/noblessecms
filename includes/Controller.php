@@ -4,19 +4,19 @@ class Controller
 {
     public static $loadPath = '';
     
-    public function setPath($path)
+    public static function setPath($path)
     {
         $path=!isset($path[2])?CONTROLLERS_PATH:$path;
 
         self::$loadPath=$path;
     }
     
-    public function resetPath()
+    public static function resetPath()
     {
         self::$loadPath=CONTROLLERS_PATH;
     }
 
-    public function getPath()
+    public static function getPath()
     {
         $path=!isset(self::$loadPath[2])?CONTROLLERS_PATH:self::$loadPath;
 
@@ -25,7 +25,7 @@ class Controller
         return $path;
     }
     
-    public function loadWithPath($controlName = '', $funcName = 'index', $path)
+    public static function loadWithPath($controlName = '', $funcName = 'index', $path)
     {
         self::setPath($path);
 
@@ -34,7 +34,7 @@ class Controller
         self::resetPath();
     }
 
-    public function load($controlName = '', $funcName = 'index')
+    public static function load($controlName = '', $funcName = 'index')
     {  
         // $funcOfController = '';
 

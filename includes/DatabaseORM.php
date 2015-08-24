@@ -13,12 +13,12 @@ class DatabaseORM
     }
 
 
-    public function __set($varName = '', $varValue = '')
+    public static function __set($varName = '', $varValue = '')
     {
         $this->fieldList[$varName] = $varValue;
     }
 
-    public function table($tableName = '')
+    public static function table($tableName = '')
     {
 
         $this->tableName = $tableName;
@@ -26,7 +26,7 @@ class DatabaseORM
         return $this;
 
     }
-    public function InsertOnSubmit($listFieldInsert = '')
+    public static function InsertOnSubmit($listFieldInsert = '')
     {
 //        $freshConnnect=$this->fieldList['dbConnect'];
 
@@ -57,7 +57,7 @@ class DatabaseORM
         return $insert_id;
     }
 
-    public function SubmitChanges()
+    public static function SubmitChanges()
     {
         $fieldList = $this->fieldList;
 
@@ -90,7 +90,7 @@ class DatabaseORM
     }
 
 
-    public function where($fieldName = '', $fieldValue = '')
+    public static function where($fieldName = '', $fieldValue = '')
     {
         if (is_array($fieldName)) {
             $totalField = count($fieldName);
@@ -137,7 +137,7 @@ class DatabaseORM
 
     }
 
-    public function DeleteOnSubmit()
+    public static function DeleteOnSubmit()
     {
         $fieldList = $this->fieldList;
 

@@ -18,7 +18,7 @@ class DatabaseMysqli
 
     private static $runQuery = 'no';
 
-    public function connect()
+    public static function connect()
     {
         global $db;
 
@@ -32,7 +32,7 @@ class DatabaseMysqli
 
     }
 
-    public function query($queryStr = '', $objectStr = '')
+    public static function query($queryStr = '', $objectStr = '')
     {
 
         $queryDB = self::$dbConnect->query($queryStr);
@@ -48,7 +48,7 @@ class DatabaseMysqli
         return $queryDB;
 
     }
-    public function nonQuery($queryStr = '', $objectStr = '')
+    public static function nonQuery($queryStr = '', $objectStr = '')
     {
         $queryDB = self::$dbConnect->send_query($queryStr);
 
@@ -64,7 +64,7 @@ class DatabaseMysqli
 
     }
 
-    public function close($dbsortName = 'default')
+    public static function close($dbsortName = 'default')
     {
         global $db;
 

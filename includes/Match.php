@@ -2,7 +2,7 @@
 
 class Match
 {
-	public function getUrls($inputData='')
+	public static function getUrls($inputData='')
 	{
 		$result=array();
 
@@ -14,7 +14,7 @@ class Match
 		return $result;
 	}
 
-	public function getImages($inputData='')
+	public static function getImages($inputData='')
 	{
 		$result=array();
 
@@ -26,11 +26,11 @@ class Match
 		return $result;
 	}
 
-	public function getEmails($inputData='')
+	public static function getEmails($inputData='')
 	{
 		$result=array();
 
-		if(preg_match_all('/([a-zA-Z0-9_\_\.]+\@[a-zA-Z0-9_\.]+)/i', $inputData, $matches))
+		if(preg_match_all('/([a-zA-Z0-9_\_\.]+\@[a-zA-Z0-9_\.\-]+)/i', $inputData, $matches))
 		{
 			$result=$matches[1];
 		}

@@ -3,7 +3,7 @@
 class Post
 {
 
-	public function get($inputData=array())
+	public static function get($inputData=array())
 	{
 
 		$limitQuery="";
@@ -138,14 +138,14 @@ class Post
 		
 	}
 
-	public function url($row)
+	public static function url($row)
 	{
 		$url=Url::post($row);
 
 		return $url;
 	}
 
-	public function api($action)
+	public static function api($action)
 	{
 		Model::load('api/post');
 
@@ -158,17 +158,17 @@ class Post
 		return $result;
 	}
 
-	public function upView($postid)
+	public static function upView($postid)
 	{
 		Database::query("update post set views=views+1 where postid='$postid'");
 	}
 
-	public function downView($postid)
+	public static function downView($postid)
 	{
 		Database::query("update post set views=views-1 where postid='$postid'");
 	}
 
-	public function insert($inputData=array())
+	public static function insert($inputData=array())
 	{
 		// End addons
 		// $totalArgs=count($inputData);
@@ -251,7 +251,7 @@ class Post
 	
 	}
 
-	public function remove($post=array(),$whereQuery='',$addWhere='')
+	public static function remove($post=array(),$whereQuery='',$addWhere='')
 	{
 
 
@@ -283,7 +283,7 @@ class Post
 		return true;
 	}
 
-	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
 		if(isset($post['title']))
 		{

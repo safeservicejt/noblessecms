@@ -7,7 +7,7 @@ class Request
 
     private static $isParse='no';
 
-    public function isImage($keyName)
+    public static function isImage($keyName)
     {
         if(preg_match('/(\w+)\.(\d+)/i', $keyName,$match))
         {
@@ -28,7 +28,7 @@ class Request
         return false;
     }
 
-    public function hasFile($keyName)
+    public static function hasFile($keyName)
     {
         if(preg_match('/(\w+)\.(\d+)/i', $keyName,$match))
         {
@@ -43,7 +43,7 @@ class Request
         return false;
     }
 
-    public function parseGetData()
+    public static function parseGetData()
     {
 
         if(self::$isParse=='yes')
@@ -81,7 +81,7 @@ class Request
         
     }
 
-    public function post($keyName='')
+    public static function post($keyName='')
     {
         if(!isset($_POST[$keyName]))
         {
@@ -93,7 +93,7 @@ class Request
 
 
 
-    public function get($reqName = '', $reqValue = false)
+    public static function get($reqName = '', $reqValue = false)
     {
         self::parseGetData();
 
@@ -113,7 +113,7 @@ class Request
 
     }
 
-    public function forget($reqName = '', $reqValue = '')
+    public static function forget($reqName = '', $reqValue = '')
     {
         $result = '';
 
@@ -131,7 +131,7 @@ class Request
 
     }    
     
-    public function getPost($reqName = '', $reqValue = '')
+    public static function getPost($reqName = '', $reqValue = '')
     {
         if(!isset($reqName[1]))
         {
@@ -154,7 +154,7 @@ class Request
 
     }
 
-    public function isPost($reqKey)
+    public static function isPost($reqKey)
     {
         if(!isset($reqKey[0]))
         {
@@ -168,7 +168,7 @@ class Request
 
         return true;
     }
-    public function isGet($reqKey)
+    public static function isGet($reqKey)
     {
         if(!isset($reqKey[0]))
         {
@@ -182,7 +182,7 @@ class Request
 
         return true;
     }
-    public function isFile($reqKey)
+    public static function isFile($reqKey)
     {
         if(!isset($reqKey[0]))
         {
@@ -197,7 +197,7 @@ class Request
         return true;
     }
 
-    public function make($reqName = '', $reqValue = '')
+    public static function make($reqName = '', $reqValue = '')
     {
         if (!preg_match('/(\w+)\.(\w+)/i', $reqName, $matchesName)) {
 
@@ -211,7 +211,7 @@ class Request
         }
     }
 
-    public function hasElement($reqName = '')
+    public static function hasElement($reqName = '')
     {
         if (!preg_match('/(\w+)\.(\w+)/i', $reqName, $matchesName)) {
             if (!isset($_REQUEST[$reqName])) {
@@ -230,7 +230,7 @@ class Request
         }        
     }
 
-    public function has($reqName = '')
+    public static function has($reqName = '')
     {
 
         if(!is_array($reqName))
@@ -260,13 +260,13 @@ class Request
     }
 
 
-    public function all()
+    public static function all()
     {
         if (isset($_REQUEST['load'])) unset($_REQUEST['load']);
         return $_REQUEST;
     }
 
-    public function only($reqName = '')
+    public static function only($reqName = '')
     {
         if (isset($_REQUEST['load'])) unset($_REQUEST['load']);
 
@@ -297,7 +297,7 @@ class Request
 
     }
 
-    public function except($reqName = array())
+    public static function except($reqName = array())
     {
         if (isset($_REQUEST['load'])) unset($_REQUEST['load']);   
             

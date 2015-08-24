@@ -5,7 +5,7 @@ class Captcha
 
 //    private $thisHash = '';
 
-    public function make($is_text = 'no')
+    public static function make($is_text = 'no')
     {
         global $uri;
 
@@ -120,7 +120,7 @@ class Captcha
 
     }
 
-    public function verify($inputName = 'captcha_verify')
+    public static function verify($inputName = 'captcha_verify')
     {
         // print_r($_SESSION['captcha']);die();
         if (isset($_REQUEST[$inputName])) {
@@ -145,7 +145,7 @@ class Captcha
         }
     }
 
-    public function makeForm()
+    public static function makeForm()
     {
 
         $dataForm = '

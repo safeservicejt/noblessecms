@@ -4,19 +4,19 @@ class DBCache
 {
 	private static $enable='yes';
 
-	public function enable()
+	public static function enable()
 	{
 		self::$enable='yes';
 	}
 
-	public function disable()
+	public static function disable()
 	{
 		self::$enable='no';
 	}
 
 
 
-	public function get($queryStr='',$timeLive=15,$addPath='')
+	public static function get($queryStr='',$timeLive=15,$addPath='')
 	{
 		// die(self::$enable);
 		if(self::$enable=='no' || !isset($queryStr[1]))
@@ -55,7 +55,7 @@ class DBCache
 		return $loadData;
 	}
 
-	// public function systemMake($keyName,$inputData=array(),$addPath='')
+	// public static function systemMake($keyName,$inputData=array(),$addPath='')
 	// {
 	// 	$result=self::make($keyName,$inputData=array(),'system/'.$addPath);
 
@@ -63,7 +63,7 @@ class DBCache
 	// }
 
 
-	public function removeDir($path='')
+	public static function removeDir($path='')
 	{
 		// $path=CACHES_PATH.'dbcache/'.$path;
 
@@ -74,7 +74,7 @@ class DBCache
 		self::removeMulti($path);
 	}
 
-	public function removeMulti($path='')
+	public static function removeMulti($path='')
 	{
 		return false;
 
@@ -117,7 +117,7 @@ class DBCache
 
 
 	
-	public function removeCache($listID,$addPath='')
+	public static function removeCache($listID,$addPath='')
 	{
 		// $cachePath='dbcache/'.$addPath.'/'.$keyName;
 
@@ -176,7 +176,7 @@ class DBCache
 		}
 	}
 
-	public function makeIDCache($keyName,$inputData=array(),$fieldName,$addPath='')
+	public static function makeIDCache($keyName,$inputData=array(),$fieldName,$addPath='')
 	{
 		// if(self::$enable=='no')
 		// {
@@ -203,7 +203,7 @@ class DBCache
 		// Cache::saveKey($savePath,'');
 	}
 
-	public function make($keyName,$inputData=array(),$addPath='')
+	public static function make($keyName,$inputData=array(),$addPath='')
 	{
 		if(self::$enable=='no')
 		{

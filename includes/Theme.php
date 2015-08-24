@@ -24,7 +24,7 @@ class Theme
 
 	public static $can_uninstall='no';
 
-	public function install($func)
+	public static function install($func)
 	{
 		if(self::$can_install=='no')
 		{
@@ -43,7 +43,7 @@ class Theme
         } 
 	}
 
-	public function uninstall($func)
+	public static function uninstall($func)
 	{
 		if(self::$can_uninstall=='no')
 		{
@@ -61,7 +61,7 @@ class Theme
         } 
 	}
 
-	public function get($inputData=array())
+	public static function get($inputData=array())
 	{
 
 		$limitQuery="";
@@ -105,7 +105,7 @@ class Theme
 		
 	}
 
-	public function setActivate($themeName)
+	public static function setActivate($themeName)
 	{
 		$path=ROOT_PATH.'contents/themes/'.$themeName.'/';
 
@@ -161,7 +161,7 @@ class Theme
 
 
 
-	public function getDefault()
+	public static function getDefault()
 	{
 		$path=ROOT_PATH.'contents/themes/'.THEME_NAME.'/';
 
@@ -174,49 +174,49 @@ class Theme
 		return $resultData;		
 	}
 
-	public function getThemeHeader()
+	public static function getThemeHeader()
 	{
 		$data=Plugins::load('site_header');
 
 		return $data;
 	}
 
-	public function getThemeFooter()
+	public static function getThemeFooter()
 	{
 		$data=Plugins::load('site_footer');
 
 		return $data;
 	}
 
-	public function getAdmincpHeader()
+	public static function getAdmincpHeader()
 	{
 		$data=Plugins::load('admincp_header');
 
 		return $data;
 	}
 
-	public function getAdmincpFooter()
+	public static function getAdmincpFooter()
 	{
 		$data=Plugins::load('admincp_footer');
 
 		return $data;
 	}
 
-	public function getUsercpHeader()
+	public static function getUsercpHeader()
 	{
 		$data=Plugins::load('usercp_header');
 
 		return $data;
 	}
 
-	public function getUsercpFooter()
+	public static function getUsercpFooter()
 	{
 		$data=Plugins::load('usercp_footer');
 
 		return $data;
 	}
 
-    public function loadShortCode()
+    public static function loadShortCode()
     {
         $path=System::getThemePath().'shortcode.php';
 
@@ -239,7 +239,7 @@ class Theme
 
     }
 
-    public function controller($pageName,$func='index',$otherPath='')
+    public static function controller($pageName,$func='index',$otherPath='')
     {
     	$themePath=System::getThemePath().'controller/';
 
@@ -251,7 +251,7 @@ class Theme
     	Controller::loadWithPath('theme'.ucfirst($pageName),$func,$themePath);
     }
 
-    public function model($pageName,$otherPath='')
+    public static function model($pageName,$otherPath='')
     {
     	$themePath=System::getThemePath().'model/';
 
@@ -263,7 +263,7 @@ class Theme
     	Model::loadWithPath($pageName,$themePath);
     }
 
-    public function view($pageName,$inputData=array(),$otherPath='')
+    public static function view($pageName,$inputData=array(),$otherPath='')
     {
     	$themePath=System::getThemePath().'view/';
     	
@@ -275,7 +275,7 @@ class Theme
     	View::makeWithPath($pageName,$inputData,$themePath);
     }
 
-	public function remove($themeName)
+	public static function remove($themeName)
 	{
 
 	}

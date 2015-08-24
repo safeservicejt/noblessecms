@@ -2,7 +2,7 @@
 
 class Security
 {
-    public function allowOnlyIP($ipStr = '')
+    public static function allowOnlyIP($ipStr = '')
     {
         $ipSource = $_SERVER['REMOTE_ADDR'];
 
@@ -12,7 +12,7 @@ class Security
         Alert::make('Page not found');
     }
 
-    public function blockIP($ipStr = '')
+    public static function blockIP($ipStr = '')
     {
         $ipSource = $_SERVER['REMOTE_ADDR'];
 
@@ -20,7 +20,7 @@ class Security
         Alert::make('Page not found');
     }
 
-    public function blockRefer($inputData)
+    public static function blockRefer($inputData)
     {
         $refer=Http::get('refer');
 
@@ -32,7 +32,7 @@ class Security
         }
     }
     
-    public function allowOnlyRefer($inputData)
+    public static function allowOnlyRefer($inputData)
     {
     	$refer=Http::get('refer');
 

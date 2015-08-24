@@ -21,7 +21,7 @@ class App
 		self::$config['locale']=$locale;
 	}
 
-	public function get($keyName)
+	public static function get($keyName)
 	{
 		if(!isset(self::$config[$keyName]))
 		{
@@ -31,7 +31,7 @@ class App
 		return self::$config[$keyName];
 	}
 
-	public function set($keyName,$keyValue)
+	public static function set($keyName,$keyValue)
 	{
 		if($keyName=='')
 		{
@@ -41,7 +41,7 @@ class App
 		self::$config[$keyName]=$keyValue;
 	}
 
-	public function setLocale($keyValue)
+	public static function setLocale($keyValue)
 	{
 		if($keyValue=='')
 		{

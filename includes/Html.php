@@ -2,22 +2,22 @@
 
 class Html
 {
-	public function raw($str)
+	public static function raw($str)
 	{
 		return $str;
 	}
 
-	public function encode($str)
+	public static function encode($str)
 	{
 		$str=htmlentities($str, ENT_QUOTES);
 	}
 
-	public function decode($str)
+	public static function decode($str)
 	{
 		$str=html_entity_decode($str, ENT_QUOTES);
 	}
 
-	public function container($rowData=array(),$isFluid='no')
+	public static function container($rowData=array(),$isFluid='no')
 	{
 		$class='container';
 
@@ -73,7 +73,7 @@ class Html
 	}	
 
 
-	public function panelWithTitle($rowData=array())
+	public static function panelWithTitle($rowData=array())
 	{
 		$class='panel panel-default';
 
@@ -133,7 +133,7 @@ class Html
 
 		return $resultData;
 	}
-	public function panel($rowData=array())
+	public static function panel($rowData=array())
 	{
 		$class='panel panel-default';
 
@@ -183,7 +183,7 @@ class Html
 		return $resultData;
 	}
 
-	public function row($rowData=array())
+	public static function row($rowData=array())
 	{
 		$class='row';
 
@@ -233,7 +233,7 @@ class Html
 		return $resultData;
 	}
 
-	public function col($inputData=array())
+	public static function col($inputData=array())
 	{
 		$class='col-lg-12 col-md-12 col-sm-12 col-xs-12';
 

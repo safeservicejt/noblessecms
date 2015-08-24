@@ -3,7 +3,7 @@
 class Compress
 {
 
-	public function gzip($inputData,$method='compress',$level=9)
+	public static function gzip($inputData,$method='compress',$level=9)
 	{
 		$resultData='';
 
@@ -20,7 +20,7 @@ class Compress
 		return $resultData;
 	}
 
-	public function gzdecode($data){
+	public static function gzdecode($data){
 	  $g=tempnam('/tmp','ff');
 	  @file_put_contents($g,$data);
 	  ob_start();

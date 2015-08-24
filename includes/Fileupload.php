@@ -33,7 +33,7 @@ class Fileupload
         }
     }
 
-    public function isValid()
+    public static function isValid()
     {
         if($this->isMultiple=='yes')
         {
@@ -68,7 +68,7 @@ class Fileupload
         return false;
     }
 
-    public function move($fileDest = '', $newName = '')
+    public static function move($fileDest = '', $newName = '')
     {
         // if($this->isMultiple=='yes')
         // {
@@ -117,7 +117,7 @@ class Fileupload
         return false;
 
     }
-    public function moveMultiple($fileDest = '', $newName = '')
+    public static function moveMultiple($fileDest = '', $newName = '')
     {
         $newName = isset($newName[1]) ? $newName : $_FILES[$this->varName]['name'][$this->filePosition];
 
@@ -145,7 +145,7 @@ class Fileupload
         return false;
 
     }
-    public function moveAll($fileDest = '')
+    public static function moveAll($fileDest = '')
     {
         $total=count($_FILES[$this->varName]['name']);
 
@@ -180,27 +180,27 @@ class Fileupload
         }
     }
 
-    public function getFilesPath()
+    public static function getFilesPath()
     {
         return Input::listFiles;
     }
 
-    public function getRealPath()
+    public static function getRealPath()
     {
         return $this->realPath;
     }
 
-    public function getClientOriginalName()
+    public static function getClientOriginalName()
     {
         return $this->fileName;
     }
 
-    public function getSize()
+    public static function getSize()
     {
         return $this->fileSize;
     }
 
-    public function getMimeType()
+    public static function getMimeType()
     {
         return $this->fileMimeType;
     }

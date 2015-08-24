@@ -10,7 +10,7 @@ class Test extends Table
 
 	public $fields='userid,groupid,username,firstname,lastname,image,email,password,userdata,ip,verify_code,parentid,date_added,forgot_code,forgot_date';
 
-	public function __construct()
+	public static function __construct()
 	{
 		
 
@@ -29,12 +29,12 @@ class Table
 
 	public $fields='';
 
-	public function __construct()
+	public static function __construct()
 	{
 		
 	}
 
-	public function get($inputData=array())
+	public static function get($inputData=array())
 	{
 
 		$limitQuery="";
@@ -118,7 +118,7 @@ class Table
 
 	}
 
-	public function all()
+	public static function all()
 	{
 
 		$loadData=$this->get();
@@ -126,7 +126,7 @@ class Table
 		return $loadData;
 	}
 
-	public function first()
+	public static function first()
 	{
 		$loadData=$this->get(array(
 			'limitShow'=>1,
@@ -136,7 +136,7 @@ class Table
 		return $loadData;		
 	}
 
-	public function last()
+	public static function last()
 	{
 		$loadData=$this->get(array(
 			'limitShow'=>1
@@ -145,7 +145,7 @@ class Table
 		return $loadData;
 	}
 
-	public function up($keyName='',$total=1)
+	public static function up($keyName='',$total=1)
 	{
 		if(!isset($keyName[1]))
 		{
@@ -219,7 +219,7 @@ class Table
 		return true;
 	}
 
-	public function addField($keyName='',$inputData=array())
+	public static function addField($keyName='',$inputData=array())
 	{
 
 		$status=Database::addField($this->table,$keyName,$inputData);
@@ -227,7 +227,7 @@ class Table
 		return $status;
 	}
 
-	public function dropField($keyName='')
+	public static function dropField($keyName='')
 	{
 		Database::dropField($this->table,$keyName);
 

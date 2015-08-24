@@ -33,14 +33,14 @@ class Widgets
 	*/
 	public static $widgetData=array();
 
-	public function show($page_name,$layout_name='top')
+	public static function show($page_name,$layout_name='top')
 	{
 		$result=self::make($page_name,$layout_name);
 
 		echo $result;
 	}
 
-	public function make($page_name,$layout_name='top')
+	public static function make($page_name,$layout_name='top')
 	{
 		$themePath=System::getThemePath();
 
@@ -69,7 +69,7 @@ class Widgets
 		return $result;
 	}
 
-	public function load()
+	public static function load()
 	{
 		if(!$loadCache=self::loadCache())
 		{
@@ -86,12 +86,12 @@ class Widgets
 		self::$widgetData=$loadCache;
 	}
 
-	public function get()
+	public static function get()
 	{
 		return self::$widgetData;
 	}
 
-	public function change($function_name,$inputData=array())
+	public static function change($function_name,$inputData=array())
 	{
 		/*
 		$inputData=array(
@@ -129,7 +129,7 @@ class Widgets
 		
 	}
 
-	public function build($func)
+	public static function build($func)
 	{
 		if(is_object($func))
 		{
@@ -142,7 +142,7 @@ class Widgets
 
 	}
 
-	public function saveCache()
+	public static function saveCache()
 	{
 		$themePath=System::getThemePath();
 
@@ -156,7 +156,7 @@ class Widgets
 		}		
 	}
 
-	public function loadCache()
+	public static function loadCache()
 	{
 		$themePath=System::getThemePath();
 
@@ -177,7 +177,7 @@ class Widgets
 
 	}
 
-	public function addByText($inputData='')
+	public static function addByText($inputData='')
 	{
 		/*
 		page_name|layout_name|order
@@ -210,7 +210,7 @@ class Widgets
 	}
 
 
-	public function add($pageName,$pageLayout='top',$funcName,$sortOrder=0)
+	public static function add($pageName,$pageLayout='top',$funcName,$sortOrder=0)
 	{
 		$sortOrder=(int)$sortOrder;
 

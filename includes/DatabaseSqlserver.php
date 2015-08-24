@@ -9,7 +9,7 @@ class DatabaseSqlserver
 
     public static $insertID = 0;
 
-    public function connect()
+    public static function connect()
     {
         global $db;
 
@@ -30,7 +30,7 @@ class DatabaseSqlserver
 
     }
 
-    public function query($queryStr = '', $objectStr = '')
+    public static function query($queryStr = '', $objectStr = '')
     {
 
         $queryDB = sqlsrv_query(self::$dbConnect, $queryStr);
@@ -60,7 +60,7 @@ class DatabaseSqlserver
 
     }
 
-    public function fetch_array($queryDB = '', $objectStr = '', $fetchType = 'SQLSRV_FETCH_ASSOC')
+    public static function fetch_array($queryDB = '', $objectStr = '', $fetchType = 'SQLSRV_FETCH_ASSOC')
     {
         $row = sqlsrv_fetch_array($queryDB, $fetchType);
 
@@ -72,7 +72,7 @@ class DatabaseSqlserver
         return $row;
     }
 
-    public function num_rows($queryDB = '', $objectStr = '')
+    public static function num_rows($queryDB = '', $objectStr = '')
     {
         $numRows = sqlsrv_num_rows($queryDB);
 
@@ -84,7 +84,7 @@ class DatabaseSqlserver
 
     }
 
-    public function insert_id($objectStr = '')
+    public static function insert_id($objectStr = '')
     {
 //        sqlsrv_next_result($queryDB);
 //

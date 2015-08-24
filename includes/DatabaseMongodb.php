@@ -12,7 +12,7 @@ class DatabaseMongodb
 
     private static $runQuery = 'no';
 
-    public function connect($keyName='default')
+    public static function connect($keyName='default')
     {
         global $db;
 
@@ -28,39 +28,39 @@ class DatabaseMongodb
 
     }
 
-    public function insert($collection_name,$values)
+    public static function insert($collection_name,$values)
     {
         $collection = self::$dbConnect->$collection_name;
         $collection->insert($values);
     }
 
-    public function delete($collection_name,$condition)
+    public static function delete($collection_name,$condition)
     {
         $collection = self::$dbConnect->$collection_name;
         $collection->remove($condition);
     }
 
-    public function update($collection_name,$condition,$newdata)
+    public static function update($collection_name,$condition,$newdata)
     {
         $collection = self::$dbConnect->$collection_name;
         $collection->update($condition,$newdata);
     }
 
-    public function findOne($collection_name,$condition,$field_name)
+    public static function findOne($collection_name,$condition,$field_name)
     {
         $collection = self::$dbConnect->$collection_name;
         $res = $collection->findOne($condition,$field_name);
         return $res;
     }
 
-    public function count($collection_name,$condition)
+    public static function count($collection_name,$condition)
     {
         $collection = self::$dbConnect->$collection_name;
         $res = $collection->count($condition);
         return $res;
     }
 
-    public function getMax($collection_name,$field_name)
+    public static function getMax($collection_name,$field_name)
     {
         $collection = self::$dbConnect->$collection_name;
         $res = $collection->find(array(),$field_name)->sort(array("_id"=>-1))->limit(1);
@@ -71,7 +71,7 @@ class DatabaseMongodb
         }
     }
 
-    public function find($collection_name,$field_name,$condition=null)
+    public static function find($collection_name,$field_name,$condition=null)
     {
         $collection = self::$dbConnect->$collection_name;
         $res = $collection->find($condition,$field_name);   

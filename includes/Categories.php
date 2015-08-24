@@ -3,7 +3,7 @@
 class Categories
 {
 
-	public function get($inputData=array())
+	public static function get($inputData=array())
 	{
 
 		$limitQuery="";
@@ -115,7 +115,7 @@ class Categories
 		return $result;
 		
 	}
-	public function api($action)
+	public static function api($action)
 	{
 		Model::load('api/categories');
 
@@ -128,14 +128,14 @@ class Categories
 		return $result;
 	}
 
-	public function url($inputData)
+	public static function url($inputData)
 	{
 		$url=Url::category($inputData);
 
 		return $url;
 	}
 
-	public function insert($inputData=array())
+	public static function insert($inputData=array())
 	{
 		// End addons
 		// $totalArgs=count($inputData);
@@ -202,7 +202,7 @@ class Categories
 	
 	}
 
-	public function remove($post=array(),$whereQuery='',$addWhere='')
+	public static function remove($post=array(),$whereQuery='',$addWhere='')
 	{
 
 
@@ -234,7 +234,7 @@ class Categories
 		return true;
 	}
 
-	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
 		if(isset($post['title']))
 		{

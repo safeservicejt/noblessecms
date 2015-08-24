@@ -3,7 +3,7 @@
 class Users
 {
 
-	public function get($inputData=array())
+	public static function get($inputData=array())
 	{
 
 		$limitQuery="";
@@ -112,7 +112,7 @@ class Users
 		
 	}
 
-	public function api($action)
+	public static function api($action)
 	{
 		Model::load('api/users');
 
@@ -125,7 +125,7 @@ class Users
 		return $result;
 	}	
 
-	public function getAvatar($row)
+	public static function getAvatar($row)
 	{
 		$img='bootstrap/images/noavatar.jpg';
 
@@ -146,7 +146,7 @@ class Users
 	}
 
 
-	public function forgotPassword($email)
+	public static function forgotPassword($email)
 	{
 		$email=trim($email);
 
@@ -212,7 +212,7 @@ class Users
 		}
 	}
 
-	public function newRegister($inputData=array())
+	public static function newRegister($inputData=array())
 	{
 		$fullname=isset($inputData['firstname'])?$inputData['firstname'].' '.$inputData['lastname']:$inputData['fullname'];
 
@@ -269,7 +269,7 @@ class Users
 		}
 	}
 
-	public function sendNewPassword($email)
+	public static function sendNewPassword($email)
 	{
 		$email=trim($email);
 
@@ -331,7 +331,7 @@ class Users
 		}
 	}
 
-	public function makeRegister($inputData=array())
+	public static function makeRegister($inputData=array())
 	{
 		if(!isset($_REQUEST['send']['firstname']) && isset($inputData['firstname']))
 		{
@@ -375,7 +375,7 @@ class Users
 
 	}
 
-	public function makeLogin($username,$password)
+	public static function makeLogin($username,$password)
 	{
 		$_REQUEST['username']=$username;
 
@@ -436,7 +436,7 @@ class Users
 
 	}
 
-	public function getCookieUserId()
+	public static function getCookieUserId()
 	{
 		$userid=isset($_COOKIE['userid'])?$_COOKIE['userid']:0;
 
@@ -450,7 +450,7 @@ class Users
 		return $userid;
 	}
 
-	public function getCookieGroupId()
+	public static function getCookieGroupId()
 	{
 		$groupid=isset($_COOKIE['groupid'])?$_COOKIE['groupid']:0;
 
@@ -466,7 +466,7 @@ class Users
 
 
 
-	public function hasLogin()
+	public static function hasLogin()
 	{
 		if(!Cookie::has('username') || !Cookie::has('password') || !isset($_COOKIE['groupid']))
 		{
@@ -494,7 +494,7 @@ class Users
 		return true;
 	}
 
-	public function logout()
+	public static function logout()
 	{
 		Cookie::destroy('userid');
 
@@ -510,7 +510,7 @@ class Users
 
 	}
 
-	public function changePassword($userid,$newPassword='')
+	public static function changePassword($userid,$newPassword='')
 	{
 
 		if(!isset($newPassword[1]))
@@ -533,19 +533,19 @@ class Users
 
 	}
 
-	public function upBalance($userid,$money)
+	public static function upBalance($userid,$money)
 	{
 		Database::query("update users set balance=balance+$money where userid='$userid'");
 	}
 
-	public function downBalance($userid,$money)
+	public static function downBalance($userid,$money)
 	{
 		Database::query("update users set balance=balance-$money where userid='$userid'");
 	}
 
 
 
-	public function changeGroup($userid,$groupid)
+	public static function changeGroup($userid,$groupid)
 	{
 
 		$getData=UserGroups::get(array(
@@ -564,7 +564,7 @@ class Users
 		return true;
 	}
 
-	public function insert($inputData=array())
+	public static function insert($inputData=array())
 	{
 		// End addons
 		// $totalArgs=count($inputData);
@@ -621,7 +621,7 @@ class Users
 	
 	}
 
-	public function remove($post=array(),$whereQuery='',$addWhere='')
+	public static function remove($post=array(),$whereQuery='',$addWhere='')
 	{
 
 
@@ -653,7 +653,7 @@ class Users
 		return true;
 	}
 
-	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
 
 		if(is_numeric($listID))

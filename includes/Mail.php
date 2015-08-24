@@ -5,7 +5,7 @@ class Mail
 
     private static $listAccounts = array();
 
-    public function verify($toemail, $fromemail, $getdetails = false){
+    public static function verify($toemail, $fromemail, $getdetails = false){
         // print_r(Mail::verify('tctinhoc@gmail.com','safeservicejt@gmail.com')); | valid|invalid
         $details='';        
         $email_arr = explode("@", $toemail);
@@ -77,7 +77,7 @@ class Mail
         }
     }
 
-    public function addAccount($config = array())
+    public static function addAccount($config = array())
     {
 
         $total = count($config);
@@ -111,7 +111,7 @@ class Mail
 
     }
 
-    public function test()
+    public static function test()
     {
         require INCLUDES_PATH . 'extentions/PHPMailer/PHPMailerAutoload.php';
 
@@ -121,7 +121,7 @@ class Mail
     }
 
 
-    public function send($mailConfig=array(),$is_smtp=1)
+    public static function send($mailConfig=array(),$is_smtp=1)
     {
         // $mailConfig = $this->listAccounts[$accountPosition];
 

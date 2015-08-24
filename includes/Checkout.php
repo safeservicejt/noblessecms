@@ -7,7 +7,7 @@ class Checkout
 	// Array have: error, message, status
 	public static $order=array();
 
-	public function tax()
+	public static function tax()
 	{
 		$listTax=Taxrate::thisIP();
 
@@ -22,7 +22,7 @@ class Checkout
 		return $listTax;
 	}
 
-	public function total()
+	public static function total()
 	{
 		$loadData=array();
 
@@ -70,7 +70,7 @@ class Checkout
 	}
 
 
-	public function processCheckout()
+	public static function processCheckout()
 	{
 		$paymentProcess=array();		
 
@@ -192,7 +192,7 @@ class Checkout
 		return $paymentProcess;
 	}
 
-	public function discountRemove()
+	public static function discountRemove()
 	{
 		if(isset($_SESSION['discount']['coupon']))
 		{
@@ -222,7 +222,7 @@ class Checkout
 
 	}
 
-	public function insertOrder($orderData=array())
+	public static function insertOrder($orderData=array())
 	{
 
 		// print_r($orderData);die();

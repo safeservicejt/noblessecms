@@ -3,20 +3,20 @@
 
 class Cookie
 {
-    public function get($cookieName = '', $defaultVal=false)
+    public static function get($cookieName = '', $defaultVal=false)
     {
         $cookie = isset($_COOKIE[$cookieName]) ? $_COOKIE[$cookieName] : $defaultVal;
 
         return $cookie;
     }
-    public function has($cookieName = '')
+    public static function has($cookieName = '')
     {
         $cookie = isset($_COOKIE[$cookieName]) ? true : false;
 
         return $cookie;
     }
 
-    public function make($cookieName = '', $cookieValue = '', $mins = 0)
+    public static function make($cookieName = '', $cookieValue = '', $mins = 0)
     {
         if ($mins == 0) $mins=1;
 
@@ -29,7 +29,7 @@ class Cookie
 
 
 
-    public function destroy($cookieName = '')
+    public static function destroy($cookieName = '')
     {
         $urls=parse_url(ROOT_URL);
 

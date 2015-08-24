@@ -20,9 +20,9 @@ class JS
 	private static $dbCMD=array();
 
 
-	// public function 
+	// public static function 
 
-	public function select($keyName)
+	public static function select($keyName)
 	{
 		self::$dbCMD['method']='select';
 
@@ -31,7 +31,7 @@ class JS
 		return new static;
 	}
 
-	public function style($keyName,$keyValue)
+	public static function style($keyName,$keyValue)
 	{
 		$replace=array(
 			'background-color'=>'setBgColor',
@@ -47,7 +47,7 @@ class JS
 		return $this;
 	}
 
-	public function fadeIn()
+	public static function fadeIn()
 	{
 		self::$dbCMD['effect']['setFadein']['value']='';
 		self::$dbCMD['effect']['setFadein']['action']='callnovalue';
@@ -55,34 +55,34 @@ class JS
 		return $this;		
 	}
 
-	public function text()
+	public static function text()
 	{
 		self::$dbCMD['effect']['getText']['value']='';
 		self::$dbCMD['effect']['getText']['action']='callnovalue';
 		return $this;		
 	}
 
-	public function html()
+	public static function html()
 	{
 		self::$dbCMD['effect']['getText']['value']='';
 		self::$dbCMD['effect']['getText']['action']='callnovalue';
 		return $this;		
 	}
 
-	public function addClass()
+	public static function addClass()
 	{
 		self::$dbCMD['effect']['addClass']['value']='';
 		self::$dbCMD['effect']['addClass']['action']='callnovalue';
 		return $this;		
 	}
-	public function addClass()
+	public static function addClass()
 	{
 		self::$dbCMD['effect']['addClass']['value']='';
 		self::$dbCMD['effect']['addClass']['action']='callnovalue';
 		return $this;		
 	}
 
-	public function make($keyName,$keyValue='')
+	public static function make($keyName,$keyValue='')
 	{
 		self::$dbCMD['method']='create';
 
@@ -100,7 +100,7 @@ class JS
 		return new static;
 	}
 
-	public function get($show=0)
+	public static function get($show=0)
 	{
 		// print_r(self::$dbCMD);die();		
 		$result=$this->parseQuery();
@@ -115,12 +115,12 @@ class JS
 		}
 	}
 
-	public function open()
+	public static function open()
 	{
 		echo '<script type="text/javascript">';
 	}
 
-	public function close()
+	public static function close()
 	{
 		echo '</script>';
 	}

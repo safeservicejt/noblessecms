@@ -198,7 +198,7 @@ class Plugins
 		);
 
 
-	public function getDirs($inputData=array())
+	public static function getDirs($inputData=array())
 	{
 
 		$loadData=self::get();
@@ -273,17 +273,17 @@ class Plugins
 		
 	}
 
-	public function writeError($str)
+	public static function writeError($str)
 	{
 		self::$error=$str;
 	}
 
-	public function getError($str)
+	public static function getError($str)
 	{
 		return self::$error;
 	}
 
-	public function add($zoneName,$funcName)
+	public static function add($zoneName,$funcName)
 	{
 		$inputData=array();
 
@@ -325,7 +325,7 @@ class Plugins
 
 
 
-	public function load($zoneName='',$inputData=array())
+	public static function load($zoneName='',$inputData=array())
 	{
 
 		if(!isset(self::$listCaches[$zoneName]))
@@ -447,7 +447,7 @@ class Plugins
 
 	}
 
-	public function makeInstall($foldername)
+	public static function makeInstall($foldername)
 	{
 		self::$canInstall='yes';
 
@@ -455,7 +455,7 @@ class Plugins
 
 		self::$installFolderName=$foldername;
 	}
-	public function makeUninstall($foldername)
+	public static function makeUninstall($foldername)
 	{
 		self::$canUninstall='yes';
 
@@ -469,7 +469,7 @@ class Plugins
 
 	}
 
-	public function install($funcName)
+	public static function install($funcName)
 	{
 		// $foldername=self::$installFolderName;
 
@@ -511,7 +511,7 @@ class Plugins
 
 	}
 
-	public function uninstall($funcName)
+	public static function uninstall($funcName)
 	{
 		$foldername=self::$uninstallFolderName;
 
@@ -529,7 +529,7 @@ class Plugins
 	}
 
 
-	public function get($inputData=array())
+	public static function get($inputData=array())
 	{
 
 		$limitQuery="";
@@ -593,7 +593,7 @@ class Plugins
 		
 	}
 
-	public function insert($inputData=array())
+	public static function insert($inputData=array())
 	{
 		// End addons
 		$totalArgs=count($inputData);
@@ -648,7 +648,7 @@ class Plugins
 	
 	}
 
-	public function remove($post=array(),$whereQuery='',$addWhere='')
+	public static function remove($post=array(),$whereQuery='',$addWhere='')
 	{
 		if(is_numeric($post))
 		{
@@ -677,7 +677,7 @@ class Plugins
 	}
 
 
-	public function api($inputData)
+	public static function api($inputData)
 	{
 		/*
 		Route->Function

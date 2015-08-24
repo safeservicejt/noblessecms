@@ -10,19 +10,19 @@ class Cache
     public static $cachePath = '';
 
 
-    public function setPath($path)
+    public static function setPath($path)
     {
         $path=!isset($path[2])?CACHES_PATH:$path;
 
         self::$cachePath=$path;
     }
 
-    public function resetPath()
+    public static function resetPath()
     {
         self::$cachePath=CACHES_PATH;
     }
     
-    public function getPath()
+    public static function getPath()
     {
         $path=!isset(self::$cachePath[2])?CACHES_PATH:self::$cachePath;
 
@@ -31,7 +31,7 @@ class Cache
         return $path;
     }
   
-    public function enable($liveTime = 360)
+    public static function enable($liveTime = 360)
     {
         self::$cacheStatus = 'enable';
 
@@ -42,7 +42,7 @@ class Cache
 
 
 
-    public function savePage($addPath='',$extension='.template')
+    public static function savePage($addPath='',$extension='.template')
     {
         $keyName=System::getUri();
 
@@ -73,7 +73,7 @@ class Cache
         self::resetPath();
     }
 
-    public function loadPage($addPath='',$liveTime=86400,$extension='.template')
+    public static function loadPage($addPath='',$liveTime=86400,$extension='.template')
     {
         if((int)$liveTime==-1)
         {
@@ -111,7 +111,7 @@ class Cache
         exit(0);
     }
 
-    public function loadCache()
+    public static function loadCache()
     {
 
         $load = isset($_GET['load']) ? $_GET['load'] : 'default_codeme';
@@ -152,7 +152,7 @@ class Cache
     }
 
     // Default timeLive=1 day
-    public function saveKey($keyName,$keyData='',$extension='.cache')
+    public static function saveKey($keyName,$keyData='',$extension='.cache')
     {
         $f_type='w';
         // $filePath=CACHES_PATH.$keyName.'.cache';
@@ -180,7 +180,7 @@ class Cache
         fclose($fp);
     }
 
-    public function hasKey($keyName,$timeLive=86400,$extension='.cache')
+    public static function hasKey($keyName,$timeLive=86400,$extension='.cache')
     {
         $filePath=self::getPath().$keyName.$extension;
 
@@ -204,7 +204,7 @@ class Cache
         return false;  
     }
 
-    public function loadKey($keyName,$timeLive=86400,$extension='.cache')
+    public static function loadKey($keyName,$timeLive=86400,$extension='.cache')
     {
         // $filePath=CACHES_PATH.$keyName.'.cache';
         $filePath=self::getPath().$keyName.$extension;
@@ -214,11 +214,12 @@ class Cache
             return false;
         }
 
-        if(!preg_match('/.*?\.\w+$/i', $filePath))
+        if(preg_match('/\W/i', $keyName) || !preg_match('/.*?\.\w+$/i', $filePath))
         {
             return false;
         }
-        if(!file_exists($filePath))return false;
+
+        if(!is_file($filePath))return false;
 
         // $cacheExpires = time() - filemtime($filePath);
         $cacheExpires = time() - filectime($filePath);
@@ -235,7 +236,7 @@ class Cache
 
         return false;        
     }
-    public function removeKey($keyName,$extension='.cache')
+    public static function removeKey($keyName,$extension='.cache')
     {
         // $filePath=CACHES_PATH.$keyName.'.cache';
         $filePath=self::getPath().$keyName.$extension;
@@ -247,7 +248,7 @@ class Cache
         return true;        
     }
 
-    public function saveCache()
+    public static function saveCache()
     {
 
         if (self::$cacheStatus == 'enable') {

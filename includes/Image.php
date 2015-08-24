@@ -3,7 +3,7 @@
 class Image
 {
 
-    public function upload($keyName='image',$shortPath='uploads/images/')
+    public static function upload($keyName='image',$shortPath='uploads/images/')
     {
         $name=$_FILES[$keyName]['name'];
 
@@ -22,7 +22,7 @@ class Image
 
         return $shortPath;
     }
-    public function uploadMultiple($keyName='image',$shortPath='uploads/images/')
+    public static function uploadMultiple($keyName='image',$shortPath='uploads/images/')
     {
         $name=$_FILES[$keyName]['name'][0];
 
@@ -57,7 +57,7 @@ class Image
         return $resultData;
     }
 
-    public function isImage($inputData='')
+    public static function isImage($inputData='')
     {
         if(!isset($inputData[1]))
         {
@@ -79,7 +79,7 @@ class Image
         return true;
     }
 
-    public function uploadFromUrl($imgUrl,$shortPath='uploads/images/')
+    public static function uploadFromUrl($imgUrl,$shortPath='uploads/images/')
     {
         $shortPath=File::uploadFromUrl($imgUrl,$shortPath);
 
@@ -95,7 +95,7 @@ class Image
         return $shortPath;
     }
 
-    public function getSizeFromUrl($url='')
+    public static function getSizeFromUrl($url='')
     {
         $url=trim($url);
 
@@ -107,7 +107,7 @@ class Image
 
     }
 
-    public function getSize($imagePath)
+    public static function getSize($imagePath)
     {
         list($width, $height) = getimagesize($imagePath);
 
@@ -117,7 +117,7 @@ class Image
 
     }
 
-    public function show($imagePath)
+    public static function show($imagePath)
     {
         $imageData = file_get_contents($imagePath);
 
@@ -128,7 +128,7 @@ class Image
         imagejpeg($image);
     }
 
-    public function cropCenter($imagePath, $imageWidth = 100, $imageHeight = 100, $savePath = '')
+    public static function cropCenter($imagePath, $imageWidth = 100, $imageHeight = 100, $savePath = '')
     {
         $gis = getimagesize($imagePath);
         $type = $gis[2];
@@ -185,7 +185,7 @@ class Image
         imagejpeg($thumb, $savePath, 100);
     }
 
-    public function reSize($imagePath, $imageWidth = 100, $imageHeight = 'auto', $savePath = '')
+    public static function reSize($imagePath, $imageWidth = 100, $imageHeight = 'auto', $savePath = '')
     {
         $imagePath = trim($imagePath);
 

@@ -6,29 +6,29 @@ class View
 
     public static $hasCache='no';
 
-    public function onCache()
+    public static function onCache()
     {
         self::$hasCache='yes';
     }
 
-    public function offCache()
+    public static function offCache()
     {
         self::$hasCache='no';
     }
 
-    public function setPath($path)
+    public static function setPath($path)
     {
         $path=!isset($path[2])?VIEWS_PATH:$path;
 
         self::$loadPath=$path;
     }
     
-    public function resetPath()
+    public static function resetPath()
     {
         self::$loadPath=VIEWS_PATH;
     }
 
-    public function getPath()
+    public static function getPath()
     {
         $path=!isset(self::$loadPath[2])?VIEWS_PATH:self::$loadPath;
 
@@ -37,7 +37,7 @@ class View
         return $path;
     }
     
-    public function makeWithPath($viewName = '', $viewData = array(),$path)
+    public static function makeWithPath($viewName = '', $viewData = array(),$path)
     {
         self::setPath($path);
 
@@ -46,7 +46,7 @@ class View
         self::resetPath();
     }
     
-    public function parseWithPath($viewName = '', $viewData = array(),$path,$timeLive=10)
+    public static function parseWithPath($viewName = '', $viewData = array(),$path,$timeLive=10)
     {
         self::setPath($path);
 
@@ -55,7 +55,7 @@ class View
         self::resetPath();
     }
 
-    public function parse($viewName = '', $viewData = array(),$timeLive=10)
+    public static function parse($viewName = '', $viewData = array(),$timeLive=10)
     {
 
         $path = self::getPath() . $viewName . '.php';
@@ -94,7 +94,7 @@ class View
         self::resetPath();
     }
 
-    public function make($viewName = '', $viewData = array())
+    public static function make($viewName = '', $viewData = array())
     {
         if (preg_match('/\./i', $viewName)) {
             $viewName = str_replace('.', '/', $viewName);
@@ -131,7 +131,7 @@ class View
         }
     }
 
-    public function loadCache($path)
+    public static function loadCache($path)
     {
         if(self::$hasCache=='yes')
         {
@@ -146,7 +146,7 @@ class View
         return false;        
     }
 
-    public function saveCache($path)
+    public static function saveCache($path)
     {
         if(self::$hasCache=='yes')
         {
@@ -160,7 +160,7 @@ class View
         }
     }
 
-    public function load($viewName = '', $viewData = array())
+    public static function load($viewName = '', $viewData = array())
     {
         self::make($viewName, $viewData);
     }

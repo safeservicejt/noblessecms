@@ -9,7 +9,7 @@ class Input extends Request
 
     }
 
-    public function file($varName = '')
+    public static function file($varName = '')
     {
         // $data = $_FILES[$varName];
 

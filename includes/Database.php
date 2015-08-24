@@ -27,7 +27,7 @@ class Database
 
 
 //
-//    public function __set($varName = '', $varValue = '')
+//    public static function __set($varName = '', $varValue = '')
 //    {
 //        $this->fieldList[$varName] = $varValue;
 //    }
@@ -35,14 +35,14 @@ class Database
 
     //  Object-Relational Mapping (ORM)
 
-    public function setPrefix($str='')
+    public static function setPrefix($str='')
     {
         self::$prefix='str';
 
         self::$use_prefix='yes';
     }
 
-    public function genPrefix($queryStr='')
+    public static function genPrefix($queryStr='')
     {
         $tablelist=array(
             'address','categories','comments','contactus','country','coupons','cronjobs','currency','downloads','layouts','links','manufacturers','orders','orders_products','pages','payment_methods','plugins','plugins_meta','post','post_categories','post_images','post_tags','products','products_categories','products_downloads','products_images','products_pages','products_tags','request_payments','reviews','server_setting','tax_rates','usergroups','users','vouchers'
@@ -63,17 +63,17 @@ class Database
         return $queryStr;
     }
 
-    public function getTotalQuery()
+    public static function getTotalQuery()
     {
         return self::$totalQuery;
     }
 
-    public function getDbName()
+    public static function getDbName()
     {
         return self::$dbName;
     }
 
-    public function table($tableName = '')
+    public static function table($tableName = '')
     {
 
         $db = new DatabaseORM();
@@ -84,7 +84,7 @@ class Database
 
     }
 
-    public function addField($table='',$keyName='',$inputData=array())
+    public static function addField($table='',$keyName='',$inputData=array())
     {
         $queryCMD='ALTER TABLE '.$table.' ADD '.$keyName.' ';
 
@@ -110,12 +110,12 @@ class Database
         return true;
     }
 
-    public function dropField($table='',$keyName='')
+    public static function dropField($table='',$keyName='')
     {
         self::query('ALTER TABLE '.$table.' DROP '.$keyName);
     }
 
-    public function drop($table='')
+    public static function drop($table='')
     {
         self::query("DROP TABLE ".$table);
     }
@@ -123,7 +123,7 @@ class Database
     //  Object-Relational Mapping (ORM)
 
 
-    public function connect($dbsortName = 'default')
+    public static function connect($dbsortName = 'default')
     {
         global $db;
 
@@ -219,7 +219,7 @@ class Database
     }
 
  
-    public function close($dbsortName = 'default')
+    public static function close($dbsortName = 'default')
     {
         global $db;
 
@@ -246,7 +246,7 @@ class Database
 
 
 
-    public function query($queryStr = '', $objectStr = '')
+    public static function query($queryStr = '', $objectStr = '')
     {
         switch (self::$dbType) {
             case "mysqli":
@@ -308,7 +308,7 @@ class Database
 
     }
 
-    public function nonQuery($queryStr = '', $objectStr = '')
+    public static function nonQuery($queryStr = '', $objectStr = '')
     {
         switch (self::$dbType) {
             case "mysqli":
@@ -330,7 +330,7 @@ class Database
 
     }
 
-    public function exec($queryStr = '')
+    public static function exec($queryStr = '')
     {
         switch (self::$dbType) {
             case "pdo":
@@ -343,7 +343,7 @@ class Database
 
     }
 
-    public function fetch_assoc_all($queryDB, $objectStr = '', $fetchType = 'SQLSRV_FETCH_ASSOC')
+    public static function fetch_assoc_all($queryDB, $objectStr = '', $fetchType = 'SQLSRV_FETCH_ASSOC')
     {
         $totalRows=self::num_rows($query);
 
@@ -366,7 +366,7 @@ class Database
 
         return $resultData;
     }
-    public function fetch_array_all($queryDB, $objectStr = '', $fetchType = 'SQLSRV_FETCH_ASSOC')
+    public static function fetch_array_all($queryDB, $objectStr = '', $fetchType = 'SQLSRV_FETCH_ASSOC')
     {
         
         $totalRows=self::num_rows($query);
@@ -385,7 +385,7 @@ class Database
         return $resultData;
     }
 
-    public function fetch_assoc($queryDB, $objectStr = '', $fetchType = 'SQLSRV_FETCH_ASSOC')
+    public static function fetch_assoc($queryDB, $objectStr = '', $fetchType = 'SQLSRV_FETCH_ASSOC')
     {
         switch (self::$dbType) {
             case "mysqli":
@@ -434,7 +434,7 @@ class Database
 
     }
 
-    public function fetch_obj($queryDB)
+    public static function fetch_obj($queryDB)
     {
         switch (self::$dbType) {
 
@@ -449,7 +449,7 @@ class Database
 
     }
 
-    public function fetch_array($queryDB, $objectStr = '', $fetchType = 'SQLSRV_FETCH_ASSOC')
+    public static function fetch_array($queryDB, $objectStr = '', $fetchType = 'SQLSRV_FETCH_ASSOC')
     {
         switch (self::$dbType) {
             case "mysqli":
@@ -490,7 +490,7 @@ class Database
 
     }
 
-    public function num_rows($queryDB, $objectStr = '')
+    public static function num_rows($queryDB, $objectStr = '')
     {
         switch (self::$dbType) {
             case "mysqli":
@@ -531,7 +531,7 @@ class Database
         }
 
     }
-    public function affected_rows($objectStr = '')
+    public static function affected_rows($objectStr = '')
     {
         switch (self::$dbType) {
             case "mysqli":
@@ -549,7 +549,7 @@ class Database
 
     }
 
-    public function insert_id($objectStr = '')
+    public static function insert_id($objectStr = '')
     {
         switch (self::$dbType) {
             case "mysqli":
@@ -590,7 +590,7 @@ class Database
 
     }
 
-    public function hasError($objectStr = '')
+    public static function hasError($objectStr = '')
     {
         switch (self::$dbType) {
             case "mysqli":
@@ -613,7 +613,7 @@ class Database
         }
     }
 
-    public function import($fileName = 'db.sql')
+    public static function import($fileName = 'db.sql')
     {
 
         if (file_exists($fileName)) {

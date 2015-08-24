@@ -2,7 +2,7 @@
 
 class Alert
 {
-    public function make($alertMessage = '')
+    public static function make($alertMessage = '')
     {
         ob_end_clean();
 

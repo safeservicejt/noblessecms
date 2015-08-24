@@ -3,7 +3,7 @@
 
 class TimeZones
 {
-	public function getBySelectBox()
+	public static function getBySelectBox()
 	{
 		// $class=isset($inputData['class'])?'class="'.$inputData['class'].'"':'';
 
@@ -33,7 +33,7 @@ class TimeZones
 		return $li;
 	}
 
-	public function get()
+	public static function get()
 	{
 		return array (
 		    '(UTC-11:00) Midway Island' => 'Pacific/Midway',

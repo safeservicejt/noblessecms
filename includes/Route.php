@@ -6,7 +6,7 @@ class Route
 
     public static $hasParent='no';
 
-    public  function get($routeName='',$controllerName)
+    public static function get($routeName='',$controllerName)
     {
         $uri=System::getUri();
         

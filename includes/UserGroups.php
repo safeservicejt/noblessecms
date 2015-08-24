@@ -31,7 +31,7 @@ class UserGroups
 {
 	public static $groupData=array();
 
-	public function get($inputData=array())
+	public static function get($inputData=array())
 	{
 
 		$limitQuery="";
@@ -138,7 +138,7 @@ class UserGroups
 		
 	}
 
-	public function api($action)
+	public static function api($action)
 	{
 		Model::load('api/usergroups');
 
@@ -148,7 +148,7 @@ class UserGroups
 			throw new Exception($e->getMessage());
 		}
 	}	
-	public function loadGroup($groupid)
+	public static function loadGroup($groupid)
 	{
 		if(!$loadData=Cache::loadKey('userGroup1_'.$groupid,-1))
 		{
@@ -168,7 +168,7 @@ class UserGroups
 		}
 	}
 
-	public function updatePermission($groupid,$inputData=array())
+	public static function updatePermission($groupid,$inputData=array())
 	{
 		$loadData=self::get(array(
 			'cache'=>'no',
@@ -209,7 +209,7 @@ class UserGroups
 
 	}
 
-	public function updatePermissionToAll($inputData=array())
+	public static function updatePermissionToAll($inputData=array())
 	{
 		$loadData=self::get(array(
 			'cache'=>'no'
@@ -259,7 +259,7 @@ class UserGroups
 
 	}
 
-	public function removePermissionToAll($inputData=array())
+	public static function removePermissionToAll($inputData=array())
 	{
 		$loadData=self::get(array(
 			'cache'=>'no'
@@ -309,7 +309,7 @@ class UserGroups
 
 	}
 
-	public function removePermission($groupid,$inputData=array())
+	public static function removePermission($groupid,$inputData=array())
 	{
 		$loadData=self::get(array(
 			'cache'=>'no',
@@ -353,7 +353,7 @@ class UserGroups
 		self::update($groupid,$updateData);
 	}
 
-	public function addPermissionToAll($inputData=array())
+	public static function addPermissionToAll($inputData=array())
 	{
 		$loadData=self::get(array(
 			'cache'=>'no'
@@ -406,7 +406,7 @@ class UserGroups
 
 	}
 
-	public function addPermission($groupid,$inputData=array())
+	public static function addPermission($groupid,$inputData=array())
 	{
 		$loadData=self::get(array(
 			'cache'=>'no',
@@ -445,7 +445,7 @@ class UserGroups
 		self::update($groupid,$updateData);
 	}
 	
-	public function getPermission($groupid,$keyName='')
+	public static function getPermission($groupid,$keyName='')
 	{
 		$loadData=array();
 
@@ -508,7 +508,7 @@ class UserGroups
 
 	}
 
-	public function arrayToLine($data)
+	public static function arrayToLine($data)
 	{
 		if(!is_array($data))
 		{
@@ -538,7 +538,7 @@ class UserGroups
 
 	}
 
-	public function lineToArray($data)
+	public static function lineToArray($data)
 	{
 		$data=trim($data);
 
@@ -582,7 +582,7 @@ class UserGroups
 		return $resultData;
 	}
 
-	public function insert($inputData=array())
+	public static function insert($inputData=array())
 	{
 		// End addons
 		// $totalArgs=count($inputData);
@@ -650,7 +650,7 @@ class UserGroups
 	}
 
 
-	public function remove($post=array(),$whereQuery='',$addWhere='')
+	public static function remove($post=array(),$whereQuery='',$addWhere='')
 	{
 
 
@@ -689,7 +689,7 @@ class UserGroups
 		return true;
 	}
 
-	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
 
 		if(isset($post['groupdata']) && !is_array($post['groupdata']))

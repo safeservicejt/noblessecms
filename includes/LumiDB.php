@@ -16,7 +16,7 @@ class LumiDB
 
 	public static $message='';
 
-	public function __construct()
+	public static function __construct()
 	{
 		$path=CACHES_PATH.'lumidb/';
 
@@ -30,34 +30,34 @@ class LumiDB
 	}
 
 	// LumiDB::setPath('');
-	public function setPath($newPath='')
+	public static function setPath($newPath='')
 	{
 		self::$dbPath=$newPath;
 	}
 
-	public function getPath()
+	public static function getPath()
 	{
 		return self::$dbPath;
 	}
 
-	public function getMessage()
+	public static function getMessage()
 	{
 		return self::$message;
 	}
 
-	public function setMessage($str='')
+	public static function setMessage($str='')
 	{
 		self::$error='yes';
 
 		self::$message=$str;
 	}
 
-	public function getError()
+	public static function getError()
 	{
 		return self::$error;
 	}
 
-	public function connectDB($dbName='')
+	public static function connectDB($dbName='')
 	{
 		$dbPath=self::$dbPath.'database/';
 
@@ -76,7 +76,7 @@ class LumiDB
 	}
 
 
-	public function createDB($inputData='')
+	public static function createDB($inputData='')
 	{
 		try {
 			self::createDBProcess($inputData);
@@ -87,7 +87,7 @@ class LumiDB
 		return true;
 	}
 
-	public function createDBProcess($dbName='')
+	public static function createDBProcess($dbName='')
 	{
 		$dbPath=self::$dbPath.'database/';
 
@@ -102,7 +102,7 @@ class LumiDB
 		File::create($dbPath.$dbName.'.db','');
 	}
 
-	public function getTables()
+	public static function getTables()
 	{
 		if(!isset(self::$currentDBName[1]))
 		{
@@ -113,7 +113,7 @@ class LumiDB
 		return self::$dbData['tables'];
 	}
 
-	public function createTable($tableName='',$inputData=array())
+	public static function createTable($tableName='',$inputData=array())
 	{
 		/*
 		$inputData=array(
@@ -204,7 +204,7 @@ class LumiDB
 
 	}
 
-	public function autoSetFieldOption($fieldName,$inputData=array())
+	public static function autoSetFieldOption($fieldName,$inputData=array())
 	{
 		if(!isset($inputData['type']))
 		{
@@ -224,7 +224,7 @@ class LumiDB
 
 	}
 
-	public function updateDatabase($inputData=array())
+	public static function updateDatabase($inputData=array())
 	{
 		$dbName=self::$currentDBName;
 

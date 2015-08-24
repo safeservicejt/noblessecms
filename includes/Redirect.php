@@ -2,7 +2,7 @@
 
 class Redirect
 {
-    public function to($reUrl = '',$code=0)
+    public static function to($reUrl = '',$code=0)
     {
         $url = $reUrl;
         if (!preg_match('/http/i', $reUrl)) {

@@ -3,7 +3,7 @@
 class PluginStoreApi
 {
 
-	public function api($action)
+	public static function api($action)
 	{
 		Model::load('api/pluginstore');
 
@@ -16,17 +16,18 @@ class PluginStoreApi
 		return $result;
 	}
 
-	public function get($inputData=array())
+	public static function get($inputData=array())
 	{
 		$server_url=SERVER_URL.'api/pluginstore/get';
 
 		$loadData=Http::sendPostTo($server_url,$inputData);
 
+
 		return $loadData;
 
 	}
 
-	public function getFileName($url='')
+	public static function getFileName($url='')
 	{
 		$fileName='';
 
@@ -48,7 +49,7 @@ class PluginStoreApi
 	}
 
 
-	public function getHTML($inputData=array())
+	public static function getHTML($inputData=array())
 	{
 		$loadData=self::get($inputData);
 

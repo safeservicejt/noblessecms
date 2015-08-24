@@ -2,7 +2,7 @@
 
 class PluginsZone
 {
-	public function get()
+	public static function get()
 	{
 		if(isset(Plugins::$listCaches['loaded']))
 		{
@@ -17,7 +17,7 @@ class PluginsZone
 		return Plugins::$listCaches;
 	}
 
-	public function loadCache()
+	public static function loadCache()
 	{
 		if(!$loadData=Cache::loadKey('listZones',-1))
 		{
@@ -29,14 +29,14 @@ class PluginsZone
 		// print_r(Plugins::$listCaches);die();
 	}
 
-	public function addCache($zoneName,$inputData=array())
+	public static function addCache($zoneName,$inputData=array())
 	{
 		Plugins::$listCaches[$zoneName][]=$inputData;
 
 		self::saveCache();		
 	}
 
-	public function removeCache($foldername)
+	public static function removeCache($foldername)
 	{
 		$listKey=array_keys(Plugins::$listCaches);
 
@@ -62,7 +62,7 @@ class PluginsZone
 		self::saveCache();	
 	}
 
-	public function addPlugin($zonename,$inputData)
+	public static function addPlugin($zonename,$inputData)
 	{
 
 		if(!isset($inputData['status']) || (int)$inputData['status']==0)
@@ -85,7 +85,7 @@ class PluginsZone
 
 	}
 
-	public function saveCache()
+	public static function saveCache()
 	{
 		$loadData=PluginsMeta::get(array(
 			'cacheTime'=>1,

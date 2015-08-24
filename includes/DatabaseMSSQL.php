@@ -10,7 +10,7 @@ class DatabaseMSSQL
     public static $insertID = 0;
 
 
-    public function connect()
+    public static function connect()
     {
         global $db;
 
@@ -33,7 +33,7 @@ class DatabaseMSSQL
 
     }
 
-    public function query($queryStr = '', $objectStr = '')
+    public static function query($queryStr = '', $objectStr = '')
     {
         $queryDB = mssql_query(self::$dbConnect, $queryStr);
 
@@ -53,7 +53,7 @@ class DatabaseMSSQL
 
     }
 
-    public function fetch_array($queryDB = '', $objectStr = '', $fetchType = 'MSSQL_ASSOC')
+    public static function fetch_array($queryDB = '', $objectStr = '', $fetchType = 'MSSQL_ASSOC')
     {
         $row = mssql_fetch_array($queryDB, $fetchType);
 
@@ -64,7 +64,7 @@ class DatabaseMSSQL
         return $row;
     }
 
-    public function num_rows($queryDB = '', $objectStr = '')
+    public static function num_rows($queryDB = '', $objectStr = '')
     {
         $numRows = mssql_num_rows($queryDB);
 
@@ -76,7 +76,7 @@ class DatabaseMSSQL
 
     }
 
-    public function insert_id($objectStr = '')
+    public static function insert_id($objectStr = '')
     {
 
         $id = self::$insertID;

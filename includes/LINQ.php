@@ -53,7 +53,7 @@ class LINQ
 
 	private static $query=array();
 
-	public function table($tableName='')
+	public static function table($tableName='')
 	{
 		if(!isset($tableName[1]))
 		{
@@ -68,7 +68,7 @@ class LINQ
 
 	}
 
-	public function with($tableName,$primaryKey,$foreignKey)
+	public static function with($tableName,$primaryKey,$foreignKey)
 	{
 		if(!isset($tableName[1]))
 		{
@@ -86,21 +86,21 @@ class LINQ
 		return $this;		
 	}
 
-	public function select($listFields=array())
+	public static function select($listFields=array())
 	{
 		$this->query['fields']=$listFields;
 
 		return $this;
 	}
 
-	public function addSelect($keyName)
+	public static function addSelect($keyName)
 	{
 		array_push($this->query['fields'], $keyName);
 
 		return $this;
 	}
 
-	public function update($listFields=array())
+	public static function update($listFields=array())
 	{
 		$mainTable=self::$query['table'];
 
@@ -147,7 +147,7 @@ class LINQ
 		return false;
 	}
 
-	public function delete()
+	public static function delete()
 	{
 		$mainTable=self::$query['table'];
 
@@ -165,7 +165,7 @@ class LINQ
 		return false;
 	}
 
-	public function insertGetId($listFields=array())
+	public static function insertGetId($listFields=array())
 	{
 		$this->query['getID']='yes';
 
@@ -174,7 +174,7 @@ class LINQ
 		return $loadData;
 	}
 
-	public function insert($listFields=array())
+	public static function insert($listFields=array())
 	{
 		$mainTable=self::$query['table'];
 
@@ -242,13 +242,13 @@ class LINQ
 
 	// Query action
 
-	public function get()
+	public static function get()
 	{
 		$loadData=$this->excuteQuery();
 
 		return $loadData;
 	}
-	public function numRows()
+	public static function numRows()
 	{
 		$this->query['numRows']='yes';
 
@@ -257,7 +257,7 @@ class LINQ
 		return $loadData;
 	}
 
-	public function all()
+	public static function all()
 	{
 		$field=isset($this->query['fields'][2])?$this->query['fields']:'*';
 		// $this->query['fields']=" count($fieldName)as totalRow ";
@@ -268,7 +268,7 @@ class LINQ
 
 
 	
-	public function count($fieldName='*')
+	public static function count($fieldName='*')
 	{
 		$fieldName=isset($fieldName[1])?$fieldName:'*';
 
@@ -279,7 +279,7 @@ class LINQ
 		return $loadData[0]['totalRow'];
 	}
 
-	public function min($fieldName)
+	public static function min($fieldName)
 	{
 		$fieldName=isset($fieldName[1])?$fieldName:'*';
 
@@ -290,7 +290,7 @@ class LINQ
 		return $loadData[0]['totalRow'];
 	}
 
-	public function max($fieldName)
+	public static function max($fieldName)
 	{
 		$fieldName=isset($fieldName[1])?$fieldName:'*';
 
@@ -301,7 +301,7 @@ class LINQ
 		return $loadData[0]['totalRow'];
 	}
 
-	public function sum($fieldName)
+	public static function sum($fieldName)
 	{
 		$fieldName=isset($fieldName[1])?$fieldName:'*';
 
@@ -312,93 +312,93 @@ class LINQ
 		return $loadData[0]['totalRow'];
 	}
 	
-	public function query($str)
+	public static function query($str)
 	{
 		$this->query['query']=$str;
 
 		return $this;
 	}
 
-	public function orderBy($keyName,$method)
+	public static function orderBy($keyName,$method)
 	{
 		$this->query['orderby']="order by $keyName $method";
 
 		return $this;
 	}
-	public function having($keyName)
+	public static function having($keyName)
 	{
 		$this->query['having']=$keyName;
 
 		return $this;
 	}
 
-	public function distinct()
+	public static function distinct()
 	{
 		$this->query['distinct']="yes";
 
 		return $this;
 	}
 	
-	public function groupBy($keyName)
+	public static function groupBy($keyName)
 	{
 		$this->query['groupby']="group by $keyName";
 
 		return $this;
 	}
 
-	public function leftJoin($table2='users2',$keyName1='users2.id',$conditionName='=',$keyName2='users1.nodeid')
+	public static function leftJoin($table2='users2',$keyName1='users2.id',$conditionName='=',$keyName2='users1.nodeid')
 	{
 		$this->query['leftJoin']=" LEFT JOIN $table2 ON $keyName1 $conditionName $keyName2";
 
 		return $this;
 	}
 
-	public function offset($num)
+	public static function offset($num)
 	{
 		$this->query['limit']['offset']=$num;
 
 		return $this;
 	}
 
-	public function take($num)
+	public static function take($num)
 	{
 		$this->query['limit']['take']=$num;
 
 		return $this;
 	}
 
-	public function where($fieldName,$conditionName,$conditionValue)
+	public static function where($fieldName,$conditionName,$conditionValue)
 	{
 		$loadData=$this->setWhere('',$fieldName,$conditionName,$conditionValue);
 
 		return $loadData;
 	}
 
-	public function orWhere($fieldName,$conditionName,$conditionValue)
+	public static function orWhere($fieldName,$conditionName,$conditionValue)
 	{
 		$loadData=$this->setWhere('OR',$fieldName,$conditionName,$conditionValue);
 
 		return $loadData;
 	}
-	public function andWhere($fieldName,$conditionName,$conditionValue)
+	public static function andWhere($fieldName,$conditionName,$conditionValue)
 	{
 		$loadData=$this->setWhere('AND',$fieldName,$conditionName,$conditionValue);
 
 		return $loadData;
 	}
-	public function whereBetween($fieldName,$conditionValue)
+	public static function whereBetween($fieldName,$conditionValue)
 	{
 		$loadData=$this->setWhere('',$fieldName,'BETWEEN',$conditionValue);
 
 		return $loadData;
 	}
-	public function whereNotBetween($fieldName,$conditionValue)
+	public static function whereNotBetween($fieldName,$conditionValue)
 	{
 		$loadData=$this->setWhere('',$fieldName,'NOT BETWEEN',$conditionValue);
 
 		return $loadData;
 	}
-	public function whereIn($fieldName,$conditionValue=array())
+	public static function whereIn($fieldName,$conditionValue=array())
 	{
 		$listIn="'".implode("','", $conditionValue)."'";
 
@@ -406,7 +406,7 @@ class LINQ
 
 		return $loadData;
 	}
-	public function whereNotIn($fieldName,$conditionValue=array())
+	public static function whereNotIn($fieldName,$conditionValue=array())
 	{
 		$listIn="'".implode("','", $conditionValue)."'";
 
@@ -415,7 +415,7 @@ class LINQ
 		return $loadData;
 	}
 
-	public function setWhere($beforeWhere='',$fieldName,$conditionName,$conditionValue)
+	public static function setWhere($beforeWhere='',$fieldName,$conditionName,$conditionValue)
 	{
 		$conditionName=strtolower($conditionName);
 
@@ -459,7 +459,7 @@ class LINQ
 
 	// End Query action
 
-	public function excuteQuery()
+	public static function excuteQuery()
 	{
 		$queryStr=$this->parseQuery();
 
@@ -498,7 +498,7 @@ class LINQ
 		return $loadData;
 	}
 
-	public function parseWhere()
+	public static function parseWhere()
 	{
 		// print_r($this->query['where']);die();
 
@@ -551,7 +551,7 @@ class LINQ
 		return $resultData;
 		
 	}
-	public function parseFields()
+	public static function parseFields()
 	{
 		$listFields='*';
 
@@ -572,7 +572,7 @@ class LINQ
 		return $listFields;
 	}
 
-	public function parseTables()
+	public static function parseTables()
 	{
 		$resultData=self::$query['table'];
 
@@ -601,7 +601,7 @@ class LINQ
 	}
 
 
-	public function parseQuery()
+	public static function parseQuery()
 	{
 		$resultQuery='';
 

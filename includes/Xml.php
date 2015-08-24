@@ -23,7 +23,7 @@ class Xml
     $mysongs->song[1]['dateplayed'];//get attribute
     echo $mysongs->song[0]->artist;
 	*/
-	public function fromString($inputData)
+	public static function fromString($inputData)
 	{
 		if(!isset($inputData[1]))
 		{
@@ -35,7 +35,7 @@ class Xml
 		return $resultData;
 	}
 
-	public function fromFile($inputData)
+	public static function fromFile($inputData)
 	{
 		if(!file_exists($inputData))
 		{
@@ -49,7 +49,7 @@ class Xml
 		return $resultData;
 	}
 
-	public function fromUrl($inputData)
+	public static function fromUrl($inputData)
 	{
 		$resultData=Http::getDataUrl($inputData);
 

@@ -3,7 +3,7 @@
 class Country
 {
 
-	public function get()
+	public static function get()
 	{
 
 		$loadData=Cache::loadKey('listCountries',-1);
@@ -14,7 +14,7 @@ class Country
 		
 	}
 
-	public function makeSelect()
+	public static function makeSelect()
 	{
 		$loadData=self::get();
 

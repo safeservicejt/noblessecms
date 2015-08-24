@@ -3,7 +3,7 @@
 class Orders
 {
 
-	public function get($inputData=array())
+	public static function get($inputData=array())
 	{
 
 		$limitQuery="";
@@ -107,7 +107,7 @@ class Orders
 		return $result;
 		
 	}	
-	public function api($action)
+	public static function api($action)
 	{
 		Model::load('api/order');
 
@@ -121,7 +121,7 @@ class Orders
 	}
 
 
-	public function insert($inputData=array())
+	public static function insert($inputData=array())
 	{
 		$inputData['comment']=strip_tags($inputData['comment']);
 
@@ -153,7 +153,7 @@ class Orders
 	
 	}
 
-	public function insertAffiliate($orderid)
+	public static function insertAffiliate($orderid)
 	{
 		if(!Session::has('affiliateid'))
 		{
@@ -191,7 +191,7 @@ class Orders
 		Orders::update($orderid,$post);
 	}
 
-	public function insertProducts($inputData=array())
+	public static function insertProducts($inputData=array())
 	{
 		// if(isset($inputData['price']))
 		// {
@@ -222,7 +222,7 @@ class Orders
 	
 	}
 
-	public function products($orderid)
+	public static function products($orderid)
 	{
 		$command="select orderid,productid,quantity,price,downloads from orders_products $whereQuery";
 
@@ -269,7 +269,7 @@ class Orders
 		return false;
 	}
 	
-	public function remove($post=array(),$whereQuery='',$addWhere='')
+	public static function remove($post=array(),$whereQuery='',$addWhere='')
 	{
 
 
@@ -303,7 +303,7 @@ class Orders
 		return true;
 	}
 
-	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
 		if(isset($post['comment']))
 		{

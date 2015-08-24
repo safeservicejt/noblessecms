@@ -2,7 +2,7 @@
 
 class Http
 {
-    public function get($inputData)
+    public static function get($inputData)
     {
         $inputData=strtolower($inputData);
 
@@ -59,8 +59,27 @@ class Http
 
         return $result;
     }
+    public static function getFileName($url='')
+    {
+        $fileName='';
 
-    public function sendPostTo($url = '', $post = array(), $cookiepath = '/.cookie_tmp.txt', $is_follow = 'no')
+        $text=get_headers($url);
+
+        $total=count($text);
+
+        if($total > 1)
+        {
+            for ($i=0; $i < $total; $i++) { 
+                if(preg_match('/Content-Disposition: attachment; filename=(.*?)$/i', $text[$i],$match))
+                {
+                    $fileName=$match[1];
+                }
+            }
+        }
+
+        return $fileName;
+    }
+    public static function sendPostTo($url = '', $post = array(), $cookiepath = '/.cookie_tmp.txt', $is_follow = 'no')
     {
         // ob_flush();
         $ch = curl_init();
@@ -86,7 +105,7 @@ class Http
         return $data;
     }
 
-    public function sendGetTo($url = '', $post = array(), $cookiepath = '/.cookie_tmp.txt')
+    public static function sendGetTo($url = '', $post = array(), $cookiepath = '/.cookie_tmp.txt')
     {
         // ob_flush();
         $ch = curl_init();
@@ -108,7 +127,7 @@ class Http
         return $data;
     }
 
-    public function pingToUrl($url,$hasHeader='yes', $follow = 'yes')
+    public static function pingToUrl($url,$hasHeader='yes', $follow = 'yes')
     {
         $headers = array();
 
@@ -150,7 +169,7 @@ class Http
         return $result;        
     }
 
-    public function getDataUrl($url,$hasHeader='no', $follow = 'yes')
+    public static function getDataUrl($url,$hasHeader='no', $follow = 'yes')
     {
         $headers = array();
         // $headers[] = 'X-Apple-Tz: 0';
@@ -198,7 +217,7 @@ class Http
 
         return $result;
     }
-    public function getDataUrlByGoogleBot($url,$hasHeader='yes', $follow = 'yes')
+    public static function getDataUrlByGoogleBot($url,$hasHeader='yes', $follow = 'yes')
     {
         $headers = array();
         // $headers[] = 'X-Apple-Tz: 0';
@@ -243,7 +262,7 @@ class Http
         return $result;
     }
 
-    public function copyDataUrl($source, $desc)
+    public static function copyDataUrl($source, $desc)
     {
         $descfile = fopen($desc, "w");
 

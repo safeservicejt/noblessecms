@@ -19,7 +19,7 @@ class PaymentMethods
 	public static $renderPluginPath='';
 
 
-	public function makeInstall($foldername)
+	public static function makeInstall($foldername)
 	{
 		self::$canInstall='yes';
 
@@ -37,7 +37,7 @@ class PaymentMethods
 		self::insert($insertData);		
 
 	}
-	public function makeUninstall($foldername)
+	public static function makeUninstall($foldername)
 	{
 		self::$canUninstall='yes';
 
@@ -47,7 +47,7 @@ class PaymentMethods
 
 	}
 
-	public function install($funcName)
+	public static function install($funcName)
 	{
 		// $foldername=self::$installFolderName;
 
@@ -91,7 +91,7 @@ class PaymentMethods
 
 	}
 
-	// public function uninstall($funcName)
+	// public static function uninstall($funcName)
 	// {
 	// 	$foldername=self::$uninstallFolderName;
 
@@ -110,7 +110,7 @@ class PaymentMethods
 		
 	// }
 
-	public function get($inputData=array())
+	public static function get($inputData=array())
 	{
 
 		$limitQuery="";
@@ -203,7 +203,7 @@ class PaymentMethods
 		
 	}
 
-	public function getDirs($inputData=array())
+	public static function getDirs($inputData=array())
 	{
 
 		$loadData=self::get();
@@ -278,7 +278,7 @@ class PaymentMethods
 		
 	}
 
-	public function saveCache()
+	public static function saveCache()
 	{
 		$loadData=self::get();
 
@@ -288,7 +288,7 @@ class PaymentMethods
 		}
 	}
 
-	public function loadCache()
+	public static function loadCache()
 	{
 		if(!$loadData=Cache::loadKey('listPaymentMethods',-1))
 		{
@@ -300,7 +300,7 @@ class PaymentMethods
 		return $loadData;
 	}
 
-	public function import()
+	public static function import()
 	{
 		$resultData=File::uploadMultiple('theFile','uploads/tmp/');
 
@@ -327,7 +327,7 @@ class PaymentMethods
 			File::unzipModule($targetPath,'yes');
 		}		
 	}
-	public function insert($inputData=array())
+	public static function insert($inputData=array())
 	{
 		// End addons
 		// $totalArgs=count($inputData);
@@ -388,7 +388,7 @@ class PaymentMethods
 	
 	}
 
-	public function remove($post=array(),$whereQuery='',$addWhere='')
+	public static function remove($post=array(),$whereQuery='',$addWhere='')
 	{
 
 
@@ -416,7 +416,7 @@ class PaymentMethods
 		return true;
 	}
 
-	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
 		if(isset($post['title']))
 		{

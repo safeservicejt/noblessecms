@@ -5,19 +5,19 @@ class Model
     public static $loadPath = '';
 
     
-    public function setPath($path)
+    public static function setPath($path)
     {
         $path=!isset($path[2])?MODELS_PATH:$path;
 
         self::$loadPath=$path;
     }
 
-    public function resetPath()
+    public static function resetPath()
     {
         self::$loadPath=MODELS_PATH;
     }
     
-    public function getPath()
+    public static function getPath()
     {
         $path=!isset(self::$loadPath[2])?MODELS_PATH:self::$loadPath;
 
@@ -25,7 +25,7 @@ class Model
 
         return $path;
     }
-    public function loadWithPath($modelName = '', $path)
+    public static function loadWithPath($modelName = '', $path)
     {
         self::setPath($path);
 
@@ -34,7 +34,7 @@ class Model
         self::resetPath();
     }    
 
-    public function load($modelName = '')
+    public static function load($modelName = '')
     {
         // $path = MODELS_PATH . $modelName . '.php';
         $path = self::getPath() . $modelName . '.php';

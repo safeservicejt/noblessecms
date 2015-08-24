@@ -12,17 +12,17 @@ class System
 
 	public static $listVar=array('global'=>array());
 
-	public function defineVar($keyName,$keyVal,$layout='global')
+	public static function defineVar($keyName,$keyVal,$layout='global')
 	{
 		self::$listVar[$layout][$keyName]=$keyVal;
 	}
 
-	public function defineGlobalVar($keyName,$keyVal)
+	public static function defineGlobalVar($keyName,$keyVal)
 	{
 		self::defineVar($keyName,$keyVal);
 	}
 
-	public function getVar($keyName,$zoneName='global')
+	public static function getVar($keyName,$zoneName='global')
 	{
 		if(!isset(self::$listVar[$zoneName][$keyName]))
 		{
@@ -32,7 +32,7 @@ class System
 		return self::$listVar[$zoneName][$keyName];
 	}
 
-	public function before_system_start()
+	public static function before_system_start()
 	{
 		/*
 		Load all setting, site info, site status
@@ -69,14 +69,14 @@ class System
 		
 	}
 
-	public function setTimeZone()
+	public static function setTimeZone()
 	{
 		$zone=self::$setting['default_timezone'];
 
 		date_default_timezone_set($zone);
 	}
 
-	public function checkLang()
+	public static function checkLang()
 	{
 		if($match=Uri::match('^lang\/(\w+)'))
 		{
@@ -91,7 +91,7 @@ class System
 
 	}
 	
-	public function checkTheme()
+	public static function checkTheme()
 	{
 		if($match=Uri::match('^theme\/(\w+)'))
 		{
@@ -122,7 +122,7 @@ class System
 
 	}
 
-	public function isMobile()
+	public static function isMobile()
 	{
 		$detect = new Mobile_Detect;
 
@@ -131,7 +131,7 @@ class System
 		return $deviceType;
 	}
 
-	public function deviceType()
+	public static function deviceType()
 	{
 		$detect = new Mobile_Detect;
 
@@ -140,7 +140,7 @@ class System
 		return $deviceType;
 	}
 
-	public function deviceVersion()
+	public static function deviceVersion()
 	{
 		$detect = new Mobile_Detect;
 
@@ -149,7 +149,7 @@ class System
 		return $scriptVersion;
 	}
 	
-	public function checkCurrency()
+	public static function checkCurrency()
 	{
 		if($match=Uri::match('^currency\/(\w+)'))
 		{
@@ -164,7 +164,7 @@ class System
 
 	}
 
-	public function systemStatus()
+	public static function systemStatus()
 	{
 		$status=self::getStatus();
 
@@ -179,7 +179,7 @@ class System
 		}
 	}
 
-	public function userStatus()
+	public static function userStatus()
 	{
 		if(isset($_COOKIE['groupid']))
 		{
@@ -188,11 +188,11 @@ class System
 		
 	}
 	
-	public function visitorStatus()
+	public static function visitorStatus()
 	{
 
 	}
-	public function defaultPageUri()
+	public static function defaultPageUri()
 	{
 		$method=self::$setting['default_page_method'];
 
@@ -202,52 +202,52 @@ class System
 		}
 	}
 
-	public function after_system_start()
+	public static function after_system_start()
 	{
 
 	}
 
-	public function getTimeZone()
+	public static function getTimeZone()
 	{
 		return self::$setting['default_timezone'];
 	}
 
-	public function setTitle($title)
+	public static function setTitle($title)
 	{
 		self::$setting['title']=$title;
 	}
 	
-	public function setDescriptions($title)
+	public static function setDescriptions($title)
 	{
 		self::$setting['descriptions']=$title;
 	}
 
-	public function setKeywords($title)
+	public static function setKeywords($title)
 	{
 		self::$setting['keywords']=$title;
 	}
 
-	public function getTitle()
+	public static function getTitle()
 	{
 		return self::$setting['title'];
 	}
 
-	public function getDescriptions()
+	public static function getDescriptions()
 	{
 		return self::$setting['descriptions'];
 	}
 
-	public function getKeywords()
+	public static function getKeywords()
 	{
 		return self::$setting['keywords'];
 	}
 
-	public function getStatus()
+	public static function getStatus()
 	{
 		return self::$setting['system_status'];
 	}
 
-	public function getLang()
+	public static function getLang()
 	{
 		$sysLang=self::$setting['system_lang'];
 
@@ -256,52 +256,52 @@ class System
 		return $sysLang;
 	}
 
-	public function getRegisterStatus()
+	public static function getRegisterStatus()
 	{
 		return self::$setting['register_user_status'];
 	}
 
-	public function getMemberGroupId()
+	public static function getMemberGroupId()
 	{
 		return self::$setting['default_member_groupid'];
 	}
 
-	public function getMemberBannedGroupId()
+	public static function getMemberBannedGroupId()
 	{
 		return self::$setting['default_member_banned_groupid'];
 	}
 
-	public function getDateFormat()
+	public static function getDateFormat()
 	{
 		return self::$setting['default_dateformat'];
 	}
 
-	public function getCommentStatus()
+	public static function getCommentStatus()
 	{
 		return self::$setting['comment_status'];
 	}
 
-	public function getRssStatus()
+	public static function getRssStatus()
 	{
 		return self::$setting['rss_status'];
 	}
 	
-	public function getAffiliateCommission()
+	public static function getAffiliateCommission()
 	{
 		return self::$setting['default_affiliate_commission'];
 	}
 
-	public function getVatPercent()
+	public static function getVatPercent()
 	{
 		return self::$setting['default_vat_commission'];
 	}
 
-	public function getOrderStatus()
+	public static function getOrderStatus()
 	{
 		return self::$setting['default_order_status'];
 	}
 
-	public function getCurrency()
+	public static function getCurrency()
 	{
 		$current=self::$setting['currency'];
 
@@ -310,35 +310,35 @@ class System
 		return $data;
 	}
 
-	public function getUrl()
+	public static function getUrl()
 	{
 		$url=isset($_COOKIE['root_url'])?$_COOKIE['root_url']:ROOT_URL;
 
 		return $url;
 	}
 
-	public function getThemeUrl()
+	public static function getThemeUrl()
 	{
 		$url=self::getUrl().'contents/themes/'.self::getThemeName().'/';
 
 		return $url;
 	}
 
-	public function getThemeName()
+	public static function getThemeName()
 	{
 		$url=isset($_COOKIE['theme_name'])?$_COOKIE['theme_name']:THEME_NAME;
 
 		return $url;
 	}
 
-	public function getThemePath()
+	public static function getThemePath()
 	{
 		$url=ROOT_PATH.'contents/themes/'.self::getThemeName().'/';
 
 		return $url;
 	}
 
-	public function getUri()
+	public static function getUri()
 	{
         global $cmsUri;
 
@@ -352,14 +352,14 @@ class System
 
 
 
-	public function setUri($uri)
+	public static function setUri($uri)
 	{
         self::$changeUri='yes';
 
         self::$newUri=$uri;	
 	}
 
-	public function getMailSetting($keyName='')
+	public static function getMailSetting($keyName='')
 	{
 		$data=self::$setting;
 
@@ -376,7 +376,7 @@ class System
 		return $data['mail'][$keyName];
 	}
 
-	public function getSetting($keyName='',$keyValue='')
+	public static function getSetting($keyName='',$keyValue='')
 	{	
 
 		$data=array();
@@ -412,7 +412,7 @@ class System
 		}
 	}
 	
-	public function setSetting($keyName='',$keyValue='')
+	public static function setSetting($keyName='',$keyValue='')
 	{	
 
 		$data=array();
@@ -436,7 +436,7 @@ class System
 
 	}
 
-	public function makeSetting()
+	public static function makeSetting()
 	{
 		$settingData=array(
 			'system_status'=>'working', 'system_lang'=>'en', 'register_user_status'=>'enable',
@@ -458,7 +458,7 @@ class System
 		return $settingData;
 	}
 
-	public function saveSetting($inputData=array())
+	public static function saveSetting($inputData=array())
 	{
 		$data=self::getSetting();
 
@@ -478,7 +478,7 @@ class System
 
 	
 
-	public function saveMailSetting($inputData=array())
+	public static function saveMailSetting($inputData=array())
 	{
 		$data=self::getSetting();
 
@@ -496,7 +496,7 @@ class System
 		Cache::saveKey('systemSetting',serialize($data));
 	}
 
-	public function dateTime($str='',$thisTime=0)
+	public static function dateTime($str='',$thisTime=0)
 	{
 		$str=isset($str[1])?$str:'Y-m-d H:i:s';
 

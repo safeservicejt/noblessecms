@@ -3,7 +3,7 @@
 class Coupons
 {
 
-	public function get($inputData=array())
+	public static function get($inputData=array())
 	{
 
 		$limitQuery="";
@@ -94,7 +94,7 @@ class Coupons
 		return $result;
 		
 	}
-	public function api($action)
+	public static function api($action)
 	{
 		Model::load('api/coupons');
 
@@ -106,7 +106,7 @@ class Coupons
 
 		return $result;
 	}
-	public function insert($inputData=array())
+	public static function insert($inputData=array())
 	{
 		// End addons
 		$totalArgs=count($inputData);
@@ -167,7 +167,7 @@ class Coupons
 	
 	}
 
-	public function remove($post=array(),$whereQuery='',$addWhere='')
+	public static function remove($post=array(),$whereQuery='',$addWhere='')
 	{
 
 
@@ -195,7 +195,7 @@ class Coupons
 		return true;
 	}
 
-	public function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
 		if(isset($post['title']))
 		{

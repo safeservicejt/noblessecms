@@ -19,19 +19,19 @@ class Lang
     public static $loadPath = '';
 
     
-    public function setPath($path)
+    public static function setPath($path)
     {
         $path=!isset($path[2])?LANG_PATH:$path;
 
         self::$loadPath=$path;
     }
 
-    public function resetPath()
+    public static function resetPath()
     {
         self::$loadPath=LANG_PATH;
     }
     
-    public function getPath()
+    public static function getPath()
     {
         $path=!isset(self::$loadPath[2])?LANG_PATH:self::$loadPath;
 
@@ -40,7 +40,7 @@ class Lang
         return $path;
     }
 
-    public function getWithPath($keyName,$path)
+    public static function getWithPath($keyName,$path)
     {
     	self::setPath($path);
 
@@ -51,12 +51,12 @@ class Lang
     	return $result;
     }
 
-    public function set($lang)
+    public static function set($lang)
     {
     	App::setLocale($lang);
     }
 
-	public function get($keyName,$addOns=array())
+	public static function get($keyName,$addOns=array())
 	{
 		if(!isset($keyName[1]))
 		{
@@ -160,7 +160,7 @@ class Lang
 	}
 
 
-	public function has($keyName)
+	public static function has($keyName)
 	{
 		$dirName=App::get('locale');
 
@@ -207,7 +207,7 @@ class Lang
 		return true;
 	}
 
-	public function choice($keyName,$theLine=0)
+	public static function choice($keyName,$theLine=0)
 	{
 		$loadData='';
 
@@ -233,7 +233,7 @@ class Lang
 		return false;
 	}
 
-	public function parseName($keyName)
+	public static function parseName($keyName)
 	{
 		$resultData=array();
 
