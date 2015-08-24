@@ -45,7 +45,9 @@ class File
 
         $imgData=Http::getDataUrl($fileUrl);
 
-        $fileName=basename($fileUrl);
+        // $fileName=basename($fileUrl);
+
+        $fileName=PluginStoreApi::getFileName($fileUrl);
 
         $fullPath=ROOT_PATH.$savePath.$fileName;
 

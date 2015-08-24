@@ -106,6 +106,16 @@ function apiProcess()
 			Cronjobs::run();
 
 			break;
+			
+		case 'pluginstore':
+
+			try {
+				$result['data']=PluginStoreApi::api($action);
+			} catch (Exception $e) {
+				$result=array('error'=>'yes','message'=>$e->getMessage());
+			}
+
+			break;
 
 			
 		

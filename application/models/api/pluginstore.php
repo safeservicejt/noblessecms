@@ -15,7 +15,6 @@ function loadApi($action)
 			$send_method=Request::get('send_method','plugin');
 
 
-
 			if(!isset($url[4]))
 			{
 				throw new Exception("Error Processing Request");
@@ -29,17 +28,6 @@ function loadApi($action)
 			}
 
 			File::downloadModule($url,$path,'yes');
-
-			$fileName=basename($url);
-
-			preg_match('/^(.*?)\.\w+$/i', $fileName,$match);
-
-			$filePath=ROOT_PATH.$path.$match[1];
-
-			if(is_dir($filePath))
-			{
-				rmdir($filePath);
-			}
 
 			break;
 

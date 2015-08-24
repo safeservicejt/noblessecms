@@ -2,6 +2,20 @@
 
 class PluginStoreApi
 {
+
+	public function api($action)
+	{
+		Model::load('api/pluginstore');
+
+		try {
+			$result=loadApi($action);
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+		}
+
+		return $result;
+	}
+
 	public function get($inputData=array())
 	{
 		$server_url=SERVER_URL.'api/pluginstore/get';
@@ -11,6 +25,28 @@ class PluginStoreApi
 		return $loadData;
 
 	}
+
+	public function getFileName($url='')
+	{
+		$fileName='';
+
+        $text=get_headers($url);
+
+        $total=count($text);
+
+        if($total > 1)
+        {
+        	for ($i=0; $i < $total; $i++) { 
+        		if(preg_match('/Content-Disposition: attachment; filename=(.*?)$/i', $text[$i],$match))
+        		{
+        			$fileName=$match[1];
+        		}
+        	}
+        }
+
+        return $fileName;
+	}
+
 
 	public function getHTML($inputData=array())
 	{
@@ -53,7 +89,7 @@ class PluginStoreApi
 			          <p>
 			            <img src="'.$inputData[$i]['ratingImage'].'" >
 			          </p>
-			            '.substr($inputData[$i]['summary']['summary'], 0,250).'...
+			            '.substr($inputData[$i]['description'], 0,150).'...
 			          </div>
 
 			          <div class="more-info text-right">

@@ -351,7 +351,7 @@ $( document ).on( "click", "button#btnInstall", function() {
 
   $(this).attr('disabled',true);
 
-  // alert(theUrl);return false;
+  // alert(api_url+'pluginstore/install');return false;
 
   $.ajax({
     async: false,
@@ -368,6 +368,7 @@ $( document ).on( "click", "button#btnInstall", function() {
      },
      success: function(msg)
             {
+              // alert(msg);return false;
               if(msg['error']=='no')
               {
                 alert('Download success. Your can go to plugins manage page!');
