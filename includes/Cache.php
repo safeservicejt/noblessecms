@@ -209,20 +209,25 @@ class Cache
         // $filePath=CACHES_PATH.$keyName.'.cache';
         $filePath=self::getPath().$keyName.$extension;
 
-        if(!isset($keyName[2]) || !isset($filePath[2]))
-        {
-            return false;
-        }
+        // if(!isset($keyName[2]) || !isset($filePath[2]))
+        // {
+        //     return false;
+        // }
 
+        // if(!preg_match('/.*?\.\w+$/i', $filePath))
+        // {
+        //     return false;
+        // }
+        
         if(preg_match('/\W/i', $keyName) || !preg_match('/.*?\.\w+$/i', $filePath))
         {
             return false;
         }
-
-        if(!is_file($filePath))return false;
-
         // $cacheExpires = time() - filemtime($filePath);
-        $cacheExpires = time() - filectime($filePath);
+        
+        $fileTime=fileatime($filePath);
+
+        $cacheExpires = time() - (int)$fileTime;
 
         if ((int)$timeLive == -1 || $cacheExpires <= (int)$timeLive) {
             $cacheData = file_get_contents($filePath);
