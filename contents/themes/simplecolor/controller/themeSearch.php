@@ -4,6 +4,8 @@ class themeSearch
 {
 	public function index()
 	{
+		Cache::loadPage('',30);
+
 		$inputData=array();
 
 		$postid=0;
@@ -27,7 +29,7 @@ class themeSearch
 		$loadData=Post::get(array(
 			'limitShow'=>10,
 			'limitPage'=>$curPage,
-			'cacheTime'=>-1,
+			'cacheTime'=>30,
 			'where'=>"where title LIKE '%$txtKeywords%'",
 			'orderby'=>"order by postid desc"
 			));
@@ -46,6 +48,9 @@ class themeSearch
 		System::setTitle('Search result with keyword "'.$txtKeywords.'" results:');
 
 		self::makeContent('search',$inputData);
+
+		Cache::savePage();
+
 	}
 
 	public function makeContent($viewName,$inputData=array())

@@ -34,8 +34,9 @@
         <link href="<?php echo ROOT_URL;?>bootstrap/bxslider/jquery.bxslider.css" rel="stylesheet" />
       
       <script src="<?php echo System::getThemeUrl();?>js/custom.js"></script>
+      
+      <?php echo System::getVar('site_header');?>
 
-      <?php echo $header;?>
 
             
   </head>

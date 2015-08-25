@@ -4,6 +4,8 @@ class themePost
 {
 	public function index()
 	{
+		Cache::loadPage('',30);
+
 		$inputData=array();
 
 		$postid=0;
@@ -17,8 +19,10 @@ class themePost
 
 		$friendly_url=addslashes($match[1]);
 
+		
+
 		$loadData=Post::get(array(
-			'cacheTime'=>-1,
+			'cacheTime'=>30,
 			'where'=>"where friendly_url='$friendly_url'"
 			));
 
@@ -60,6 +64,8 @@ class themePost
 		System::setKeywords($keywords);
 
 		self::makeContent('post',$inputData);
+
+		Cache::savePage();		
 	}
 
 	public function makeContent($viewName,$inputData=array())

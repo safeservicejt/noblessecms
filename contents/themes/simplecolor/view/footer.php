@@ -25,7 +25,8 @@
     <!-- Placed at the end of the document so the pages load faster -->
 
     <script src="<?php echo THEME_URL;?>js/bootstrap.min.js"></script>
-
+      <?php echo System::getVar('site_footer');?>
+ 
   
   </body>
 </html>

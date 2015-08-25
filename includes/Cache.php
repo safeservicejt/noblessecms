@@ -50,6 +50,8 @@ class Cache
 
         $savePath=ROOT_PATH.'application/caches/templates/';
 
+
+
         if(isset($addPath[2]))
         {
             $savePath=ROOT_PATH.'application/caches/'.$addPath;
@@ -58,9 +60,13 @@ class Cache
             {
                 Dir::create($savePath);
             }
-        }        
+        }     
 
-        self::setPath($savePath);
+        if(is_file($savePath.$addPath.$keyName))
+        {
+            unlink($savePath.$addPath.$keyName);
+        }
+        // self::setPath($savePath);
 
         $keyData=ob_get_contents();
 
@@ -68,9 +74,10 @@ class Cache
 
         $keyData=gzcompress($keyData,5);
 
-        self::saveKey($keyName,serialize($keyData),$extension);
+        self::saveKey('templates/'.$keyName,serialize($keyData),$extension);
 
-        self::resetPath();
+        // self::resetPath();
+
     }
 
     public static function loadPage($addPath='',$liveTime=86400,$extension='.template')
@@ -218,14 +225,13 @@ class Cache
         // {
         //     return false;
         // }
-        
-        if(preg_match('/\W/i', $keyName) || !preg_match('/.*?\.\w+$/i', $filePath))
+        if(preg_match('/\W/i', $keyName) || !preg_match('/.*?\.\w+$/i', $filePath) || !is_file($filePath))
         {
             return false;
         }
         // $cacheExpires = time() - filemtime($filePath);
-        
-        $fileTime=fileatime($filePath);
+
+        $fileTime=filemtime($filePath);
 
         $cacheExpires = time() - (int)$fileTime;
 

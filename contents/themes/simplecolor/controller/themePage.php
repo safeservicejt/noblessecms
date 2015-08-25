@@ -4,6 +4,8 @@ class themePage
 {
 	public function index()
 	{
+		Cache::loadPage('',30);
+
 		$inputData=array();
 
 		$postid=0;
@@ -18,7 +20,7 @@ class themePage
 		$friendly_url=addslashes($match[1]);
 
 		$loadData=Pages::get(array(
-			'cacheTime'=>-1,
+			'cacheTime'=>30,
 			'where'=>"where friendly_url='$friendly_url'"
 			));
 
@@ -49,7 +51,7 @@ class themePage
 			self::makeContent('page',$inputData);			
 		}
 
-
+		Cache::savePage();
 	}
 
 	public function makeContent($viewName,$inputData=array())

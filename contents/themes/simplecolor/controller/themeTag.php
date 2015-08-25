@@ -4,7 +4,7 @@ class themeTag
 {
 	public function index()
 	{
-		// Cache::loadPage(30);
+		Cache::loadPage('',30);
 				
 		$inputData=array();
 
@@ -28,7 +28,7 @@ class themeTag
 		$loadData=Post::get(array(
 			'limitShow'=>10,
 			'limitPage'=>$curPage,
-			'cacheTime'=>-1,
+			'cacheTime'=>30,
 			'where'=>"where postid IN (select postid from post_tags where title='$friendly_url')",
 			'orderby'=>"order by postid desc"
 			));
@@ -48,7 +48,7 @@ class themeTag
 
 		self::makeContent('tag',$inputData);
 
-		// Cache::savePage();	
+		Cache::savePage();	
 	}
 
 	public function makeContent($viewName,$inputData=array())

@@ -21,6 +21,20 @@ if($matches=Uri::match('^page\/(\d+)'))
 }
 
 // Theme::view('head');
+$codeHead=Plugins::load('site_header');
+
+$codeHead=is_array($codeHead)?'':$codeHead;
+
+$codeFooter=Plugins::load('site_footer');
+
+$codeFooter=is_array($codeFooter)?'':$codeFooter;
+
+// print_r($codeHead);die();
+
+System::defineGlobalVar('site_header',$codeHead);
+
+System::defineGlobalVar('site_footer',$codeFooter);
+
 
 $links=Links::get(array(
 	'cacheTime'=>3,
@@ -28,14 +42,6 @@ $links=Links::get(array(
 	));
 
 System::defineVar('linkList',$links,'head');
-
-$codeHead=Plugins::load('site_header');
-
-$codeHead=is_array($codeHead)?'':$codeHead;
-
-// print_r($codeHead);die();
-
-System::defineVar('header',$codeHead,'head');
 
 Controller::loadWithPath('theme'.ucfirst($pageName),'index',System::getThemePath().'controller/');
 
