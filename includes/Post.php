@@ -306,7 +306,7 @@ class Post
 			
 			$post['content']=Shortcode::toBBCode($post['content']);
 
-			$post['content']=String::encode(strip_tags($post['content'],'<p><br>'));
+			$post['content']=String::encode($post['content']);
 
 		}
 
