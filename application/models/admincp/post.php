@@ -54,6 +54,35 @@ function actionProcess()
 			Post::update($id,array(
 				'allowcomment'=>0
 				));
+		case 'ishomepage':
+
+			$postid=$id[0];
+
+			if((int)$postid <= 0)
+			{
+				return false;
+			}
+
+			$loadData=Post::get(array(
+				'where'=>"where postid='$postid'"
+				));
+
+			if(!isset($loadData[0]['postid']))
+			{
+				return false;
+			}
+
+			$send_url=$loadData[0]['url'];
+			
+			$send_url=str_replace(System::getUrl(), '', $send_url);
+
+			$inputData=array(
+				'default_page_method'=>'url',
+				'default_page_url'=>$send_url
+				);
+
+			System::saveSetting($inputData);
+
 			break;
 		
 	}

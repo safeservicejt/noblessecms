@@ -2,13 +2,9 @@
 
 $pageData=array();
 
-$pageName='home';
+$pageName=System::getCurrentPage();
 
-
-if(Uri::isNull())
-{
-	$pageName='home';
-}
+$pageName=($pageName=='')?'home':$pageName;
 
 if($matches=Uri::match('^(\w+)\/?'))
 {

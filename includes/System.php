@@ -338,6 +338,23 @@ class System
 		return $url;
 	}
 
+	public static function getCurrentPage()
+	{
+		$pageName=self::getUri();
+
+		if(preg_match('/^\/(\w+)/i', $pageName,$match))
+		{
+			$pageName=$match[1];
+		}
+
+		if($pageName=='/')
+		{
+			$pageName='';
+		}
+
+		return $pageName;
+	}
+
 	public static function getUri()
 	{
         global $cmsUri;

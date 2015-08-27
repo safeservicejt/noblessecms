@@ -12,6 +12,8 @@
                     <div class="input-group input-group-sm">
                         <select class="form-control" name="action">
                             <option value="delete">Delete</option>
+                            <option value="ishomepage">Set is homepage</option>
+                            
                         </select>
                        <span class="input-group-btn">
                         <button class="btn btn-primary" name="btnAction" type="submit">Apply</button>

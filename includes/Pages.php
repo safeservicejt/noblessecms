@@ -78,6 +78,11 @@ class Pages
 				{
 					$row['content']=String::decode($row['content']);
 				}
+				
+				if(isset($row['friendly_url']))
+				{
+					$row['url']=self::url($row);
+				}
 
 				if(isset($row['date_added']))
 				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	

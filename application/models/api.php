@@ -116,6 +116,18 @@ function apiProcess()
 			}
 
 			break;
+			
+		case 'system':
+
+			Model::load('api/system.php');
+
+			try {
+				$result['data']=loadApi($action);
+			} catch (Exception $e) {
+				$result=array('error'=>'yes','message'=>$e->getMessage());
+			}
+
+			break;
 
 			
 		

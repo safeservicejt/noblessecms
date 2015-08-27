@@ -18,6 +18,7 @@
                             <option value="unfeatured">unFeatured</option>
                             <option value="allowcomment">Allow comment</option>
                             <option value="unallowcomment">Not allow comment</option>
+                            <option value="ishomepage">Set is homepage</option>
 
                         </select>
                        <span class="input-group-btn">

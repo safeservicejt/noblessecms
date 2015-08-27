@@ -145,6 +145,11 @@ class Links
 
 				if(isset($theRow['url']))
 				{
+					if(!preg_match('/^\/.*?/i', $theRow['url']))
+					{
+						$theRow['url']='/'.$theRow['url'];
+					}
+					
 					$theRow['url']=String::encode($theRow['url']);
 				}
 
@@ -173,6 +178,11 @@ class Links
 			}
 			if(isset($inputData['url']))
 			{
+				if(!preg_match('/^\/.*?/i', $inputData['url']))
+				{
+					$inputData['url']='/'.$inputData['url'];
+				}
+
 				$inputData['url']=String::encode($inputData['url']);
 			}
 

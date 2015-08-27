@@ -19,6 +19,36 @@ function actionProcess()
 		case 'delete':
 			Links::remove($id);
 			break;
+		case 'ishomepage':
+
+			$linkid=$id[0];
+
+			if((int)$linkid <= 0)
+			{
+				return false;
+			}
+
+			$loadData=Links::get(array(
+				'where'=>"where id='$linkid'"
+				));
+
+			if(!isset($loadData[0]['urlFormat']))
+			{
+				return false;
+			}
+
+			$send_url=$loadData[0]['url'];
+
+			$send_url=str_replace(System::getUrl(), '', $send_url);
+
+			$inputData=array(
+				'default_page_method'=>'url',
+				'default_page_url'=>$send_url
+				);
+
+			System::saveSetting($inputData);
+
+			break;
 		
 	}
 }

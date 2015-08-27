@@ -41,6 +41,36 @@ function actionProcess()
 				'allowcomment'=>0
 				));
 			break;
+		case 'ishomepage':
+
+			$pageid=$id[0];
+
+			if((int)$pageid <= 0)
+			{
+				return false;
+			}
+
+			$loadData=Pages::get(array(
+				'where'=>"where pageid='$pageid'"
+				));
+
+			if(!isset($loadData[0]['pageid']))
+			{
+				return false;
+			}
+
+			$send_url=$loadData[0]['url'];
+
+			$send_url=str_replace(System::getUrl(), '', $send_url);
+
+			$inputData=array(
+				'default_page_method'=>'url',
+				'default_page_url'=>$send_url
+				);
+
+			System::saveSetting($inputData);
+
+			break;
 		
 	}
 }
