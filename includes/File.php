@@ -447,6 +447,11 @@ class File
 
             $filePath=dirname($filePath);
 
+            if(file_exists($filePath.'/index.html'))
+            {
+                unlink($filePath.'/index.html');
+            }
+
             rmdir($filePath);
         }
     }
