@@ -6,7 +6,6 @@ function importProcess()
 
 	$resultData=File::uploadMultiple('theFile','uploads/tmp/');
 
-
 	$total=count($resultData);
 
 	for($i=0;$i<$total;$i++)
@@ -28,6 +27,13 @@ function importProcess()
 		rmdir($sourcePath);
 
 		File::unzipModule($targetPath,'yes');
+
+		$installFile=ROOT_PATH.$shortPath.'/update.sql';
+
+		if(file_exists($installFile))
+		{
+			Database::import($installFile);
+		}
 	}
 	
 }

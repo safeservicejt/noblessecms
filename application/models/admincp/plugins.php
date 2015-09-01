@@ -27,6 +27,13 @@ function importProcess()
 		rmdir($sourcePath);
 
 		File::unzipModule($targetPath,'yes');
+		
+		$installFile=ROOT_PATH.$shortPath.'/install/update.sql';
+
+		if(file_exists($installFile))
+		{
+			Database::import($installFile);
+		}		
 	}
 }
 
