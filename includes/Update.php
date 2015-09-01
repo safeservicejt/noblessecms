@@ -49,6 +49,15 @@ class Update
 
 			unlink($sourcePath.'README.md');
 
+			if(file_exists($sourcePath.'install/update.sql'))
+			{
+				
+				Database::import($sourcePath.'install/db.sql');
+
+				Database::import($sourcePath.'install/update.sql');
+
+			}
+
 			Dir::remove($sourcePath.'install');
 
 			Dir::remove($sourcePath.'contents');
