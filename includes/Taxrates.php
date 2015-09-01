@@ -42,11 +42,15 @@ class Taxrates
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
 
+		$md5Query=md5($queryCMD);
+		
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			
+
+			$loadCache=Cache::loadKey('dbcache/system/taxrate/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
@@ -88,7 +92,7 @@ class Taxrates
 		}
 
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		Cache::saveKey('dbcache/system/taxrate/'.$md5Query,serialize($result));
 		// end save
 
 

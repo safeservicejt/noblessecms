@@ -42,11 +42,13 @@ class Coupons
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
 
+		$md5Query=md5($queryCMD);
+
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=Cache::loadKey('dbcache/system/coupon/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
@@ -87,7 +89,7 @@ class Coupons
 		}
 
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		Cache::saveKey('dbcache/system/coupon/'.$md5Query,serialize($result));
 		// end save
 
 

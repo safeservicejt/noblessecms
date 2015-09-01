@@ -42,11 +42,13 @@ class Categories
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
 
+		$md5Query=md5($queryCMD);
+
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/category');
+			$loadCache=Cache::loadKey('dbcache/system/category/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
@@ -91,24 +93,7 @@ class Categories
 		}
 
 		// Save dbcache
-		$addPostid='';
-
-		$saveName='';
-
-		$saveName=md5($queryCMD);
-
-		// if(!isset($result[1]) && isset($result[0]['catid']))
-		// {
-		// 	$saveName=$addPostid.'_'.md5($queryCMD);
-		// }
-		// else
-		// {
-		// 	$saveName=md5($queryCMD);
-		// }
-
-		DBCache::make($saveName,$result,'system/category');
-
-		// DBCache::makeIDCache($saveName,$result,'catid','system/category');		
+		Cache::saveKey('dbcache/system/category/'.$md5Query,serialize($result));
 		// end save
 
 

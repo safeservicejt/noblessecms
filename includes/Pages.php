@@ -42,11 +42,15 @@ class Pages
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
+		$md5Query=md5($queryCMD);
+
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/page');
+			
+
+			$loadCache=Cache::loadKey('dbcache/system/page/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
@@ -109,24 +113,7 @@ class Pages
 		}
 		
 		// Save dbcache
-		$addPostid='';
-
-		$saveName='';
-
-		$saveName=md5($queryCMD);
-
-		// if(!isset($result[1]) && isset($result[0]['pageid']))
-		// {
-		// 	$saveName=$addPostid.'_'.md5($queryCMD);
-		// }
-		// else
-		// {
-		// 	$saveName=md5($queryCMD);
-		// }
-
-		DBCache::make($saveName,$result,'system/page');
-
-		// DBCache::makeIDCache($saveName,$result,'pageid','system/page');		
+		Cache::saveKey('dbcache/system/page/'.$md5Query,serialize($result));
 		// end save
 
 

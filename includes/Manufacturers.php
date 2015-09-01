@@ -42,11 +42,13 @@ class Manufacturers
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
+		$md5Query=md5($queryCMD);
+		
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/manufacturer');
+			$loadCache=Cache::loadKey('dbcache/system/manufacturer/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
@@ -88,24 +90,7 @@ class Manufacturers
 
 		
 		// Save dbcache
-		$addPostid='';
-
-		$saveName='';
-
-		$saveName=md5($queryCMD);
-
-		// if(!isset($result[1]) && isset($result[0]['mid']))
-		// {
-		// 	$saveName=$addPostid.'_'.md5($queryCMD);
-		// }
-		// else
-		// {
-		// 	$saveName=md5($queryCMD);
-		// }
-
-		DBCache::make($saveName,$result,'system/manufacturer');
-
-		// DBCache::makeIDCache($saveName,$result,'mid','system/manufacturer');		
+		Cache::saveKey('dbcache/system/manufacturer/'.$md5Query,serialize($result));
 		// end save
 
 

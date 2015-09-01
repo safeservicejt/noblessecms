@@ -67,15 +67,16 @@ class controlPost
 
 			if(Uri::has('\/status\/pending'))
 			{
-				$filterPending=" AND p.status='0' ";
+				$filterPending=" WHERE p.status='0' ";
 			}
 
 			$post['theList']=Post::get(array(
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
-				'query'=>"select p.*,u.username,c.title as cattitle from post p,users u,categories c where p.userid=u.userid AND p.catid=c.catid $filterPending order by p.postid desc",
-				'cacheTime'=>1
+				'query'=>"select p.*,u.username,c.title as cattitle from post p left join users u on p.userid=u.userid join categories c on p.catid=c.catid $filterPending order by p.postid desc",
+				'cache'=>'no'
 				));
+
 		}
 
 

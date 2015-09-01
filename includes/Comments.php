@@ -42,11 +42,13 @@ class Comments
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
+		$md5Query=md5($queryCMD);
+
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/comment');
+			$loadCache=Cache::loadKey('dbcache/system/comment/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
@@ -97,22 +99,7 @@ class Comments
 		}
 		
 		// Save dbcache
-		$addPostid='';
-
-		$saveName='';
-
-		if(!isset($result[1]) && isset($result[0]['commentid']))
-		{
-			$saveName=$addPostid.'_'.md5($queryCMD);
-		}
-		else
-		{
-			$saveName=md5($queryCMD);
-		}
-
-		DBCache::make($saveName,$result,'system/comment');
-
-		DBCache::makeIDCache($saveName,$result,'commentid','system/comment');		
+		Cache::saveKey('dbcache/system/comment/'.$md5Query,serialize($result));
 		// end save
 
 

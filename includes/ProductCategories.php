@@ -42,11 +42,13 @@ class ProductCategories
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
+		$md5Query=md5($queryCMD);
+		
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/productcategory');
+			$loadCache=Cache::loadKey('dbcache/system/productcategory/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
@@ -81,24 +83,7 @@ class ProductCategories
 
 
 		// Save dbcache
-		$addPostid='';
-
-		$saveName='';
-
-		$saveName=md5($queryCMD);
-
-		// if(!isset($result[1]) && isset($result[0]['productid']))
-		// {
-		// 	$saveName=$addPostid.'_'.md5($queryCMD);
-		// }
-		// else
-		// {
-		// 	$saveName=md5($queryCMD);
-		// }
-
-		DBCache::make($saveName,$result,'system/productcategory');
-
-		// DBCache::makeIDCache($saveName,$result,'productid','system/productcategory');		
+		Cache::saveKey('dbcache/system/productcategory/'.$md5Query,serialize($result));
 		// end save
 
 

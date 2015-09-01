@@ -42,14 +42,17 @@ class Vouchers
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
 
+		$md5Query=md5($queryCMD);
+
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=Cache::loadKey('dbcache/system/voucher/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
+				$loadCache=unserialize($loadCache);
 				return $loadCache;
 			}
 
@@ -82,7 +85,7 @@ class Vouchers
 		}
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		Cache::saveKey('dbcache/system/voucher/'.$md5Query,serialize($result));
 		// end save
 
 

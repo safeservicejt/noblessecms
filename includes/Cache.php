@@ -213,36 +213,34 @@ class Cache
 
     public static function loadKey($keyName,$timeLive=86400,$extension='.cache')
     {
-        // $filePath=CACHES_PATH.$keyName.'.cache';
         $filePath=self::getPath().$keyName.$extension;
 
-        // if(!isset($keyName[2]) || !isset($filePath[2]))
-        // {
-        //     return false;
-        // }
+        $filePath = strval(str_replace("\0", "", $filePath));
 
-        // if(!preg_match('/.*?\.\w+$/i', $filePath))
-        // {
-        //     return false;
-        // }
-        if(preg_match('/\W/i', $keyName) || !preg_match('/.*?\.\w+$/i', $filePath) || !is_file($filePath))
+        if(!file_exists($filePath))
         {
             return false;
         }
-        // $cacheExpires = time() - filemtime($filePath);
 
         $fileTime=filemtime($filePath);
 
         $cacheExpires = time() - (int)$fileTime;
 
         if ((int)$timeLive == -1 || $cacheExpires <= (int)$timeLive) {
+        
             $cacheData = file_get_contents($filePath);
+
+            if(!isset($cacheData[1]))
+            {
+                return false;
+            }
 
             return $cacheData;
         }
         else
         {
-            unlink($filePath);
+            self::saveKey($keyName,'');
+            // unlink($filePath);
         }
 
         return false;        
@@ -255,6 +253,7 @@ class Cache
         if(!file_exists($filePath))return true;
 
         unlink($filePath);
+        clearstatcache(); 
 
         return true;        
     }

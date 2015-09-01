@@ -42,11 +42,15 @@ class ProductTags
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
+		$md5Query=md5($queryCMD);
+		
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/producttag');
+			
+
+			$loadCache=Cache::loadKey('dbcache/system/producttag/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
@@ -85,24 +89,7 @@ class ProductTags
 
 		
 		// Save dbcache
-		$addPostid='';
-
-		$saveName='';
-
-		$saveName=md5($queryCMD);
-
-		// if(!isset($result[1]) && isset($result[0]['tagid']))
-		// {
-		// 	$saveName=$addPostid.'_'.md5($queryCMD);
-		// }
-		// else
-		// {
-		// 	$saveName=md5($queryCMD);
-		// }
-
-		DBCache::make($saveName,$result,'system/producttag');
-
-		// DBCache::makeIDCache($saveName,$result,'tagid','system/producttag');		
+		Cache::saveKey('dbcache/system/producttag/'.$md5Query,serialize($result));
 		// end save
 
 

@@ -42,11 +42,15 @@ class Reviews
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
+		$md5Query=md5($queryCMD);
+		
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/review');
+			
+
+			$loadCache=Cache::loadKey('dbcache/system/review/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
@@ -93,24 +97,7 @@ class Reviews
 		}
 		
 		// Save dbcache
-		$addPostid='';
-
-		$saveName='';
-
-		$saveName=md5($queryCMD);
-
-		// if(!isset($result[1]) && isset($result[0]['reviewid']))
-		// {
-		// 	$saveName=$addPostid.'_'.md5($queryCMD);
-		// }
-		// else
-		// {
-		// 	$saveName=md5($queryCMD);
-		// }
-
-		DBCache::make($saveName,$result,'system/review');
-
-		// DBCache::makeIDCache($saveName,$result,'reviewid','system/review');		
+		Cache::saveKey('dbcache/system/review/'.$md5Query,serialize($result));
 		// end save
 
 

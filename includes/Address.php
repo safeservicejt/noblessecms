@@ -42,14 +42,17 @@ class Address
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
+		$md5Query=md5($queryCMD);
+
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/address');
+			$loadCache=Cache::loadKey('dbcache/system/address/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
+				$loadCache=unserialize($loadCache);
 				return $loadCache;
 			}
 
@@ -91,24 +94,7 @@ class Address
 		}
 
 		// Save dbcache
-		$addPostid='';
-
-		$saveName='';
-
-		$saveName=md5($queryCMD);
-
-		// if(!isset($result[1]) && isset($result[0]['userid']))
-		// {
-		// 	$saveName=$addPostid.'_'.md5($queryCMD);
-		// }
-		// else
-		// {
-		// 	$saveName=md5($queryCMD);
-		// }
-
-		DBCache::make($saveName,$result,'system/address');
-
-		// DBCache::makeIDCache($saveName,$result,'userid','system/address');		
+		Cache::saveKey('dbcache/system/address/'.$md5Query,serialize($result));
 		// end save
 
 

@@ -42,15 +42,17 @@ class Post
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
+		$md5Query=md5($queryCMD);
+
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/post');
+			$loadCache=Cache::loadKey('dbcache/system/post/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
-
+				$loadCache=unserialize($loadCache);
 				return $loadCache;
 			}
 
@@ -58,15 +60,18 @@ class Post
 		}
 
 
+
 		$query=Database::query($queryCMD);
 		
+
 		if(isset(Database::$error[5]))
 		{
 			return false;
 		}
 
 		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
-		
+	
+
 		if((int)$query->num_rows > 0)
 		{
 			while($row=Database::fetch_assoc($query))
@@ -111,26 +116,9 @@ class Post
 		{
 			return false;
 		}
-		
 		// Save dbcache
-		$addPostid='';
+		Cache::saveKey('dbcache/system/post/'.$md5Query,serialize($result));
 
-		$saveName='';
-
-		$saveName=md5($queryCMD);
-
-		// if(!isset($result[1]) && isset($result[0]['postid']))
-		// {
-		// 	$saveName=$addPostid.'_'.md5($queryCMD);
-		// }
-		// else
-		// {
-		// 	$saveName=md5($queryCMD);
-		// }
-
-		DBCache::make($saveName,$result,'system/post');
-
-		// DBCache::makeIDCache($saveName,$result,'postid','system/post');
 		// end save
 
 

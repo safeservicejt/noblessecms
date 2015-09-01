@@ -42,12 +42,13 @@ class Links
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
+		$md5Query=md5($queryCMD);
+
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/link');
-
+			$loadCache=Cache::loadKey('dbcache/system/link/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
@@ -100,24 +101,7 @@ class Links
 		}
 		
 		// Save dbcache
-		$addPostid='';
-
-		$saveName='';
-
-		$saveName=md5($queryCMD);
-
-		// if(!isset($result[1]) && isset($result[0]['id']))
-		// {
-		// 	$saveName=$addPostid.'_'.md5($queryCMD);
-		// }
-		// else
-		// {
-		// 	$saveName=md5($queryCMD);
-		// }
-
-		DBCache::make($saveName,$result,'system/link');
-
-		// DBCache::makeIDCache($saveName,$result,'id','system/link');		
+		Cache::saveKey('dbcache/system/link/'.$md5Query,serialize($result));
 		// end save
 
 

@@ -42,11 +42,15 @@ class ProductImages
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
+		$md5Query=md5($queryCMD);
+		
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/productimage');
+			
+
+			$loadCache=Cache::loadKey('dbcache/system/productimage/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
@@ -88,24 +92,7 @@ class ProductImages
 		}
 		
 		// Save dbcache
-		$addPostid='';
-
-		$saveName='';
-
-		$saveName=md5($queryCMD);
-
-		// if(!isset($result[1]) && isset($result[0]['productid']))
-		// {
-		// 	$saveName=$addPostid.'_'.md5($queryCMD);
-		// }
-		// else
-		// {
-		// 	$saveName=md5($queryCMD);
-		// }
-
-		DBCache::make($saveName,$result,'system/productimage');
-
-		// DBCache::makeIDCache($saveName,$result,'productid','system/productimage');		
+		Cache::saveKey('dbcache/system/productimage/'.$md5Query,serialize($result));
 		// end save
 
 

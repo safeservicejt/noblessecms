@@ -145,7 +145,7 @@ function updateProcess($id)
 			break;
 	}
 
-	$send['userid']=Session::get('userid');
+	$send['userid']=Users::getCookieUserId();
 
 	if(!Request::has('send.catid'))
 	{
@@ -237,7 +237,7 @@ function insertProcess()
 			break;
 	}
 
-	$send['userid']=Session::get('userid');
+	$send['userid']=Users::getCookieUserId();
 
 	if(!Request::has('send.catid'))
 	{

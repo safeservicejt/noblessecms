@@ -568,6 +568,8 @@ class Plugins
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
 
+		
+
 		$query=Database::query($queryCMD);
 		
 		if(isset(Database::$error[5]))

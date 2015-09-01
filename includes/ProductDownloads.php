@@ -42,11 +42,15 @@ class ProductDownloads
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
+		$md5Query=md5($queryCMD);
+		
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/productdownload');
+			
+
+			$loadCache=Cache::loadKey('dbcache/system/productdownload/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
@@ -81,25 +85,7 @@ class ProductDownloads
 
 		
 		// Save dbcache
-		// DBCache::make(md5($queryCMD),$result);
-		$addPostid='';
-
-		$saveName='';
-
-		$saveName=md5($queryCMD);
-
-		// if(!isset($result[1]) && isset($result[0]['postid']))
-		// {
-		// 	$saveName=$addPostid.'_'.md5($queryCMD);
-		// }
-		// else
-		// {
-		// 	$saveName=md5($queryCMD);
-		// }
-
-		DBCache::make($saveName,$result,'system/productdownload');
-
-		// DBCache::makeIDCache($saveName,$result,'postid','system/productdownload');		
+		Cache::saveKey('dbcache/system/productdownload/'.$md5Query,serialize($result));
 		// end save
 
 

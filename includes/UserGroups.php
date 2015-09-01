@@ -70,11 +70,15 @@ class UserGroups
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
 
+		$md5Query=md5($queryCMD);
+		
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/usergroup');
+			
+
+			$loadCache=Cache::loadKey('dbcache/system/usergroup/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
@@ -114,24 +118,7 @@ class UserGroups
 		}
 
 		// Save dbcache
-		$addPostid='';
-
-		$saveName='';
-
-		$saveName=md5($queryCMD);
-
-		// if(!isset($result[1]) && isset($result[0]['groupid']))
-		// {
-		// 	$saveName=$addPostid.'_'.md5($queryCMD);
-		// }
-		// else
-		// {
-		// 	$saveName=md5($queryCMD);
-		// }
-
-		DBCache::make($saveName,$result,'system/usergroup');
-
-		// DBCache::makeIDCache($saveName,$result,'groupid','system/usergroup');		
+		Cache::saveKey('dbcache/system/usergroup/'.$md5Query,serialize($result));
 		// end save
 
 		return $result;

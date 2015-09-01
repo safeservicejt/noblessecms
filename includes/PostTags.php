@@ -42,11 +42,12 @@ class PostTags
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
+		$md5Query=md5($queryCMD);
+		
 		if($cache=='yes')
 		{
 			// Load dbcache
-
-			$loadCache=DBCache::get($queryCMD,$cacheTime,'system/posttag');
+			$loadCache=Cache::loadKey('dbcache/system/posttag/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
@@ -89,24 +90,7 @@ class PostTags
 
 		
 		// Save dbcache
-		$addPostid='';
-
-		$saveName='';
-
-		$saveName=md5($queryCMD);
-
-		// if(!isset($result[1]) && isset($result[0]['tagid']))
-		// {
-		// 	$saveName=$addPostid.'_'.md5($queryCMD);
-		// }
-		// else
-		// {
-		// 	$saveName=md5($queryCMD);
-		// }
-
-		DBCache::make($saveName,$result,'system/posttag');
-
-		// DBCache::makeIDCache($saveName,$result,'tagid','system/posttag');		
+		Cache::saveKey('dbcache/system/posttag/'.$md5Query,serialize($result));
 		// end save
 
 
