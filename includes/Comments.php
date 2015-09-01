@@ -52,6 +52,7 @@ class Comments
 
 			if($loadCache!=false)
 			{
+				$loadCache=unserialize($loadCache);
 				return $loadCache;
 			}
 

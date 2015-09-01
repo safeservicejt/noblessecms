@@ -54,6 +54,7 @@ class Taxrates
 
 			if($loadCache!=false)
 			{
+				$loadCache=unserialize($loadCache);
 				return $loadCache;
 			}
 

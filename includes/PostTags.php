@@ -51,6 +51,7 @@ class PostTags
 
 			if($loadCache!=false)
 			{
+				$loadCache=unserialize($loadCache);
 				return $loadCache;
 			}
 

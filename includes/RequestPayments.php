@@ -50,6 +50,7 @@ class RequestPayments
 
 			if($loadCache!=false)
 			{
+				$loadCache=unserialize($loadCache);
 				return $loadCache;
 			}
 
