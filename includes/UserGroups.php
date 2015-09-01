@@ -138,10 +138,11 @@ class UserGroups
 	}	
 	public static function loadGroup($groupid)
 	{
-		if(!$loadData=Cache::loadKey('userGroup1_'.$groupid,-1))
+		if(!$loadData=Cache::loadKey('userGroup_'.$groupid,-1))
 		{
 			$loadData=self::get(array(
-				'cache'=>'no',
+				'cache'=>'yes',
+				'cacheTime'=>30,
 				'where'=>"where groupid='$groupid'"
 				));
 
@@ -153,6 +154,14 @@ class UserGroups
 			$loadData[0]['groupdata']=unserialize(self::lineToArray($loadData[0]['groupdata']));
 
 			self::$groupData=$loadData[0];
+		}
+		else
+		{
+			$loadData=unserialize($loadData);
+
+			$loadData['groupdata']=unserialize($loadData['groupdata']);
+			
+			self::$groupData=$loadData;
 		}
 	}
 

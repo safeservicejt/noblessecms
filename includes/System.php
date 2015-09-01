@@ -201,6 +201,7 @@ class System
 	{
 		if(isset($_COOKIE['groupid']))
 		{
+
 			UserGroups::loadGroup(Users::getCookieUserId());
 		}
 		
