@@ -461,9 +461,9 @@ class Plugins
 	}
 	public static function makeUninstall($foldername)
 	{
-		Route::$canAdd='no';
+		// Route::$canAdd='no';
 
-		Route::$canRemove='yes';
+		// Route::$canRemove='yes';
 
 		self::$canUninstall='yes';
 
@@ -499,12 +499,15 @@ class Plugins
 		if(isset($loadData[0]['foldername']))
 		{
 			return false;
-			
 		}
 
 		if(function_exists($funcName))
 		{
 			$funcName();
+		}
+		else
+		{
+			return false;
 		}
 
 		$insertData=array(
