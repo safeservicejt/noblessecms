@@ -6,7 +6,7 @@ class Update
 	
 	public static function get()
 	{
-		$loadData=Http::getDataUrl(SERVER_URL.'api/update/get');
+		$loadData=Http::getDataUrl(SERVER_URL.'api/plugin/noblessestore/get_update');
 
 		$loadData=json_decode($loadData,true);
 
@@ -29,11 +29,23 @@ class Update
 
 		$url=$loadData['data']['file'];
 
-		// if(!preg_match('/github\.com/i', $url))
+		$sourcePath='';
+
+		if(!is_dir(ROOT_PATH.'uploads/tmp/update/'))
+		{
+			Dir::create(ROOT_PATH.'uploads/tmp/update/');
+		}
 
 		File::downloadModule($url,'uploads/tmp/update/','yes');
 
-		$sourcePath=ROOT_PATH.'uploads/tmp/update/noblessecms-master/';
+		if(preg_match('/github\.com/i', $url))
+		{
+			$sourcePath=ROOT_PATH.'uploads/tmp/update/noblessecms-master/';
+		}
+		else
+		{
+			$sourcePath=ROOT_PATH.'uploads/tmp/update/noblessecms/';
+		}
 
 		$descPath=ROOT_PATH.'uploads/tmp/test/';
 
