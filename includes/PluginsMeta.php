@@ -42,23 +42,25 @@ class PluginsMeta
 		
 		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
 
+		$md5Query=md5($queryCMD);
+
 		if($cache=='yes')
 		{
 			// Load dbcache
 
-			$loadCache=DBCache::get($queryCMD,$cacheTime);
+			$loadCache=Cache::loadKey('dbcache/system/pluginmeta/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
 			{
+				$loadCache=unserialize($loadCache);
 				return $loadCache;
 			}
 
 			// end load			
 		}
 
-
 		$query=Database::query($queryCMD);
-		
+
 		if(isset(Database::$error[5]))
 		{
 			return false;
@@ -80,7 +82,7 @@ class PluginsMeta
 
 		
 		// Save dbcache
-		DBCache::make(md5($queryCMD),$result);
+		Cache::saveKey('dbcache/system/pluginmeta/'.$md5Query,serialize($result));
 		// end save
 
 

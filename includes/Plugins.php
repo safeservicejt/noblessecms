@@ -453,10 +453,18 @@ class Plugins
 
 		self::$canAddZone=='yes';
 
+		Route::$canAdd='yes';
+
+		Route::$canRemove='no';
+
 		self::$installFolderName=$foldername;
 	}
 	public static function makeUninstall($foldername)
 	{
+		Route::$canAdd='no';
+
+		Route::$canRemove='yes';
+
 		self::$canUninstall='yes';
 
 		self::$uninstallFolderName=$foldername;
@@ -564,10 +572,26 @@ class Plugins
 
 		$queryCMD.=$limitQuery;
 
-		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		$cache=isset($inputData['cache'])?$inputData['cache']:'no';
 		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:15;
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
 
+		$md5Query=md5($queryCMD);
+
+		if($cache=='yes')
+		{
+			// Load dbcache
+
+			$loadCache=Cache::loadKey('dbcache/system/plugin/'.$md5Query,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				$loadCache=unserialize($loadCache);
+				return $loadCache;
+			}
+
+			// end load			
+		}
 		
 
 		$query=Database::query($queryCMD);
@@ -589,6 +613,9 @@ class Plugins
 		{
 			return false;
 		}
+
+		// Save dbcache
+		Cache::saveKey('dbcache/system/plugin/'.$md5Query,serialize($result));
 
 
 		return $result;

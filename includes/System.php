@@ -46,6 +46,7 @@ class System
 
 		*/
 
+
 		self::checkTheme();
 
 		self::checkCurrency();
@@ -54,14 +55,21 @@ class System
 
 		self::$setting=self::getSetting();
 
+		self::systemStatus();
+
 		self::setTimeZone();
 
 		PluginsZone::loadCache();
-		// self::systemStatus();
+
+		
+
+		Route::loadFromPlugin();
 
 		self::defaultPageUri();
 
 		Database::connect();
+
+		
 
 		self::visitorStatus();
 
@@ -170,10 +178,20 @@ class System
 
 		switch ($status) {
 			case 'underconstruction':
+
+				$uri=self::getUri();
+
+				if(!preg_match('/^admincp\//i', $uri))
 				Alert::make('Website under construction. We will comeback soon...');
+
 				break;
 			case 'comingsoon':
+
+				$uri=self::getUri();
+
+				if(!preg_match('/^admincp\//i', $uri))			
 				Alert::make('We will comming soon...');
+			
 				break;
 			
 		}
