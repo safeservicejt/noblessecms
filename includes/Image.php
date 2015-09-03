@@ -189,6 +189,8 @@ class Image
     {
         $imagePath = trim($imagePath);
 
+        $imorig='';
+
         $gis = getimagesize($imagePath);
         $type = $gis[2];
         switch ($type) {

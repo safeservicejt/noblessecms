@@ -61,14 +61,11 @@ class System
 
 		PluginsZone::loadCache();
 
-		
-
-		Route::loadFromPlugin();
-
 		self::defaultPageUri();
 
 		Database::connect();
 
+		Route::loadFromPlugin();
 		
 
 		self::visitorStatus();
