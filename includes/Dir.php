@@ -57,6 +57,23 @@ class Dir
     public static function remove($path)
     {
         // Dir::remove(ROOT_PATH.'test');
+        $replaces=array(
+            '/\/+/i'=>'/'
+            );
+
+        $path=preg_replace(array_keys($replaces), array_values($replaces), $path);
+
+        $lenroot=strlen(ROOT_PATH);
+
+        $lenpath=strlen($path);
+
+        $lenroot2=(int)$lenroot+4;
+
+        if((int)$lenpath <= $lenroot || (int)$lenpath <= $lenroot2)
+        {
+            return false;
+        }
+
         if($path==ROOT_PATH)
         {
             return false;
@@ -76,12 +93,12 @@ class Dir
                 self::remove(realpath($path) . '/' . $file);
             }
 
-            return rmdir($path);
+            // return rmdir($path);
         }
 
         else if (is_file($path) === true)
         {
-            return unlink($path);
+            // return unlink($path);
         }
 
         return false;        
