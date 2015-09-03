@@ -93,12 +93,12 @@ class Dir
                 self::remove(realpath($path) . '/' . $file);
             }
 
-            // return rmdir($path);
+            return rmdir($path);
         }
 
         else if (is_file($path) === true)
         {
-            // return unlink($path);
+            return unlink($path);
         }
 
         return false;        
