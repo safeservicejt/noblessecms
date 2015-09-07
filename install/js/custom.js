@@ -235,7 +235,7 @@ $(document).ready(function(){
 							// alert(msg['error']);return false;
 						 if(msg['error']=='yes')
 						 {
-						 	alert(msg['message']);
+						 	// alert(msg['message']);
 						 	showError('.notifyPanel-2','Can not connect to database');
 
 						 	$(this).val('Complete');
