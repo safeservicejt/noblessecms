@@ -17,6 +17,11 @@ function import($conn,$fileName = 'db.sql')
         for ($i = 0; $i < $total; $i++) {
 
             $conn->query($creates[0][$i]);
+              if(isset($conn->error[5]))
+              {
+                throw new Exception($conn->error);
+                      
+              }            
         }
 
         preg_match_all('/INSERT.*?\;\n/is', $query, $creates);
@@ -26,6 +31,11 @@ function import($conn,$fileName = 'db.sql')
         for ($i = 0; $i < $total; $i++) {
 
             $conn->query($creates[0][$i]);
+              if(isset($conn->error[5]))
+              {
+                throw new Exception($conn->error);
+                      
+              }              
         }
 
     }

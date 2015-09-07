@@ -11,7 +11,7 @@ if(file_exists('install/index.php'))
 
 define("SERVER_URL", 'http://noblessecms.com/');
 
-define("SYSTEM_VERSION", '1.0');
+define("SYSTEM_VERSION", '2.0');
 
 define("ADMINCP_TITLE", 'Cpanel Noblesse CMS');
 

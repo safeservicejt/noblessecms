@@ -136,6 +136,40 @@ function startInstall()
     copy($rootPath.'install/htaccess.txt',$rootPath.'.htaccess');
   }
 
+  // Check & create htaccess
+
+  $requestUri=$_SERVER['REQUEST_URI'];
+
+  $pathSelf=$_SERVER['PHP_SELF'];
+
+  if(isset($requestUri[12]))
+  {
+    // $requestUri=dirname($requestUri).'/';
+
+    $pathSelf=dirname(dirname($pathSelf)).'/';
+
+    $getData=file_get_contents($rootPath.'.htaccess');
+
+    $getData=preg_replace('/RewriteBase.*/i', 'RewriteBase '.$pathSelf, $getData);
+
+    $fp=fopen($rootPath.'.htaccess','w');
+
+    fwrite($fp,$getData);
+
+    fclose($fp);    
+  }
+
+  $getData=file_get_contents($rootPath.'.htaccess');
+
+  $getData=str_replace('RewriteBase \/', 'RewriteBase /', $getData);
+  
+  $fp=fopen($rootPath.'.htaccess','w');
+
+  fwrite($fp,$getData);
+
+  fclose($fp);     
+
+
   $loadData=file_get_contents($rootPath.'config.php');
 
   $tmpPath=str_replace('\\', '/', $path);
@@ -159,7 +193,20 @@ function startInstall()
 
   fclose($fp);
 
-  import($conn,'db.sql');
+
+  $importStatus='';
+
+  try {
+    import($conn,'db.sql');
+  } catch (Exception $e) {
+    $importStatus=$e->getMessage();
+  }
+
+  if(isset($importStatus[2]))
+  {
+    echo json_encode(array('error'=>'yes','message'=>$importStatus));
+    die();      
+  }
 
   $ip=$_SERVER['REMOTE_ADDR'];
 
@@ -168,6 +215,12 @@ function startInstall()
   $md5Pass=String::encrypt($password,$secretKey);
 
   $query=$conn->query("insert into users(groupid,firstname,lastname,username,email,password,ip,date_added) values('1','Admin','System','$username','$email','$md5Pass','$ip','$date_added')");
+ 
+  if(isset($conn->error[5]))
+  {
+    echo json_encode(array('error'=>'yes','message'=>$conn->error));
+    die();    
+  }
 
   $query=$conn->query("select * from users");
 
