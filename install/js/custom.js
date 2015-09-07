@@ -104,6 +104,8 @@ $(document).ready(function(){
 	   success: function(msg)
 						{
 
+							// alert(msg);return false;
+
 						 if(msg.indexOf('ERRORCONNECT')!=-1)
 						 {
 						 	showError('.notifyPanel-2','Can not connect to database');

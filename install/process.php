@@ -87,6 +87,10 @@ function startInstall()
 
   $secretKey=String::randAlpha(20);
 
+  // echo $path;
+
+  // die();
+
   // define("ENCRYPT_SECRET_KEY", $secretKey);
 
   if(!preg_match('/^http/i', $url))
@@ -129,13 +133,15 @@ function startInstall()
 
   $loadData=file_get_contents($rootPath.'config.php');
 
+  $tmpPath=str_replace('\\', '/', $path);
+
   $replace=array(
     '/"dbhost" \=\> ".*?"/i'=>'"dbhost" => "'.$dbhost.'"',
     '/"dbuser" \=\> ".*?"/i'=>'"dbuser" => "'.$dbuser.'"',
     '/"dbpassword" \=\> ""/i'=>'"dbpassword" => "'.$dbpass.'"',
     '/"dbname" \=\> ".*?"/i'=>'"dbname" => "'.$dbname.'"',
     '/"dbport" \=\> ".*?"/i'=>'"dbport" => "'.$dbport.'"',
-   '/root_path = \'.*?\';/i'=>'root_path = \''.$path.'\';',
+   '/root_path = \'.*?\';/i'=>'root_path = \''.$tmpPath.'\';',
    '/root_url = \'.*?\';/i'=>'root_url = \''.$url.'\';',
    '/"ENCRYPT_SECRET_KEY", ".*?"/i'=>'"ENCRYPT_SECRET_KEY", "'.$secretKey.'"'
     );
