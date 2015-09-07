@@ -131,6 +131,11 @@ function startInstall()
 
   $rootPath=dirname(dirname(__FILE__)).'/';
 
+  if(!file_exists($rootPath.'.htaccess'))
+  {
+    copy($rootPath.'install/htaccess.txt',$rootPath.'.htaccess');
+  }
+
   $loadData=file_get_contents($rootPath.'config.php');
 
   $tmpPath=str_replace('\\', '/', $path);
@@ -163,12 +168,21 @@ function startInstall()
   $md5Pass=String::encrypt($password,$secretKey);
 
   $query=$conn->query("insert into users(groupid,firstname,lastname,username,email,password,ip,date_added) values('1','Admin','System','$username','$email','$md5Pass','$ip','$date_added')");
+
+  $query=$conn->query("select * from users");
+
+  $rowData=$query->fetch_assoc();
+
+  $id=$rowData['userid'];
+
+  $query=$conn->query("insert into address(userid,firstname,lastname) values('$id','Admin','System')");
    
   if(isset($conn->error[5]))
   {
     echo json_encode(array('error'=>'yes','message'=>$conn->error));
     die();    
   }
+
 
   rename('../install','../installBackup');
 

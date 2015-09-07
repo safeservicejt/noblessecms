@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 18, 2015 at 11:13 AM
+-- Generation Time: Sep 07, 2015 at 06:12 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `2015_project_noblessev2`
+-- Database: `2015_noblessecms_tset2`
 --
 
 -- --------------------------------------------------------
@@ -26,6 +26,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `address`
 --
 
+DROP TABLE IF EXISTS `address`;
 CREATE TABLE IF NOT EXISTS `address` (
   `userid` int(9) NOT NULL,
   `company` varchar(64) CHARACTER SET utf8 NOT NULL,
@@ -42,17 +43,13 @@ CREATE TABLE IF NOT EXISTS `address` (
   UNIQUE KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `address`
---
-
-
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `categories`
 --
 
+DROP TABLE IF EXISTS `categories`;
 CREATE TABLE IF NOT EXISTS `categories` (
   `catid` int(9) NOT NULL AUTO_INCREMENT,
   `title` varchar(150) CHARACTER SET utf8 NOT NULL,
@@ -80,6 +77,7 @@ INSERT INTO `categories` (`catid`, `title`, `friendly_url`, `parentid`, `image`,
 -- Table structure for table `comments`
 --
 
+DROP TABLE IF EXISTS `comments`;
 CREATE TABLE IF NOT EXISTS `comments` (
   `commentid` int(9) NOT NULL AUTO_INCREMENT,
   `postid` varchar(128) NOT NULL,
@@ -108,6 +106,7 @@ INSERT INTO `comments` (`commentid`, `postid`, `type`, `fullname`, `email`, `par
 -- Table structure for table `contactus`
 --
 
+DROP TABLE IF EXISTS `contactus`;
 CREATE TABLE IF NOT EXISTS `contactus` (
   `contactid` int(9) NOT NULL AUTO_INCREMENT,
   `fullname` varchar(64) CHARACTER SET utf8 NOT NULL,
@@ -123,6 +122,7 @@ CREATE TABLE IF NOT EXISTS `contactus` (
 -- Table structure for table `country`
 --
 
+DROP TABLE IF EXISTS `country`;
 CREATE TABLE IF NOT EXISTS `country` (
   `country_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
@@ -392,6 +392,7 @@ INSERT INTO `country` (`country_id`, `name`, `iso_code_2`, `iso_code_3`) VALUES
 -- Table structure for table `coupons`
 --
 
+DROP TABLE IF EXISTS `coupons`;
 CREATE TABLE IF NOT EXISTS `coupons` (
   `couponid` int(9) NOT NULL AUTO_INCREMENT,
   `title` varchar(128) CHARACTER SET utf8 NOT NULL,
@@ -413,6 +414,7 @@ CREATE TABLE IF NOT EXISTS `coupons` (
 -- Table structure for table `cronjobs`
 --
 
+DROP TABLE IF EXISTS `cronjobs`;
 CREATE TABLE IF NOT EXISTS `cronjobs` (
   `cronid` int(9) NOT NULL AUTO_INCREMENT,
   `timenumber` int(9) NOT NULL DEFAULT '0',
@@ -431,6 +433,7 @@ CREATE TABLE IF NOT EXISTS `cronjobs` (
 -- Table structure for table `currency`
 --
 
+DROP TABLE IF EXISTS `currency`;
 CREATE TABLE IF NOT EXISTS `currency` (
   `currencyid` int(9) NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
@@ -460,6 +463,7 @@ INSERT INTO `currency` (`currencyid`, `title`, `code`, `symbolLeft`, `symbolRigh
 -- Table structure for table `downloads`
 --
 
+DROP TABLE IF EXISTS `downloads`;
 CREATE TABLE IF NOT EXISTS `downloads` (
   `downloadid` int(9) NOT NULL AUTO_INCREMENT,
   `type` varchar(50) NOT NULL DEFAULT 'file',
@@ -483,6 +487,7 @@ INSERT INTO `downloads` (`downloadid`, `type`, `title`, `filename`, `remaining`,
 -- Table structure for table `layouts`
 --
 
+DROP TABLE IF EXISTS `layouts`;
 CREATE TABLE IF NOT EXISTS `layouts` (
   `layoutid` int(9) NOT NULL AUTO_INCREMENT,
   `nodeid` varchar(128) NOT NULL,
@@ -514,6 +519,7 @@ INSERT INTO `layouts` (`layoutid`, `nodeid`, `layoutname`) VALUES
 -- Table structure for table `links`
 --
 
+DROP TABLE IF EXISTS `links`;
 CREATE TABLE IF NOT EXISTS `links` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
   `parentid` int(9) NOT NULL DEFAULT '0',
@@ -539,6 +545,7 @@ INSERT INTO `links` (`id`, `parentid`, `title`, `url`, `sort_order`, `date_added
 -- Table structure for table `manufacturers`
 --
 
+DROP TABLE IF EXISTS `manufacturers`;
 CREATE TABLE IF NOT EXISTS `manufacturers` (
   `mid` int(9) NOT NULL AUTO_INCREMENT,
   `title` varchar(128) CHARACTER SET utf8 NOT NULL,
@@ -566,6 +573,7 @@ INSERT INTO `manufacturers` (`mid`, `title`, `friendly_url`, `image`, `date_adde
 -- Table structure for table `orders`
 --
 
+DROP TABLE IF EXISTS `orders`;
 CREATE TABLE IF NOT EXISTS `orders` (
   `orderid` int(9) NOT NULL AUTO_INCREMENT,
   `customerid` int(9) DEFAULT '0',
@@ -613,6 +621,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
 -- Table structure for table `orders_products`
 --
 
+DROP TABLE IF EXISTS `orders_products`;
 CREATE TABLE IF NOT EXISTS `orders_products` (
   `orderid` int(9) NOT NULL,
   `productid` int(9) NOT NULL,
@@ -628,6 +637,7 @@ CREATE TABLE IF NOT EXISTS `orders_products` (
 -- Table structure for table `pages`
 --
 
+DROP TABLE IF EXISTS `pages`;
 CREATE TABLE IF NOT EXISTS `pages` (
   `pageid` int(9) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) CHARACTER SET utf8 NOT NULL,
@@ -656,6 +666,7 @@ INSERT INTO `pages` (`pageid`, `title`, `content`, `image`, `keywords`, `page_ty
 -- Table structure for table `payment_methods`
 --
 
+DROP TABLE IF EXISTS `payment_methods`;
 CREATE TABLE IF NOT EXISTS `payment_methods` (
   `methodid` int(9) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
@@ -671,6 +682,7 @@ CREATE TABLE IF NOT EXISTS `payment_methods` (
 -- Table structure for table `plugins`
 --
 
+DROP TABLE IF EXISTS `plugins`;
 CREATE TABLE IF NOT EXISTS `plugins` (
   `foldername` varchar(255) NOT NULL,
   `type` varchar(100) NOT NULL DEFAULT 'global',
@@ -686,6 +698,7 @@ CREATE TABLE IF NOT EXISTS `plugins` (
 -- Table structure for table `plugins_meta`
 --
 
+DROP TABLE IF EXISTS `plugins_meta`;
 CREATE TABLE IF NOT EXISTS `plugins_meta` (
   `metaid` int(9) NOT NULL AUTO_INCREMENT,
   `foldername` varchar(100) NOT NULL,
@@ -705,6 +718,7 @@ CREATE TABLE IF NOT EXISTS `plugins_meta` (
 -- Table structure for table `post`
 --
 
+DROP TABLE IF EXISTS `post`;
 CREATE TABLE IF NOT EXISTS `post` (
   `postid` int(9) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) CHARACTER SET utf8 NOT NULL,
@@ -741,6 +755,7 @@ INSERT INTO `post` (`postid`, `title`, `catid`, `userid`, `parentid`, `image`, `
 -- Table structure for table `post_categories`
 --
 
+DROP TABLE IF EXISTS `post_categories`;
 CREATE TABLE IF NOT EXISTS `post_categories` (
   `postid` int(9) NOT NULL,
   `catid` int(9) NOT NULL
@@ -752,6 +767,7 @@ CREATE TABLE IF NOT EXISTS `post_categories` (
 -- Table structure for table `post_images`
 --
 
+DROP TABLE IF EXISTS `post_images`;
 CREATE TABLE IF NOT EXISTS `post_images` (
   `postid` int(9) NOT NULL,
   `image` varchar(500) NOT NULL,
@@ -765,6 +781,7 @@ CREATE TABLE IF NOT EXISTS `post_images` (
 -- Table structure for table `post_tags`
 --
 
+DROP TABLE IF EXISTS `post_tags`;
 CREATE TABLE IF NOT EXISTS `post_tags` (
   `tagid` int(9) NOT NULL AUTO_INCREMENT,
   `title` varchar(128) NOT NULL,
@@ -790,6 +807,7 @@ INSERT INTO `post_tags` (`tagid`, `title`, `postid`) VALUES
 -- Table structure for table `products`
 --
 
+DROP TABLE IF EXISTS `products`;
 CREATE TABLE IF NOT EXISTS `products` (
   `productid` int(9) NOT NULL AUTO_INCREMENT,
   `catid` int(9) NOT NULL DEFAULT '0',
@@ -841,6 +859,7 @@ INSERT INTO `products` (`productid`, `catid`, `sku`, `upc`, `model`, `price`, `q
 -- Table structure for table `products_categories`
 --
 
+DROP TABLE IF EXISTS `products_categories`;
 CREATE TABLE IF NOT EXISTS `products_categories` (
   `productid` int(9) NOT NULL,
   `catid` int(9) NOT NULL,
@@ -853,6 +872,7 @@ CREATE TABLE IF NOT EXISTS `products_categories` (
 -- Table structure for table `products_downloads`
 --
 
+DROP TABLE IF EXISTS `products_downloads`;
 CREATE TABLE IF NOT EXISTS `products_downloads` (
   `productid` int(9) NOT NULL,
   `downloadid` int(9) NOT NULL,
@@ -872,6 +892,7 @@ INSERT INTO `products_downloads` (`productid`, `downloadid`) VALUES
 -- Table structure for table `products_images`
 --
 
+DROP TABLE IF EXISTS `products_images`;
 CREATE TABLE IF NOT EXISTS `products_images` (
   `productid` int(9) NOT NULL,
   `image` varchar(255) NOT NULL,
@@ -901,6 +922,7 @@ INSERT INTO `products_images` (`productid`, `image`, `sort_order`, `date_added`)
 -- Table structure for table `products_pages`
 --
 
+DROP TABLE IF EXISTS `products_pages`;
 CREATE TABLE IF NOT EXISTS `products_pages` (
   `productid` int(9) NOT NULL,
   `pageid` int(9) NOT NULL,
@@ -913,6 +935,7 @@ CREATE TABLE IF NOT EXISTS `products_pages` (
 -- Table structure for table `products_tags`
 --
 
+DROP TABLE IF EXISTS `products_tags`;
 CREATE TABLE IF NOT EXISTS `products_tags` (
   `tagid` int(9) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
@@ -938,6 +961,7 @@ INSERT INTO `products_tags` (`tagid`, `title`, `productid`) VALUES
 -- Table structure for table `request_payments`
 --
 
+DROP TABLE IF EXISTS `request_payments`;
 CREATE TABLE IF NOT EXISTS `request_payments` (
   `requestid` int(9) NOT NULL AUTO_INCREMENT,
   `userid` int(9) NOT NULL,
@@ -954,6 +978,7 @@ CREATE TABLE IF NOT EXISTS `request_payments` (
 -- Table structure for table `reviews`
 --
 
+DROP TABLE IF EXISTS `reviews`;
 CREATE TABLE IF NOT EXISTS `reviews` (
   `reviewid` int(9) NOT NULL AUTO_INCREMENT,
   `userid` int(9) NOT NULL,
@@ -973,6 +998,7 @@ CREATE TABLE IF NOT EXISTS `reviews` (
 -- Table structure for table `server_setting`
 --
 
+DROP TABLE IF EXISTS `server_setting`;
 CREATE TABLE IF NOT EXISTS `server_setting` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
   `content` longtext,
@@ -992,6 +1018,7 @@ INSERT INTO `server_setting` (`id`, `content`) VALUES
 -- Table structure for table `tax_rates`
 --
 
+DROP TABLE IF EXISTS `tax_rates`;
 CREATE TABLE IF NOT EXISTS `tax_rates` (
   `taxid` int(9) NOT NULL AUTO_INCREMENT,
   `title` varchar(128) NOT NULL,
@@ -1017,6 +1044,7 @@ INSERT INTO `tax_rates` (`taxid`, `title`, `rate`, `type`, `country_short`, `dat
 -- Table structure for table `usergroups`
 --
 
+DROP TABLE IF EXISTS `usergroups`;
 CREATE TABLE IF NOT EXISTS `usergroups` (
   `groupid` int(9) NOT NULL AUTO_INCREMENT,
   `group_title` varchar(255) NOT NULL,
@@ -1041,6 +1069,7 @@ INSERT INTO `usergroups` (`groupid`, `group_title`, `groupdata`) VALUES
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `userid` int(9) NOT NULL AUTO_INCREMENT,
   `groupid` int(9) NOT NULL DEFAULT '0',
@@ -1059,7 +1088,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`userid`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `users`
@@ -1071,6 +1100,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Table structure for table `vouchers`
 --
 
+DROP TABLE IF EXISTS `vouchers`;
 CREATE TABLE IF NOT EXISTS `vouchers` (
   `voucherid` int(9) NOT NULL AUTO_INCREMENT,
   `code` varchar(128) CHARACTER SET utf8 NOT NULL,
