@@ -2,6 +2,7 @@
 
 class Currency
 {
+	public static $currency=array();
 
 	public static function get($inputData=array())
 	{
@@ -59,7 +60,6 @@ class Currency
 			// end load			
 		}
 
-
 		$query=Database::query($queryCMD);
 		
 		if(isset(Database::$error[5]))
@@ -98,10 +98,93 @@ class Currency
 		return $result;
 		
 	}
+
 	public static function set($curName)
 	{
-		$_COOKIE['currency']=$curName;
+		// $_COOKIE['currency']=$curName;
+		setcookie('currency',$curName,time()+84600);
 	}
+
+	public static function loadPrice()
+	{
+		if(!isset(System::$setting['default_currency']))
+		{
+			System::setSetting('default_currency','usd');
+
+		}
+
+		$defaultCurrency=strtolower(System::getCurrency());
+
+		$loadData='';
+
+		if(!$loadData=Cache::loadKey('ecommerce/listCurrency',-1))
+		{
+			$loadData=self::get(array(
+				'limitShow'=>1000
+				));			
+		}
+		else
+		{
+			$loadData=unserialize($loadData);
+
+		}
+
+		if(!isset($loadData[0]['title']))
+		{
+			self::$currency['value']=1;
+
+			self::$currency['code']='usd';			
+		}
+		else
+		{
+			$total=count($loadData);
+
+			for ($i=0; $i < $total; $i++) { 
+
+				$code=strtolower($loadData[$i]['code']);
+
+				if($code==$defaultCurrency)
+				{
+					self::$currency['value']=(double)$loadData[$i]['dataValue'];
+
+					self::$currency['code']=$code;
+
+					break;
+				}
+			}			
+		}
+
+
+	}
+
+	public static function currentPrice($inputPrice=0)
+	{
+		if(!isset(self::$currency['code']))
+		{
+			self::loadPrice();
+		}
+
+		$code=self::$currency['code'];
+
+		$value=self::$currency['value'];
+
+		$result=0;
+
+		$result=(double)$inputPrice*(double)$value;
+
+		return $result;
+	}
+
+	public static function saveCache()
+	{
+		$loadData=self::get(array(
+			'limitShow'=>1000
+			));
+
+		Cache::saveKey('ecommerce/listCurrency',serialize($loadData));
+	}
+
+
 
 	public static function insert($inputData=array())
 	{
@@ -154,6 +237,8 @@ class Currency
 		{
 			$id=Database::insert_id();
 
+			self::saveCache();
+
 			return $id;	
 		}
 
@@ -185,6 +270,8 @@ class Currency
 		$command="delete from currency where $whereQuery $addWhere";
 
 		Database::query($command);	
+
+		self::saveCache();
 
 		return true;
 	}
@@ -229,6 +316,8 @@ class Currency
 
 		if(!$error=Database::hasError())
 		{
+			self::saveCache();
+
 			return true;
 		}
 

@@ -247,6 +247,68 @@ class Shortcode
 
 	}
 
+	public static function loadInSystem()
+	{
+		$filePath=ROOT_PATH.'includes/Shortcodedb.php';
+
+		if(!file_exists('system_shortcode_list'))
+		{
+			include($filePath);
+		}
+
+		$listShortCodes=system_shortcode_list();
+
+		$listNames=array_keys($listShortCodes);
+
+		$total=count($listShortCodes);
+
+		$addList=array();
+
+		for ($i=0; $i < $total; $i++) { 
+
+			$scName=$listNames[$i];
+
+			$func=$listShortCodes[$scName];
+
+			$addList[$i]['status']=1;
+
+			$addList[$i]['istemplate']='yes';
+
+			$addList[$i]['foldername']='includes';
+
+			$addList[$i]['func']=$func;
+
+			$addList[$i]['name']=$scName;
+
+			// $addList[$i]['shortcode']=$scName;
+
+			$addList[$i]['path']=ROOT_PATH.'includes/';
+
+		}
+
+		if(isset($addList[0]['status']))
+		{
+			Plugins::$listShortCodes['shortcode']=$addList;
+			// if(!isset(Plugins::$listShortCodes['shortcode']))
+			// {
+			// 	Plugins::$listShortCodes['shortcode']=array();
+			// }
+
+			// if(!is_array(Plugins::$listShortCodes['shortcode']))
+			// {
+			// 	Plugins::$listShortCodes['shortcode']=$addList;
+			// }
+			// else
+			// {
+			// 	array_push(Plugins::$listShortCodes['shortcode'], $addList);
+			// }
+
+			
+		}
+		
+
+	}
+
 	public static function loadInTemplate($content)
 	{
 		// $content=self::parse($content);
@@ -258,7 +320,6 @@ class Shortcode
 
 		$loadData=Plugins::$listShortCodes['shortcode'];
 
-		// print_r($loadData);die();
 
 		$total=count($loadData);
 
@@ -279,8 +340,9 @@ class Shortcode
 		for($i=0;$i<$total;$i++)
 		{
 			$theShortcode=$loadData[$i];
+	
 
-			if((int)$theShortcode['status']==0)
+			if(!isset($theShortcode['status']) || (int)$theShortcode['status']==0)
 			{
 				continue;
 			}

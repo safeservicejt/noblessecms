@@ -65,6 +65,8 @@ class System
 
 		Database::connect();
 
+		Shortcode::loadInSystem();
+
 		Route::loadFromPlugin();
 		
 
@@ -319,7 +321,7 @@ class System
 
 	public static function getCurrency()
 	{
-		$current=self::$setting['currency'];
+		$current=self::$setting['default_currency'];
 
 		$data=isset($_COOKIE['currency'])?$_COOKIE['currency']:$current;
 		

@@ -112,6 +112,7 @@ class Downloads
 
 		return $result;
 	}	
+	
 	public static function getFile($downloadid)
 	{
 		$loadData=self::get(array(
@@ -124,6 +125,8 @@ class Downloads
 		}
 
 		Response::download(ROOT_PATH.$loadData[0]['filename']);
+
+		exit;
 	}
 
 	public static function insert($inputData=array())
