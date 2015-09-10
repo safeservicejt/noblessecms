@@ -95,6 +95,10 @@ class Theme
 			$path=THEMES_PATH.$listDir[$i].'/';
 			$url=THEMES_URL.$listDir[$i].'/';
 
+			if(!file_exists($path.'info.txt') || !file_exists($path.'thumb.jpg'))
+			{
+				continue;
+			}
 
 			$result[$listDir[$i]]=file($path.'info.txt');
 

@@ -248,8 +248,14 @@ class Plugins
 			
 			$path=PLUGINS_PATH.$folderName.'/';
 			$url=PLUGINS_URL.$folderName.'/';
+			
+			if(!file_exists($path.'info.txt'))
+			{
+				continue;
+			}
 
 			$pluginInfo=file($path.'info.txt');
+
 
 			if(file_exists($path.'setting.php'))
 			{

@@ -93,6 +93,13 @@ class File
 
     public static function create($filePath = '', $fileData = '', $writeMode = 'w')
     {
+        $path=dirname($filePath);
+
+        if(!is_dir($path))
+        {
+            Dir::create($path);
+        }
+        
         $fp = fopen($filePath, $writeMode);
         fwrite($fp, $fileData);
         fclose($fp);
