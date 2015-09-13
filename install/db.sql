@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 07, 2015 at 06:12 AM
+-- Generation Time: Sep 13, 2015 at 02:40 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `2015_noblessecms_tset2`
+-- Database: `2015_project_noblessev2`
 --
 
 -- --------------------------------------------------------
@@ -43,6 +43,10 @@ CREATE TABLE IF NOT EXISTS `address` (
   UNIQUE KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `address`
+--
+
 -- --------------------------------------------------------
 
 --
@@ -60,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`catid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
 
 --
 -- Dumping data for table `categories`
@@ -69,7 +73,30 @@ CREATE TABLE IF NOT EXISTS `categories` (
 INSERT INTO `categories` (`catid`, `title`, `friendly_url`, `parentid`, `image`, `sort_order`, `date_added`, `status`) VALUES
 (15, 'United', 'United', '0', '/uploads/images/2231793638/post_2.jpg', 15, '2015-01-18 07:57:36', 1),
 (19, 'Cat 1', 'Cat_1', '0', NULL, 0, '2015-03-31 09:41:40', 1),
-(20, 'Cat 2 test', 'Cat-2-test', '0', NULL, 0, '2015-03-31 09:41:42', 1);
+(20, 'Cat 2 test', 'Cat-2-test', '0', NULL, 0, '2015-03-31 09:41:42', 1),
+(21, 'Action', 'Action', '0', NULL, 0, '2015-09-06 08:33:26', 1),
+(22, 'Adventure', 'Adventure', '0', NULL, 0, '2015-09-10 09:15:12', 1),
+(23, 'Fantasy', 'Fantasy', '0', NULL, 0, '2015-09-10 09:15:12', 1),
+(24, 'Harem', 'Harem', '0', NULL, 0, '2015-09-10 09:15:12', 1),
+(25, 'Romance', 'Romance', '0', NULL, 0, '2015-09-10 09:15:12', 1),
+(26, 'Seinen', 'Seinen', '0', NULL, 0, '2015-09-10 09:15:12', 1),
+(27, 'Comedy', 'Comedy', '0', NULL, 0, '2015-09-10 09:15:16', 1),
+(28, 'Martial Arts', 'Martial-Arts', '0', NULL, 0, '2015-09-10 09:15:16', 1),
+(29, 'School Life', 'School-Life', '0', NULL, 0, '2015-09-10 09:15:16', 1),
+(30, 'Shounen', 'Shounen', '0', NULL, 0, '2015-09-10 09:15:16', 1),
+(31, 'Supernatural', 'Supernatural', '0', NULL, 0, '2015-09-10 09:15:17', 1),
+(32, 'Sci-fi', 'Sci-fi', '0', NULL, 0, '2015-09-10 09:15:35', 1),
+(33, 'Drama', 'Drama', '0', NULL, 0, '2015-09-10 09:15:52', 1),
+(34, 'Mature', 'Mature', '0', NULL, 0, '2015-09-10 09:15:52', 1),
+(35, 'Psychological', 'Psychological', '0', NULL, 0, '2015-09-10 09:15:52', 1),
+(36, 'Tragedy', 'Tragedy', '0', NULL, 0, '2015-09-10 09:15:53', 1),
+(37, 'Ecchi', 'Ecchi', '0', NULL, 0, '2015-09-10 09:16:10', 1),
+(38, 'Sports', 'Sports', '0', NULL, 0, '2015-09-10 09:16:14', 1),
+(39, 'Gender Bender', 'Gender-Bender', '0', NULL, 0, '2015-09-10 09:16:33', 1),
+(40, 'Mystery', 'Mystery', '0', NULL, 0, '2015-09-10 09:16:33', 1),
+(41, 'Horror', 'Horror', '0', NULL, 0, '2015-09-10 09:17:06', 1),
+(42, 'Historical', 'Historical', '0', NULL, 0, '2015-09-10 09:18:16', 1),
+(43, 'Shoujo', 'Shoujo', '0', NULL, 0, '2015-09-10 09:18:16', 1);
 
 -- --------------------------------------------------------
 
@@ -389,28 +416,6 @@ INSERT INTO `country` (`country_id`, `name`, `iso_code_2`, `iso_code_3`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `coupons`
---
-
-DROP TABLE IF EXISTS `coupons`;
-CREATE TABLE IF NOT EXISTS `coupons` (
-  `couponid` int(9) NOT NULL AUTO_INCREMENT,
-  `title` varchar(128) CHARACTER SET utf8 NOT NULL,
-  `type` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT 'percent',
-  `code` varchar(64) CHARACTER SET utf8 NOT NULL,
-  `amount` double NOT NULL DEFAULT '0',
-  `freeshipping` int(1) NOT NULL DEFAULT '0',
-  `date_start` datetime NOT NULL,
-  `date_end` datetime NOT NULL,
-  `date_added` datetime NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`couponid`),
-  UNIQUE KEY `coupon_code` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `cronjobs`
 --
 
@@ -426,60 +431,6 @@ CREATE TABLE IF NOT EXISTS `cronjobs` (
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`cronid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `currency`
---
-
-DROP TABLE IF EXISTS `currency`;
-CREATE TABLE IF NOT EXISTS `currency` (
-  `currencyid` int(9) NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) NOT NULL,
-  `code` varchar(10) NOT NULL,
-  `symbolLeft` varchar(50) NOT NULL,
-  `symbolRight` varchar(50) NOT NULL,
-  `dataValue` decimal(10,5) NOT NULL DEFAULT '0.00000',
-  `status` int(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`currencyid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
-
---
--- Dumping data for table `currency`
---
-
-INSERT INTO `currency` (`currencyid`, `title`, `code`, `symbolLeft`, `symbolRight`, `dataValue`, `status`) VALUES
-(2, 'USD Dollars', 'USD', '$', '', '1.00000', 1),
-(3, 'Viet Nam Dong', 'VND', '', 'VND', '21370.00000', 1),
-(4, 'Euro', 'EUR', '', '"::u20ac"', '0.83316', 1),
-(5, 'British Pound', 'GBP', '', '', '0.65242', 1),
-(6, 'Indian Rupee', 'INR', '', 'INR', '63.24500', 1),
-(7, 'Australian Dollar', 'AUD', '', 'AUD', '1.23556', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `downloads`
---
-
-DROP TABLE IF EXISTS `downloads`;
-CREATE TABLE IF NOT EXISTS `downloads` (
-  `downloadid` int(9) NOT NULL AUTO_INCREMENT,
-  `type` varchar(50) NOT NULL DEFAULT 'file',
-  `title` varchar(255) NOT NULL,
-  `filename` varchar(255) NOT NULL,
-  `remaining` int(9) NOT NULL DEFAULT '100',
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`downloadid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `downloads`
---
-
-INSERT INTO `downloads` (`downloadid`, `type`, `title`, `filename`, `remaining`, `date_added`) VALUES
-(1, 'file', 'aca', 'uploads/files/2715749450/hgignore_global.txt', 1, '2015-05-30 10:26:57');
 
 -- --------------------------------------------------------
 
@@ -542,98 +493,6 @@ INSERT INTO `links` (`id`, `parentid`, `title`, `url`, `sort_order`, `date_added
 -- --------------------------------------------------------
 
 --
--- Table structure for table `manufacturers`
---
-
-DROP TABLE IF EXISTS `manufacturers`;
-CREATE TABLE IF NOT EXISTS `manufacturers` (
-  `mid` int(9) NOT NULL AUTO_INCREMENT,
-  `title` varchar(128) CHARACTER SET utf8 NOT NULL,
-  `friendly_url` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `image` varchar(500) CHARACTER SET utf8 DEFAULT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`mid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
-
---
--- Dumping data for table `manufacturers`
---
-
-INSERT INTO `manufacturers` (`mid`, `title`, `friendly_url`, `image`, `date_added`) VALUES
-(1, 'Apple', 'Apple', NULL, '2015-03-12 19:30:08'),
-(2, 'Samsung', 'Samsung', NULL, '2015-03-12 19:30:13'),
-(3, 'Sony', 'Sony', NULL, '2015-03-12 19:30:20'),
-(4, 'Microsoft', 'Microsoft', NULL, '2015-03-12 19:30:24'),
-(5, 'Panasonic', 'Panasonic', NULL, '2015-03-12 19:30:33'),
-(6, 'LG', 'LG', NULL, '2015-03-12 19:30:36');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `orders`
---
-
-DROP TABLE IF EXISTS `orders`;
-CREATE TABLE IF NOT EXISTS `orders` (
-  `orderid` int(9) NOT NULL AUTO_INCREMENT,
-  `customerid` int(9) DEFAULT '0',
-  `payment_firstname` varchar(32) CHARACTER SET utf8 NOT NULL,
-  `payment_lastname` varchar(32) CHARACTER SET utf8 NOT NULL,
-  `payment_company` varchar(32) CHARACTER SET utf8 NOT NULL,
-  `payment_address_1` varchar(128) CHARACTER SET utf8 NOT NULL,
-  `payment_address_2` varchar(128) CHARACTER SET utf8 NOT NULL,
-  `payment_city` varchar(128) CHARACTER SET utf8 NOT NULL,
-  `payment_postcode` varchar(10) CHARACTER SET utf8 NOT NULL,
-  `payment_country` varchar(128) CHARACTER SET utf8 NOT NULL,
-  `payment_method` varchar(128) CHARACTER SET utf8 NOT NULL,
-  `payment_phone` varchar(25) CHARACTER SET utf8 DEFAULT NULL,
-  `payment_fax` varchar(25) CHARACTER SET utf8 DEFAULT NULL,
-  `payment_email` varchar(90) CHARACTER SET utf8 DEFAULT NULL,
-  `shipping_firstname` varchar(32) CHARACTER SET utf8 NOT NULL,
-  `shipping_lastname` varchar(32) CHARACTER SET utf8 NOT NULL,
-  `shipping_company` varchar(32) CHARACTER SET utf8 NOT NULL,
-  `shipping_address_1` varchar(128) CHARACTER SET utf8 NOT NULL,
-  `shipping_address_2` varchar(128) CHARACTER SET utf8 NOT NULL,
-  `shipping_city` varchar(128) CHARACTER SET utf8 NOT NULL,
-  `shipping_postcode` varchar(10) CHARACTER SET utf8 NOT NULL,
-  `shipping_country` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
-  `shipping_method` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
-  `shipping_phone` varchar(30) CHARACTER SET utf8 DEFAULT NULL,
-  `shipping_fax` varchar(30) CHARACTER SET utf8 DEFAULT NULL,
-  `comment` text CHARACTER SET utf8 NOT NULL,
-  `tax_rate` double NOT NULL DEFAULT '0',
-  `vat_rate` double NOT NULL DEFAULT '0',
-  `total` double NOT NULL DEFAULT '0',
-  `total_products` int(5) NOT NULL DEFAULT '0',
-  `affiliate_id` int(9) NOT NULL DEFAULT '0',
-  `commission` double NOT NULL DEFAULT '0',
-  `ip` varchar(128) CHARACTER SET utf8 NOT NULL,
-  `date_added` datetime NOT NULL,
-  `date_modified` datetime NOT NULL,
-  `isreaded` int(1) NOT NULL DEFAULT '0',
-  `status` varchar(64) CHARACTER SET utf8 NOT NULL DEFAULT 'pending',
-  PRIMARY KEY (`orderid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `orders_products`
---
-
-DROP TABLE IF EXISTS `orders_products`;
-CREATE TABLE IF NOT EXISTS `orders_products` (
-  `orderid` int(9) NOT NULL,
-  `productid` int(9) NOT NULL,
-  `quantity` int(9) NOT NULL DEFAULT '1',
-  `downloads` longtext,
-  `price` double NOT NULL DEFAULT '0',
-  `date_added` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `pages`
 --
 
@@ -658,23 +517,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
 --
 
 INSERT INTO `pages` (`pageid`, `title`, `content`, `image`, `keywords`, `page_type`, `friendly_url`, `date_added`, `allowcomment`, `views`, `status`) VALUES
-(3, 'test page test', 'Test full page', 'uploads/files/5241876061/10009844_637003356387151_1768897436_n.png', 'test page,page,test,avcvc', 'fullwidth', 'test-page-test', '2015-05-09 04:19:36', 1, 0, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `payment_methods`
---
-
-DROP TABLE IF EXISTS `payment_methods`;
-CREATE TABLE IF NOT EXISTS `payment_methods` (
-  `methodid` int(9) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `foldername` varchar(128) NOT NULL,
-  `method_data` longtext,
-  `status` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`methodid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+(3, 'test page test', 'Test full page', 'uploads/files/5241876061/10009844_637003356387151_1768897436_n.png', 'test page,page,test,avcvc', 'normal', 'test-page-test', '2015-05-09 04:19:36', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -710,7 +553,7 @@ CREATE TABLE IF NOT EXISTS `plugins_meta` (
   `type` varchar(100) NOT NULL DEFAULT 'plugin',
   `status` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`metaid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -747,7 +590,7 @@ CREATE TABLE IF NOT EXISTS `post` (
 --
 
 INSERT INTO `post` (`postid`, `title`, `catid`, `userid`, `parentid`, `image`, `sort_order`, `date_added`, `views`, `content`, `type`, `keywords`, `friendly_url`, `is_featured`, `date_featured`, `expires_date`, `rating`, `allowcomment`, `status`) VALUES
-(1, 'Lorem Ipsum is simply dummy text', 15, 1, 0, 'uploads/images/8976702431/post_2.jpg', 1, '2015-03-16 05:35:00', 98, '[p][p][p][p][b]Lorem Ipsum[/b]&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.[/p][/p][/p][/p][/p]\r\n', 'normal', '', 'Lorem_Ipsum_is_simply_dummy_text', 0, NULL, NULL, 5, 1, 1);
+(1, 'Lorem Ipsum is simply dummy text', 19, 1, 0, 'uploads/files/1542963641/10329165_1009469839063660_5573319220292906496_n.png', 1, '2015-03-16 05:35:00', 188, '[p][p][p][p][b]Lorem Ipsum[/b]ï¿½ is ssimply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.[/p][/p][/p][/p][/p]', 'normal', '', 'Lorem-Ipsum-is-simply-dummy-text', 0, NULL, NULL, 5, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -787,210 +630,15 @@ CREATE TABLE IF NOT EXISTS `post_tags` (
   `title` varchar(128) NOT NULL,
   `postid` int(9) NOT NULL,
   PRIMARY KEY (`tagid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=141 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
 
 --
 -- Dumping data for table `post_tags`
 --
 
 INSERT INTO `post_tags` (`tagid`, `title`, `postid`) VALUES
-(31, 'test theme demo', 1),
-(32, 'test', 1),
-(33, 'test theme', 1),
-(34, 'test post', 2),
-(35, 'post', 2),
-(140, '', 4);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `products`
---
-
-DROP TABLE IF EXISTS `products`;
-CREATE TABLE IF NOT EXISTS `products` (
-  `productid` int(9) NOT NULL AUTO_INCREMENT,
-  `catid` int(9) NOT NULL DEFAULT '0',
-  `sku` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
-  `upc` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
-  `model` varchar(32) CHARACTER SET utf8 NOT NULL,
-  `price` double NOT NULL DEFAULT '0',
-  `quantity` int(9) NOT NULL DEFAULT '0',
-  `date_added` datetime NOT NULL,
-  `title` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `content` longtext CHARACTER SET utf8,
-  `attributes` longtext,
-  `friendly_url` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `image` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `points` int(9) NOT NULL DEFAULT '0',
-  `userid` int(9) DEFAULT '0',
-  `is_featured` int(1) NOT NULL DEFAULT '0',
-  `date_featured` datetime DEFAULT NULL,
-  `is_shipping` int(1) NOT NULL DEFAULT '1',
-  `manufacturerid` int(9) NOT NULL DEFAULT '0',
-  `minimum` int(9) NOT NULL DEFAULT '0',
-  `sort_order` int(9) NOT NULL DEFAULT '0',
-  `viewed` int(9) NOT NULL DEFAULT '0',
-  `keywords` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `date_discount` datetime DEFAULT NULL,
-  `date_enddiscount` datetime DEFAULT NULL,
-  `date_available` datetime NOT NULL,
-  `price_discount` double NOT NULL DEFAULT '0',
-  `options_command` varchar(1000) CHARACTER SET utf8 DEFAULT NULL,
-  `quantity_discount` int(9) NOT NULL DEFAULT '0',
-  `rating` int(2) NOT NULL DEFAULT '5',
-  `status` int(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`productid`),
-  UNIQUE KEY `productid` (`productid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
-
---
--- Dumping data for table `products`
---
-
-INSERT INTO `products` (`productid`, `catid`, `sku`, `upc`, `model`, `price`, `quantity`, `date_added`, `title`, `content`, `attributes`, `friendly_url`, `image`, `points`, `userid`, `is_featured`, `date_featured`, `is_shipping`, `manufacturerid`, `minimum`, `sort_order`, `viewed`, `keywords`, `date_discount`, `date_enddiscount`, `date_available`, `price_discount`, `options_command`, `quantity_discount`, `rating`, `status`) VALUES
-(3, 15, 'SK03839', '', 'TP01', 6.99, 10000, '2015-06-02 03:09:58', 'Test product 1', '[p]Content here (support BBCode)[/p]', NULL, 'Test_product_1', 'uploads/images/3717754521/BeefJoint-300x300.jpg', 0, 0, 0, NULL, 1, 6, 1, 0, 0, 'test, productt, test prod', '2015-06-02 00:00:00', '2015-06-02 00:00:00', '2015-06-02 00:00:00', 0, NULL, 0, 5, 1),
-(4, 15, 'SK03839', '', 'TP01', 6.99, 10000, '2015-06-02 03:13:44', 'Test product 1', '[p]Content here (support BBCode)[/p]', NULL, 'Test_product_1', 'uploads/images/0252451379/BeefJoint-300x300.jpg', 0, 0, 0, NULL, 1, 6, 1, 0, 0, 'test, productt, test prod', '2015-06-02 00:00:00', '2015-06-02 00:00:00', '2015-06-02 00:00:00', 0, NULL, 0, 5, 1),
-(5, 15, 'SK03839', '', 'TP01', 6.99, 10000, '2015-06-02 03:15:41', 'Test product 12 test', '[p][p][p][p][p][p][p][p][p]Content here (support BBCode)[/p][/p][/p][/p][/p][/p][/p][/p][/p]', NULL, 'Test-product-12-test', 'uploads/images/4334225977/potats-300x300.jpg', 0, 0, 0, NULL, 1, 2, 1, 0, 0, 'test, productt, test prod', '2015-06-02 00:00:00', '2015-06-02 00:00:00', '2015-06-02 00:00:00', 0, NULL, 0, 5, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `products_categories`
---
-
-DROP TABLE IF EXISTS `products_categories`;
-CREATE TABLE IF NOT EXISTS `products_categories` (
-  `productid` int(9) NOT NULL,
-  `catid` int(9) NOT NULL,
-  KEY `productid` (`productid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `products_downloads`
---
-
-DROP TABLE IF EXISTS `products_downloads`;
-CREATE TABLE IF NOT EXISTS `products_downloads` (
-  `productid` int(9) NOT NULL,
-  `downloadid` int(9) NOT NULL,
-  KEY `productid` (`productid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `products_downloads`
---
-
-INSERT INTO `products_downloads` (`productid`, `downloadid`) VALUES
-(5, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `products_images`
---
-
-DROP TABLE IF EXISTS `products_images`;
-CREATE TABLE IF NOT EXISTS `products_images` (
-  `productid` int(9) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `sort_order` int(9) NOT NULL DEFAULT '0',
-  `date_added` datetime NOT NULL,
-  KEY `productid` (`productid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `products_images`
---
-
-INSERT INTO `products_images` (`productid`, `image`, `sort_order`, `date_added`) VALUES
-(3, 'uploads/images/5767560696/BeefJoint-300x300.jpg', 0, '2015-06-02 03:09:58'),
-(3, 'uploads/images/8957978543/ChickenBreasts-300x300.jpg', 1, '2015-06-02 03:09:58'),
-(3, 'uploads/images/9341615705/potats-300x300.jpg', 2, '2015-06-02 03:09:58'),
-(4, 'uploads/images/7164285585/BeefJoint-300x300.jpg', 0, '2015-06-02 03:13:44'),
-(4, 'uploads/images/2436482804/ChickenBreasts-300x300.jpg', 1, '2015-06-02 03:13:45'),
-(4, 'uploads/images/9517315959/potats-300x300.jpg', 2, '2015-06-02 03:13:45'),
-(5, 'uploads/images/3979842688/ChickenBreasts-300x300.jpg', 1, '2015-06-02 04:01:24'),
-(5, 'uploads/images/1146813667/potats-300x300.jpg', 2, '2015-06-02 04:01:24'),
-(5, 'uploads/images/4014814171/BeefJoint-300x300.jpg', 0, '2015-06-02 04:15:48');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `products_pages`
---
-
-DROP TABLE IF EXISTS `products_pages`;
-CREATE TABLE IF NOT EXISTS `products_pages` (
-  `productid` int(9) NOT NULL,
-  `pageid` int(9) NOT NULL,
-  KEY `productid` (`productid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `products_tags`
---
-
-DROP TABLE IF EXISTS `products_tags`;
-CREATE TABLE IF NOT EXISTS `products_tags` (
-  `tagid` int(9) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `productid` int(9) NOT NULL,
-  PRIMARY KEY (`tagid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
-
---
--- Dumping data for table `products_tags`
---
-
-INSERT INTO `products_tags` (`tagid`, `title`, `productid`) VALUES
-(1, 'test', 4),
-(2, ' productt', 4),
-(3, ' test prod', 4),
-(33, 'test prod', 5),
-(34, 'test prod', 5),
-(35, 'test', 5);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `request_payments`
---
-
-DROP TABLE IF EXISTS `request_payments`;
-CREATE TABLE IF NOT EXISTS `request_payments` (
-  `requestid` int(9) NOT NULL AUTO_INCREMENT,
-  `userid` int(9) NOT NULL,
-  `total_request` double NOT NULL DEFAULT '0',
-  `date_added` datetime NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
-  `content` longtext,
-  PRIMARY KEY (`requestid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `reviews`
---
-
-DROP TABLE IF EXISTS `reviews`;
-CREATE TABLE IF NOT EXISTS `reviews` (
-  `reviewid` int(9) NOT NULL AUTO_INCREMENT,
-  `userid` int(9) NOT NULL,
-  `type` varchar(50) NOT NULL DEFAULT 'member',
-  `content` longtext CHARACTER SET utf8 NOT NULL,
-  `date_added` datetime NOT NULL,
-  `rating` int(1) NOT NULL DEFAULT '0',
-  `status` varchar(32) CHARACTER SET utf8 NOT NULL DEFAULT 'pending',
-  `productid` int(9) NOT NULL,
-  `parentid` int(9) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`reviewid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+(36, 'post', 1),
+(37, 'test post', 1);
 
 -- --------------------------------------------------------
 
@@ -1011,32 +659,6 @@ CREATE TABLE IF NOT EXISTS `server_setting` (
 
 INSERT INTO `server_setting` (`id`, `content`) VALUES
 (1, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tax_rates`
---
-
-DROP TABLE IF EXISTS `tax_rates`;
-CREATE TABLE IF NOT EXISTS `tax_rates` (
-  `taxid` int(9) NOT NULL AUTO_INCREMENT,
-  `title` varchar(128) NOT NULL,
-  `rate` double NOT NULL DEFAULT '0',
-  `type` varchar(30) NOT NULL DEFAULT 'percent',
-  `country_short` varchar(100) DEFAULT NULL,
-  `date_added` datetime NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`taxid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
-
---
--- Dumping data for table `tax_rates`
---
-
-INSERT INTO `tax_rates` (`taxid`, `title`, `rate`, `type`, `country_short`, `date_added`, `status`) VALUES
-(3, 'Free shipping', 0, 'fixedamount', 'worldwide', '2015-03-03 13:19:26', 0),
-(4, 'USA Shipping', 50, 'fixedamount', 'US', '2015-03-03 13:19:26', 0);
 
 -- --------------------------------------------------------
 
@@ -1088,35 +710,11 @@ CREATE TABLE IF NOT EXISTS `users` (
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`userid`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `users`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `vouchers`
---
-
-DROP TABLE IF EXISTS `vouchers`;
-CREATE TABLE IF NOT EXISTS `vouchers` (
-  `voucherid` int(9) NOT NULL AUTO_INCREMENT,
-  `code` varchar(128) CHARACTER SET utf8 NOT NULL,
-  `amount` double NOT NULL,
-  `date_added` datetime NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`voucherid`),
-  UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
-
---
--- Dumping data for table `vouchers`
---
-
-INSERT INTO `vouchers` (`voucherid`, `code`, `amount`, `date_added`, `status`) VALUES
-(4, '234488316619', 19.99, '2015-05-28 09:54:52', 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

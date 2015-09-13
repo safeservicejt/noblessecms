@@ -49,7 +49,7 @@ class System
 
 		self::checkTheme();
 
-		self::checkCurrency();
+		// self::checkCurrency();
 
 		self::checkLang();
 

@@ -266,7 +266,7 @@ class Post
 
 		// DBCache::removeDir('system/post');
 
-		DBCache::removeCache($listID,'system/post');
+		// DBCache::removeCache($listID,'system/post');
 
 		return true;
 	}
@@ -331,7 +331,7 @@ class Post
 
 		// DBCache::removeDir('system/post');
 
-		DBCache::removeCache($listIDs,'system/post');
+		// DBCache::removeCache($listIDs,'system/post');
 
 
 		if(!$error=Database::hasError())

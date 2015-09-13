@@ -24,17 +24,8 @@
 
                 </ul>
               </li>
-<!--               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-th"></span>&nbsp;&nbsp;Ecommerce <span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="<?php echo ADMINCP_URL;?>products/addnew">Add new product</a></li>
-                 <li><a href="<?php echo ADMINCP_URL;?>manufacturers/addnew">Add new manufacturer</a></li>
-                 <li><a href="<?php echo ADMINCP_URL;?>downloads/addnew">Add new download</a></li>
-                 <li><a href="<?php echo ADMINCP_URL;?>vouchers/addnew">Add new gift vouchers</a></li>
-                 <li><a href="<?php echo ADMINCP_URL;?>coupons/addnew">Add new coupons</a></li>
+              
 
-                </ul>
-              </li> -->
               
             </ul>
 
@@ -232,7 +223,7 @@
                         <ul id="setting" class="collapse">
                               <li><a href="<?php echo ADMINCP_URL;?>setting">General</a></li>
 
-                              <li><a href="<?php echo ADMINCP_URL;?>setting/ecommerce">Ecommerce</a></li>
+                              <!-- <li><a href="<?php echo ADMINCP_URL;?>setting/ecommerce">Ecommerce</a></li> -->
                               <li><a href="<?php echo ADMINCP_URL;?>setting/mailsystem">Mail System</a></li>
                               <li><a href="<?php echo ADMINCP_URL;?>setting/update">Update</a></li>
 

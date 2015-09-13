@@ -1,4 +1,9 @@
 
+<?php
+
+$default_affiliate_status=isset($default_affiliate_status)?$default_affiliate_status:'disable';
+
+?>
 <form action="" method="post" enctype="multipart/form-data">	
 <div class="panel panel-default">
   <div class="panel-heading">
@@ -58,10 +63,8 @@
 			    		<strong>Default currency :</strong>
 			    		</div>
 			    		<div class="col-lg-3 text-right">
-							<select name="general[currency]" class="form-control">
+							<select name="general[default_currency]" id="default_currency" class="form-control">
 							<?php
-
-								$default_currency=isset($currency)?$currency:'usd';
 
 								$total=count($listCurrency);
 
@@ -70,16 +73,7 @@
 								for($i=0;$i<$total;$i++)
 								{
 									$theCode=strtolower($listCurrency[$i]['code']);
-									if($default_currency==$theCode)
-									{
-										$li.='<option value="'.$theCode.'" selected>'.$listCurrency[$i]['title'].'</option>';
-
-									}
-									else
-									{
-										$li.='<option value="'.$theCode.'">'.$listCurrency[$i]['title'].'</option>';
-
-									}
+									$li.='<option value="'.$theCode.'">'.$listCurrency[$i]['title'].'</option>';
 								
 								}
 
@@ -89,6 +83,20 @@
 			    		</div>
 
 			    	</div>
+			    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
+			    		<div class="col-lg-9">
+			    		<strong>Enable/Disable affiliate system ?</strong>
+			    		</div>
+			    		<div class="col-lg-3 text-right">
+							<select name="general[default_affiliate_status]" id="default_affiliate_status" class="form-control">
+								<option value="enable" >Enable</option>
+								<option value="disable" >Disable</option>
+
+							</select>
+			    		</div>
+
+			    	</div>
+
 		  	<p>
 		  	<button type="submit" name="btnSave" class="btn btn-info">Save Changes</button>
 		  	</p>			  	
@@ -105,6 +113,10 @@
 $(document).ready(function(){
 
 setSelect('default_order_status','<?php echo $default_order_status;?>');
+
+setSelect('default_currency','<?php echo $default_currency;?>');
+
+setSelect('default_affiliate_status','<?php echo $default_affiliate_status;?>');
 
 
 });

@@ -109,10 +109,10 @@ class controlSetting
 	{
 		$post=array('alert'=>'');
 		if(Request::has('btnSave'))
-
 		{
 			System::saveSetting(Request::get('general'));
 		}
+
 		
 
 		$data=array();
