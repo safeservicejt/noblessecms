@@ -96,11 +96,15 @@ class Pages
 				{
 					if(isset($row['content']))
 					{
+						$row['content']=String::decode($row['content']);
+						
 						$row['content']=Shortcode::loadInTemplate($row['content']);
+
+						$row['content']=Shortcode::load($row['content']);
 						
 						$row['content']=Shortcode::toHTML($row['content']);
 						
-						$row['content']=Shortcode::load($row['content']);
+						
 					}
 					
 				}

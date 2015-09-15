@@ -108,6 +108,7 @@
                 <p>
                     <label><strong>Parent</strong></label>
                     <select class="form-control" name="send[parentid]">
+                        <option value="0">None</option>
                         <?php 
                         if(isset($listLinks[0]['id']))
                         {
@@ -154,6 +155,7 @@
                  <p>
                     <label><strong>Parent</strong></label>
                     <select class="form-control" name="update[parentid]">
+                        <option value="0">None</option>
                         <?php 
                         if(isset($listLinks[0]['id']))
                         {

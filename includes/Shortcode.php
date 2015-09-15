@@ -503,6 +503,16 @@ class Shortcode
 
 	public static function toHTML($str)
 	{
+		$hash=md5($str);
+
+		$filePath=CACHES_PATH.'dbcache/system/bbcode/'.$hash.'.cache';
+
+		if(file_exists($filePath))
+		{
+			$loadData=unserialize(file_get_contents($filePath));
+
+			return $loadData;
+		}
 
 		$str=trim($str);
 
@@ -510,164 +520,91 @@ class Shortcode
 
 		$str=preg_replace('/[\s]+\]/i', ']', $str);
 
+		$str=str_replace("\n", '<br/>', $str);
+
 	// BBcode array
 	    $find = array(
-	        '~\[b\](.*?)\[/b\]~s',
-	        '~\[i\](.*?)\[/i\]~s',
-	        '~\[u\](.*?)\[/u\]~s',
-	        '~\[quote\](.*?)\[/quote\]~s',
-	        '~\[size=(.*?)\](.*?)\[/size\]~s',
-	        '~\[color=(.*?)\](.*?)\[/color\]~s',
-	        '~\[url\]((?:ftp|https?)://.*?)\[/url\]~s',
-	        '~\[img\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~s',
-	        '~\[img\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))".*?>~s',
-	        '~\[img:auto\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~s',
-	        '~\[img:auto-responsive\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~s',
 
-	        '~\[url="?\'?(.*?)"?\'?\](.*?)\[\/url\]~s',
-	        '~\[url href="(.*?)" class="(.*?)"\](.*?)\[\/url\]~s',
-	        '~\[url href=(.*?)\](.*?)\[\/url\]~s',
+	        '~\[b\](.*?)\[/b\]~s'=>'<strong>$1</strong>',
+	        '~\[i\](.*?)\[/i\]~s'=>'<i>$1</i>',
+	        '~\[u\](.*?)\[/u\]~s'=>'<span style="text-decoration:underline;">$1</span>',
+	        '~\[quote\](.*?)\[/quote\]~s'=>'<pre>$1</pre>',
+	        '~\[size=(.*?)\](.*?)\[/size\]~s'=>'<span style="font-size:$1px;">$2</span>',
+	        '~\[color=(.*?)\](.*?)\[/color\]~s'=>'<span style="color:$1;">$2</span>',
+	        
+	        '~\[img\](.*?)\[/img\]~is'=>'<img src="$1" alt="image" class="img-responsive"/>',
+	        '~\[img:auto\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~is'=>'<img src="" alt="image" class="js-auto" data-src="$1" />',
+	        '~\[img:auto-responsive\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~is'=>'<img src="" alt="image" data-src="$1" class="js-auto-responsive" />',
 
 
-	        '~\[label class="(.*?)"\](.*?)\[\/label\]~s',
-	        '~\[alert class="(.*?)"\](.*?)\[\/alert\]~s',
+	        '~\[url\](.*?)\[/url\]~is'=>'<a href="$1" title="$1">$1</a>',
+	        '~\[url="?\'?(.*?)"?\'?\](.*?)\[\/url\]~is'=>'<a href="$1">$2</a>',
+	        '~\[url href="(.*?)" class="(.*?)"\](.*?)\[\/url\]~is'=>'<a href="$1" class="$2">$3</a>',
+	        '~\[url href="(.*?)" id="(.*?)"\](.*?)\[\/url\]~is'=>'<a href="$1" id="$2">$3</a>',
+	        '~\[url href=(.*?)\](.*?)\[\/url\]~is'=>'<a href="$1">$2</a>',
 
-	        '~\[panelbody\](.*?)\[\/panelbody\]~s',
-	        '~\[paneltitle\](.*?)\[\/paneltitle\]~s',
-	        '~\[panel\](.*?)\[\/panel\]~s',
-	        '~\[panel (.*?)\](.*?)\[\/panel\]~s',
 
-	        '~\[taburl:active id="(.*?)"\](.*?)\[\/taburl\]~s',
-	        '~\[taburl id="(.*?)"\](.*?)\[\/taburl\]~s',
-	        '~\[navtabs\](.*?)\[\/navtabs\]~s',
-	        '~\[tabpanel:active id="(.*?)"\](.*?)\[\/tabpanel\]~s',
-	        '~\[tabpanel id="(.*?)"\](.*?)\[\/tabpanel\]~s',
-	        '~\[tabcontent\](.*?)\[\/tabcontent\]~s',
-	        '~\[tab\](.*?)\[\/tab\]~s',
+	        '~\[label class="(.*?)"\](.*?)\[\/label\]~s'=>'<span class="label label-default $1">$2</span>',
+	        '~\[alert class="(.*?)"\](.*?)\[\/alert\]~s'=>'<div class="alert alert-default $1">$2</div>',
 
-	        '~\[row\](.*?)\[\/row\]~s',
-	        '~\[row class="(.*?)"\](.*?)\[\/row\]~s',
-	        '~\[row id="(.*?)"\](.*?)\[\/row\]~s',
-	        '~\[row class="(.*?)" id="(.*?)"\](.*?)\[\/row\]~s',
-	        '~\[row id="(.*?)" class="(.*?)"\](.*?)\[\/row\]~s',
+	        '~\[panelbody\](.*?)\[\/panelbody\]~s'=>'<div class="panel-body">$1</div>',
+	        '~\[paneltitle\](.*?)\[\/paneltitle\]~s'=>'<div class="panel-heading">$1</div>',
+	        '~\[panel\](.*?)\[\/panel\]~s'=>'<div class="panel panel-default">$1</div>',
+	        '~\[panel (.*?)\](.*?)\[\/panel\]~s'=>'<div $1>$2</div>',
 
-	        '~\[col\](.*?)\[\/col\]~s',
-	        '~\[col class="(.*?)"\](.*?)\[\/col\]~s',
-	        '~\[col id="(.*?)"\](.*?)\[\/col\]~s',
-	        '~\[col class="(.*?)" id="(.*?)"\](.*?)\[\/col\]~s',
-	        '~\[col id="(.*?)" class="(.*?)"\](.*?)\[\/col\]~s',
+	        '~\[taburl:active id="(.*?)"\](.*?)\[\/taburl\]~s'=>'<li role="presentation" class="active"><a href="#$1" aria-controls="$1" role="tab" data-toggle="tab">$2</a></li>',
+	        '~\[taburl id="(.*?)"\](.*?)\[\/taburl\]~s'=>'<li role="presentation"><a href="#$1" aria-controls="$1" role="tab" data-toggle="tab">$2</a></li>',
+	        '~\[navtabs\](.*?)\[\/navtabs\]~s'=>'<ul class="nav nav-tabs" role="tablist">$1</ul>',
+	        '~\[tabpanel:active id="(.*?)"\](.*?)\[\/tabpanel\]~s'=>'<div role="tabpanel" class="tab-pane active" id="$1">$2</div>',
+	        '~\[tabpanel id="(.*?)"\](.*?)\[\/tabpanel\]~s'=>'<div role="tabpanel" class="tab-pane" id="$1">$2</div>',
+	        '~\[tabcontent\](.*?)\[\/tabcontent\]~s'=>'<div class="tab-content">$1</div>',
+	        '~\[tab\](.*?)\[\/tab\]~s'=>'<div role="tabpanel">$1</div>',
 
-	        '~\[img class="(.*?)"\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~s',
+	        '~\[row\](.*?)\[\/row\]~s'=>'<div class="row">$1</div>',
+	        '~\[row class="(.*?)"\](.*?)\[\/row\]~s'=>'<div class="row $1">$2</div>',
+	        '~\[row id="(.*?)"\](.*?)\[\/row\]~s'=>'<div class="row" id="$1">$2</div>',
+	        '~\[row class="(.*?)" id="(.*?)"\](.*?)\[\/row\]~s'=>'<div class="row $1" id="$2">$3</div>',
+	        '~\[row id="(.*?)" class="(.*?)"\](.*?)\[\/row\]~s'=>'<div class="row $2" id="$1">$3</div>',
 
-	        '~\[dropdown\](.*?)\[\/dropdown\]~s',
-	        '~\[drbutton class="(.*?)"\](.*?)\[\/drbutton\]~s',
-	        '~\[drmenu\](.*?)\[\/drmenu\]~s',
-	        '~\[drlink href="(.*?)"\](.*?)\[\/drlink\]~s',
+	        '~\[col\](.*?)\[\/col\]~s'=>'<div class="col-lg-12">$1</div>',
+	        '~\[col class="(.*?)"\](.*?)\[\/col\]~s'=>'<div class="col-lg-12 $1">$2</div>',
+	        '~\[col id="(.*?)"\](.*?)\[\/col\]~s'=>'<div class="col-lg-12" id="$1">$2</div>',
+	        '~\[col class="(.*?)" id="(.*?)"\](.*?)\[\/col\]~s'=>'<div class="col-lg-12 $1" id="$2">$3</div>',
+	        '~\[col id="(.*?)" class="(.*?)"\](.*?)\[\/col\]~s'=>'<div class="col-lg-12 $2" id="$1">$3</div>',
 
-	        '~\[bxslider\](.*?)\[\/bxslider\]~s',
-	        '~\[bximg src="(.*?)"\]~s',
-	        '~\[bximg class="(.*?)" src="(.*?)"\]~s',
+	        '~\[img class="(.*?)"\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~i'=>'<img class="$1" alt="Image" src="$2" />',
 
-	        '~\[button class="(.*?)"\](.*?)\[\/button\]~s',
-	        '~\[button id="(.*?)"\](.*?)\[\/button\]~s',
-	        '~\[button class="(.*?)" id="(.*?)"\](.*?)\[\/button\]~s',
-	        '~\[button id="(.*?)" class="(.*?)"\](.*?)\[\/button\]~s',
-	        '~\[button (.*?)\](.*?)\[\/button\]~s',
+	        '~\[dropdown\](.*?)\[\/dropdown\]~s'=>'<div class="dropdown">$1</div>',
+	        '~\[drbutton class="(.*?)"\](.*?)\[\/drbutton\]~s'=>'<button class="btn btn-default $1 dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">$2<span class="caret"></span></button>',
+	        '~\[drmenu\](.*?)\[\/drmenu\]~s'=>'<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">$1</ul>',
+	        '~\[drlink href="(.*?)"\](.*?)\[\/drlink\]~i'=>'<li role="presentation"><a role="menuitem" tabindex="-1" href="$1">$2</a></li>',
 
-	        '~\[progress (.*?)\](.*?)\[\/progress\]~s',
-	        '~\[progress:success (.*?)\](.*?)\[\/progress\]~s',
-	        '~\[progress:primary (.*?)\](.*?)\[\/progress\]~s',
-	        '~\[progress:warning (.*?)\](.*?)\[\/progress\]~s',
-	        '~\[progress:danger (.*?)\](.*?)\[\/progress\]~s',
+	        '~\[bxslider\](.*?)\[\/bxslider\]~s'=>'<ul class="bxslider">$1</ul><script>$(document).ready(function(){$(\'.bxslider\').bxSlider({auto: true});});</script>',
+	        '~\[bximg src="(.*?)"\]~s'=>'<li><img src="$1" alt="Image" /></li>',
+	        '~\[bximg class="(.*?)" src="(.*?)"\]~s'=>'<li><img class="$1" alt="Image" src="$2" /></li>',
 
-	        '~\[badge\](.*?)\[\/badge\]~s',
-	        '~\[badge (.*?)\](.*?)\[\/badge\]~s',
+	        '~\[button class="(.*?)"\](.*?)\[\/button\]~s'=>'<button type="button" class="btn btn-default $1">$2</button>',
+	        '~\[button id="(.*?)"\](.*?)\[\/button\]~s'=>'<button type="button" class="btn btn-default" id="$1">$2</button>',
+	        '~\[button class="(.*?)" id="(.*?)"\](.*?)\[\/button\]~s'=>'<button type="button" class="btn btn-default $1" id="$2">$3</button>',
+	        '~\[button id="(.*?)" class="(.*?)"\](.*?)\[\/button\]~s'=>'<button type="button" id="$1" class="btn btn-default $2">$3</button>',
+	        '~\[button (.*?)\](.*?)\[\/button\]~s'=>'<button $1>$2</button>',
 
-	        '~\[icon:(.*?)\]~s',
+	        '~\[progress (.*?)\](.*?)\[\/progress\]~s'=>'<div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="$2" aria-valuemin="0" aria-valuemax="100" style="width: $2%;" $1><span class="sr-only">$2% Complete</span></div></div>',
+	        '~\[progress:success (.*?)\](.*?)\[\/progress\]~s'=>'<div class="progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="$2" aria-valuemin="0" aria-valuemax="100" style="width: $2%;" $1><span class="sr-only">$2% Complete</span></div></div>',
+	        '~\[progress:primary (.*?)\](.*?)\[\/progress\]~s'=>'<div class="progress"><div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="$2" aria-valuemin="0" aria-valuemax="100" style="width: $2%;" $1><span class="sr-only">$2% Complete</span></div></div>',
+	        '~\[progress:warning (.*?)\](.*?)\[\/progress\]~s'=>'<div class="progress"><div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="$2" aria-valuemin="0" aria-valuemax="100" style="width: $2%;" $1><span class="sr-only">$2% Complete</span></div></div>',
+	        '~\[progress:danger (.*?)\](.*?)\[\/progress\]~s'=>'<div class="progress"><div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="$2" aria-valuemin="0" aria-valuemax="100" style="width: $2%;" $1><span class="sr-only">$2% Complete</span></div></div>',
 
-	        '~\[root_url\]~s',
-	        '~\[site_url\]~s'
+	        '~\[badge\](.*?)\[\/badge\]~s'=>'<span class="badge">$1</span>',
+	        '~\[badge (.*?)\](.*?)\[\/badge\]~s'=>'<span class="badge" $1>$2</span>',
 
-	    );
+	        '~\[icon:(.*?)\]~i'=>'<span class="glyphicon glyphicon-$1" aria-hidden="true"></span>',
 
-	// HTML tags to replace BBcode
-	    $replace = array(
-	        '<strong>$1</strong>',
-	        '<i>$1</i>',
-	        '<span style="text-decoration:underline;">$1</span>',
-	        '<pre>$1</pre>',
-	        '<span style="font-size:$1px;">$2</span>',
-	        '<span style="color:$1;">$2</span>',
-	        '<a href="$1" title="$1">$1</a>',
-	        '<img src="$1" alt="image" class="img-responsive" alt="" />',
-	        '<img src="$1" alt="image" class="img-responsive" alt="" />',
-	        '<img src="" alt="image" class="js-auto" data-src="$1" alt="" />',
-	        '<img src="" alt="image" class="js-auto-responsive" data-src="$1" class="img-responsive" alt="" />',
-
-	        '<a href="$1">$2</a>',
-	        '<a href="$1" class="$2">$3</a>',
-	        '<a href="$1">$2</a>',
-
-	        '<span class="label label-default $1">$2</span>',
-	        '<div class="alert alert-default $1">$2</div>',
-
-	        '<div class="panel-body">$1</div>',
-	        '<div class="panel-heading">$1</div>',
-	        '<div class="panel panel-default">$1</div>',
-	        '<div $1>$2</div>',
-
-	        '<li role="presentation" class="active"><a href="#$1" aria-controls="$1" role="tab" data-toggle="tab">$2</a></li>',
-	        '<li role="presentation"><a href="#$1" aria-controls="$1" role="tab" data-toggle="tab">$2</a></li>',
-	        '<ul class="nav nav-tabs" role="tablist">$1</ul>',
-	        '<div role="tabpanel" class="tab-pane active" id="$1">$2</div>',
-	        '<div role="tabpanel" class="tab-pane" id="$1">$2</div>',
-	        '<div class="tab-content">$1</div>',
-	        '<div role="tabpanel">$1</div>',
-
-	        '<div class="row">$1</div>',
-	        '<div class="row $1">$2</div>',
-	        '<div class="row" id="$1">$2</div>',
-	        '<div class="row $1" id="$2">$3</div>',
-	        '<div class="row $2" id="$1">$3</div>',
-
-	        '<div class="col-lg-12">$1</div>',
-	        '<div class="col-lg-12 $1">$2</div>',
-	        '<div class="col-lg-12" id="$1">$2</div>',
-	        '<div class="col-lg-12 $1" id="$2">$3</div>',
-	        '<div class="col-lg-12 $2" id="$1">$3</div>',
-
-	        '<img class="$1" alt="Image" src="$2" />',
-
-	        '<div class="dropdown">$1</div>',
-	        '<button class="btn btn-default $1 dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">$2<span class="caret"></span></button>',
-	        '<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">$1</ul>',
-	        '<li role="presentation"><a role="menuitem" tabindex="-1" href="$1">$2</a></li>',
-
-	        '<ul class="bxslider">$1</ul><script>$(document).ready(function(){$(\'.bxslider\').bxSlider({auto: true});});</script>',
-	        '<li><img src="$1" alt="Image" /></li>',
-	        '<li><img class="$1" alt="Image" src="$2" /></li>',
-
-	        '<button type="button" class="btn btn-default $1">$2</button>',
-	        '<button type="button" class="btn btn-default" id="$1">$2</button>',
-	        '<button type="button" class="btn btn-default $1" id="$2">$3</button>',
-	        '<button type="button" id="$1" class="btn btn-default $2">$3</button>',
-	        '<button $1>$2</button>',
-
-			'<div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="$2" aria-valuemin="0" aria-valuemax="100" style="width: $2%;" $1><span class="sr-only">$2% Complete</span></div></div>',	        
-			'<div class="progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="$2" aria-valuemin="0" aria-valuemax="100" style="width: $2%;" $1><span class="sr-only">$2% Complete</span></div></div>',	        
-			'<div class="progress"><div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="$2" aria-valuemin="0" aria-valuemax="100" style="width: $2%;" $1><span class="sr-only">$2% Complete</span></div></div>',	        
-			'<div class="progress"><div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="$2" aria-valuemin="0" aria-valuemax="100" style="width: $2%;" $1><span class="sr-only">$2% Complete</span></div></div>',	        
-			'<div class="progress"><div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="$2" aria-valuemin="0" aria-valuemax="100" style="width: $2%;" $1><span class="sr-only">$2% Complete</span></div></div>',
-
-			'<span class="badge">$1</span>',        
-			'<span class="badge" $1>$2</span>',
-
-			'<span class="glyphicon glyphicon-$1" aria-hidden="true"></span>',
-
-			ROOT_URL,
-			ROOT_URL
+	        '~\[root_url\]~i'=>ROOT_URL,
+	        '~\[site_url\]~i'=>ROOT_URL
 
 	    );
+
 
 	    $replaces = array(
 
@@ -700,7 +637,7 @@ class Shortcode
 
 	    );
 
-    	$str = preg_replace($find, $replace, $str);
+    	$str = preg_replace(array_keys($find), array_values($find), $str);
 	    $str = str_replace(array_keys($replaces), array_values($replaces), $str);
 
 	    // $find = array("<br>", "<br/>", "<br />");
@@ -708,6 +645,8 @@ class Shortcode
 	    // $str = str_replace($find, "\r\n", $str);
 
 	    // $str = trim(strip_tags($str));
+
+	    Cache::saveKey('dbcache/system/bbcode/'.$hash,serialize($str));
 
 	    return $str;		
 	}
@@ -722,7 +661,9 @@ class Shortcode
 
 	// HTML tags to replace BBcode
 	    $regex = array(
-	        '/<img class="(.*?)" src="(.*?)" \/>/i'=>'[img class="(.*?)"]$2[/img]',
+	        '/<span style="color:(.*?);">(.*?)<\/span>/i'=>'[color="$1"]$2[/color]',
+	        '/<span style="font-size:(\d+)px;">(.*?)<\/span>/i'=>'[size="$1"]$2[/color]',
+
 	        '/<div class="col-lg-12 (.*?)" id="(.*?)">(.*?)<\/div>/i'=>'[col id="$2" class="$1"]$3[/col]',
 	        '/<div class="col-lg-12 (.*?)" id="(.*?)">(.*?)<\/div>/i'=>'[col class="$1" id="$2"]$3[/col]',
 	        '/<div class="col-lg-12" id="(.*?)">(.*?)<\/div>/i'=>'[col id="$1"]$2[/col]',
@@ -749,18 +690,12 @@ class Shortcode
 
 	        '/<div class="alert alert-default (.*?)">(.*?)<\/div>/i'=>'[alert class="$1"]$2[/alert]',
 	        '/<span class="label label-default (.*?)">(.*?)<\/span>/i'=>'[label class="$1"]$2[/label]',
-	        '/<a href="(.*?)" class="(.*?)">(.*?)<\/a>/i'=>'[url href="$1" class="$2"]$3[/url]',
-	        '/<a.*?href="(.*?)" class="(.*?)">(.*?)<\/a>/i'=>'[url href="$1" class="$2"]$3[/url]',
+
 	        '/<a.*?href="(.*?)".*?>(.*?)<\/a>/i'=>'[url="$1"]$2[/url]',
 
-			'/<img.*?src="(.*?)".*?class="img-responsive".*?\/>/i'=>'[img:auto-responsive]$1[/img]',
-			'/<img.*?class="img-responsive".*?src="(.*?)".*?\/>/i'=>'[img:auto-responsive]$1[/img]',
-	        '/<img alt="" src="(.*?)" .*? \/>/i'=>'[img:auto]$1[/img]',
-	        '/<img alt="(.*?)" src="(.*?)" .*? \/>/i'=>'[img:auto]$2[/img]',
-	        '/<img.*?src="(.*?)" .*?>/i'=>'[img:auto]$1[/img]',
-	        '/<img.*?src="(.*?)".*?>/i'=>'[img:auto]$1[/img]',
-	        '/<img alt src="(.*?)".*?>/i'=>'[img:auto]$1[/img]',
-
+	        '/<img src="" alt="image" data-src="(.*?)".*?>/i'=>'[img]$1[/img]',
+	        '/<img.*?src="(.*?)".*?>/i'=>'[img]$1[/img]',
+	        	   
 	        '/<row>(.*?)<\/row>/is'=>'[row]$1[/row]',
 	        '/<col>(.*?)<\/col>/is'=>'[col]$1[/col]'
 	   
@@ -797,8 +732,7 @@ class Shortcode
 	        '[b]' => '<b>', '[/b]' => '</b>',
 
 	        '[b]' => '<strong>', '[/b]' => '</strong>',
-	        '' => '<br>', '' => '<br/>',
-	        "\r\n"=>'<newline>'
+	        '' => '<br>', '' => '<br/>'
 	    );	
 
     	$str = preg_replace(array_keys($regex), array_values($regex), $str);
