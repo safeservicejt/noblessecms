@@ -28,7 +28,8 @@ function install_autoupdate()
 {
 	Dir::remove(CACHES_PATH.'dbcache/plugin/autoupdate');
 
-	Cronjobs::add(1440,'min',PLUGINS_PATH.'autoupdate/index.php','detect_update_system');
+	// Cronjobs::add(1440,'min',PLUGINS_PATH.'autoupdate/index.php','detect_update_system');
+	Cronjobs::add(PLUGINS_PATH.'autoupdate/index.php','detect_update_system',1440,'min');
 
 }
 
