@@ -11,7 +11,7 @@ class controlUsergroups
 
 		if($match=Uri::match('\/usergroups\/(\w+)'))
 		{
-			if(method_exists("controlUserGroups", $match[1]))
+			if(method_exists("controlUsergroups", $match[1]))
 			{	
 				$method=$match[1];
 
