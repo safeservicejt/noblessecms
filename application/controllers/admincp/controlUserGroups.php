@@ -1,6 +1,6 @@
 <?php
 
-class controlUserGroups
+class controlUsergroups
 {
 	public function index()
 	{

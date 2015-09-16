@@ -1,6 +1,6 @@
 <?php
 
-class controlTemplateStore
+class controlTemplatestore
 {
 	public function index()
 	{

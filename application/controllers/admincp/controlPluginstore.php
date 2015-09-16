@@ -1,6 +1,6 @@
 <?php
 
-class controlPluginStore
+class controlPluginstore
 {
 	public function index()
 	{
