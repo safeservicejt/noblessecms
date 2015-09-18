@@ -91,6 +91,11 @@ class Captcha
 
 //        self::$thisHash=$hash;
 
+        if(!isset($_SESSION['captcha']))
+        {
+            $_SESSION['captcha']=array();
+        }
+        
         $_SESSION['captcha'][$hash] = 'OK';
         
 
