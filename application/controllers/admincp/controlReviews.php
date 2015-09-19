@@ -53,7 +53,7 @@ class controlReviews
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
 				'query'=>"select r.*,p.title,u.username,u.email from products p,reviews r,users u where r.productid=p.productid AND r.userid=u.userid group by r.reviewid order by r.reviewid desc",
-				'cacheTime'=>1
+				'cache'=>'no'
 				));
 		}
 

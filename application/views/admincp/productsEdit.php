@@ -355,6 +355,8 @@ $(function() {
 
 					var admincpUrl='<?php echo ROOT_URL;?>admincp/';
 					var prodid='<?php echo $edit["productid"];?>';
+
+					
 					var root_url='<?php echo ROOT_URL;?>';
 
 					$(document).ready(function(){

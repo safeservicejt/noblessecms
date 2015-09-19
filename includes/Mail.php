@@ -111,15 +111,12 @@ class Mail
 
     }
 
-    public static function test()
+    public function test()
     {
         require INCLUDES_PATH . 'extentions/PHPMailer/PHPMailerAutoload.php';
 
-        $mail = new PHPMailer;
 
-  
     }
-
 
     public static function send($mailConfig=array(),$is_smtp=1)
     {

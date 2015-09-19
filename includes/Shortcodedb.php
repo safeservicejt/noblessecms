@@ -8,6 +8,7 @@ function system_shortcode_list()
 		'video'=>'shortcode_youtube',
 
 		'link'=>'shortcode_url',
+		'url'=>'shortcode_url',
 
 		'img'=>'shortcode_img'
 		);
@@ -22,11 +23,11 @@ function shortcode_img($inputData=array())
 
 	$id=isset($inputData['attr']['id'])?' id="'.$inputData['attr']['id'].'" ':'';
 
-	$class=isset($inputData['attr']['class'])?' class="'.$inputData['attr']['class'].'" ':'';
+	$responsive=isset($inputData['attr']['responsive'])?' img-responsive ':'';
+
+	$class=isset($inputData['attr']['class'])?' class="'.$inputData['attr']['class'].' '.$responsive.'" ':'';
 
 	$target=isset($inputData['attr']['target'])?' target="'.$inputData['attr']['target'].'" ':'';
-
-	$href=isset($inputData['attr']['href'])?' href="'.$inputData['attr']['href'].'" ':'';
 
 	$alt=isset($inputData['attr']['alt'])?' alt="'.$inputData['attr']['alt'].'" ':'';
 
@@ -35,8 +36,6 @@ function shortcode_img($inputData=array())
 
 function shortcode_url($inputData=array())
 {
-	$value=$inputData['value'];
-
 	$id=isset($inputData['attr']['id'])?' id="'.$inputData['attr']['id'].'" ':'';
 
 	$class=isset($inputData['attr']['class'])?' class="'.$inputData['attr']['class'].'" ':'';
@@ -45,7 +44,9 @@ function shortcode_url($inputData=array())
 
 	$href=isset($inputData['attr']['href'])?' href="'.$inputData['attr']['href'].'" ':'';
 
-	return '<a href="'.$href.'" '.$id.$class.$target.'>'.$value.'</a>';	
+	$value=isset($inputData['value'])?$inputData['value']:$href;
+
+	return '<a '.$href.$id.$class.$target.'>'.$value.'</a>';	
 }
 
 function shortcode_youtube($inputData=array())

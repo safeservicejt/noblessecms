@@ -531,18 +531,6 @@ class Shortcode
 	        '~\[quote\](.*?)\[/quote\]~s'=>'<pre>$1</pre>',
 	        '~\[size=(.*?)\](.*?)\[/size\]~s'=>'<span style="font-size:$1px;">$2</span>',
 	        '~\[color=(.*?)\](.*?)\[/color\]~s'=>'<span style="color:$1;">$2</span>',
-	        
-	        '~\[img\](.*?)\[/img\]~is'=>'<img src="$1" alt="image" class="img-responsive"/>',
-	        '~\[img:auto\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~is'=>'<img src="" alt="image" class="js-auto" data-src="$1" />',
-	        '~\[img:auto-responsive\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~is'=>'<img src="" alt="image" data-src="$1" class="js-auto-responsive" />',
-
-
-	        '~\[url\](.*?)\[/url\]~is'=>'<a href="$1" title="$1">$1</a>',
-	        '~\[url="?\'?(.*?)"?\'?\](.*?)\[\/url\]~is'=>'<a href="$1">$2</a>',
-	        '~\[url href="(.*?)" class="(.*?)"\](.*?)\[\/url\]~is'=>'<a href="$1" class="$2">$3</a>',
-	        '~\[url href="(.*?)" id="(.*?)"\](.*?)\[\/url\]~is'=>'<a href="$1" id="$2">$3</a>',
-	        '~\[url href=(.*?)\](.*?)\[\/url\]~is'=>'<a href="$1">$2</a>',
-
 
 	        '~\[label class="(.*?)"\](.*?)\[\/label\]~s'=>'<span class="label label-default $1">$2</span>',
 	        '~\[alert class="(.*?)"\](.*?)\[\/alert\]~s'=>'<div class="alert alert-default $1">$2</div>',
@@ -572,7 +560,6 @@ class Shortcode
 	        '~\[col class="(.*?)" id="(.*?)"\](.*?)\[\/col\]~s'=>'<div class="col-lg-12 $1" id="$2">$3</div>',
 	        '~\[col id="(.*?)" class="(.*?)"\](.*?)\[\/col\]~s'=>'<div class="col-lg-12 $2" id="$1">$3</div>',
 
-	        '~\[img class="(.*?)"\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]~i'=>'<img class="$1" alt="Image" src="$2" />',
 
 	        '~\[dropdown\](.*?)\[\/dropdown\]~s'=>'<div class="dropdown">$1</div>',
 	        '~\[drbutton class="(.*?)"\](.*?)\[\/drbutton\]~s'=>'<button class="btn btn-default $1 dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">$2<span class="caret"></span></button>',
@@ -691,7 +678,7 @@ class Shortcode
 	        '/<div class="alert alert-default (.*?)">(.*?)<\/div>/i'=>'[alert class="$1"]$2[/alert]',
 	        '/<span class="label label-default (.*?)">(.*?)<\/span>/i'=>'[label class="$1"]$2[/label]',
 
-	        '/<a.*?href="(.*?)".*?>(.*?)<\/a>/i'=>'[url="$1"]$2[/url]',
+	        '/<a.*?href="(.*?)".*?>(.*?)<\/a>/i'=>'[url href="$1"]$2[/url]',
 
 	        '/<img src="" alt="image" data-src="(.*?)".*?>/i'=>'[img]$1[/img]',
 	        '/<img.*?src="(.*?)".*?>/i'=>'[img]$1[/img]',
