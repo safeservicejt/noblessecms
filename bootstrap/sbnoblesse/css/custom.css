@@ -147,3 +147,16 @@ text-decoration: none;
 {
   padding-top: 20px;
 }
+
+
+.themeCol
+{
+  margin-bottom: 30px;
+  min-height: 390px;
+}
+
+.themeCol .themeSummary .themeDesc h4 
+{
+  font-size: 15px;
+
+}
