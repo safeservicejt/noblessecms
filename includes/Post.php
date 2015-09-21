@@ -94,7 +94,12 @@ class Post
 				}
 
 				if(isset($row['date_added']))
-				$row['date_added']=Render::dateFormat($row['date_added']);	
+				{
+					$row['date_addedReal']=$row['date_added'];
+					
+					$row['date_added']=Render::dateFormat($row['date_added']);	
+				}
+				
 
 				if($inputData['isHook']=='yes')
 				{

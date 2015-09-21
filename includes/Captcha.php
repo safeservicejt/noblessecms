@@ -127,6 +127,11 @@ class Captcha
 
     public static function verify($inputName = 'captcha_verify')
     {
+        if(!isset($_SESSION['captcha']))
+        {
+            return true;
+        }
+        
         // print_r($_SESSION['captcha']);die();
         if (isset($_REQUEST[$inputName])) {
 

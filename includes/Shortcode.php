@@ -678,6 +678,7 @@ class Shortcode
 	        '/<div class="alert alert-default (.*?)">(.*?)<\/div>/i'=>'[alert class="$1"]$2[/alert]',
 	        '/<span class="label label-default (.*?)">(.*?)<\/span>/i'=>'[label class="$1"]$2[/label]',
 
+	        '/\[url=?(\'|\"|)(.*?)?(\'|\"|)\](.*?)\[\/url\]/i'=>'[url href="$2"]$4[/url]',
 	        '/<a.*?href="(.*?)".*?>(.*?)<\/a>/i'=>'[url href="$1"]$2[/url]',
 
 	        '/<img src="" alt="image" data-src="(.*?)".*?>/i'=>'[img]$1[/img]',
