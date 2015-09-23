@@ -56,6 +56,7 @@ class Route
                 if(!function_exists($func))
                 {
                     include($pluginPath);
+                }
 
                     $routeName=$loadData[$i]['content'];
 
@@ -69,15 +70,15 @@ class Route
 
                     if(preg_match('/'.$routeName.'/i', $uri))
                     {
+
                         $func();
 
                         exit;
                     }
-                }
+                
 
             }
         }
-
     }
 
     public static function add($routeName='',$functionName='',$method='function')
