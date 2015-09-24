@@ -17,10 +17,29 @@ class controlAdmincp
 			
 			$controlName='admincp/controlDashboard';
 
+			$default_adminpage_method=trim(System::getSetting('default_adminpage_method','none'));
+
+			if($default_adminpage_method=='url')
+			{
+				$default_adminpage=trim(System::getSetting('default_adminpage_url','admincp/'));
+
+				if($default_adminpage!='admincp/' && System::getUri()=='admincp/')
+				{
+					$beginUri='admincp';
+
+					if($default_adminpage[0]!='/')
+					{
+						$beginUri.='/';
+					}
+
+					System::setUri($beginUri.$default_adminpage);
+				}
+			}
+
 			if($match=Uri::match('^admincp\/(\w+)'))
 			{
 				$controlName='admincp/control'.ucfirst($match[1]);
-			}			
+			}		
 		}
 		else
 		{

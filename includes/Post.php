@@ -106,6 +106,8 @@ class Post
 					if(isset($row['content']))
 					{
 						$row['content']=String::decode($row['content']);
+
+						$row['content']=html_entity_decode($row['content']);
 						
 						$row['content']=Shortcode::loadInTemplate($row['content']);
 
@@ -186,7 +188,7 @@ class Post
 
 				if(isset($theRow['content']))
 				{
-					$theRow['content']=Shortcode::toBBCode($theRow['content']);
+					// $theRow['content']=Shortcode::toBBCode($theRow['content']);
 
 					$theRow['content']=String::encode($theRow['content']);
 				}
@@ -216,7 +218,7 @@ class Post
 
 			if(isset($inputData['content']))
 			{
-				$inputData['content']=Shortcode::toBBCode($inputData['content']);
+				// $inputData['content']=Shortcode::toBBCode($inputData['content']);
 
 				$inputData['content']=String::encode($inputData['content']);
 			}
@@ -300,8 +302,7 @@ class Post
 
 		if(isset($post['content']))
 		{
-			
-			$post['content']=Shortcode::toBBCode($post['content']);
+			// $post['content']=Shortcode::toBBCode($post['content']);
 
 			$post['content']=String::encode($post['content']);
 

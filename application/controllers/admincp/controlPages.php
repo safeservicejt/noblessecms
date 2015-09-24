@@ -91,6 +91,7 @@ class controlPages
 
 		$loadData=Pages::get(array(
 			'where'=>"where pageid='$pageid'",
+			'isHook'=>'no',
 			'cache'=>'no'
 			));
 

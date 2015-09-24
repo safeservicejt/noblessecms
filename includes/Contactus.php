@@ -124,7 +124,7 @@ class Contactus
 				{
 					$theRow['content']=strip_tags($theRow['content'],'<p><br><a>');
 					
-					$theRow['content']=Shortcode::toBBCode($theRow['content']);
+					// $theRow['content']=Shortcode::toBBCode($theRow['content']);
 
 					$theRow['content']=String::encode($theRow['content']);
 				}
@@ -151,7 +151,7 @@ class Contactus
 			{
 				$inputData['content']=strip_tags($inputData['content'],'<p><br><a>');
 
-				$inputData['content']=Shortcode::toBBCode($inputData['content']);
+				// $inputData['content']=Shortcode::toBBCode($inputData['content']);
 
 				$inputData['content']=String::encode($inputData['content']);
 			}
@@ -214,7 +214,7 @@ class Contactus
 		if(isset($post['content']))
 		{
 			
-			$post['content']=Shortcode::toBBCode($post['content']);
+			// $post['content']=Shortcode::toBBCode($post['content']);
 
 			$post['content']=String::encode(strip_tags($post['content'],'<p><br>'));
 

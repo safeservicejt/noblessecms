@@ -22,7 +22,6 @@ class PluginStoreApi
 
 		$loadData=Http::sendPostTo($server_url,$inputData);
 
-
 		return $loadData;
 
 	}

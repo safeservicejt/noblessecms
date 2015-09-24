@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="<?php echo ROOT_URL; ?>bootstrap/wysibb/theme/default/wbbtheme.css" />
 
+<script src="<?php echo ROOT_URL; ?>bootstrap/ckeditor/ckeditor.js"></script>
 
 <div class="panel panel-default">
   <div class="panel-heading">
@@ -117,12 +117,13 @@
     </div>
   </div>
 </div>
-<script src="<?php echo ROOT_URL; ?>bootstrap/wysibb/jquery.wysibb.min.js"></script>
-<script type="text/javascript">
-$(function() {
-  $("#editor").wysibb();
-})  
+<script>
+  // Replace the <textarea id="editor1"> with a CKEditor
+  // instance, using default configuration.
+  CKEDITOR.replace( 'editor' );
 </script>
+
+
   <script type="text/javascript">
             var root_url='<?php echo ROOT_URL;?>';
 

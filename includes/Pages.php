@@ -98,6 +98,8 @@ class Pages
 					{
 						$row['content']=String::decode($row['content']);
 						
+						$row['content']=html_entity_decode($row['content']);
+						
 						$row['content']=Shortcode::loadInTemplate($row['content']);
 
 						$row['content']=Shortcode::load($row['content']);
@@ -165,7 +167,7 @@ class Pages
 
 				if(isset($theRow['content']))
 				{
-					$theRow['content']=Shortcode::toBBCode($theRow['content']);
+					// $theRow['content']=Shortcode::toBBCode($theRow['content']);
 
 					$theRow['content']=String::encode($theRow['content']);
 				}
@@ -195,7 +197,7 @@ class Pages
 
 			if(isset($inputData['content']))
 			{
-				$inputData['content']=Shortcode::toBBCode($inputData['content']);
+				// $inputData['content']=Shortcode::toBBCode($inputData['content']);
 
 				$inputData['content']=String::encode($inputData['content']);
 			}
@@ -279,7 +281,7 @@ class Pages
 		if(isset($post['content']))
 		{
 			
-			$post['content']=Shortcode::toBBCode($post['content']);
+			// $post['content']=Shortcode::toBBCode($post['content']);
 
 			$post['content']=String::encode($post['content']);
 

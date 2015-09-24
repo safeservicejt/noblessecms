@@ -516,6 +516,8 @@ class Shortcode
 
 		$str=trim($str);
 
+		$str=html_entity_decode($str);
+
 		$str=String::clearSpace($str);
 
 		$str=preg_replace('/[\s]+\]/i', ']', $str);
@@ -619,7 +621,7 @@ class Shortcode
 	        '[/p][/p]' => '','[/p][/p][/p]' => '','[/p][/p][/p][/p]' => '',
 	        '[b]' => '<b>', '[/b]' => '</b>',
 	        '[b]' => '<strong>', '[/b]' => '</strong>',
-	       	'<newline>'=>"\r\n"
+	       	'<newline>'=>"\r\n", '[br]'=>'<br/>'
 
 
 	    );
@@ -641,6 +643,10 @@ class Shortcode
 	public static function toBBCode($str)
 	{
 		$str=trim($str);
+
+		$tmp=explode("\r\n", $str);
+
+		$str='[p]'.implode('[/p]'."\r\n".'[p]', $tmp).'[/p]';
 
 		$str=String::clearSpace($str);
 
@@ -684,9 +690,11 @@ class Shortcode
 	        '/<img src="" alt="image" data-src="(.*?)".*?>/i'=>'[img]$1[/img]',
 	        '/<img.*?src="(.*?)".*?>/i'=>'[img]$1[/img]',
 	        	   
+	        '/\r\n/'=>'[br]',
+	        	   
 	        '/<row>(.*?)<\/row>/is'=>'[row]$1[/row]',
 	        '/<col>(.*?)<\/col>/is'=>'[col]$1[/col]'
-	   
+	   	
 
 	    );
 
@@ -720,7 +728,8 @@ class Shortcode
 	        '[b]' => '<b>', '[/b]' => '</b>',
 
 	        '[b]' => '<strong>', '[/b]' => '</strong>',
-	        '' => '<br>', '' => '<br/>'
+	        '' => '<br>', '' => '<br/>',
+
 	    );	
 
     	$str = preg_replace(array_keys($regex), array_values($regex), $str);

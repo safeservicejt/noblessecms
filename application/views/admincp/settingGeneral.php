@@ -11,7 +11,8 @@
 		<ul class="nav nav-tabs" role="tablist">
 
 		  <li class="active"><a href="#general" role="tab" data-toggle="tab">General</a></li>
-		  <li class="active"><a href="#info" role="tab" data-toggle="tab">Site information</a></li>
+		  <li><a href="#info" role="tab" data-toggle="tab">Site information</a></li>
+		  <li><a href="#adminpage" role="tab" data-toggle="tab">Admin Page</a></li>
 		  <li><a href="#reading" role="tab" data-toggle="tab">Front Page</a></li>
 
 		</ul>
@@ -255,6 +256,32 @@
 		  </div>
 		  <!-- End Reading -->
 
+		  <!-- Admin Page -->
+		  
+		  <div class="tab-pane" id="adminpage">
+			
+		  	<p>
+		  		<strong>Default page:</strong>
+		  	</p>
+		  	<p>
+		  		<select class="form-control selectDefault_adminpage" id="default_adminpage_method"  name="general[default_adminpage_method]">
+		  		<option value="none">Home</option>
+		  		<option value="url">Custom uri</option>
+		  		</select>
+		  	</p>
+
+		  	<p class="default_adminpage" style="display:none;">
+		  	<strong>Post/pageid default:</strong> <br>
+		  		<input type="text" class="form-control" name="general[default_adminpage_url]" id="default_adminpage_url" value="<?php if(isset($default_adminpage_url))echo $default_adminpage_url;?>" placeholder="/post" />
+		  	</p>
+
+		  	<p>
+		  	<button type="submit" name="btnSave" class="btn btn-info">Save Changes</button>
+		  	</p>		  	
+		 
+		  </div>
+		  <!-- End Admin Page -->
+
 		</div>
 	
 		  
@@ -274,7 +301,7 @@ $(document).ready(function(){
 
 		var thisVal=$(this).val();
 
-		if(thisVal!='home')
+		if(thisVal!='none')
 		{
 			$('.default_page').show();
 		}
@@ -284,7 +311,22 @@ $(document).ready(function(){
 		}
 	});
 
+	$('.selectDefault_adminpage').change(function(){
 
+		var thisVal=$(this).val();
+
+		if(thisVal!='none')
+		{
+			$('.default_adminpage').show();
+		}
+		else
+		{
+			$('.default_adminpage').hide();
+		}
+	});
+
+
+	setSelect('default_adminpage_method','<?php if(isset($default_adminpage_method))echo $default_adminpage_method;?>');
 	setSelect('default_page_method','<?php echo $default_page_method;?>');
 	setSelect('rss_status','<?php echo $rss_status;?>');
 	setSelect('comment_status','<?php echo $comment_status;?>');

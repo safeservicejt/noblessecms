@@ -139,7 +139,11 @@
                         </div>
                         </div>
 
-                        </p> 
+                        </p>
+                <p>
+                    <label><strong>Sort Order</strong></label>
+                    <input type="text" class="form-control" name="update[sort_order]" value="<?php if(isset($edit['sort_order']))echo $edit['sort_order'];?>" placeholder="Sort order" id="txtOrder" />
+                </p>                         
                 <p>
                     <label><strong>Thumbnail</strong></label>
                     <input type="file" class="form-control" name="image" />
@@ -151,6 +155,7 @@
 
 	    		<p>
 	    			<button type="submit" class="btn btn-primary" name="btnSave">Save changes</button>
+                    <a href="<?php echo ADMINCP_URL;?>categories" class="btn btn-default pull-right">Back</a>
 	    		</p>   		
                 </form> 	
     		</div>

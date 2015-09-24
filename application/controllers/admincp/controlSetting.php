@@ -24,6 +24,7 @@ class controlSetting
 
 		if(Request::has('btnSave'))
 		{
+
 			System::saveSetting(Request::get('general'));
 		}
 

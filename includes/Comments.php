@@ -127,7 +127,7 @@ class Comments
 
 				if(isset($theRow['content']))
 				{
-					$theRow['content']=Shortcode::toBBCode($theRow['content']);
+					// $theRow['content']=Shortcode::toBBCode($theRow['content']);
 
 					$theRow['content']=String::encode($theRow['content']);
 				}
@@ -155,7 +155,7 @@ class Comments
 
 			if(isset($inputData['content']))
 			{
-				$inputData['content']=Shortcode::toBBCode($inputData['content']);
+				// $inputData['content']=Shortcode::toBBCode($inputData['content']);
 
 				$inputData['content']=String::encode($inputData['content']);
 			}
@@ -222,7 +222,7 @@ class Comments
 	{
 		if(isset($post['content']))
 		{
-			$post['content']=Shortcode::toBBCode($post['content']);
+			// $post['content']=Shortcode::toBBCode($post['content']);
 
 			$post['content']=String::encode(strip_tags($post['content'],'<p><br>'));
 		}
