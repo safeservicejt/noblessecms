@@ -30,7 +30,7 @@ class Match
 	{
 		$result=array();
 
-		if(preg_match_all('/([a-zA-Z0-9_\_\.]+\@[a-zA-Z0-9_\.\-]+)/i', $inputData, $matches))
+		if(preg_match_all('/([a-zA-Z0-9_\-\_\.]+\@[a-zA-Z0-9_\-\.\-]+\.\w+)/i', $inputData, $matches))
 		{
 			$result=$matches[1];
 		}

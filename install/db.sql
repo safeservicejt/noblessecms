@@ -73,30 +73,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
 INSERT INTO `categories` (`catid`, `title`, `friendly_url`, `parentid`, `image`, `sort_order`, `date_added`, `status`) VALUES
 (15, 'United', 'United', '0', '/uploads/images/2231793638/post_2.jpg', 15, '2015-01-18 07:57:36', 1),
 (19, 'Cat 1', 'Cat_1', '0', NULL, 0, '2015-03-31 09:41:40', 1),
-(20, 'Cat 2 test', 'Cat-2-test', '0', NULL, 0, '2015-03-31 09:41:42', 1),
-(21, 'Action', 'Action', '0', NULL, 0, '2015-09-06 08:33:26', 1),
-(22, 'Adventure', 'Adventure', '0', NULL, 0, '2015-09-10 09:15:12', 1),
-(23, 'Fantasy', 'Fantasy', '0', NULL, 0, '2015-09-10 09:15:12', 1),
-(24, 'Harem', 'Harem', '0', NULL, 0, '2015-09-10 09:15:12', 1),
-(25, 'Romance', 'Romance', '0', NULL, 0, '2015-09-10 09:15:12', 1),
-(26, 'Seinen', 'Seinen', '0', NULL, 0, '2015-09-10 09:15:12', 1),
-(27, 'Comedy', 'Comedy', '0', NULL, 0, '2015-09-10 09:15:16', 1),
-(28, 'Martial Arts', 'Martial-Arts', '0', NULL, 0, '2015-09-10 09:15:16', 1),
-(29, 'School Life', 'School-Life', '0', NULL, 0, '2015-09-10 09:15:16', 1),
-(30, 'Shounen', 'Shounen', '0', NULL, 0, '2015-09-10 09:15:16', 1),
-(31, 'Supernatural', 'Supernatural', '0', NULL, 0, '2015-09-10 09:15:17', 1),
-(32, 'Sci-fi', 'Sci-fi', '0', NULL, 0, '2015-09-10 09:15:35', 1),
-(33, 'Drama', 'Drama', '0', NULL, 0, '2015-09-10 09:15:52', 1),
-(34, 'Mature', 'Mature', '0', NULL, 0, '2015-09-10 09:15:52', 1),
-(35, 'Psychological', 'Psychological', '0', NULL, 0, '2015-09-10 09:15:52', 1),
-(36, 'Tragedy', 'Tragedy', '0', NULL, 0, '2015-09-10 09:15:53', 1),
-(37, 'Ecchi', 'Ecchi', '0', NULL, 0, '2015-09-10 09:16:10', 1),
-(38, 'Sports', 'Sports', '0', NULL, 0, '2015-09-10 09:16:14', 1),
-(39, 'Gender Bender', 'Gender-Bender', '0', NULL, 0, '2015-09-10 09:16:33', 1),
-(40, 'Mystery', 'Mystery', '0', NULL, 0, '2015-09-10 09:16:33', 1),
-(41, 'Horror', 'Horror', '0', NULL, 0, '2015-09-10 09:17:06', 1),
-(42, 'Historical', 'Historical', '0', NULL, 0, '2015-09-10 09:18:16', 1),
-(43, 'Shoujo', 'Shoujo', '0', NULL, 0, '2015-09-10 09:18:16', 1);
+(20, 'Cat 2 test', 'Cat-2-test', '0', NULL, 0, '2015-03-31 09:41:42', 1);
 
 -- --------------------------------------------------------
 

@@ -2,7 +2,7 @@
 
 class Cronjobs
 {
-	//Cronjobs::add(5,'min',ROOT_PATH.'ac.php','autoPostProcess');
+	//Cronjobs::add(ROOT_PATH.'ac.php','autoPostProcess',5,'minutes')
 
 	public static function get($inputData=array())
 	{
@@ -190,6 +190,14 @@ class Cronjobs
 			return false;
 		}
 
+		$timeType=($timeType=='min')?'minutes':$timeType;
+		$timeType=($timeType=='mins')?'minutes':$timeType;
+		$timeType=($timeType=='hour')?'hours':$timeType;
+		$timeType=($timeType=='day')?'days':$timeType;
+		$timeType=($timeType=='month')?'months':$timeType;
+		$timeType=($timeType=='year')?'years':$timeType;
+
+
 		$timeDB=array('minutes','hours','days','months','years');
 
 		if(!in_array($timeType, $timeDB))
@@ -209,12 +217,6 @@ class Cronjobs
 
 		$totalTime=$timeInterval;
 
-		$timeType=($timeType=='min')?'minutes':$timeType;
-		$timeType=($timeType=='mins')?'minutes':$timeType;
-		$timeType=($timeType=='hour')?'hours':$timeType;
-		$timeType=($timeType=='day')?'days':$timeType;
-		$timeType=($timeType=='month')?'months':$timeType;
-		$timeType=($timeType=='year')?'years':$timeType;
 
 		switch ($timeType) {
 			case 'hours':

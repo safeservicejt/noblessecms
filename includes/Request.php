@@ -232,6 +232,7 @@ class Request
 
     public static function has($reqName = '')
     {
+        self::parseGetData();
 
         if(!is_array($reqName))
         {

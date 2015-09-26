@@ -42,27 +42,6 @@ class Database
         self::$use_prefix='yes';
     }
 
-    public static function genPrefix($queryStr='')
-    {
-        $tablelist=array(
-            'address','categories','comments','contactus','country','coupons','cronjobs','currency','downloads','layouts','links','manufacturers','orders','orders_products','pages','payment_methods','plugins','plugins_meta','post','post_categories','post_images','post_tags','products','products_categories','products_downloads','products_images','products_pages','products_tags','request_payments','reviews','server_setting','tax_rates','usergroups','users','vouchers'
-            );
-
-        $replaces=array();
-
-        $total=count($tablelist);
-
-        for ($i=0; $i < $total; $i++) { 
-            $theTable=$tablelist[$i];
-
-            $replaces[$theTable]=self::$prefix.$theTable;
-        }
-
-        $queryStr=str_replace(array_keys($replaces), array_values($replaces), $queryStr);
-
-        return $queryStr;
-    }
-
     public static function getTotalQuery()
     {
         return self::$totalQuery;
@@ -86,11 +65,20 @@ class Database
 
     public static function addField($table='',$keyName='',$inputData=array())
     {
+        /*
+        Database::addField('post','total_likes',array(
+            'type'=>'INT',
+            'length'=>10,
+            'default'=>0
+        ));
+
+        */
+
         $queryCMD='ALTER TABLE '.$table.' ADD '.$keyName.' ';
 
         $dataType=isset($inputData['type'])?$inputData['type']:'INT';
 
-        $dataLen=isset($inputData['len'])?'('.$inputData['length'].')':'';
+        $dataLen=isset($inputData['length'])?'('.$inputData['length'].')':'';
 
         $fieldType=$dataType.$dataLen;
 
