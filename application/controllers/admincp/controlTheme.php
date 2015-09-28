@@ -224,14 +224,14 @@ class controlTheme
 
 			$themeName=$matchCtr[1];
 
-			$path=THEMES_PATH.$theName.'cp/controller/control'.ucfirst($controllerName).'.php';
+			$path=THEMES_PATH.$themeName.'/cp/controller/control'.ucfirst($controllerName).'.php';
 
 			if(!file_exists($path))
 			{
 				Alert::make('Controller <b>'.$controllerName.'</b> of theme '.$themeName.' not found.');
 			}
 
-			define("THEME_CP_PATH", THEMES_PATH.$theName.'cp/');
+			define("THEME_CP_PATH", THEMES_PATH.$themeName.'cp/');
 
 			$post['file']=$path;
 
