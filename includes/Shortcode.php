@@ -437,7 +437,7 @@ class Shortcode
 					if(isset($attr[1]))
 					{
 						// die($attr);
-						if(preg_match_all('/(\w+)\=[\'|\"](.*?)[\'|\"]/i', $attr, $matchAttrs))
+						if(preg_match_all('/(\w+)\=(\'|\"|)([a-zA-Z0-9_\-\_\=\.\/\:\;\>\<\!\@\#\$\%\^\&\*\(\)\s]+)(\'|\"|)/i', $attr, $matchAttrs))
 						{
 
 							$totalAttr=count($matchAttrs[1]);
@@ -445,7 +445,7 @@ class Shortcode
 							for ($j=0; $j < $totalAttr; $j++) { 
 								$theKey=$matchAttrs[1][$j];
 
-								$result[$i]['attr'][$theKey]=$matchAttrs[2][$j];
+								$result[$i]['attr'][$theKey]=$matchAttrs[3][$j];
 							}
 						}
 					}
@@ -478,7 +478,7 @@ class Shortcode
 				if(isset($attr[1]))
 				{
 					// die($attr);
-					if(preg_match_all('/(\w+)\=[\'|\"](.*?)[\'|\"]/i', $attr, $matchAttrs))
+					if(preg_match_all('/(\w+)\=(\'|\"|)([a-zA-Z0-9_\-\_\=\.\/\:\;\>\<\!\@\#\$\%\^\&\*\(\)\s]+)(\'|\"|)/i', $attr, $matchAttrs))
 					{
 
 						$totalAttr=count($matchAttrs[1]);
@@ -486,7 +486,7 @@ class Shortcode
 						for ($j=0; $j < $totalAttr; $j++) { 
 							$theKey=$matchAttrs[1][$j];
 
-							$result[$i]['attr'][$theKey]=$matchAttrs[2][$j];
+							$result[$i]['attr'][$theKey]=$matchAttrs[3][$j];
 						}
 					}
 				}
