@@ -222,6 +222,16 @@ class Categories
 
 	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
+
+		if(is_numeric($listID))
+		{
+			$catid=$listID;
+
+			unset($listID);
+
+			$listID=array($catid);
+		}
+
 		if(isset($post['title']))
 		{
 			$post['title']=String::encode(strip_tags($post['title']));
@@ -232,20 +242,12 @@ class Categories
 				'where'=>"where friendly_url='".$post['friendly_url']."'"
 				));
 
-			if(isset($loadPost[0]['catid']) && $loadPost[0]['catid']<>$listID[0])
+			if(isset($loadPost[0]['catid']) && (int)$loadPost[0]['catid']<>(int)$listID[0])
 			{
 				return false;
 			}			
 		}		
 
-		if(is_numeric($listID))
-		{
-			$catid=$listID;
-
-			unset($listID);
-
-			$listID=array($catid);
-		}
 
 		$listIDs="'".implode("','",$listID)."'";		
 				

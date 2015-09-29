@@ -221,7 +221,6 @@ class Shortcode
 
 				$resultSC=self::parseProcess($scName,$content);
 
-				// print_r($theShortcode);die();
 				$totalResult=count($resultSC);
 				
 				$replaces=array();
@@ -235,6 +234,7 @@ class Shortcode
 					$resultData='';
 				}
 
+				
 				$content=str_replace(array_keys($replaces), array_values($replaces), $content);
 
 

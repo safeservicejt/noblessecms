@@ -262,6 +262,18 @@ class Pages
 
 	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
+
+		if(is_numeric($listID))
+		{
+			$catid=$listID;
+
+			unset($listID);
+
+			$listID=array($catid);
+		}
+
+		$listIDs="'".implode("','",$listID)."'";
+				
 		if(isset($post['title']))
 		{
 			$post['title']=String::encode(strip_tags($post['title']));
@@ -272,7 +284,7 @@ class Pages
 				'where'=>"where friendly_url='".$post['friendly_url']."'"
 				));
 
-			if(isset($loadPage[0]['pageid']) && $loadPage[0]['pageid']<>$listID[0])
+			if(isset($loadPage[0]['pageid']) && (int)$loadPage[0]['pageid']<>(int)$listID[0])
 			{
 				return false;
 			}
@@ -286,17 +298,7 @@ class Pages
 			$post['content']=String::encode($post['content']);
 
 		}
-
-		if(is_numeric($listID))
-		{
-			$catid=$listID;
-
-			unset($listID);
-
-			$listID=array($catid);
-		}
-
-		$listIDs="'".implode("','",$listID)."'";		
+		
 				
 		$keyNames=array_keys($post);
 
