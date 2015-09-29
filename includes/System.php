@@ -114,9 +114,12 @@ class System
 
 				self::setUri('/');
 
-				// header("Location: ".self::getUrl());
+				if(!isset($_COOKIE['theme_name']))
+				{
+					header("Location: ".self::getUrl());
 
-				// exit();
+					exit();
+				}
 
 			}
 			else
@@ -345,6 +348,7 @@ class System
 	public static function getThemeName()
 	{
 		$url=isset($_COOKIE['theme_name'])?$_COOKIE['theme_name']:THEME_NAME;
+
 
 		return $url;
 	}
