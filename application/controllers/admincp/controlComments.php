@@ -52,7 +52,7 @@ class controlComments
 			$post['theList']=Comments::get(array(
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
-				'query'=>"select c.*,p.title from post p,comments c where c.postid=p.postid order by c.commentid desc",
+				'query'=>"select c.*,p.title from ".Database::getPrefix()."post p,".Database::getPrefix()."comments c where c.postid=p.postid order by c.commentid desc",
 				'cacheTime'=>1
 				));
 		}
@@ -78,7 +78,7 @@ class controlComments
 		$commentid=$match[1];
 
 		$loadData=Comments::get(array(
-			'query'=>"select p.title,c.* from post p,comments c where p.postid=c.postid AND c.commentid='$commentid'"
+			'query'=>"select p.title,c.* from ".Database::getPrefix()."post p,".Database::getPrefix()."comments c where p.postid=c.postid AND c.commentid='$commentid'"
 			));
 
 		$post['edit']=$loadData[0];

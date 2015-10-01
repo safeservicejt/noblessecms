@@ -73,7 +73,7 @@ class controlPost
 			$post['theList']=Post::get(array(
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
-				'query'=>"select p.*,u.username,c.title as cattitle from post p left join users u on p.userid=u.userid join categories c on p.catid=c.catid $filterPending order by p.postid desc",
+				'query'=>"select p.*,u.username,c.title as cattitle from ".Database::getPrefix()."post p left join users u on p.userid=u.userid join ".Database::getPrefix()."categories c on p.catid=c.catid $filterPending order by p.postid desc",
 				'cache'=>'no'
 				));
 
@@ -119,7 +119,7 @@ class controlPost
 		$loadData=Post::get(array(
 			'cache'=>'no',
 			'isHook'=>'no',
-			'query'=>"select p.*,c.title as cattitle from post p,categories c where p.catid=c.catid AND p.postid='$postid'"
+			'query'=>"select p.*,c.title as cattitle from ".Database::getPrefix()."post p,".Database::getPrefix()."categories c where p.catid=c.catid AND p.postid='$postid'"
 			));
 
 		$post['edit']=$loadData[0];

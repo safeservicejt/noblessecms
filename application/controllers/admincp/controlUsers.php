@@ -41,10 +41,19 @@ class controlUsers
 		{
 			$post['pages']=Misc::genSmallPage('admincp/users',$curPage);
 
+			$prefix='';
+
+			$prefixall=Database::isPrefixAll();
+
+			if($prefixall!=false || $prefixall=='no')
+			{
+				$prefix=Database::getPrefix();
+			}			
+
 			$post['theList']=Users::get(array(
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
-				'query'=>"select u.*,ug.*,a.* from users u,usergroups ug,address a where u.groupid=ug.groupid AND u.userid=a.userid order by u.userid desc",
+				'query'=>"select u.*,ug.*,a.* from ".$prefix."users u,".$prefix."usergroups ug,address a where u.groupid=ug.groupid AND u.userid=a.userid order by u.userid desc",
 				'cacheTime'=>1
 				));
 		}
@@ -118,10 +127,17 @@ class controlUsers
 			$post['alert']='<div class="alert alert-success">Save change password success.</div>';
 		}
 
+		$prefix='';
 
+		$prefixall=Database::isPrefixAll();
+
+		if($prefixall!=false || $prefixall=='no')
+		{
+			$prefix=Database::getPrefix();
+		}	
 
 		$loadData=Users::get(array(
-				'query'=>"select u.*,ug.*,a.* from users u,usergroups ug,address a where u.groupid=ug.groupid AND u.userid=a.userid AND u.userid='$userid' order by u.userid desc",
+				'query'=>"select u.*,ug.*,a.* from ".$prefix."users u,".$prefix."usergroups ug,".$prefix."address a where u.groupid=ug.groupid AND u.userid=a.userid AND u.userid='$userid' order by u.userid desc",
 				'cache'=>'no'
 
 			));
@@ -167,10 +183,17 @@ class controlUsers
 			Users::changePassword($userid,Request::get('password',''));
 		}
 
+		$prefix='';
 
+		$prefixall=Database::isPrefixAll();
+
+		if($prefixall!=false || $prefixall=='no')
+		{
+			$prefix=Database::getPrefix();
+		}
 
 		$loadData=Users::get(array(
-				'query'=>"select u.*,ug.*,a.* from users u,usergroups ug,address a where u.groupid=ug.groupid AND u.userid=a.userid AND u.userid='$userid' order by u.userid desc",
+				'query'=>"select u.*,ug.*,a.* from ".$prefix."users u,".$prefix."usergroups ug,".$prefix."address a where u.groupid=ug.groupid AND u.userid=a.userid AND u.userid='$userid' order by u.userid desc",
 
 			));
 
