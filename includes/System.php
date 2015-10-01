@@ -8,6 +8,8 @@ class System
 
 	public static $setting=array();
 
+	public static $themeConfig=array();
+
 	public static $adminTitle='Cpanel Noblesse CMS';
 
 	public static $listVar=array('global'=>array());
@@ -49,6 +51,10 @@ class System
 
 		self::checkTheme();
 
+		Theme::checkThemeConfig();
+
+		Theme::loadThemeConfig('before_load_database');
+
 		// self::checkCurrency();
 
 		self::checkLang();
@@ -68,11 +74,12 @@ class System
 		Shortcode::loadInSystem();
 
 		Route::loadFromPlugin();
-		
 
 		self::visitorStatus();
 
 		self::userStatus();
+
+		Theme::loadThemeConfig('after_load_database');
 		
 	}
 

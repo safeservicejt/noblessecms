@@ -15,6 +15,8 @@ define("SYSTEM_VERSION", '2.0');
 
 define("ADMINCP_TITLE", 'Cpanel Noblesse CMS');
 
+define("PREFIX", '');
+
 require('./config.php');
 
 require(ROOT_PATH . 'routes.php');

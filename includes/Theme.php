@@ -43,6 +43,48 @@ class Theme
         } 
 	}
 
+	public static function checkThemeConfig()
+	{
+		$themePath=System::getThemePath();
+
+		if(!file_exists($themePath.'config.php'))
+		{
+			return false;
+		}
+
+		include($themePath.'config.php');
+
+		if(!class_exists('ThemeConfig'))
+		{
+			return false;
+		}
+
+		System::$themeConfig=ThemeConfig::index();
+
+	}
+
+	public static function loadThemeConfig($method='before_load_database')
+	{
+		if(!isset(System::$themeConfig[$method]))
+		{
+			return false;
+		}
+
+		$func=System::$themeConfig[$method];
+
+		if(!isset($func[2]))
+		{
+			return false;
+		}
+
+		if(!method_exists('ThemeConfig', $func))
+		{
+			return false;
+		}
+
+		ThemeConfig::$func();
+	}
+
     public static function checkThemePrefix()
     {   
     	$themeName=System::getThemeName();
