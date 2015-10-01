@@ -30,7 +30,7 @@ class Categories
 
 		$result=array();
 		
-		$command="select $selectFields from categories $whereQuery";
+		$command="select $selectFields from ".Database::getPrefix()."categories $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -173,7 +173,7 @@ class Categories
 			$addMultiAgrs="($insertValues)";	
 		}		
 
-		Database::query("insert into categories($insertKeys) values".$addMultiAgrs);
+		Database::query("insert into ".Database::getPrefix()."categories($insertKeys) values".$addMultiAgrs);
 
 		DBCache::removeDir('system/category');
 
@@ -209,7 +209,7 @@ class Categories
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$command="delete from categories where $whereQuery $addWhere";
+		$command="delete from ".Database::getPrefix()."categories where $whereQuery $addWhere";
 
 		Database::query($command);	
 
@@ -269,7 +269,7 @@ class Categories
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("update categories set $setUpdates where $whereQuery $addWhere");
+		Database::query("update ".Database::getPrefix()."categories set $setUpdates where $whereQuery $addWhere");
 
 		// DBCache::removeDir('system/category');
 

@@ -31,6 +31,20 @@ class Security
             Alert::make('Page not found');
         }
     }
+
+    public static function blockAllRefer()
+    {
+        $selfIP=$_SERVER['SERVER_ADDR'];
+
+        $remoteIP=$_SERVER['REMOTE_ADDR'];
+
+        if($selfIP!=$remoteIP)
+        {
+            return false;
+        }
+
+        return true;
+    }
     
     public static function allowOnlyRefer($inputData)
     {

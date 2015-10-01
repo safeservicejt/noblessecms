@@ -29,8 +29,17 @@ class Users
 		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by date_added desc';
 
 		$result=array();
-		
-		$command="select $selectFields from users $whereQuery";
+
+		$prefix='';
+
+		$prefixall=Database::isPrefixAll();
+
+		if($prefixall!=false || $prefixall=='no')
+		{
+			$prefix=Database::getPrefix();
+		}
+
+		$command="select $selectFields from ".$prefix."users $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -523,12 +532,30 @@ class Users
 
 	public static function upBalance($userid,$money)
 	{
-		Database::query("update users set balance=balance+$money where userid='$userid'");
+		$prefix='';
+
+		$prefixall=Database::isPrefixAll();
+
+		if($prefixall!=false || $prefixall=='no')
+		{
+			$prefix=Database::getPrefix();
+		}
+
+		Database::query("update ".$prefix."users set balance=balance+$money where userid='$userid'");
 	}
 
 	public static function downBalance($userid,$money)
 	{
-		Database::query("update users set balance=balance-$money where userid='$userid'");
+		$prefix='';
+
+		$prefixall=Database::isPrefixAll();
+
+		if($prefixall!=false || $prefixall=='no')
+		{
+			$prefix=Database::getPrefix();
+		}
+
+		Database::query("update ".$prefix."users set balance=balance-$money where userid='$userid'");
 	}
 
 
@@ -594,9 +621,18 @@ class Users
 			$addMultiAgrs="($insertValues)";	
 		}		
 
-		Database::query("insert into users($insertKeys) values".$addMultiAgrs);
+		$prefix='';
 
-		DBCache::removeDir('system/user');
+		$prefixall=Database::isPrefixAll();
+
+		if($prefixall!=false || $prefixall=='no')
+		{
+			$prefix=Database::getPrefix();
+		}
+
+		Database::query("insert into ".$prefix."users($insertKeys) values".$addMultiAgrs);
+
+		// DBCache::removeDir('system/user');
 
 		if(!$error=Database::hasError())
 		{
@@ -630,7 +666,16 @@ class Users
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$command="delete from users where $whereQuery $addWhere";
+		$prefix='';
+
+		$prefixall=Database::isPrefixAll();
+
+		if($prefixall!=false || $prefixall=='no')
+		{
+			$prefix=Database::getPrefix();
+		}
+
+		$command="delete from ".$prefix."users where $whereQuery $addWhere";
 
 		Database::query($command);	
 
@@ -672,8 +717,17 @@ class Users
 		$whereQuery=isset($whereQuery[5])?$whereQuery:"userid in ($listIDs)";
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
+		
+		$prefix='';
 
-		Database::query("update users set $setUpdates where $whereQuery $addWhere");
+		$prefixall=Database::isPrefixAll();
+
+		if($prefixall!=false || $prefixall=='no')
+		{
+			$prefix=Database::getPrefix();
+		}
+
+		Database::query("update ".$prefix."users set $setUpdates where $whereQuery $addWhere");
 
 		// DBCache::removeDir('system/user');
 

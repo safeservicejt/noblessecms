@@ -30,7 +30,7 @@ class Comments
 
 		$result=array();
 		
-		$command="select $selectFields from comments $whereQuery";
+		$command="select $selectFields from ".Database::getPrefix()."comments $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -171,7 +171,7 @@ class Comments
 			$addMultiAgrs="($insertValues)";	
 		}		
 
-		Database::query("insert into comments($insertKeys) values".$addMultiAgrs);
+		Database::query("insert into ".Database::getPrefix()."comments($insertKeys) values".$addMultiAgrs);
 
 		DBCache::removeDir('system/comment');
 
@@ -207,7 +207,7 @@ class Comments
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$command="delete from comments where $whereQuery $addWhere";
+		$command="delete from ".Database::getPrefix()."comments where $whereQuery $addWhere";
 
 		Database::query($command);
 
@@ -256,7 +256,7 @@ class Comments
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("update comments set $setUpdates where $whereQuery $addWhere");
+		Database::query("update ".Database::getPrefix()."comments set $setUpdates where $whereQuery $addWhere");
 
 		// DBCache::removeDir('system/comment');
 

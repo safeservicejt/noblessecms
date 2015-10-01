@@ -17,6 +17,7 @@ class Route
 
     public static $canRemove='no';
 
+
     public static function loadFromPlugin()
     {
         $loadData=array();

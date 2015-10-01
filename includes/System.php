@@ -97,6 +97,33 @@ class System
 		}
 
 	}
+
+	public static function setTheme($themeName='',$redirect='no')
+	{
+		if(!isset($themeName[1]))
+		{
+			return false;
+		}
+
+		$path=THEMES_PATH.$curName;
+
+		if(is_dir($path))
+		{
+			// $_COOKIE['theme_name']=$curName;
+
+			Cookie::make('theme_name',$curName,1440*7);
+
+			self::setUri('/');
+
+			if(!isset($_COOKIE['theme_name']) && $redirect!='no')
+			{
+				header("Location: ".self::getUrl());
+
+				exit();
+			}
+
+		}		
+	}
 	
 	public static function checkTheme()
 	{

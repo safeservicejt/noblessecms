@@ -57,8 +57,17 @@ class UserGroups
 		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by groupid desc';
 
 		$result=array();
-		
-		$command="select $selectFields from usergroups $whereQuery";
+
+		$prefix='';
+
+		$prefixall=Database::isPrefixAll();
+
+		if($prefixall!=false || $prefixall=='no')
+		{
+			$prefix=Database::getPrefix();
+		}
+
+		$command="select $selectFields from ".$prefix."usergroups $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -138,7 +147,17 @@ class UserGroups
 	}	
 	public static function loadGroup($groupid)
 	{
-		if(!$loadData=Cache::loadKey('userGroup_'.$groupid,-1))
+
+		$prefix='';
+
+		$prefixall=Database::isPrefixAll();
+
+		if($prefixall!=false || $prefixall=='no')
+		{
+			$prefix=Database::getPrefix();
+		}
+				
+		if(!$loadData=Cache::loadKey($prefix.'userGroup_'.$groupid,-1))
 		{
 			$loadData=self::get(array(
 				'cache'=>'yes',
@@ -444,12 +463,22 @@ class UserGroups
 	
 	public static function getPermission($groupid,$keyName='')
 	{
+
+		$prefix='';
+
+		$prefixall=Database::isPrefixAll();
+
+		if($prefixall!=false || $prefixall=='no')
+		{
+			$prefix=Database::getPrefix();
+		}
+
 		$loadData=array();
 
 		if(!isset(self::$groupData['groupdata']))
 		{
 
-			if(!$loadData=Cache::loadKey('userGroup_'.$groupid,-1))
+			if(!$loadData=Cache::loadKey($prefix.'userGroup_'.$groupid,-1))
 			{
 				$loadData=self::get(array(
 					'cache'=>'no',
@@ -625,11 +654,20 @@ class UserGroups
 			$insertValues="'".implode("','", $keyValues)."'";	
 
 			$addMultiAgrs="($insertValues)";	
-		}		
+		}	
 
-		Database::query("insert into usergroups($insertKeys) values".$addMultiAgrs);
+		$prefix='';
 
-		DBCache::removeDir('system/usergroup');
+		$prefixall=Database::isPrefixAll();
+
+		if($prefixall!=false || $prefixall=='no')
+		{
+			$prefix=Database::getPrefix();
+		}
+
+		Database::query("insert into ".$prefix."usergroups($insertKeys) values".$addMultiAgrs);
+
+		// DBCache::removeDir('system/usergroup');
 
 		if(!$error=Database::hasError())
 		{
@@ -637,7 +675,7 @@ class UserGroups
 
 			$inputData['groupdata']=self::lineToArray($inputData['groupdata']);
 
-			Cache::saveKey('userGroup_'.$id,serialize($inputData));
+			Cache::saveKey($prefix.'userGroup_'.$id,serialize($inputData));
 
 			return $id;	
 		}
@@ -668,19 +706,28 @@ class UserGroups
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$command="delete from usergroups where $whereQuery $addWhere";
+		$prefix='';
+
+		$prefixall=Database::isPrefixAll();
+
+		if($prefixall!=false || $prefixall=='no')
+		{
+			$prefix=Database::getPrefix();
+		}
+
+		$command="delete from ".$prefix."usergroups where $whereQuery $addWhere";
 
 		Database::query($command);	
 
 		// DBCache::removeDir('system/usergroup');
 		
-		DBCache::removeCache($listID,'system/usergroup');
+		// DBCache::removeCache($listID,'system/usergroup');
 
 		for ($i=0; $i < $total; $i++) { 
 
 			$id=$post[$i];
 
-			Cache::removeKey('userGroup_'.$id);
+			Cache::removeKey($prefix.'userGroup_'.$id);
 		}
 
 		return true;
@@ -723,11 +770,20 @@ class UserGroups
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("update usergroups set $setUpdates where $whereQuery $addWhere");
+		$prefix='';
+
+		$prefixall=Database::isPrefixAll();
+
+		if($prefixall!=false || $prefixall=='no')
+		{
+			$prefix=Database::getPrefix();
+		}
+
+		Database::query("update ".$prefix."usergroups set $setUpdates where $whereQuery $addWhere");
 
 		// DBCache::removeDir('system/usergroup');
 
-		DBCache::removeCache($listIDs,'system/usergroup');
+		// DBCache::removeCache($listIDs,'system/usergroup');
 
 		if(!$error=Database::hasError())
 		{
@@ -740,7 +796,7 @@ class UserGroups
 			for ($i=0; $i < $total; $i++) { 
 
 				$loadData[$i]['groupdata']=self::lineToArray($loadData[$i]['groupdata']);
-				Cache::saveKey('userGroup_'.$loadData[$i]['groupid'],serialize($loadData[$i]));
+				Cache::saveKey($prefix.'userGroup_'.$loadData[$i]['groupid'],serialize($loadData[$i]));
 			}
 
 			return true;

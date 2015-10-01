@@ -30,7 +30,7 @@ class PostTags
 
 		$result=array();
 		
-		$command="select $selectFields from post_tags $whereQuery";
+		$command="select $selectFields from ".Database::getPrefix()."post_tags $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -128,9 +128,11 @@ class PostTags
 	public static function renderToLink($postid)
 	{
 		$loadData=self::get(array(
+			'cache'=>'yes',
+			'cacheTime'=>30,
 			'where'=>"where postid='$postid'"
 			));
-
+		
 		if(!isset($loadData[0]['postid']))
 		{
 			return '';
@@ -139,12 +141,13 @@ class PostTags
 		$total=count($loadData);
 
 		$li='';
-
+		
 		for ($i=0; $i < $total; $i++) { 
 			$li.='<a href="'.self::url($loadData[$i]).'">'.$loadData[$i]['title'].'</a>, ';
 		}
-		
+
 		$li=substr($li, 0,strlen($li)-2);
+	
 
 		return $li;
 	}
@@ -201,7 +204,7 @@ class PostTags
 			$addMultiAgrs="($insertValues)";	
 		}		
 
-		Database::query("insert into post_tags($insertKeys) values".$addMultiAgrs);
+		Database::query("insert into ".Database::getPrefix()."post_tags($insertKeys) values".$addMultiAgrs);
 
 		DBCache::removeDir('system/posttag');
 
@@ -237,7 +240,7 @@ class PostTags
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$command="delete from post_tags where $whereQuery $addWhere";
+		$command="delete from ".Database::getPrefix()."post_tags where $whereQuery $addWhere";
 
 		Database::query($command);	
 
@@ -284,11 +287,11 @@ class PostTags
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("update post_tags set $setUpdates where $whereQuery $addWhere");
+		Database::query("update ".Database::getPrefix()."post_tags set $setUpdates where $whereQuery $addWhere");
 
 		// DBCache::removeDir('system/posttag');
 
-		DBCache::removeCache($listIDs,'system/posttag');
+		// DBCache::removeCache($listIDs,'system/posttag');
 
 		if(!$error=Database::hasError())
 		{

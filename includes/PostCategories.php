@@ -30,7 +30,7 @@ class PostCategories
 
 		$result=array();
 		
-		$command="select $selectFields from post_categories $whereQuery";
+		$command="select $selectFields from ".Database::getPrefix()."post_categories $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -134,7 +134,7 @@ class PostCategories
 			$addMultiAgrs="($insertValues)";	
 		}		
 
-		Database::query("insert into post_categories($insertKeys) values".$addMultiAgrs);
+		Database::query("insert into ".Database::getPrefix()."post_categories($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
@@ -168,7 +168,7 @@ class PostCategories
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$command="delete from post_categories where $whereQuery $addWhere";
+		$command="delete from ".Database::getPrefix()."post_categories where $whereQuery $addWhere";
 
 		Database::query($command);	
 
@@ -207,7 +207,7 @@ class PostCategories
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("update post_categories set $setUpdates where $whereQuery $addWhere");
+		Database::query("update ".Database::getPrefix()."post_categories set $setUpdates where $whereQuery $addWhere");
 
 		if(!$error=Database::hasError())
 		{

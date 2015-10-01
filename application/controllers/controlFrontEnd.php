@@ -11,13 +11,19 @@ class controlFrontEnd
 		// 	echo $match[1];
 		// }
 
-		$themePath=System::getThemePath().'index.php';
+		$themePath=System::getThemePath();
 
-		if(file_exists($themePath))
+		$indexPath=$themePath.'index.php';
+
+		if(file_exists($indexPath))
 		{
+			Theme::checkDomain();
+			
+			Theme::checkThemePrefix();
+
 			Theme::loadShortCode();
 
-			include($themePath);
+			include($indexPath);
 		}
 		else
 		{

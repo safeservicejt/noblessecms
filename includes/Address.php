@@ -30,7 +30,7 @@ class Address
 
 		$result=array();
 		
-		$command="select $selectFields from address $whereQuery";
+		$command="select $selectFields from ".Database::getPrefix()."address $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -142,7 +142,7 @@ class Address
 			$addMultiAgrs="($insertValues)";	
 		}		
 
-		Database::query("insert into address($insertKeys) values".$addMultiAgrs);
+		Database::query("insert into ".Database::getPrefix()."address($insertKeys) values".$addMultiAgrs);
 
 		DBCache::removeDir('system/address');
 
@@ -178,7 +178,7 @@ class Address
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$command="delete from address where $whereQuery $addWhere";
+		$command="delete from ".Database::getPrefix()."address where $whereQuery $addWhere";
 
 		Database::query($command);	
 
@@ -221,7 +221,7 @@ class Address
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("update address set $setUpdates where $whereQuery $addWhere");
+		Database::query("update ".Database::getPrefix()."address set $setUpdates where $whereQuery $addWhere");
 
 		// DBCache::removeDir('system/address');
 

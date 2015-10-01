@@ -30,7 +30,7 @@ class Contactus
 
 		$result=array();
 		
-		$command="select $selectFields from contactus $whereQuery";
+		$command="select $selectFields from ".Database::getPrefix()."contactus $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -167,7 +167,7 @@ class Contactus
 			$addMultiAgrs="($insertValues)";	
 		}		
 
-		Database::query("insert into contactus($insertKeys) values".$addMultiAgrs);
+		Database::query("insert into ".Database::getPrefix()."contactus($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
@@ -201,7 +201,7 @@ class Contactus
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$command="delete from contactus where $whereQuery $addWhere";
+		$command="delete from ".Database::getPrefix()."contactus where $whereQuery $addWhere";
 
 		Database::query($command);	
 
@@ -249,7 +249,7 @@ class Contactus
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("update contactus set $setUpdates where $whereQuery $addWhere");
+		Database::query("update ".Database::getPrefix()."contactus set $setUpdates where $whereQuery $addWhere");
 		
 		if(!$error=Database::hasError())
 		{

@@ -30,7 +30,7 @@ class Post
 
 		$result=array();
 		
-		$command="select $selectFields from post $whereQuery";
+		$command="select $selectFields from ".Database::getPrefix()."post $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -138,6 +138,94 @@ class Post
 		
 	}
 
+	public static function getImageFromContent($postid=0)
+	{
+		$theUri=$postid;
+
+		$savePath=ROOT_PATH.'application/caches/images/'.$theUri.'.cache';
+
+		$fileUrl='';
+
+		if(file_exists($savePath))
+		{
+			$fileUrl=trim(file_get_contents($savePath));
+		}
+		else
+		{
+
+			$loadData=Post::get(array(
+				'isHook'=>'no',
+				'cache'=>'yes',
+				'cacheTime'=>30,
+				'where'=>"where postid='$postid'"
+				));
+
+			if(!isset($loadData[0]['image']))
+			{
+				throw new Exception('This post not exists.');
+				
+			}
+
+			if(!preg_match('/(http[a-zA-Z0-9_\-\.\:\/\(\)\&\@\!\#\$]+\.(jpg|png))/i', $loadData[0]['content'], $matches))
+			{
+				throw new Exception('Post content not have any image.');
+			}
+
+			$image=$matches[1];
+
+			$fileUrl=$image;
+
+			File::create($savePath,$fileUrl);
+
+		}
+
+		return $fileUrl;
+	}
+
+	public static function getThumb($postid=0)
+	{
+		$theUri=$postid;
+
+		$savePath=ROOT_PATH.'application/caches/images/'.$theUri.'.cache';
+
+		$fileUrl='';
+
+		if(file_exists($savePath))
+		{
+			$fileUrl=trim(file_get_contents($savePath));
+
+		}
+		else
+		{
+
+			$loadData=Post::get(array(
+				'isHook'=>'no',
+				'cache'=>'yes',
+				'cacheTime'=>30,
+				'where'=>"where postid='$postid'"
+				));
+
+			if(!isset($loadData[0]['image']))
+			{
+				throw new Exception('This post not exists.');
+				
+			}
+
+			if(!file_exists(ROOT_PATH.$loadData[0]['image']))
+			{
+				throw new Exception('Thumbnail not exists.');
+				
+			}
+
+			$fileUrl=$loadData[0]['image'];
+
+			File::create($savePath,$fileUrl);
+
+		}
+
+		return $fileUrl;
+	}
+
 	public static function url($row)
 	{
 		$url=Url::post($row);
@@ -160,12 +248,12 @@ class Post
 
 	public static function upView($postid)
 	{
-		Database::query("update post set views=views+1 where postid='$postid'");
+		Database::query("update ".Database::getPrefix()."post set views=views+1 where postid='$postid'");
 	}
 
 	public static function downView($postid)
 	{
-		Database::query("update post set views=views-1 where postid='$postid'");
+		Database::query("update ".Database::getPrefix()."post set views=views-1 where postid='$postid'");
 	}
 
 	public static function insert($inputData=array())
@@ -235,7 +323,7 @@ class Post
 			$addMultiAgrs="($insertValues)";	
 		}		
 
-		Database::query("insert into post($insertKeys) values".$addMultiAgrs);
+		Database::query("insert into ".Database::getPrefix()."post($insertKeys) values".$addMultiAgrs);
 
 		DBCache::removeDir('system/post');
 		
@@ -272,7 +360,7 @@ class Post
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$command="delete from post where $whereQuery $addWhere";
+		$command="delete from ".Database::getPrefix()."post where $whereQuery $addWhere";
 
 		Database::query($command);	
 
@@ -340,7 +428,7 @@ class Post
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("update post set $setUpdates where $whereQuery $addWhere");
+		Database::query("update ".Database::getPrefix()."post set $setUpdates where $whereQuery $addWhere");
 
 		// DBCache::removeDir('system/post');
 

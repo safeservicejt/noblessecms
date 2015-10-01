@@ -30,7 +30,7 @@ class Links
 
 		$result=array();
 		
-		$command="select $selectFields from links $whereQuery";
+		$command="select $selectFields from ".Database::getPrefix()."links $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -182,7 +182,7 @@ class Links
 			$addMultiAgrs="($insertValues)";	
 		}		
 
-		Database::query("insert into links($insertKeys) values".$addMultiAgrs);
+		Database::query("insert into ".Database::getPrefix()."links($insertKeys) values".$addMultiAgrs);
 
 		DBCache::removeDir('system/link');
 
@@ -218,7 +218,7 @@ class Links
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$command="delete from links where $whereQuery $addWhere";
+		$command="delete from ".Database::getPrefix()."links where $whereQuery $addWhere";
 
 		Database::query($command);
 
@@ -270,7 +270,7 @@ class Links
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("update links set $setUpdates where $whereQuery $addWhere");
+		Database::query("update ".Database::getPrefix()."links set $setUpdates where $whereQuery $addWhere");
 
 		// DBCache::removeDir('system/link');
 

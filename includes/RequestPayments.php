@@ -30,7 +30,7 @@ class RequestPayments
 
 		$result=array();
 		
-		$command="select $selectFields from request_payments $whereQuery";
+		$command="select $selectFields from ".Database::getPrefix()."request_payments $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -170,7 +170,7 @@ class RequestPayments
 			$addMultiAgrs="($insertValues)";	
 		}		
 
-		Database::query("insert into request_payments($insertKeys) values".$addMultiAgrs);
+		Database::query("insert into ".Database::getPrefix()."request_payments($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
@@ -204,7 +204,7 @@ class RequestPayments
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$command="delete from request_payments where $whereQuery $addWhere";
+		$command="delete from ".Database::getPrefix()."request_payments where $whereQuery $addWhere";
 
 		Database::query($command);	
 
@@ -251,7 +251,7 @@ class RequestPayments
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("update request_payments set $setUpdates where $whereQuery $addWhere");
+		Database::query("update ".Database::getPrefix()."request_payments set $setUpdates where $whereQuery $addWhere");
 
 		if(!$error=Database::hasError())
 		{

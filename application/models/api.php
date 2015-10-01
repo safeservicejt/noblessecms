@@ -23,18 +23,11 @@ function apiProcess()
 	
 	switch ($method) {
 		
-		case 'cart':
-			try {
-				$result['data']=Cart::api($action);
-			} catch (Exception $e) {
-				$result=array('error'=>'yes','message'=>$e->getMessage());
-			}
+		case 'image':
+			Model::load('api/image');
 
-			break;
-		
-		case 'order':
 			try {
-				$result['data']=Orders::api($action);
+				$result['data']=loadApi($action);
 			} catch (Exception $e) {
 				$result=array('error'=>'yes','message'=>$e->getMessage());
 			}

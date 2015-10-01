@@ -30,7 +30,7 @@ class PostImages
 
 		$result=array();
 		
-		$command="select $selectFields from post_images $whereQuery";
+		$command="select $selectFields from ".Database::getPrefix()."post_images $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -134,7 +134,7 @@ class PostImages
 			$addMultiAgrs="($insertValues)";	
 		}		
 
-		Database::query("insert into post_images($insertKeys) values".$addMultiAgrs);
+		Database::query("insert into ".Database::getPrefix()."post_images($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
@@ -168,7 +168,7 @@ class PostImages
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$command="delete from post_images where $whereQuery $addWhere";
+		$command="delete from ".Database::getPrefix()."post_images where $whereQuery $addWhere";
 
 		Database::query($command);	
 
@@ -207,7 +207,7 @@ class PostImages
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("update post_images set $setUpdates where $whereQuery $addWhere");
+		Database::query("update ".Database::getPrefix()."post_images set $setUpdates where $whereQuery $addWhere");
 
 		if(!$error=Database::hasError())
 		{

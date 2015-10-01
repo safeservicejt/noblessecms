@@ -30,7 +30,7 @@ class Pages
 
 		$result=array();
 		
-		$command="select $selectFields from pages $whereQuery";
+		$command="select $selectFields from ".Database::getPrefix()."pages $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -129,7 +129,7 @@ class Pages
 	}
 	public static function api($action)
 	{
-		Model::load('api/pages');
+		Model::load('api/".Database::getPrefix()."pages');
 
 		try {
 			$result=loadApi($action);
@@ -213,7 +213,7 @@ class Pages
 			$addMultiAgrs="($insertValues)";	
 		}		
 
-		Database::query("insert into pages($insertKeys) values".$addMultiAgrs);
+		Database::query("insert into ".Database::getPrefix()."pages($insertKeys) values".$addMultiAgrs);
 
 		DBCache::removeDir('system/page');
 
@@ -249,7 +249,7 @@ class Pages
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$command="delete from pages where $whereQuery $addWhere";
+		$command="delete from ".Database::getPrefix()."pages where $whereQuery $addWhere";
 
 		Database::query($command);	
 
@@ -318,7 +318,7 @@ class Pages
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("update pages set $setUpdates where $whereQuery $addWhere");
+		Database::query("update ".Database::getPrefix()."pages set $setUpdates where $whereQuery $addWhere");
 
 		// DBCache::removeDir('system/page');
 

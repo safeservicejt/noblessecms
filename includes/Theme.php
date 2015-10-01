@@ -43,6 +43,141 @@ class Theme
         } 
 	}
 
+    public static function checkThemePrefix()
+    {   
+    	$themeName=System::getThemeName();
+
+        $filePath=ROOT_PATH.'application/caches/theme/'.$themeName.'.cache';
+
+        if(!file_exists($filePath))
+        {
+        	return false;
+        }
+
+        $loadData=unserialize(file_get_contents($filePath));
+
+        if(is_array($loadData))
+        {
+        	$prefix=isset($loadData['prefix'])?$loadData['prefix']:'';
+
+        	Database::setPrefix($prefix);
+        	
+    		$prefixAll=isset($loadData['prefixall'])?$loadData['prefixall']:'no';
+
+    		Cookie::make('prefixall',$prefixAll,1440*7);         	
+        }
+    }
+
+    public static function checkDomain()
+    {   
+
+        $theDomain=$_SERVER['HTTP_HOST'];
+
+        if(isset($_COOKIE['changed_domain']))
+        {
+        	$oldDomain=$_COOKIE['changed_domain'];
+
+        	if($oldDomain==$theDomain)
+        	{
+        		return false;
+        	}
+        }
+
+        $filePath=ROOT_PATH.'application/caches/domain/'.$theDomain.'.cache';
+
+        if(!file_exists($filePath))
+        {
+        	return false;
+        }
+
+        $loadData=unserialize(file_get_contents($filePath));
+
+        if(is_array($loadData))
+        {
+        	if(isset($loadData['prefix']))
+        	{
+        		Database::setPrefix($loadData['prefix']);
+
+        		$prefixAll=isset($loadData['prefixall'])?$loadData['prefixall']:'no';
+
+        		Cookie::make('prefixall',$prefixAll,1440*7);  
+        	}
+
+        	if(isset($loadData['theme']))
+        	{
+	        	$theme=$loadData['theme'];
+
+	        	if(!file_exists(THEMES_PATH.$theme.'/index.php'))
+	        	{
+	        		return false;
+	        	}
+
+	        	System::setTheme($theme,'yes');
+
+	        	Cookie::make('changed_domain',$theDomain,1440*7);        		
+        	}
+
+
+
+        }
+    }
+
+	public static function addToDomain($inputData='')
+	{
+		$data=debug_backtrace();
+
+		/*
+
+		Theme::addToDomain('client.dev');
+
+	    [0] => Array
+	        (
+	            [file] => D:\wamp\htdocs\project\2015\noblessecmsv2\routes.php
+	            [line] => 8
+	            [function] => api
+	            [class] => Plugins
+	            [type] => ::
+	            [args] => Array
+	                (
+	                )
+
+	        )
+
+
+
+		*/		
+
+		$pluginPath=dirname($data[0]['file']).'/';
+
+		$foldername=basename($pluginPath);
+
+		$themePath=THEMES_PATH.$foldername.'/';
+
+		if(!file_exists($themePath.'domain.php'))
+		{
+			return false;
+		}
+
+		include($themePath.'domain.php');
+
+		$theDomain=ThemeDomain::getDomain();
+
+		if($theDomain!=$inputData)
+		{
+			return false;
+		}
+
+		$saveData=array(
+			'domain'=>$theDomain,
+			'theme'=>$foldername
+			);
+
+		$savePath=ROOT_PATH.'application/caches/domain/'.$theDomain.'.cache';
+
+		File::create($savePath,serialize($saveData));
+
+	}
+
 	public static function uninstall($func)
 	{
 		if(self::$can_uninstall=='no')

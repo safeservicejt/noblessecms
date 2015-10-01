@@ -37,9 +37,30 @@ class Database
 
     public static function setPrefix($str='')
     {
-        self::$prefix='str';
+        self::$prefix=$str;
 
         self::$use_prefix='yes';
+
+        $_SESSION['prefix']=$str;
+    }
+
+    public static function isPrefixAll()
+    {
+        if(!isset($_COOKIE['prefix']))
+        {
+            return false;
+        }
+        
+        $status=isset($_COOKIE['prefixall'])?$_COOKIE['prefixall']:'no';
+
+        return $status;
+    }
+
+    public static function getPrefix()
+    {
+        $prefix=isset($_SESSION['prefix'])?$_SESSION['prefix']:PREFIX;
+
+        return $prefix;
     }
 
     public static function getTotalQuery()
