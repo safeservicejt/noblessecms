@@ -121,7 +121,7 @@ class Links
 		{
 		    foreach ($inputData as $theRow) {
 
-				$theRow['date_added']=System::dateTime();
+				$theRow['date_added']=date('Y-m-d H:i:s');
 
 				if(isset($theRow['title']))
 				{
@@ -154,7 +154,7 @@ class Links
 		}
 		else
 		{		
-			$inputData['date_added']=System::dateTime();
+			$inputData['date_added']=date('Y-m-d H:i:s');
 
 
 			if(isset($inputData['title']))

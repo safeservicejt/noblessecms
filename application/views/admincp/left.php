@@ -14,7 +14,7 @@
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-left top-nav">
-               <li class="dropdown">
+               <li class="dropdown navbar-default-system">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-th"></span>&nbsp;&nbsp;Add new <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="<?php echo ADMINCP_URL;?>categories">Category</a></li>

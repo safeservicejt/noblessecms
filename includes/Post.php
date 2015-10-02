@@ -267,11 +267,18 @@ class Post
 		{
 		    foreach ($inputData as $theRow) {
 
-				$theRow['date_added']=System::dateTime();
+		    	if(!isset($theRow['title']))
+		    	{
+		    		continue;
+		    	}
 
-				$theRow['friendly_url']=String::makeFriendlyUrl(strip_tags($theRow['title']));
+				$theRow['date_added']=date('Y-m-d H:i:s');
 
-				if(isset($theRow['title']))
+				$postTitle=isset($theRow['addTitle'])?$theRow['addTitle']:$theRow['title'];
+
+				$theRow['friendly_url']=String::makeFriendlyUrl(strip_tags($postTitle));
+
+				
 				$theRow['title']=String::encode(strip_tags($theRow['title']));
 
 
@@ -298,11 +305,18 @@ class Post
 		}
 		else
 		{		
-			$inputData['date_added']=System::dateTime();
+			if(!isset($inputData['title']))
+			{
+				continue;
+			}
 
-			$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($inputData['title']));
+			$inputData['date_added']=date('Y-m-d H:i:s');
 
-			if(isset($inputData['title']))
+			$postTitle=isset($inputData['addTitle'])?$inputData['addTitle']:$inputData['title'];
+
+			$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($postTitle));
+
+			
 			$inputData['title']=String::encode(strip_tags($inputData['title']));
 
 			if(isset($inputData['content']))
@@ -325,7 +339,7 @@ class Post
 
 		Database::query("insert into ".Database::getPrefix()."post($insertKeys) values".$addMultiAgrs);
 
-		DBCache::removeDir('system/post');
+		// DBCache::removeDir('system/post');
 		
 
 		if(!$error=Database::hasError())
@@ -387,9 +401,11 @@ class Post
 				
 		if(isset($post['title']))
 		{
+			$postTitle=isset($post['addTitle'])?$post['addTitle']:$post['title'];
+
 			$post['title']=String::encode(strip_tags($post['title']));
 
-			$post['friendly_url']=String::makeFriendlyUrl(strip_tags($post['title']));
+			$post['friendly_url']=String::makeFriendlyUrl(strip_tags($postTitle));
 
 			$loadPost=self::get(array(
 				'where'=>"where friendly_url='".$post['friendly_url']."'"

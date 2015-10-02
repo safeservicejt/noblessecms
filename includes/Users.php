@@ -590,7 +590,7 @@ class Users
 		{
 		    foreach ($inputData as $theRow) {
 
-				$theRow['date_added']=System::dateTime();
+				$theRow['date_added']=date('Y-m-d H:i:s');
 
 				$keyNames=array_keys($theRow);
 
@@ -608,7 +608,7 @@ class Users
 		}
 		else
 		{
-			$inputData['date_added']=System::dateTime();
+			$inputData['date_added']=date('Y-m-d H:i:s');
 
 			$keyNames=array_keys($inputData);
 

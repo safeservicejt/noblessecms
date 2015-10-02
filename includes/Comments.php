@@ -119,7 +119,7 @@ class Comments
 		{
 		    foreach ($inputData as $theRow) {
 
-				$theRow['date_added']=System::dateTime();
+				$theRow['date_added']=date('Y-m-d H:i:s');
 
 				if(isset($theRow['fullname']))
 				$theRow['fullname']=String::encode(strip_tags($theRow['fullname']));
@@ -148,7 +148,7 @@ class Comments
 		}
 		else
 		{		
-			$inputData['date_added']=System::dateTime();
+			$inputData['date_added']=date('Y-m-d H:i:s');
 
 			if(isset($inputData['fullname']))
 			$inputData['fullname']=String::encode(strip_tags($inputData['fullname']));

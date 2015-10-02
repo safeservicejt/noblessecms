@@ -132,7 +132,7 @@ class Categories
 		{
 		    foreach ($inputData as $theRow) {
 
-				$theRow['date_added']=date('Y-m-d h:i:s');
+				$theRow['date_added']=date('Y-m-d H:i:s');
 
 				$theRow['friendly_url']=String::makeFriendlyUrl(strip_tags($theRow['title']));
 
@@ -155,7 +155,7 @@ class Categories
 		}
 		else
 		{
-			$inputData['date_added']=date('Y-m-d h:i:s');
+			$inputData['date_added']=date('Y-m-d H:i:s');
 
 			$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($inputData['title']));
 

@@ -156,12 +156,18 @@ class Pages
 		if(isset($inputData[0]['title']))
 		{
 		    foreach ($inputData as $theRow) {
+		    	
+		    	if(!isset($theRow['title']))
+		    	{
+		    		continue;
+		    	}
 
-				$theRow['date_added']=System::dateTime();
+				$theRow['date_added']=date('Y-m-d H:i:s');
 
-				$theRow['friendly_url']=String::makeFriendlyUrl(strip_tags($theRow['title']));
+				$postTitle=isset($theRow['addTitle'])?$theRow['addTitle']:$theRow['title'];
 
-				if(isset($theRow['title']))
+				$theRow['friendly_url']=String::makeFriendlyUrl(strip_tags($postTitle));
+
 				$theRow['title']=String::encode(strip_tags($theRow['title']));
 
 
@@ -187,12 +193,18 @@ class Pages
 		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
 		}
 		else
-		{		
-			$inputData['date_added']=System::dateTime();
+		{
+			if(!isset($inputData['title']))
+			{
+				continue;
+			}
 
-			$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($inputData['title']));
+			$inputData['date_added']=date('Y-m-d H:i:s');
 
-			if(isset($inputData['title']))
+			$postTitle=isset($inputData['addTitle'])?$inputData['addTitle']:$inputData['title'];
+
+			$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($postTitle));
+
 			$inputData['title']=String::encode(strip_tags($inputData['title']));
 
 			if(isset($inputData['content']))
@@ -276,9 +288,11 @@ class Pages
 				
 		if(isset($post['title']))
 		{
+			$postTitle=isset($post['addTitle'])?$post['addTitle']:$post['title'];
+
 			$post['title']=String::encode(strip_tags($post['title']));
 
-			$post['friendly_url']=String::makeFriendlyUrl(strip_tags($post['title']));
+			$post['friendly_url']=String::makeFriendlyUrl(strip_tags($postTitle));
 
 			$loadPage=self::get(array(
 				'where'=>"where friendly_url='".$post['friendly_url']."'"
