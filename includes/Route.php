@@ -69,7 +69,7 @@ class Route
 
                     $uri=System::getUri();
 
-                    if(preg_match('/'.$routeName.'/i', $uri))
+                    if(preg_match('/^'.$routeName.'/i', $uri))
                     {
 
                         $func();
