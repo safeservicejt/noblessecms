@@ -17,7 +17,7 @@ function alertWarning(str)
 
 $(document).ready(function(){
 
-	root_url=$('#root_url').attr('content');
+	root_url=$("meta[id='root_url']").attr("content");
 
 	$('img.js-auto-responsive').each(function(){
 
