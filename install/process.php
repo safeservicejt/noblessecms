@@ -75,7 +75,7 @@ function startInstall()
 
   $dbport=trim($_REQUEST['dbport']);
 
-  $url=trim($_REQUEST['url']);
+  // $url=trim($_REQUEST['url']);
   
   $path=trim($_REQUEST['path']);
   
@@ -86,6 +86,15 @@ function startInstall()
   $password=trim($_REQUEST['password']);
 
   $secretKey=String::randAlpha(20);
+
+  $host='http://'.$_SERVER['HTTP_HOST'];
+
+  $uri=$host.$_SERVER['REQUEST_URI'];
+
+  preg_match('/(.*?)\/install/i', $uri,$match);
+
+  $url=$match[1];
+  
 
   // echo $path;
 
@@ -264,12 +273,6 @@ function checkConnect()
 
   $dbport=trim($_REQUEST['dbport']);
 
-  $url=trim($_REQUEST['url']);  
-
-  if(!file_get_contents($url.'install/css/custom.css'))
-  {
-    die('ERRORURL');    
-  }
 
   $conn = new mysqli($dbhost, $dbuser, $dbpass, '', $dbport); 
 

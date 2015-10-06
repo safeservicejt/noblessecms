@@ -7,6 +7,14 @@ error_reporting(0);
 
 include('../includes/Request.php');
 
+$host='http://'.$_SERVER['HTTP_HOST'];
+
+$uri=$host.$_SERVER['REQUEST_URI'];
+
+preg_match('/(.*?)\/install/i', $uri,$match);
+
+$siteUrl=$match[1];
+
 ?>
 
 <!DOCTYPE html>
@@ -135,7 +143,7 @@ include('../includes/Request.php');
                         </div>
                         <div class="col-lg-6">
                         <strong>Your site url:</strong><br>
-                          <input type="url" class="form-control txtUrl" name="info[url]" value="<?php echo Request::get('info.url','http://'.$_SERVER['SERVER_NAME'].'/');?>" placeholder="http://yoursite.com/" required />
+                          <input type="url" class="form-control txtUrl" name="info[url]" value="<?php echo Request::get('info.url',$siteUrl.'/');?>" placeholder="http://yoursite.com/" required />
 
                           <br>
                           <strong>Your site path</strong><br>
