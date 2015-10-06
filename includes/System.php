@@ -67,6 +67,8 @@ class System
 
 		PluginsZone::loadCache();
 
+		Plugins::load('before_system_start');
+
 		self::defaultPageUri();
 
 		Database::connect();
@@ -193,20 +195,7 @@ class System
 		return $scriptVersion;
 	}
 	
-	public static function checkCurrency()
-	{
-		if($match=Uri::match('^currency\/(\w+)'))
-		{
-			$curName=$match[1];
-			Currency::set($curName);
 
-			header("Location: ".self::getUrl());
-
-			exit();
-
-		}
-
-	}
 
 	public static function systemStatus()
 	{
@@ -340,30 +329,7 @@ class System
 	{
 		return self::$setting['rss_status'];
 	}
-	
-	public static function getAffiliateCommission()
-	{
-		return self::$setting['default_affiliate_commission'];
-	}
 
-	public static function getVatPercent()
-	{
-		return self::$setting['default_vat_commission'];
-	}
-
-	public static function getOrderStatus()
-	{
-		return self::$setting['default_order_status'];
-	}
-
-	public static function getCurrency()
-	{
-		$current=self::$setting['default_currency'];
-
-		$data=isset($_COOKIE['currency'])?$_COOKIE['currency']:$current;
-		
-		return $data;
-	}
 
 	public static function getUrl()
 	{
