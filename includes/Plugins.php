@@ -221,7 +221,7 @@ class Plugins
 
 		$limitQuery="";
 
-		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:10;
+		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:1000;
 
 		$limitPage=isset($inputData['limitPage'])?$inputData['limitPage']:0;
 
@@ -339,6 +339,7 @@ class Plugins
 			return $inputData;
 		}
 
+
 		$resultString='';
 
 		$li='';
@@ -360,6 +361,8 @@ class Plugins
 		$zoneList=self::$listCaches[$zoneName];
 
 		$total=count($zoneList);
+
+
 
 		for ($i=0; $i < $total; $i++) { 
 
@@ -392,7 +395,7 @@ class Plugins
 			}
 
 			$tmp=$funcName($inputData);
-
+			
 			switch ($zoneName) {
 
 				case 'site_header':

@@ -65,13 +65,19 @@ class System
 
 		self::setTimeZone();
 
-		PluginsZone::loadCache();
+		Users::checkConfig();
 
-		Plugins::load('before_system_start');
+		Users::checkUseTheme();
+
+		PluginsZone::loadCache();
 
 		self::defaultPageUri();
 
+		Users::checkConnectDB();
+
 		Database::connect();
+
+		Plugins::load('before_system_start');
 
 		Shortcode::loadInSystem();
 
@@ -509,6 +515,24 @@ class System
 			$keyName=$keyNames[$i];
 
 			$data[$keyName]=$inputData[$keyName];
+
+		}
+		
+		Cache::saveKey('systemSetting',serialize($data));
+	}
+
+	public static function removeSetting($inputData=array())
+	{
+		$data=self::getSetting();
+
+		$keyNames=array_keys($inputData);
+
+		$total=count($inputData);
+
+		for ($i=0; $i < $total; $i++) { 
+			$keyName=$keyNames[$i];
+
+			unset($data[$keyName]);
 
 		}
 		

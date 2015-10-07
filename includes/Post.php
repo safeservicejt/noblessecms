@@ -256,6 +256,47 @@ class Post
 		Database::query("update ".Database::getPrefix()."post set views=views-1 where postid='$postid'");
 	}
 
+	public static function getList($inputData=array())
+	{
+		$loadData=self::get($inputData);
+
+		if(isset($loadData[0]['postid']))
+		{
+			$total=count($loadData);
+
+			$maxShow=isset($inputData['maxShow'])?$inputData['maxShow']:0;
+
+			if((int)$maxShow < (int)$total)
+			{
+				$total=$maxShow;
+			}
+
+			for ($i=0; $i < $total; $i++) { 
+
+				if(!isset($loadData[$i]))
+				{
+					break;
+				}
+
+				$loadData[$i]['tags']=PostTags::renderToLink($loadData[$i]['postid']);
+			}
+		}
+
+		return $loadData;
+	}
+
+	public static function cachePath()
+	{
+		$result=ROOT_PATH.'application/caches/dbcache/system/post/';
+
+		return $result;
+	}	
+
+	public static function saveCache()
+	{
+		
+	}
+
 	public static function insert($inputData=array())
 	{
 		// End addons
@@ -344,6 +385,8 @@ class Post
 
 		if(!$error=Database::hasError())
 		{
+			self::saveCache();
+
 			$id=Database::insert_id();
 
 			return $id;	
@@ -377,6 +420,8 @@ class Post
 		$command="delete from ".Database::getPrefix()."post where $whereQuery $addWhere";
 
 		Database::query($command);	
+
+		self::saveCache();
 
 		// DBCache::removeDir('system/post');
 
@@ -453,6 +498,8 @@ class Post
 
 		if(!$error=Database::hasError())
 		{
+			self::saveCache();
+
 			return true;
 		}
 

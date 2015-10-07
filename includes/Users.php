@@ -2,6 +2,7 @@
 
 class Users
 {
+	public static $config=array();
 
 	public static function get($inputData=array())
 	{
@@ -121,6 +122,110 @@ class Users
 
 		return $result;
 	}	
+
+	public static function configPath()
+	{
+		$result=ROOT_PATH.'contents/users/';
+
+		if(!is_dir($result))
+		{
+			Dir::create($result);
+		}
+
+		return $result;
+	}
+
+	public static function checkConfig()
+	{
+		if(!isset($_COOKIE['groupid']) || !isset($_COOKIE['username']))
+		{
+			return false;
+		}
+
+		$username=Cookie::get('username');
+
+		$loadPath=self::configPath().$username.'/config.cache';
+
+		if(!file_exists($loadPath))
+		{
+			return false;
+		}
+
+		$loadData=unserialize(file_get_contents($loadPath));
+
+		self::$config=$loadData;
+
+	}
+
+	public static function loadConfig($method='before_load_database')
+	{
+		if(!isset(self::$config[$method]))
+		{
+			return false;
+		}
+
+		$value=self::$config[$method];
+
+		return $value;
+	}
+
+	public static function checkUseTheme()
+	{
+		if(!isset(self::$config['theme']))
+		{
+			return false;
+		}		
+
+		$theme=self::$config['theme'];
+
+		System::setTheme($theme,'yes');
+	}
+
+	public static function checkConnectDB()
+	{
+        // global $db;
+
+		if(!isset(self::$config['dbhost']))
+		{
+			return false;
+		}
+
+		$dbhost=self::$config['dbhost'];
+
+		if(!isset($dbhost[2]))
+		{
+			return false;
+		}
+
+		$prefix=isset(self::$config['prefix'])?self::$config['prefix']:'';
+
+		Database::setPrefix($prefix);
+
+		Database::setPrefixAll();
+
+		$dbtype=self::$config['dbtype'];
+
+		$dbport=self::$config['dbport'];
+
+		$dbuser=self::$config['dbuser'];
+
+		$dbpassword=self::$config['dbpassword'];
+
+		$dbname=self::$config['dbname'];
+
+		$GLOBALS['db']['default']['dbhost']=$dbhost;
+
+		$GLOBALS['db']['default']['dbtype']=$dbtype;
+
+		$GLOBALS['db']['default']['dbport']=$dbport;
+
+		$GLOBALS['db']['default']['dbuser']=$dbuser;
+
+		$GLOBALS['db']['default']['dbpassword']=$dbpassword;
+
+		$GLOBALS['db']['default']['dbname']=$dbname;
+
+	}
 
 	public static function getAvatar($row)
 	{
@@ -435,6 +540,11 @@ class Users
 
 	public static function getCookieUserId()
 	{
+		if(!isset($_COOKIE['userid']))
+		{
+			return false;
+		}
+
 		$userid=isset($_COOKIE['userid'])?$_COOKIE['userid']:0;
 
 		$userid=String::decrypt($userid);
@@ -449,6 +559,11 @@ class Users
 
 	public static function getCookieGroupId()
 	{
+		if(!isset($_COOKIE['groupid']))
+		{
+			return false;
+		}
+
 		$groupid=isset($_COOKIE['groupid'])?$_COOKIE['groupid']:0;
 
 		$groupid=String::decrypt($groupid);

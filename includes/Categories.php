@@ -121,6 +121,116 @@ class Categories
 		return $url;
 	}
 
+	public static function getList($inputData=array())
+	{
+		$loadData=self::get($inputData);
+
+		if(isset($loadData[0]['catid']))
+		{
+			$total=count($loadData);
+
+			$maxShow=isset($inputData['maxShow'])?$inputData['maxShow']:0;
+
+			if((int)$maxShow < (int)$total)
+			{
+				$total=$maxShow;
+			}
+
+			for ($i=0; $i < $total; $i++) { 
+
+				if(!isset($loadData[$i]))
+				{
+					break;
+				}
+			}
+		}
+
+		return $loadData;
+	}
+
+	public static function loadCache($method='titleAsc',$limit=30)
+	{
+		if((int)$limit > 30)
+		{
+			return false;
+		}
+		
+		$savePath=self::cachePath();
+
+		$method=strtolower($method);
+
+		$loadData=array();
+
+		switch ($method) {
+			case 'titleasc':
+				if(file_exists($savePath.'titleAsc.cache'))
+				$loadData=unserialize(file_get_contents($savePath.'titleAsc.cache'));
+				break;
+
+			case 'titledesc':
+				if(file_exists($savePath.'titleDesc.cache'))
+				$loadData=unserialize(file_get_contents($savePath.'titleDesc.cache'));
+				break;
+
+			case 'orderasc':
+				if(file_exists($savePath.'OrderAsc.cache'))
+				$loadData=unserialize(file_get_contents($savePath.'OrderAsc.cache'));
+				break;
+
+			case 'orderdesc':
+				if(file_exists($savePath.'OrderDesc.cache'))
+				$loadData=unserialize(file_get_contents($savePath.'OrderDesc.cache'));
+				break;
+		}
+
+		return $loadData;
+	}
+	public static function cachePath()
+	{
+		$result=ROOT_PATH.'application/caches/dbcache/system/category/';
+
+		return $result;
+	}
+
+	public static function saveCache()
+	{
+		$savePath=self::cachePath();
+
+		$loadData=self::get(array(
+			'cache'=>'no',
+			'limitShow'=>30,
+			'orderby'=>'order by title asc'
+			));
+
+		File::create($savePath.'titleAsc.cache',serialize($loadData));
+
+		$loadData=self::get(array(
+			'cache'=>'no',
+			'limitShow'=>30,
+			'orderby'=>'order by desc asc'
+			));
+
+		File::create($savePath.'titleDesc.cache',serialize($loadData));
+
+		$loadData=self::get(array(
+			'cache'=>'no',
+			'limitShow'=>30,
+			'orderby'=>'order by sort_order asc'
+			));
+
+		File::create($savePath.'OrderAsc.cache',serialize($loadData));
+
+		$loadData=self::get(array(
+			'cache'=>'no',
+			'limitShow'=>30,
+			'orderby'=>'order by sort_order desc'
+			));
+
+		File::create($savePath.'OrderDesc.cache',serialize($loadData));
+
+
+	}
+
 	public static function insert($inputData=array())
 	{
 		// End addons
@@ -175,10 +285,12 @@ class Categories
 
 		Database::query("insert into ".Database::getPrefix()."categories($insertKeys) values".$addMultiAgrs);
 
-		DBCache::removeDir('system/category');
+		// DBCache::removeDir('system/category');
 
 		if(!$error=Database::hasError())
 		{
+			self::saveCache();
+
 			$id=Database::insert_id();
 
 			return $id;	
@@ -211,11 +323,13 @@ class Categories
 
 		$command="delete from ".Database::getPrefix()."categories where $whereQuery $addWhere";
 
-		Database::query($command);	
+		Database::query($command);
+
+		self::saveCache();
 
 		// DBCache::removeDir('system/category');
 		
-		DBCache::removeCache($listID,'system/category');
+		// DBCache::removeCache($listID,'system/category');
 
 		return true;
 	}
@@ -273,10 +387,12 @@ class Categories
 
 		// DBCache::removeDir('system/category');
 
-		DBCache::removeCache($listIDs,'system/category');
+		// DBCache::removeCache($listIDs,'system/category');
 
 		if(!$error=Database::hasError())
 		{
+			self::saveCache();
+
 			return true;
 		}
 

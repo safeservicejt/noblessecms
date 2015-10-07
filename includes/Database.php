@@ -44,6 +44,13 @@ class Database
         $_SESSION['prefix']=$str;
     }
 
+    public static function setPrefixAll()
+    {
+        $_SESSION['prefixall']='yes';
+    }
+
+
+
     public static function isPrefixAll()
     {
         if(!isset($_COOKIE['prefix']))
