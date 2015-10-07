@@ -69,9 +69,14 @@ class System
 
 		if($systemMode!='basic')
 		{
+			Domain::checkConfig();
+
+			Domain::checkTheme();
+
 			Users::checkConfig();
 
 			Users::checkUseTheme();
+
 		}
 
 		PluginsZone::loadCache();
@@ -80,6 +85,8 @@ class System
 		
 		if($systemMode!='basic')
 		{
+			Domain::checkConnectDB();
+			
 			Users::checkConnectDB();
 		}
 		
