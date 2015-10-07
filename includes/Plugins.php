@@ -478,9 +478,9 @@ class Plugins
 
 		self::$uninstallFolderName=$foldername;
 
-		Database::query("delete from plugins where foldername='$foldername'");		
+		Database::query("delete from ".Database::getPrefix()."plugins where foldername='$foldername'");		
 
-		Database::query("delete from plugins_meta where foldername='$foldername'");	
+		Database::query("delete from ".Database::getPrefix()."plugins_meta where foldername='$foldername'");	
 
 		PluginsZone::removeCache($foldername);	
 
@@ -576,7 +576,7 @@ class Plugins
 
 		$result=array();
 		
-		$command="select $selectFields from plugins $whereQuery";
+		$command="select $selectFields from ".Database::getPrefix()."plugins $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -676,7 +676,7 @@ class Plugins
 			$addMultiAgrs="($insertValues)";	
 		}		
 
-		Database::query("insert into plugins($insertKeys) values".$addMultiAgrs);
+		Database::query("insert into ".Database::getPrefix()."plugins($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
@@ -708,9 +708,9 @@ class Plugins
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$command="delete from plugins where $whereQuery $addWhere";
+		$command="delete from ".Database::getPrefix()."plugins where $whereQuery $addWhere";
 
-		$command="delete from plugins_meta where $whereQuery $addWhere";
+		$command="delete from ".Database::getPrefix()."plugins_meta where $whereQuery $addWhere";
 
 		Database::query($command);	
 

@@ -30,7 +30,7 @@ class PluginsMeta
 
 		$result=array();
 		
-		$command="select $selectFields from plugins_meta $whereQuery";
+		$command="select $selectFields from ".Database::getPrefix()."plugins_meta $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -129,7 +129,7 @@ class PluginsMeta
 			$addMultiAgrs="($insertValues)";	
 		}		
 
-		Database::query("insert into plugins_meta($insertKeys) values".$addMultiAgrs);
+		Database::query("insert into ".Database::getPrefix()."plugins_meta($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
@@ -161,7 +161,7 @@ class PluginsMeta
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 		
-		$command="delete from plugins_meta where $whereQuery $addWhere";
+		$command="delete from ".Database::getPrefix()."plugins_meta where $whereQuery $addWhere";
 
 		Database::query($command);	
 
