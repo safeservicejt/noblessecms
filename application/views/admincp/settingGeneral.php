@@ -41,6 +41,20 @@
 			    	</div>
 			    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
 			    		<div class="col-lg-9">
+			    		<strong>System mode :</strong>
+			    		</div>
+			    		<div class="col-lg-3 text-right">
+							<select name="general[system_mode]" id="system_mode" class="form-control">
+								<option value="basic">Basic (Fast)</option>
+								<option value="professional">Professional (Multi Sites)</option>
+								<option value="ultimate">Ultimate (Coming soon)</option>
+							</select>
+			    		</div>
+
+			    	</div>
+
+			    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
+			    		<div class="col-lg-9">
 			    		<strong>System language :</strong>
 			    		</div>
 			    		<div class="col-lg-3 text-right">
@@ -338,6 +352,7 @@ $(document).ready(function(){
 	setSelect('system_status','<?php echo $system_status;?>');
 	setSelect('register_verify_email','<?php echo $register_verify_email;?>');
 	setSelect('default_timezone','<?php echo $default_timezone;?>');
+	setSelect('system_mode','<?php echo $system_mode;?>');
 
 });
 
