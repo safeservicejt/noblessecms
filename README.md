@@ -13,3 +13,5 @@ How to install:
 - Follow steps to complete install NoblesseCMS and remove install folder after completed install
 
 - Thanks for use!
+
+With Noblesse CMS we can provide Lumi Cache Solution: Not connect to database to get/show data, final read/show data in cache. Your website will get max speed with Lumi Cache Solution !
