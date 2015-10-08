@@ -107,7 +107,12 @@
 <script>
   // Replace the <textarea id="editor1"> with a CKEditor
   // instance, using default configuration.
-  CKEDITOR.replace( 'editor' );
+  // CKEDITOR.replace( 'editor' );
+CKEDITOR.replace( 'editor' ,{
+  filebrowserBrowseUrl : '<?php echo ROOT_URL;?>bootstrap/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
+  filebrowserUploadUrl : '<?php echo ROOT_URL;?>bootstrap/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
+  filebrowserImageBrowseUrl : '<?php echo ROOT_URL;?>bootstrap/ckeditor/filemanager/dialog.php?type=1&editor=ckeditor&fldr='
+});   
 </script>
 
 
