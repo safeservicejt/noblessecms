@@ -1,6 +1,6 @@
 <?php
 
-if ($_SESSION['RF']["verify"] != "RESPONSIVEfilemanager")
+if (!isset($_SESSION['RF']) || $_SESSION['RF']["verify"] != "RESPONSIVEfilemanager")
 {
 	die('forbiden');
 }

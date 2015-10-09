@@ -47,9 +47,11 @@ define('USE_ACCESS_KEYS', false); // TRUE or FALSE
 
 $root_path=dirname(dirname(dirname(dirname(dirname(__FILE__)))));
 
+
+
 include($root_path.'/config.php');
 
-$savePath=$root_path.'/uploads/images/';
+$savePath=$root_path.'/uploads/images/'.$_SERVER['HTTP_HOST'].'/';
 
 $addPath=isset($_COOKIE['add_path'])?$_COOKIE['add_path'].'/':'';
 
@@ -81,7 +83,7 @@ $config = array(
 	| with start and final /
 	|
 	*/
-	'upload_dir' => '/uploads/images/'.$addPath,
+	'upload_dir' => '/uploads/images/'.$_SERVER['HTTP_HOST'].'/'.$addPath,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -102,7 +104,7 @@ $config = array(
 	| DO NOT put inside upload folder
 	|
 	*/
-	'thumbs_base_path' => '../../../../../uploads/images/'.$addPath,
+	'thumbs_base_path' => $savePath,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -134,7 +136,7 @@ $config = array(
 	| in Megabytes
 	|
 	*/
-	'MaxSizeUpload' => 10,
+	'MaxSizeUpload' => 20,
 
 
 	/*

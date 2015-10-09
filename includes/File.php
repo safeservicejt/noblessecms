@@ -15,7 +15,33 @@ class File
         return md5_file($filePath);
 
     }
-    
+
+    public function cleanTmpFiles($path)
+    {
+        $listFiles=Dir::all($path);
+
+        $total=count($listFiles);
+
+        if(isset($listFiles[0]))
+        for ($i=0; $i < $total; $i++) { 
+            $theName=$listFiles[$i];
+
+            if(preg_match('/.*?\.(txt|zip|rar|jpg|bmp|png|gif)/i', $theName))
+            {
+                unlink($path.$theName);
+            }
+
+        }
+
+        if(is_dir($path.'thumbnail'))
+        {
+            Dir::remove($path.'thumbnail');
+
+            mkdir($path.'thumbnail');            
+        }
+
+    }
+
     public static function unzipModule($fullPath,$remove='no')
     {
         if(!preg_match('/.*?\.(zip|rar)/i', $fullPath))

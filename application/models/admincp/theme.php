@@ -22,9 +22,9 @@ function importProcess()
 
 		File::move($sourcePath,$targetPath);
 
-		$sourcePath=dirname($sourcePath);
+		// $sourcePath=dirname($sourcePath);
 
-		rmdir($sourcePath);
+		// rmdir($sourcePath);
 
 		File::unzipModule($targetPath,'yes');
 
@@ -34,6 +34,14 @@ function importProcess()
 		{
 			Database::import($installFile);
 		}
+		
+		$installFile=ROOT_PATH.$shortPath.'/install/update.sql';
+
+		if(file_exists($installFile))
+		{
+			Database::import($installFile);
+		}
+
 	}
 	
 }

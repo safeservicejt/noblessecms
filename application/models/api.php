@@ -112,7 +112,19 @@ function apiProcess()
 			
 		case 'system':
 
-			Model::load('api/system.php');
+			Model::load('api/system');
+
+			try {
+				$result['data']=loadApi($action);
+			} catch (Exception $e) {
+				$result=array('error'=>'yes','message'=>$e->getMessage());
+			}
+
+			break;
+			
+		case 'file':
+
+			Model::load('api/file');
 
 			try {
 				$result['data']=loadApi($action);
