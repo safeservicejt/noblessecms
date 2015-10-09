@@ -145,6 +145,8 @@ class UserGroups
 			throw new Exception($e->getMessage());
 		}
 	}	
+
+
 	public static function loadGroup($groupid)
 	{
 
@@ -606,6 +608,44 @@ class UserGroups
 
 
 		return $resultData;
+	}
+
+
+	public static function saveCache($addPrefix='',$important=0)
+	{
+		$prefix='';
+
+		$prefixall=Database::isPrefixAll();
+
+		if($prefixall!=false || $prefixall=='no')
+		{
+			$prefix=Database::getPrefix();
+		}		
+
+		if((int)$important > 0)
+		{
+			$prefix=$addPrefix;
+
+			Database::setPrefix($prefix);
+			
+			Database::setPrefixAll();
+
+		}
+
+		$loadData=self::get();
+
+		$total=count($loadData);
+
+		for ($i=0; $i < $total; $i++) { 
+
+			if(!isset($loadData[$i]['groupdata']))
+			{
+				continue;
+			}
+
+			$loadData[$i]['groupdata']=self::lineToArray($loadData[$i]['groupdata']);
+			Cache::saveKey($prefix.'userGroup_'.$loadData[$i]['groupid'],serialize($loadData[$i]));
+		}		
 	}
 
 	public static function insert($inputData=array())

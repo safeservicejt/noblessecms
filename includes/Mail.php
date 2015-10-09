@@ -115,7 +115,6 @@ class Mail
     {
         require INCLUDES_PATH . 'extentions/PHPMailer/PHPMailerAutoload.php';
 
-
     }
 
     public static function send($mailConfig=array(),$is_smtp=1)
@@ -124,9 +123,22 @@ class Mail
 
         $mailData=System::getMailSetting();
 
-        if($mailData['send_method']=='local')
+        if($mailData['send_method']=='local' || !isset($mailConfig['send_method']))
         {
             $is_smtp=0;
+        }
+
+        if(isset($mailConfig['send_method']))
+        {
+            if($mailConfig['send_method']=='local')
+            {
+                $is_smtp=0;
+            }
+            else
+            {
+                $is_smtp=1;
+            }
+            
         }
 
         if((int)$is_smtp==1 && !isset($mailConfig['smtpAddress']))
@@ -144,7 +156,7 @@ class Mail
 
         $mail = new PHPMailer;
 
-        //$mail->SMTPDebug = 3;                               // Enable verbose debug output
+        // $mail->SMTPDebug = 3;                               // Enable verbose debug output
 
         $mailConfig['smtpSecure']=isset($mailConfig['smtpSecure'])?$mailConfig['smtpSecure']:'ssl';
 
@@ -187,6 +199,7 @@ class Mail
 
         $mail->Subject = $mailConfig['subject'];
         $mail->Body    = $mailConfig['body'];
+
 
         if(isset($mailConfig['files']))
         {

@@ -66,7 +66,7 @@
  	    							<td class="col-lg-2 text-right">'.ucfirst($theList[$i]['status']).'</td>
 
 	    							<td class="col-lg-2 text-right">
-	    							<a href="'.ADMINCP_URL.'links/edit/'.$theList[$i]['id'].'" class="btn btn-warning btn-xs">Edit</a>
+	    							<a href="'.System::getAdminUrl().'links/edit/'.$theList[$i]['id'].'" class="btn btn-warning btn-xs">Edit</a>
 	    							</td>
 	    						</tr>    						
 	    						<!-- tr -->

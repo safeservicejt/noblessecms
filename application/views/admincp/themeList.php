@@ -13,7 +13,7 @@
 			<!-- main theme -->
 			<div class="row" style="margin-bottom:50px;">
 				<div class="col-lg-4">
-				<img class="img-responsive" src="<?php echo THEME_URL;?>thumb.jpg" />
+				<img class="img-responsive" src="<?php echo System::getThemeUrl();?>thumb.jpg" />
 				</div>
 
 				<!-- right -->
@@ -33,8 +33,8 @@
 				<!-- row -->
 				<div class="row">
 					<div class="col-lg-12">
-					<a href="<?php echo ROOT_URL;?>admincp/theme/setting/<?php echo THEME_NAME;?>" class="btn btn-primary">Setting</a>
-					<a href="<?php echo ROOT_URL;?>admincp/theme/edit/<?php echo THEME_NAME;?>" class="btn btn-danger">Edit</a>
+					<a href="<?php echo System::getUrl();?>admincp/theme/setting/<?php echo THEME_NAME;?>" class="btn btn-primary">Setting</a>
+					<a href="<?php echo System::getUrl();?>admincp/theme/edit/<?php echo THEME_NAME;?>" class="btn btn-danger">Edit</a>
 
 					</div>					
 				</div>
@@ -80,8 +80,8 @@
 							</div>
 						</div>
 						<div class="col-lg-12 themeButton">
-							<a href="<?php echo ROOT_URL;?>admincp/theme/activate/<?php echo $themeNames[$i];?>" class="btn btn-primary">Activate</a>
-						<a href="<?php echo ROOT_URL;?>admincp/theme/setting/<?php echo $themeNames[$i];?>" class="btn btn-warning pull-right">Setting</a>
+							<a href="<?php echo System::getUrl();?>admincp/theme/activate/<?php echo $themeNames[$i];?>" class="btn btn-primary">Activate</a>
+						<a href="<?php echo System::getUrl();?>admincp/theme/setting/<?php echo $themeNames[$i];?>" class="btn btn-warning pull-right">Setting</a>
 						</div>
 					</div>
 				</div>

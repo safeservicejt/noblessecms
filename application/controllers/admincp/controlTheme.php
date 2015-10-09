@@ -32,7 +32,7 @@ class controlTheme
 
 				$post['alert']='<div class="alert alert-success">Change theme success</div>';
 
-				Redirect::to(ADMINCP_URL.'theme');
+				Redirect::to(System::getAdminUrl().'theme');
 
 			} catch (Exception $e) {
 				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
@@ -61,22 +61,11 @@ class controlTheme
 	}
 
 
-
-	public function filemanager()
-	{
-
-		View::make('admincp/head',array('title'=>'File Manager - '.ADMINCP_TITLE));
-
-		self::makeContents('filemanagerMain');
-
-		View::make('admincp/footer');		
-	}
-
 	public function edit()
 	{
 		if(!$match=Uri::match('\/edit\/(\w+)'))
 		{
-			Redirect::to(ADMINCP_URL);
+			Redirect::to(System::getAdminUrl());
 		}
 
 		$themeName=$match[1];
@@ -85,7 +74,7 @@ class controlTheme
 
 		if(!is_dir($thePath))
 		{
-			Redirect::to(ADMINCP_URL);
+			Redirect::to(System::getAdminUrl());
 		}
 
 		$subPath=Request::get('path','');
@@ -175,7 +164,7 @@ class controlTheme
 	{
 		if(!$match=Uri::match('\/setting\/(\w+)'))
 		{
-			Redirect::to(ADMINCP_URL);
+			Redirect::to(System::getAdminUrl());
 		}
 
 		if($matchCtr=Uri::match('\/setting\/(\w+)\/controller\/(\w+)'))
@@ -193,14 +182,14 @@ class controlTheme
 
 		if(!is_dir($thePath))
 		{
-			Redirect::to(ADMINCP_URL);
+			Redirect::to(System::getAdminUrl());
 		}
 
 		$info=$thePath.'setting.php';
 
 		if(!file_exists($info))
 		{
-			Redirect::to(ADMINCP_URL);
+			Redirect::to(System::getAdminUrl());
 		}
 
 		$post['filePath']=$info;

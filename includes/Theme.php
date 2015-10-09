@@ -314,6 +314,10 @@ class Theme
 				self::$can_uninstall='yes';
 
 				self::$can_install='no';
+
+				Plugins::$canInstall='no';
+
+				Plugins::$canUninstall='yes';
 								
 				include($oldPath.'functions.php');
 
@@ -333,6 +337,10 @@ class Theme
 			self::$can_install='yes';
 
 			self::$can_uninstall='no';
+			
+			Plugins::$canInstall='yes';
+			
+			Plugins::$canUninstall='no';
 
 			include($path.'functions.php');
 

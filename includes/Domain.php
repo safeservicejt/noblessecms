@@ -39,7 +39,30 @@ class Domain
 
 		$loadData=unserialize(file_get_contents($loadPath));
 
+		$status=isset($loadData['status'])?$loadData['status']:1;
+
+		if((int)$status==0)
+		{
+			return false;
+		}
+
+		if(isset($loadData['date_expires']))
+		{
+			$thistime=time();
+
+			$date_expires=strtotime($loadData['date_expires']);
+
+			if((int)$thistime > $date_expires)
+			{
+				Alert::make('Your domain have been expired!');
+			}
+		}
+
+		$loadData['domain']=$theDomain;
+
 		self::$config=$loadData;
+
+		System::setUrl('http://'.$theDomain.'/');
 
 	}
 
@@ -64,7 +87,9 @@ class Domain
 
 		$theme=self::$config['theme'];
 
-		System::setTheme($theme,'yes');
+		System::setTheme($theme,'no');
+
+
 	}
 
 	public static function checkConnectDB()
@@ -83,33 +108,43 @@ class Domain
 			return false;
 		}
 
+		$connect_type=isset(self::$config['connect_type'])?self::$config['connect_type']:'prefix';
+
 		$prefix=isset(self::$config['prefix'])?self::$config['prefix']:'';
 
 		Database::setPrefix($prefix);
 
 		Database::setPrefixAll();
 
-		$dbtype=self::$config['dbtype'];
+		if($connect_type=='database')
+		{
+			$dbtype=isset(self::$config['dbtype'])?self::$config['dbtype']:'mysqli';
 
-		$dbport=self::$config['dbport'];
+			$dbport=isset(self::$config['dbport'])?self::$config['dbport']:$GLOBALS['db']['default']['dbport'];
 
-		$dbuser=self::$config['dbuser'];
+			$dbuser=isset(self::$config['dbuser'])?self::$config['dbuser']:$GLOBALS['db']['default']['dbuser'];
 
-		$dbpassword=self::$config['dbpassword'];
+			$dbpassword=isset(self::$config['dbpassword'])?self::$config['dbpassword']:$GLOBALS['db']['default']['dbpassword'];
 
-		$dbname=self::$config['dbname'];
+			$dbname=isset(self::$config['dbname'])?self::$config['dbname']:$GLOBALS['db']['default']['dbname'];
 
-		$GLOBALS['db']['default']['dbhost']=$dbhost;
+			$GLOBALS['db']['default']['dbhost']=$dbhost;
 
-		$GLOBALS['db']['default']['dbtype']=$dbtype;
+			$GLOBALS['db']['default']['dbtype']=$dbtype;
 
-		$GLOBALS['db']['default']['dbport']=$dbport;
+			$GLOBALS['db']['default']['dbport']=$dbport;
 
-		$GLOBALS['db']['default']['dbuser']=$dbuser;
+			$GLOBALS['db']['default']['dbuser']=$dbuser;
 
-		$GLOBALS['db']['default']['dbpassword']=$dbpassword;
+			$GLOBALS['db']['default']['dbpassword']=$dbpassword;
 
-		$GLOBALS['db']['default']['dbname']=$dbname;
+			$GLOBALS['db']['default']['dbname']=$dbname;			
+		}
+
+		if(!isset($_COOKIE['root_url']))
+		{
+			header("Location: http://".self::$config['domain'].$_SERVER['REQUEST_URI']);
+		}
 
 	}
 

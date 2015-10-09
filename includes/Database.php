@@ -41,15 +41,13 @@ class Database
 
         self::$use_prefix='yes';
 
-        $_SESSION['prefix']=$str;
+        Cookie::make('prefix',$str,1440*7);
     }
 
     public static function setPrefixAll()
     {
-        $_SESSION['prefixall']='yes';
+        Cookie::make('prefixall','yes',1440*7);
     }
-
-
 
     public static function isPrefixAll()
     {
@@ -65,7 +63,7 @@ class Database
 
     public static function getPrefix()
     {
-        $prefix=isset($_SESSION['prefix'])?$_SESSION['prefix']:PREFIX;
+        $prefix=isset($_COOKIE['prefix'])?$_COOKIE['prefix']:PREFIX;
 
         return $prefix;
     }

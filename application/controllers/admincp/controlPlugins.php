@@ -46,7 +46,7 @@ class controlPlugins
 	{
 		if(!$match=Uri::match('\/install\/(\w+)'))
 		{
-			Redirect::to(ADMINCP_URL);
+			Redirect::to(System::getAdminUrl());
 		}
 
 		$foldername=$match[1];
@@ -60,7 +60,7 @@ class controlPlugins
 			require($path);
 		}
 
-		Redirect::to(ADMINCP_URL.'plugins');
+		Redirect::to(System::getAdminUrl().'plugins');
 
 
 	}
@@ -69,7 +69,7 @@ class controlPlugins
 	{
 		if(!$match=Uri::match('\/controller\/(\w+)\/(\w+)'))
 		{
-			Redirect::to(ADMINCP_URL);
+			Redirect::to(System::getAdminUrl());
 		}
 
 
@@ -79,11 +79,11 @@ class controlPlugins
 
 		$path=PLUGINS_PATH.$foldername.'/controller/control'.ucfirst($funcName).'.php';
 
-		$thisUrl=ADMINCP_URL.'plugins/controller/'.$foldername.'/'.$funcName.'/';
+		$thisUrl=System::getAdminUrl().'plugins/controller/'.$foldername.'/'.$funcName.'/';
 
 		if(!file_exists($path))
 		{
-			Redirect::to(ADMINCP_URL);
+			Redirect::to(System::getAdminUrl());
 		}
 
 		define("THIS_URL",$thisUrl);
@@ -109,7 +109,7 @@ class controlPlugins
 	{
 		if(!$match=Uri::match('\/run\/(\w+)'))
 		{
-			Redirect::to(ADMINCP_URL);
+			Redirect::to(System::getAdminUrl());
 		}
 
 
@@ -126,7 +126,7 @@ class controlPlugins
 
 		if(!file_exists($path))
 		{
-			Redirect::to(ADMINCP_URL);
+			Redirect::to(System::getAdminUrl());
 		}
 
 		define("THIS_URL",PLUGINS_URL.$foldername.'/');
@@ -150,7 +150,7 @@ class controlPlugins
 	{
 		if(!$match=Uri::match('\/setting\/(\w+)'))
 		{
-			Redirect::to(ADMINCP_URL);
+			Redirect::to(System::getAdminUrl());
 		}
 
 		$foldername=$match[1];
@@ -159,7 +159,7 @@ class controlPlugins
 
 		if(!file_exists($path))
 		{
-			Redirect::to(ADMINCP_URL.'plugins');
+			Redirect::to(System::getAdminUrl().'plugins');
 		}
 		
 		$post['title']=ucfirst($foldername);
@@ -177,7 +177,7 @@ class controlPlugins
 	{
 		if(!$match=Uri::match('\/uninstall\/(\w+)'))
 		{
-			Redirect::to(ADMINCP_URL);
+			Redirect::to(System::getAdminUrl());
 		}
 
 		$foldername=$match[1];
@@ -202,14 +202,14 @@ class controlPlugins
 
 		PluginsZone::saveCache();
 
-		Redirect::to(ADMINCP_URL.'plugins');
+		Redirect::to(System::getAdminUrl().'plugins');
 
 	}
 	public function activate()
 	{
 		if(!$match=Uri::match('\/activate\/(\w+)'))
 		{
-			Redirect::to(ADMINCP_URL);
+			Redirect::to(System::getAdminUrl());
 		}
 
 		$foldername=$match[1];
@@ -219,13 +219,13 @@ class controlPlugins
 
 		PluginsZone::saveCache();
 		
-		Redirect::to(ADMINCP_URL.'plugins');
+		Redirect::to(System::getAdminUrl().'plugins');
 	}
 	public function deactivate()
 	{
 		if(!$match=Uri::match('\/deactivate\/(\w+)'))
 		{
-			Redirect::to(ADMINCP_URL);
+			Redirect::to(System::getAdminUrl());
 		}
 
 		$foldername=$match[1];
@@ -235,7 +235,7 @@ class controlPlugins
 
 		PluginsZone::saveCache();
 
-		Redirect::to(ADMINCP_URL.'plugins');
+		Redirect::to(System::getAdminUrl().'plugins');
 	}
 
 	public function import()

@@ -6,7 +6,7 @@ class controlLogout
 	{
         Users::logout();
 
-        Redirect::to(ROOT_URL.'admincp');
+        Redirect::to(System::getUrl().'admincp');
 
 	}
     public function makeContents($viewPath,$inputData=array())

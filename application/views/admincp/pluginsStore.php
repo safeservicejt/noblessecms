@@ -50,7 +50,7 @@
 
 <script>
 
-var root_url='<?php echo ROOT_URL;?>';
+var root_url='<?php echo System::getUrl();?>';
 var api_url=root_url+'api/';
 
 var showType='lastest';

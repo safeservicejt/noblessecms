@@ -4,13 +4,13 @@
             <![CDATA[ <?php echo $setting['title'];?> ]]>
         </title>
         <link>
-        <![CDATA[ <?php echo ROOT_URL;?> ]]>
+        <![CDATA[ <?php echo System::getUrl();?> ]]>
         </link>
         <description>
             <![CDATA[ <?php echo $setting['description'];?> ]]>
         </description>
         <ttl>10</ttl>
-        <copyright><?php echo ROOT_URL;?></copyright>
+        <copyright><?php echo System::getUrl();?></copyright>
         <pubDate><?php echo date("d/m/Y h:m:s");?></pubDate>
         <generator>NoblesseCMS</generator>
         <docs><?php echo Url::rss();?></docs>
@@ -19,9 +19,9 @@
                 <?php echo $setting['title'];?>
             </title>
             <url>
-                <?php echo ROOT_URL;?>bootstrap/images/logo3128.png
+                <?php echo System::getUrl();?>bootstrap/images/logo3128.png
             </url>
-            <link><?php echo ROOT_URL;?></link>
+            <link><?php echo System::getUrl();?></link>
             <width>128</width>
             <height>128</height>
         </image>
@@ -46,7 +46,7 @@
                 </link>
                 <image>
                 <![CDATA[
-                '.ROOT_URL.$listPost[$i]['image'].'
+                '.System::getUrl().$listPost[$i]['image'].'
                 ]]>
                 </image>
                 <guid isPermaLink="false">

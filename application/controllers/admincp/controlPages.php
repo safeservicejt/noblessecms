@@ -66,9 +66,13 @@ class controlPages
 
 	public function edit()
 	{
+		$username=$_COOKIE['username'].'/page';
+
+		System::makeFileManagePath($username);
+		
 		if(!$match=Uri::match('\/edit\/(\d+)'))
 		{
-			Redirect::to(ADMINCP_URL.'pages/');
+			Redirect::to(System::getAdminUrl().'pages/');
 		}
 
 
@@ -107,6 +111,10 @@ class controlPages
 	}
 	public function addnew()
 	{
+		$username=$_COOKIE['username'].'/page';
+
+		System::makeFileManagePath($username);
+
 		$post=array('alert'=>'');
 
 		if(Request::has('btnAdd'))

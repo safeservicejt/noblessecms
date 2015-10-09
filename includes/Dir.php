@@ -108,7 +108,7 @@ class Dir
     {
         $filterPath=str_replace(ROOT_PATH,'',$dirPath);
 
-        if(preg_match_all('/(\w+)/i',$filterPath,$matches))
+        if(preg_match_all('/([a-zA-Z0-9_\.\-\_]+)/i',$filterPath,$matches))
         {
             $total=count($matches[1]);
 

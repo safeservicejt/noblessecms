@@ -33,9 +33,15 @@ System::defineGlobalVar('site_footer',$codeFooter);
 
 
 $links=Links::get(array(
-	'cacheTime'=>3,
+	'cache'=>'yes',
+	'cacheTime'=>30,
 	'orderby'=>'order by sort_order asc'
 	));
+
+// if(!is_array($links))
+// {
+// 	$links=unserialize($links);
+// }
 
 System::defineVar('linkList',$links,'head');
 

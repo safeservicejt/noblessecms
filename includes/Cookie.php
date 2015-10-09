@@ -22,18 +22,18 @@ class Cookie
 
         $mins = time() + ((int)$mins * 60);
 
-        $urls=parse_url(ROOT_URL);
+        // $urls=parse_url(ROOT_URL);
 
-        setcookie($cookieName, $cookieValue, $mins,'/',$urls['host']);
+        setcookie($cookieName, $cookieValue, $mins,'/',$_SERVER['HTTP_HOST']);
     }
 
 
 
     public static function destroy($cookieName = '')
     {
-        $urls=parse_url(ROOT_URL);
+        // $urls=parse_url(ROOT_URL);
 
-        setcookie($cookieName, '', 1,'/',$urls['host']);
+        setcookie($cookieName, '', 1,'/',$_SERVER['HTTP_HOST']);
     }
 }
 

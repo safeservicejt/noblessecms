@@ -64,7 +64,7 @@
                                     <small>Group: '.$theList[$i]['group_title'].'</small>&nbsp;&nbsp;<small>Email: '.$theList[$i]['email'].'</small>
                                     </td>
 	    							<td class="col-lg-1 text-right">
-	    							<a href="'.ADMINCP_URL.'users/edit/'.$theList[$i]['userid'].'" class="btn btn-warning btn-xs">Edit</a>
+	    							<a href="'.System::getAdminUrl().'users/edit/'.$theList[$i]['userid'].'" class="btn btn-warning btn-xs">Edit</a>
 	    							</td>
 	    						</tr>    						
 	    						<!-- tr -->

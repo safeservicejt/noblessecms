@@ -62,7 +62,7 @@
                                     </td>
                                  
                                     <td class="col-lg-1 text-right">
-                                    <a href="'.ADMINCP_URL.'contacts/view/'.$theList[$i]['contactid'].'" class="btn btn-warning btn-xs">View</a>
+                                    <a href="'.System::getAdminUrl().'contacts/view/'.$theList[$i]['contactid'].'" class="btn btn-warning btn-xs">View</a>
                                     </td>
 	    						</tr>    						
 	    						<!-- tr -->

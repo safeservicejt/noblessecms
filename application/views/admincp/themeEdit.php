@@ -33,7 +33,7 @@
     	<div class="col-lg-3">
     	<h3>All Files</h3>
     		<ul class="ul-list-files">
-    		<li><a href="<?php echo ADMINCP_URL.'theme/edit/'.$themeName.'/?path='.dirname($subPath);?>">..</a></li>
+    		<li><a href="<?php echo System::getAdminUrl().'theme/edit/'.$themeName.'/?path='.dirname($subPath);?>">..</a></li>
     		<?php
     		if(isset($listFiles[0]))
     		{
@@ -48,7 +48,7 @@
     					$subPath='';
     				}
 
-    				$li.='<li><a href="'.ADMINCP_URL.'theme/edit/'.$themeName.'/?path='.$subPath.$listFiles[$i].'">'.$listFiles[$i].'</a>
+    				$li.='<li><a href="'.System::getAdminUrl().'theme/edit/'.$themeName.'/?path='.$subPath.$listFiles[$i].'">'.$listFiles[$i].'</a>
     				<div class="pull-right">
     				
     				</div>

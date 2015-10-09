@@ -71,7 +71,7 @@ class controlComments
 	{
 		if(!$match=Uri::match('\/view\/(\d+)'))
 		{
-			Redirect::to(ADMINCP_URL.'comments/');
+			Redirect::to(System::getAdminUrl().'comments/');
 		}
 
 

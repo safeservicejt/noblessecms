@@ -46,7 +46,7 @@
 
 		<button type="submit" class="btn btn-primary" name="btnSend">Send</button>
 
-		<a href="<?php echo ROOT_URL;?>" class="btn btn-default pull-right">Back</a>
+		<a href="<?php echo System::getUrl();?>" class="btn btn-default pull-right">Back</a>
 	</form>
 </div>
 </div>

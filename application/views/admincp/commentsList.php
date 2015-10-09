@@ -74,7 +74,7 @@
                                  
                                     <td class="col-lg-1 text-right">'.$status.'</td>
                                     <td class="col-lg-1 text-right">
-                                    <a href="'.ADMINCP_URL.'comments/view/'.$theList[$i]['commentid'].'" class="btn btn-warning btn-xs">View</a>
+                                    <a href="'.System::getAdminUrl().'comments/view/'.$theList[$i]['commentid'].'" class="btn btn-warning btn-xs">View</a>
                                     </td>
 	    						</tr>    						
 	    						<!-- tr -->

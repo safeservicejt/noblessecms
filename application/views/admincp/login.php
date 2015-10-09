@@ -1,5 +1,5 @@
 
-    <link href="<?php echo ROOT_URL;?>bootstrap/sbnoblesse/css/login.css" rel="stylesheet">
+    <link href="<?php echo System::getUrl();?>bootstrap/sbnoblesse/css/login.css" rel="stylesheet">
 
     <form action="" method="post" enctype="multipart/form-data">
     <div class="container">
@@ -10,7 +10,7 @@
 	    	<!-- row -->
 	    	<div class="row">
 	    		<div class="col-lg-12 text-center">
-	    	<img src="<?php echo ROOT_URL;?>bootstrap/sbnoblesse/images/logo3128.png" />	    			
+	    	<img src="<?php echo System::getUrl();?>bootstrap/sbnoblesse/images/logo3128.png" />	    			
 	    		</div>
 	    	</div>
 	    	<!-- row -->
@@ -46,7 +46,7 @@
 							    <p>
 							    	<button type="submit" class="btn btn-primary" name="btnLogin">Login</button>
 
-							    	<a href="<?php echo ADMINCP_URL;?>forgotpass" class="pull-right">Forgot Password ?</a>
+							    	<a href="<?php echo System::getAdminUrl();?>forgotpass" class="pull-right">Forgot Password ?</a>
 							    </p>					  			
 					  		</div>
 					  	</div>

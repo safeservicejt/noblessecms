@@ -1,5 +1,5 @@
 
-<script src="<?php echo ROOT_URL; ?>bootstrap/ckeditor/ckeditor.js"></script>
+<script src="<?php echo System::getUrl(); ?>bootstrap/ckeditor/ckeditor.js"></script>
 
 <div class="panel panel-default">
   <div class="panel-heading">
@@ -109,15 +109,15 @@
   // instance, using default configuration.
   // CKEDITOR.replace( 'editor' );
 CKEDITOR.replace( 'editor' ,{
-  filebrowserBrowseUrl : '<?php echo ROOT_URL;?>bootstrap/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
-  filebrowserUploadUrl : '<?php echo ROOT_URL;?>bootstrap/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
-  filebrowserImageBrowseUrl : '<?php echo ROOT_URL;?>bootstrap/ckeditor/filemanager/dialog.php?type=1&editor=ckeditor&fldr='
+  filebrowserBrowseUrl : '<?php echo System::getUrl();?>bootstrap/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
+  filebrowserUploadUrl : '<?php echo System::getUrl();?>bootstrap/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
+  filebrowserImageBrowseUrl : '<?php echo System::getUrl();?>bootstrap/ckeditor/filemanager/dialog.php?type=1&editor=ckeditor&fldr='
 });   
 </script>
 
 
   <script type="text/javascript">
-            var root_url='<?php echo ROOT_URL;?>';
+            var root_url='<?php echo System::getUrl();?>';
 
 $(document).ready(function(){
     $('#uploadMethod').change(function(){

@@ -93,9 +93,13 @@ class controlPost
 
 	public function edit()
 	{
+		$username=$_COOKIE['username'].'/post';
+
+		System::makeFileManagePath($username);
+
 		if(!$match=Uri::match('\/edit\/(\d+)'))
 		{
-			Redirect::to(ADMINCP_URL.'post/');
+			Redirect::to(System::getAdminUrl().'post/');
 		}
 
 
@@ -136,6 +140,11 @@ class controlPost
 	}
 	public function addnew()
 	{
+
+		$username=$_COOKIE['username'].'/post';
+
+		System::makeFileManagePath($username);
+
 		$post=array('alert'=>'');
 
 		if(Request::has('btnAdd'))

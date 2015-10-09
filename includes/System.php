@@ -135,19 +135,21 @@ class System
 			return false;
 		}
 
-		$path=THEMES_PATH.$curName;
+		$path=THEMES_PATH.$themeName;
 
 		if(is_dir($path))
 		{
-			// $_COOKIE['theme_name']=$curName;
+			// $_COOKIE['theme_name']=$themeName;
 
-			Cookie::make('theme_name',$curName,1440*7);
+			Cookie::make('theme_name',$themeName,1440*7);
 
 			self::setUri('/');
 
-			if(!isset($_COOKIE['theme_name']) && $redirect!='no')
+			if($redirect!='no')
 			{
-				header("Location: ".self::getUrl());
+				$siteUrl='http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+				
+				header("Location: ".$siteUrl);
 
 				exit();
 			}
@@ -351,12 +353,23 @@ class System
 		return self::$setting['rss_status'];
 	}
 
+	public static function getAdminUrl()
+	{
+		$result=self::getUrl().'admincp/';
 
+		return $result;
+	}
+	
 	public static function getUrl()
 	{
 		$url=isset($_COOKIE['root_url'])?$_COOKIE['root_url']:ROOT_URL;
 
 		return $url;
+	}
+
+	public static function setUrl($url)
+	{
+		Cookie::make('root_url',$url,1440*7);
 	}
 
 	public static function getThemeUrl()
@@ -443,7 +456,9 @@ class System
 
 		if(!isset(self::$setting['register_user_status']))
 		{
-			if(!$data=Cache::loadKey('systemSetting',-1))
+			$prefix=Database::getPrefix();
+
+			if(!$data=Cache::loadKey('systemSetting'.$prefix,-1))
 			{
 				$data=self::makeSetting();
 			}
@@ -502,18 +517,17 @@ class System
 			'system_status'=>'working','system_mode'=>'basic', 'system_lang'=>'en', 'register_user_status'=>'enable',
 			'default_member_groupid'=>'1', 'default_member_banned_groupid'=>'2', 'default_dateformat'=>'M d, Y',
 			'rss_status'=>'enable','comment_status'=>'enable', 'title'=>'Noblesse CMS Website', 'keywords'=>'noblessecms, blog, website',
-			'descriptions'=>'Noblesse CMS Website Description','default_page_method'=>'none','default_page_url'=>'',
+			'descriptions'=>'Noblesse CMS Website Description','default_page_method'=>'none','default_page_url'=>'','default_timezone'=>'US/Arizona',
 			'mail'=>array(
 				'send_method'=>'local',
 				'fromName'=>'Admin','fromEmail'=>'Admin@gmail.com','smtpAddress'=>'smtp.gmail.com',
 				'smtpUser'=>'youremail@gmail.com','smtpPass'=>'yourpass','smtpPort'=>'497',
 				'registerSubject'=>'Signup completed - NoblesseCMS','registerContent'=>'Content here','forgotSubject'=>'Subject here',
 				'forgotContent'=>'Content here'
-				),
-			'default_affiliate_commission'=>'50','default_vat_commission'=>'10','default_order_status'=>'pending','default_currency'=>'usd','default_min_withdraw'=>'10'
+				)
 			);	
 
-		Cache::saveKey('systemSetting',serialize($settingData));
+		self::saveSettingData($settingData);
 
 		return $settingData;
 	}
@@ -533,31 +547,42 @@ class System
 
 		}
 		
-		Cache::saveKey('systemSetting',serialize($data));
+		self::saveSettingData($data);
+
 	}
 
 	public static function removeSetting($inputData=array())
 	{
 		$data=self::getSetting();
 
-		$keyNames=array_keys($inputData);
-
 		$total=count($inputData);
 
 		for ($i=0; $i < $total; $i++) { 
-			$keyName=$keyNames[$i];
+			$keyName=$inputData[$i];
 
 			unset($data[$keyName]);
 
 		}
+
+		self::saveSettingData($data);
 		
-		Cache::saveKey('systemSetting',serialize($data));
+	}
+
+	public static function saveSettingData($inputData=array())
+	{
+		$prefix=Database::getPrefix();
+
+		$fileName='systemSetting'.$prefix.'.cache';
+
+		File::create(ROOT_PATH.'application/caches/'.$fileName,serialize($inputData));
 	}
 
 	
 
 	public static function saveMailSetting($inputData=array())
 	{
+		$prefix=Database::getPrefix();
+
 		$data=self::getSetting();
 
 		$keyNames=array_keys($inputData);
@@ -571,7 +596,14 @@ class System
 
 		}
 		
-		Cache::saveKey('systemSetting',serialize($data));
+		// Cache::saveKey('systemSetting',serialize($data));
+		File::create(ROOT_PATH.'application/caches/systemSetting'.$prefix.'.cache',serialize($data));
+
+	}
+
+	public static function makeFileManagePath($str)
+	{
+		Cookie::make('add_path',$str,1440*7);
 	}
 
 	public static function dateTime($str='',$thisTime=0)

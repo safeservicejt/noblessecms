@@ -45,9 +45,9 @@
 
 				for($i=0;$i<$totalRow;$i++)
 				{
-					$status='<a href="'.ROOT_URL.'admincp/plugins/uninstall/'.$theList[$i]['foldername'].'">Uninstall</a>';		
+					$status='<a href="'.System::getUrl().'admincp/plugins/uninstall/'.$theList[$i]['foldername'].'">Uninstall</a>';		
 
-					$activate='<a href="'.ROOT_URL.'admincp/plugins/deactivate/'.$theList[$i]['foldername'].'">Deactivate</a>&nbsp;&nbsp;&nbsp;';	
+					$activate='<a href="'.System::getUrl().'admincp/plugins/deactivate/'.$theList[$i]['foldername'].'">Deactivate</a>&nbsp;&nbsp;&nbsp;';	
 
 					$control='';	
 
@@ -56,18 +56,18 @@
 					if((int)$theList[$i]['install'] == 0)
 					{
 			
-						$status='<a href="'.ROOT_URL.'admincp/plugins/install/'.$theList[$i]['foldername'].'">Install</a>';						
+						$status='<a href="'.System::getUrl().'admincp/plugins/install/'.$theList[$i]['foldername'].'">Install</a>';						
 					}
 					if((int)$theList[$i]['setting'] == 1 && (int)$theList[$i]['install']==1)
 					{
 			
-						$pluginSetting='<a href="'.ROOT_URL.'admincp/plugins/setting/'.$theList[$i]['foldername'].'">Setting</a>&nbsp;&nbsp;&nbsp;';						
+						$pluginSetting='<a href="'.System::getUrl().'admincp/plugins/setting/'.$theList[$i]['foldername'].'">Setting</a>&nbsp;&nbsp;&nbsp;';						
 					}
 
 					if((int)$theList[$i]['status'] == 0 && (int)$theList[$i]['install']==1)
 					{
 			
-						$activate='<a href="'.ROOT_URL.'admincp/plugins/activate/'.$theList[$i]['foldername'].'">Activate</a>&nbsp;&nbsp;&nbsp;';		
+						$activate='<a href="'.System::getUrl().'admincp/plugins/activate/'.$theList[$i]['foldername'].'">Activate</a>&nbsp;&nbsp;&nbsp;';		
 											
 					}elseif((int)$theList[$i]['status'] == 0 && (int)$theList[$i]['install']==0)
 					{

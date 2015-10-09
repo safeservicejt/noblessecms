@@ -4,7 +4,7 @@ class themeHome
 {
 	public function index()
 	{
-		Cache::loadPage('',30);
+		// Cache::loadPage('',30);
 
 		$inputData=array();
 
@@ -20,9 +20,12 @@ class themeHome
 		$curPage=((int)$curPage >= 0)?$curPage:0;
 
 		$inputData['newPost']=Post::get(array(
+			'cache'=>'yes',
+			'cacheTime'=>15,
 			'limitShow'=>2,
 			'limitPage'=>$curPage
 			));
+
 
 		if(!isset($inputData['newPost'][0]['postid']))
 		{
@@ -33,7 +36,7 @@ class themeHome
 
 		self::makeContent('home',$inputData);
 
-		Cache::savePage();
+		// Cache::savePage();
 	}
 
 	public function makeContent($viewName,$inputData=array())

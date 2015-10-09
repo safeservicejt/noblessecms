@@ -55,7 +55,7 @@
 					<td>'.stripslashes($theList[$i]['group_title']).'
 					</td>
 
-					<td><a href="'.ROOT_URL.'admincp/usergroups/edit/'.$theList[$i]['groupid'].'" class="btn btn-xs btn-warning">Edit</a></td>
+					<td><a href="'.System::getUrl().'admincp/usergroups/edit/'.$theList[$i]['groupid'].'" class="btn btn-xs btn-warning">Edit</a></td>
 
 					</tr>
 					';

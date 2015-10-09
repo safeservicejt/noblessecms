@@ -30,7 +30,7 @@ function loginProcess()
 	}
 
 
-	Redirect::to(ADMINCP_URL);
+	Redirect::to(System::getAdminUrl());
 }
 
 ?>

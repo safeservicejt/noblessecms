@@ -89,7 +89,7 @@
                                     </td>
                                     <td class="col-lg-1 text-right">'.$status.'</td>
                                     <td class="col-lg-1 text-right">
-                                    <a href="'.ADMINCP_URL.'pages/edit/'.$theList[$i]['pageid'].'" class="btn btn-warning btn-xs">Edit</a>
+                                    <a href="'.System::getAdminUrl().'pages/edit/'.$theList[$i]['pageid'].'" class="btn btn-warning btn-xs">Edit</a>
                                     </td>
 	    						</tr>    						
 	    						<!-- tr -->

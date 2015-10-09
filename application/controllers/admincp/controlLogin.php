@@ -10,7 +10,7 @@ class controlLogin
 
         // if(Session::has('userid'))
         // {
-        //     Redirect::to(ADMINCP_URL);
+        //     Redirect::to(System::getAdminUrl());
         // }
 
         if(Request::has('btnLogin'))
@@ -19,7 +19,7 @@ class controlLogin
 
                 loginProcess();
 
-                Redirect::to(ADMINCP_URL);
+                Redirect::to(System::getAdminUrl());
                 
             } catch (Exception $e) {
                 $postData['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';

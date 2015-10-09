@@ -59,7 +59,7 @@ class controlUsergroups
 	{
 		if(!$match=Uri::match('\/edit\/(\d+)'))
 		{
-			Redirect::to(ADMINCP_URL.'usergroups/');
+			Redirect::to(System::getAdminUrl().'usergroups/');
 		}
 
 

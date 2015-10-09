@@ -470,6 +470,10 @@ class Plugins
 	}
 	public static function makeUninstall($foldername)
 	{
+		self::$canInstall='no';
+
+		self::$canAddZone=='no';
+
 		// Route::$canAdd='no';
 
 		// Route::$canRemove='yes';

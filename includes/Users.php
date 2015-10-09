@@ -242,7 +242,7 @@ class Users
 			$img='bootstrap/images/noavatar.jpg';
 		}
 
-		$img=ROOT_URL.$img;
+		$img=System::getUrl().$img;
 
 		return $img;
 	}
@@ -279,7 +279,7 @@ class Users
 			'forgot_code'=>$verifyCode
 			));
 
-		$codeUrl=ROOT_URL.'api/user/verify_forgotpassword?verify_code='.$verifyCode;
+		$codeUrl=System::getUrl().'api/user/verify_forgotpassword?verify_code='.$verifyCode;
 
 		$replaces=array(
 			'{username}'=>$loadUser[0]['username'],
@@ -335,7 +335,7 @@ class Users
 		{
 			// $replaces['{verify_code}']=$inputData['verify_code'];
 
-			$replaces['{verify_code}']=ROOT_URL.'api/user/verify_email?verify_code='.$inputData['verify_code'];
+			$replaces['{verify_code}']=System::getUrl().'api/user/verify_email?verify_code='.$inputData['verify_code'];
 
 			$subject=System::getMailSetting('registerConfirmSubject');
 
@@ -391,7 +391,7 @@ class Users
 			'password'=>String::encrypt($newPass)
 			));
 
-		// $codeUrl=ROOT_URL.'api/user/verify_forgotpassword?verify_code='.$verifyCode;
+		// $codeUrl=System::getUrl().'api/user/verify_forgotpassword?verify_code='.$verifyCode;
 
 		$replaces=array(
 			'{username}'=>$loadUser[0]['username'],
@@ -400,11 +400,11 @@ class Users
 			'{lastname}'=>$loadUser[0]['lastname'],
 			'{fullname}'=>$loadUser[0]['firstname'].' '.$loadUser[0]['lastname'],
 			'{password}'=>$newPass,
-			'{siteurl}'=>ROOT_URL,
-			'{site_url}'=>ROOT_URL
+			'{siteurl}'=>System::getUrl(),
+			'{site_url}'=>System::getUrl()
 			);
 
-		$parse=parse_url(ROOT_URL);
+		$parse=parse_url(System::getUrl());
 
 
 		$subject=System::getMailSetting('forgotNewPasswordSubject');
@@ -796,7 +796,7 @@ class Users
 
 		// DBCache::removeDir('system/user');
 		
-		DBCache::removeCache($listID,'system/user');
+		// DBCache::removeCache($listID,'system/user');
 
 		return true;
 	}
@@ -846,7 +846,7 @@ class Users
 
 		// DBCache::removeDir('system/user');
 
-		DBCache::removeCache($listIDs,'system/user');
+		// DBCache::removeCache($listIDs,'system/user');
 
 		if(!$error=Database::hasError())
 		{

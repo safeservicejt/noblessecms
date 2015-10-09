@@ -4,7 +4,7 @@
 <div class="well well-modern">
 
 <!-- widget -->
-<form action="<?php echo ROOT_URL;?>search" method="post" enctype="multipart/form-data">
+<form action="<?php echo System::getUrl();?>search" method="post" enctype="multipart/form-data">
 <div class="row">
 <div class="col-lg-12">
 <h4><strong>SEARCH</strong></h4>
@@ -24,6 +24,8 @@
 <!-- widget -->
 <?php
 $categories=Categories::get(array(
+  'cache'=>'yes',
+  'cacheTime'=>15,
   'where'=>"where parentid='0'"
   ));
 

@@ -34,6 +34,8 @@ CKEDITOR.editorConfig = function( config ) {
 	
 	config.entities = false;
 
+	config.allowedContent = true;
+
 	// Set the most common block elements.
 	config.format_tags = 'p;h1;h2;h3;pre';
 

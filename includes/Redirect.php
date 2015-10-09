@@ -6,7 +6,7 @@ class Redirect
     {
         $url = $reUrl;
         if (!preg_match('/http/i', $reUrl)) {
-            $url = ROOT_URL . $reUrl;
+            $url = System::getUrl() . $reUrl;
         }
 
         if((int)$code > 0)

@@ -61,7 +61,7 @@
 	    							<td class="col-lg-9">'.$theList[$i]['title'].'</td>
 	    							<td class="col-lg-2 text-right">'.$theList[$i]['sort_order'].'</td>
 	    							<td class="col-lg-2 text-right">
-	    							<a href="'.ADMINCP_URL.'categories/edit/'.$theList[$i]['catid'].'" class="btn btn-warning btn-xs">Edit</a>
+	    							<a href="'.System::getAdminUrl().'categories/edit/'.$theList[$i]['catid'].'" class="btn btn-warning btn-xs">Edit</a>
 	    							</td>
 	    						</tr>    						
 	    						<!-- tr -->
@@ -150,12 +150,12 @@
                 </p>   
 
                 <p>
-                    <img src="<?php echo ROOT_URL.$edit['image']?>" class="img-responsive" />
+                    <img src="<?php echo System::getUrl().$edit['image']?>" class="img-responsive" />
                 </p>  
 
 	    		<p>
 	    			<button type="submit" class="btn btn-primary" name="btnSave">Save changes</button>
-                    <a href="<?php echo ADMINCP_URL;?>categories" class="btn btn-default pull-right">Back</a>
+                    <a href="<?php echo System::getAdminUrl();?>categories" class="btn btn-default pull-right">Back</a>
 	    		</p>   		
                 </form> 	
     		</div>
@@ -169,7 +169,7 @@
 
 
   <script type="text/javascript">
-            var root_url='<?php echo ROOT_URL;?>';
+            var root_url='<?php echo System::getUrl();?>';
 
  $( document ).on( "click", "span.removeTextChosen", function() {
 

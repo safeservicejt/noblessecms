@@ -45,11 +45,19 @@ define('USE_ACCESS_KEYS', false); // TRUE or FALSE
 |    |   |   |   |   |- plugin.min.js
 */
 
-$savePath=dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/uploads/images/';
+$root_path=dirname(dirname(dirname(dirname(dirname(__FILE__)))));
+
+include($root_path.'/config.php');
+
+$savePath=$root_path.'/uploads/images/';
+
+$addPath=isset($_COOKIE['add_path'])?$_COOKIE['add_path'].'/':'';
+
+$savePath=$savePath.$addPath;
 
 if(!is_dir($savePath))
 {
-	mkdir($savePath);
+    Dir::create($savePath);	
 }
 
 $config = array(
@@ -73,7 +81,7 @@ $config = array(
 	| with start and final /
 	|
 	*/
-	'upload_dir' => '/uploads/images/',
+	'upload_dir' => '/uploads/images/'.$addPath,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -94,7 +102,7 @@ $config = array(
 	| DO NOT put inside upload folder
 	|
 	*/
-	'thumbs_base_path' => '../../../../../uploads/images/',
+	'thumbs_base_path' => '../../../../../uploads/images/'.$addPath,
 
 	/*
 	|--------------------------------------------------------------------------

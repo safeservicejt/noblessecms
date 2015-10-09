@@ -25,7 +25,7 @@ class Misc
 
 		for($i=$start;$i<=$endpage;$i++)
 		{
-			$li.='<li><a href="'.ROOT_URL.$title.$startSplitChar.'page'.$splitChar.$i.'">'.$i.'</a></li>';
+			$li.='<li><a href="'.System::getUrl().$title.$startSplitChar.'page'.$splitChar.$i.'">'.$i.'</a></li>';
 		}
 
 		$prev=$start-1;
@@ -35,9 +35,9 @@ class Misc
 		return '
 		<nav>
 					<ul class="pagination '.$isLarge.'">
-					  <li><a href="'.ROOT_URL.$title.$startSplitChar.'page'.$splitChar.$prev.'">&laquo;</a></li>
+					  <li><a href="'.System::getUrl().$title.$startSplitChar.'page'.$splitChar.$prev.'">&laquo;</a></li>
 					  '.$li.'
-					  <li><a href="'.ROOT_URL.$title.$startSplitChar.'page'.$splitChar.$next.'">&raquo;</a></li>
+					  <li><a href="'.System::getUrl().$title.$startSplitChar.'page'.$splitChar.$next.'">&raquo;</a></li>
 					</ul>
 		</nav> 
 		';

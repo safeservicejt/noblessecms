@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="keywords" content="<?php echo System::getKeywords();?>">
         <meta name="description" content="<?php echo System::getDescriptions();?>">
-        <link rel="shortcut icon" href="<?php echo ROOT_URL;?>bootstrap/favicon.ico">
+        <link rel="shortcut icon" href="<?php echo System::getUrl();?>bootstrap/favicon.ico">
         <meta name="author" content="Safeservicejt">
-        <meta name="url" id="rootUrl" content="<?php echo ROOT_URL;?>">
+        <meta name="url" id="rootUrl" content="<?php echo System::getUrl();?>">
 
         <title><?php echo System::getTitle();?></title>
 
@@ -26,12 +26,12 @@
        
       <script src="<?php echo System::getThemeUrl();?>js/jquery-2.1.1.min.js"></script>
       <script src="<?php echo System::getThemeUrl();?>js/jquery-2.1.1.min.map"></script>
-              <script src="<?php echo ROOT_URL;?>bootstrap/js/system.js"></script>
+              <script src="<?php echo System::getUrl();?>bootstrap/js/system.js"></script>
  
         <!-- bxSlider Javascript file -->
-        <script src="<?php echo ROOT_URL;?>bootstrap/bxslider/jquery.bxslider.min.js"></script>
+        <script src="<?php echo System::getUrl();?>bootstrap/bxslider/jquery.bxslider.min.js"></script>
         <!-- bxSlider CSS file -->
-        <link href="<?php echo ROOT_URL;?>bootstrap/bxslider/jquery.bxslider.css" rel="stylesheet" />
+        <link href="<?php echo System::getUrl();?>bootstrap/bxslider/jquery.bxslider.css" rel="stylesheet" />
       
       <script src="<?php echo System::getThemeUrl();?>js/custom.js"></script>
       
@@ -54,7 +54,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="<?php echo ROOT_URL;?>">NoblesseCMS</a>
+      <a class="navbar-brand" href="<?php echo System::getUrl();?>">NoblesseCMS</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->

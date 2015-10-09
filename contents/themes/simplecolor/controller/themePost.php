@@ -19,10 +19,9 @@ class themePost
 
 		$friendly_url=addslashes($match[1]);
 
-		
 
 		$loadData=Post::get(array(
-			'cacheTime'=>30,
+			'cacheTime'=>1,
 			'where'=>"where friendly_url='$friendly_url'"
 			));
 
@@ -33,18 +32,17 @@ class themePost
 
 		$inputData=$loadData[0];
 
+		$postid=$inputData['postid'];
+
 		if(Request::has('btnComment'))
 		{
 			try {
-				sendComment($loadData[0]['postid']);
+				sendComment($postid);
 				$inputData['commentAlert']='<div class="alert alert-success">Send comment success.</div>';
 			} catch (Exception $e) {
 				$inputData['commentAlert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
 			}
 		}
-
-
-		$postid=$loadData[0]['postid'];
 
 		$listTag=PostTags::renderToLink($postid);
 
