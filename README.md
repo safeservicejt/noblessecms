@@ -1,5 +1,7 @@
 Noblesse CMS is a modern and lightweight Content Management System. Faster more than 300% -> 500% others system!
 
+Support multi websites & big data :). All question you can sent to freshcodeteam@gmail.com
+
 Homepage: http://noblessecms.com/
 
 Facebook page: https://www.facebook.com/noblessecmspage
