@@ -458,19 +458,22 @@ class System
 		{
 			$prefix=Database::getPrefix();
 
-			if(!$data=Cache::loadKey('systemSetting'.$prefix,-1))
+			$fileName=ROOT_PATH.'application/caches/systemSetting'.$prefix.'.cache';
+
+			if(!file_exists($fileName))
 			{
 				$data=self::makeSetting();
 			}
 			else
 			{
-				$data=unserialize($data);
+				$data=unserialize(String::decrypt(file_get_contents($fileName)));
 			}
 		}
 		else
 		{
 			$data=self::$setting;
 		}
+
 
 		if(!isset($keyName[1]))
 		{
@@ -485,6 +488,9 @@ class System
 			return $keyValue;
 
 		}
+
+
+
 	}
 	
 	public static function setSetting($keyName='',$keyValue='')
@@ -544,6 +550,8 @@ class System
 			$keyName=$keyNames[$i];
 
 			$data[$keyName]=$inputData[$keyName];
+			
+			self::$setting[$keyName]=$inputData[$keyName];
 
 		}
 		
@@ -574,7 +582,7 @@ class System
 
 		$fileName='systemSetting'.$prefix.'.cache';
 
-		File::create(ROOT_PATH.'application/caches/'.$fileName,serialize($inputData));
+		File::create(ROOT_PATH.'application/caches/'.$fileName,String::encrypt(serialize($inputData)));
 	}
 
 	
@@ -597,7 +605,7 @@ class System
 		}
 		
 		// Cache::saveKey('systemSetting',serialize($data));
-		File::create(ROOT_PATH.'application/caches/systemSetting'.$prefix.'.cache',serialize($data));
+		File::create(ROOT_PATH.'application/caches/systemSetting'.$prefix.'.cache',String::encrypt(serialize($data)));
 
 	}
 

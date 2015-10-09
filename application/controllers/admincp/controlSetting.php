@@ -24,23 +24,11 @@ class controlSetting
 
 		if(Request::has('btnSave'))
 		{
-
 			System::saveSetting(Request::get('general'));
 		}
 
-		$data=array();
 
-		if(!$data=Cache::loadKey('systemSetting',-1))
-		{
-			$data=System::makeSetting();
-		}
-		else
-		{
-			$data=unserialize($data);
-		}
-
-
-		$post=$data;
+		$post=System::getSetting();
 
 		$post['usergroups']=UserGroups::get();
 		

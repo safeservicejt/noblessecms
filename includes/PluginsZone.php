@@ -38,6 +38,11 @@ class PluginsZone
 
 	public static function removeCache($foldername)
 	{
+		if(isset(Plugins::$listCaches['loaded']) && Plugins::$listCaches['loaded']=='no')
+		{
+			self::loadCache();
+		}
+
 		$listKey=array_keys(Plugins::$listCaches);
 
 		$totalKey=count($listKey);
@@ -48,16 +53,25 @@ class PluginsZone
 			$total=count(Plugins::$listCaches[$theKey]);
 
 			for ($j=0; $j < $total; $j++) { 
+
+				if(!isset(Plugins::$listCaches[$theKey][$j]['foldername']))
+				{
+					continue;
+				}
+
 				if(Plugins::$listCaches[$theKey][$j]['foldername']==$foldername)
 				{
 					unset(Plugins::$listCaches[$theKey][$j]);
 				}
 			}
 
-			sort(Plugins::$listCaches[$theKey]);
+			if(is_array(Plugins::$listCaches[$theKey]))
+			{
+				sort(Plugins::$listCaches[$theKey]);
+			}
+			
 		}
 
-		// print_r(Plugins::$listCaches);die();
 
 		self::saveCache();	
 	}
@@ -88,6 +102,7 @@ class PluginsZone
 	public static function saveCache()
 	{
 		$loadData=PluginsMeta::get(array(
+			'cache'=>'no',
 			'cacheTime'=>1,
 			'where'=>"where status='1'",
 			'orderby'=>"order by zonename asc"
@@ -109,7 +124,9 @@ class PluginsZone
 				
 			}
 
-			Cache::saveKey('listZones',serialize($resultData));	
+			$filePath=ROOT_PATH.'application/caches/listZones.cache';
+
+			File::create($filePath,serialize($resultData));
 
 			return $resultData;
 		}
