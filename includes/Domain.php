@@ -68,8 +68,13 @@ class Domain
 		return $result;
 	}
 
-	public static function isAllowTheme($domainName='',$pluginName='')
+	public static function isAllowTheme($pluginName='',$domainName='')
 	{
+		if(System::$setting['system_mode']=='basic')
+		{
+			return true;
+		}
+
 		$theDomain=$_SERVER['HTTP_HOST'];
 
 		$theDomain=!isset($domainName[1])?$theDomain:$domainName;
@@ -93,8 +98,13 @@ class Domain
 
 	}
 
-	public static function isAllowPlugin($domainName='',$pluginName='')
+	public static function isAllowPlugin($pluginName='',$domainName='')
 	{
+		if(System::$setting['system_mode']=='basic')
+		{
+			return true;
+		}
+
 		$theDomain=$_SERVER['HTTP_HOST'];
 
 		$theDomain=!isset($domainName[1])?$theDomain:$domainName;
