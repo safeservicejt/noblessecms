@@ -309,7 +309,7 @@ class Theme
 		{
 			$oldPath=ROOT_PATH.'contents/themes/'.$oldthemeName.'/';
 
-			if(file_exists($oldPath.'functions.php'))
+			if(file_exists($oldPath.'deactivate.php'))
 			{
 				self::$can_uninstall='yes';
 
@@ -319,10 +319,12 @@ class Theme
 
 				Plugins::$canUninstall='yes';
 								
-				include($oldPath.'functions.php');
+				include($oldPath.'deactivate.php');
 
 			}
 		}
+
+		Domain::setTheme($themeName);
 
 		$configPath=ROOT_PATH.'config.php';
 
@@ -332,7 +334,7 @@ class Theme
 
 		File::create($configPath,$data);
 
-		if(file_exists($path.'functions.php'))
+		if(file_exists($path.'activate.php'))
 		{
 			self::$can_install='yes';
 
@@ -342,9 +344,15 @@ class Theme
 			
 			Plugins::$canUninstall='no';
 
-			include($path.'functions.php');
+			include($path.'activate.php');
 
-		}		
+		}	
+		
+		if(file_exists($path.'functions.php'))
+		{
+			include($path.'functions.php');
+		}	
+
 
 	}
 
@@ -352,13 +360,13 @@ class Theme
 
 	public static function getDefault()
 	{
-		$path=ROOT_PATH.'contents/themes/'.THEME_NAME.'/';
+		$path=ROOT_PATH.'contents/themes/'.System::getThemeName().'/';
 
 		$resultData=array();
 
 		$resultData=file($path.'info.txt');
 
-		$resultData['name']=THEME_NAME;
+		$resultData['name']=System::getThemeName();
 
 		return $resultData;		
 	}

@@ -14,6 +14,31 @@ class Domain
 {
 	public static $config=array();
 
+	public static function checkAdminCP()
+	{
+		if(System::$setting['system_mode']=='basic' || isset($_SESSION['other_domain']))
+		{
+			return false;
+		}
+
+		$theDomain=$_SERVER['HTTP_HOST'];
+
+		$parse=parse_url(ROOT_URL);
+
+		if($theDomain!=$parse['host'])
+		{
+			$_SESSION['other_domain']='yes';
+		}
+
+	}
+
+	public static function isOtherDomain()
+	{
+		$status=isset($_SESSION['other_domain'])?true:false;
+
+		return $status;
+	}
+
 	public static function configPath()
 	{
 		$result=ROOT_PATH.'contents/domains/';
@@ -30,11 +55,20 @@ class Domain
 	{
 		$theDomain=$_SERVER['HTTP_HOST'];
 
+		$parse=parse_url(ROOT_URL);
+
+		$masterUrl=$parse['host'];
+
+		if($masterUrl==$theDomain)
+		{
+			return false;
+		}
+
 		$loadPath=self::configPath().$theDomain.'/config.cache';
 
 		if(!file_exists($loadPath))
 		{
-			return false;
+			Alert::make('This domain not activated in our server.');
 		}
 
 		$loadData=unserialize(file_get_contents($loadPath));
@@ -89,6 +123,26 @@ class Domain
 
 		System::setTheme($theme,'no');
 
+
+	}
+
+	public static function setTheme($themeName='')
+	{
+		if(!isset($themeName[1]))
+		{
+			return false;
+		}
+
+		$theDomain=$_SERVER['HTTP_HOST'];
+
+		$loadPath=self::configPath().$theDomain.'/config.cache';
+
+		if(class_exists('DomainManager'))
+		{
+			DomainManager::saveSetting($theDomain,array(
+				'theme'=>$themeName
+				));
+		}
 
 	}
 

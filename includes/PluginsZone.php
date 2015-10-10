@@ -19,14 +19,17 @@ class PluginsZone
 
 	public static function loadCache()
 	{
-		if(!$loadData=Cache::loadKey('listZones',-1))
+		
+		$filePath=self::cachePath();
+
+		if(!file_exists($filePath))
 		{
 			return false;
 		}
-		
-		Plugins::$listCaches=unserialize($loadData);
 
-		// print_r(Plugins::$listCaches);die();
+		$loadData=unserialize(file_get_contents($filePath));
+		
+		Plugins::$listCaches=$loadData;
 	}
 
 	public static function addCache($zoneName,$inputData=array())
@@ -86,10 +89,12 @@ class PluginsZone
 
 		$loadData=array();
 
-		if($loadData=Cache::loadKey('listZones',-1))
+		$filePath=self::cachePath();
+
+		if(file_exists($filePath))
 		{
-			$loadData=unserialize($loadData);
-		}		
+			$loadData=unserialize(file_get_contents($filePath));
+		}	
 
 		$loadData[$zonename]=$inputData;
 
@@ -97,6 +102,13 @@ class PluginsZone
 
 		self::saveCache();
 
+	}
+
+	public static function cachePath()
+	{
+		$result=ROOT_PATH.'application/caches/listZones'.Database::getPrefix().'.cache';
+
+		return $result;
 	}
 
 	public static function saveCache()
@@ -124,7 +136,7 @@ class PluginsZone
 				
 			}
 
-			$filePath=ROOT_PATH.'application/caches/listZones.cache';
+			$filePath=ROOT_PATH.'application/caches/listZones'.Database::getPrefix().'.cache';
 
 			File::create($filePath,serialize($resultData));
 
