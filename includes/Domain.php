@@ -89,6 +89,11 @@ class Domain
 			return true;
 		}
 
+		if(!isset(self::$config['themedisallowall']))
+		{
+			return false;
+		}
+
 		if(in_array($pluginName, self::$config['themedisallow']))
 		{
 			return false;
@@ -117,6 +122,11 @@ class Domain
 		if(!isset(self::$config['plugindisallow']))
 		{
 			return true;
+		}
+
+		if(!isset(self::$config['plugindisallowall']))
+		{
+			return false;
 		}
 
 		if(in_array($pluginName, self::$config['plugindisallow']))
