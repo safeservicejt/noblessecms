@@ -4,6 +4,10 @@ class controlTheme
 {
 	public function index()
 	{
+      	if(Domain::isOtherDomain())
+      	{
+      		Alert::make('You dont have permission to access this page.');
+      	}
       
 		$post=array('alert'=>'');
 
@@ -63,6 +67,11 @@ class controlTheme
 
 	public function edit()
 	{
+      	if(Domain::isOtherDomain())
+      	{
+      		Alert::make('You dont have permission to access this page.');
+      	}
+
 		if(!$match=Uri::match('\/edit\/(\w+)'))
 		{
 			Redirect::to(System::getAdminUrl());
@@ -162,6 +171,11 @@ class controlTheme
 	
 	public function setting()
 	{
+      	if(Domain::isOtherDomain())
+      	{
+      		Alert::make('You dont have permission to access this page.');
+      	}
+
 		if(!$match=Uri::match('\/setting\/(\w+)'))
 		{
 			Redirect::to(System::getAdminUrl());
@@ -205,6 +219,11 @@ class controlTheme
 
 	public function controller()
 	{
+      	if(Domain::isOtherDomain())
+      	{
+      		Alert::make('You dont have permission to access this page.');
+      	}
+
 		$post=array();
 
 		if($matchCtr=Uri::match('\/setting\/(\w+)\/controller\/(\w+)'))
@@ -236,6 +255,11 @@ class controlTheme
 
 	public function import()
 	{
+      	if(Domain::isOtherDomain())
+      	{
+      		Alert::make('You dont have permission to access this page.');
+      	}
+		
 		$post=array('alert'=>'');
 
 		if(Request::has('btnSend'))

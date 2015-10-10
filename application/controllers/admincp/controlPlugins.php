@@ -4,7 +4,11 @@ class controlPlugins
 {
 	public function index()
 	{
-      
+      	// if(Domain::isOtherDomain())
+      	// {
+      	// 	Alert::make('You dont have permission to access this page.');
+      	// }
+
 		$post=array('alert'=>'');
 
 		Model::load('admincp/plugins');
@@ -44,6 +48,11 @@ class controlPlugins
 
 	public function install()
 	{
+      	// if(Domain::isOtherDomain())
+      	// {
+      	// 	Alert::make('You dont have permission to access this page.');
+      	// }
+
 		if(!$match=Uri::match('\/install\/(\w+)'))
 		{
 			Redirect::to(System::getAdminUrl());
@@ -67,6 +76,12 @@ class controlPlugins
 
 	public function controller()
 	{
+		
+      	// if(Domain::isOtherDomain())
+      	// {
+      	// 	Alert::make('You dont have permission to access this page.');
+      	// }
+
 		if(!$match=Uri::match('\/controller\/(\w+)\/(\w+)'))
 		{
 			Redirect::to(System::getAdminUrl());
@@ -148,6 +163,11 @@ class controlPlugins
 
 	public function setting()
 	{
+      	// if(Domain::isOtherDomain())
+      	// {
+      	// 	Alert::make('You dont have permission to access this page.');
+      	// }
+
 		if(!$match=Uri::match('\/setting\/(\w+)'))
 		{
 			Redirect::to(System::getAdminUrl());
@@ -175,6 +195,11 @@ class controlPlugins
 
 	public function uninstall()
 	{
+      	// if(Domain::isOtherDomain())
+      	// {
+      	// 	Alert::make('You dont have permission to access this page.');
+      	// }
+
 		if(!$match=Uri::match('\/uninstall\/(\w+)'))
 		{
 			Redirect::to(System::getAdminUrl());
@@ -207,6 +232,11 @@ class controlPlugins
 	}
 	public function activate()
 	{
+      	// if(Domain::isOtherDomain())
+      	// {
+      	// 	Alert::make('You dont have permission to access this page.');
+      	// }
+
 		if(!$match=Uri::match('\/activate\/(\w+)'))
 		{
 			Redirect::to(System::getAdminUrl());
@@ -214,8 +244,8 @@ class controlPlugins
 
 		$foldername=$match[1];
 
-		Database::query("update plugins set status='1' where foldername='$foldername'");
-		Database::query("update plugins_meta set status='1' where foldername='$foldername'");
+		Database::query("update ".Database::getPrefix()."plugins set status='1' where foldername='$foldername'");
+		Database::query("update ".Database::getPrefix()."plugins_meta set status='1' where foldername='$foldername'");
 
 		PluginsZone::saveCache();
 		
@@ -223,6 +253,11 @@ class controlPlugins
 	}
 	public function deactivate()
 	{
+      	// if(Domain::isOtherDomain())
+      	// {
+      	// 	Alert::make('You dont have permission to access this page.');
+      	// }
+
 		if(!$match=Uri::match('\/deactivate\/(\w+)'))
 		{
 			Redirect::to(System::getAdminUrl());
@@ -230,8 +265,8 @@ class controlPlugins
 
 		$foldername=$match[1];
 
-		Database::query("update plugins set status='0' where foldername='$foldername'");
-		Database::query("update plugins_meta set status='0' where foldername='$foldername'");
+		Database::query("update ".Database::getPrefix()."plugins set status='0' where foldername='$foldername'");
+		Database::query("update ".Database::getPrefix()."plugins_meta set status='0' where foldername='$foldername'");
 
 		PluginsZone::saveCache();
 
@@ -240,6 +275,11 @@ class controlPlugins
 
 	public function import()
 	{
+      	if(Domain::isOtherDomain())
+      	{
+      		Alert::make('You dont have permission to access this page.');
+      	}
+
 		$post=array('alert'=>'');
 
 		if(Request::has('btnSend'))

@@ -6,6 +6,8 @@ class controlAdmincp
 	{
 		$controlName='admincp/controlDashboard';
 
+		Domain::checkAdminCP();
+
 		if(Cookie::has('userid'))
 		{
 			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_view_admincp');

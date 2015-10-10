@@ -8,6 +8,21 @@
 
 	Tại đây lưu các thông tin về config như: database,prefix,theme,plugin
 
+	All config about theme/plugin is in array.
+
+	$config['theme']='theme_name';
+
+	$config['themeallow']=array(); //list allow theme name
+
+	$config['themedisallow']=array(); //list disallow theme name
+
+	$config['plugin']='plugin_name';
+
+	$config['pluginallow']=array(); //list allow plugin name
+
+	$config['plugindisallow']=array(); //list disallow plugin name
+
+
 */
 
 class Domain
@@ -39,9 +54,11 @@ class Domain
 		return $status;
 	}
 
-	public static function configPath()
+	public static function configPath($domainName='')
 	{
 		$result=ROOT_PATH.'contents/domains/';
+
+		$result=isset($domainName[2])?$result.$domainName.'/':$result;
 
 		if(!is_dir($result))
 		{
@@ -49,6 +66,232 @@ class Domain
 		}
 
 		return $result;
+	}
+
+	public static function isAllowTheme($domainName='',$pluginName='')
+	{
+		$theDomain=$_SERVER['HTTP_HOST'];
+
+		$theDomain=!isset($domainName[1])?$theDomain:$domainName;
+
+		if(!is_array(self::$config['themedisallow']))
+		{
+			return true;
+		}
+
+		if(!isset(self::$config['themedisallow']))
+		{
+			return true;
+		}
+
+		if(in_array($pluginName, self::$config['themedisallow']))
+		{
+			return false;
+		}
+
+		return true;
+
+	}
+
+	public static function isAllowPlugin($domainName='',$pluginName='')
+	{
+		$theDomain=$_SERVER['HTTP_HOST'];
+
+		$theDomain=!isset($domainName[1])?$theDomain:$domainName;
+
+		if(!is_array(self::$config['plugindisallow']))
+		{
+			return true;
+		}
+
+		if(!isset(self::$config['plugindisallow']))
+		{
+			return true;
+		}
+
+		if(in_array($pluginName, self::$config['plugindisallow']))
+		{
+			return false;
+		}
+
+		return true;
+
+	}
+
+	public static function setThemeStatus($domainName,$inputData=array(),$allow=1)
+	{
+		$loadData=self::loadDomainConfig();
+
+		if(!$loadData)
+		{
+			return false;
+		}
+
+		if(is_array($inputData))
+		{
+			$total=count($inputData);
+
+			$keyList=array_keys($inputData);
+
+			if(!is_array($loadData['themeallow']))
+			{
+				$loadData['themeallow']=array();
+			}
+
+			if(!is_array($loadData['themedisallow']))
+			{
+				$loadData['themedisallow']=array();
+			}
+
+			for ($i=0; $i < $total; $i++) { 
+				$theKey=$keyList[$i];
+
+				if(!in_array($theKey, $loadData['themeallow']))
+				{
+					if((int)$allow==1)
+					$loadData['themeallow'][]=$theKey;
+				}
+				else
+				{
+					if((int)$allow==0)
+					{
+						$pos=array_search($theKey, $loadData['themeallow']);
+
+						unset($loadData['themeallow'][$pos]);
+					}
+
+				}
+
+				if(in_array($theKey, $loadData['themedisallow']))
+				{
+					if((int)$allow==1)
+					{
+						$pos=array_search($theKey, $loadData['themedisallow']);
+
+						unset($loadData['themedisallow'][$pos]);
+					}
+
+				}
+				else
+				{
+					if((int)$allow==0)
+					{
+						$loadData['themedisallow'][]=$theKey;
+					}
+				}
+
+			}
+
+			sort($loadData['themeallow']);
+
+			sort($loadData['themedisallow']);
+
+			if(self::isOtherDomain())
+			{
+				self::$config=$loadData;
+			}
+
+			self::saveDomainConfig($domainName,$loadData);
+		}
+	}
+
+	public static function setPluginStatus($domainName,$inputData=array(),$allow=1)
+	{
+		$loadData=self::loadDomainConfig();
+
+		if(!$loadData)
+		{
+			return false;
+		}
+
+		if(is_array($inputData))
+		{
+			$total=count($inputData);
+
+			$keyList=array_keys($inputData);
+
+			if(!is_array($loadData['pluginallow']))
+			{
+				$loadData['pluginallow']=array();
+			}
+
+			if(!is_array($loadData['plugindisallow']))
+			{
+				$loadData['plugindisallow']=array();
+			}
+
+			for ($i=0; $i < $total; $i++) { 
+				$theKey=$keyList[$i];
+
+				if(!in_array($theKey, $loadData['pluginallow']))
+				{
+					if((int)$allow==1)
+					$loadData['pluginallow'][]=$theKey;
+				}
+				else
+				{
+					if((int)$allow==0)
+					{
+						$pos=array_search($theKey, $loadData['pluginallow']);
+
+						unset($loadData['pluginallow'][$pos]);
+					}
+
+				}
+
+				if(in_array($theKey, $loadData['plugindisallow']))
+				{
+					if((int)$allow==1)
+					{
+						$pos=array_search($theKey, $loadData['plugindisallow']);
+
+						unset($loadData['plugindisallow'][$pos]);
+					}
+
+				}
+				else
+				{
+					if((int)$allow==0)
+					{
+						$loadData['plugindisallow'][]=$theKey;
+					}
+				}
+
+			}
+
+			sort($loadData['pluginallow']);
+
+			sort($loadData['plugindisallow']);
+
+			if(self::isOtherDomain())
+			{
+				self::$config=$loadData;
+			}
+
+			self::saveDomainConfig($domainName,$loadData);
+		}
+	}
+
+	public static function saveDomainConfig($domainName,$inputData=array())
+	{
+		$filePath=self::configPath().'config.cache';
+
+		File::create($filePath,serialize($inputData));
+	}
+
+
+	public static function loadDomainConfig($domainName='')
+	{
+		$configPath=self::configPath($domainName).'config.cache';
+
+		if(!file_exists($configPath))
+		{
+			return false;
+		}
+
+		$loadData=unserialize(file_get_contents($configPath));
+
+		return $loadData;
 	}
 
 	public static function checkConfig()
@@ -99,6 +342,7 @@ class Domain
 		System::setUrl('http://'.$theDomain.'/');
 
 	}
+
 
 	public static function loadConfig($method='before_load_database')
 	{
