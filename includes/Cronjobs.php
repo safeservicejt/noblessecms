@@ -283,6 +283,13 @@ class Cronjobs
 
 	}
 
+	public static function deleteFromPlugin($pluginName='')
+	{
+		Database::query("delete from cronjobs where jobdata LIKE '%/$pluginName/%'");
+		Database::query("delete from cronjobs where jobdata LIKE '%\\$pluginName\%'");
+
+	}
+
 	public static function delete($filePath,$fileFunc='')
 	{
 		$data=array(

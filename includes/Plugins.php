@@ -488,6 +488,8 @@ class Plugins
 
 		PluginsZone::removeCache($foldername);	
 
+		Cronjobs::deleteFromPlugin($foldername);
+
 	}
 
 	public static function install($funcName)
