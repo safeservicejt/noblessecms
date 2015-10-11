@@ -248,7 +248,7 @@ function startInstall()
 
   rename('../install','../installBackup');
 
-  exec('crontab -r', $crontab);
+  exec('crontab -r');
 
   append_cronjob('* * * * * curl -s '.$url.'api/cronjob/run.php');  
   

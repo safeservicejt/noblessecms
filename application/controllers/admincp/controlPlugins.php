@@ -48,10 +48,6 @@ class controlPlugins
 
 	public function install()
 	{
-      	// if(Domain::isOtherDomain())
-      	// {
-      	// 	Alert::make('You dont have permission to access this page.');
-      	// }
 
 		if(!$match=Uri::match('\/install\/(\w+)'))
 		{
@@ -59,6 +55,11 @@ class controlPlugins
 		}
 
 		$foldername=$match[1];
+
+      	if(!Domain::isAllowPlugin($foldername))
+      	{
+      		Alert::make('You dont have permission to access this page.');
+      	}
 
 		Plugins::makeInstall($foldername);
 
@@ -89,6 +90,11 @@ class controlPlugins
 
 
 		$foldername=$match[1];
+
+      	if(!Domain::isAllowPlugin($foldername))
+      	{
+      		Alert::make('You dont have permission to access this page.');
+      	}
 
 		$funcName=$match[2];
 
@@ -144,6 +150,11 @@ class controlPlugins
 			Redirect::to(System::getAdminUrl());
 		}
 
+      	if(!Domain::isAllowPlugin($foldername))
+      	{
+      		Alert::make('You dont have permission to access this page.');
+      	}
+
 		define("THIS_URL",PLUGINS_URL.$foldername.'/');
 		
 		$post['title']=ucfirst($foldername);
@@ -181,7 +192,12 @@ class controlPlugins
 		{
 			Redirect::to(System::getAdminUrl().'plugins');
 		}
-		
+
+      	if(!Domain::isAllowPlugin($foldername))
+      	{
+      		Alert::make('You dont have permission to access this page.');
+      	}
+
 		$post['title']=ucfirst($foldername);
 
 		$post['filePath']=$path;
@@ -211,6 +227,10 @@ class controlPlugins
 
 		$path=PLUGINS_PATH.$foldername.'/index.php';
 
+      	if(!Domain::isAllowPlugin($foldername))
+      	{
+      		Alert::make('You dont have permission to access this page.');
+      	}
 
 		if(file_exists($path))
 		{
@@ -244,6 +264,11 @@ class controlPlugins
 
 		$foldername=$match[1];
 
+      	if(!Domain::isAllowPlugin($foldername))
+      	{
+      		Alert::make('You dont have permission to access this page.');
+      	}
+
 		Database::query("update ".Database::getPrefix()."plugins set status='1' where foldername='$foldername'");
 		Database::query("update ".Database::getPrefix()."plugins_meta set status='1' where foldername='$foldername'");
 
@@ -264,6 +289,11 @@ class controlPlugins
 		}
 
 		$foldername=$match[1];
+		
+      	if(!Domain::isAllowPlugin($foldername))
+      	{
+      		Alert::make('You dont have permission to access this page.');
+      	}
 
 		Database::query("update ".Database::getPrefix()."plugins set status='0' where foldername='$foldername'");
 		Database::query("update ".Database::getPrefix()."plugins_meta set status='0' where foldername='$foldername'");

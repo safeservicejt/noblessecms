@@ -4,10 +4,6 @@ class controlTheme
 {
 	public function index()
 	{
-      	if(Domain::isOtherDomain())
-      	{
-      		Alert::make('You dont have permission to access this page.');
-      	}
       
 		$post=array('alert'=>'');
 
@@ -67,17 +63,18 @@ class controlTheme
 
 	public function edit()
 	{
-      	if(Domain::isOtherDomain())
-      	{
-      		Alert::make('You dont have permission to access this page.');
-      	}
-
 		if(!$match=Uri::match('\/edit\/(\w+)'))
 		{
 			Redirect::to(System::getAdminUrl());
 		}
 
 		$themeName=$match[1];
+
+      	if(!Domain::isAllowTheme($themeName))
+      	{
+      		Alert::make('You dont have permission to access this page.');
+      	}
+
 
 		$thePath=THEMES_PATH.$themeName.'/';
 
@@ -171,10 +168,6 @@ class controlTheme
 	
 	public function setting()
 	{
-      	if(Domain::isOtherDomain())
-      	{
-      		Alert::make('You dont have permission to access this page.');
-      	}
 
 		if(!$match=Uri::match('\/setting\/(\w+)'))
 		{
@@ -189,6 +182,11 @@ class controlTheme
 		}
 
 		$theName=$match[1];
+
+      	if(!Domain::isAllowTheme($themeName))
+      	{
+      		Alert::make('You dont have permission to access this page.');
+      	}
 
 		$post['title']=ucfirst($theName);
 
@@ -219,11 +217,6 @@ class controlTheme
 
 	public function controller()
 	{
-      	if(Domain::isOtherDomain())
-      	{
-      		Alert::make('You dont have permission to access this page.');
-      	}
-
 		$post=array();
 
 		if($matchCtr=Uri::match('\/setting\/(\w+)\/controller\/(\w+)'))
@@ -231,6 +224,11 @@ class controlTheme
 			$controllerName=$matchCtr[2];
 
 			$themeName=$matchCtr[1];
+
+	      	if(!Domain::isAllowTheme($themeName))
+	      	{
+	      		Alert::make('You dont have permission to access this page.');
+	      	}
 
 			$path=THEMES_PATH.$themeName.'/cp/controller/control'.ucfirst($controllerName).'.php';
 
