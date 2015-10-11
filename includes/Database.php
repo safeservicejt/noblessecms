@@ -627,17 +627,23 @@ class Database
         }
     }
 
-    public static function import($fileName = 'db.sql')
+    public static function import($fileName = 'db.sql',$prefix='')
     {
 
         if (file_exists($fileName)) {
 
             Database::query("SET NAMES 'utf8';");
 
-
             $query = file_get_contents($fileName);
 
-            preg_match_all('/CREATE.*?\;/is', $query, $creates);
+            $replaces=array(
+                '/EXISTS `(\w+)`/i'=>'EXISTS `'.$prefix.'$1`',
+                '/INSERT INTO `(\w+)`/i'=>'INSERT INTO `'.$prefix.'$1`'
+                );
+
+            $query=preg_replace(array_keys($replaces), array_values($replaces), $query);
+
+            preg_match_all('/CREATE.*?\;\n/is', $query, $creates);
 
             $total = count($creates[0]);
 
@@ -646,7 +652,7 @@ class Database
                 Database::query($creates[0][$i]);
             }
 
-            preg_match_all('/INSERT.*?\;/is', $query, $creates);
+            preg_match_all('/INSERT.*?\;\n/is', $query, $creates);
 
             $total = count($creates[0]);
 
