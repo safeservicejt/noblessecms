@@ -301,6 +301,7 @@ class Post
 	{
 		// End addons
 		// $totalArgs=count($inputData);
+		Plugins::load('before_post_insert',$inputData);
 
 		$addMultiAgrs='';
 
@@ -381,10 +382,12 @@ class Post
 		Database::query("insert into ".Database::getPrefix()."post($insertKeys) values".$addMultiAgrs);
 
 		// DBCache::removeDir('system/post');
-		
+
 
 		if(!$error=Database::hasError())
 		{
+			Plugins::load('after_post_insert',$inputData);
+
 			self::saveCache();
 
 			$id=Database::insert_id();
@@ -413,6 +416,8 @@ class Post
 
 		$listID="'".implode("','",$post)."'";
 
+		Plugins::load('before_post_remove',$post);
+
 		$whereQuery=isset($whereQuery[5])?$whereQuery:"postid in ($listID)";
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
@@ -420,6 +425,8 @@ class Post
 		$command="delete from ".Database::getPrefix()."post where $whereQuery $addWhere";
 
 		Database::query($command);	
+
+		Plugins::load('after_post_remove',$post);
 
 		self::saveCache();
 
@@ -443,6 +450,8 @@ class Post
 		}
 
 		$listIDs="'".implode("','",$listID)."'";	
+
+		Plugins::load('before_post_update',$post);
 				
 		if(isset($post['title']))
 		{
@@ -494,6 +503,8 @@ class Post
 		// DBCache::removeDir('system/post');
 
 		// DBCache::removeCache($listIDs,'system/post');
+
+		Plugins::load('after_post_update',$post);
 
 
 		if(!$error=Database::hasError())

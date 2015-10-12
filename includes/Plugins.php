@@ -158,6 +158,99 @@ class Plugins
 			'input'=>'no',
 			'zone'=>'frontend'
 			),
+		'before_category_insert'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+		'after_category_insert'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+		'before_category_update'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+		'after_category_update'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+		'before_category_remove'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+		'after_category_remove'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+
+
+		'before_post_insert'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+		'after_post_insert'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+		'before_post_update'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+		'after_post_update'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+		'before_post_remove'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+		'after_post_remove'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+
+		'before_comment_insert'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+		'after_comment_insert'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+		'before_comment_update'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+		'after_comment_update'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+		'before_comment_remove'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+		'after_comment_remove'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
 
 		'admincp_setting_menu'=>array(
 			'return'=>'yes',
@@ -399,8 +492,12 @@ class Plugins
 				}
 			}
 
-			$tmp=$funcName($inputData);
-			
+			try {
+				$tmp=$funcName($inputData);
+			} catch (Exception $e) {
+				throw new Exception($e->getMessage());
+			}
+					
 			switch ($zoneName) {
 
 				case 'site_header':
@@ -440,6 +537,63 @@ class Plugins
 					break;
 
 				case 'content_right':
+					$li.=$tmp;
+					break;
+
+				case 'before_post_insert':
+					$li.=$tmp;
+					break;
+				case 'after_post_insert':
+					$li.=$tmp;
+					break;
+				case 'before_post_update':
+					$li.=$tmp;
+					break;
+				case 'after_post_update':
+					$li.=$tmp;
+					break;
+				case 'before_post_remove':
+					$li.=$tmp;
+					break;
+				case 'after_post_remove':
+					$li.=$tmp;
+					break;
+
+				case 'before_comment_insert':
+					$li.=$tmp;
+					break;
+				case 'after_comment_insert':
+					$li.=$tmp;
+					break;
+				case 'before_comment_update':
+					$li.=$tmp;
+					break;
+				case 'after_comment_update':
+					$li.=$tmp;
+					break;
+				case 'before_comment_remove':
+					$li.=$tmp;
+					break;
+				case 'after_comment_remove':
+					$li.=$tmp;
+					break;
+
+				case 'before_category_insert':
+					$li.=$tmp;
+					break;
+				case 'after_category_insert':
+					$li.=$tmp;
+					break;
+				case 'before_category_update':
+					$li.=$tmp;
+					break;
+				case 'after_category_update':
+					$li.=$tmp;
+					break;
+				case 'before_category_remove':
+					$li.=$tmp;
+					break;
+				case 'after_category_remove':
 					$li.=$tmp;
 					break;
 				

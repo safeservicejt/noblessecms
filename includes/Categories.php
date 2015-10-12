@@ -235,6 +235,7 @@ class Categories
 	{
 		// End addons
 		// $totalArgs=count($inputData);
+		Plugins::load('before_category_insert',$inputData);
 
 		$addMultiAgrs='';
 
@@ -289,6 +290,8 @@ class Categories
 
 		if(!$error=Database::hasError())
 		{
+			Plugins::load('after_category_insert',$inputData);
+
 			self::saveCache();
 
 			$id=Database::insert_id();
@@ -317,6 +320,8 @@ class Categories
 
 		$listID="'".implode("','",$post)."'";
 
+		Plugins::load('before_category_remove',$post);
+
 		$whereQuery=isset($whereQuery[5])?$whereQuery:"catid in ($listID)";
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
@@ -324,6 +329,8 @@ class Categories
 		$command="delete from ".Database::getPrefix()."categories where $whereQuery $addWhere";
 
 		Database::query($command);
+
+		Plugins::load('after_category_remove',$post);
 
 		self::saveCache();
 
@@ -345,6 +352,8 @@ class Categories
 
 			$listID=array($catid);
 		}
+
+		Plugins::load('before_category_update',$listID);
 
 		if(isset($post['title']))
 		{
@@ -391,6 +400,8 @@ class Categories
 
 		if(!$error=Database::hasError())
 		{
+			Plugins::load('after_category_update',$listID);
+
 			self::saveCache();
 
 			return true;

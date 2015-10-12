@@ -112,6 +112,7 @@ class Comments
 	{
 		// End addons
 		// $totalArgs=count($inputData);
+		Plugins::load('before_comment_insert',$inputData);
 
 		$addMultiAgrs='';
 
@@ -173,10 +174,12 @@ class Comments
 
 		Database::query("insert into ".Database::getPrefix()."comments($insertKeys) values".$addMultiAgrs);
 
-		DBCache::removeDir('system/comment');
+		// DBCache::removeDir('system/comment');
 
 		if(!$error=Database::hasError())
 		{
+			Plugins::load('after_comment_insert',$inputData);
+
 			$id=Database::insert_id();
 
 			return $id;	
@@ -203,6 +206,8 @@ class Comments
 
 		$listID="'".implode("','",$post)."'";
 
+		Plugins::load('before_comment_remove',$post);
+
 		$whereQuery=isset($whereQuery[5])?$whereQuery:"commentid in ($listID)";
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
@@ -211,9 +216,11 @@ class Comments
 
 		Database::query($command);
 
+		Plugins::load('after_comment_remove',$post);
+
 		// DBCache::removeDir('system/comment');
 		
-		DBCache::removeCache($listID,'system/comment');
+		// DBCache::removeCache($listID,'system/comment');
 
 		return true;
 	}
@@ -236,7 +243,9 @@ class Comments
 			$listID=array($catid);
 		}
 
-		$listIDs="'".implode("','",$listID)."'";		
+		$listIDs="'".implode("','",$listID)."'";	
+
+		Plugins::load('before_comment_update',$listID);
 				
 		$keyNames=array_keys($post);
 
@@ -260,10 +269,12 @@ class Comments
 
 		// DBCache::removeDir('system/comment');
 
-		DBCache::removeCache($listIDs,'system/comment');
+		// DBCache::removeCache($listIDs,'system/comment');
 
 		if(!$error=Database::hasError())
 		{
+			Plugins::load('after_comment_update',$listID);
+
 			return true;
 		}
 
