@@ -152,7 +152,11 @@ class Mail
             $mailConfig['smtpPort']=$mailData['smtpPort'];
         }
 
-        require INCLUDES_PATH . 'extentions/PHPMailer/PHPMailerAutoload.php';
+        if(!class_exists('PHPMailer'))
+        {
+            require INCLUDES_PATH . 'extentions/PHPMailer/PHPMailerAutoload.php';
+        }
+
 
         $mail = new PHPMailer;
 

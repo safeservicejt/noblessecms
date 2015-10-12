@@ -392,6 +392,11 @@ class Plugins
 			if(!function_exists($funcName))
 			{
 				include($zonePath);
+				
+				if(!function_exists($funcName))
+				{
+					continue;
+				}
 			}
 
 			$tmp=$funcName($inputData);
