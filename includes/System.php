@@ -81,6 +81,8 @@ class System
 
 		PluginsZone::loadCache();
 
+		CustomPlugins::loadCache();
+
 		self::defaultPageUri();
 		
 		if($systemMode!='basic')

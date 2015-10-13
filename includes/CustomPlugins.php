@@ -133,8 +133,11 @@ class CustomPlugins
 		{
 			return false;
 		}
-
-		self::loadCache();
+		
+		if(isset(self::$listCaches['loaded']))
+		{
+			self::loadCache();
+		}
 
 		if(isset(self::$listCaches['loaded']))
 		{
