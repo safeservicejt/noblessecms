@@ -627,6 +627,7 @@ class Plugins
 
 		self::$installFolderName=$foldername;
 	}
+
 	public static function makeUninstall($foldername)
 	{
 		self::$canInstall='no';
@@ -648,6 +649,11 @@ class Plugins
 		PluginsZone::removeCache($foldername);	
 
 		Cronjobs::deleteFromPlugin($foldername);
+
+		if(class_exists('CustomPlugins'))
+		{
+			CustomPlugins::removeByPath($foldername);
+		}
 
 	}
 
