@@ -24,16 +24,25 @@ class controlSetting
 
 		if(Request::has('btnSave'))
 		{
-			System::saveSetting(Request::get('general'));
+			$saveData=Request::get('general');
+
+
+			System::saveSetting($saveData);
 		}
 
 
 		$post=System::getSetting();
 
-		if(!isset($post['default_adminpage_method']))
+		if($post==false || !isset($post['default_adminpage_method']))
 		{
+			System::makeSetting();
+
 			$post=System::getSetting();
 		}
+
+		// $post['title']=base64_decode($post['title']);
+
+		// print_r($post);die();
 
 		$post['usergroups']=UserGroups::get();
 		
