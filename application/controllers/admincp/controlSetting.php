@@ -30,6 +30,11 @@ class controlSetting
 
 		$post=System::getSetting();
 
+		if(!isset($post['default_adminpage_method']))
+		{
+			$post=System::getSetting();
+		}
+
 		$post['usergroups']=UserGroups::get();
 		
 		System::setTitle('Setting System - '.ADMINCP_TITLE);

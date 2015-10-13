@@ -45,11 +45,17 @@ define('USE_ACCESS_KEYS', false); // TRUE or FALSE
 |    |   |   |   |   |- plugin.min.js
 */
 
-$root_path=dirname(dirname(dirname(dirname(dirname(__FILE__)))));
+$filePath=dirname(__FILE__);
 
+$root_path=str_replace('bootstrap/ckeditor/filemanager/config','',$filePath);
 
+$root_path=str_replace('bootstrap\ckeditor\filemanager\config','',$filePath);
 
-include($root_path.'/config.php');
+define("ROOT_PATH", $root_path);
+
+include($root_path.'includes/Dir.php');
+
+include($root_path.'includes/File.php');
 
 $savePath=$root_path.'/uploads/images/'.$_SERVER['HTTP_HOST'].'/';
 
