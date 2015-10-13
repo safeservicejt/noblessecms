@@ -463,17 +463,24 @@ class System
 			if(!file_exists($fileName))
 			{
 				$data=self::makeSetting();
+
 			}
 			else
 			{
 				$data=unserialize(String::decrypt(file_get_contents($fileName)));
+
 			}
+			
+			$data['title']=base64_decode($data['title']);
+			$data['keywords']=base64_decode($data['keywords']);
+			$data['descriptions']=base64_decode($data['descriptions']);
+
+			self::$setting=$data;
 		}
 		else
 		{
 			$data=self::$setting;
 		}
-
 
 		if(!isset($keyName[1]))
 		{
@@ -522,8 +529,8 @@ class System
 		$settingData=array(
 			'system_status'=>'working','system_mode'=>'basic', 'system_lang'=>'en', 'register_user_status'=>'enable',
 			'default_member_groupid'=>'1', 'default_member_banned_groupid'=>'2', 'default_dateformat'=>'M d, Y',
-			'rss_status'=>'enable','comment_status'=>'enable', 'title'=>'Noblesse CMS Website', 'keywords'=>'noblessecms, blog, website',
-			'descriptions'=>'Noblesse CMS Website Description','default_page_method'=>'none','default_page_url'=>'','default_timezone'=>'US/Arizona',
+			'rss_status'=>'enable','comment_status'=>'enable', 'title'=>base64_encode('Noblesse CMS Website'), 'keywords'=>base64_encode('noblessecms, blog, website'),
+			'descriptions'=>base64_encode('Noblesse CMS Website Description'),'default_page_method'=>'none','default_page_url'=>'','default_timezone'=>'US/Arizona',
 			'mail'=>array(
 				'send_method'=>'local',
 				'fromName'=>'Admin','fromEmail'=>'Admin@gmail.com','smtpAddress'=>'smtp.gmail.com',
