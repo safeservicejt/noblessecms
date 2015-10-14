@@ -191,6 +191,8 @@ class CustomPlugins
 
 		$total=count(self::$listCaches[$zoneName]);
 
+		$li='';
+
 		for ($i=0; $i < $total; $i++) { 
 
 			if(!isset(self::$listCaches[$zoneName][$i]))
@@ -217,8 +219,13 @@ class CustomPlugins
 				}
 
 				$func=$row['func'];
-
-				$func($inputData);
+				try {
+					$li.=$func($inputData);
+				} catch (Exception $e) {
+					throw new Exception($e->getMessage());
+					
+				}
+				
 			}
 
 			if($method_call=='class')
@@ -232,10 +239,17 @@ class CustomPlugins
 
 				$func=isset($row['func'])?$row['func']:'index';
 
-				$class::$func($inputData);
+				try {
+					$li.=$class::$func($inputData);
+				} catch (Exception $e) {
+					throw new Exception($e->getMessage());
+					
+				}
 			}
 
 		}
+
+		return $li;
 
 	}
 
