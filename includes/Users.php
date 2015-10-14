@@ -477,6 +477,7 @@ class Users
 
 	}
 
+
 	public static function makeLogin($username,$password)
 	{
 		$_REQUEST['username']=$username;
@@ -753,6 +754,8 @@ class Users
 		{
 			$id=Database::insert_id();
 
+			Plugins::load('after_insert_user',$inputData);
+
 			return $id;	
 		}
 
@@ -793,6 +796,8 @@ class Users
 		$command="delete from ".$prefix."users where $whereQuery $addWhere";
 
 		Database::query($command);	
+
+		Plugins::load('after_remove_user',$post);
 
 		// DBCache::removeDir('system/user');
 		
@@ -844,12 +849,15 @@ class Users
 
 		Database::query("update ".$prefix."users set $setUpdates where $whereQuery $addWhere");
 
+
 		// DBCache::removeDir('system/user');
 
 		// DBCache::removeCache($listIDs,'system/user');
 
 		if(!$error=Database::hasError())
 		{
+			Plugins::load('after_update_user',$post);
+
 			return true;
 		}
 

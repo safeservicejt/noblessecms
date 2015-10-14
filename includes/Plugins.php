@@ -85,11 +85,23 @@ class Plugins
 			'input'=>'no',
 			'zone'=>'usercp'
 			),
+
 		'after_insert_user'=>array(
 			'return'=>'yes',
 			'input'=>'no',
-			'zone'=>'global'
+			'zone'=>'frontend'
 			),
+		'after_update_user'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+		'after_remove_user'=>array(
+			'return'=>'yes',
+			'input'=>'no',
+			'zone'=>'frontend'
+			),
+
 		'after_insert_comment'=>array(
 			'return'=>'yes',
 			'input'=>'no',
@@ -105,26 +117,14 @@ class Plugins
 			'input'=>'no',
 			'zone'=>'global'
 			),
-		'after_insert_review'=>array(
-			'return'=>'yes',
-			'input'=>'no',
-			'zone'=>'global'
-			),
-		'after_insert_product'=>array(
-			'return'=>'yes',
-			'input'=>'no',
-			'zone'=>'global'
-			),
+		
+	
 		'after_insert_category'=>array(
 			'return'=>'yes',
 			'input'=>'no',
 			'zone'=>'global'
 			),
-		'after_insert_order'=>array(
-			'return'=>'yes',
-			'input'=>'no',
-			'zone'=>'global'
-			),
+	
 
 		'after_user_loggedin'=>array(
 			'return'=>'yes',
