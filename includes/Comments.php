@@ -20,7 +20,9 @@ class Comments
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="commentid,postid,type,fullname,email,parentid,date_added,status,content";
+		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
+
+		$field="commentid,postid,type,fullname,email,parentid,date_added,status,content".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

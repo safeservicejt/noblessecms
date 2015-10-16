@@ -20,7 +20,9 @@ class Pages
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="pageid,title,content,image,keywords,page_type,friendly_url,date_added,allowcomment,views,status";
+		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
+
+		$field="pageid,title,content,image,keywords,page_type,friendly_url,date_added,allowcomment,views,status".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

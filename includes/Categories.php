@@ -20,7 +20,9 @@ class Categories
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="catid,title,friendly_url,parentid,image,sort_order,date_added,status";
+		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
+
+		$field="catid,title,friendly_url,parentid,image,sort_order,date_added,status".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

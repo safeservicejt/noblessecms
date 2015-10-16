@@ -303,6 +303,11 @@ class Theme
 		}
 
 		$oldthemeName=THEME_NAME;
+		
+		if(class_exists('CustomPlugins'))
+		{
+			CustomPlugins::removeByPath($oldthemeName);
+		}
 
 		// Make uninstall old theme
 		if(isset($oldthemeName[1]))
