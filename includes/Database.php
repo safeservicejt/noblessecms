@@ -643,22 +643,48 @@ class Database
 
             $query=preg_replace(array_keys($replaces), array_values($replaces), $query);
 
-            preg_match_all('/CREATE.*?\;\n/is', $query, $creates);
 
-            $total = count($creates[0]);
-
-            for ($i = 0; $i < $total; $i++) {
-
-                Database::query($creates[0][$i]);
+            if(!preg_match_all('/CREATE.*?\;\n/is', $query, $creates))
+            {
+                if(!preg_match_all('/CREATE.*?\;\r\n/is', $query, $creates))
+                {
+                    preg_match_all('/CREATE.*?\;\r/is', $query, $creates);
+                }
             }
 
-            preg_match_all('/INSERT.*?\;\n/is', $query, $creates);
+               
+            $total = count($creates[0]);
+
+            for ($i = 0; $i < $total; $i++) {
+
+                Database::query($creates[0][$i]);
+
+                if(isset(Database::$error[5]))
+                {
+                    throw new Exception(Database::$error);
+                    
+                }
+            }
+            
+            if(!preg_match_all('/INSERT.*?\;\n/is', $query, $creates))
+            {
+                if(!preg_match_all('/INSERT.*?\;\r\n/is', $query, $creates))
+                {
+                    preg_match_all('/INSERT.*?\;\r/is', $query, $creates);
+                }
+            }
 
             $total = count($creates[0]);
 
             for ($i = 0; $i < $total; $i++) {
 
                 Database::query($creates[0][$i]);
+
+                if(isset(Database::$error[5]))
+                {
+                    throw new Exception(Database::$error);
+                    
+                }                
             }
 
         }
