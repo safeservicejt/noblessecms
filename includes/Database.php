@@ -44,6 +44,16 @@ class Database
         Cookie::make('prefix',$str,1440*7);
     }
 
+    public static function resetPrefix()
+    {
+        self::$use_prefix='no';
+
+        Cookie::make('prefix','',time());
+
+        Cookie::make('prefixall','no',time());
+    }
+
+
     public static function setPrefixAll()
     {
         Cookie::make('prefixall','yes',1440*7);
@@ -76,6 +86,13 @@ class Database
     public static function getDbName()
     {
         return self::$dbName;
+    }
+
+    public static function dropTable($tableName = '',$prefix='')
+    {
+        $tableName=$prefix.$tableName;
+
+        self::query("drop table ".$tableName);
     }
 
     public static function table($tableName = '')

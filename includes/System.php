@@ -369,6 +369,13 @@ class System
 		return $url;
 	}
 
+	public static function getHost()
+	{
+		$theDomain=$_SERVER['HTTP_HOST'];
+
+		return $theDomain;
+	}
+
 	public static function setUrl($url)
 	{
 		Cookie::make('root_url',$url,1440*7);
