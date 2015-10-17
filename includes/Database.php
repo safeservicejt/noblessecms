@@ -44,13 +44,29 @@ class Database
         Cookie::make('prefix',$str,1440*7);
     }
 
+    public static function setFlashPrefix($str='')
+    {
+        $_SESSION['flash_prefix']=$str;
+    }
+
+    public static function getFlashPrefix($str='')
+    {
+        $prefix=isset($_SESSION['flash_prefix'])?$_SESSION['flash_prefix']:'';
+
+        return $prefix;
+    }
+
     public static function resetPrefix()
     {
         self::$use_prefix='no';
 
-        Cookie::make('prefix','',time());
+        Cookie::make('prefix','',1);
 
-        Cookie::make('prefixall','no',time());
+        Cookie::make('prefixall','no',1);
+
+        $_SESSION['flash_prefix']='';
+
+        unset($_SESSION['flash_prefix']);
     }
 
 
@@ -647,6 +663,8 @@ class Database
     public static function import($fileName = 'db.sql',$prefix='')
     {
 
+        $prefix=isset($_SESSION['flash_prefix'])?$_SESSION['flash_prefix']:$prefix;
+
         if (file_exists($fileName)) {
 
             Database::query("SET NAMES 'utf8';");
@@ -668,6 +686,7 @@ class Database
                     preg_match_all('/CREATE.*?\;\r/is', $query, $creates);
                 }
             }
+
 
                
             $total = count($creates[0]);
