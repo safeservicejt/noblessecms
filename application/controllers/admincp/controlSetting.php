@@ -84,22 +84,12 @@ class controlSetting
 
 		if(Request::has('btnSave'))
 		{
-			System::saveMailSetting(Request::get('mail'));
+			$saveData=Request::get('mail');
+
+			System::saveMailSetting($saveData);
 		}
 
-
-		$data=array();
-
-		if(!$data=Cache::loadKey('systemSetting',-1))
-		{
-			$data=System::makeSetting();
-		}
-		else
-		{
-			$data=unserialize($data);
-		}
-
-		$post=$data;
+		$post=System::getSetting();
 
 		View::make('admincp/head',array('title'=>'Mail Setting - '.ADMINCP_TITLE));
 
