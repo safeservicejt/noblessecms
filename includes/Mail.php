@@ -123,7 +123,7 @@ class Mail
 
         $mailData=System::getMailSetting();
 
-        if($mailData['send_method']=='local' || !isset($mailConfig['send_method']))
+        if($mailData['send_method']=='local')
         {
             $is_smtp=0;
         }
@@ -140,6 +140,24 @@ class Mail
             }
             
         }
+ 
+        $mailConfig['smtpUser']=isset($mailConfig['smtpUser'])?$mailConfig['smtpUser']:$mailData['smtpUser'];
+
+        $mailConfig['smtpPass']=isset($mailConfig['smtpPass'])?$mailConfig['smtpPass']:$mailData['smtpPass'];
+
+        $mailConfig['smtpAddress']=isset($mailConfig['smtpAddress'])?$mailConfig['smtpAddress']:$mailData['smtpAddress'];
+
+        $mailConfig['smtpPort']=isset($mailConfig['smtpPort'])?$mailConfig['smtpPort']:$mailData['smtpPort'];
+
+        $mailConfig['smtpSecure']=!isset($mailConfig['smtpSecure'])?'ssl':$mailConfig['smtpSecure'];
+
+        $mailConfig['smtpSecure']=isset($mailConfig['smtpSecure'])?$mailConfig['smtpSecure']:$mailData['smtpSecure'];
+
+        $mailConfig['fromEmail']=isset($mailConfig['fromEmail'])?$mailConfig['fromEmail']:$mailData['fromEmail'];
+
+        $mailConfig['fromName']=isset($mailConfig['fromName'])?$mailConfig['fromName']:$mailData['fromName'];
+
+        $mailConfig['toEmail']=isset($mailConfig['toEmail'])?$mailConfig['toEmail']:$mailData['toEmail'];
 
         if((int)$is_smtp==1 && !isset($mailConfig['smtpAddress']))
         {
@@ -162,6 +180,7 @@ class Mail
 
         // $mail->SMTPDebug = 3;                               // Enable verbose debug output
 
+
         $mailConfig['smtpSecure']=isset($mailConfig['smtpSecure'])?$mailConfig['smtpSecure']:'ssl';
 
         $mailConfig['smtpPort']=isset($mailConfig['smtpPort'])?$mailConfig['smtpPort']:465;
@@ -183,7 +202,8 @@ class Mail
         {
             $mail->isSMTP(); // Set mailer to use SMTP
         }
-        
+
+       
         $mail->Host = $mailConfig['smtpAddress']; // Specify main and backup SMTP servers
         $mail->SMTPAuth = true; // Enable SMTP authentication
         $mail->Username = $mailConfig['smtpUser']; // SMTP username
