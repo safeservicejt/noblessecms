@@ -173,7 +173,7 @@ class Cache
             Dir::create($path);
         }
 
-        $filePath=self::getPath().$keyName.$extension;
+        // $filePath=self::getPath().$keyName.$extension;
 
         if(!file_exists($filePath))
         {
@@ -185,6 +185,22 @@ class Cache
         fwrite($fp,$keyData);
 
         fclose($fp);
+
+        File::create(self::getPath().$keyName.'_time'.$extension,time());
+    }
+
+    public static function getFileTime($keyName='',$extension='.cache')
+    {
+       $filePath=self::getPath().$keyName.'_time'.$extension;
+
+       if(!file_exists($filePath))
+       {
+        return false;
+       }
+
+       $result=file_get_contents($filePath);
+
+       return $result;
     }
 
     public static function hasKey($keyName,$timeLive=86400,$extension='.cache')
@@ -222,6 +238,46 @@ class Cache
             return false;
         }
 
+        $fileTime=self::getFileTime($keyName);
+
+        if(!$fileTime)
+        {
+            return false;
+        }
+
+        $cacheExpires = time() - (int)$fileTime;
+
+        if ((int)$timeLive == -1 || $cacheExpires <= (int)$timeLive) {
+        
+            $cacheData = file_get_contents($filePath);
+
+            if(!isset($cacheData[1]))
+            {
+                return false;
+            }
+
+            return $cacheData;
+        }
+        else
+        {
+            self::saveKey($keyName,'');
+            // unlink($filePath);
+        }
+
+        return false;        
+    }
+    
+    public static function loadKeyBK($keyName,$timeLive=86400,$extension='.cache')
+    {
+        $filePath=self::getPath().$keyName.$extension;
+
+        $filePath = strval(str_replace("\0", "", $filePath));
+
+        if(!file_exists($filePath))
+        {
+            return false;
+        }
+
         $fileTime=filemtime($filePath);
 
         $cacheExpires = time() - (int)$fileTime;
@@ -245,6 +301,7 @@ class Cache
 
         return false;        
     }
+
     public static function removeKey($keyName,$extension='.cache')
     {
         // $filePath=CACHES_PATH.$keyName.'.cache';
