@@ -164,6 +164,8 @@ class Cache
         $f_type='w';
         // $filePath=CACHES_PATH.$keyName.'.cache';
 
+        $keyName = strval(str_replace("\0", "", $keyName));
+
         $filePath=self::getPath().$keyName.$extension;
 
         if(preg_match('/^(.*?)\/\w+\.\w+$/i', $filePath,$match))
@@ -191,7 +193,10 @@ class Cache
 
     public static function getFileTime($keyName='',$extension='.cache')
     {
+       $keyName = strval(str_replace("\0", "", $keyName));
+
        $filePath=self::getPath().$keyName.'_time'.$extension;
+
 
        if(!file_exists($filePath))
        {
@@ -202,6 +207,18 @@ class Cache
 
        return $result;
     }
+
+    // public static function removeFileTime($keyName='',$extension='.cache')
+    // {
+    //    $filePath=self::getPath().$keyName.'_time'.$extension;
+
+    //    if(file_exists($filePath))
+    //    {
+    //     unlink($filePath);
+    //    }
+
+              
+    // }
 
     public static function hasKey($keyName,$timeLive=86400,$extension='.cache')
     {
@@ -238,7 +255,7 @@ class Cache
             return false;
         }
 
-        $fileTime=self::getFileTime($keyName);
+        $fileTime=self::getFileTime($keyName,$extension);
 
         if(!$fileTime)
         {
@@ -256,17 +273,14 @@ class Cache
                 return false;
             }
 
+            // self::removeFileTime($keyName,$extension);
+
             return $cacheData;
-        }
-        else
-        {
-            self::saveKey($keyName,'');
-            // unlink($filePath);
         }
 
         return false;        
     }
-    
+
     public static function loadKeyBK($keyName,$timeLive=86400,$extension='.cache')
     {
         $filePath=self::getPath().$keyName.$extension;
