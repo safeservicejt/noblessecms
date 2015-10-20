@@ -340,7 +340,9 @@ class Domain
 
 		if((int)$status==0)
 		{
-			return false;
+			Alert::make('This domain not activated in our server.');
+			
+			// return false;
 		}
 
 		if(isset($loadData['date_expires']))
