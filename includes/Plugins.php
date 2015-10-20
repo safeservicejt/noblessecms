@@ -422,7 +422,33 @@ class Plugins
 		PluginsZone::addPlugin($inputData['zonename'],$inputData);
 	}
 
+	public static function activate($foldername='')
+	{
+		if(!isset($foldername[2]))
+		{
+			return false;
+		}
+		
+		Database::query("update ".Database::getPrefix()."plugins set status='1' where foldername='$foldername'");
+		Database::query("update ".Database::getPrefix()."plugins_meta set status='1' where foldername='$foldername'");
 
+		PluginsZone::saveCache();
+
+	}
+
+	public static function deactivate($foldername='')
+	{
+		if(!isset($foldername[2]))
+		{
+			return false;
+		}
+
+		Database::query("update ".Database::getPrefix()."plugins set status='0' where foldername='$foldername'");
+		Database::query("update ".Database::getPrefix()."plugins_meta set status='0' where foldername='$foldername'");
+
+		PluginsZone::saveCache();
+
+	}
 
 	public static function load($zoneName='',$inputData=array())
 	{
