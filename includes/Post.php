@@ -49,7 +49,6 @@ class Post
 		if($cache=='yes')
 		{
 			// Load dbcache
-
 			$loadCache=Cache::loadKey('dbcache/system/post/'.$md5Query,$cacheTime);
 
 			if($loadCache!=false)
@@ -393,11 +392,12 @@ class Post
 
 		if(!$error=Database::hasError())
 		{
+			$id=Database::insert_id();
+
 			Plugins::load('after_post_insert',$inputData);
 
-			self::saveCache();
+			CustomPlugins::load('after_post_insert');
 
-			$id=Database::insert_id();
 
 			return $id;	
 		}
@@ -435,7 +435,9 @@ class Post
 
 		Plugins::load('after_post_remove',$post);
 
-		self::saveCache();
+		// self::saveCache();
+
+		CustomPlugins::load('after_post_remove');
 
 		// DBCache::removeDir('system/post');
 
@@ -511,12 +513,14 @@ class Post
 
 		// DBCache::removeCache($listIDs,'system/post');
 
-		Plugins::load('after_post_update',$post);
 
 
 		if(!$error=Database::hasError())
 		{
-			self::saveCache();
+			Plugins::load('after_post_update',$post);
+
+			// self::saveCache();
+			CustomPlugins::load('after_post_update');
 
 			return true;
 		}

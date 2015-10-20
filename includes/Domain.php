@@ -60,15 +60,82 @@ class Domain
 
 		$result=isset($domainName[2])?$result.$domainName.'/':$result;
 
-		if(!is_dir($result))
-		{
-			Dir::create($result);
-		}
+		// if(!is_dir($result))
+		// {
+		// 	Dir::create($result);
+		// }
 
 		return $result;
 	}
 
-	public static function isAllowTheme($pluginName='',$domainName='')
+
+	public static function isAllowTheme($pluginName='',$domainName='',$attr='')
+	{
+		if(System::$setting['system_mode']=='basic')
+		{
+			return true;
+		}
+
+		$theDomain=$_SERVER['HTTP_HOST'];
+
+		$theDomain=!isset($domainName[1])?$theDomain:$domainName;
+
+		$attr=isset($attr[1])?'/'.$attr:'';
+
+		$allowPath=self::configPath($theDomain).'/allow/theme/'.$pluginName.$attr;
+
+		$lockPath=self::configPath($theDomain).'/lock/theme/'.$pluginName.$attr;
+
+		if(!is_dir($allowPath) && !is_dir($lockPath))
+		{
+			return false;
+		}
+		
+		if(!is_dir($allowPath) || is_dir($lockPath))
+		{
+			return false;
+		}
+
+
+		return true;
+
+	}
+
+	public static function isAllowPlugin($pluginName='',$domainName='',$attr='')
+	{
+		if(System::$setting['system_mode']=='basic')
+		{
+			return true;
+		}
+
+		$theDomain=$_SERVER['HTTP_HOST'];
+
+		$theDomain=!isset($domainName[1])?$theDomain:$domainName;
+
+		$attr=isset($attr[1])?'/'.$attr:'';
+
+		$allowPath=self::configPath($theDomain).'/allow/plugin/'.$pluginName.$attr;
+
+		$lockPath=self::configPath($theDomain).'/lock/plugin/'.$pluginName.$attr;
+
+		if(!is_dir($allowPath) && !is_dir($lockPath))
+		{
+			return false;
+		}
+
+		if(!is_dir($allowPath) || is_dir($lockPath))
+		{
+			return false;
+		}
+
+
+		return true;
+
+	}
+
+
+
+	public static function isAllowThemeBK($pluginName='',$domainName='')
 	{
 		if(System::$setting['system_mode']=='basic')
 		{
@@ -103,7 +170,7 @@ class Domain
 
 	}
 
-	public static function isAllowPlugin($pluginName='',$domainName='')
+	public static function isAllowPluginBK($pluginName='',$domainName='')
 	{
 		if(System::$setting['system_mode']=='basic')
 		{

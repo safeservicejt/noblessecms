@@ -757,6 +757,7 @@ class Users
 			$id=Database::insert_id();
 
 			Plugins::load('after_insert_user',$inputData);
+			CustomPlugins::load('after_insert_user');
 
 			return $id;	
 		}
@@ -800,6 +801,7 @@ class Users
 		Database::query($command);	
 
 		Plugins::load('after_remove_user',$post);
+		CustomPlugins::load('after_remove_user');
 
 		// DBCache::removeDir('system/user');
 		
@@ -859,6 +861,7 @@ class Users
 		if(!$error=Database::hasError())
 		{
 			Plugins::load('after_update_user',$post);
+			CustomPlugins::load('after_update_user');
 
 			return true;
 		}

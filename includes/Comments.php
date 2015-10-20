@@ -116,6 +116,8 @@ class Comments
 		// $totalArgs=count($inputData);
 		Plugins::load('before_comment_insert',$inputData);
 
+		CustomPlugins::load('before_comment_insert');
+
 		$addMultiAgrs='';
 
 		if(isset($inputData[0]['postid']))
@@ -182,6 +184,8 @@ class Comments
 		{
 			Plugins::load('after_comment_insert',$inputData);
 
+			CustomPlugins::load('after_comment_insert');
+
 			$id=Database::insert_id();
 
 			return $id;	
@@ -193,8 +197,7 @@ class Comments
 
 	public static function remove($post=array(),$whereQuery='',$addWhere='')
 	{
-
-
+		
 		if(is_numeric($post))
 		{
 			$id=$post;
@@ -219,6 +222,8 @@ class Comments
 		Database::query($command);
 
 		Plugins::load('after_comment_remove',$post);
+
+		CustomPlugins::load('after_comment_remove');
 
 		// DBCache::removeDir('system/comment');
 		
@@ -276,6 +281,8 @@ class Comments
 		if(!$error=Database::hasError())
 		{
 			Plugins::load('after_comment_update',$listID);
+			
+			CustomPlugins::load('after_comment_update');
 
 			return true;
 		}

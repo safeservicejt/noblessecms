@@ -136,7 +136,7 @@ class Pages
 	}
 	public static function api($action)
 	{
-		Model::load('api/".Database::getPrefix()."pages');
+		Model::load('api/pages');
 
 		try {
 			$result=loadApi($action);
@@ -240,6 +240,8 @@ class Pages
 		{
 			$id=Database::insert_id();
 
+			CustomPlugins::load('after_page_insert');
+
 			return $id;	
 		}
 
@@ -273,8 +275,10 @@ class Pages
 		Database::query($command);	
 
 		// DBCache::removeDir('system/page');
+
+		CustomPlugins::load('after_page_remove');
 		
-		DBCache::removeCache($listID,'system/page');
+		// DBCache::removeCache($listID,'system/page');
 
 		return true;
 	}
@@ -343,10 +347,12 @@ class Pages
 
 		// DBCache::removeDir('system/page');
 
-		DBCache::removeCache($listIDs,'system/page');
+		// DBCache::removeCache($listIDs,'system/page');
 
 		if(!$error=Database::hasError())
 		{
+			CustomPlugins::load('after_page_update');
+
 			return true;
 		}
 

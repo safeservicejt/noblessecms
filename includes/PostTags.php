@@ -206,11 +206,13 @@ class PostTags
 
 		Database::query("insert into ".Database::getPrefix()."post_tags($insertKeys) values".$addMultiAgrs);
 
-		DBCache::removeDir('system/posttag');
+		// DBCache::removeDir('system/posttag');
 
 		if(!$error=Database::hasError())
 		{
 			$id=Database::insert_id();
+
+			CustomPlugins::load('after_posttag_insert');
 
 			return $id;	
 		}
@@ -245,8 +247,10 @@ class PostTags
 		Database::query($command);	
 
 		// DBCache::removeDir('system/posttag');
+
+		CustomPlugins::load('after_posttag_remove');
 		
-		DBCache::removeCache($listID,'system/posttag');
+		// DBCache::removeCache($listID,'system/posttag');
 
 		return true;
 	}
@@ -295,6 +299,8 @@ class PostTags
 
 		if(!$error=Database::hasError())
 		{
+			CustomPlugins::load('after_posttag_update');
+
 			return true;
 		}
 

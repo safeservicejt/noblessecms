@@ -186,11 +186,13 @@ class Links
 
 		Database::query("insert into ".Database::getPrefix()."links($insertKeys) values".$addMultiAgrs);
 
-		DBCache::removeDir('system/link');
+		// DBCache::removeDir('system/link');
 
 		if(!$error=Database::hasError())
 		{
 			$id=Database::insert_id();
+
+			CustomPlugins::load('after_link_insert');
 
 			return $id;	
 		}
@@ -226,7 +228,9 @@ class Links
 
 		// DBCache::removeDir('system/link');
 		
-		DBCache::removeCache($listID,'system/link');
+		// DBCache::removeCache($listID,'system/link');
+
+		CustomPlugins::load('after_link_remove');
 
 		return true;
 	}
@@ -280,6 +284,8 @@ class Links
 
 		if(!$error=Database::hasError())
 		{
+			CustomPlugins::load('after_link_update');
+
 			return true;
 		}
 

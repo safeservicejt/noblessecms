@@ -719,6 +719,8 @@ class UserGroups
 
 			Cache::saveKey($prefix.'userGroup_'.$id,serialize($inputData));
 
+			CustomPlugins::load('after_usergroup_insert');
+
 			return $id;	
 		}
 
@@ -771,6 +773,9 @@ class UserGroups
 
 			Cache::removeKey($prefix.'userGroup_'.$id);
 		}
+
+		CustomPlugins::load('after_usergroup_remove');
+
 
 		return true;
 	}
@@ -840,6 +845,9 @@ class UserGroups
 				$loadData[$i]['groupdata']=self::lineToArray($loadData[$i]['groupdata']);
 				Cache::saveKey($prefix.'userGroup_'.$loadData[$i]['groupid'],serialize($loadData[$i]));
 			}
+
+			CustomPlugins::load('after_usergroup_update');
+
 
 			return true;
 		}

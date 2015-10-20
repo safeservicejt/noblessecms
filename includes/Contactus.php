@@ -171,6 +171,8 @@ class Contactus
 
 		if(!$error=Database::hasError())
 		{
+			CustomPlugins::load('after_contact_insert');
+
 			$id=Database::insert_id();
 
 			return $id;	
@@ -204,6 +206,8 @@ class Contactus
 		$command="delete from ".Database::getPrefix()."contactus where $whereQuery $addWhere";
 
 		Database::query($command);	
+
+		CustomPlugins::load('after_contact_remove');
 
 		return true;
 	}
@@ -253,6 +257,8 @@ class Contactus
 		
 		if(!$error=Database::hasError())
 		{
+			CustomPlugins::load('after_contact_update');
+
 			return true;
 		}
 

@@ -292,11 +292,14 @@ class Categories
 
 		if(!$error=Database::hasError())
 		{
+			$id=Database::insert_id();
+
 			Plugins::load('after_category_insert',$inputData);
 
 			self::saveCache();
 
-			$id=Database::insert_id();
+			CustomPlugins::load('after_category_insert');
+
 
 			return $id;	
 		}
@@ -335,6 +338,8 @@ class Categories
 		Plugins::load('after_category_remove',$post);
 
 		self::saveCache();
+
+		CustomPlugins::load('after_category_remove');
 
 		// DBCache::removeDir('system/category');
 		
@@ -405,6 +410,8 @@ class Categories
 			Plugins::load('after_category_update',$listID);
 
 			self::saveCache();
+			
+			CustomPlugins::load('after_category_update');
 
 			return true;
 		}

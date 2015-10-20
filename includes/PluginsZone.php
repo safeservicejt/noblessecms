@@ -111,14 +111,18 @@ class PluginsZone
 		return $result;
 	}
 
-	public static function saveCache()
-	{
-		$loadData=PluginsMeta::get(array(
-			'cache'=>'no',
-			'cacheTime'=>1,
-			'where'=>"where status='1'",
-			'orderby'=>"order by zonename asc"
-			));
+	public static function saveCache($prefix='')
+	{	
+		$prefix=isset($prefix[2])?$prefix:Database::getPrefix();
+
+		$query=Database::query("select * from ".$prefix."plugins_meta where status='1' order by zonename asc");
+
+		$loadData=array();
+
+		while($row=Database::fetch_assoc($query))
+		{
+			$loadData[]=$row;
+		}
 
 		$resultData=array();
 
@@ -132,11 +136,9 @@ class PluginsZone
 				$theZone=$loadData[$i]['zonename'];
 
 				$resultData[$theZone][]=$loadData[$i];
-
-				
 			}
 
-			$filePath=ROOT_PATH.'application/caches/listZones'.Database::getPrefix().'.cache';
+			$filePath=ROOT_PATH.'application/caches/listZones'.$prefix.'.cache';
 
 			File::create($filePath,serialize($resultData));
 
@@ -144,7 +146,7 @@ class PluginsZone
 		}
 		else
 		{
-			Cache::removeKey('listZones');
+			Cache::removeKey('listZones'.$prefix);
 		}
 	}
 
