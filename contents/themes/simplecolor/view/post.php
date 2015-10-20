@@ -23,7 +23,7 @@
   {
     $thumbnail='
     <div class="col-lg-12">
-    <img src="'.$imageUrl.'" class="img-responsive" />
+    <img data-src="'.$imageUrl.'" class="js-auto-responsive" />
     </div>
     ';
   }
@@ -78,6 +78,12 @@
 <!-- items -->
 
 <?php if((int)$allowcomment==1){ ?>
+
+  <?php if(isset($themeSetting['facebook_comment_status']) && $themeSetting['facebook_comment_status']=='enable'){ ?>
+  <!-- comment form -->
+  <div class="fb-comments" data-href="<?php echo System::getUrl().System::getUri();?>" data-numposts="10"></div>
+  <!-- comment form -->  
+  <?php }else{ ?>
 <!-- Comment box -->
 <form action="" method="post" enctype="multipart/form-data">
 <div class="row">
@@ -102,7 +108,10 @@
 <!-- row -->
 <!-- row -->
 <div class="row">
-<div class="col-lg-12"><br>
+<div class="col-lg-12">
+<br>
+<?php echo $captchaHTML;?>
+<br>
 <button type="submit" class="btn btn-primary" name="btnComment" id="btnComment">Send</button>
 </div>
 </div>
@@ -115,7 +124,7 @@
 </div>
 </form>
 <!-- Comment box -->
-<?php } ?>
+<?php }} ?>
 
 <?php if((int)$allowcomment==1){ ?>
 <!-- Comment list -->

@@ -20,9 +20,10 @@ class themeHome
 		$curPage=((int)$curPage >= 0)?$curPage:0;
 
 		$inputData['newPost']=Post::get(array(
+			'isHook'=>'yes',
 			'cache'=>'yes',
-			'cacheTime'=>15,
-			'limitShow'=>2,
+			'cacheTime'=>30,
+			'limitShow'=>10,
 			'limitPage'=>$curPage
 			));
 
@@ -30,6 +31,12 @@ class themeHome
 		if(!isset($inputData['newPost'][0]['postid']))
 		{
 			Redirect::to('404page');
+		}
+
+		$total=count($inputData['newPost']);
+
+		for ($i=0; $i < $total; $i++) { 
+			$inputData['newPost'][$i]['date_addedFormat']=date('d M,Y',strtotime($inputData['newPost'][$i]['date_added']));
 		}
 
 		$inputData['listPage']=Misc::genPage('',$curPage);

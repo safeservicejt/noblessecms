@@ -31,6 +31,17 @@ System::defineGlobalVar('site_header',$codeHead);
 
 System::defineGlobalVar('site_footer',$codeFooter);
 
+if($loadData=Cache::loadKey('dbcache/'.Database::getPrefix().'simplecolor',-1))
+{
+	$loadData=unserialize($loadData);
+
+	System::defineGlobalVar('themeSetting',$loadData);
+
+	System::defineGlobalVar('site_name',$loadData['site_name']);
+
+
+
+}
 
 $links=Links::get(array(
 	'cache'=>'yes',

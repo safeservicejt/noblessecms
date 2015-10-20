@@ -36,15 +36,24 @@ class themePost
 
 		if(Request::has('btnComment'))
 		{
-			try {
-				sendComment($postid);
-				$inputData['commentAlert']='<div class="alert alert-success">Send comment success.</div>';
-			} catch (Exception $e) {
-				$inputData['commentAlert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			if(Captcha::verify())
+			{
+				try {
+					sendComment($postid);
+					$inputData['commentAlert']='<div class="alert alert-success">Send comment success.</div>';
+				} catch (Exception $e) {
+					$inputData['commentAlert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+				}				
+			}
+			else
+			{
+				$inputData['commentAlert']='<div class="alert alert-warning">Wrong captcha characters. Try again!</div>';
 			}
 		}
 
 		$listTag=PostTags::renderToLink($postid);
+
+		$inputData['captchaHTML']=Captcha::makeForm();
 
 		$inputData['listTag']=$listTag;
 

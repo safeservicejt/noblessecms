@@ -88,6 +88,11 @@ class Post
 					$row['url']=self::url($row);
 				}
 
+				if(isset($row['image']) && preg_match('/.*?\.(gif|png|jpe?g)/i', $row['image']))
+				{
+					$row['imageUrl']=System::getUrl().$row['image'];
+				}
+
 				if(isset($row['content']))
 				{
 					$row['content']=String::decode($row['content']);

@@ -13,7 +13,7 @@ class themeCategory
 		$curPage=0;
 		// Model::loadWithPath('home',System::getThemePath().'model/');
 
-		if(!$match=Uri::match('category\/(\w+)$'))
+		if(!$match=Uri::match('category\/([a-zA-Z0-9_\-\=]+)$'))
 		{
 			Redirect::to('404page');
 		}
@@ -26,11 +26,13 @@ class themeCategory
 		}
 
 		$loadData=Post::get(array(
-			'limitShow'=>2,
+			'limitShow'=>10,
 			'limitPage'=>$curPage,
-			'cacheTime'=>-1,
-			'query'=>"select p.*,c.title as cattitle from post p,categories c where c.friendly_url='$friendly_url' AND p.catid=c.catid order by p.postid desc"
+			'cache'=>'no',
+			'cacheTime'=>30,
+			'query'=>"select p.*,c.title as cattitle from post p left join categories c ON c.friendly_url='$friendly_url' where p.catid=c.catid group by p.postid order by p.postid desc"
 			));
+
 		if(!isset($loadData[0]['postid']))
 		{
 			Redirect::to('404page');

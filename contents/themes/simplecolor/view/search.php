@@ -56,9 +56,9 @@ for($i=0;$i<$total;$i++)
   <div class="row">
   <div class="col-lg-12">
   <p>
-    <span class="glyphicon glyphicon-calendar" title="Date Created"></span> <span title="Date Created">'.$newPost[$i]['date_added'].'</span>
+    <span class="glyphicon glyphicon-calendar" title="Date Created"></span> <span title="Date Created">'.date('d M, Y',strtotime($newPost[$i]['date_added'])).'</span>
     &nbsp;&nbsp;
-    <span class="glyphicon glyphicon-globe" title="Views"></span> <span title="Views">'.$newPost[$i]['views'].'</span>
+    <span class="glyphicon glyphicon-globe" title="Views"></span> <span title="Views">'.number_format($newPost[$i]['views']).'</span>
 
   </p>
   </div>

@@ -8,7 +8,7 @@
     <span>Simple Color Theme</span>
     </div>
     <div class="col-lg-6 text-right">
-    <span>Theme by FreshCodeTeam Powered by NoblesseCMS</span>
+    <span>Powered by <a href="http://noblessecms.com/" target="_blank">Noblesse CMS</a></span>
     </div>
 
     </div>

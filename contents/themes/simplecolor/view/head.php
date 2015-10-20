@@ -8,7 +8,7 @@
         <meta name="description" content="<?php echo System::getDescriptions();?>">
         <link rel="shortcut icon" href="<?php echo System::getUrl();?>bootstrap/favicon.ico">
         <meta name="author" content="Safeservicejt">
-        <meta name="url" id="rootUrl" content="<?php echo System::getUrl();?>">
+        <meta name="url" id="root_url" content="<?php echo System::getUrl();?>">
 
         <title><?php echo System::getTitle();?></title>
 
@@ -42,6 +42,15 @@
   </head>
 
   <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=<?php if(isset($themeSetting['facebook_app_id']))echo $themeSetting['facebook_app_id'];?>";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
 <nav class="navbar navbar-default navbar-modern">
   <div class="container-fluid">
   <div class="row">
@@ -54,7 +63,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="<?php echo System::getUrl();?>">NoblesseCMS</a>
+      <a class="navbar-brand" href="<?php echo System::getUrl();?>"><?php if(isset($site_name))echo $site_name;else{echo 'Noblesse CMS';}?></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->

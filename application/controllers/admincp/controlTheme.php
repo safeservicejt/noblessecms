@@ -183,7 +183,7 @@ class controlTheme
 
 		$theName=$match[1];
 
-      	if(!Domain::isAllowTheme($themeName))
+      	if(!Domain::isAllowTheme($theName))
       	{
       		Alert::make('You dont have permission to access this page.');
       	}

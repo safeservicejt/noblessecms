@@ -23,23 +23,27 @@ $total=count($newPost);
 if(isset($newPost[0]['postid']))
 for($i=0;$i<$total;$i++)
 {
-	$thumbnail='';
+	$image=isset($newPost[$i]['imageUrl'])?$newPost[$i]['imageUrl']:'';
 
-	if(isset($newPost[$i]['imageUrl'][5]))
+	if(preg_match('/.*?\.\w+/i', $image))
 	{
-		$thumbnail='
-		<div class="col-lg-12">
-		<img src="'.$newPost[$i]['imageUrl'].'" class="img-responsive" />
-		</div>
+		$image='
+		<div class="image"><a href="'.$newPost[$i]['url'].'" title="'.$newPost[$i]['title'].'"><img data-src="'.$image.'" class="js-auto-responsive" /></a></div>
 		';
+	}
+	else
+	{
+		$image='';
 	}
 
 	$li.='
 	<!-- items -->
 	<div class="row">
-	'.$thumbnail.'
+
 	<div class="col-lg-12">
+	'.$image.'
 	<div class="well well-post-content">
+
 	<!-- title -->
 	<div class="row">
 	<div class="col-lg-12"><a href="'.$newPost[$i]['url'].'"><h2>'.$newPost[$i]['title'].'</h2></a></div>
@@ -49,9 +53,9 @@ for($i=0;$i<$total;$i++)
 	<div class="row">
 	<div class="col-lg-12">
 	<p>
-	  <span class="glyphicon glyphicon-calendar" title="Date Created"></span> <span title="Date Created">'.$newPost[$i]['date_added'].'</span>
+	  <span class="glyphicon glyphicon-calendar" title="Date Created"></span> <span title="'.$newPost[$i]['date_added'].'">'.$newPost[$i]['date_addedFormat'].'</span>
 	  &nbsp;&nbsp;
-	  <span class="glyphicon glyphicon-globe" title="Views"></span> <span title="Views">'.$newPost[$i]['views'].'</span>
+	  <span class="glyphicon glyphicon-globe" title="Views"></span> <span title="Views">'.number_format($newPost[$i]['views']).'</span>
 
 	</p>
 	</div>

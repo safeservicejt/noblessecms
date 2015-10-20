@@ -43,7 +43,9 @@
 	<div class="col-lg-12"></strong></label>
 		<textarea rows="10" class="form-control" placeholder="Content" name="send[content]"></textarea>
 		</p>
-
+<br>
+<?php echo $captchaHTML;?>
+<br>
 		<button type="submit" class="btn btn-primary" name="btnSend">Send</button>
 
 		<a href="<?php echo System::getUrl();?>" class="btn btn-default pull-right">Back</a>

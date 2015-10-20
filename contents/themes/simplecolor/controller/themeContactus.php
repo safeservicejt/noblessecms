@@ -12,13 +12,23 @@ class themeContactus
 
 		if(Request::has('btnSend'))
 		{
-			try {
-				contactProcess();
-				$inputData['alert']='<div class="alert alert-success">Send contact success.</div>';
-			} catch (Exception $e) {
-				$inputData['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			if(Captcha::verify())
+			{
+				try {
+					contactProcess();
+					$inputData['alert']='<div class="alert alert-success">Send contact success.</div>';
+				} catch (Exception $e) {
+					$inputData['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+				}			
 			}
+			else
+			{
+				$inputData['commentAlert']='<div class="alert alert-warning">Wrong captcha characters. Try again!</div>';
+			}			
+
 		}
+		
+		$inputData['captchaHTML']=Captcha::makeForm();
 
 		System::setTitle('Contact us');
 
