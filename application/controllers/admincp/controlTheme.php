@@ -70,7 +70,7 @@ class controlTheme
 
 		$themeName=$match[1];
 
-      	if(!Domain::isAllowTheme($themeName))
+      	if(Domain::isOtherDomain() && !Domain::isAllowTheme($themeName))
       	{
       		Alert::make('You dont have permission to access this page.');
       	}
@@ -183,7 +183,7 @@ class controlTheme
 
 		$theName=$match[1];
 
-      	if(!Domain::isAllowTheme($theName))
+      	if(Domain::isOtherDomain() && !Domain::isAllowTheme($theName))
       	{
       		Alert::make('You dont have permission to access this page.');
       	}
@@ -225,7 +225,7 @@ class controlTheme
 
 			$themeName=$matchCtr[1];
 
-	      	if(!Domain::isAllowTheme($themeName))
+	      	if(Domain::isOtherDomain() && !Domain::isAllowTheme($themeName))
 	      	{
 	      		Alert::make('You dont have permission to access this page.');
 	      	}

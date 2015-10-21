@@ -56,7 +56,7 @@ class controlPlugins
 
 		$foldername=$match[1];
 
-      	if(!Domain::isAllowPlugin($foldername))
+      	if(Domain::isOtherDomain() && !Domain::isAllowPlugin($foldername))
       	{
       		Alert::make('You dont have permission to access this page.');
       	}
@@ -91,7 +91,7 @@ class controlPlugins
 
 		$foldername=$match[1];
 
-      	if(!Domain::isAllowPlugin($foldername))
+      	if(Domain::isOtherDomain() && !Domain::isAllowPlugin($foldername))
       	{
       		Alert::make('You dont have permission to access this page.');
       	}
@@ -150,7 +150,7 @@ class controlPlugins
 			Redirect::to(System::getAdminUrl());
 		}
 
-      	if(!Domain::isAllowPlugin($foldername))
+      	if(Domain::isOtherDomain() && !Domain::isAllowPlugin($foldername))
       	{
       		Alert::make('You dont have permission to access this page.');
       	}
@@ -193,7 +193,7 @@ class controlPlugins
 			Redirect::to(System::getAdminUrl().'plugins');
 		}
 
-      	if(!Domain::isAllowPlugin($foldername))
+      	if(Domain::isOtherDomain() && !Domain::isAllowPlugin($foldername))
       	{
       		Alert::make('You dont have permission to access this page.');
       	}
@@ -264,7 +264,7 @@ class controlPlugins
 
 		$foldername=$match[1];
 
-      	if(!Domain::isAllowPlugin($foldername))
+      	if(Domain::isOtherDomain() && !Domain::isAllowPlugin($foldername))
       	{
       		Alert::make('You dont have permission to access this page.');
       	}
@@ -290,7 +290,7 @@ class controlPlugins
 
 		$foldername=$match[1];
 		
-      	if(!Domain::isAllowPlugin($foldername))
+      	if(Domain::isOtherDomain() && !Domain::isAllowPlugin($foldername))
       	{
       		Alert::make('You dont have permission to access this page.');
       	}
