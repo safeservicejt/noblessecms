@@ -10,7 +10,7 @@ function saveDataProcess($fileName,$fileData='')
 
 	$fileData=trim($fileData);
 
-	Cache::saveKey('ninjascripts/'.$fileName,$fileData);
+	Cache::saveKey('ninjascripts/'.Database::getPrefix().$fileName,$fileData);
 }
 
 ?>

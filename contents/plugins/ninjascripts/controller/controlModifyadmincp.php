@@ -41,9 +41,9 @@ class controlModifyadmincp
 			}
 		}
 
-		$post['header']=stripslashes(Cache::loadKey('ninjascripts/admincpHeader',-1));
+		$post['header']=stripslashes(Cache::loadKey('ninjascripts/'.Database::getPrefix().'admincpHeader',-1));
 		
-		$post['footer']=stripslashes(Cache::loadKey('ninjascripts/admincpFooter',-1));
+		$post['footer']=stripslashes(Cache::loadKey('ninjascripts/'.Database::getPrefix().'admincpFooter',-1));
 
 		self::makeContent('admincpView',$post);
 

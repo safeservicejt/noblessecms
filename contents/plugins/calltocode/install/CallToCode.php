@@ -21,6 +21,7 @@ return ab();
 class CallToCode
 {
 
+
 	public static function get($inputData=array())
 	{
 
@@ -48,7 +49,7 @@ class CallToCode
 
 		$result=array();
 		
-		$command="select $selectFields from calltocode $whereQuery";
+		$command="select $selectFields from ".Database::getPrefix()."calltocode $whereQuery";
 
 		$command.=" $orderBy";
 
@@ -118,7 +119,7 @@ class CallToCode
 	{
 		$result='';
 
-		$filePath=ROOT_PATH.'application/caches/dbcache/system/calltocode/'.$str.'.cache';
+		$filePath=ROOT_PATH.'application/caches/dbcache/system/calltocode/'.Database::getPrefix().$str.'.cache';
 
 		if(!file_exists($filePath))
 		{
@@ -174,7 +175,7 @@ class CallToCode
 			for ($i=0; $i < $total; $i++) { 
 				$uri=md5($loadData[$i]['friendly_url']);
 
-				Cache::saveKey('dbcache/system/calltocode/'.$uri,serialize($loadData[$i]));
+				Cache::saveKey('dbcache/system/calltocode/'.Database::getPrefix().$uri,serialize($loadData[$i]));
 			}
 		}
 	}
@@ -241,7 +242,7 @@ class CallToCode
 			$addMultiAgrs="($insertValues)";	
 		}		
 
-		Database::query("insert into calltocode($insertKeys) values".$addMultiAgrs);
+		Database::query("insert into ".Database::getPrefix()."calltocode($insertKeys) values".$addMultiAgrs);
 
 		if(!$error=Database::hasError())
 		{
@@ -277,7 +278,7 @@ class CallToCode
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		$command="delete from calltocode where $whereQuery $addWhere";
+		$command="delete from ".Database::getPrefix()."calltocode where $whereQuery $addWhere";
 
 		Database::query($command);	
 
@@ -334,7 +335,7 @@ class CallToCode
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("update calltocode set $setUpdates where $whereQuery $addWhere");
+		Database::query("update ".Database::getPrefix()."calltocode set $setUpdates where $whereQuery $addWhere");
 		
 		if(!$error=Database::hasError())
 		{

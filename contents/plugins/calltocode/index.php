@@ -16,7 +16,7 @@ function install_calltocode()
 
 	if(file_exists($dbFile))
 	{
-		Database::import($dbFile);
+		Database::import($dbFile,Database::getPrefix());
 	}
 
 	File::copy($installPath.'CallToCode.php',ROOT_PATH.'includes/CallToCode.php');
@@ -27,6 +27,13 @@ function install_calltocode()
 	Plugins::add('admincp_menu','calltocode_admincp_menu');
 
 
+
+}
+
+
+function calltocode_creatcode()
+{
+	die('ok');
 }
 
 function uninstall_calltocode()
@@ -35,7 +42,7 @@ function uninstall_calltocode()
 	
 	Dir::remove(CACHES_PATH.'calltocode');
 
-	Database::query('drop table calltocode');	
+	Database::dropTable('calltocode',Database::getPrefix());
 
 	if(file_exists(ROOT_PATH.'includes/CallToCode.php'))
 	{

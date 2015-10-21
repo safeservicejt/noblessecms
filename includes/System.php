@@ -69,13 +69,16 @@ class System
 
 		if($systemMode!='basic')
 		{
-			Domain::checkConfig();
+			if(Domain::isOtherDomain())
+			{
+				Domain::checkConfig();
 
-			Domain::checkTheme();
+				Domain::checkTheme();
 
-			Users::checkConfig();
+				Users::checkConfig();
 
-			Users::checkUseTheme();
+				Users::checkUseTheme();
+			}
 
 		}
 
@@ -87,9 +90,13 @@ class System
 		
 		if($systemMode!='basic')
 		{
-			Domain::checkConnectDB();
-			
-			Users::checkConnectDB();
+			if(Domain::isOtherDomain())
+			{
+				Domain::checkConnectDB();
+				
+				Users::checkConnectDB();				
+			}
+
 		}
 		
 		Database::connect();

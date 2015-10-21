@@ -56,7 +56,6 @@
                 <option value="html">Html</option>
                   <option value="css">Css</option>
                    <option value="js">Javascript</option>
-                   <option value="php">PHP</option>
                 </select>
                 </p>
                 <p>

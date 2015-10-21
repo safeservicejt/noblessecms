@@ -38,7 +38,7 @@ function ninjascripts_admincp_header()
 {
 	// return '<script>alert("ok");</script>';
 		
-	if(!$loadData=Cache::loadKey('ninjascripts/admincpHeader',-1))
+	if(!$loadData=Cache::loadKey('ninjascripts/'.Database::getPrefix().'admincpHeader',-1))
 	{
 		return '';
 	}
@@ -49,7 +49,7 @@ function ninjascripts_admincp_header()
 }
 function ninjascripts_admincp_footer()
 {
-	if(!$loadData=Cache::loadKey('ninjascripts/admincpFooter',-1))
+	if(!$loadData=Cache::loadKey('ninjascripts/'.Database::getPrefix().'admincpFooter',-1))
 	{
 		return '';
 	}
@@ -61,7 +61,7 @@ function ninjascripts_admincp_footer()
 
 function ninjascripts_site_header()
 {
-	if(!$loadData=Cache::loadKey('ninjascripts/siteHeader',-1))
+	if(!$loadData=Cache::loadKey('ninjascripts/'.Database::getPrefix().'siteHeader',-1))
 	{
 		return '';
 	}
@@ -72,7 +72,7 @@ function ninjascripts_site_header()
 }
 function ninjascripts_site_footer()
 {
-	if(!$loadData=Cache::loadKey('ninjascripts/siteFooter',-1))
+	if(!$loadData=Cache::loadKey('ninjascripts/'.Database::getPrefix().'siteFooter',-1))
 	{
 		return '';
 	}

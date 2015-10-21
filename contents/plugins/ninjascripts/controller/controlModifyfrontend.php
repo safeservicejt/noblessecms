@@ -40,9 +40,9 @@ class controlModifyfrontend
 			}
 		}
 
-		$post['header']=stripslashes(Cache::loadKey('ninjascripts/siteHeader',-1));
+		$post['header']=stripslashes(Cache::loadKey('ninjascripts/'.Database::getPrefix().'siteHeader',-1));
 		
-		$post['footer']=stripslashes(Cache::loadKey('ninjascripts/siteFooter',-1));
+		$post['footer']=stripslashes(Cache::loadKey('ninjascripts/'.Database::getPrefix().'siteFooter',-1));
 
 		self::makeContent('frontEndView',$post);
 

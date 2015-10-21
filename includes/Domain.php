@@ -49,9 +49,25 @@ class Domain
 
 	public static function isOtherDomain()
 	{
-		$status=isset($_SESSION['other_domain'])?true:false;
+		if(isset($_SESSION['is_otherdomain']))
+		{
+			return true;
+		}
 
-		return $status;
+		$theDomain=$_SERVER['HTTP_HOST'];
+
+		$oldDomain=parse_url(ROOT_URL);
+
+		$oldHost=$oldDomain['host'];
+
+		if($oldHost!=$theDomain)
+		{
+			$_SESSION['is_otherdomain']='yes';
+			
+			return true;
+		}
+
+		return false;
 	}
 
 	public static function configPath($domainName='')
@@ -188,14 +204,12 @@ class Domain
 
 		if(isset($loadData['date_expires']))
 		{
-			$thistime=time();
+			// $thistime=time();
 
-			$date_expires=strtotime($loadData['date_expires']);
-
-			if((int)$thistime > $date_expires)
-			{
-				Alert::make('Your domain have been expired!');
-			}
+			// if((int)$thistime > (int)$loadData['date_expires'])
+			// {
+			// 	Alert::make('Your domain have been expired!');
+			// }
 		}
 
 		$loadData['domain']=$theDomain;
@@ -203,6 +217,7 @@ class Domain
 		self::$config=$loadData;
 
 		System::setUrl('http://'.$theDomain.'/');
+
 
 	}
 
@@ -257,17 +272,6 @@ class Domain
 	{
         // global $db;
 
-		if(!isset(self::$config['dbhost']))
-		{
-			return false;
-		}
-
-		$dbhost=self::$config['dbhost'];
-
-		if(!isset($dbhost[2]))
-		{
-			return false;
-		}
 
 		$connect_type=isset(self::$config['connect_type'])?self::$config['connect_type']:'prefix';
 
