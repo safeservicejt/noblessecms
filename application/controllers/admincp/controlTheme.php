@@ -70,7 +70,7 @@ class controlTheme
 
 		$themeName=$match[1];
 
-      	if(Domain::isOtherDomain() && !Domain::isAllowTheme($themeName))
+      	if(Domain::isOtherDomain())
       	{
       		Alert::make('You dont have permission to access this page.');
       	}
