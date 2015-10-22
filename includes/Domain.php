@@ -202,14 +202,14 @@ class Domain
 			// return false;
 		}
 
-		if(isset($loadData['date_expires']))
+		if(isset($loadData['time_expires']))
 		{
-			// $thistime=time();
+			$thistime=time();
 
-			// if((int)$thistime > (int)$loadData['date_expires'])
-			// {
-			// 	Alert::make('Your domain have been expired!');
-			// }
+			if((int)$thistime > (int)$loadData['time_expires'])
+			{
+				Alert::make('Your domain have been expired!');
+			}
 		}
 
 		$loadData['domain']=$theDomain;
