@@ -538,6 +538,10 @@ class Plugins
 					$li.=$tmp;
 					break;
 
+				case 'admincp_menu':
+					$li[]=$tmp[0];
+					break;
+
 				case 'admincp_footer':
 					$li.=$tmp;
 					break;
@@ -548,6 +552,10 @@ class Plugins
 
 				case 'usercp_header':
 					$li.=$tmp;
+					break;
+
+				case 'usercp_menu':
+					$li[]=$tmp[0];
 					break;
 
 				case 'content_top':
