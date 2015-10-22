@@ -87,7 +87,7 @@ class Domain
 
 	public static function isAllowTheme($pluginName='',$domainName='',$attr='')
 	{
-		if(!self::isOtherDomain() && System::$setting['system_mode']=='basic')
+		if(!self::isOtherDomain())
 		{
 			return true;
 		}
@@ -119,7 +119,7 @@ class Domain
 
 	public static function isAllowPlugin($pluginName='',$domainName='',$attr='')
 	{
-		if(!self::isOtherDomain() && System::$setting['system_mode']=='basic')
+		if(!self::isOtherDomain())
 		{
 			return true;
 		}
