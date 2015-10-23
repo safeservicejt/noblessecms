@@ -26,7 +26,7 @@ function install_autopostthumb()
 
 	if(file_exists($dbFile))
 	{
-		Database::import($dbFile);
+		Database::import($dbFile,Database::getPrefix());
 	}
 
 	$dbFile=$installPath.'update.sql';
@@ -83,8 +83,8 @@ function autopostcropcenter_make()
 
 		exit;		
 	}
-
-	$filePath='uploads/images/crop/'.$postid.'_'.$imgW.'x'.$imgH.'.jpg';
+	// ".Database::getPrefix()."
+	$filePath='uploads/images/crop/'.Database::getPrefix().$postid.'_'.$imgW.'x'.$imgH.'.jpg';
 
 	if(file_exists(ROOT_PATH.$filePath))
 	{
@@ -231,7 +231,7 @@ function autopostthumb_make()
 
 
 
-	$filePath='uploads/images/thumbnail/'.$postid.'_'.$imgW.'x'.$imgH.'.jpg';
+	$filePath='uploads/images/thumbnail/'.Database::getPrefix().$postid.'_'.$imgW.'x'.$imgH.'.jpg';
 
 	if(file_exists(ROOT_PATH.$filePath))
 	{

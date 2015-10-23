@@ -10,6 +10,7 @@ function install_bbcodeHide()
 
 }
 
+
 function parse_bbcodeHide($loadData=array())
 {
 	if(!isset($_SESSION['userid']))

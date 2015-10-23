@@ -22,70 +22,80 @@ class controlAdmincp
 
 			$loadPath=ROOT_PATH.'bootstrap/css/global/';
 
-			$loadData=Dir::listFiles($loadPath.'admincp/');
-
-			if(isset($loadData[0]))
+			if(is_dir($loadPath))
 			{
-				$total=count($loadData);
+				$loadData=Dir::listFiles($loadPath.'admincp/');
 
-				$result=array();
-
-				$li='';
-
-				// print_r($loadData);die();
-
-				if((int)$total > 0)
+				if(isset($loadData[0]))
 				{
-					for ($i=0; $i < $total; $i++) { 
+					$total=count($loadData);
 
-						if(!preg_match('/.*?\.css/i', $loadData[$i]))
-						{
-							continue;
+					$result=array();
+
+					$li='';
+
+					// print_r($loadData);die();
+
+					if((int)$total > 0)
+					{
+						for ($i=0; $i < $total; $i++) { 
+
+							if(!preg_match('/.*?\.css/i', $loadData[$i]))
+							{
+								continue;
+							}
+
+
+							$li.='<script src="'.ROOT_URL.'bootstrap/css/global/admincp/'.$loadData[$i].'"></script>';
 						}
 
-
-						$li.='<script src="'.ROOT_URL.'bootstrap/css/global/admincp/'.$loadData[$i].'"></script>';
+						System::defineGlobalVar('cssGlobal',serialize($li));						
 					}
 
-					System::defineGlobalVar('cssGlobal',serialize($li));						
-				}
-
+				}				
 			}
+
+
 			// Auto load global data
 
 			// Auto load global data
 
 			$loadPath=ROOT_PATH.'bootstrap/js/global/';
 
-			$loadData=Dir::listFiles($loadPath.'admincp/');
-
-			if(isset($loadData[0]))
+			if(is_dir($loadPath))
 			{
-				$total=count($loadData);
+				$loadData=Dir::listFiles($loadPath.'admincp/');
 
-				$result=array();
-
-				$li='';
-
-				// print_r($loadData);die();
-
-				if((int)$total > 0)
+				if(isset($loadData[0]))
 				{
-					for ($i=0; $i < $total; $i++) { 
+					$total=count($loadData);
 
-						if(!preg_match('/.*?\.js/i', $loadData[$i]))
-						{
-							continue;
+					$result=array();
+
+					$li='';
+
+					// print_r($loadData);die();
+
+					if((int)$total > 0)
+					{
+						for ($i=0; $i < $total; $i++) { 
+
+							if(!preg_match('/.*?\.js/i', $loadData[$i]))
+							{
+								continue;
+							}
+
+
+							$li.='<script src="'.ROOT_URL.'bootstrap/js/global/admincp/'.$loadData[$i].'"></script>';
 						}
 
-
-						$li.='<script src="'.ROOT_URL.'bootstrap/js/global/admincp/'.$loadData[$i].'"></script>';
+						System::defineGlobalVar('jsGlobal',serialize($li));						
 					}
 
-					System::defineGlobalVar('jsGlobal',serialize($li));						
-				}
-
+				}				
 			}
+
+
 			// Auto load global data
 
 			
