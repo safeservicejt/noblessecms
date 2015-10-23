@@ -10,12 +10,84 @@ class controlAdmincp
 
 		if(Cookie::has('userid'))
 		{
+
 			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_view_admincp');
 
 			if($valid!='yes')
 			{
 				Alert::make('You not have permission to view this page');
 			}
+
+			// Auto load global data
+
+			$loadPath=ROOT_PATH.'bootstrap/css/global/';
+
+			$loadData=Dir::listFiles($loadPath.'admincp/');
+
+			if(isset($loadData[0]))
+			{
+				$total=count($loadData);
+
+				$result=array();
+
+				$li='';
+
+				// print_r($loadData);die();
+
+				if((int)$total > 0)
+				{
+					for ($i=0; $i < $total; $i++) { 
+
+						if(!preg_match('/.*?\.css/i', $loadData[$i]))
+						{
+							continue;
+						}
+
+
+						$li.='<script src="'.ROOT_URL.'bootstrap/css/global/admincp/'.$loadData[$i].'"></script>';
+					}
+
+					System::defineGlobalVar('cssGlobal',serialize($li));						
+				}
+
+			}
+			// Auto load global data
+
+			// Auto load global data
+
+			$loadPath=ROOT_PATH.'bootstrap/js/global/';
+
+			$loadData=Dir::listFiles($loadPath.'admincp/');
+
+			if(isset($loadData[0]))
+			{
+				$total=count($loadData);
+
+				$result=array();
+
+				$li='';
+
+				// print_r($loadData);die();
+
+				if((int)$total > 0)
+				{
+					for ($i=0; $i < $total; $i++) { 
+
+						if(!preg_match('/.*?\.js/i', $loadData[$i]))
+						{
+							continue;
+						}
+
+
+						$li.='<script src="'.ROOT_URL.'bootstrap/js/global/admincp/'.$loadData[$i].'"></script>';
+					}
+
+					System::defineGlobalVar('jsGlobal',serialize($li));						
+				}
+
+			}
+			// Auto load global data
+
 			
 			$controlName='admincp/controlDashboard';
 
@@ -41,6 +113,8 @@ class controlAdmincp
 			if($match=Uri::match('^admincp\/(\w+)'))
 			{
 				$controlName='admincp/control'.ucfirst($match[1]);
+
+
 			}		
 		}
 		else

@@ -37,6 +37,8 @@
     <!-- Custom Fonts -->
     <link href="<?php echo System::getUrl();?>bootstrap/sbnoblesse/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <?php echo unserialize(System::getVar('cssGlobal'));?>
+
     <!-- jQuery -->
     <script src="<?php echo System::getUrl();?>bootstrap/js/jquery-2.1.3.min.js"></script>
     <script src="<?php echo System::getUrl();?>bootstrap/js/system.js"></script>
