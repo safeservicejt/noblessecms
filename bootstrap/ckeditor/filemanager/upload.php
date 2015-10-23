@@ -1,8 +1,24 @@
 <?php
+
+$filePath=dirname(__FILE__);
+
+$root_path=str_replace('bootstrap/ckeditor/filemanager','',$filePath);
+
+$root_path=str_replace('bootstrap\ckeditor\filemanager','',$root_path);
+
+$savePath=$root_path.'/uploads/images/'.$_SERVER['HTTP_HOST'].'/';
+
+$addPath=isset($_COOKIE['add_path'])?$_COOKIE['add_path'].'/':'';
+
+$savePath=$savePath.$addPath;
+
+
 if (!isset($config)){
   $config = include 'config/config.php';
   //TODO switch to array
   extract($config, EXTR_OVERWRITE);
+
+
 }
 include 'include/utils.php';
 
@@ -16,12 +32,20 @@ if (isset($_POST['path']))
 {
    $storeFolder = $_POST['path'];
    $storeFolderThumb = $_POST['path_thumb'];
+   // $storeFolder = $savePath;
+   // $storeFolderThumb = $savePath;
+
 }
 else
 {
    $storeFolder = $current_path.$_POST["fldr"]; // correct for when IE is in Compatibility mode
    $storeFolderThumb = $thumbs_base_path.$_POST["fldr"];
+   // $storeFolder = $savePath.$_POST["fldr"]; // correct for when IE is in Compatibility mode
+   // $storeFolderThumb = $savePath.$_POST["fldr"];
+
 }
+
+
 
 $path_pos  = strpos($storeFolder,$current_path);
 $thumb_pos = strpos($storeFolderThumb,$thumbs_base_path);

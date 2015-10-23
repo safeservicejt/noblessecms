@@ -42,6 +42,8 @@ class Database
         self::$use_prefix='yes';
 
         Cookie::make('prefix',$str,1440*7);
+
+        // $_SESSION['prefix']=$str;
     }
 
     public static function setFlashPrefix($str='')
@@ -66,7 +68,12 @@ class Database
 
         $_SESSION['flash_prefix']='';
 
+        // $_SESSION['prefix']='';
+
         unset($_SESSION['flash_prefix']);
+
+        // unset($_SESSION['prefix']);
+
     }
 
 
@@ -106,6 +113,8 @@ class Database
 
     public static function dropTable($tableName = '',$prefix='')
     {
+        $prefix=isset($_SESSION['flash_prefix'])?$_SESSION['flash_prefix']:$prefix;
+        
         $tableName=$prefix.$tableName;
 
         self::query("drop table ".$tableName);
@@ -133,7 +142,9 @@ class Database
 
         */
 
-        $queryCMD='ALTER TABLE '.$table.' ADD '.$keyName.' ';
+        $prefix=isset($_SESSION['flash_prefix'])?$_SESSION['flash_prefix']:self::getPrefix();
+
+        $queryCMD='ALTER TABLE '.$prefix.$table.' ADD '.$keyName.' ';
 
         $dataType=isset($inputData['type'])?$inputData['type']:'INT';
 
@@ -159,12 +170,16 @@ class Database
 
     public static function dropField($table='',$keyName='')
     {
-        self::query('ALTER TABLE '.$table.' DROP '.$keyName);
+        $prefix=isset($_SESSION['flash_prefix'])?$_SESSION['flash_prefix']:self::getPrefix();
+       
+        self::query('ALTER TABLE '.$prefix.$table.' DROP '.$keyName);
     }
 
     public static function drop($table='')
     {
-        self::query("DROP TABLE ".$table);
+        $prefix=isset($_SESSION['flash_prefix'])?$_SESSION['flash_prefix']:self::getPrefix();
+
+        self::query("DROP TABLE ".$prefix.$table);
     }
 
     //  Object-Relational Mapping (ORM)

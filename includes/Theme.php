@@ -243,7 +243,7 @@ class Theme
 
 		$limitQuery="";
 
-		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:10;
+		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:1000;
 
 		$limitPage=isset($inputData['limitPage'])?$inputData['limitPage']:0;
 
@@ -286,8 +286,16 @@ class Theme
 		
 	}
 
+
 	public static function setActivate($themeName)
 	{
+		// if(Domain::isOtherDomain())
+		// {
+		// 	DomainManager::activateTheme();
+
+		// 	return false;
+		// }
+
 		$path=ROOT_PATH.'contents/themes/'.$themeName.'/';
 
 		if(!is_dir($path))
@@ -329,15 +337,22 @@ class Theme
 			}
 		}
 
-		Domain::setTheme($themeName);
 
-		$configPath=ROOT_PATH.'config.php';
+		if(!Domain::isOtherDomain())
+		{
+			$configPath=ROOT_PATH.'config.php';
 
-		$data=file_get_contents($configPath);
+			$data=file_get_contents($configPath);
 
-		$data=preg_replace('/"THEME_NAME", \'\w+\'/i', '"THEME_NAME", \''.$themeName.'\'', $data);
+			$data=preg_replace('/"THEME_NAME", \'\w+\'/i', '"THEME_NAME", \''.$themeName.'\'', $data);
 
-		File::create($configPath,$data);
+			File::create($configPath,$data);
+		}
+		else
+		{
+			Domain::setTheme($themeName);
+
+		}
 
 		if(file_exists($path.'activate.php'))
 		{

@@ -49,7 +49,7 @@ $filePath=dirname(__FILE__);
 
 $root_path=str_replace('bootstrap/ckeditor/filemanager/config','',$filePath);
 
-$root_path=str_replace('bootstrap\ckeditor\filemanager\config','',$filePath);
+$root_path=str_replace('bootstrap\ckeditor\filemanager\config','',$root_path);
 
 define("ROOT_PATH", $root_path);
 
@@ -67,6 +67,7 @@ if(!is_dir($savePath))
 {
     Dir::create($savePath);	
 }
+
 
 $config = array(
 
@@ -110,7 +111,7 @@ $config = array(
 	| DO NOT put inside upload folder
 	|
 	*/
-	'thumbs_base_path' => $savePath,
+	'thumbs_base_path' => 'uploads/images/'.$_SERVER['HTTP_HOST'].'/'.$addPath,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -142,7 +143,7 @@ $config = array(
 	| in Megabytes
 	|
 	*/
-	'MaxSizeUpload' => 20,
+	'MaxSizeUpload' => 1,
 
 
 	/*
@@ -262,10 +263,10 @@ $config = array(
 
 	// defines size limit for paste in MB / operation
 	// set 'FALSE' for no limit
-	'copy_cut_max_size'                       => 100,
+	'copy_cut_max_size'                       => false,
 	// defines file count limit for paste / operation
 	// set 'FALSE' for no limit
-	'copy_cut_max_count'                      => 200,
+	'copy_cut_max_count'                      => false,
 	//IF any of these limits reached, operation won't start and generate warning
 
 	//**********************

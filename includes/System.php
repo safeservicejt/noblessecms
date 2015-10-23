@@ -67,8 +67,14 @@ class System
 
 		self::setTimeZone();
 
+		if(!Domain::isOtherDomain() && isset($_COOKIE['prefixall']))
+		{
+			Database::resetPrefix();
+		}		
+
 		if($systemMode!='basic')
 		{
+			
 			if(Domain::isOtherDomain())
 			{
 				Domain::checkConfig();

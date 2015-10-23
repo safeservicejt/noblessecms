@@ -264,6 +264,9 @@ class Domain
 			DomainManager::saveSetting($theDomain,array(
 				'theme'=>$themeName
 				));
+
+			System::setTheme($themeName,'no');
+
 		}
 
 	}
