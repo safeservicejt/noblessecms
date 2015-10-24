@@ -31,7 +31,11 @@ class Cronjobs
 
 		$result=array();
 
-		$command="select $selectFields from cronjobs $whereQuery $orderBy";
+		$dbPrefix=Database::getPrefix();
+
+		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
+
+		$command="select $selectFields from ".$prefix."cronjobs $whereQuery $orderBy";
 
 		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
 
@@ -285,8 +289,8 @@ class Cronjobs
 
 	public static function deleteFromPlugin($pluginName='')
 	{
-		Database::query("delete from cronjobs where jobdata LIKE '%/$pluginName/%'");
-		Database::query("delete from cronjobs where jobdata LIKE '%\\$pluginName\%'");
+		Database::query("delete from ".Database::getPrefix()."cronjobs where jobdata LIKE '%/$pluginName/%'");
+		Database::query("delete from ".Database::getPrefix()."cronjobs where jobdata LIKE '%\\$pluginName\%'");
 
 	}
 
@@ -299,7 +303,7 @@ class Cronjobs
 
 		$data=json_encode($data);
 
-		Database::query("delete from cronjobs where jobdata='$data'");
+		Database::query("delete from ".Database::getPrefix()."cronjobs where jobdata='$data'");
 	}
 	
 	public static function insert($inputData=array())
@@ -319,7 +323,7 @@ class Cronjobs
 
 
 
-		Database::query("insert into cronjobs($insertKeys) values($insertValues)");
+		Database::query("insert into ".Database::getPrefix()."cronjobs($insertKeys) values($insertValues)");
 
 		if(!$error=Database::hasError())
 		{
@@ -350,7 +354,7 @@ class Cronjobs
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("delete from cronjobs where $whereQuery $addWhere");	
+		Database::query("delete from ".Database::getPrefix()."cronjobs where $whereQuery $addWhere");	
 
 		return true;
 	}
@@ -376,7 +380,7 @@ class Cronjobs
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
-		Database::query("update cronjobs set $setUpdates where $whereQuery $addWhere");
+		Database::query("update ".Database::getPrefix()."cronjobs set $setUpdates where $whereQuery $addWhere");
 
 		if(!$error=Database::hasError())
 		{

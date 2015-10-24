@@ -29,8 +29,12 @@ class Contactus
 		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by contactid desc';
 
 		$result=array();
+
+		$dbPrefix=Database::getPrefix();
+
+		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
 		
-		$command="select $selectFields from ".Database::getPrefix()."contactus $whereQuery";
+		$command="select $selectFields from ".$prefix."contactus $whereQuery";
 
 		$command.=" $orderBy";
 

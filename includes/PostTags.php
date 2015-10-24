@@ -29,8 +29,12 @@ class PostTags
 		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by tagid desc';
 
 		$result=array();
+
+		$dbPrefix=Database::getPrefix();
+
+		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
 		
-		$command="select $selectFields from ".Database::getPrefix()."post_tags $whereQuery";
+		$command="select $selectFields from ".$prefix."post_tags $whereQuery";
 
 		$command.=" $orderBy";
 

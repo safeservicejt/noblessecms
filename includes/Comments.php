@@ -31,8 +31,13 @@ class Comments
 		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by commentid desc';
 
 		$result=array();
+
+		$dbPrefix=Database::getPrefix();
+
+		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
+
 		
-		$command="select $selectFields from ".Database::getPrefix()."comments $whereQuery";
+		$command="select $selectFields from ".$prefix."comments $whereQuery";
 
 		$command.=" $orderBy";
 

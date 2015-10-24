@@ -31,8 +31,12 @@ class Links
 		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by id desc';
 
 		$result=array();
+
+		$dbPrefix=Database::getPrefix();
+
+		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
 		
-		$command="select $selectFields from ".Database::getPrefix()."links $whereQuery";
+		$command="select $selectFields from ".$prefix."links $whereQuery";
 
 		$command.=" $orderBy";
 

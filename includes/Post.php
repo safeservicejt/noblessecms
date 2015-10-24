@@ -31,8 +31,12 @@ class Post
 		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by postid desc';
 
 		$result=array();
+
+		$dbPrefix=Database::getPrefix();
+
+		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
 		
-		$command="select $selectFields from ".Database::getPrefix()."post $whereQuery";
+		$command="select $selectFields from ".$prefix."post $whereQuery";
 
 		$command.=" $orderBy";
 

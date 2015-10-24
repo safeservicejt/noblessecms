@@ -31,8 +31,13 @@ class Categories
 		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by catid desc';
 
 		$result=array();
+
+		$dbPrefix=Database::getPrefix();
+
+		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
+
 		
-		$command="select $selectFields from ".Database::getPrefix()."categories $whereQuery";
+		$command="select $selectFields from ".$prefix."categories $whereQuery";
 
 		$command.=" $orderBy";
 
