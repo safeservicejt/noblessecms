@@ -4,6 +4,8 @@ class controlFrontEnd
 {
 	public function index()
 	{
+		CustomPlugins::load('before_frontend_start');
+
 		System::systemStatus();
 
 		// if($match=Uri::match('^(\w+)$'))

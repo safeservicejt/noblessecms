@@ -6,6 +6,8 @@ class controlAdmincp
 	{
 		$controlName='admincp/controlDashboard';
 
+		CustomPlugins::load('before_admincp_start');
+
 		Domain::checkAdminCP();
 
 		if(Cookie::has('userid'))
