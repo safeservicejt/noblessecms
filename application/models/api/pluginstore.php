@@ -27,6 +27,14 @@ function loadApi($action)
 				$path='contents/themes/';
 			}
 
+			$fileName=PluginStoreApi::getFileName($path);
+
+			if(!$fileName)
+			{
+				throw new Exception("Error. We will fix it soons. Thanks for using our service !");
+				
+			}
+
 			File::downloadModule($url,$path,'yes');
 
 			break;

@@ -28,23 +28,13 @@ class PluginStoreApi
 
 	public static function getFileName($url='')
 	{
-		$fileName='';
 
-        $text=get_headers($url);
+		if(!preg_match('/^.*?\_(\w+\.zip)$/i', $url,$match))
+		{
+			return false;
+		}
 
-        $total=count($text);
-
-        if($total > 1)
-        {
-        	for ($i=0; $i < $total; $i++) { 
-        		if(preg_match('/Content-Disposition: attachment; filename=(.*?)$/i', $text[$i],$match))
-        		{
-        			$fileName=$match[1];
-        		}
-        	}
-        }
-
-        return $fileName;
+		return $match[1];
 	}
 
 
