@@ -630,6 +630,8 @@ class System
 			$data['mail'][$keyName]=$inputData[$keyName];
 
 		}
+
+		self::$setting['mail']=$data['mail'];
 		
 		// Cache::saveKey('systemSetting',serialize($data));
 		File::create(ROOT_PATH.'application/caches/systemSetting'.$prefix.'.cache',String::encrypt(base64_encode(serialize($data))));

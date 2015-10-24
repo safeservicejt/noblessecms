@@ -114,7 +114,7 @@ class Users
 
 	public static function api($action)
 	{
-		Model::load('api/users');
+		Model::load('api/user');
 
 		try {
 			$result=loadApi($action);

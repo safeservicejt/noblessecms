@@ -55,7 +55,7 @@
 		  	<p>
 		  	<textarea rows="10" class="form-control" name="mail[registerConfirmContent]"><?php echo $mail['registerConfirmContent'];?></textarea>
 		  	</p>		  	
-			<p>Forgot password email content: (use {email}, {username}, {fullname}, {password}, {siteurl})</p>
+			<p>Forgot password email content: (use {email}, {username}, {fullname}, {password}, {siteurl}, {verify_url})</p>
 		  	<p>
 		  	<input type="text" class="form-control" placeholder="Subject..." name="mail[forgotSubject]" value="<?php echo $mail['forgotSubject'];?>" />
 		  	</p>			
