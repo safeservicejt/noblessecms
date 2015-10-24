@@ -8,6 +8,11 @@ class controlPluginstore
 		$post=array('alert'=>'');
 
 		// Model::load('admincp/dbstore');
+		
+      	if(Domain::isOtherDomain())
+      	{
+      		Alert::make('You dont have permission to access this page.');
+      	}
 
 		$post['theList']=PluginStoreApi::getHtml();
 

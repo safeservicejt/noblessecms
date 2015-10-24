@@ -9,6 +9,11 @@ class controlTemplatestore
 
 		// Model::load('admincp/dbstore');
 
+      	if(Domain::isOtherDomain())
+      	{
+      		Alert::make('You dont have permission to access this page.');
+      	}
+
 		$post['theList']=PluginStoreApi::getHtml(array(
 			'send_method'=>'template'
 			));
