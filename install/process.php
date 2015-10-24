@@ -87,7 +87,11 @@ function startInstall()
 
   $secretKey=String::randAlpha(20);
 
-  $host='http://'.$_SERVER['HTTP_HOST'];
+  $isHttp=$_SERVER['HTTPS'];
+
+  $beforeUrl=($isHttp=='on')?'https://':'http://';
+
+  $host=$beforeUrl.$_SERVER['HTTP_HOST'];
 
   $uri=$host.$_SERVER['REQUEST_URI'];
 
@@ -104,10 +108,10 @@ function startInstall()
 
   if(!preg_match('/^http/i', $url))
   {
-    $url='http://'.$url;
+    $url=$beforeUrl.$url;
   }
 
-  if(!preg_match('/^http.*?\/$/i', $url))
+  if(!preg_match('/^https?.*?\/$/i', $url))
   {
     $url=$url.'/';
   }
@@ -254,13 +258,14 @@ function startInstall()
   
   $result['username']=Request::get('username');
   $result['password']=Request::get('password');
-  $result['siteurl']=Request::get('url').'admincp/';
-  $result['Urlfontend']=Request::get('url');
+  $result['siteurl']=$url.'admincp/';
+  $result['Urlfontend']=$url;
   $result['error']='no';
 
   echo json_encode($result);
   die();
 }
+
 function checkConnect()
 {
   $dbhost=trim($_REQUEST['dbhost']);

@@ -251,7 +251,7 @@ $(document).ready(function(){
 						 	$('.showPassword').html(msg['password']);
 
 						 	$('.Urlsite').attr('href',msg['siteurl']);
-						 	$('.Urlfontend').attr('href',msg['url']);
+						 	$('.Urlfontend').attr('href',msg['siteurl']);
 
 						 	$('.panel-2').hide();
 
