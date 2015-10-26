@@ -554,8 +554,39 @@ class System
 				'send_method'=>'local',
 				'fromName'=>'Admin','fromEmail'=>'Admin@gmail.com','smtpAddress'=>'smtp.gmail.com',
 				'smtpUser'=>'youremail@gmail.com','smtpPass'=>'yourpass','smtpPort'=>'497',
-				'registerSubject'=>'Signup completed - NoblesseCMS','registerContent'=>'Content here','forgotSubject'=>'Subject here',
-				'forgotContent'=>'Content here'
+				'registerSubject'=>'Your account information',
+				'registerContent'=>'<p>Hi {fullname},</p>'."\r\n".'
+
+				<p>You have been completed account with information:</p>'."\r\n".'
+
+				<p>Email: {email}</p>'."\r\n".'
+
+				<p>Username: {username}</p>'."\r\n".'
+
+				<p>Password: {password}</p>',
+				'forgotSubject'=>'Confirm your forgot password action ',
+				'forgotContent'=>'<p>Hi {fullname},</p>'."\r\n".'
+
+				<p>You have been request new password and you need confirm your action now. Click to below link to confirm your action:</p>'."\r\n".'
+
+				<p>{verify_url}</p>'."\r\n".'
+
+				Thanks for using our service!',
+				'forgotNewPasswordSubject'=>'Your new password',
+				'forgotNewPasswordContent'=>'<p>Hi {fullname},</p>'."\r\n".'
+
+				<p>So, you can login with below information:</p>'."\r\n".'
+
+				<p>Website: {siteurl}</p>'."\r\n".'
+
+				<p>Email: {email}</p>'."\r\n".'
+
+				<p>Username: {username}</p>'."\r\n".'
+
+				<p>Password: {password}</p>'."\r\n".'
+
+				<p>Thanks for using our service!</p>'
+
 				)
 			);	
 
