@@ -204,6 +204,8 @@ class controlTheme
 			Redirect::to(System::getAdminUrl());
 		}
 
+		define('THEME_CP_PATH', $thePath.'cp/');
+
 		$post['filePath']=$info;
 
 		System::setTitle('Setting theme '.$theName.' - '.ADMINCP_TITLE);
