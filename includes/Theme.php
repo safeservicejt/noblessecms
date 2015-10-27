@@ -310,7 +310,7 @@ class Theme
 			throw new Exception("This theme not valid.");
 		}
 
-		$oldthemeName=THEME_NAME;
+		$oldthemeName=System::getThemeName();
 		
 		if(class_exists('CustomPlugins'))
 		{
@@ -333,6 +333,7 @@ class Theme
 				Plugins::$canUninstall='yes';
 								
 				include($oldPath.'deactivate.php');
+
 
 			}
 		}
