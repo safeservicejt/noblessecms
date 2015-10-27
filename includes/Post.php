@@ -441,7 +441,7 @@ class Post
 
 		// self::saveCache();
 
-		CustomPlugins::load('after_post_remove');
+		CustomPlugins::load('after_post_remove',$post);
 
 		// DBCache::removeDir('system/post');
 
@@ -464,7 +464,7 @@ class Post
 
 		$listIDs="'".implode("','",$listID)."'";	
 
-		Plugins::load('before_post_update',$post);
+		Plugins::load('before_post_update',$listID);
 				
 		if(isset($post['title']))
 		{
@@ -521,10 +521,10 @@ class Post
 
 		if(!$error=Database::hasError())
 		{
-			Plugins::load('after_post_update',$post);
+			Plugins::load('after_post_update',$listID);
 
 			// self::saveCache();
-			CustomPlugins::load('after_post_update');
+			CustomPlugins::load('after_post_update',$listID);
 
 			return true;
 		}

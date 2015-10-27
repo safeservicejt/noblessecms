@@ -234,7 +234,7 @@ class Links
 		
 		// DBCache::removeCache($listID,'system/link');
 
-		CustomPlugins::load('after_link_remove');
+		CustomPlugins::load('after_link_remove',$post);
 
 		return true;
 	}
@@ -242,14 +242,14 @@ class Links
 	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
 	{
 
-		if(isset($post['content']))
-		{
+		// if(isset($post['content']))
+		// {
 			
-			$post['content']=Shortcode::toBBCode($post['content']);
+		// 	$post['content']=Shortcode::toBBCode($post['content']);
 
-			$post['content']=String::encode(strip_tags($post['content'],'<p><br>'));
+		// 	$post['content']=String::encode(strip_tags($post['content'],'<p><br>'));
 
-		}
+		// }
 
 		if(is_numeric($listID))
 		{
@@ -284,11 +284,11 @@ class Links
 
 		// DBCache::removeDir('system/link');
 
-		DBCache::removeCache($listIDs,'system/link');
+		// DBCache::removeCache($listIDs,'system/link');
 
 		if(!$error=Database::hasError())
 		{
-			CustomPlugins::load('after_link_update');
+			CustomPlugins::load('after_link_update',$listID);
 
 			return true;
 		}

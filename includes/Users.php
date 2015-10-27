@@ -801,7 +801,7 @@ class Users
 		Database::query($command);	
 
 		Plugins::load('after_remove_user',$post);
-		CustomPlugins::load('after_remove_user');
+		CustomPlugins::load('after_remove_user',$post);
 
 		// DBCache::removeDir('system/user');
 		
@@ -860,8 +860,8 @@ class Users
 
 		if(!$error=Database::hasError())
 		{
-			Plugins::load('after_update_user',$post);
-			CustomPlugins::load('after_update_user');
+			Plugins::load('after_update_user',$listID);
+			CustomPlugins::load('after_update_user',$listID);
 
 			return true;
 		}

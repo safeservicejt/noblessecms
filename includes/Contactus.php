@@ -175,9 +175,9 @@ class Contactus
 
 		if(!$error=Database::hasError())
 		{
-			CustomPlugins::load('after_contact_insert');
-
 			$id=Database::insert_id();
+			
+			CustomPlugins::load('after_contact_insert');
 
 			return $id;	
 		}
@@ -211,7 +211,7 @@ class Contactus
 
 		Database::query($command);	
 
-		CustomPlugins::load('after_contact_remove');
+		CustomPlugins::load('after_contact_remove',$post);
 
 		return true;
 	}
@@ -261,7 +261,7 @@ class Contactus
 		
 		if(!$error=Database::hasError())
 		{
-			CustomPlugins::load('after_contact_update');
+			CustomPlugins::load('after_contact_update',$listID);
 
 			return true;
 		}

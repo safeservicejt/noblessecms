@@ -187,11 +187,12 @@ class Comments
 
 		if(!$error=Database::hasError())
 		{
+
+			$id=Database::insert_id();
+			
 			Plugins::load('after_comment_insert',$inputData);
 
 			CustomPlugins::load('after_comment_insert');
-
-			$id=Database::insert_id();
 
 			return $id;	
 		}
@@ -228,7 +229,7 @@ class Comments
 
 		Plugins::load('after_comment_remove',$post);
 
-		CustomPlugins::load('after_comment_remove');
+		CustomPlugins::load('after_comment_remove',$post);
 
 		// DBCache::removeDir('system/comment');
 		
@@ -287,7 +288,7 @@ class Comments
 		{
 			Plugins::load('after_comment_update',$listID);
 			
-			CustomPlugins::load('after_comment_update');
+			CustomPlugins::load('after_comment_update',$listID);
 
 			return true;
 		}

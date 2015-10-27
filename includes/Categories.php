@@ -157,40 +157,40 @@ class Categories
 
 	public static function loadCache($method='titleAsc',$limit=30)
 	{
-		if((int)$limit > 30)
-		{
-			return false;
-		}
+		// if((int)$limit > 30)
+		// {
+		// 	return false;
+		// }
 		
-		$savePath=self::cachePath();
+		// $savePath=self::cachePath();
 
-		$method=strtolower($method);
+		// $method=strtolower($method);
 
-		$loadData=array();
+		// $loadData=array();
 
-		switch ($method) {
-			case 'titleasc':
-				if(file_exists($savePath.'titleAsc.cache'))
-				$loadData=unserialize(file_get_contents($savePath.'titleAsc.cache'));
-				break;
+		// switch ($method) {
+		// 	case 'titleasc':
+		// 		if(file_exists($savePath.'titleAsc.cache'))
+		// 		$loadData=unserialize(file_get_contents($savePath.'titleAsc.cache'));
+		// 		break;
 
-			case 'titledesc':
-				if(file_exists($savePath.'titleDesc.cache'))
-				$loadData=unserialize(file_get_contents($savePath.'titleDesc.cache'));
-				break;
+		// 	case 'titledesc':
+		// 		if(file_exists($savePath.'titleDesc.cache'))
+		// 		$loadData=unserialize(file_get_contents($savePath.'titleDesc.cache'));
+		// 		break;
 
-			case 'orderasc':
-				if(file_exists($savePath.'OrderAsc.cache'))
-				$loadData=unserialize(file_get_contents($savePath.'OrderAsc.cache'));
-				break;
+		// 	case 'orderasc':
+		// 		if(file_exists($savePath.'OrderAsc.cache'))
+		// 		$loadData=unserialize(file_get_contents($savePath.'OrderAsc.cache'));
+		// 		break;
 
-			case 'orderdesc':
-				if(file_exists($savePath.'OrderDesc.cache'))
-				$loadData=unserialize(file_get_contents($savePath.'OrderDesc.cache'));
-				break;
-		}
+		// 	case 'orderdesc':
+		// 		if(file_exists($savePath.'OrderDesc.cache'))
+		// 		$loadData=unserialize(file_get_contents($savePath.'OrderDesc.cache'));
+		// 		break;
+		// }
 
-		return $loadData;
+		// return $loadData;
 	}
 	public static function cachePath()
 	{
@@ -201,39 +201,39 @@ class Categories
 
 	public static function saveCache()
 	{
-		$savePath=self::cachePath();
+		// $savePath=self::cachePath();
 
-		$loadData=self::get(array(
-			'cache'=>'no',
-			'limitShow'=>30,
-			'orderby'=>'order by title asc'
-			));
+		// $loadData=self::get(array(
+		// 	'cache'=>'no',
+		// 	'limitShow'=>30,
+		// 	'orderby'=>'order by title asc'
+		// 	));
 
-		File::create($savePath.'titleAsc.cache',serialize($loadData));
+		// File::create($savePath.'titleAsc.cache',serialize($loadData));
 
-		$loadData=self::get(array(
-			'cache'=>'no',
-			'limitShow'=>30,
-			'orderby'=>'order by desc asc'
-			));
+		// $loadData=self::get(array(
+		// 	'cache'=>'no',
+		// 	'limitShow'=>30,
+		// 	'orderby'=>'order by desc asc'
+		// 	));
 
-		File::create($savePath.'titleDesc.cache',serialize($loadData));
+		// File::create($savePath.'titleDesc.cache',serialize($loadData));
 
-		$loadData=self::get(array(
-			'cache'=>'no',
-			'limitShow'=>30,
-			'orderby'=>'order by sort_order asc'
-			));
+		// $loadData=self::get(array(
+		// 	'cache'=>'no',
+		// 	'limitShow'=>30,
+		// 	'orderby'=>'order by sort_order asc'
+		// 	));
 
-		File::create($savePath.'OrderAsc.cache',serialize($loadData));
+		// File::create($savePath.'OrderAsc.cache',serialize($loadData));
 
-		$loadData=self::get(array(
-			'cache'=>'no',
-			'limitShow'=>30,
-			'orderby'=>'order by sort_order desc'
-			));
+		// $loadData=self::get(array(
+		// 	'cache'=>'no',
+		// 	'limitShow'=>30,
+		// 	'orderby'=>'order by sort_order desc'
+		// 	));
 
-		File::create($savePath.'OrderDesc.cache',serialize($loadData));
+		// File::create($savePath.'OrderDesc.cache',serialize($loadData));
 
 
 	}
@@ -344,7 +344,7 @@ class Categories
 
 		self::saveCache();
 
-		CustomPlugins::load('after_category_remove');
+		CustomPlugins::load('after_category_remove',$post);
 
 		// DBCache::removeDir('system/category');
 		
@@ -416,7 +416,7 @@ class Categories
 
 			self::saveCache();
 			
-			CustomPlugins::load('after_category_update');
+			CustomPlugins::load('after_category_update',$listID);
 
 			return true;
 		}

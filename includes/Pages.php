@@ -280,7 +280,7 @@ class Pages
 
 		// DBCache::removeDir('system/page');
 
-		CustomPlugins::load('after_page_remove');
+		CustomPlugins::load('after_page_remove',$post);
 		
 		// DBCache::removeCache($listID,'system/page');
 
@@ -355,7 +355,7 @@ class Pages
 
 		if(!$error=Database::hasError())
 		{
-			CustomPlugins::load('after_page_update');
+			CustomPlugins::load('after_page_update',$listID);
 
 			return true;
 		}
