@@ -244,15 +244,16 @@ class System
 
 				$uri=self::getUri();
 
-				if(!preg_match('/^admincp\//i', $uri))
+				if(!preg_match('/^admincp\/?/i', $uri))
 				Alert::make('Website under construction. We will comeback soon...');
 
 				break;
+
 			case 'comingsoon':
 
 				$uri=self::getUri();
 
-				if(!preg_match('/^admincp\//i', $uri))			
+				if(!preg_match('/^admincp\/?/i', $uri))			
 				Alert::make('We will comming soon...');
 			
 				break;
