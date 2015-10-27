@@ -312,6 +312,8 @@ class Post
 		// End addons
 		// $totalArgs=count($inputData);
 		Plugins::load('before_post_insert',$inputData);
+		
+		CustomPlugins::load('before_post_insert');
 
 		$addMultiAgrs='';
 
@@ -429,6 +431,8 @@ class Post
 
 		Plugins::load('before_post_remove',$post);
 
+		CustomPlugins::load('before_post_remove',$post);
+
 		$whereQuery=isset($whereQuery[5])?$whereQuery:"postid in ($listID)";
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
@@ -465,6 +469,8 @@ class Post
 		$listIDs="'".implode("','",$listID)."'";	
 
 		Plugins::load('before_post_update',$listID);
+
+		CustomPlugins::load('before_post_update',$listID);
 				
 		if(isset($post['title']))
 		{

@@ -164,6 +164,8 @@ class Pages
 
 		$addMultiAgrs='';
 
+		CustomPlugins::load('before_page_insert');
+
 		if(isset($inputData[0]['title']))
 		{
 		    foreach ($inputData as $theRow) {
@@ -266,6 +268,8 @@ class Pages
 			$post=array($id);
 		}
 
+		CustomPlugins::load('before_page_remove',$post);
+
 		$total=count($post);
 
 		$listID="'".implode("','",$post)."'";
@@ -298,6 +302,8 @@ class Pages
 
 			$listID=array($catid);
 		}
+
+		CustomPlugins::load('before_page_update',$listID);
 
 		$listIDs="'".implode("','",$listID)."'";
 				
