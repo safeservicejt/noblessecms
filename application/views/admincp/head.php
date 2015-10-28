@@ -42,8 +42,6 @@
     <!-- jQuery -->
     <script src="<?php echo System::getUrl();?>bootstrap/js/jquery-2.1.3.min.js"></script>
     <script src="<?php echo System::getUrl();?>bootstrap/js/system.js"></script>
-    
-    <script src="http://noblessecms.com/api/client/get.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

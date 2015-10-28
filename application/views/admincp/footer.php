@@ -55,6 +55,8 @@
 
     <?php echo System::getVar('admincp_footer');?>
 
+
+
 </body>
 
 </html>
