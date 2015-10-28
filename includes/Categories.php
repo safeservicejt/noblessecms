@@ -128,32 +128,6 @@ class Categories
 		return $url;
 	}
 
-	public static function getList($inputData=array())
-	{
-		$loadData=self::get($inputData);
-
-		if(isset($loadData[0]['catid']))
-		{
-			$total=count($loadData);
-
-			$maxShow=isset($inputData['maxShow'])?$inputData['maxShow']:0;
-
-			if((int)$maxShow < (int)$total)
-			{
-				$total=$maxShow;
-			}
-
-			for ($i=0; $i < $total; $i++) { 
-
-				if(!isset($loadData[$i]))
-				{
-					break;
-				}
-			}
-		}
-
-		return $loadData;
-	}
 
 	public static function loadCache($method='titleAsc',$limit=30)
 	{
@@ -192,6 +166,7 @@ class Categories
 
 		// return $loadData;
 	}
+	
 	public static function cachePath()
 	{
 		$result=ROOT_PATH.'application/caches/dbcache/system/category/';
