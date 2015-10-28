@@ -20,6 +20,8 @@ class controlAdmincp
 				Alert::make('You not have permission to view this page');
 			}
 
+			
+
 			// Auto load global data
 
 			$loadPath=ROOT_PATH.'bootstrap/css/global/';
