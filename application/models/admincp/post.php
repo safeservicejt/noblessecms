@@ -17,6 +17,7 @@ function actionProcess()
 
 	switch ($action) {
 		case 'delete':
+		
 			Post::remove($id);
 
 			PostTags::remove($id," postid IN ($listID) ");

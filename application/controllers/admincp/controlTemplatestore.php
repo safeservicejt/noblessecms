@@ -4,6 +4,12 @@ class controlTemplatestore
 {
 	public function index()
 	{
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_manage_themes');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}		
 
 		$post=array('alert'=>'');
 

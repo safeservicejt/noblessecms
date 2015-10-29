@@ -4,6 +4,8 @@ class controlCategories
 {
 	public function index()
 	{
+
+
         if($match=Uri::match('\/jsonCategory'))
         {
             $keyword=String::encode(Request::get('keyword',''));
@@ -39,11 +41,25 @@ class controlCategories
 
 		if(Request::has('btnAction'))
 		{
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_remove_category');
+
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			}			
 			actionProcess();
 		}
 
 		if(Request::has('btnAdd'))
 		{
+
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_addnew_category');
+
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			}			
+
 			try {
 				
 				insertProcess();
@@ -57,6 +73,13 @@ class controlCategories
 
 		if(Request::has('btnSave'))
 		{
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_edit_category');
+
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			}
+
 			$match=Uri::match('\/edit\/(\d+)');
 
 			try {

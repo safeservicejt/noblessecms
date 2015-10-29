@@ -8,6 +8,14 @@ class controlPlugins
       	// {
       	// 	Alert::make('You dont have permission to access this page.');
       	// }
+      	
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_manage_plugins');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}		
+
 
 		$post=array('alert'=>'');
 

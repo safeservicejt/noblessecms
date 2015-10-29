@@ -16,7 +16,15 @@ function actionProcess()
 	// die($action);
 
 	switch ($action) {
+		case 'deleteallpost':
+
+			Database::query("delete p,pt from ".Database::getPrefix()."post p left join ".Database::getPrefix()."post_tags pt on p.postid=pt.postid where p.catid IN ($listID)");
+
+			break;
 		case 'delete':
+			
+			Database::query("delete p,pt from ".Database::getPrefix()."post p left join ".Database::getPrefix()."post_tags pt on p.postid=pt.postid where p.catid IN ($listID)");
+
 			Categories::remove($id);
 			break;
 		

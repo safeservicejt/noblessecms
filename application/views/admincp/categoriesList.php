@@ -11,6 +11,7 @@
     			<div class="col-lg-4">
                     <div class="input-group input-group-sm">
                         <select class="form-control" name="action">
+                            <option value="deleteallpost">Delete all post</option>
                             <option value="delete">Delete</option>
                         </select>
                        <span class="input-group-btn">

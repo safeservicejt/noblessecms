@@ -4,7 +4,13 @@ class controlContacts
 {
 	public function index()
 	{
-       
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_manage_contactus');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}    
+
 		$post=array('alert'=>'');
 
 		Model::load('admincp/contacts');
@@ -31,6 +37,13 @@ class controlContacts
 
 		if(Request::has('btnAction'))
 		{
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_remove_contactus');
+
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			} 
+			  			
 			actionProcess();
 		}
 

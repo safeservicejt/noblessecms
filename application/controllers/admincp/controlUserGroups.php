@@ -4,7 +4,13 @@ class controlUsergroups
 {
 	public function index()
 	{
-		
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_manage_usergroup');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}		
+
 		$post=array('alert'=>'');
 
 		Model::load('admincp/usergroups');

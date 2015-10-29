@@ -4,6 +4,13 @@ class controlPost
 {
 	public function index()
 	{
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_manage_post');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
+		
         if($match=Uri::match('\/jsonCategory'))
         {
             $keyword=String::encode(Request::get('keyword',''));
@@ -52,6 +59,12 @@ class controlPost
 
 		if(Request::has('btnAction'))
 		{
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_remove_post');
+
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			}			
 			actionProcess();
 		}
 
@@ -93,6 +106,13 @@ class controlPost
 
 	public function edit()
 	{
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_edit_post');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
+
 		$username=$_COOKIE['username'].'/post';
 
 		System::makeFileManagePath($username);
@@ -140,6 +160,12 @@ class controlPost
 	}
 	public function addnew()
 	{
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_addnew_post');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
 
 		$username=$_COOKIE['username'].'/post';
 
