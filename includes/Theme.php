@@ -322,6 +322,8 @@ class Theme
 		{
 			$oldPath=ROOT_PATH.'contents/themes/'.$oldthemeName.'/';
 
+
+
 			if(file_exists($oldPath.'deactivate.php'))
 			{
 				self::$can_uninstall='yes';

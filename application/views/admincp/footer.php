@@ -1,7 +1,8 @@
                     </div>
                 </div>
                 <!-- /.row -->
-                        
+        
+        <?php if(!isset(System::$setting['admincp_hide_author']) || System::$setting['admincp_hide_author']!='yes'){ ?>                
         <!-- Author -->
                 <div class="row">
                     <div class="col-lg-5">
@@ -13,6 +14,8 @@
 
                 </div>     
         <!-- Author -->
+
+        <?php } ?>
 
             </div>
             <!-- /.container-fluid -->

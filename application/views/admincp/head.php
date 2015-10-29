@@ -12,7 +12,11 @@
        
     <meta id="root_url" content="<?php echo System::getUrl();?>">
 
+    <?php if(!isset(System::$setting['admincp_change_favicon'])){ ?>
     <link rel="shortcut icon" href="<?php echo System::getUrl();?>bootstrap/favicon.ico">
+    <?php }else{ ?>
+    <link rel="shortcut icon" href="<?php echo System::getUrl().System::$setting['admincp_change_favicon'];?>">
+    <?php } ?>
 
     <meta property="og:title" content="<?php echo System::getTitle();?>" />
     <meta property="og:type" content="website" />

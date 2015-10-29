@@ -1,5 +1,22 @@
 <?php
 
+/*
+
+Hide admincp author on footer: Add System::$setting['admincp_hide_author']='yes';
+
+Change admincp dashboard logo : Add System::$setting['admincp_change_logo']='/uploads/images/newlogo.png';
+
+Change admincp favicon : Add System::$setting['admincp_change_favicon']='/uploads/images/favicon.ico';
+
+Hide admincp navbar: Create folder with path: contents/security/admincp/hide/navbar
+
+Hide admincp left bar menu: Create folder with path: contents/security/admincp/hide/left-all
+
+
+
+
+*/
+
 class System
 {
 	public static $newUri='';

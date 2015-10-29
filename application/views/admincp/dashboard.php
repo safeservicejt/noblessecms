@@ -16,7 +16,11 @@
     <div class="row">
         <div class="col-lg-4">
             <!-- <p><h4>Get Started</h4></p>     -->
+            <?php if(!isset(System::$setting['admincp_change_logo'])){ ?>
             <img src="<?php echo System::getUrl();?>bootstrap/images/logo3128.png" />
+            <?php }else{ ?>
+            <img src="<?php echo System::getUrl().System::$setting['admincp_change_logo'];?>" />
+            <?php } ?>
         </div>
         <div class="col-lg-4">
             <h4>Next Steps</h4> 
