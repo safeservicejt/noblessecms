@@ -31,6 +31,10 @@ class controlFrontEnd
 		{
 			Alert::make('Theme not found');
 		}
+
+		CustomPlugins::load('after_frontend_start');
+
+
 	}
 }
 

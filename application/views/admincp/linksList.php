@@ -176,6 +176,7 @@
                 </p>
 	    		<p>
 	    			<button type="submit" class="btn btn-primary" name="btnSave">Save changes</button>
+                    <a href="<?php echo System::getUrl();?>admincp/links/" class="btn btn-default pull-right">Back</a>
 	    		</p>   		
                 </form> 	
     		</div>
