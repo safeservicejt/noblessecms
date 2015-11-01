@@ -31,6 +31,11 @@ class System
 
 	public static $listVar=array('global'=>array());
 
+	public static function define($keyName,$keyVal,$layout='global')
+	{
+		self::$listVar[$layout][$keyName]=$keyVal;
+	}
+	
 	public static function defineVar($keyName,$keyVal,$layout='global')
 	{
 		self::$listVar[$layout][$keyName]=$keyVal;

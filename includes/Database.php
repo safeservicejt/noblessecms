@@ -76,6 +76,13 @@ class Database
 
     }
 
+    public static function setUtf8()
+    {
+        self::query("SET NAMES 'utf8'");
+
+        self::query("SET CHARACTER SET 'utf8'");        
+    }
+
 
     public static function setPrefixAll()
     {

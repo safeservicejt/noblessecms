@@ -1,4 +1,9 @@
 <?php
+/*
+	Custom alert page:
+
+	Create file alert.php at: contents/securiry/alert/alert.php
+*/
 
 class Alert
 {
@@ -8,9 +13,19 @@ class Alert
 
        	Response::headerCode(404);
 
-        View::make('alert', array('alert' => $alertMessage));
+       	if(file_exists(ROOT_PATH.'contents/securiry/alert/alert.php'))
+       	{
+       		include(ROOT_PATH.'contents/securiry/alert/alert.php');
+       	}
+       	else
+       	{
+	       	CustomPlugins::load('before_alert_page',array('message'=>$alertMessage));
 
-        die();
+	        View::make('alert', array('alert' => $alertMessage));
+
+	        die();       		
+       	}
+
 
     }
 }
