@@ -162,7 +162,7 @@ class Widgets
 		{
 			if(file_exists($savePath))
 			{
-				$loadData=unserialize(file_get_contents($savePath))
+				$loadData=unserialize(file_get_contents($savePath));
 
 				self::$listCaches=$loadData;
 			}
