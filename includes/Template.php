@@ -1,5 +1,27 @@
 <?php
+/*
+{{loop:5}}
+<p>AB</p>
+{{/loop}}
 
+{{foreach listPost as post}}
+
+<h4><?php echo $post['title'];?></h4>
+
+{{endfor}}
+
+
+{{foreach listPost as post}}
+
+<h4>({{post.title}})</h4>
+
+{{endfor}}
+
+
+({{listPost.0.title}})
+
+{{Alert::make('This is test')}}
+*/
 class Template
 {
     public static function makeWithPath($viewName,$inputData,$themePath)
@@ -32,7 +54,7 @@ class Template
 
     	$md5Path=ROOT_PATH.'application/caches/templates/'.$fileMD5.'.php';
 
-        if(Cache::hasKey('templates/'.$fileMD5,-1,'.php'))
+        if(file_exists($md5Path))
         {
             $resultPath=$md5Path;
 
@@ -43,7 +65,7 @@ class Template
 
     	$loadData=self::parseExtends($loadData);
 
-        $loadData=self::parseFriendlyFunction($loadData);
+        // $loadData=self::parseFriendlyFunction($loadData);
         
     	$replace=array(
 
@@ -53,17 +75,6 @@ class Template
     		'/\{\{(\w+)=(.*?)\}\}/i'=>'<?php $$1=$2;?>',
     		'/\{\{\$(.*?) (.*?)\}\}/i'=>'<?php $$1 $2;?>',
 
-            '/\{\{\$(.*?)\}\}/i'=>'<?php echo $$1;?>',
-            '/\{\{([a-zA-Z0-9_\-\_]+)\}\}/i'=>'<?php echo $1;?>',
-
-    		'/\{\{(\w+)::(\w+)\((.*?)\)\}\}/i'=>'<?php $1::$2($3);?>',
-
-    		'/\{\{if (.*?)\}\}/i'=>'<?php if($1){ ?>',
-    		'/\{\{elseif (.*?)\}\}/i'=>'<?php }elseif($1){ ?>',
-    		'/\{\{else\}\}/i'=>'<?php }else{ ?>',
-            '/\{\{\/if\}\}/i'=>'<?php } ?>',
-
-            '/\<\?=(.*?)\?\>/i'=>'<?php echo $1 ?>',
 
             '/\{\{loop total=(\d+)\}\}/i'=>'<?php for($i=1;$i<=$1;$i++){ ?>',
             '/\{\{loop:(\d+)\}\}/i'=>'<?php for($i=1;$i<=$1;$i++){ ?>',
@@ -73,33 +84,48 @@ class Template
             '/\{\{foreach (\w+) as (\w+)\}\}/i'=>'<?php foreach($$1 as $$2){ ?>',
             '/\{\{endfor\}\}/i'=>'<?php } ?>',
 
-            '/\(\{\{(\w+)\.(\w+)\}\}\)/i'=>'$$1["$2"]',
-            '/\(\{\{(\w+)\.(\w+)\.(\w+)\}\}\)/i'=>'$$1["$2"]["$3"]',
-            '/\(\{\{(\w+)\.(\w+)\.(\w+)\.(\w+)\}\}\)/i'=>'$$1["$2"]["$3"]["$4"]',
+    		'/\{\{(\w+)::(\w+)\((.*?)\)\}\}/i'=>'<?php $1::$2($3);?>',
 
-            '/\{\{(\w+)\.(\w+)\}\}/i'=>'<?php echo $$1["$2"];?>',
-            '/\{\{(\w+)\.(\w+)\.(\w+)\}\}/i'=>'<?php echo $$1["$2"]["$3"];?>',
-            '/\{\{(\w+)\.(\w+)\.(\w+)\.(\w+)\}\}/i'=>'<?php echo $$1["$2"]["$3"]["$4"];?>',
+    		'/\{\{if (.*?)\}\}/i'=>'<?php if($1){ ?>',
+    		'/\{\{elseif (.*?)\}\}/i'=>'<?php }elseif($1){ ?>',
+    		'/\{\{else\}\}/i'=>'<?php }else{ ?>',
+            '/\{\{\/if\}\}/i'=>'<?php } ?>',
+
+            '/\<\?=(.*?)\?\>/i'=>'<?php echo $1; ?>',
+
+            '/\(\{\{(\w+)\.(\w+)\}\}\)/i'=>'<?php echo $$1["$2"]; ?>',
+            '/\(\{\{(\w+)\.(\w+)\.(\w+)\}\}\)/i'=>'<?php echo $$1["$2"]["$3"];?>',
+            '/\(\{\{(\w+)\.(\w+)\.(\w+)\.(\w+)\}\}\)/i'=>'<?php echo $$1["$2"]["$3"]["$4"];?>',
+
+            '/\{\{(\w+)\.(\w+)\}\}/i'=>'$$1["$2"]',
+            '/\{\{(\w+)\.(\w+)\.(\w+)\}\}/i'=>'$$1["$2"]["$3"]',
+            '/\{\{(\w+)\.(\w+)\.(\w+)\.(\w+)\}\}/i'=>'$$1["$2"]["$3"]["$4"]',
 
             '/\{\{(\w+) or (.*?)\}\}/i'=>'<?php $$1=isset($$1[0])?$$1:$2; echo $$1;?>',
             '/\{\{(\$\w+) or (.*?)\}\}/i'=>'<?php $1=isset($1[0])?$1:$2; echo $1;?>',
+
+
+            '/\{\{\$(.*?)\}\}/i'=>'<?php echo $$1;?>',
+            '/\{\{([a-zA-Z0-9_\-\_]+)\}\}/i'=>'<?php echo $1;?>',
 
     		'/\{\{block .*?\}\}.*?\{\{\/block\}\}/i'=>''
     		);
 
     	$loadData=preg_replace(array_keys($replace), array_values($replace), $loadData);
 
-    	Cache::saveKey('templates/'.$fileMD5,$loadData,'.php');
-
-    	// die($loadData);
-
     	$resultPath=ROOT_PATH.'application/caches/templates/'.$fileMD5.'.php';
+
+        File::create($resultPath,$loadData);
 
     	return $resultPath;
     }
 
     public static function parseFriendlyFunction($loadData)
     {
+        /*
+        
+
+        */
          preg_match_all('/(\{\{(\w+|\w+\.\w+) | .*?\}\})/i', $loadData, $matches);
 
          $total=count($matches[0]);
