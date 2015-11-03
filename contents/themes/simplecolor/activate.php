@@ -1,4 +1,11 @@
 <?php
 
+Theme::install(function(){
+
+
+
+	
+});
+
 
 ?>

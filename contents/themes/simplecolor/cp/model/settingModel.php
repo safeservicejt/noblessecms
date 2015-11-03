@@ -42,6 +42,10 @@ function loadSetting()
 {
 	$default=array(
 		'facebook_app_id'=>'',
+		'site_top_content'=>'',
+		'site_bottom_content'=>'',
+		'site_right_top_content'=>'',
+		'site_right_bottom_content'=>'',
 		'site_name'=>'Your site name'
 		);
 
@@ -53,6 +57,14 @@ function loadSetting()
 	$loadData=unserialize($loadData);
 
 	$loadData['facebook_app_id']=isset($loadData['facebook_app_id'])?$loadData['facebook_app_id']:'675779382554952';
+
+	$loadData['site_top_content']=isset($loadData['site_top_content'])?$loadData['site_top_content']:'';
+
+	$loadData['site_bottom_content']=isset($loadData['site_bottom_content'])?$loadData['site_bottom_content']:'';
+
+	$loadData['site_right_top_content']=isset($loadData['site_right_top_content'])?$loadData['site_right_top_content']:'';
+
+	$loadData['site_right_bottom_content']=isset($loadData['site_right_bottom_content'])?$loadData['site_right_bottom_content']:'';
 
 	$loadData['site_name']=isset($loadData['site_name'])?$loadData['site_name']:'Your site name';
 

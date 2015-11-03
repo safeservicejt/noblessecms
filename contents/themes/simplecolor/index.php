@@ -43,6 +43,7 @@ if($loadData=Cache::loadKey('dbcache/'.Database::getPrefix().'simplecolor',-1))
 
 }
 
+
 $links=Links::get(array(
 	'cache'=>'yes',
 	'cacheTime'=>30,

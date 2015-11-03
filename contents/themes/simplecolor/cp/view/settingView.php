@@ -1,3 +1,6 @@
+<script src="<?php echo ROOT_URL; ?>bootstrap/ckeditor/ckeditor.js"></script>
+
+
 <!-- right -->
   <div class="col-lg-9">
   
@@ -48,7 +51,42 @@
 
         </div>
 
+        <div class="row" style="margin-bottom:20px;">
+          <div class="col-lg-12">
+            <strong>Left Top Content:</strong>
+          </div>
+          <div class="col-lg-12">
+            <textarea rows="5" name="send[site_top_content]" id="editor1" class="form-control"><?php if(isset($site_top_content))echo $site_top_content;?></textarea>
+          </div>
 
+        </div>
+        <div class="row" style="margin-bottom:20px;">
+          <div class="col-lg-12">
+            <strong>Left Bottom Content:</strong>
+          </div>
+          <div class="col-lg-12">
+            <textarea rows="5" name="send[site_bottom_content]" id="editor2" class="form-control"><?php if(isset($site_bottom_content))echo $site_bottom_content;?></textarea>
+          </div>
+
+        </div>
+        <div class="row" style="margin-bottom:20px;">
+          <div class="col-lg-12">
+            <strong>Right Top Content:</strong>
+          </div>
+          <div class="col-lg-12">
+            <textarea rows="5" name="send[site_right_top_content]" id="editor3" class="form-control"><?php if(isset($site_right_top_content))echo $site_right_top_content;?></textarea>
+          </div>
+
+        </div>
+        <div class="row" style="margin-bottom:20px;">
+          <div class="col-lg-12">
+            <strong>Right Bottom Content:</strong>
+          </div>
+          <div class="col-lg-12">
+            <textarea rows="5" name="send[site_right_bottom_content]" id="editor4" class="form-control"><?php if(isset($site_right_bottom_content))echo $site_right_bottom_content;?></textarea>
+          </div>
+
+        </div>
        
 
         <p>
@@ -63,7 +101,16 @@
 <!-- right -->
 
 </div>
+<script>
+  // Replace the <textarea id="editor1"> with a CKEditor
+  // instance, using default configuration.
+   
+CKEDITOR.replace( 'editor1');   
+CKEDITOR.replace( 'editor2');   
+CKEDITOR.replace( 'editor3');   
+CKEDITOR.replace( 'editor4');   
 
+</script>
 <script>
   $(function(){
       $('.demo2').colorpicker().on('changeColor', function(ev){

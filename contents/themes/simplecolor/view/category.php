@@ -13,6 +13,7 @@
 <div class="row">
 <!-- left -->
 <div class="col-lg-8">
+<?php if(isset($themeSetting['site_top_content']))echo $themeSetting['site_top_content'];?>
 
 <?php
 
@@ -127,6 +128,7 @@ echo $li;
   </div>
 </div>
 <!-- page -->
+<?php if(isset($themeSetting['site_bottom_content']))echo $themeSetting['site_bottom_content'];?>
 
 </div>
 <!-- left -->

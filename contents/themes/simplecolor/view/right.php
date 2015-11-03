@@ -2,6 +2,7 @@
 <!-- right -->
 <div class="col-lg-4">
 <div class="well well-modern">
+<?php if(isset($themeSetting['site_right_top_content']))echo $themeSetting['site_right_top_content'];?>
 
 <!-- widget -->
 <form action="<?php echo System::getUrl();?>search" method="post" enctype="multipart/form-data">
@@ -117,6 +118,9 @@ $listTag=$li;
 </div>
 </div>
 <!-- widget -->
+
+<?php if(isset($themeSetting['site_right_bottom_content']))echo $themeSetting['site_right_bottom_content'];?>
+
 
 
 </div>
