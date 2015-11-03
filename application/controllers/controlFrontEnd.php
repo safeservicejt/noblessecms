@@ -13,6 +13,8 @@ class controlFrontEnd
 		// 	echo $match[1];
 		// }
 
+		Widgets::loadCache();
+
 		$themePath=System::getThemePath();
 
 		$indexPath=$themePath.'index.php';

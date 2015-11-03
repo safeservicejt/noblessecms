@@ -13,7 +13,7 @@
 
             </div>
             <!-- Top Menu Items -->
-            <ul class="nav navbar-left top-nav">
+            <ul class="nav navbar-left hidden-xs top-nav">
 
               <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/navbar')){ ?>
                <li class="dropdown navbar-default-system">
@@ -33,7 +33,7 @@
 
 
             <!-- Top Menu Items -->
-            <ul class="nav navbar-right top-nav">
+            <ul class="nav navbar-right hidden-xs top-nav">
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>

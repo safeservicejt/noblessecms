@@ -693,6 +693,21 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table `users`
 --
 
+
+
+CREATE TABLE IF NOT EXISTS `widgets` (
+  `id` int(9) NOT NULL AUTO_INCREMENT,
+  `method_call` varchar(50) NOT NULL DEFAULT 'func',
+  `class` varchar(100) DEFAULT NULL,
+  `func` varchar(100) DEFAULT NULL,
+  `path` varchar(255) NOT NULL,
+  `zonename` varchar(150) NOT NULL,
+  `date_added` datetime NOT NULL,
+  `sort_order` int(3) NOT NULL DEFAULT '0',
+  `status` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

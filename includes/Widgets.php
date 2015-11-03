@@ -2,274 +2,345 @@
 
 class Widgets
 {
-	/*
-	$widgetData=array(
-		'page'=>array(
-			'top'=array(
-				'function_name',
-				'function_name',
-				'function_name',
-				'function_name',
-				'function_name'
-			)
-		)
+	public static $listCaches=array('loaded'=>'no');
 
-	);
+	public static $canInstall='no';
 
-	Widgets::build(function(){
+	public static $canUninstall='no';
 
-		Widgets::add('category','right','lastpost',2);
+	public static $canAddZone='no';
 
-		Widgets::add('category','right','hotpost',1);
-
-		Widgets::add('category','left','oldpost',1);
-
-		Widgets::add('category','left','viewspost',0);
-
-	});
-
-
-
-	*/
-	public static $widgetData=array();
-
-	public static function show($page_name,$layout_name='top')
+	public static function get($inputData=array())
 	{
-		$result=self::make($page_name,$layout_name);
 
-		echo $result;
-	}
+		$limitQuery="";
 
-	public static function make($page_name,$layout_name='top')
-	{
-		$themePath=System::getThemePath();
+		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:0;
 
-		$filePath=$themePath.'widgets.php';
+		$limitPage=isset($inputData['limitPage'])?$inputData['limitPage']:0;
 
-		if(!isset(self::$widgetData[$page_name][$layout_name]) || !isset(self::$widgetData[$page_name][$layout_name][0][2]))
+		$limitPage=((int)$limitPage > 0)?$limitPage:0;
+
+		$limitPosition=$limitPage*(int)$limitShow;
+
+		$limitQuery=((int)$limitShow==0)?'':" limit $limitPosition,$limitShow";
+
+		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
+
+		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
+
+		$field="id,method_call,class,func,path,zonename,date_added,sort_order,status".$moreFields;
+
+		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
+
+		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
+
+		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by sort_order desc';
+
+		$result=array();
+
+		$dbPrefix=Database::getPrefix();
+
+		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
+
+		
+		$command="select $selectFields from ".$prefix."widgets $whereQuery";
+
+		$command.=" $orderBy";
+
+		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
+
+		$queryCMD.=$limitQuery;
+
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:1;
+
+		$md5Query=md5($queryCMD);
+
+		if($cache=='yes')
 		{
-			return null;
+			// Load dbcache
+
+			$loadCache=Cache::loadKey('dbcache/system/widgets/'.$md5Query,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				$loadCache=unserialize($loadCache);
+				return $loadCache;
+			}
+
+			// end load			
 		}
 
-		$total=count(self::$widgetData[$page_name][$layout_name]);
+		$query=Database::query($queryCMD);
+		
+		if(isset(Database::$error[5]))
+		{
+			return false;
+		}
 
-		// if(!function_exists(self::$widgetData[$page_name][$layout_name][0]))
-		// {
-		// 	include($filePath);
-		// }		
+		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
+		
+		if((int)$query->num_rows > 0)
+		{
+			while($row=Database::fetch_assoc($query))
+			{
+				if(isset($row['title']))
+				{
+					$row['title']=String::decode($row['title']);
+				}
 
-		$result='';
+				if(isset($row['date_added']))
+				$row['date_addedFormat']=Render::dateFormat($row['date_added']);
+											
+				$result[]=$row;
+			}		
+		}
+		else
+		{
+			return false;
+		}
 
-		for ($i=0; $i < $total; $i++) { 
-			$func=self::$widgetData[$page_name][$layout_name][$i];
+		// Save dbcache
+		Cache::saveKey('dbcache/system/widgets/'.$md5Query,serialize($result));
+		// end save
 
-			$result.=$func();
+
+		return $result;
+		
+	}
+	public static function api($action)
+	{
+		Model::load('api/widgets');
+
+		try {
+			$result=loadApi($action);
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
 		}
 
 		return $result;
 	}
 
-	public static function load()
+	public static function cachePath()
 	{
-		if(!$loadCache=self::loadCache())
-		{
-			$themePath=System::getThemePath();
+		$result=ROOT_PATH.'application/caches/'.Database::getPrefix().'widgets.cache';
 
-			$filePath=$themePath.'widgets.php';
-
-			if(file_exists($filePath))
-			{
-				include($filePath);
-			}				
-		}
-
-		self::$widgetData=$loadCache;
-	}
-
-	public static function get()
-	{
-		return self::$widgetData;
-	}
-
-	public static function change($function_name,$inputData=array())
-	{
-		/*
-		$inputData=array(
-				'page_name'=>'post',
-				'positon'=>'left',
-				'sort_order'=>'2',
-
-				'category'=>'post',
-				'top'=>'left',
-				'1'=>'2'
-		);
-		*/
-		
-		
-		$themePath=System::getThemePath();
-
-		$filePath=$themePath.'widgets.php';
-
-		if(!function_exists($function_name))
-		{
-			include($filePath);
-		}
-
-		$keyNames=array_keys($inputData);
-
-		$page_name=$keyNames[0];
-
-		$positon=$keyNames[1];
-
-		$sort_order=$keyNames[2];
-
-		self::add($page_name,$positon,$function_name,$sort_order);
-
-		self::saveCache();
-		
-	}
-
-	public static function build($func)
-	{
-		if(is_object($func))
-		{
-			$themePath=System::getThemePath();
-
-			$func();
-
-			self::saveCache();
-		}
-
+		return $result;
 	}
 
 	public static function saveCache()
 	{
-		$themePath=System::getThemePath();
+		$savePath=self::cachePath();
 
-		$filePath=$themePath.'widgets.php';
-	
-		$fileHash=md5_file($filePath);
+		$loadData=self::get(array(
+			'cache'=>'no'
+			));
 
-		if(!file_exists($themePath.$fileHash.'.cache'))
+		$result=array();
+
+		if(isset($loadData[0]['id']))
 		{
-			File::create($themePath.$fileHash.'.cache',serialize(self::$widgetData));
-		}		
+			$total=count($loadData);
+
+			for ($i=0; $i < $total; $i++) { 
+				$zonename=$loadData[$i]['zonename'];
+
+				$result[$zonename][]=$loadData[$i];
+			}
+		}
+
+		File::create($savePath,serialize($result));
 	}
 
 	public static function loadCache()
 	{
-		$themePath=System::getThemePath();
+		$savePath=self::cachePath();
 
-		$filePath=$themePath.'widgets.php';
-	
-		$fileHash=md5_file($filePath);
-
-		if(!file_exists($themePath.$fileHash.'.cache'))
+		if(isset(self::$listCaches['loaded']))
 		{
-			return false;
-		}
-
-		$loadCache=file_get_contents($themePath.$fileHash.'.cache');
-
-		$loadCache=unserialize($loadCache);
-
-		return $loadCache;
-
-	}
-
-	public static function addByText($inputData='')
-	{
-		/*
-		page_name|layout_name|order
-		page_name|layout_name|order
-		*/
-
-		$inputData=trim($inputData);
-
-		$parse=explode("\r\n", $inputData);
-
-		$total=count($parse);
-
-		for ($i=0; $i < $total; $i++) { 
-
-			$theCMD=trim($parse[$i]);
-
-			$parseCMS=explode("|", $theCMD);
-
-			if(!isset($parseCMS[1]))
+			if(file_exists($savePath))
 			{
-				continue;
+				$loadData=unserialize(file_get_contents($savePath))
+
+				self::$listCaches=$loadData;
 			}
-
-			$sortOrder=isset($parseCMS[2])?$parseCMS[2]:0;
-
-			self::add($parseCMS[0],$parseCMS[1],$sortOrder);
-
 		}
-
 	}
 
-
-	public static function add($pageName,$pageLayout='top',$funcName,$sortOrder=0)
+	public static function insert($inputData=array())
 	{
-		$sortOrder=(int)$sortOrder;
+		// End addons
 
-		$layoutNames=array('top','left','right','bottom');
+		$addMultiAgrs='';
 
-		if(!in_array($pageLayout, $layoutNames))
+		if(isset($inputData[0]['title']))
 		{
-			return false;
-		}
+		    foreach ($inputData as $theRow) {
 
-		if(!isset(self::$widgetData[$pageName][$pageLayout]))
-		{
-			self::$widgetData[$pageName][$pageLayout][$sortOrder]=$funcName;
+				$theRow['date_added']=date('Y-m-d H:i:s');
+
+				if(isset($theRow['title']))
+				$theRow['title']=String::encode(strip_tags($theRow['title']));
+
+				$keyNames=array_keys($theRow);
+
+				$insertKeys=implode(',', $keyNames);
+
+				$keyValues=array_values($theRow);
+
+				$insertValues="'".implode("','", $keyValues)."'";
+
+				$addMultiAgrs.="($insertValues), ";
+
+		    }
+
+		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
 		}
 		else
 		{
-			$total=count(self::$widgetData[$pageName][$pageLayout]);
+			$zonename=$inputData['zonename'];
 
+			$func=$inputData['func'];
 
-			if($total==0)
+			$path=$inputData['path'];
+
+			$method_call=$inputData['method_call'];
+
+			$loadData=self::get(array(
+				'cache'=>'no',
+				'where'=>"where func='$func' AND method_call='$method_call' AND zonename='$zonename' AND path='$path'"
+				));
+
+			if(isset($loadData[0]['func']))
 			{
-				self::$widgetData[$pageName][$pageLayout][$sortOrder]=$funcName;
-			}
-			else
-			{
-				if(!isset(self::$widgetData[$pageName][$pageLayout][$sortOrder]))
-				{
-					self::$widgetData[$pageName][$pageLayout][$sortOrder]=$funcName;
-				}
-				else
-				{
-					$nextOrder=(int)$sortOrder+1;
-
-					if(!isset(self::$widgetData[$pageName][$pageLayout][$nextOrder]))
-					{
-						self::$widgetData[$pageName][$pageLayout][$nextOrder]=$funcName;
-					}
-					else
-					{
-						$total=count(self::$widgetData[$pageName][$pageLayout]);
-
-						$left=array_slice(self::$widgetData[$pageName][$pageLayout], 0, $sortOrder);
-
-						$right=array_slice(self::$widgetData[$pageName][$pageLayout], $sortOrder, $total);
-
-						array_push($left, $funcName);
-
-						self::$widgetData[$pageName][$pageLayout]=array_merge($left,$right);
-					}
-				}
+				return false;
 			}
 
-			ksort(self::$widgetData[$pageName][$pageLayout]);
+			$inputData['date_added']=date('Y-m-d H:i:s');
 
+			if(isset($inputData['title']))
+			$inputData['title']=String::encode(strip_tags($inputData['title']));
+
+			$keyNames=array_keys($inputData);
+
+			$insertKeys=implode(',', $keyNames);
+
+			$keyValues=array_values($inputData);
+
+			$insertValues="'".implode("','", $keyValues)."'";	
+
+			$addMultiAgrs="($insertValues)";	
+		}		
+
+		Database::query("insert into ".Database::getPrefix()."widgets($insertKeys) values".$addMultiAgrs);
+
+		// DBCache::removeDir('system/category');
+
+		if(!$error=Database::hasError())
+		{
+			$id=Database::insert_id();
+
+			self::saveCache();
+
+
+			return $id;	
 		}
 
-		return true;
-
+		return false;
+	
 	}
-}
 
+	public static function remove($post=array(),$whereQuery='',$addWhere='')
+	{
+
+
+		if(is_numeric($post))
+		{
+			$id=$post;
+
+			unset($post);
+
+			$post=array($id);
+		}
+
+		$total=count($post);
+
+		$listID="'".implode("','",$post)."'";
+
+
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listID)";
+
+		$addWhere=isset($addWhere[5])?$addWhere:"";
+
+		$command="delete from ".Database::getPrefix()."widgets where $whereQuery $addWhere";
+
+		Database::query($command);
+
+		self::saveCache();
+
+		// DBCache::removeDir('system/category');
+		
+		// DBCache::removeCache($listID,'system/category');
+
+		return true;
+	}
+
+	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	{
+
+		if(is_numeric($listID))
+		{
+			$catid=$listID;
+
+			unset($listID);
+
+			$listID=array($catid);
+		}
+
+		if(isset($post['title']))
+		{
+			$post['title']=String::encode(strip_tags($post['title']));		
+		}		
+
+
+		$listIDs="'".implode("','",$listID)."'";		
+				
+		$keyNames=array_keys($post);
+
+		$total=count($post);
+
+		$setUpdates='';
+
+		for($i=0;$i<$total;$i++)
+		{
+			$keyName=$keyNames[$i];
+			$setUpdates.="$keyName='$post[$keyName]', ";
+		}
+
+		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
+		
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listIDs)";
+		
+		$addWhere=isset($addWhere[5])?$addWhere:"";
+
+		Database::query("update ".Database::getPrefix()."widgets set $setUpdates where $whereQuery $addWhere");
+
+		// DBCache::removeDir('system/category');
+
+		// DBCache::removeCache($listIDs,'system/category');
+
+		if(!$error=Database::hasError())
+		{
+			self::saveCache();
+			
+			return true;
+		}
+
+		return false;
+	}
+
+
+}
 ?>
