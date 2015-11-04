@@ -12,7 +12,7 @@ Hide admincp navbar: Create folder with path: contents/security/admincp/hide/nav
 
 Hide admincp left bar menu: Create folder with path: contents/security/admincp/hide/left-all
 
-
+Redirect uri to url: Create folder with path: contents/redirects/hash_file.cache | This file store url which will redirect to.
 
 
 */
@@ -69,7 +69,8 @@ class System
 
 
 		*/
-
+		
+		Redirect::detectRedirect();
 
 		self::checkTheme();
 

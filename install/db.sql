@@ -694,6 +694,15 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 
+CREATE TABLE IF NOT EXISTS `redirects` (
+  `id` int(9) NOT NULL AUTO_INCREMENT,
+  `from_url` varchar(255) NOT NULL,
+  `to_url` varchar(255) DEFAULT NULL,
+  `date_added` datetime NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 
 CREATE TABLE IF NOT EXISTS `widgets` (
   `id` int(9) NOT NULL AUTO_INCREMENT,

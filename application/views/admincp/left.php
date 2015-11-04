@@ -171,6 +171,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#links"><span class="glyphicon glyphicon-link"></span> Links <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="links" class="collapse">
                          <li><a href="<?php echo System::getAdminUrl();?>links">List links</a></li>
+                         <li><a href="<?php echo System::getAdminUrl();?>redirects">Redirects</a></li>
 
                         </ul>
                     </li>
