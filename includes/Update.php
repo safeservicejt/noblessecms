@@ -25,8 +25,6 @@ class Update
 	{
 		$loadData=self::get();
 
-		// print_r($loadData);die();
-
 		$url=$loadData['data']['file'];
 
 		$sourcePath='';

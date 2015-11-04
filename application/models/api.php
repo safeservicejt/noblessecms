@@ -6,9 +6,20 @@ Call: http://site.com/api/cronjob/run.php
 
 function apiProcess()
 {
+
+	$output_type=trim(Request::get('output_type','json'));
+
 	if(!$match=Uri::match('^api\/(\w+)\/(\w+)'))
 	{
-		$result=json_encode(array('error'=>'yes','message'=>'Api not valid'));
+		switch ($output_type) {
+			case 'serialize':
+				$result=serialize(array('error'=>'yes','message'=>'Api not valid'));
+				break;
+			default:
+				$result=json_encode(array('error'=>'yes','message'=>'Api not valid'));
+				break;
+		}
+		
 
 		echo $result;
 
@@ -138,6 +149,16 @@ function apiProcess()
 		
 	}
 
-	echo json_encode($result);
+	switch ($output_type) {
+		case 'serialize':
+			echo serialize($result);
+			break;
+		
+		default:
+			echo json_encode($result);
+			break;
+	}
+
+	
 }
 ?>
