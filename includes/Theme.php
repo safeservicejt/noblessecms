@@ -16,6 +16,17 @@ Theme::uninstall(function(){
 
 });
 
+Add shortcode use in theme: Create file shortcode.php in theme folder
+
+// Shortcode::templateAdd('testv','simple_youtube_parse');
+
+
+// function simple_youtube_parse($inputData=array())
+// {
+// 	$value=$inputData['value'];
+
+// 	return '<a href="http://youtube.com?v='.$value.'">Click tosss watch video</a>';
+// }
 
 */
 class Theme

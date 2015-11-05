@@ -24,6 +24,25 @@
 */
 class Template
 {
+    public static function makeFromString($inputData='')
+    {
+        $hash=md5($inputData);
+
+        $filepath=ROOT_PATH.'application/caches/templates/'.$hash.'.cache';
+
+        if(!file_exists($filepath))
+        {
+            File::create($filepath,$inputData);
+
+        }
+
+        $data=self::parseData($filepath);
+
+        extract($inputData);
+
+        include($data);
+    }
+
     public static function makeWithPath($viewName,$inputData,$themePath)
     {
         $filepath=$themePath.$viewName.'.php';
@@ -112,6 +131,12 @@ class Template
     		);
 
     	$loadData=preg_replace(array_keys($replace), array_values($replace), $loadData);
+
+        $loadData=Shortcode::loadInTemplate($loadData);
+
+        $loadData=Shortcode::load($loadData);
+        
+        $loadData=Shortcode::toHTML($loadData);
 
     	$resultPath=ROOT_PATH.'application/caches/templates/'.$fileMD5.'.php';
 

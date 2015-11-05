@@ -80,7 +80,7 @@ class Database
     {
         self::query("SET NAMES 'utf8'");
 
-        self::query("SET CHARACTER SET 'utf8'");        
+        // self::query("SET CHARACTER SET 'utf8'");        
     }
 
 
