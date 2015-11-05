@@ -17,12 +17,12 @@ class controlRedirects
 
 		if(Request::has('btnAction'))
 		{
-			// $valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_remove_redirect');
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_remove_redirect');
 
-			// if($valid!='yes')
-			// {
-			// 	Alert::make('You not have permission to view this page');
-			// }
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			}
 						
 			actionProcess();
 		}
@@ -30,12 +30,12 @@ class controlRedirects
 		if(Request::has('btnAdd'))
 		{
 
-			// $valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_addnew_redirect');
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_addnew_redirect');
 
-			// if($valid!='yes')
-			// {
-			// 	Alert::make('You not have permission to view this page');
-			// }			
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			}			
 
 			try {
 				
@@ -50,12 +50,12 @@ class controlRedirects
 
 		if(Request::has('btnSave'))
 		{
-			// $valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_edit_redirect');
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_edit_redirect');
 
-			// if($valid!='yes')
-			// {
-			// 	Alert::make('You not have permission to view this page');
-			// }
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			}
 
 			$match=Uri::match('\/edit\/(\d+)');
 

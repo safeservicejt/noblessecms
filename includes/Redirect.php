@@ -238,7 +238,7 @@ class Redirect
 
         $addMultiAgrs='';
 
-        if(isset($inputData[0]['postid']))
+        if(isset($inputData[0]['from_url']))
         {
             foreach ($inputData as $theRow) {
 
@@ -259,6 +259,10 @@ class Redirect
                 {
                     $to_url=System::getUrl().$to_url;
                 }
+
+                $theRow['from_url']=$from_url;
+
+                $theRow['to_url']=$to_url;
 
                 $keyNames=array_keys($theRow);
 
@@ -294,6 +298,10 @@ class Redirect
                 $to_url=System::getUrl().$to_url;
             }
 
+            $inputData['from_url']=$from_url;
+
+            $inputData['to_url']=$to_url;
+
             $keyNames=array_keys($inputData);
 
             $insertKeys=implode(',', $keyNames);
@@ -303,7 +311,8 @@ class Redirect
             $insertValues="'".implode("','", $keyValues)."'";   
 
             $addMultiAgrs="($insertValues)";    
-        }       
+        }
+
 
         Database::query("insert into ".Database::getPrefix()."redirects($insertKeys) values".$addMultiAgrs);
 
