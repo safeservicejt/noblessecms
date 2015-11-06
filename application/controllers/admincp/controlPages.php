@@ -34,25 +34,30 @@ class controlPages
 			actionProcess();
 		}
 
+		$addWhere='';
+
 		if(Request::has('btnSearch'))
 		{
-			filterProcess();
+			$txtKeywords=trim(Request::get('txtKeywords',''));
+
+			$addWhere="where title LIKE '%$addWhere%'";
+
+			Cookie::make('page_search',base64_encode($addWhere));
 		}
-		else
+
+		if(isset($_COOKIE['page_search']))
 		{
-			$post['pages']=Misc::genSmallPage('admincp/pages',$curPage);
-
-			$filterPending='';
-
-
-			$post['theList']=Pages::get(array(
-				'limitShow'=>20,
-				'limitPage'=>$curPage,
-				'cacheTime'=>1
-				));
+			$addWhere=base64_decode($_COOKIE['page_search']);
 		}
+		
+		$post['pages']=Misc::genSmallPage('admincp/pages',$curPage);
 
-
+		$post['theList']=Pages::get(array(
+			'limitShow'=>20,
+			'limitPage'=>$curPage,
+			'where'=>$addWhere,
+			'cacheTime'=>1
+			));
 
 		System::setTitle('Pages list - '.ADMINCP_TITLE);
 
@@ -66,6 +71,13 @@ class controlPages
 
 	public function edit()
 	{
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_edit_page');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}	
+			
 		$username=$_COOKIE['username'].'/page';
 
 		System::makeFileManagePath($username);
@@ -82,6 +94,13 @@ class controlPages
 
 		if(Request::has('btnSave'))
 		{
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_edit_page');
+
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			}
+
 			try {
 				
 				updateProcess($pageid);
@@ -111,6 +130,14 @@ class controlPages
 	}
 	public function addnew()
 	{
+
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_addnew_page');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
+
 		$username=$_COOKIE['username'].'/page';
 
 		System::makeFileManagePath($username);
@@ -119,6 +146,13 @@ class controlPages
 
 		if(Request::has('btnAdd'))
 		{
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_addnew_page');
+
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			}
+
 			try {
 				
 				insertProcess();

@@ -17,6 +17,14 @@ function actionProcess()
 
 	switch ($action) {
 		case 'delete':
+
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_remove_page');
+
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			}
+
 			Pages::remove($id);
 
 			break;

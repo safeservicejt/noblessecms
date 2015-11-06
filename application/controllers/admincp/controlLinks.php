@@ -23,6 +23,13 @@ class controlLinks
 
 		if(Request::has('btnAdd'))
 		{
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_addnew_link');
+
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			}	
+
 			try {
 				
 				insertProcess();
@@ -36,6 +43,13 @@ class controlLinks
 
 		if(Request::has('btnSave'))
 		{
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_edit_link');
+
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			}
+
 			$match=Uri::match('\/edit\/(\d+)');
 
 			try {
