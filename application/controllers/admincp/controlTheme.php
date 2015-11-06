@@ -30,6 +30,13 @@ class controlTheme
 
 		if($match=Uri::match('\/activate\/(\w+)'))
 		{
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_activate_theme');
+
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			}
+
 			$theName=$match[1];
 
 			try {
@@ -81,6 +88,12 @@ class controlTheme
       		Alert::make('You dont have permission to access this page.');
       	}
 
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_edit_theme');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
 
 		$thePath=THEMES_PATH.$themeName.'/';
 
@@ -194,6 +207,13 @@ class controlTheme
       		Alert::make('You dont have permission to access this page.');
       	}
 
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_setting_theme');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
+
 		$post['title']=ucfirst($theName);
 
 		$thePath=THEMES_PATH.$theName.'/';
@@ -238,6 +258,13 @@ class controlTheme
 	      		Alert::make('You dont have permission to access this page.');
 	      	}
 
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_control_theme');
+
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			}
+
 			$path=THEMES_PATH.$themeName.'/cp/controller/control'.ucfirst($controllerName).'.php';
 
 			if(!file_exists($path))
@@ -265,7 +292,14 @@ class controlTheme
       	{
       		Alert::make('You dont have permission to access this page.');
       	}
-		
+
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_import_theme');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}		
+
 		$post=array('alert'=>'');
 
 		if(Request::has('btnSend'))

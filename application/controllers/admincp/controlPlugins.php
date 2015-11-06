@@ -69,6 +69,13 @@ class controlPlugins
       		Alert::make('You dont have permission to access this page.');
       	}
 
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_install_plugin');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
+
 		Plugins::makeInstall($foldername);
 
 		$path=PLUGINS_PATH.$foldername.'/index.php';
@@ -103,6 +110,13 @@ class controlPlugins
       	{
       		Alert::make('You dont have permission to access this page.');
       	}
+
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_control_plugin');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
 
 		$funcName=$match[2];
 
@@ -163,6 +177,13 @@ class controlPlugins
       		Alert::make('You dont have permission to access this page.');
       	}
 
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_run_plugin');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
+
 		define("THIS_URL",PLUGINS_URL.$foldername.'/');
 		
 		$post['title']=ucfirst($foldername);
@@ -206,6 +227,13 @@ class controlPlugins
       		Alert::make('You dont have permission to access this page.');
       	}
 
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_setting_plugin');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
+
 		$post['title']=ucfirst($foldername);
 
 		$post['filePath']=$path;
@@ -239,6 +267,13 @@ class controlPlugins
       	{
       		Alert::make('You dont have permission to access this page.');
       	}
+
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_uninstall_plugin');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
 
 		if(file_exists($path))
 		{
@@ -277,6 +312,13 @@ class controlPlugins
       		Alert::make('You dont have permission to access this page.');
       	}
 
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_activate_plugin');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
+
 		Database::query("update ".Database::getPrefix()."plugins set status='1' where foldername='$foldername'");
 		Database::query("update ".Database::getPrefix()."plugins_meta set status='1' where foldername='$foldername'");
 
@@ -303,6 +345,13 @@ class controlPlugins
       		Alert::make('You dont have permission to access this page.');
       	}
 
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_deactivate_plugin');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
+
 		Database::query("update ".Database::getPrefix()."plugins set status='0' where foldername='$foldername'");
 		Database::query("update ".Database::getPrefix()."plugins_meta set status='0' where foldername='$foldername'");
 
@@ -317,6 +366,13 @@ class controlPlugins
       	{
       		Alert::make('You dont have permission to access this page.');
       	}
+
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_import_plugin');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
 
 		$post=array('alert'=>'');
 
