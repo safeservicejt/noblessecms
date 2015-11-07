@@ -4,6 +4,10 @@ class Users
 {
 	public static $config=array();
 
+	public static $userid=0;
+
+	public static $groupid=0;
+
 	public static function get($inputData=array())
 	{
 
@@ -548,13 +552,24 @@ class Users
 			return false;
 		}
 
-		$userid=isset($_COOKIE['userid'])?$_COOKIE['userid']:0;
+		$userid=0;
 
-		$userid=String::decrypt($userid);
-
-		if((int)$userid <= 0)
+		if((int)self::$userid==0)
 		{
-			return false;
+			$userid=isset($_COOKIE['userid'])?$_COOKIE['userid']:0;
+
+			$userid=String::decrypt($userid);
+
+			if((int)$userid <= 0)
+			{
+				return false;
+			}
+
+			self::$userid=$userid;			
+		}
+		else
+		{
+			$userid=self::$userid;
 		}
 
 		return $userid;
@@ -567,14 +582,23 @@ class Users
 			return false;
 		}
 
-		$groupid=isset($_COOKIE['groupid'])?$_COOKIE['groupid']:0;
+		$groupid=0;
 
-		$groupid=String::decrypt($groupid);
-
-		if((int)$groupid <= 0)
+		if((int)self::$groupid==0)
 		{
-			return false;
+			$groupid=isset($_COOKIE['groupid'])?$_COOKIE['groupid']:0;
+
+			$groupid=String::decrypt($groupid);
+
+			if((int)$groupid <= 0)
+			{
+				return false;
+			}
+
+			self::$groupid=$groupid;			
 		}
+
+		$groupid=self::$groupid;
 
 		return $groupid;
 	}

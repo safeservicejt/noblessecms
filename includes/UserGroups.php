@@ -715,9 +715,7 @@ class UserGroups
 		{
 			$id=Database::insert_id();
 
-			$inputData['groupdata']=self::lineToArray($inputData['groupdata']);
-
-			Cache::saveKey($prefix.'userGroup_'.$id,serialize($inputData));
+			self::saveCache();
 
 			CustomPlugins::load('after_usergroup_insert');
 
@@ -774,6 +772,9 @@ class UserGroups
 			Cache::removeKey($prefix.'userGroup_'.$id);
 		}
 
+		self::saveCache();
+
+
 		CustomPlugins::load('after_usergroup_remove');
 
 
@@ -789,13 +790,15 @@ class UserGroups
 		}
 
 		if(is_numeric($listID))
-		{
+		{	
 			$catid=$listID;
 
 			unset($listID);
 
 			$listID=array($catid);
 		}
+
+	
 
 		$listIDs="'".implode("','",$listID)."'";		
 				
@@ -834,17 +837,7 @@ class UserGroups
 
 		if(!$error=Database::hasError())
 		{
-			$loadData=self::get(array(
-				'where'=>"where groupid IN ($listIDs)"
-				));
-
-			$total=count($loadData);
-
-			for ($i=0; $i < $total; $i++) { 
-
-				$loadData[$i]['groupdata']=self::lineToArray($loadData[$i]['groupdata']);
-				Cache::saveKey($prefix.'userGroup_'.$loadData[$i]['groupid'],serialize($loadData[$i]));
-			}
+			self::saveCache();
 
 			CustomPlugins::load('after_usergroup_update');
 
