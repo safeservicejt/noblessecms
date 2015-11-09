@@ -74,7 +74,7 @@
                                     $allowcomment='<span class="label label-success">Allow comment</span>';
                                 }
 
-                                $views='<span class="label label-danger">Views: '.$theList[$i]['views'].'</span>';
+                                $views='<span class="label label-danger">Views: '.number_format($theList[$i]['views']).'</span>';
                                 
     							$li.='
 	    						<!-- tr -->
@@ -82,7 +82,7 @@
 	    							<td class="col-lg-1">
 	    								<input type="checkbox" id="cboxID" name="id[]" value="'.$theList[$i]['pageid'].'" />
 	    							</td>
-                                    <td class="col-lg-2">'.$theList[$i]['date_added'].'</td>
+                                    <td class="col-lg-2"><span style="font-size:14px;color:#888;">'.date('M d, Y H:i',strtotime($theList[$i]['date_added'])).'</span></td>
                                     <td class="col-lg-5"><a href="'.Pages::url($theList[$i]).'" target="_blank">'.$theList[$i]['title'].'</a>
                                     <br>
                                     '.$allowcomment.' '.$views.'

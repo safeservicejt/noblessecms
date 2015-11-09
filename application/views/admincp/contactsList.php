@@ -54,7 +54,7 @@
                                         <input type="checkbox" id="cboxID" name="id[]" value="'.$theList[$i]['contactid'].'" />
                                     </td>
  	    							<td class="col-lg-2">
-	    								<span>'.$theList[$i]['date_addedFormat'].'</span>
+	    								<span style="font-size:14px;color:#888;">'.date('M d, Y H:i',strtotime($theList[$i]['date_added'])).'</span>
 	    							</td>
 
                                     <td class="col-lg-10">

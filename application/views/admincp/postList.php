@@ -63,7 +63,7 @@
     						if(isset($theList[0]['postid']))
     						for ($i=0; $i < $total; $i++) { 
 
-                                $date_added='<span>Date: '.$theList[$i]['date_added'].'</span>';
+                                $date_added='<span style="font-size:13px;color:#888;">Date: '.date('M d, Y H:i',strtotime($theList[$i]['date_added'])).'</span>';
 
                                 $status='<span class="label label-success">Publish</span>';
 
