@@ -93,21 +93,48 @@ class controlCategories
 			}
 		}
 
+		$addWhere='';
+
+		$addPage='';
+
 		if(Request::has('btnSearch'))
 		{
-			filterProcess();
-		}
-		else
-		{
-			$post['pages']=Misc::genSmallPage('admincp/categories',$curPage);
+			$txtKeywords=trim(Request::get('txtKeywords',''));
 
-			$post['theList']=Categories::get(array(
-				'limitShow'=>20,
-				'limitPage'=>$curPage,
-				'orderby'=>'order by catid desc',
-				'cache'=>'no'
-				));
+			$addWhere="where title LIKE '%$txtKeywords%'";
+
+			$addPage='/search/'.base64_encode($txtKeywords);
 		}
+
+		if($matchS=Uri::match('\/search\/([a-zA-Z0-9_\-\=\+]+)'))
+		{
+			$txtKeywords=base64_decode($matchS[1]);
+
+			$addWhere="where title LIKE '%$txtKeywords%'";
+
+			$addPage='/search/'.base64_encode($txtKeywords);
+		}
+
+		$post['theList']=Categories::get(array(
+			'limitShow'=>30,
+			'limitPage'=>$curPage,
+			'where'=>$addWhere,
+			'orderby'=>'order by catid desc',
+			'cache'=>'no'
+			));
+
+		$getTotal=Categories::get(array(
+			'where'=>$addWhere,
+			'selectFields'=>'count(catid) as totalRow',
+			'cache'=>'no'
+			));
+
+		$totalRow=$getTotal[0]['totalRow'];
+
+		$totalPage=intval((int)$totalRow/30);
+
+
+		$post['pages']=Misc::genSmallPage('admincp/categories',$curPage,$totalPage);
 
 		if($match=Uri::match('\/edit\/(\d+)'))
 		{

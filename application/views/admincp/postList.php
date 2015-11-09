@@ -91,7 +91,7 @@
 	    							<td class="col-lg-1">
 	    								<input type="checkbox" id="cboxID" name="id[]" value="'.$theList[$i]['postid'].'" />
 	    							</td>
-                                    <td class="col-lg-2">'.$theList[$i]['cattitle'].'</td>
+                                    <td class="col-lg-2"><a href="'.System::getAdminUrl().'post/category/'.$theList[$i]['catid'].'">'.$theList[$i]['cattitle'].'</a></td>
                                     <td class="col-lg-2">'.$theList[$i]['username'].'</td>
                                     <td class="col-lg-5"><a target="_blank" href="'.Post::url($theList[$i]).'">'.$theList[$i]['title'].'</a>
                                     <br>

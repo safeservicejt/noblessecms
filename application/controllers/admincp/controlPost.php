@@ -57,6 +57,10 @@ class controlPost
 			$curPage=$match[1];
 		}
 
+		$addWhere='';
+
+		$addPage='';
+
 		if(Request::has('btnAction'))
 		{
 			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_remove_post');
@@ -68,30 +72,51 @@ class controlPost
 			actionProcess();
 		}
 
+		if($matchSearch=Uri::match('\/search\/([a-zA-Z0-9_\+\=]+)'))
+		{
+			$txtKeywords=base64_decode($matchSearch[1]);
+
+			$addWhere="where p.title LIKE '%$txtKeywords%'";
+
+			$addPage='/search/'.base64_encode($txtKeywords);			
+		}
+
+		if($matchSearch=Uri::match('\/category\/(\d+)'))
+		{
+			$txtKeywords=$matchSearch[1];
+
+			$addWhere="where p.catid='$txtKeywords'";
+
+			$addPage='/category/'.$txtKeywords;			
+		}
+
 		if(Request::has('btnSearch'))
 		{
-			filterProcess();
+			$txtKeywords=trim(Request::get('txtKeywords',''));
+
+			$addWhere="where p.title LIKE '%$txtKeywords%'";
+
+			$addPage='/search/'.base64_encode($txtKeywords);
 		}
-		else
+
+
+
+
+		$post['pages']=Misc::genSmallPage('admincp/post'.$addPage,$curPage);
+
+		$filterPending='';
+
+		if(Uri::has('\/status\/pending'))
 		{
-			$post['pages']=Misc::genSmallPage('admincp/post',$curPage);
-
-			$filterPending='';
-
-			if(Uri::has('\/status\/pending'))
-			{
-				$filterPending=" WHERE p.status='0' ";
-			}
-
-			$post['theList']=Post::get(array(
-				'limitShow'=>20,
-				'limitPage'=>$curPage,
-				'query'=>"select p.*,u.username,c.title as cattitle from ".Database::getPrefix()."post p left join users u on p.userid=u.userid join ".Database::getPrefix()."categories c on p.catid=c.catid $filterPending order by p.postid desc",
-				'cache'=>'no'
-				));
-
+			$filterPending=" WHERE p.status='0' ";
 		}
 
+		$post['theList']=Post::get(array(
+			'limitShow'=>20,
+			'limitPage'=>$curPage,
+			'query'=>"select p.*,u.username,c.title as cattitle from ".Database::getPrefix()."post p left join users u on p.userid=u.userid join ".Database::getPrefix()."categories c on p.catid=c.catid $addWhere order by p.postid desc",
+			'cache'=>'no'
+			));
 
 		System::setTitle('Post list - '.ADMINCP_TITLE);
 

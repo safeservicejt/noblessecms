@@ -40,10 +40,10 @@
     					<thead>
     						<tr>
     							<td class="col-lg-1"><input type="checkbox" id="selectAll" /></td>
-                                <td class="col-lg-5">Title</td>
+                                <td class="col-lg-6">Title</td>
     							<td class="col-lg-2 text-right">Sort Order</td>
     							<td class="col-lg-2 text-right">Status</td>
-    							<td class="col-lg-2 text-right">#</td>
+    							<td class="col-lg-1 text-right">#</td>
     						</tr>
     					</thead>
 
@@ -61,11 +61,11 @@
 	    							<td class="col-lg-1">
 	    								<input type="checkbox" id="cboxID" name="id[]" value="'.$theList[$i]['id'].'" />
 	    							</td>
-	    							<td class="col-lg-5">'.$theList[$i]['title'].'</td>
+	    							<td class="col-lg-6">'.$theList[$i]['title'].'</td>
                                     <td class="col-lg-2 text-right">'.$theList[$i]['sort_order'].'</td>
  	    							<td class="col-lg-2 text-right">'.ucfirst($theList[$i]['status']).'</td>
 
-	    							<td class="col-lg-2 text-right">
+	    							<td class="col-lg-1 text-right">
 	    							<a href="'.System::getAdminUrl().'links/edit/'.$theList[$i]['id'].'" class="btn btn-warning btn-xs">Edit</a>
 	    							</td>
 	    						</tr>    						

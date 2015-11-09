@@ -63,21 +63,39 @@ class controlLinks
 			}
 		}
 
+		$addWhere='';
+
+		$addPage='';
+
+		if($matchS=Uri::match('\/search\/([a-zA-Z0-9_\-\=\.\+]+)'))
+		{
+
+			$txtKeywords=base64_decode($matchS[1]);
+
+			$addWhere="where title LIKE '%$txtKeywords%'";
+
+			$addPage='/search/'.base64_encode($txtKeywords);			
+		}
+
 		if(Request::has('btnSearch'))
 		{
-			filterProcess();
-		}
-		else
-		{
-			$post['pages']=Misc::genSmallPage('admincp/links',$curPage);
+			$txtKeywords=trim(Request::get('txtKeywords',''));
 
-			$post['theList']=Links::get(array(
-				'limitShow'=>20,
-				'limitPage'=>$curPage,
-				'orderby'=>'order by sort_order asc',
-				'cache'=>'no'
-				));
+			$addWhere="where title LIKE '%$txtKeywords%'";
+
+			$addPage='/search/'.base64_encode($txtKeywords);
 		}
+
+
+		$post['pages']=Misc::genSmallPage('admincp/links'.$addPage,$curPage);
+
+		$post['theList']=Links::get(array(
+			'limitShow'=>100,
+			'limitPage'=>$curPage,
+			'where'=>$addWhere,
+			'orderby'=>'order by sort_order asc',
+			'cache'=>'no'
+			));
 
 		if($match=Uri::match('\/edit\/(\d+)'))
 		{
