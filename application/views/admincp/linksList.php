@@ -154,7 +154,7 @@
                 </p>
                  <p>
                     <label><strong>Parent</strong></label>
-                    <select class="form-control" name="update[parentid]">
+                    <select class="form-control select-parent" name="update[parentid]">
                         <option value="0">None</option>
                         <?php 
                         if(isset($listLinks[0]['id']))
@@ -188,3 +188,22 @@
   </div>
 </div>
 
+<script type="text/javascript">
+<?php if($match=Uri::match('\/edit\/\d+')){ ?>
+
+var parentid=<?php echo $edit['parentid'];?>;
+
+$(document).ready(function(){
+    $('.select-parent').children('option').each(function(index, el) {
+        var id=$(this).val();
+
+        if(parseInt(id)==parseInt(parentid))
+        {
+            $(this).attr('selected',true);
+        }
+    });
+
+});
+
+<?php } ?>
+</script>
