@@ -116,6 +116,61 @@ class Links
 		
 	}
 
+	public static function getRecursive()
+	{
+		$loadData=self::get(array(
+			'cache'=>'yes',
+			'cacheTime'=>30,
+			'orderby'=>'order by sort_order desc'
+			));
+
+		$result=array();
+
+		if(isset($loadData[0]['id']))
+		{
+			$total=count($loadData);
+
+			for ($i=0; $i < $total; $i++) { 
+
+				if(!isset($loadData[$i]))
+				{
+					continue;
+				}
+
+				$parentid=$loadData[$i]['parentid'];
+
+				$id=$loadData[$i]['id'];
+
+				if((int)$parentid==0)
+				for ($j=0; $j < $total; $j++) { 
+
+					if(!isset($loadData[$j]))
+					{
+						continue;
+					}					
+
+					$child_parentid=$loadData[$j]['parentid'];
+
+					$child_id=$loadData[$j]['id'];
+
+					if((int)$id==(int)$child_parentid)
+					{
+						$loadData[$i]['child'][]=$loadData[$j];
+
+						unset($loadData[$j]);
+					}
+				}
+			}
+		}
+		else
+		{
+			return $loadData;
+		}
+
+		return $loadData;
+	}
+
+
 	public static function insert($inputData=array())
 	{
 		// End addons
