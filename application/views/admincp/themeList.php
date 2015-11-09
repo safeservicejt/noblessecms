@@ -33,8 +33,8 @@
 				<!-- row -->
 				<div class="row">
 					<div class="col-lg-12">
-					<a href="<?php echo System::getUrl();?>admincp/theme/setting/<?php echo THEME_NAME;?>" class="btn btn-primary">Setting</a>
-					<a href="<?php echo System::getUrl();?>admincp/theme/edit/<?php echo THEME_NAME;?>" class="btn btn-danger">Edit</a>
+					<a href="<?php echo System::getUrl();?>admincp/theme/setting/<?php echo System::getThemeName();?>" class="btn btn-primary">Setting</a>
+					<a href="<?php echo System::getUrl();?>admincp/theme/edit/<?php echo System::getThemeName();?>" class="btn btn-danger">Edit</a>
 
 					</div>					
 				</div>
