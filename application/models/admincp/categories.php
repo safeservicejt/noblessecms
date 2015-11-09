@@ -35,11 +35,11 @@ function actionProcess()
 
 function updateProcess($id)
 {
-	$update=Request::get('update');
+	$update=Request::get('send');
 
 	$valid=Validator::make(array(
-		'update.title'=>'required|min:1|slashes',
-		'update.parentid'=>'slashes'
+		'send.title'=>'required|min:1|slashes',
+		'send.parentid'=>'slashes'
 		));
 
 	if(!$valid)
@@ -63,6 +63,7 @@ function updateProcess($id)
 			}
 		}
 	}
+
 
 	Categories::update($id,$update);
 	

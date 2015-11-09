@@ -126,7 +126,7 @@
 	     		<h4>Edit</h4>
 	    		<p>
 	    			<label><strong>Title</strong></label>
-	    			<input type="text" class="form-control" name="update[title]" value="<?php if(isset($edit['title']))echo $edit['title'];?>" placeholder="Title" id="txtTitle" />
+	    			<input type="text" class="form-control" name="send[title]" value="<?php if(isset($edit['title']))echo $edit['title'];?>" placeholder="Title" id="txtTitle" />
 	    		</p>
 
                 <p class="pChosen">
@@ -143,7 +143,7 @@
                         </p>
                 <p>
                     <label><strong>Sort Order</strong></label>
-                    <input type="text" class="form-control" name="update[sort_order]" value="<?php if(isset($edit['sort_order']))echo $edit['sort_order'];?>" placeholder="Sort order" id="txtOrder" />
+                    <input type="text" class="form-control" name="send[sort_order]" value="<?php if(isset($edit['sort_order']))echo $edit['sort_order'];?>" placeholder="Sort order" id="txtOrder" />
                 </p>                         
                 <p>
                     <label><strong>Thumbnail</strong></label>

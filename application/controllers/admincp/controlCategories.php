@@ -129,6 +129,28 @@ class controlCategories
 			'cache'=>'no'
 			));
 
+		$total=count($post['theList']);
+
+		if((int)$total > 0)
+		{
+			for ($i=0; $i < $total; $i++) { 
+				$parentid=$post['theList'][$i]['parentid'];
+
+				if((int)$parentid > 0)
+				{
+					$catData=Categories::get(array(
+						'cache'=>'no',
+						'where'=>"where catid='$parentid'"
+						));
+
+					if(isset($catData[0]['title']))
+					{
+						$post['theList'][$i]['title']=$catData[0]['title'].' -> '.$post['theList'][$i]['title'];
+					}
+				}
+			}
+		}
+
 		$totalRow=$getTotal[0]['totalRow'];
 
 		$totalPage=intval((int)$totalRow/30);

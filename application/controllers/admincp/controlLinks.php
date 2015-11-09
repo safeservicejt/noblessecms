@@ -107,10 +107,34 @@ class controlLinks
 			$post['edit']=$loadData[0];
 		}
 
+		$total=count($post['theList']);
+
+		if((int)$total > 0)
+		{
+			for ($i=0; $i < $total; $i++) { 
+				$parentid=$post['theList'][$i]['parentid'];
+
+				if((int)$parentid > 0)
+				{
+					$catData=Links::get(array(
+						'cache'=>'no',
+						'where'=>"where id='$parentid'"
+						));
+
+					if(isset($catData[0]['title']))
+					{
+						$post['theList'][$i]['title']=$catData[0]['title'].' -> '.$post['theList'][$i]['title'];
+					}
+				}
+			}
+		}		
+
 		$post['listLinks']=Links::get(array(
 			'orderby'=>'order by sort_order asc',
 			'cache'=>'no'
 			));
+
+		
 
 		System::setTitle('Links list - '.ADMINCP_TITLE);
 
