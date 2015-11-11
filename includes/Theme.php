@@ -364,8 +364,14 @@ class Theme
 		}
 		else
 		{
-			Domain::setTheme($themeName);
+			$theDomain=$_SERVER['HTTP_HOST'];
+			
+			if(!Domain::isAllowTheme($themeName,$theDomain))
+			{
+				throw new Exception('We allow you activate this theme.');
+			}
 
+			Domain::setTheme($themeName);
 		}
 
 		if(file_exists($path.'activate.php'))
