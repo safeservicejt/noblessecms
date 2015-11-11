@@ -439,7 +439,32 @@ class Post
 
 		$command="delete from ".Database::getPrefix()."post where $whereQuery $addWhere";
 
+		$result=array();
+
+		$loadData=self::get(array(
+			'cache'=>'no',
+			'isHook'=>'no',
+			'where'=>"where  $whereQuery $addWhere"
+			));
+
+		if(isset($loadData[0]['id']))
+		{
+			$total=count($loadData);
+
+			for ($i=0; $i < $total; $i++) { 
+				$result=$loadData[$i]['id'];
+			}
+
+			$listID="'".implode("','",$result)."'";
+
+			Comments::remove(array(0),"postid IN ($listID)");
+			
+			PostTags::remove(array(0),"postid IN ($listID)");
+
+		}
+
 		Database::query($command);	
+
 
 		Plugins::load('after_post_remove',$post);
 
