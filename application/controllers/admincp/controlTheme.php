@@ -139,9 +139,9 @@ class controlTheme
 			{
 				$savePath=$queryPath.'/'.$pageData['file']['name'];
 
-				$saveData=trim(Request::get('send.file_content',''));
+				$saveData=trim(stripslashes(Request::get('send.file_content','')));
 
-				File::create($savePath,$saveData);
+				File::create($savePath,htmlspecialchars_decode($saveData));
 
 				$pageData['file']['data']=file_get_contents($savePath);
 			}
