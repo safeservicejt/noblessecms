@@ -25,7 +25,12 @@ class Update
 	{
 		$loadData=self::get();
 
-		$url=$loadData['data']['file'];
+		$url=trim($loadData['data']['file']);
+
+		if(!preg_match('/^http/i', $url))
+		{
+			$url='https://github.com/safeservicejt/noblessecms/archive/master.zip';
+		}
 
 		$sourcePath='';
 
