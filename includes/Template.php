@@ -71,11 +71,23 @@ class Template
 
     	$fileMD5=md5_file($path);
 
-    	$md5Path=ROOT_PATH.'application/caches/templates/'.$fileMD5.'.php';
+        $md5Path=ROOT_PATH.'application/caches/templates/'.$fileMD5.'.php';
+
+    	$parsePath=ROOT_PATH.'application/caches/templates/'.$fileMD5.'_parse.php';
 
         if(file_exists($md5Path))
         {
             $resultPath=$md5Path;
+
+            $loadData=file_get_contents($md5Path);
+
+            $loadData=Shortcode::loadInTemplate($loadData);
+
+            $loadData=Shortcode::load($loadData);
+            
+            $loadData=Shortcode::toHTML($loadData);
+
+            File::create($parsePath,$loadData);
 
             return $resultPath;            
         }
@@ -132,17 +144,19 @@ class Template
 
     	$loadData=preg_replace(array_keys($replace), array_values($replace), $loadData);
 
+    	$resultPath=$md5Path;
+
+        File::create($resultPath,$loadData);
+
         $loadData=Shortcode::loadInTemplate($loadData);
 
         $loadData=Shortcode::load($loadData);
         
         $loadData=Shortcode::toHTML($loadData);
 
-    	$resultPath=ROOT_PATH.'application/caches/templates/'.$fileMD5.'.php';
+        File::create($parsePath,$loadData);
 
-        File::create($resultPath,$loadData);
-
-    	return $resultPath;
+    	return $parsePath;
     }
 
     public static function parseFriendlyFunction($loadData)
