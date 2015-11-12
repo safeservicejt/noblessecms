@@ -53,7 +53,7 @@ function shortcode_youtube($inputData=array())
 {
 	$value=$inputData['value'];
 
-	return '<a href="http://youtube.com?v='.$value.'">Click to watch video</a>';	
+	return '<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="https://www.youtube.com/embed/'.$value.'" frameborder="0" allowfullscreen></iframe></div>';	
 }
 
 ?>
