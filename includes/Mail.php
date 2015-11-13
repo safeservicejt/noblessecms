@@ -117,58 +117,73 @@ class Mail
 
     }
 
-    public static function send($mailConfig=array(),$is_smtp=1)
+    public static function send($inputData=array())
     {
-        // $mailConfig = $this->listAccounts[$accountPosition];
 
-        $mailData=System::getMailSetting();
+         $mailData=System::getMailSetting();
+         
+         // local|account|smtp
+         $mailData['send_method']=isset($inputData['send_method'])?$inputData['send_method']:$mailData['send_method'];
 
-        if($mailData['send_method']=='local')
-        {
-            $is_smtp=0;
-        }
+         $mailData['smtpUser']=isset($inputData['smtpUser'])?$inputData['smtpUser']:$mailData['smtpUser'];
 
-        if(isset($mailConfig['send_method']))
-        {
-            if($mailConfig['send_method']=='local')
-            {
-                $is_smtp=0;
+         $mailData['smtpPass']=isset($inputData['smtpPass'])?$inputData['smtpPass']:$mailData['smtpPass'];
+
+         $mailData['smtpPort']=isset($inputData['smtpPort'])?$inputData['smtpPort']:$mailData['smtpPort'];
+
+         $mailData['smtpSecure']=isset($inputData['smtpSecure'])?$inputData['smtpSecure']:$mailData['smtpSecure'];
+
+         $mailData['smtpAddress']=isset($inputData['smtpAddress'])?$inputData['smtpAddress']:$mailData['smtpAddress'];
+
+         $mailData['fromEmail']=isset($inputData['fromEmail'])?$inputData['fromEmail']:$mailData['fromEmail'];
+
+         $mailData['fromName']=isset($inputData['fromName'])?$inputData['fromName']:$mailData['fromName'];
+
+         $mailData['toEmail']=isset($inputData['toEmail'])?$inputData['toEmail']:$mailData['toEmail'];
+
+         $mailData['subject']=isset($inputData['subject'])?$inputData['subject']:$mailData['subject'];
+
+         $mailData['body']=isset($inputData['body'])?$inputData['body']:$mailData['body'];
+
+         $mailData['replyTo']=isset($mailData['replyTo'])?$mailData['replyTo']:$mailData['fromEmail'];
+         
+         $mailData['replyTo']=isset($inputData['replyTo'])?$inputData['replyTo']:$mailData['replyTo'];
+
+         $mailData['replyName']=isset($mailData['replyName'])?$mailData['replyName']:$mailData['fromName'];
+
+         $mailData['replyName']=isset($inputData['replyName'])?$inputData['replyName']:$mailData['replyName'];
+
+         $mailData['bccTo']=isset($mailData['bccTo'])?$mailData['bccTo']:'';
+
+         $mailData['bccTo']=isset($inputData['bccTo'])?$inputData['bccTo']:$mailData['bccTo'];
+
+         $mailData['ccTo']=isset($mailData['ccTo'])?$mailData['ccTo']:'';
+
+         $mailData['ccTo']=isset($inputData['ccTo'])?$inputData['ccTo']:$mailData['ccTo'];
+
+         if(is_array($mailData['ccTo']))
+         {
+            $total=count($mailData['ccTo']);
+
+            for ($i=0; $i < $total; $i++) { 
+                $row=$mailData['ccTo'][$i];
+
+                if(isset($row[4]))
+                $mail->addCC($row);
             }
-            else
-            {
-                $is_smtp=1;
+         }
+
+         if(is_array($mailData['bccTo']))
+         {
+            $total=count($mailData['bccTo']);
+
+            for ($i=0; $i < $total; $i++) { 
+                $row=$mailData['bccTo'][$i];
+
+                if(isset($row[4]))
+                $mail->addBCC($row);
             }
-            
-        }
- 
-        $mailConfig['smtpUser']=isset($mailConfig['smtpUser'])?$mailConfig['smtpUser']:$mailData['smtpUser'];
-
-        $mailConfig['smtpPass']=isset($mailConfig['smtpPass'])?$mailConfig['smtpPass']:$mailData['smtpPass'];
-
-        $mailConfig['smtpAddress']=isset($mailConfig['smtpAddress'])?$mailConfig['smtpAddress']:$mailData['smtpAddress'];
-
-        $mailConfig['smtpPort']=isset($mailConfig['smtpPort'])?$mailConfig['smtpPort']:$mailData['smtpPort'];
-
-        $mailConfig['smtpSecure']=!isset($mailConfig['smtpSecure'])?'ssl':$mailConfig['smtpSecure'];
-
-        $mailConfig['smtpSecure']=isset($mailConfig['smtpSecure'])?$mailConfig['smtpSecure']:$mailData['smtpSecure'];
-
-        $mailConfig['fromEmail']=isset($mailConfig['fromEmail'])?$mailConfig['fromEmail']:$mailData['fromEmail'];
-
-        $mailConfig['fromName']=isset($mailConfig['fromName'])?$mailConfig['fromName']:$mailData['fromName'];
-
-        $mailConfig['toEmail']=isset($mailConfig['toEmail'])?$mailConfig['toEmail']:$mailData['toEmail'];
-
-        if((int)$is_smtp==1 && !isset($mailConfig['smtpAddress']))
-        {
-            $mailConfig['smtpAddress']=$mailData['smtpAddress'];
-
-            $mailConfig['smtpUser']=$mailData['smtpUser'];
-
-            $mailConfig['smtpPass']=$mailData['smtpPass'];
-
-            $mailConfig['smtpPort']=$mailData['smtpPort'];
-        }
+         }
 
         if(!class_exists('PHPMailer'))
         {
@@ -178,73 +193,61 @@ class Mail
 
         $mail = new PHPMailer;
 
-        // $mail->SMTPDebug = 3;                               // Enable verbose debug output
 
-
-        $mailConfig['smtpSecure']=isset($mailConfig['smtpSecure'])?$mailConfig['smtpSecure']:'ssl';
-
-        $mailConfig['smtpPort']=isset($mailConfig['smtpPort'])?$mailConfig['smtpPort']:465;
-
-        $mailConfig['fromEmail']=isset($mailConfig['fromEmail'])?$mailConfig['fromEmail']:$mailConfig['smtpUser'];
-
-        $mailConfig['fromName']=isset($mailConfig['fromName'])?$mailConfig['fromName']:$mailConfig['smtpUser'];
-
-
-
-        if(is_array($mailConfig['toEmail']))
+        if(is_array($mailData['toEmail']))
         {
-            $mailConfig['toEmail']="'".implode("','", $mailConfig['toEmail'])."'";
+            $mailData['toEmail']="'".implode("','", $mailData['toEmail'])."'";
         }
 
         $mail->CharSet = 'UTF-8';
 
-        if((int)$is_smtp==1)
+        $mailData['send_method']=trim($mailData['send_method']);
+
+        if($mailData['send_method']!='local')
         {
             $mail->isSMTP(); // Set mailer to use SMTP
+            $mail->SMTPAuth = true; // Enable SMTP authentication 
+            $mail->Host = $mailData['smtpAddress']; // Specify main and backup SMTP servers
+            $mail->Username = $mailData['smtpUser']; // SMTP username
+            $mail->Password = $mailData['smtpPass']; // SMTP password
+            $mail->SMTPSecure = $mailData['smtpSecure'];  // Enable TLS encryption, `ssl` also accepted
+            $mail->Port = $mailData['smtpPort']; // TCP port to connect to
         }
 
        
-        $mail->Host = $mailConfig['smtpAddress']; // Specify main and backup SMTP servers
-        $mail->SMTPAuth = true; // Enable SMTP authentication
-        $mail->Username = $mailConfig['smtpUser']; // SMTP username
-        $mail->Password = $mailConfig['smtpPass']; // SMTP password
-        $mail->SMTPSecure = $mailConfig['smtpSecure'];  // Enable TLS encryption, `ssl` also accepted
-        $mail->Port = $mailConfig['smtpPort']; // TCP port to connect to
-
-        $mail->From =  $mailConfig['fromEmail'];
-        $mail->FromName = $mailConfig['fromName'];
-        $mail->addAddress($mailConfig['toEmail']);               // Name is optional
-        $mail->addReplyTo($mailConfig['smtpUser'],  $mailConfig['fromName']);
+        $mail->From =  $mailData['fromEmail'];
+        $mail->FromName = $mailData['fromName'];
+        $mail->addAddress($mailData['toEmail']);               // Name is optional
+        $mail->addReplyTo($mailData['smtpUser'],  $mailData['fromName']);
 
         // $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
         // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
 
         $mail->isHTML(true);                                  // Set email format to HTML
 
-        $mail->Subject = $mailConfig['subject'];
-        $mail->Body    = $mailConfig['body'];
+        $mail->Subject = $mailData['subject'];
+        $mail->Body    = $mailData['body'];
 
 
-        if(isset($mailConfig['files']))
+        if(isset($mailData['files']))
         {
-            if(!is_array($mailConfig['files']) && preg_match('/.*?\.\w+/i', $mailConfig['files']))
+            if(!is_array($mailData['files']) && preg_match('/.*?\.\w+/i', $mailData['files']))
             {
-                $mail->addAttachment($mailConfig['files']);
+                $mail->addAttachment($mailData['files']);
             }
             else
             {
-                $totalfiles=count($mailConfig['files']);
+                $totalfiles=count($mailData['files']);
 
                 for ($i=0; $i < $totalfiles; $i++) { 
-                    $mail->addAttachment($mailConfig['files'][$i]);
+                    $mail->addAttachment($mailData['files'][$i]);
                 }
             }
         }
 
         if(!$mail->send()) {
             throw new Exception("Message could not be sent: ".$mail->ErrorInfo);
-        } 
-
+        }        
     }
 
 
