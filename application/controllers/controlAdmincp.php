@@ -12,15 +12,18 @@ class controlAdmincp
 
 		if(Cookie::has('userid'))
 		{
+			$groupid=Users::getCookieGroupId();
 
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_view_admincp');
-
-			if($valid!='yes')
+			if((int)$groupid > 0)
 			{
-				Alert::make('You not have permission to view this page');
+				$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_view_admincp');
+
+				if($valid!='yes')
+				{
+					Alert::make('You not have permission to view this page');
+				}				
 			}
 
-			
 
 			// Auto load global data
 
