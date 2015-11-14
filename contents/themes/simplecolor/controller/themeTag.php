@@ -28,8 +28,8 @@ class themeTag
 		$loadData=Post::get(array(
 			'limitShow'=>10,
 			'limitPage'=>$curPage,
-			'cacheTime'=>30,
-			'where'=>"where postid IN (select postid from post_tags where title='$friendly_url')",
+			'cacheTime'=>230,
+			'where'=>"where postid IN (select postid from ".Database::getPrefix()."post_tags where title='$friendly_url')",
 			'orderby'=>"order by postid desc"
 			));
 		if(!isset($loadData[0]['postid']))

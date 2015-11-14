@@ -46,7 +46,7 @@ if($loadData=Cache::loadKey('dbcache/'.Database::getPrefix().'simplecolor',-1))
 
 $links=Links::get(array(
 	'cache'=>'yes',
-	'cacheTime'=>30,
+	'cacheTime'=>130,
 	'orderby'=>'order by sort_order asc'
 	));
 

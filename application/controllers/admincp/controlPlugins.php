@@ -323,6 +323,11 @@ class controlPlugins
 		Database::query("update ".Database::getPrefix()."plugins_meta set status='1' where foldername='$foldername'");
 
 		PluginsZone::saveCache();
+
+		if(file_exists(ROOT_PATH.'contents/plugins/'.$foldername.'/install/update.php'))
+		{
+			include(ROOT_PATH.'contents/plugins/'.$foldername.'/install/update.php');
+		}
 		
 		Redirect::to(System::getAdminUrl().'plugins');
 	}

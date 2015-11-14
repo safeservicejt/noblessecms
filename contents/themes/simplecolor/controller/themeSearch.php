@@ -29,7 +29,7 @@ class themeSearch
 		$loadData=Post::get(array(
 			'limitShow'=>10,
 			'limitPage'=>$curPage,
-			'cacheTime'=>30,
+			'cacheTime'=>230,
 			'where'=>"where title LIKE '%$txtKeywords%'",
 			'orderby'=>"order by postid desc"
 			));

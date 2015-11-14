@@ -28,9 +28,9 @@ class themeCategory
 		$loadData=Post::get(array(
 			'limitShow'=>10,
 			'limitPage'=>$curPage,
-			'cache'=>'no',
-			'cacheTime'=>30,
-			'query'=>"select p.*,c.title as cattitle from post p left join categories c ON c.friendly_url='$friendly_url' where p.catid=c.catid group by p.postid order by p.postid desc"
+			'cache'=>'yes',
+			'cacheTime'=>230,
+			'query'=>"select p.*,c.title as cattitle from ".Database::getPrefix()."post p left join ".Database::getPrefix()."categories c ON c.friendly_url='$friendly_url' where p.catid=c.catid group by p.postid order by p.postid desc"
 			));
 
 		if(!isset($loadData[0]['postid']))

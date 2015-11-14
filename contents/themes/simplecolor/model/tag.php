@@ -41,7 +41,7 @@ function searchResult()
 	// $listID=substr($listID, 0, strlen($listID)-2);
 
 	$loadData=Post::get(array(
-		'where'=>"where postid IN (select postid from post_tags where title='$keywords')",
+		'where'=>"where postid IN (select postid from ".Database::getPrefix()."post_tags where title='$keywords')",
 		'orderby'=>"group by postid order by date_added"
 		));
 

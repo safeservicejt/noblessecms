@@ -22,7 +22,7 @@ class themeHome
 		$inputData['newPost']=Post::get(array(
 			'isHook'=>'yes',
 			'cache'=>'yes',
-			'cacheTime'=>30,
+			'cacheTime'=>180,
 			'limitShow'=>10,
 			'limitPage'=>$curPage
 			));

@@ -63,7 +63,7 @@ class controlSetting
 	}
 	public function update()
 	{
-		$post=array('alert'=>'');
+		$post=array('alert'=>'','alertManual'=>'');
 
 		if(Request::has('btnStart'))
 		{
@@ -71,6 +71,14 @@ class controlSetting
 			Update::make();
 			
 			$post['alert']='<div class="alert alert-success">Update system success.</div>';
+		}
+
+		if(Request::has('btnUpload'))
+		{
+			// System::saveMailSetting(Request::get('mail'));
+			Update::fromUpload();
+			
+			$post['alertManual']='<div class="alert alert-success">Update system success.</div>';
 		}
 
 

@@ -1,6 +1,6 @@
 
 <!-- right -->
-<div class="col-lg-4">
+<div class="col-lg-4 col-md-4 col-sm-4 ">
 <div class="well well-modern">
 <?php if(isset($themeSetting['site_right_top_content']))echo $themeSetting['site_right_top_content'];?>
 

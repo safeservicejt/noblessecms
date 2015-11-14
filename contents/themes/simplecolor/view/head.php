@@ -70,21 +70,34 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
      
       <ul class="nav navbar-nav navbar-right">
-        <?php
 
+        <?php
+        
         $total=count($linkList);
 
-        $li='';
-
-        if(isset($linkList[0]['id']))
-        {
-          for ($i=0; $i < $total; $i++) { 
-            $li.='<li><a href="'.$linkList[$i]['urlFormat'].'">'.$linkList[$i]['title'].'</a></li>';
+        for ($i=0; $i < $total; $i++) { 
+          if(!isset($linkList[$i]))
+          {
+            continue;
           }
-        }
 
-        echo $li;
         ?>
+          <?php if(!isset($linkList[$i]['child'])){ ?>
+          <li><a href="<?php echo $linkList[$i]['url'];?>"><?php echo $linkList[$i]['title'];?></a></li>
+          <?php }else{ ?>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $linkList[$i]['title'];?> <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <?php
+              $totalChild=count($linkList[$i]['child']);
+              for ($j=0; $j < $totalChild; $j++) { 
+              ?>
+              <li><a href="<?php echo $linkList[$i]['child'][$j]['url'];?>"><?php echo $linkList[$i]['child'][$j]['title'];?></a></li>
+              <?php } ?>
+            </ul>
+          </li>            
+          <?php } ?>
+        <?php } ?>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div>

@@ -12,7 +12,7 @@
 
 <div class="row">
 <!-- left -->
-<div class="col-lg-8">
+<div class="col-lg-8 col-md-8 col-sm-8 ">
 <?php if(isset($themeSetting['site_top_content']))echo $themeSetting['site_top_content'];?>
 
 <?php

@@ -8,7 +8,7 @@
       </div>
       <div class="panel-body bodyMenu">
         <ul class="themeMenu">
-          <li><a href="<?php echo ADMINCP_URL;?>theme/setting/simplecolor">General</a></li>
+          <li><a href="<?php echo System::getUrl();?>admincp/theme/setting/simplecolor">General</a></li>
 
         </ul>
       </div>
