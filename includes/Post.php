@@ -93,7 +93,15 @@ class Post
 
 				if(isset($row['image']) && preg_match('/.*?\.(gif|png|jpe?g)/i', $row['image']))
 				{
-					$row['imageUrl']=System::getUrl().$row['image'];
+					if(!preg_match('/^http/i', $row['image']))
+					{
+						$row['imageUrl']=System::getUrl().$row['image'];
+					}
+					else
+					{
+						$row['imageUrl']=$row['image'];
+					}
+					
 				}
 
 				if(isset($row['content']))
