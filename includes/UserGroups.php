@@ -177,6 +177,8 @@ class UserGroups
 			$loadData[0]['groupdata']=unserialize(self::lineToArray($loadData[0]['groupdata']));
 
 			self::$groupData=$loadData[0];
+
+			self::saveCache();
 		}
 		else
 		{
@@ -634,7 +636,9 @@ class UserGroups
 
 		}
 
-		$loadData=self::get();
+		$loadData=self::get(array(
+			'cache'=>'no'
+			));
 
 		$total=count($loadData);
 

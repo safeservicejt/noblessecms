@@ -642,6 +642,11 @@ class Shortcode
 
 	public static function toBBCode($str)
 	{
+		if(!is_string($str))
+		{
+			return false;
+		}
+		
 		$str=trim($str);
 
 		$tmp=explode("\r\n", $str);
