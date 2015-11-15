@@ -59,7 +59,7 @@
 	    							<td class="col-lg-1">
 	    								<input type="checkbox" id="cboxID" name="id[]" value="'.$theList[$i]['catid'].'" />
 	    							</td>
-	    							<td class="col-lg-9">'.$theList[$i]['title'].'</td>
+	    							<td class="col-lg-9"><a href="'.$theList[$i]['url'].'" target="_blank">'.$theList[$i]['title'].'</a></td>
 	    							<td class="col-lg-2 text-right">'.$theList[$i]['sort_order'].'</td>
 	    							<td class="col-lg-2 text-right">
 	    							<a href="'.System::getAdminUrl().'categories/edit/'.$theList[$i]['catid'].'" class="btn btn-warning btn-xs">Edit</a>
