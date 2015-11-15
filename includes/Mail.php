@@ -131,6 +131,8 @@ class Mail
 
          $mailData['smtpPort']=isset($inputData['smtpPort'])?$inputData['smtpPort']:$mailData['smtpPort'];
 
+         $mailData['smtpSecure']=isset($mailData['smtpSecure'])?$mailData['smtpSecure']:'ssl';
+
          $mailData['smtpSecure']=isset($inputData['smtpSecure'])?$inputData['smtpSecure']:$mailData['smtpSecure'];
 
          $mailData['smtpAddress']=isset($inputData['smtpAddress'])?$inputData['smtpAddress']:$mailData['smtpAddress'];
@@ -198,6 +200,7 @@ class Mail
         {
             $mailData['toEmail']="'".implode("','", $mailData['toEmail'])."'";
         }
+
 
         $mail->CharSet = 'UTF-8';
 
