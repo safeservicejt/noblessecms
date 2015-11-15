@@ -240,7 +240,7 @@ class Pages
 
 		Database::query("insert into ".Database::getPrefix()."pages($insertKeys) values".$addMultiAgrs);
 
-		DBCache::removeDir('system/page');
+		// DBCache::removeDir('system/page');
 
 		if(!$error=Database::hasError())
 		{

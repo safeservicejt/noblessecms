@@ -41,6 +41,7 @@ class PluginsApi
 
 		try {
 			$result=SelfApi::$func();
+
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}

@@ -18,7 +18,7 @@ class PluginStoreApi
 
 	public static function get($inputData=array())
 	{
-		$server_url=SERVER_URL.'api/pluginstore/get';
+		$server_url=SERVER_URL.'api/plugin/noblessestore/get_list';
 
 		$loadData=Http::sendPostTo($server_url,$inputData);
 
@@ -68,7 +68,7 @@ class PluginStoreApi
 			  <div class="col-lg-6 plugin-store-item">
 			    <div class="row">
 			      <div class="col-lg-12">
-			        <a href="df" target="_blank"><img src="'.$inputData[$i]['previewUrl'].'" class="img-responsive"></a>
+			        <a href="'.$inputData[$i]['url'].'" target="_blank"><img src="'.$inputData[$i]['previewUrl'].'" class="img-responsive"></a>
 			      </div>
 			      <div class="col-lg-12">
 			        <div class="well">

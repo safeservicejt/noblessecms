@@ -125,7 +125,7 @@ class Widgets
 
 	public static function cachePath()
 	{
-		$result=ROOT_PATH.'application/caches/'.Database::getPrefix().'widgets.cache';
+		$result=ROOT_PATH.'application/caches/widgets/'.Database::getPrefix().'widgets.cache';
 
 		return $result;
 	}
@@ -168,6 +168,90 @@ class Widgets
 			}
 		}
 	}
+
+	public static function zonePath()
+	{
+		$result=ROOT_PATH.'application/caches/widgets/'.Database::getPrefix().'widgets.cache';
+
+		return $result;
+	}
+
+	public static function addZone($zonename='')
+	{
+		if(!isset($zonename[1]))
+		{
+			return false;
+		}
+
+		$zonePath=self::zonePath();
+
+		$result=array();
+
+		if(file_exists($zonePath))
+		{
+			$result=unserialize(file_get_contents($zonePath));
+		}
+
+		$result[]=$zonename;
+
+		$result=array_unique($result);
+
+		File::create($zonePath,serialize($result));
+	}
+
+
+
+	public static function getZoneList()
+	{
+		$listZone=array(
+			'content_top','content_bottom','content_left','content_bottom'
+			);
+
+		$zonePath=self::zonePath();
+
+		$result=array();
+
+		if(file_exists($zonePath))
+		{
+			$result=unserialize(file_get_contents($zonePath));
+		}
+
+		$result=array_merge($listZone);
+
+		$result=array_unique($result);		
+
+		return $result;
+	}
+
+	public static function removeFromZone($inputData=array())
+	{
+		$method=isset($inputData['method'])?$inputData['method']:'path';
+
+		$addWhere='';
+
+		switch ($method) {
+			case 'path':
+				$addWhere="where path LIKE '%".$inputData['path']."%'";
+				break;
+			case 'func':
+				$addWhere="where func='".$inputData['func']."'";
+				break;
+			case 'class':
+				$addWhere="where class='".$inputData['class']."'";
+				break;
+			case 'method':
+				$addWhere="where method='".$inputData['method']."'";
+				break;
+			case 'zonename':
+				$addWhere="where zonename='".$inputData['zonename']."'";
+				break;
+			
+		}
+
+		self::remove(array(1),$addWhere);
+	}
+
+
 
 	public static function insert($inputData=array())
 	{

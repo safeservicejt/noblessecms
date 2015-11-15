@@ -347,6 +347,8 @@ class Theme
 								
 				include($oldPath.'deactivate.php');
 
+				Plugins::makeUninstall($oldthemeName,'yes');				
+
 
 			}
 		}

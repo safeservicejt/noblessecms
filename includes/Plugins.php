@@ -12,6 +12,22 @@ class Plugins
 	- layoutname
 	- layoutposition
 	- content
+
+	For theme add plugin into system
+
+	- Config same when create plugin and create plugins.php in root theme folder.
+
+	Example:
+
+    Plugins::add('admincp_header','scriptforest_js_menu','theme');
+
+	File: plugins.php 
+
+	function scriptforest_js_menu()
+	{
+		
+	}
+
 	*/
 
 	public static $listCaches=array('loaded'=>'no');
@@ -350,6 +366,11 @@ class Plugins
 			$pluginInfo=file($path.'info.txt');
 
 
+			if(file_exists($path.'disallow.txt'))
+			{
+				continue;
+			}
+
 			if(file_exists($path.'setting.php'))
 			{
 				$isSetting=1;
@@ -382,7 +403,7 @@ class Plugins
 		return self::$error;
 	}
 
-	public static function add($zoneName,$funcName)
+	public static function add($zoneName,$funcName,$add_type='plugin')
 	{
 		$inputData=array();
 
@@ -411,6 +432,9 @@ class Plugins
 
 		$inputData['func']=$funcName;
 
+		$inputData['type']=$add_type;
+
+
 		if(!PluginsMeta::insert($inputData))
 		{
 			self::writeError("Error. ".Database::$error);
@@ -420,6 +444,11 @@ class Plugins
 
 	
 		PluginsZone::addPlugin($inputData['zonename'],$inputData);
+
+		if($add_type=='theme')
+		{
+			self::activate($foldername);
+		}
 	}
 
 	public static function activate($foldername='')
@@ -487,7 +516,16 @@ class Plugins
 
 			$theZone=$zoneList[$i];
 
-			$zonePath=PLUGINS_PATH.$theZone['foldername'].'/';
+			if($theZone['type']!='theme')
+			{
+				$zonePath=PLUGINS_PATH.$theZone['foldername'].'/';
+
+			}
+			else
+			{
+				$zonePath=THEMES_PATH.$theZone['foldername'].'/';
+
+			}
 
 			self::$renderFolderName=$theZone['foldername'];
 
@@ -498,7 +536,16 @@ class Plugins
 				continue;
 			}
 
-			$zonePath.='index.php';
+			if($theZone['type']!='theme')
+			{
+				$zonePath.='index.php';
+			}
+			else
+			{
+				$zonePath.='plugins.php';
+
+			}
+			
 
 			if(!file_exists($zonePath))
 			{
@@ -662,7 +709,7 @@ class Plugins
 		self::$installFolderName=$foldername;
 	}
 
-	public static function makeUninstall($foldername)
+	public static function makeUninstall($foldername,$isTheme='no')
 	{
 		self::$canInstall='no';
 
@@ -676,9 +723,16 @@ class Plugins
 
 		self::$uninstallFolderName=$foldername;
 
-		Database::query("delete from ".Database::getPrefix()."plugins where foldername='$foldername'");		
+		$addWhere='';
 
-		Database::query("delete from ".Database::getPrefix()."plugins_meta where foldername='$foldername'");	
+		if($isTheme=='yes')
+		{
+			$addWhere=" AND type='theme'";
+		}
+
+		Database::query("delete from ".Database::getPrefix()."plugins where foldername='$foldername' $addWhere");		
+
+		Database::query("delete from ".Database::getPrefix()."plugins_meta where foldername='$foldername' $addWhere");	
 
 		PluginsZone::removeCache($foldername);	
 

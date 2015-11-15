@@ -133,6 +133,11 @@ class CustomPlugins
 		{
 			return false;
 		}
+
+		if(preg_match('/\w+\/\w+/', $foldername))
+		{
+			$foldername=str_replace('/', '\/', $foldername);
+		}
 		
 		if(isset(self::$listCaches['loaded']))
 		{
