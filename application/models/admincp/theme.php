@@ -20,30 +20,42 @@ function importProcess()
 
 		$targetPath.=$shortPath;
 
-		File::move($sourcePath,$targetPath);
-
-		// $sourcePath=dirname($sourcePath);
-
-		// rmdir($sourcePath);
-
 		File::unzipModule($targetPath,'yes');
 
-		$installFile=ROOT_PATH.$shortPath.'/update.sql';
-
-		if(file_exists($installFile))
+		if(!file_exists($targetPath.'/thumb.jpg'))
 		{
-			Database::import($installFile);
+			// $listDir=Dir::listDir($targetPath);
+			copyNested($targetPath.'/');
 		}
-		
-		$installFile=ROOT_PATH.$shortPath.'/install/update.sql';
-
-		if(file_exists($installFile))
+		else
 		{
-			Database::import($installFile);
+			Dir::copy($targetPath,ROOT_PATH.'uploads/tmp/'.$shortPath);
 		}
-
 	}
+
+
 	
+}
+
+function copyNested($targetPath='')
+{
+	$listDir=Dir::listDir($targetPath);
+
+	$totalDir=count($listDir);
+
+	if((int)$totalDir > 0)
+	for ($i=0; $i < $totalDir; $i++) { 
+		$theDir=$targetPath.$listDir[$i].'/';
+
+		if(!file_exists($theDir.'thumb.jpg'))
+		{
+			copyNested($theDir);
+			continue;
+		}
+
+		Dir::copy($theDir,ROOT_PATH.'uploads/tmp/contents/themes/'.$listDir[$i].'/');
+	}
+
 }
 
 ?>

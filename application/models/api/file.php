@@ -20,44 +20,50 @@ function loadApi($action)
 				throw new Exception('File '.$fileName.' not exists.');
 			}
 
-			$targetPath='';
+			$targetPath=ROOT_PATH.'uploads/themes/';
 
-			$sourcePath=$filePath;
-
-			$shortPath='contents/themes/'.$fileName;
-
-			$targetPath.=$shortPath;
-
-			File::move($sourcePath,$targetPath);
-
-			// $sourcePath=dirname($sourcePath);
-
-			// rmdir($sourcePath);
-
-			File::unzipModule($targetPath,'yes');
-
-			$installFile=ROOT_PATH.$shortPath.'/update.sql';
-
-			if(file_exists($installFile))
+			if(!is_dir($targetPath))
 			{
-				Database::import($installFile);
-			}			
+				Dir::create($targetPath);
+			}
 
-			$installFile=ROOT_PATH.$shortPath.'/install/update.sql';
+			preg_match('/^(.*?)\.\w+$/i', basename($_REQUEST['send_filename']),$match);
 
-			if(file_exists($installFile))
+			$theName=$match[1];
+
+			File::move($filePath,$targetPath.basename($_REQUEST['send_filename']));
+
+			File::unzipModule($targetPath.basename($_REQUEST['send_filename']),'yes');
+
+			// throw new Exception($targetPath.$theName.'/info.txt');
+			
+
+			if(!file_exists($targetPath.$theName.'/info.txt'))
 			{
-				Database::import($installFile);
-			}		
-
-			$installFile=ROOT_PATH.$shortPath.'/install/code_update.php';
-
-			if(file_exists($installFile))
+				// $listDir=Dir::listDir($targetPath);
+				copyNested($targetPath.$theName.'/');
+			}
+			else
 			{
-				include($installFile);
-			}			
+				Dir::create(ROOT_PATH.'contents/themes/'.$theName);
+
+				Dir::copy($targetPath.$theName.'/',ROOT_PATH.'contents/themes/'.$theName);
+
+				if(file_exists(ROOT_PATH.'contents/themes/'.$theName.'/install/update.sql'))
+				{
+					Database::import(ROOT_PATH.'contents/themes/'.$theName.'/install/update.sql');
+				}
+
+				if(file_exists(ROOT_PATH.'contents/themes/'.$theName.'/install/update.php'))
+				{
+					include(ROOT_PATH.'contents/themes/'.$theName.'/install/update.php');
+				}
+
+			}
 
 			File::cleanTmpFiles(ROOT_PATH.'bootstrap/jsupload/php/files/');
+
+			Dir::remove(ROOT_PATH.'uploads/themes');
 
 			break;
 
@@ -77,48 +83,88 @@ function loadApi($action)
 				throw new Exception('File '.$fileName.' not exists.');
 			}
 
-			$targetPath='';
+			$targetPath=ROOT_PATH.'uploads/plugins/';
 
-			$sourcePath=$filePath;
-
-			$shortPath='contents/plugins/'.$fileName;
-
-			$targetPath.=$shortPath;
-
-			File::move($sourcePath,$targetPath);
-
-			// $sourcePath=dirname($sourcePath);
-
-			// rmdir($sourcePath);
-
-			File::unzipModule($targetPath,'yes');
-
-			$installFile=ROOT_PATH.$shortPath.'/update.sql';
-
-			if(file_exists($installFile))
+			if(!is_dir($targetPath))
 			{
-				Database::import($installFile);
-			}			
+				Dir::create($targetPath);
+			}
 
-			$installFile=ROOT_PATH.$shortPath.'/install/update.sql';
+			preg_match('/^(.*?)\.\w+$/i', basename($_REQUEST['send_filename']),$match);
 
-			if(file_exists($installFile))
+			$theName=$match[1];
+
+			File::move($filePath,$targetPath.basename($_REQUEST['send_filename']));
+
+			File::unzipModule($targetPath.basename($_REQUEST['send_filename']),'yes');
+
+			// throw new Exception($targetPath.$theName.'/info.txt');
+			
+
+			if(!file_exists($targetPath.$theName.'/info.txt'))
 			{
-				Database::import($installFile);
-			}		
-
-			$installFile=ROOT_PATH.$shortPath.'/install/code_update.php';
-
-			if(file_exists($installFile))
+				// $listDir=Dir::listDir($targetPath);
+				copyNested($targetPath.$theName.'/','plugins');
+			}
+			else
 			{
-				include($installFile);
-			}			
+				Dir::create(ROOT_PATH.'contents/plugins/'.$theName);
+
+				Dir::copy($targetPath.$theName.'/',ROOT_PATH.'contents/plugins/'.$theName);
+
+				if(file_exists(ROOT_PATH.'contents/plugins/'.$theName.'/install/update.sql'))
+				{
+					Database::import(ROOT_PATH.'contents/plugins/'.$theName.'/install/update.sql');
+				}
+
+				if(file_exists(ROOT_PATH.'contents/plugins/'.$theName.'/install/update.php'))
+				{
+					include(ROOT_PATH.'contents/plugins/'.$theName.'/install/update.php');
+				}
+
+			}
 
 			File::cleanTmpFiles(ROOT_PATH.'bootstrap/jsupload/php/files/');
+
+			Dir::remove(ROOT_PATH.'uploads/plugins');
 
 			break;
 
 	}	
+}
+
+function copyNested($targetPath='',$type='themes')
+{
+	$listDir=Dir::listDir($targetPath);
+
+	$totalDir=count($listDir);
+
+	if((int)$totalDir > 0)
+	for ($i=0; $i < $totalDir; $i++) { 
+		$theDir=$targetPath.$listDir[$i].'/';
+
+		if(!file_exists($theDir.'info.txt'))
+		{
+			copyNested($theDir);
+			continue;
+		}
+
+		Dir::create(ROOT_PATH.'contents/'.$type.'/'.$listDir[$i]);
+
+		Dir::copy($theDir,ROOT_PATH.'contents/'.$type.'/'.$listDir[$i]);
+
+		if(file_exists(ROOT_PATH.'contents/'.$type.'/'.$theName.'/install/update.sql'))
+		{
+			Database::import(ROOT_PATH.'contents/'.$type.'/'.$theName.'/install/update.sql');
+		}
+		
+		if(file_exists(ROOT_PATH.'contents/'.$type.'/'.$theName.'/install/update.php'))
+		{
+			include(ROOT_PATH.'contents/'.$type.'/'.$theName.'/install/update.php');
+		}
+	
+	}
+
 }
 
 ?>
