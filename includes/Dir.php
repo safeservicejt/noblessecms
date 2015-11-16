@@ -190,7 +190,7 @@ class Dir
 
             for($i=0;$i<$total;$i++)
             {
-                if(preg_match('/^[a-zA-Z0-9_\s]+$/i', $files[$i]))
+                if(preg_match('/^[a-zA-Z0-9_\-\_\s]+$/i', $files[$i]))
                 {
                     $dir[]= $files[$i];
                 }

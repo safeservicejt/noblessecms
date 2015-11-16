@@ -5,7 +5,7 @@ class Captcha
 
 //    private $thisHash = '';
 
-    public static function make($is_text = 'no')
+    public static function make($is_text = 'no',$totalChar=6)
     {
         global $uri;
 
@@ -23,7 +23,7 @@ class Captcha
 
         imagefill($main_img, 0, 0, $bg_color);
 
-        $captcha_str = String::randNumber(6);
+        $captcha_str = String::randNumber($totalChar);
  
         // $captcha_str = $db1[0] . ' ' . $db2[0];
 
@@ -91,12 +91,16 @@ class Captcha
 
 //        self::$thisHash=$hash;
 
-        if(!isset($_SESSION['captcha']))
+        $loadData=array();
+
+        if(isset($_COOKIE['captcha']))
         {
-            $_SESSION['captcha']=array();
+            $loadData=unserialize($_COOKIE['captcha']);
         }
         
-        $_SESSION['captcha'][$hash] = 'OK';
+        $loadData[$hash] = 'OK';
+
+        Cookie::make('captcha',serialize($loadData),1440);
         
 
 //        End create session
@@ -127,35 +131,40 @@ class Captcha
 
     public static function verify($inputName = 'captcha_verify')
     {
-        if(!isset($_SESSION['captcha']))
+        if(!isset($_COOKIE['captcha']))
         {
             return true;
         }
+
+        $loadData=unserialize($_COOKIE['captcha']);
         
         // print_r($_SESSION['captcha']);die();
         if (isset($_REQUEST[$inputName])) {
 
             $text = md5($_REQUEST[$inputName]);
 
-            if(!isset($_SESSION['captcha'][$text]))
+            if(!isset($loadData[$text]))
             {
                 return false;
             }
 
-            $verifyStatus = ($_SESSION['captcha'][$text] == 'OK') ? true : false;
+            $verifyStatus = ($loadData[$text] == 'OK') ? true : false;
 
             if($verifyStatus)
             {
                 // $_SESSION['captcha'][$text]='';
 
-                unset($_SESSION['captcha'][$text]);
+                unset($loadData[$text]);
+
+                Cookie::make('captcha',serialize($loadData),1440);
+
             }
 
             return $verifyStatus;
         }
     }
 
-    public static function makeForm()
+    public static function makeForm($totalChar=6)
     {
 
         $dataForm = '
@@ -163,7 +172,7 @@ class Captcha
         style="margin:0px;padding:0px;min-width: 280px;min-height:140px;max-width: 280px;max-height:140px;background-color: #2885BF;color:#ffffff;border-radius: 3px;padding:3px;">
 
         <div style="margin:0px;padding:0px;float:left;width:100%;min-height:78px;max-height:78px;background-color: #ffffff;border-radius: 3px;">
-            <img src="' . Captcha::make('yes') . '" border="0" style="margin:0px;padding:0px;" />
+            <img src="' . Captcha::make('yes',$totalChar) . '" border="0" style="margin:0px;padding:0px;" />
         </div>
         <div style="margin:0px;padding:0px;float:left;width:100%;min-height:72px;max-height:72px;margin-top:0px; ">
             <div style="margin:0px;padding:0px;float:left;width:150px;min-height:52px;max-height:52px;background-color: #629C24;border-radius: 3px;margin-top:5px; ">
