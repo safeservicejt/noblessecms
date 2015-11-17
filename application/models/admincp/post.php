@@ -23,12 +23,19 @@ function actionProcess()
 			PostTags::remove($id," postid IN ($listID) ");
 
 			break;
+
 		case 'deleteall':
 		
 			Post::remove(0," postid > '0' ");
 
-			PostTags::remove($id," postid > '0' ");
+			PostTags::remove(0," postid > '0' ");
 
+			break;
+
+		case 'release':
+			Post::update($id,array(
+				'date_added'=>date('Y-m-d H:i:s')
+				));
 			break;
 
 		case 'publish':
@@ -37,11 +44,13 @@ function actionProcess()
 				'status'=>1
 				));
 			break;
+
 		case 'unpublish':
 			Post::update($id,array(
 				'status'=>0
 				));
 			break;
+
 		case 'featured':
 		$today=date('Y-m-d h:i:s');
 			Post::update($id,array(
@@ -49,20 +58,24 @@ function actionProcess()
 				'date_featured'=>$today
 				));
 			break;
+
 		case 'unfeatured':
 			Post::update($id,array(
 				'is_featured'=>0
 				));
 			break;
+
 		case 'allowcomment':
 			Post::update($id,array(
 				'allowcomment'=>1
 				));
 			break;
+
 		case 'unallowcomment':
 			Post::update($id,array(
 				'allowcomment'=>0
 				));
+			
 		case 'ishomepage':
 
 			$postid=$id[0];
