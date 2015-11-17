@@ -459,15 +459,16 @@ class Post
 		$loadData=self::get(array(
 			'cache'=>'no',
 			'isHook'=>'no',
+			'selectFields'=>'postid',
 			'where'=>"where  $whereQuery $addWhere"
 			));
 
-		if(isset($loadData[0]['id']))
+		if(isset($loadData[0]['postid']))
 		{
 			$total=count($loadData);
 
 			for ($i=0; $i < $total; $i++) { 
-				$result=$loadData[$i]['id'];
+				$result=$loadData[$i]['postid'];
 			}
 
 			$listID="'".implode("','",$result)."'";
