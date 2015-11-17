@@ -385,12 +385,17 @@ class File
             return false;
         }
 
+        $shortPath.=Http::get('host').'/';
+
         $newName=String::randNumber(10);
 
 
         $shortPath.=$newName;
 
-        mkdir(ROOT_PATH.$shortPath);
+        if(!is_dir($shortPath))
+        {
+            Dir::create(ROOT_PATH.$shortPath);
+        }
 
         $shortPath.='/'.$name;
 
@@ -411,6 +416,13 @@ class File
         if(!preg_match('/^.*?\.\w+$/i', $name))
         {
             return false;
+        }
+
+        $shortPath.=Http::get('host').'/';
+
+        if(!is_dir($shortPath))
+        {
+            Dir::create(ROOT_PATH.$shortPath);
         }
 
         $total=count($_FILES[$keyName]['name']);
@@ -453,6 +465,13 @@ class File
         if(!preg_match('/^http.*?\.(\w+)/i', $imgUrl,$match))
         {
             return false;
+        }
+
+        $shortPath.=Http::get('host').'/';
+
+        if(!is_dir($shortPath))
+        {
+            Dir::create(ROOT_PATH.$shortPath);
         }
 
         $newName=String::randNumber(10);

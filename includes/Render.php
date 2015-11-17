@@ -35,7 +35,6 @@ class Render
 	{
        $menu=Plugins::load($zoneName);
 
-       // print_r($menu);die();
 
        $folderName=Plugins::$renderFolderName;
 

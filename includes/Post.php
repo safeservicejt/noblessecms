@@ -454,6 +454,7 @@ class Post
 
 		$command="delete from ".Database::getPrefix()."post where $whereQuery $addWhere";
 
+
 		$result=array();
 
 		$loadData=self::get(array(
@@ -468,7 +469,7 @@ class Post
 			$total=count($loadData);
 
 			for ($i=0; $i < $total; $i++) { 
-				$result=$loadData[$i]['postid'];
+				$result[]=$loadData[$i]['postid'];
 			}
 
 			$listID="'".implode("','",$result)."'";

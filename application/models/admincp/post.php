@@ -159,7 +159,7 @@ function updateProcess($id)
 			{
 				$url=Request::get('imageFromUrl');
 
-				$send['image']=File::upload('uploadFromUrl');
+				$send['image']=File::uploadFromUrl($url);
 
 				File::remove($loadData[0]['image']);
 			}
@@ -253,7 +253,7 @@ function insertProcess()
 			{
 				$url=Request::get('imageFromUrl');
 
-				$send['image']=File::upload('uploadFromUrl');
+				$send['image']=File::uploadFromUrl($url);
 			}
 
 			break;

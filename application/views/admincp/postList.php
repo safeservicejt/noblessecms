@@ -49,8 +49,7 @@
     						<tr>
     							<td class="col-lg-1"><input type="checkbox" id="selectAll" /></td>
                                 <td class="col-lg-2">Category</td>
-                                <td class="col-lg-2">Author</td>
-                                <td class="col-lg-5">Title</td>
+                                <td class="col-lg-7">Title</td>
                                 <td class="col-lg-1 text-right">Status</td>
     							<td class="col-lg-1 text-right">#</td>
     						</tr>
@@ -65,28 +64,30 @@
     						if(isset($theList[0]['postid']))
     						for ($i=0; $i < $total; $i++) { 
 
-                                $date_added='<span style="font-size:13px;color:#888;">Date: '.date('M d, Y H:i',strtotime($theList[$i]['date_added'])).'</span>';
+                                $date_added='<span style="font-size:13px;color:#888;margin-right:10px;">Date: '.date('M d, Y H:i',strtotime($theList[$i]['date_added'])).'</span>';
 
-                                $status='<span class="label label-success">Publish</span>';
+                                $status='<span style="font-size:13px;color:green;">Publish</span>';
 
                                 if((int)$theList[$i]['status']==0)
                                 {
-                                    $status='<span class="label label-danger">unPublish</span>';
+                                    $status='<span style="font-size:13px;color:red;">unPublish</span>';
                                 }
 
                                 $featured='';
                                 if((int)$theList[$i]['is_featured']==1)
                                 {
-                                    $featured='<span class="label label-success">Featured</span>';
+                                    $featured='<span style="font-size:13px;color:green;margin-right:10px;">Featured</span>';
                                 }
 
                                 $allowcomment='';
                                 if((int)$theList[$i]['allowcomment']==1)
                                 {
-                                    $allowcomment='<span class="label label-success">Allow comment</span>';
+                                    $allowcomment='<span  style="font-size:13px;color:green;margin-right:10px;">Allow comment</span>';
                                 }
 
-                                $views='<span class="label label-danger">Views: '.$theList[$i]['views'].'</span>';
+                                $author=' <span  style="font-size:13px;color:#888;margin-right:10px;"><span class="glyphicon glyphicon-user"></span> '.$theList[$i]['username'].'</span>';
+
+                                $views='<span style="font-size:13px;color:#888;margin-right:10px;"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;'.number_format($theList[$i]['views']).'</span>';
     							$li.='
 	    						<!-- tr -->
 	    						<tr>
@@ -94,10 +95,10 @@
 	    								<input type="checkbox" id="cboxID" name="id[]" value="'.$theList[$i]['postid'].'" />
 	    							</td>
                                     <td class="col-lg-2"><a href="'.System::getAdminUrl().'post/category/'.$theList[$i]['catid'].'">'.$theList[$i]['cattitle'].'</a></td>
-                                    <td class="col-lg-2">'.$theList[$i]['username'].'</td>
                                     <td class="col-lg-5"><a target="_blank" href="'.Post::url($theList[$i]).'">'.$theList[$i]['title'].'</a>
+
                                     <br>
-                                    '.$date_added.' '.$featured.' '.$allowcomment.' '.$views.'
+                                    '.$author.' '.$allowcomment.' '.$featured.' '.$date_added.' '.$views.'
                                     </td>
                                     <td class="col-lg-1 text-right">'.$status.'</td>
                                     <td class="col-lg-1 text-right">

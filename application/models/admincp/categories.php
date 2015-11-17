@@ -13,21 +13,62 @@ function actionProcess()
 
 	$action=Request::get('action');
 
-	// die($action);
+
 
 	switch ($action) {
-		case 'deleteallpost':
 
-			
-			Database::query("delete p,pt from ".Database::getPrefix()."post p left join ".Database::getPrefix()."post_tags pt on p.postid=pt.postid where p.catid IN ($listID)");
+		case 'deleteall':
+
+			$loadData=Post::get(array(
+				'cache'=>'no',
+				'isHook'=>'no'
+				));
+
+			$total=count($loadData);
+			for ($i=0; $i < $total; $i++) { 
+				Post::remove(array($loadData[$i]['postid']));
+			}
+
+			Categories::remove(0,"catid > '0'");
+
+			// Database::query("delete p,pt from ".Database::getPrefix()."post p left join ".Database::getPrefix()."post_tags pt on p.postid=pt.postid where p.catid IN ($listID)");
 
 			break;
+
+		case 'deleteallpost':
+
+			$loadData=Post::get(array(
+				'cache'=>'no',
+				'isHook'=>'no'
+				));
+
+			$total=count($loadData);
+
+			for ($i=0; $i < $total; $i++) { 
+				Post::remove($loadData[$i]['postid']);
+			}
+
+			// Database::query("delete p,pt from ".Database::getPrefix()."post p left join ".Database::getPrefix()."post_tags pt on p.postid=pt.postid where p.catid IN ($listID)");
+
+			break;
+
 		case 'delete':
 
-	
-			Database::query("delete p,pt from ".Database::getPrefix()."post p left join ".Database::getPrefix()."post_tags pt on p.postid=pt.postid where p.catid IN ($listID)");
 
-			Categories::remove($id);
+			$loadData=Post::get(array(
+				'cache'=>'no',
+				'isHook'=>'no',
+				'where'=>"where catid IN ($listID)"
+				));
+
+			$total=count($loadData);
+			for ($i=0; $i < $total; $i++) { 
+				Post::remove(array($loadData[$i]['postid']));
+			}
+
+			Categories::remove(0,"catid > '0'");
+
+
 			break;
 		
 	}

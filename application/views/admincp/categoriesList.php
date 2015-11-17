@@ -14,6 +14,7 @@
                             <option value="none">Select an action</option>
                             <option value="deleteallpost">Delete all post</option>
                             <option value="delete">Delete</option>
+                            <option value="deleteall">Delete All</option>
                         </select>
                        <span class="input-group-btn">
                         <button class="btn btn-primary" name="btnAction" type="submit">Apply</button>
