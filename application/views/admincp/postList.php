@@ -12,6 +12,7 @@
                     <div class="input-group input-group-sm">
                         <select class="form-control" name="action">
                             <option value="delete">Delete</option>
+                            <option value="deleteall">Delete All Post</option>
                             <option value="publish">Publish</option>
                             <option value="unpublish">unPublish</option>
                             <option value="featured">Featured</option>

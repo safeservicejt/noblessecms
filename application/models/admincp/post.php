@@ -23,6 +23,14 @@ function actionProcess()
 			PostTags::remove($id," postid IN ($listID) ");
 
 			break;
+		case 'deleteall':
+		
+			Post::remove(0," postid > '0' ");
+
+			PostTags::remove($id," postid > '0' ");
+
+			break;
+
 		case 'publish':
 
 			Post::update($id,array(
