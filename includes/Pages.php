@@ -179,7 +179,11 @@ class Pages
 
 				$postTitle=isset($theRow['addTitle'])?$theRow['addTitle']:$theRow['title'];
 
-				$theRow['friendly_url']=String::makeFriendlyUrl(strip_tags($postTitle));
+				if(!isset($theRow['friendly_url']))
+				{
+					$theRow['friendly_url']=String::makeFriendlyUrl(strip_tags($postTitle));
+
+				}
 
 				$theRow['title']=String::encode(strip_tags($theRow['title']));
 
@@ -216,7 +220,10 @@ class Pages
 
 			$postTitle=isset($inputData['addTitle'])?$inputData['addTitle']:$inputData['title'];
 
-			$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($postTitle));
+			if(!isset($inputData['friendly_url']))
+			{
+				$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($postTitle));
+			}
 
 			$inputData['title']=String::encode(strip_tags($inputData['title']));
 

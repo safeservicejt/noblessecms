@@ -281,7 +281,10 @@ class Categories
 
 				$theRow['date_added']=date('Y-m-d H:i:s');
 
-				$theRow['friendly_url']=String::makeFriendlyUrl(strip_tags($theRow['title']));
+				if(!isset($theRow['friendly_url']))
+				{
+					$theRow['friendly_url']=String::makeFriendlyUrl(strip_tags($theRow['title']));
+				}
 
 				if(isset($theRow['title']))
 				$theRow['title']=String::encode(strip_tags($theRow['title']));
@@ -304,7 +307,10 @@ class Categories
 		{
 			$inputData['date_added']=date('Y-m-d H:i:s');
 
-			$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($inputData['title']));
+			if(!isset($inputData['friendly_url']))
+			{
+				$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($inputData['title']));
+			}
 
 			if(isset($inputData['title']))
 			$inputData['title']=String::encode(strip_tags($inputData['title']));
