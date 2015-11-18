@@ -58,10 +58,10 @@
 	    							<td class="col-lg-1">
 	    								<input type="checkbox" id="cboxID" name="id[]" value="'.$theList[$i]['userid'].'" />
 	    							</td>
-	    							<td class="col-lg-2">'.$theList[$i]['date_addedFormat'].'</td>
+	    							<td class="col-lg-2"><span style="color:#888;">'.date('M d, Y H:i',strtotime($theList[$i]['date_added'])).'</span></td>
 	    							<td class="col-lg-8 text-left">'.$theList[$i]['firstname'].' '.$theList[$i]['lastname'].' ('.$theList[$i]['username'].')
                                     <br>
-                                    <small>Group: '.$theList[$i]['group_title'].'</small>&nbsp;&nbsp;<small>Email: '.$theList[$i]['email'].'</small>
+                                    <div style="font-size:13px;color:#888;margin-right:10px;"><small>Group: '.$theList[$i]['group_title'].'</small>&nbsp;&nbsp;<small>Email: '.$theList[$i]['email'].'</small></div>
                                     </td>
 	    							<td class="col-lg-1 text-right">
 	    							<a href="'.System::getAdminUrl().'users/edit/'.$theList[$i]['userid'].'" class="btn btn-warning btn-xs">Edit</a>

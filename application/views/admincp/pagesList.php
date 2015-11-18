@@ -44,8 +44,7 @@
     					<thead>
     						<tr>
     							<td class="col-lg-1"><input type="checkbox" id="selectAll" /></td>
-                                <td class="col-lg-2">Date added</td>
-                                <td class="col-lg-7">Title</td>
+                                <td class="col-lg-9">Title</td>
                                 <td class="col-lg-1 text-right">Status</td>
     							<td class="col-lg-1 text-right">#</td>
     						</tr>
@@ -60,21 +59,23 @@
     						if(isset($theList[0]['pageid']))
     						for ($i=0; $i < $total; $i++) { 
 
-                                $status='<span class="label label-success">Publish</span>';
+                                $status='<span style="font-size:13px;color:green;">Publish</span>';
 
                                 if((int)$theList[$i]['status']==0)
                                 {
-                                    $status='<span class="label label-danger">unPublish</span>';
+                                    $status='<span style="font-size:13px;color:red;">unPublish</span>';
                                 }
 
 
-                                $allowcomment='<span class="label label-danger">Not allow comment</span>';
+                                // $allowcomment='<span class="label label-danger">Not allow comment</span>';
                                 if((int)$theList[$i]['allowcomment']==1)
                                 {
-                                    $allowcomment='<span class="label label-success">Allow comment</span>';
+                                    $allowcomment='<span  style="font-size:13px;color:green;margin-right:10px;">Allow comment</span>';
                                 }
 
-                                $views='<span class="label label-danger">Views: '.number_format($theList[$i]['views']).'</span>';
+                                $dateAdded='<span  style="font-size:13px;color:#888;margin-right:10px;"><span class="glyphicon glyphicon-calendar"></span> '.date('Y-m-d H:i',strtotime($theList[$i]['views'])).'</span>';
+
+                                $views='<span style="font-size:13px;color:#888;margin-right:10px;"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;'.number_format($theList[$i]['views']).'</span>';
                                 
     							$li.='
 	    						<!-- tr -->
@@ -82,10 +83,9 @@
 	    							<td class="col-lg-1">
 	    								<input type="checkbox" id="cboxID" name="id[]" value="'.$theList[$i]['pageid'].'" />
 	    							</td>
-                                    <td class="col-lg-2"><span style="font-size:14px;color:#888;">'.date('M d, Y H:i',strtotime($theList[$i]['date_added'])).'</span></td>
                                     <td class="col-lg-5"><a href="'.Pages::url($theList[$i]).'" target="_blank">'.$theList[$i]['title'].'</a>
                                     <br>
-                                    '.$allowcomment.' '.$views.'
+                                    '.$allowcomment.' '.$dateAdded.' '.$views.'
                                     </td>
                                     <td class="col-lg-1 text-right">'.$status.'</td>
                                     <td class="col-lg-1 text-right">
