@@ -86,8 +86,18 @@ class Links
 				if(isset($row['date_added']))
 				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
 
-				if(isset($row['url']) && !preg_match('/^http/i',$row['url']))
+				if(isset($row['url']))
 				{
+					
+					if(!preg_match('/^http/i',$row['url']))
+					{
+						$row['urlFormat']=System::getUrl().$row['url'];
+					}
+					else
+					{
+						$row['urlFormat']=$row['url'];
+					}
+
 					if(preg_match('/^\/(.*?)$/i', $row['url'],$matches))
 					{
 						$tmp=$matches[1];
@@ -97,7 +107,6 @@ class Links
 
 					
 				}
-				
 											
 				$result[]=$row;
 			}		
@@ -120,11 +129,12 @@ class Links
 	{
 		$loadData=self::get(array(
 			'cache'=>'yes',
-			'cacheTime'=>30,
+			'cacheTime'=>230,
 			'orderby'=>'order by sort_order desc'
 			));
 
 		$result=array();
+
 
 		if(isset($loadData[0]['id']))
 		{
@@ -191,7 +201,7 @@ class Links
 
 				if(isset($theRow['url']))
 				{
-					if(!preg_match('/^\/.*?/i', $theRow['url']))
+					if(!preg_match('/^\/.*?/i', $theRow['url']) && !preg_match('/^http/i', $inputData['url']))
 					{
 						$theRow['url']='/'.$theRow['url'];
 					}
@@ -224,7 +234,7 @@ class Links
 			}
 			if(isset($inputData['url']))
 			{
-				if(!preg_match('/^\/.*?/i', $inputData['url']))
+				if(!preg_match('/^\/.*?/i', $inputData['url']) && !preg_match('/^http/i', $inputData['url']))
 				{
 					$inputData['url']='/'.$inputData['url'];
 				}
