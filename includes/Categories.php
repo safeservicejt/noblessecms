@@ -336,7 +336,7 @@ class Categories
 
 			Plugins::load('after_category_insert',$inputData);
 
-			self::saveCache();
+			// self::saveCache();
 
 			CustomPlugins::load('after_category_insert');
 

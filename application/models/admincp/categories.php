@@ -66,7 +66,7 @@ function actionProcess()
 				Post::remove(array($loadData[$i]['postid']));
 			}
 
-			Categories::remove(0,"catid > '0'");
+			Categories::remove(0,"catid IN ($listID)");
 
 
 			break;
@@ -135,6 +135,21 @@ function insertProcess()
 	if(!$id=Categories::insert($send))
 	{
 		throw new Exception("Error. ".Database::$error);
+	}
+
+	if((int)$id > 0)
+	{
+		$loadData=Categories::get(array(
+			'cache'=>'no',
+			'where'=>"where catid='$id'"
+			));
+
+		if(isset($loadData[0]['catid']))
+		{
+			Categories::update(array($id),array(
+				'friendly_url'=>$loadData[0]['catid'].'-'.$loadData[0]['friendly_url']
+				));
+		}
 	}
 
 }
