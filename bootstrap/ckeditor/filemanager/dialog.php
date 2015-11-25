@@ -251,7 +251,6 @@ $get_params = http_build_query($get_params);
 		<title>Responsive FileManager</title>
 		<link rel="shortcut icon" href="img/ico/favicon.ico">
 		<link href="css/style.css" rel="stylesheet" type="text/css" />
-		<link href="js/jPlayer/skin/blue.monday/jplayer.blue.monday.css" rel="stylesheet" type="text/css">
 	<!--[if lt IE 8]><style>
 	.img-container span, .img-container-mini span {
 	    display: inline-block;
@@ -259,7 +258,6 @@ $get_params = http_build_query($get_params);
 	}
 	</style><![endif]-->
 	<script src="js/plugins.js"></script>
-	<script src="js/jPlayer/jquery.jplayer/jquery.jplayer.js"></script>
 	<script src="js/modernizr.custom.js"></script>
 	<?php
 	if ($aviary_active){

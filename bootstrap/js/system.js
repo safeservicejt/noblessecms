@@ -19,6 +19,7 @@ $(document).ready(function(){
 
 	root_url=$("meta[id='root_url']").attr("content");
 
+
 	$('img.js-auto-responsive').each(function(){
 
 		var src=$(this).attr('data-src');

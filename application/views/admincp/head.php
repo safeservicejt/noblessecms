@@ -60,4 +60,64 @@
 
 <body>
 
+<img src="<?php echo System::getUrl();?>bootstrap/images/addnew.png" class="img-tools" />
+
+<div class="modal fade" id="modal-tools">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Choose Your Action:</h4>
+            </div>
+            <div class="modal-body">
+                <!-- row -->
+                <div class="row">
+                    <div class="col-lg-2 text-center">
+                        <p>
+                            <a href="<?php echo System::getAdminUrl();?>post/addnew"><img src="<?php echo System::getUrl();?>bootstrap/images/tools/post.png" class="img-responsive the-tool" /></a>
+                        </p>
+                        <a href="<?php echo System::getAdminUrl();?>post/addnew" class="a-the-tool">New Post</a>
+                    </div>
+                    <div class="col-lg-2 text-center">
+                        <p>
+                            <a href="<?php echo System::getAdminUrl();?>categories"><img src="<?php echo System::getUrl();?>bootstrap/images/tools/category.png" class="img-responsive the-tool" /></a>
+                        </p>
+                        <a href="<?php echo System::getAdminUrl();?>categories" class="a-the-tool">New Category</a>
+                    </div>
+                    <div class="col-lg-2 text-center">
+                        <p>
+                            <a href="<?php echo System::getAdminUrl();?>pages/addnew"><img src="<?php echo System::getUrl();?>bootstrap/images/tools/page.png" class="img-responsive the-tool" /></a>
+                        </p>
+                        <a href="<?php echo System::getAdminUrl();?>pages/addnew" class="a-the-tool">New Page</a>
+                    </div>
+                    <div class="col-lg-2 text-center">
+                        <p>
+                            <a href="<?php echo System::getAdminUrl();?>links"><img src="<?php echo System::getUrl();?>bootstrap/images/tools/link.png" class="img-responsive the-tool" /></a>
+                        </p>
+                        <a href="<?php echo System::getAdminUrl();?>links" class="a-the-tool">New Link</a>
+                    </div>
+                    <div class="col-lg-2 text-center">
+                        <p>
+                            <a href="<?php echo System::getAdminUrl();?>setting"><img src="<?php echo System::getUrl();?>bootstrap/images/tools/setting.png" class="img-responsive the-tool" /></a>
+                        </p>
+                        <a href="<?php echo System::getAdminUrl();?>setting" class="a-the-tool">Settings</a>
+                    </div>
+                    <div class="col-lg-2 text-center">
+                        <p>
+                            <a href="<?php echo System::getAdminUrl();?>theme"><img src="<?php echo System::getUrl();?>bootstrap/images/tools/theme.png" class="img-responsive the-tool" /></a>
+                        </p>
+                        <a href="<?php echo System::getAdminUrl();?>theme" class="a-the-tool">Theme</a>
+                    </div>
+
+                </div>
+                <!-- row -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="wrapper">

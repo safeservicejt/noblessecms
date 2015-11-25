@@ -1,16 +1,5 @@
 <?php
 
-$filePath=dirname(__FILE__);
-
-$root_path=str_replace('bootstrap/ckeditor/filemanager','',$filePath);
-
-$root_path=str_replace('bootstrap\ckeditor\filemanager','',$root_path);
-
-$savePath=$root_path.'/uploads/images/'.$_SERVER['HTTP_HOST'].'/';
-
-$addPath=isset($_COOKIE['add_path'])?$_COOKIE['add_path'].'/':'';
-
-$savePath=$savePath.$addPath;
 
 
 if (!isset($config)){
@@ -102,6 +91,16 @@ if ( ! empty($_FILES))
 
 		$targetFile =  $targetPath. $_FILES['file']['name'];
 		$targetFileThumb =  $targetPathThumb. $_FILES['file']['name'];
+
+		// preg_match('/^(.*?)\.(\w+)$/i', $_FILES['file']['name'],$match);
+
+		// preg_match_all('/(\w+)/i', $match[1], $matches);
+
+		// $reFileName=implode('_', $matches[1]).'.'.$match[2];
+
+		// $targetFile =  $targetPath. $reFileName;
+		
+		// $targetFileThumb =  $targetPathThumb. $reFileName;
 
 		// check if image (and supported)
 		if (in_array(fix_strtolower($info['extension']),$ext_img)) $is_img=TRUE;
