@@ -723,6 +723,8 @@ class Plugins
 
 		self::$uninstallFolderName=$foldername;
 
+		
+
 		$addWhere='';
 
 		if($isTheme=='yes')
@@ -790,7 +792,7 @@ class Plugins
 
 	}
 
-	public static function uninstall($funcName)
+	public static function uninstall($funcName='')
 	{
 		$foldername=self::$uninstallFolderName;
 

@@ -259,7 +259,6 @@ class controlPlugins
 
 		$foldername=$match[1];
 
-		Plugins::makeUninstall($foldername);
 
 		$path=PLUGINS_PATH.$foldername.'/index.php';
 
@@ -275,20 +274,36 @@ class controlPlugins
 			Alert::make('You not have permission to view this page');
 		}
 
-		if(file_exists($path))
+		$loadData=Plugins::get(array(
+			'cache'=>'no',
+			'where'=>"where foldername='$foldername'"
+			));
+
+		if((int)$loadData[0]['status']==1)
 		{
-			$loadFuncs=get_defined_functions();
+			Database::query("update ".Database::getPrefix()."plugins set status='0' where foldername='$foldername'");
+			Database::query("update ".Database::getPrefix()."plugins_meta set status='0' where foldername='$foldername'");
 
-			$tmp=implode(',', $loadFuncs['user']);
+			PluginsZone::saveCache();
 
-			if(!preg_match('/'.$foldername.'/i', $tmp))
-			{
-				require($path);
-			}
+			Redirect::to(System::getAdminUrl().'plugins');
 			
 		}
 
+		// Database::query("update ".Database::getPrefix()."plugins set status='0' where foldername='$foldername'");
+		// Database::query("update ".Database::getPrefix()."plugins_meta set status='0' where foldername='$foldername'");
+
+		// PluginsZone::saveCache();
+
+
+		Plugins::makeUninstall($foldername);
+
 		PluginsZone::saveCache();
+		
+		if(file_exists($path))
+		{
+			require($path);			
+		}
 
 		Redirect::to(System::getAdminUrl().'plugins');
 

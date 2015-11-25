@@ -73,7 +73,7 @@
                                     $allowcomment='<span  style="font-size:13px;color:green;margin-right:10px;">Allow comment</span>';
                                 }
 
-                                $dateAdded='<span  style="font-size:13px;color:#888;margin-right:10px;"><span class="glyphicon glyphicon-calendar"></span> '.date('Y-m-d H:i',strtotime($theList[$i]['views'])).'</span>';
+                                $dateAdded='<span  style="font-size:13px;color:#888;margin-right:10px;"><span class="glyphicon glyphicon-calendar"></span> '.date('Y-m-d H:i',strtotime($theList[$i]['date_added'])).'</span>';
 
                                 $views='<span style="font-size:13px;color:#888;margin-right:10px;"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;'.number_format($theList[$i]['views']).'</span>';
                                 
