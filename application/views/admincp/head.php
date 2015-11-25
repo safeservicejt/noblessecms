@@ -38,6 +38,8 @@
 
     <link href="<?php echo System::getUrl();?>bootstrap/sbnoblesse/css/custom.css" rel="stylesheet">
 
+    <link href="<?php echo System::getUrl();?>bootstrap/css/animate-animo.min.css" rel="stylesheet">
+ 
     <!-- Custom Fonts -->
     <link href="<?php echo System::getUrl();?>bootstrap/sbnoblesse/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -45,6 +47,7 @@
 
     <!-- jQuery -->
     <script src="<?php echo System::getUrl();?>bootstrap/js/jquery-2.1.3.min.js"></script>
+    <script src="<?php echo System::getUrl();?>bootstrap/js/animo.min.js"></script>
     <script src="<?php echo System::getUrl();?>bootstrap/js/system.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -61,7 +64,7 @@
 <body>
 
 <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/tools')){ ?>
-<img src="<?php echo System::getUrl();?>bootstrap/images/addnew.png" class="img-tools" />
+<img src="<?php echo System::getUrl();?>bootstrap/images/addnew.png" class=" img-tools" />
 <div class="modal fade" id="modal-tools">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
