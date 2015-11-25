@@ -202,15 +202,15 @@ class Domain
 			// return false;
 		}
 
-		if(isset($loadData['time_expires']))
-		{
-			$thistime=time();
+		// if(isset($loadData['time_expires']))
+		// {
+		// 	$thistime=time();
 
-			if((int)$thistime > (int)$loadData['time_expires'])
-			{
-				Alert::make('Your domain have been expired!');
-			}
-		}
+		// 	if((int)$thistime > (int)$loadData['time_expires'])
+		// 	{
+		// 		Alert::make('Your domain have been expired!');
+		// 	}
+		// }
 
 		$loadData['domain']=$theDomain;
 
@@ -284,6 +284,13 @@ class Domain
 
 		Database::setPrefixAll();
 
+        if(!isset($_COOKIE['prefix']))
+        {
+            header("Location: http://".$_SERVER['HTTP_HOST']);
+
+            die();
+        }		
+
 		if($connect_type=='database')
 		{
 			$dbtype=isset(self::$config['dbtype'])?self::$config['dbtype']:'mysqli';
@@ -309,10 +316,14 @@ class Domain
 			$GLOBALS['db']['default']['dbname']=$dbname;			
 		}
 
+		DomainManager::installDomainSettings();
+
 		if(!isset($_COOKIE['root_url']))
 		{
-			header("Location: http://".self::$config['domain'].$_SERVER['REQUEST_URI']);
+			header("Location: http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
 		}
+
+
 
 	}
 

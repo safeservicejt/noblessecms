@@ -40,6 +40,8 @@ class Dir
                 if($file!="." && $file!=".."){
                     if(is_dir($source."/".$file)){
                         if(!is_dir($dest."/".$file)){
+                            
+
                             mkdir($dest."/".$file);
                         }
                         self::copy($source."/".$file, $dest."/".$file);

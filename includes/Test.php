@@ -10,18 +10,13 @@
 		'null'=>'yes'
 		));
 */
-class Test extends Table
+class Test
 {
-	public $table='users';
 
-	public $id='userid';
-
-	public $fields='userid,groupid,username,firstname,lastname,image,email,password,userdata,ip,verify_code,parentid,date_added,forgot_code,forgot_date';
-
-	public function __construct()
+	
+	public static function ac()
 	{
-		
-
+		return 'ac ac';
 	}
 
 }

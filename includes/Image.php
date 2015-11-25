@@ -57,27 +57,6 @@ class Image
         return $resultData;
     }
 
-    public static function isImage($inputData='')
-    {
-        if(!isset($inputData[1]))
-        {
-            return false;
-        }
-
-        if(preg_match('/(https?:\/\/[a-zA-Z0-9_\-\_\=\+\/\.\{\}\(\)\&\$\#\@\*\?\!\;]+\.(gif|png|jpg|jpeg|bmp))/i', $inputData))
-        {
-            return false;
-        }
-
-        $type=File::getcontenttype(ROOT_PATH.$inputData);
-
-        if(!preg_match('/image\//i', $inputData))
-        {
-            return false;
-        }        
-
-        return true;
-    }
 
     public static function uploadFromUrl($imgUrl,$shortPath='uploads/images/')
     {

@@ -165,16 +165,23 @@ function startInstall()
 
     $getData=preg_replace('/RewriteBase.*/i', 'RewriteBase '.$pathSelf, $getData);
 
+    chmod($rootPath.'.htaccess', 0666);
+
     $fp=fopen($rootPath.'.htaccess','w');
 
     fwrite($fp,$getData);
 
-    fclose($fp);    
+    fclose($fp);   
+    
+    chmod($rootPath.'.htaccess', 0644);
+
   }
 
   $getData=file_get_contents($rootPath.'.htaccess');
 
   $getData=str_replace('RewriteBase \/', 'RewriteBase /', $getData);
+
+  chmod($rootPath.'.htaccess', 0666);
   
   $fp=fopen($rootPath.'.htaccess','w');
 
@@ -182,10 +189,12 @@ function startInstall()
 
   fclose($fp);     
 
+  chmod($rootPath.'.htaccess', 0644);
+
 
   $loadData=file_get_contents($rootPath.'config.php');
 
-  $tmpPath=str_replace('\\', '/', $path);
+  $tmpPath=str_replace('\\', '/', $rootPath);
 
   $replace=array(
     '/"dbhost" \=\> ".*?"/i'=>'"dbhost" => "'.$dbhost.'"',
@@ -200,11 +209,15 @@ function startInstall()
 
   $loadData=preg_replace(array_keys($replace), array_values($replace), $loadData);
 
+  chmod($rootPath.'config.php', 0666);
+
   $fp=fopen($rootPath.'config.php','w');
 
   fwrite($fp,$loadData);
 
   fclose($fp);
+
+  chmod($rootPath.'config.php', 0644);
 
 
   $importStatus='';

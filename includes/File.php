@@ -125,10 +125,19 @@ class File
         {
             Dir::create($path);
         }
+
+        if(file_exists($filePath))
+        {
+            chmod($filePath, 0666);
+        }
+        
         
         $fp = fopen($filePath, $writeMode);
         fwrite($fp, $fileData);
         fclose($fp);
+
+        chmod($filePath, 0644);
+
     }
 
     public static function writeoverride($filePath = '', $fileData = '')

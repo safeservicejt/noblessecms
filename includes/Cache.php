@@ -182,11 +182,18 @@ class Cache
             $f_type='x';
         }
 
+        if(file_exists($filePath))
+        {
+            chmod($filePath, 0666);
+        }
+ 
         $fp=fopen($filePath,$f_type);
 
         fwrite($fp,$keyData);
 
         fclose($fp);
+
+        chmod($filePath, 0644);
 
         File::create(self::getPath().$keyName.'_time'.$extension,time());
     }
