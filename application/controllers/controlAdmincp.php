@@ -105,10 +105,19 @@ class controlAdmincp
 
 			// Auto load global data
 
+			$uriStr=System::getUri();
 			
-			$controlName='admincp/controlDashboard';
+			$pageName='dashboard';
+			
+			if(preg_match('/admincp\/(\w+)/i',$uriStr,$match))
+			{
+				$pageName=$match[1];
+			}
+			
+			$controlName='admincp/control'.ucfirst($pageName);
 
 			$default_adminpage_method=trim(System::getSetting('default_adminpage_method','none'));
+			
 
 			if($default_adminpage_method=='url')
 			{
@@ -122,6 +131,8 @@ class controlAdmincp
 					{
 						$beginUri.='/';
 					}
+				
+					
 
 					System::setUri($beginUri.$default_adminpage);
 				}
@@ -131,7 +142,7 @@ class controlAdmincp
 			{
 				$controlName='admincp/control'.ucfirst($match[1]);
 
-
+				
 			}		
 		}
 		else
@@ -157,6 +168,8 @@ class controlAdmincp
 		System::defineGlobalVar('admincp_header',$codeHead);
 
 		System::defineGlobalVar('admincp_footer',$codeFooter);
+		
+
 
 		Controller::load($controlName);
 	}

@@ -9,7 +9,7 @@ function apiProcess()
 
 	$output_type=trim(Request::get('output_type','json'));
 
-	if(!$match=Uri::match('^api\/(\w+)\/(\w+)'))
+	if(!$match=Uri::match('^\/?api\/(\w+)\/(\w+)'))
 	{
 		switch ($output_type) {
 			case 'serialize':

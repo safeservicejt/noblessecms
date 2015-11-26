@@ -4,7 +4,7 @@ class controlApi
 {
 	public function index()
 	{
-		if($match=Uri::match('^api\/(\w+)'))
+		if($match=Uri::match('^\/?api\/(\w+)'))
 		{
 			Model::load('api');
 
@@ -20,7 +20,7 @@ class controlApi
 		}
 		else
 		{
-			echo json_encode(array('error'=>'yes'));
+			echo json_encode(array('error'=>'yes','message'=>''));
 		}
 	}
 }

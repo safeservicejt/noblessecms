@@ -153,7 +153,7 @@ class System
 
 	public static function checkLang()
 	{
-		if($match=Uri::match('^lang\/(\w+)'))
+		if($match=Uri::match('^\/?lang\/(\w+)'))
 		{
 			$curName=$match[1];
 			Lang::set($curName);
@@ -197,7 +197,7 @@ class System
 	
 	public static function checkTheme()
 	{
-		if($match=Uri::match('^theme\/(\w+)'))
+		if($match=Uri::match('^\/?theme\/(\w+)'))
 		{
 			$curName=$match[1];
 
@@ -267,7 +267,7 @@ class System
 
 				$uri=self::getUri();
 
-				if(!preg_match('/^admincp\/?/i', $uri))
+				if(!preg_match('/^\/?admincp\/?/i', $uri))
 				Alert::make('Website under construction. We will comeback soon...');
 
 				break;
@@ -276,7 +276,7 @@ class System
 
 				$uri=self::getUri();
 
-				if(!preg_match('/^admincp\/?/i', $uri))			
+				if(!preg_match('/^\/?admincp\/?/i', $uri))			
 				Alert::make('We will comming soon...');
 			
 				break;
