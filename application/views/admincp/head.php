@@ -72,9 +72,9 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Choose Your Action:</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body modal-body-tools">
                 <!-- row -->
-                <div class="row">
+                <div class="row row-tools">
                     <div class="col-lg-2 col-md-2 col-sm-4 text-center">
                         <p>
                             <a href="<?php echo System::getAdminUrl();?>post/addnew"><img src="<?php echo System::getUrl();?>bootstrap/images/tools/post.png" class="img-responsive the-tool" /></a>
