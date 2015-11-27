@@ -117,6 +117,8 @@ class System
 
 		self::defaultPageUri();
 		
+		Database::connect();
+		
 		if($systemMode!='basic')
 		{
 			if(Domain::isOtherDomain())
@@ -127,8 +129,6 @@ class System
 			}
 
 		}
-		
-		Database::connect();
 
 		Plugins::load('before_system_start');
 
@@ -158,7 +158,10 @@ class System
 			$curName=$match[1];
 			Lang::set($curName);
 
-			header("Location: ".self::getUrl());
+			$siteUrl='http://'.$_SERVER['HTTP_HOST'];
+
+
+			header("Location: ".$siteUrl);
 
 			exit();
 
@@ -185,7 +188,7 @@ class System
 
 			if($redirect!='no')
 			{
-				$siteUrl='http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+				$siteUrl='http://'.$_SERVER['HTTP_HOST'];
 				
 				header("Location: ".$siteUrl);
 
@@ -213,7 +216,9 @@ class System
 
 				if(!isset($_COOKIE['theme_name']))
 				{
-					header("Location: ".self::getUrl());
+					$siteUrl='http://'.$_SERVER['HTTP_HOST'];
+
+					header("Location: ".$siteUrl);
 
 					exit();
 				}

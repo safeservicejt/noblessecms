@@ -216,6 +216,7 @@ class Domain
 
 		self::$config=$loadData;
 
+
 		System::setUrl('http://'.$theDomain.'/');
 
 
@@ -284,13 +285,6 @@ class Domain
 
 		Database::setPrefixAll();
 
-        if(!isset($_COOKIE['prefix']))
-        {
-            header("Location: http://".$_SERVER['HTTP_HOST']);
-
-            die();
-        }		
-
 		if($connect_type=='database')
 		{
 			$dbtype=isset(self::$config['dbtype'])?self::$config['dbtype']:'mysqli';
@@ -321,6 +315,8 @@ class Domain
 		if(!isset($_COOKIE['root_url']))
 		{
 			header("Location: http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+
+			die();
 		}
 
 

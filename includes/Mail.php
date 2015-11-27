@@ -113,8 +113,7 @@ class Mail
 
     public function test()
     {
-        require INCLUDES_PATH . 'extentions/PHPMailer/PHPMailerAutoload.php';
-
+         
     }
 
     public static function send($inputData=array())
