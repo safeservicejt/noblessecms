@@ -89,11 +89,7 @@ class System
 		self::systemStatus();
 
 		self::setTimeZone();
-
-		if(!Domain::isOtherDomain() && isset($_COOKIE['prefixall']))
-		{
-			Database::resetPrefix();
-		}		
+	
 
 		if($systemMode!='basic')
 		{
@@ -125,7 +121,9 @@ class System
 			{
 				Domain::checkConnectDB();
 				
-				Users::checkConnectDB();				
+				Users::checkConnectDB();	
+
+				Domain::loadPrefix();			
 			}
 
 		}

@@ -23,6 +23,8 @@ class Database
 
     public static $prefix='';
 
+    public static $prefix_all='no';
+
     public static $use_prefix='no';
 
 
@@ -41,7 +43,7 @@ class Database
 
         self::$use_prefix='yes';
 
-        Cookie::make('prefix',$str,1440*7);
+        // Cookie::make('prefix',$str,1440*7);
 
         // $_SESSION['prefix']=$str;
     }
@@ -61,10 +63,12 @@ class Database
     public static function resetPrefix()
     {
         self::$use_prefix='no';
+        self::$prefix='';
+        self::$prefix_all='no';
 
-        Cookie::make('prefix','',1);
+        // Cookie::make('prefix','',1);
 
-        Cookie::make('prefixall','no',1);
+        // Cookie::make('prefixall','no',1);
 
         $_SESSION['flash_prefix']='';
 
@@ -86,24 +90,25 @@ class Database
 
     public static function setPrefixAll()
     {
-        Cookie::make('prefixall','yes',1440*7);
+        // Cookie::make('prefixall','yes',1440*7);
+
+        self::$prefix_all='yes';
     }
 
     public static function isPrefixAll()
     {
-        if(!isset($_COOKIE['prefix']))
+        if(self::$prefix_all=='no')
         {
             return false;
         }
         
-        $status=isset($_COOKIE['prefixall'])?$_COOKIE['prefixall']:'no';
-
-        return $status;
+        return 'yes';
     }
 
     public static function getPrefix()
     {
-        $prefix=isset($_COOKIE['prefix'])?$_COOKIE['prefix']:PREFIX;
+        // $prefix=isset($_COOKIE['prefix'])?$_COOKIE['prefix']:PREFIX;
+        $prefix=self::$prefix;
 
         return $prefix;
     }

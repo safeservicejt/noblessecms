@@ -272,6 +272,17 @@ class Domain
 
 	}
 
+	public static function loadPrefix()
+	{
+		$connect_type=isset(self::$config['connect_type'])?self::$config['connect_type']:'prefix';
+
+		$prefix=isset(self::$config['prefix'])?self::$config['prefix']:'';
+
+		Database::setPrefix($prefix);
+
+		Database::setPrefixAll();		
+	}
+
 	public static function checkConnectDB()
 	{
         // global $db;
