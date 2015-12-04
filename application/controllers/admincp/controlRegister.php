@@ -4,6 +4,12 @@ class controlRegister
 {
 	public function index()
 	{
+
+        if(System::$setting['register_user_status']!='enable')
+        {
+            Alert::make('We not allow for register account at this time.');
+        }
+
         $postData=array('alert'=>'');
 
         Model::load('admincp/register');
