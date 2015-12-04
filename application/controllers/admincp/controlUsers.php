@@ -38,7 +38,14 @@ class controlUsers
 
 		if(Request::has('btnAction'))
 		{
-			actionProcess();
+			$action=Request::has('btnAction');
+
+			$result=actionProcess();
+
+			if($action=='changepassword')
+			{
+				$post['alert']='<div class="alert alert-success">Success. New password is: '.$result.'</div>';
+			}
 		}
 
 		if(Request::has('btnSearch'))

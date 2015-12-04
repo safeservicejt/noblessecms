@@ -4,6 +4,8 @@ function actionProcess()
 {
 	$id=Request::get('id');
 
+	$result='';
+
 	if(!isset($id[0]))
 	{
 		return false;
@@ -24,8 +26,31 @@ function actionProcess()
 
 			break;
 
+		case 'activate':
+
+			Users::update($id,array(
+				'verify_code'=>''
+				));
+
+			break;
+
+		case 'changepassword':
+
+			$newPass=String::randText(8);
+
+			Users::update($id,array(
+				'password'=>String::encrypt($newPass),
+				'forgot_code'=>''
+				));
+
+			$result=$newPass;
+
+			break;
+
 		
 	}
+
+	return $result;
 }
 
 function insertProcess()

@@ -5,6 +5,7 @@
   <div class="panel-body">
     <div class="row">
     	<div class="col-lg-12">
+        <?php echo $alert;?>
     	<form action="" method="post" enctype="multipart/form-data">
     		<!-- row -->
     		<div class="row">
@@ -12,6 +13,8 @@
                     <div class="input-group input-group-sm">
                         <select class="form-control" name="action">
                             <option value="delete">Delete</option>
+                            <option value="activate">Activate</option>
+                            <option value="changepassword">Change Password</option>
                         </select>
                        <span class="input-group-btn">
                         <button class="btn btn-primary" name="btnAction" type="submit">Apply</button>

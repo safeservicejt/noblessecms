@@ -61,6 +61,22 @@ function apiProcess()
 			}
 			break;
 
+		case 'post':
+			try {
+				$result['data']=Post::api($action);
+			} catch (Exception $e) {
+				$result=array('error'=>'yes','message'=>$e->getMessage());
+			}
+			break;
+
+		case 'page':
+			try {
+				$result['data']=Pages::api($action);
+			} catch (Exception $e) {
+				$result=array('error'=>'yes','message'=>$e->getMessage());
+			}
+			break;
+
 		case 'plugin':
 			try {
 

@@ -1,3 +1,4 @@
+
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">Post list</h3>
@@ -64,25 +65,25 @@
     						if(isset($theList[0]['postid']))
     						for ($i=0; $i < $total; $i++) { 
 
-                                $date_added='<span style="font-size:13px;color:#888;margin-right:10px;">Date: '.date('M d, Y H:i',strtotime($theList[$i]['date_added'])).'</span>';
+                                $date_added='<span title="Click to release this post" class="pointer post-release" data-id="'.$theList[$i]['postid'].'" style="font-size:13px;color:#888;margin-right:10px;">Date: '.date('M d, Y H:i',strtotime($theList[$i]['date_added'])).'</span>';
 
-                                $status='<span style="font-size:13px;color:green;">Publish</span>';
+                                $status='<span title="Click to unPublish this post" class="pointer post-status" data-type="unpublish" data-id="'.$theList[$i]['postid'].'" style="font-size:13px;color:green;">Publish</span>';
 
                                 if((int)$theList[$i]['status']==0)
                                 {
-                                    $status='<span style="font-size:13px;color:red;">unPublish</span>';
+                                    $status='<span title="Click to Publish this post" class="pointer post-status" data-type="publish" data-id="'.$theList[$i]['postid'].'" style="font-size:13px;color:red;">unPublish</span>';
                                 }
 
                                 $featured='';
                                 if((int)$theList[$i]['is_featured']==1)
                                 {
-                                    $featured='<span style="font-size:13px;color:green;margin-right:10px;">Featured</span>';
+                                    $featured='<span title="Click to unFeatured this post" class="pointer post-featured" data-type="unfeatured" data-id="'.$theList[$i]['postid'].'" style="font-size:13px;color:green;margin-right:10px;">Featured</span>';
                                 }
 
                                 $allowcomment='';
                                 if((int)$theList[$i]['allowcomment']==1)
                                 {
-                                    $allowcomment='<span  style="font-size:13px;color:green;margin-right:10px;">Allow comment</span>';
+                                    $allowcomment='<span title="Click to set not allow comment this post"  class="pointer post-allow-comment" data-type="1" data-id="'.$theList[$i]['postid'].'" style="font-size:13px;color:green;margin-right:10px;">Allow comment</span>';
                                 }
 
                                 $author=' <span  style="font-size:13px;color:#888;margin-right:10px;"><span class="glyphicon glyphicon-user"></span> '.$theList[$i]['username'].'</span>';
@@ -128,3 +129,194 @@
   </div>
 </div>
 
+<script type="text/javascript">
+
+    var api_url='<?php echo System::getUrl();?>api/post/';
+
+    
+    $(document).ready(function(){
+
+        $('.post-release').click(function(){
+
+            var thisEl=$(this);
+
+            var id=$(this).attr('data-id');
+
+            if(confirm('Are you wanna to release this post ?'))
+            {
+                var request = new XMLHttpRequest();
+                request.open('POST', api_url+'release', true);
+                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+                request.onload = function() {
+                  if (request.status >= 200 && request.status < 400) {
+                    // Success!
+                    // var data = JSON.parse(request.responseText);
+
+                    var msg = JSON.parse(request.responseText);
+
+                    if(msg['error']=='yes')
+                    {
+                        alert(msg['message']);
+                    }
+                    else
+                    {
+                        alert('Success.');
+                    }
+
+                  } else {
+                    // We reached our target server, but it returned an error
+                      alert(request.responseText);
+
+                  }
+                };
+
+                request.onerror = function() {
+                  // There was a connection error of some sort
+                    alert(request.responseText);
+                };
+
+                request.send("send_postid="+id);
+
+            }
+
+        });
+
+        $('.post-status').click(function(){
+
+            var thisEl=$(this);
+
+            var id=$(this).attr('data-id');
+
+            var type=$(this).attr('data-type');
+
+            var send_type=1;
+
+            if(type=='unpublish')
+            {
+                send_type=0;
+            }
+
+            if(confirm('Are you wanna to '+type+' this post ?'))
+            {
+                var request = new XMLHttpRequest();
+                request.open('POST', api_url+'change_status', true);
+                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+                request.onload = function() {
+                  if (request.status >= 200 && request.status < 400) {
+                    // Success!
+                    // var data = JSON.parse(request.responseText);
+
+                    var msg = JSON.parse(request.responseText);
+
+                    if(msg['error']=='yes')
+                    {
+                        alert(msg['message']);
+                    }
+                    else
+                    {
+
+                        if(type=='unpublish')
+                        {
+                            thisEl.css({
+                                'color': 'red'
+                            }).attr('data-type','publish').html('unPublish');
+
+                        }
+                        else
+                        {
+                            thisEl.css({
+                                'color': 'green'
+                            }).attr('data-type','unpublish').html('Publish');                           
+                        }
+                    }
+
+                  } else {
+                    // We reached our target server, but it returned an error
+                      alert(request.responseText);
+
+                  }
+                };
+
+                request.onerror = function() {
+                  // There was a connection error of some sort
+                    alert(request.responseText);
+                };
+
+                request.send("send_postid="+id+"&send_status="+send_type);
+
+            }
+
+        });
+
+        $('.post-featured').click(function(){
+
+            var thisEl=$(this);
+
+            var id=$(this).attr('data-id');
+
+            var type=$(this).attr('data-type');
+
+            var send_type=1;
+
+            if(type=='unfeatured')
+            {
+                send_type=0;
+            }
+
+            if(confirm('Are you wanna to '+type+' this post ?'))
+            {
+                var request = new XMLHttpRequest();
+                request.open('POST', api_url+'set_featured', true);
+                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+                request.onload = function() {
+                  if (request.status >= 200 && request.status < 400) {
+                    // Success!
+                    // var data = JSON.parse(request.responseText);
+
+                    var msg = JSON.parse(request.responseText);
+
+                    if(msg['error']=='yes')
+                    {
+                        alert(msg['message']);
+                    }
+                    else
+                    {
+
+                        if(type=='unfeatured')
+                        {
+                            thisEl.remove();
+
+                        }
+                        else
+                        {
+                            alert('Success.');                         
+                        }
+                    }
+
+                  } else {
+                    // We reached our target server, but it returned an error
+                      alert(request.responseText);
+
+                  }
+                };
+
+                request.onerror = function() {
+                  // There was a connection error of some sort
+                    alert(request.responseText);
+                };
+
+                request.send("send_postid="+id+"&send_status="+send_type);
+
+            }
+
+        });
+
+
+
+    });
+
+
+</script>
