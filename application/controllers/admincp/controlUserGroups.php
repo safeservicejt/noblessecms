@@ -46,6 +46,7 @@ class controlUsergroups
 		$post['pages']=Misc::genPage('admincp/usergroups',$curPage);
 
 		$post['theList']=UserGroups::get(array(
+			'cache'=>'no',
 			'cacheTime'=>1,
 			'limitShow'=>20,
 			'limitPage'=>$curPage
@@ -87,6 +88,7 @@ class controlUsergroups
 		}
 
 		$loadData=UserGroups::get(array(
+			'cache'=>'no',
 			'where'=>"where groupid='$groupid'"
 			));
 

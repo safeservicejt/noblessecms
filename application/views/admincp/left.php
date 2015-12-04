@@ -135,117 +135,141 @@
                     </li>
                     <?php } ?>
                     
-                    <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-categories')){ ?>
-                    <li class="li-categories">
-                        <a href="<?php echo System::getAdminUrl();?>categories"><span class="glyphicon glyphicon-list-alt"></span> Categories</a>
-                    </li>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_category_manager'); if($valid=='yes'){ ?>
+                        <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-categories')){ ?>
+                        <li class="li-categories">
+                            <a href="<?php echo System::getAdminUrl();?>categories"><span class="glyphicon glyphicon-list-alt"></span> Categories</a>
+                        </li>
+                        <?php } ?>
                     <?php } ?>
 
-                    <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-post')){ ?>
-                    <li class="li-post">
-                        <a href="javascript:;" data-toggle="collapse" data-target="#post"><span class="glyphicon glyphicon-file"></span> Post <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="post" class="collapse">
-                        <li><a href="<?php echo System::getAdminUrl();?>post">List post</a></li>
-                         <li><a href="<?php echo System::getAdminUrl();?>post/status/pending">Pending</a></li>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_post_manager'); if($valid=='yes'){ ?>
+                        <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-post')){ ?>
+                        <li class="li-post">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#post"><span class="glyphicon glyphicon-file"></span> Post <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="post" class="collapse">
+                            <li><a href="<?php echo System::getAdminUrl();?>post">List post</a></li>
+                             <li><a href="<?php echo System::getAdminUrl();?>post/status/pending">Pending</a></li>
 
-                      <li><a href="<?php echo System::getAdminUrl();?>post/addnew">Add new</a></li>
-                          <li><a href="<?php echo System::getAdminUrl();?>comments">Comments</a></li>
+                          <li><a href="<?php echo System::getAdminUrl();?>post/addnew">Add new</a></li>
 
-                        </ul>
-                    </li>
+                            <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_comment_manager'); if($valid=='yes'){ ?>                          
+                              <li><a href="<?php echo System::getAdminUrl();?>comments">Comments</a></li>
+                            <?php } ?>
+                            </ul>
+                        </li>
+                        <?php } ?>
                     <?php } ?>
 
-                    <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-page')){ ?>
-                    <li class="li-pages">
-                        <a href="javascript:;" data-toggle="collapse" data-target="#page"><span class="glyphicon glyphicon-th-large"></span> Page <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="page" class="collapse">
-                         <li><a href="<?php echo System::getAdminUrl();?>pages">List page</a></li>
-                         <li><a href="<?php echo System::getAdminUrl();?>pages/addnew">Add new</a></li>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_page_manager'); if($valid=='yes'){ ?>
+                        <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-page')){ ?>
+                        <li class="li-pages">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#page"><span class="glyphicon glyphicon-th-large"></span> Page <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="page" class="collapse">
+                             <li><a href="<?php echo System::getAdminUrl();?>pages">List page</a></li>
+                             <li><a href="<?php echo System::getAdminUrl();?>pages/addnew">Add new</a></li>
 
-                        </ul>
-                    </li>
+                            </ul>
+                        </li>
+                        <?php } ?>
                     <?php } ?>
 
-                    <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-link')){ ?>
-                    <li class="li-links">
-                        <a href="javascript:;" data-toggle="collapse" data-target="#links"><span class="glyphicon glyphicon-link"></span> Links <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="links" class="collapse">
-                         <li><a href="<?php echo System::getAdminUrl();?>links">List links</a></li>
-                         <li><a href="<?php echo System::getAdminUrl();?>redirects">Redirects</a></li>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_link_manager'); if($valid=='yes'){ ?>
+                        <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-link')){ ?>
+                        <li class="li-links">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#links"><span class="glyphicon glyphicon-link"></span> Links <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="links" class="collapse">
+                             <li><a href="<?php echo System::getAdminUrl();?>links">List links</a></li>
+                             <li><a href="<?php echo System::getAdminUrl();?>redirects">Redirects</a></li>
 
-                        </ul>
-                    </li>
+                            </ul>
+                        </li>
+                        <?php } ?>
                     <?php } ?>
 
-                    <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-user')){ ?>
-                    <li class="li-users">
-                        <a href="javascript:;" data-toggle="collapse" data-target="#users"><span class="glyphicon glyphicon-user"></span> Users <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="users" class="collapse">
-                         <li><a href="<?php echo System::getAdminUrl();?>users">List users</a></li>
-                         <li><a href="<?php echo System::getAdminUrl();?>users/addnew">Add new</a></li>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_user_manager'); if($valid=='yes'){ ?>
+                        <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-user')){ ?>
+                        <li class="li-users">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#users"><span class="glyphicon glyphicon-user"></span> Users <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="users" class="collapse">
+                             <li><a href="<?php echo System::getAdminUrl();?>users">List users</a></li>
+                             <li><a href="<?php echo System::getAdminUrl();?>users/addnew">Add new</a></li>
 
-                        </ul>
-                    </li>
+                            </ul>
+                        </li>
+                        <?php } ?>
                     <?php } ?>
 
-                    <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-usergroup')){ ?>
-                    <li class="li-usergroups">
-                        <a href="javascript:;" data-toggle="collapse" data-target="#usergroup"><span class="glyphicon glyphicon-user"></span> User Groups <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="usergroup" class="collapse">
-                         <li><a href="<?php echo System::getAdminUrl();?>usergroups">List groups</a></li>
-                         <li><a href="<?php echo System::getAdminUrl();?>usergroups/addnew">Add new</a></li>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_usergroup_manager'); if($valid=='yes'){ ?>
+                        <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-usergroup')){ ?>
+                        <li class="li-usergroups">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#usergroup"><span class="glyphicon glyphicon-user"></span> User Groups <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="usergroup" class="collapse">
+                             <li><a href="<?php echo System::getAdminUrl();?>usergroups">List groups</a></li>
+                             <li><a href="<?php echo System::getAdminUrl();?>usergroups/addnew">Add new</a></li>
 
-                        </ul>
-                    </li>
+                            </ul>
+                        </li>
+                        <?php } ?>
                     <?php } ?>
 
-                    <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-contact')){ ?>
-                    <li class="li-contact">
-                        <a href="<?php echo System::getAdminUrl();?>contacts"><span class="glyphicon glyphicon-comment"></span> Contacts</a>
-                    </li>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_contact_manager'); if($valid=='yes'){ ?>
+                        <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-contact')){ ?>
+                        <li class="li-contact">
+                            <a href="<?php echo System::getAdminUrl();?>contacts"><span class="glyphicon glyphicon-comment"></span> Contacts</a>
+                        </li>
+                        <?php } ?>
                     <?php } ?>
 
-                    <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-appearance')){ ?>
-                    <li class="li-theme">
-                        <a href="javascript:;" data-toggle="collapse" data-target="#appearance"><span class="glyphicon glyphicon-th"></span> Appearance <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="appearance" class="collapse">
-                          <li><a href="<?php echo System::getAdminUrl();?>theme">Theme</a></li>
-                          <!-- <li><a href="<?php echo System::getAdminUrl();?>widgets">Widgets</a></li> -->
-                          <li><a href="<?php echo System::getAdminUrl();?>templatestore">Templates Store</a></li>      
-                          <li><a href="<?php echo System::getAdminUrl();?>theme/import">Import</a></li>  
-                        </ul>
-                    </li>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_theme_manager'); if($valid=='yes'){ ?>                 
+                        <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-appearance')){ ?>
+                        <li class="li-theme">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#appearance"><span class="glyphicon glyphicon-th"></span> Appearance <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="appearance" class="collapse">
+                              <li><a href="<?php echo System::getAdminUrl();?>theme">Theme</a></li>
+                              <!-- <li><a href="<?php echo System::getAdminUrl();?>widgets">Widgets</a></li> -->
+                              <li><a href="<?php echo System::getAdminUrl();?>templatestore">Templates Store</a></li>      
+                              <li><a href="<?php echo System::getAdminUrl();?>theme/import">Import</a></li>  
+                            </ul>
+                        </li>
+                        <?php } ?>
                     <?php } ?>
 
-                    <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-plugin')){ ?>
-                     <li class="li-plugins">
-                        <a href="javascript:;" data-toggle="collapse" data-target="#plugins"><span class="glyphicon glyphicon-wrench"></span> Plugins <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="plugins" class="collapse">
-                            <li><a href="<?php echo System::getAdminUrl();?>plugins">List Plugins</a></li>
-                            <li><a href="<?php echo System::getAdminUrl();?>pluginstore">Plugins Store</a></li>
-                            <li><a href="<?php echo System::getAdminUrl();?>plugins/import">Import</a></li>
-                        </ul>
-                    </li>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_plugin_manager'); if($valid=='yes'){ ?>
+                        <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-plugin')){ ?>
+                         <li class="li-plugins">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#plugins"><span class="glyphicon glyphicon-wrench"></span> Plugins <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="plugins" class="collapse">
+                                <li><a href="<?php echo System::getAdminUrl();?>plugins">List Plugins</a></li>
+                                <li><a href="<?php echo System::getAdminUrl();?>pluginstore">Plugins Store</a></li>
+                                <li><a href="<?php echo System::getAdminUrl();?>plugins/import">Import</a></li>
+                            </ul>
+                        </li>
+                        <?php } ?>
                     <?php } ?>
 
-                    <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-setting')){ ?>
-                       <li class="li-setting">
-                        <a href="javascript:;" data-toggle="collapse" data-target="#setting"><span class="glyphicon glyphicon-cog"></span> Setting <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="setting" class="collapse">
-                              <li><a href="<?php echo System::getAdminUrl();?>setting">General</a></li>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_setting_manager'); if($valid=='yes'){ ?>
+                        <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-setting')){ ?>
+                           <li class="li-setting">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#setting"><span class="glyphicon glyphicon-cog"></span> Setting <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="setting" class="collapse">
+                                  <li><a href="<?php echo System::getAdminUrl();?>setting">General</a></li>
 
-                              <!-- <li><a href="<?php echo System::getAdminUrl();?>setting/ecommerce">Ecommerce</a></li> -->
-                              <li><a href="<?php echo System::getAdminUrl();?>setting/mailsystem">Mail System</a></li>
-                              <li><a href="<?php echo System::getAdminUrl();?>setting/update">Update</a></li>
+                                  <!-- <li><a href="<?php echo System::getAdminUrl();?>setting/ecommerce">Ecommerce</a></li> -->
+                                  <li><a href="<?php echo System::getAdminUrl();?>setting/mailsystem">Mail System</a></li>
+                                  <li><a href="<?php echo System::getAdminUrl();?>setting/update">Update</a></li>
 
-                        </ul>
-                    </li>
+                            </ul>
+                        </li>
+                        <?php } ?>
                     <?php } ?>
 
-                    <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-other')){ ?>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_setting_manager'); if($valid=='yes'){ ?>
+                        <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-other')){ ?>
 
-                    <?php Render::cpanel_menu('admincp_menu');?>
+                        <?php Render::cpanel_menu('admincp_menu');?>
 
+                        <?php } ?>
                     <?php } ?>
 
                     <?php } ?>

@@ -66,6 +66,7 @@ class controlUsers
 			}			
 
 			$post['theList']=Users::get(array(
+				'cache'=>'no',
 				'limitShow'=>20,
 				'limitPage'=>$curPage,
 				'query'=>"select u.*,ug.*,a.* from ".$prefix."users u,".$prefix."usergroups ug,address a where u.groupid=ug.groupid AND u.userid=a.userid order by u.userid desc",
@@ -160,6 +161,7 @@ class controlUsers
 		$post['edit']=$loadData[0];
 
 		$post['listGroups']=UserGroups::get(array(
+			'cache'=>'no',
 			'orderby'=>'order by group_title asc'
 			));
 			
