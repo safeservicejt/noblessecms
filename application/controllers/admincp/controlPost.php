@@ -99,7 +99,14 @@ class controlPost
 			$addPage='/search/'.base64_encode($txtKeywords);
 		}
 
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_all_post');
 
+		if($valid!='yes')
+		{
+			$userid=Users::getCookieUserId();
+			
+			$addWhere.=" AND  p.userid='$userid'";
+		}
 
 
 		$post['pages']=Misc::genSmallPage('admincp/post'.$addPage,$curPage);
@@ -114,7 +121,7 @@ class controlPost
 		$post['theList']=Post::get(array(
 			'limitShow'=>20,
 			'limitPage'=>$curPage,
-			'query'=>"select p.*,u.username,c.title as cattitle from ".Database::getPrefix()."post p left join users u on p.userid=u.userid join ".Database::getPrefix()."categories c on p.catid=c.catid $addWhere order by p.postid desc",
+			'query'=>"select p.*,u.username,c.title as cattitle from ".Database::getPrefix()."post p left join ".Database::getPrefix()."users u on p.userid=u.userid join ".Database::getPrefix()."categories c on p.catid=c.catid $addWhere order by p.postid desc",
 			'cache'=>'no'
 			));
 

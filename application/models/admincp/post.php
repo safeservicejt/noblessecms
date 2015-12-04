@@ -17,18 +17,45 @@ function actionProcess()
 
 	switch ($action) {
 		case 'delete':
-		
-			Post::remove($id);
 
-			PostTags::remove($id," postid IN ($listID) ");
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_remove_all_post');
+
+			$addWhere='';
+			$addWhere2='';
+
+			if($valid!='yes')
+			{
+				$userid=Users::getCookieUserId();
+				
+				$addWhere=" userid='$userid'";
+				$addWhere2=" AND p.userid='$userid'";
+			}
+
+			Post::remove($id,$addWhere);
+
+			Database::query("delete pt from ".Database::getPrefix()."post_tags pt left join ".Database::getPrefix()."post p on pt.postid=p.postid WHERE p.postid IN ($listID) $addWhere2");
 
 			break;
 
 		case 'deleteall':
-		
-			Post::remove(0," postid > '0' ");
 
-			PostTags::remove(0," postid > '0' ");
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_remove_all_post');
+
+			$addWhere='';
+			$addWhere2='';
+
+			if($valid!='yes')
+			{
+				$userid=Users::getCookieUserId();
+				
+				$addWhere=" userid='$userid'";
+				$addWhere2=" p.userid='$userid'";
+
+			}
+
+			Post::remove(0,$addWhere);
+
+			Database::query("delete pt from ".Database::getPrefix()."post_tags pt left join ".Database::getPrefix()."post p on pt.postid=p.postid WHERE $addWhere2");
 
 			break;
 
