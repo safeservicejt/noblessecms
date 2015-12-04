@@ -258,6 +258,7 @@
                                   <!-- <li><a href="<?php echo System::getAdminUrl();?>setting/ecommerce">Ecommerce</a></li> -->
                                   <li><a href="<?php echo System::getAdminUrl();?>setting/mailsystem">Mail System</a></li>
                                   <li><a href="<?php echo System::getAdminUrl();?>setting/update">Update</a></li>
+                                  <li><a href="<?php echo System::getAdminUrl();?>setting/clearcache">Clear Cache</a></li>
 
                             </ul>
                         </li>

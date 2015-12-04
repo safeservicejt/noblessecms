@@ -369,7 +369,7 @@ class Users
 			'toEmail'=>$inputData['email'],
 			'toName'=>$inputData['username'],
 			'subject'=>$subject,
-			'content'=>$content
+			'body'=>$content
 			));
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
@@ -441,29 +441,21 @@ class Users
 
 	public static function makeRegister($inputData=array())
 	{
-		if(!isset($_REQUEST['send']['firstname']) && isset($inputData['firstname']))
+		$insertData=$inputData;
+
+		$insertData['password']=String::encrypt($insertData['password']);
+
+		$is_verify=isset(System::$setting['register_verify_email'])?System::$setting['register_verify_email']:'disable';
+
+		if($is_verify=='enable')
 		{
-			$_REQUEST['send']=$inputData;
+			$insertData['verify_code']=String::randText(12);
+			$inputData['verify_code']=$insertData['verify_code'];
 		}
-
-		$valid=Validator::make(array(
-			'send.firstname'=>'required|min:1|max:20|slashes',
-			'send.lastname'=>'required|min:1|max:20|slashes',
-			'send.username'=>'required|min:1|max:30|slashes',
-			'send.email'=>'required|email|max:120|slashes',
-			'send.password'=>'required|min:1|max:30|slashes'
-			));
-
-		if(!$valid)
-		{
-			throw new Exception("Check your infomartion again: ".Validator::getMessage());
-		}
-
-		$insertData=Request::get('send');
 
 		if(!$id=Users::insert($insertData))
 		{
-			throw new Exception("Check your infomartion again, pls!");
+			throw new Exception(Database::$error);
 		}	
 
 		$addData=array(
@@ -475,7 +467,7 @@ class Users
 		Address::insert($addData);
 
 		try {
-			self::newRegister($insertData);
+			self::newRegister($inputData);
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 			

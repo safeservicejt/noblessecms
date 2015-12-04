@@ -61,6 +61,26 @@ class controlSetting
 		View::make('admincp/footer');
 
 	}
+
+	public function clearcache()
+	{
+
+		$listDir=Dir::listDir(CACHES_PATH);
+
+		$total=count($listDir);
+
+		for ($i=0; $i < $total; $i++) { 
+			Dir::remove(CACHES_PATH.$listDir[$i]);
+		}
+
+		View::make('admincp/head');
+		
+		self::makeContents('clearCacheView',array());
+
+		View::make('admincp/footer');
+	
+	}
+
 	public function update()
 	{
 		$post=array('alert'=>'','alertManual'=>'');

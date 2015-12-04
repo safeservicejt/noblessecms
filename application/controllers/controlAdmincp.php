@@ -152,7 +152,12 @@ class controlAdmincp
 			if($match=Uri::match('^admincp\/forgotpass'))
 			{
 				$controlName='admincp/controlForgotpass';
-			}			
+			}	
+			if($match=Uri::match('^admincp\/register'))
+			{
+				$controlName='admincp/controlRegister';
+			}	
+
 		}
 
 		$codeHead=Plugins::load('admincp_header');

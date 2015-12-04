@@ -149,7 +149,7 @@ class Captcha
             }
 
             $verifyStatus = ($loadData[$text] == 'OK') ? true : false;
-
+     
             if($verifyStatus)
             {
                 // $_SESSION['captcha'][$text]='';
