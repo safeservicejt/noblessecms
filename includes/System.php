@@ -574,7 +574,7 @@ class System
 	{
 		$settingData=array(
 			'system_status'=>'working','system_mode'=>'basic', 'system_lang'=>'en', 'register_user_status'=>'enable',
-			'default_member_groupid'=>'1', 'default_member_banned_groupid'=>'2', 'default_dateformat'=>'M d, Y',
+			'default_member_groupid'=>'2', 'default_member_banned_groupid'=>'5', 'default_dateformat'=>'M d, Y',
 			'rss_status'=>'enable','comment_status'=>'enable', 'title'=>'Noblesse CMS Website', 'keywords'=>'noblessecms, blog, website',
 			'descriptions'=>'Noblesse CMS Website Description','default_page_method'=>'none','default_page_url'=>'','default_timezone'=>'US/Arizona',
 			'mail'=>array(

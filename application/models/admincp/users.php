@@ -33,6 +33,11 @@ function actionProcess()
 				));
 
 			break;
+		case 'banned':
+
+			Users::makeBannedUserID($id);
+
+			break;
 
 		case 'changepassword':
 

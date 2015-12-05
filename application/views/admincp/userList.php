@@ -14,6 +14,7 @@
                         <select class="form-control" name="action">
                             <option value="delete">Delete</option>
                             <option value="activate">Activate</option>
+                            <option value="banned">Banned</option>
                             <option value="changepassword">Change Password</option>
                         </select>
                        <span class="input-group-btn">

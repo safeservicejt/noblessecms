@@ -458,6 +458,17 @@ class Users
 			throw new Exception(Database::$error);
 		}	
 
+		$groupid=System::$setting['default_member_groupid'];
+
+		if((int)$groupid==0)
+		{
+			$groupid=2;
+		}
+
+		Users::update(array($id),array(
+			'groupid'=>$groupid
+			));
+
 		$addData=array(
 			'firstname'=>trim($insertData['firstname']),
 			'lastname'=>trim($insertData['lastname']),
@@ -499,6 +510,7 @@ class Users
 
 
 		$getData=self::get(array(
+			'cache'=>'no',
 			'where'=>"where (username='$username' OR email='$username') AND password='$encryptPassword'"
 			));
 
@@ -661,6 +673,33 @@ class Users
 		{
 			Cookie::make('password',$encryptPassword,1440*7);
 		}
+
+	}
+
+	public static function makeBannedUserID($userid)
+	{
+		$groupid=System::$setting['default_member_banned_groupid'];
+
+		if((int)$groupid==0)
+		{
+			$groupid=5;
+		}
+
+		$listID="";
+
+		if(is_array($userid))
+		{	
+			$listID="'".implode("','", $userid)."'";
+		}
+		else
+		{
+			$listID="'$userid'";
+
+		}
+
+		Users::update($userid,array(
+			'groupid'=>$groupid
+			),"userid IN ($listID)");
 
 	}
 
