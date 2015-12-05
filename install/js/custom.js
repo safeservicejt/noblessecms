@@ -12,6 +12,10 @@ $(document).ready(function(){
 
 	$('.btnSend').click(function(){
 
+		var theEl=$(this);
+
+		$(this).attr('disabled', true);
+
 		var txtDBName=$('.txtDBName').val();
 
 		var txtDBUser=$('.txtDBUser').val();
@@ -41,42 +45,49 @@ $(document).ready(function(){
 		if(txtDBUser.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter database username');
+			$(this).attr('disabled', false);
 
 			return false;
 		}
 		if(txtDBHost.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter database host name');
+			$(this).attr('disabled', false);
 
 			return false;
 		}
 		if(txtDBPort.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter database port');
+			$(this).attr('disabled', false);
 
 			return false;
 		}
 		if(txtUrl.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter you site url');
+			$(this).attr('disabled', false);
 
 			return false;
 		}
 		if(txtPath.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter site path');
+			$(this).attr('disabled', false);
 
 			return false;
 		}
 		if(txtEmail.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter administrator email');
+			$(this).attr('disabled', false);
 
 			return false;
 		}
 		if(txtUsername.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter administrator username');
+			$(this).attr('disabled', false);
 
 			return false;
 		}
@@ -84,6 +95,7 @@ $(document).ready(function(){
 		if(txtPassword.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter administrator password');
+			$(this).attr('disabled', false);
 
 			return false;
 		}
@@ -105,6 +117,7 @@ $(document).ready(function(){
 						{
 
 							// alert(msg);return false;
+						theEl.attr('disabled', false);
 
 						 if(msg.indexOf('ERRORCONNECT')!=-1)
 						 {
@@ -133,6 +146,10 @@ $(document).ready(function(){
 
 	$('.btnContinue').click(function(){
 
+		var theEl=$(this);
+
+		$(this).attr('disabled', true);
+
 		var txtDBName=$('.txtDBName').val();
 
 		var txtDBUser=$('.txtDBUser').val();
@@ -162,42 +179,49 @@ $(document).ready(function(){
 		if(txtDBUser.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter database username');
+			$(this).attr('disabled', false);
 
 			return false;
 		}
 		if(txtDBHost.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter database host name');
+			$(this).attr('disabled', false);
 
 			return false;
 		}
 		if(txtDBPort.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter database port');
+			$(this).attr('disabled', false);
 
 			return false;
 		}
 		if(txtUrl.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter you site url');
+			$(this).attr('disabled', false);
 
 			return false;
 		}
 		if(txtPath.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter site path');
+			$(this).attr('disabled', false);
 
 			return false;
 		}
 		if(txtUsername.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter administrator username');
+			$(this).attr('disabled', false);
 
 			return false;
 		}
 		if(txtEmail.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter administrator email');
+			$(this).attr('disabled', false);
 
 			return false;
 		}
@@ -205,6 +229,7 @@ $(document).ready(function(){
 		if(txtPassword.length <= 1)
 		{
 			showError('.notifyPanel-2','Enter administrator password');
+			$(this).attr('disabled', false);
 
 			return false;
 		}
@@ -232,6 +257,9 @@ $(document).ready(function(){
 	   dataType: "json",
 	   success: function(msg)
 						{
+				
+						theEl.attr('disabled', false);
+
 							// alert(msg);return false;
 						$('.wrapper').slideUp('fast');
 							// alert(msg['error']);return false;
