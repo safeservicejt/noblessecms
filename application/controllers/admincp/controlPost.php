@@ -89,6 +89,13 @@ class controlPost
 
 			$addPage='/category/'.$txtKeywords;			
 		}
+		
+		if($matchSearch=Uri::match('\/status\/pending'))
+		{
+			$addWhere.=" AND p.status='0'";
+
+			$addPage='/status/pending/';			
+		}
 
 		if(Request::has('btnSearch'))
 		{
