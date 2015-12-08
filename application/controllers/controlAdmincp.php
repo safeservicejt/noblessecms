@@ -138,7 +138,7 @@ class controlAdmincp
 				}
 			}
 
-			if($match=Uri::match('^admincp\/(\w+)'))
+			if($match=Uri::match('^\/?admincp\/(\w+)'))
 			{
 				$controlName='admincp/control'.ucfirst($match[1]);
 
@@ -149,11 +149,11 @@ class controlAdmincp
 		{
 			$controlName='admincp/controlLogin';
 
-			if($match=Uri::match('^admincp\/forgotpass'))
+			if($match=Uri::match('^\/?admincp\/forgotpass'))
 			{
 				$controlName='admincp/controlForgotpass';
 			}	
-			if($match=Uri::match('^admincp\/register'))
+			if($match=Uri::match('^\/?admincp\/register'))
 			{
 				$controlName='admincp/controlRegister';
 			}	
