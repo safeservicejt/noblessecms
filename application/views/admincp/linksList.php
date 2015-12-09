@@ -174,6 +174,14 @@
                         
                     </select>
                 </p>
+                 <p>
+                    <label><strong>Status</strong></label>
+                    <select class="form-control select-status" name="update[status]">
+                        <option value="published">Publish</option>
+                         <option value="unpublish">unPublish</option>
+                        
+                    </select>
+                </p>
 	    		<p>
 	    			<button type="submit" class="btn btn-primary" name="btnSave">Save changes</button>
                     <a href="<?php echo System::getUrl();?>admincp/links/" class="btn btn-default pull-right">Back</a>
@@ -192,12 +200,22 @@
 <?php if($match=Uri::match('\/edit\/\d+')){ ?>
 
 var parentid=<?php echo $edit['parentid'];?>;
+var status="<?php echo $edit['status'];?>";
 
 $(document).ready(function(){
     $('.select-parent').children('option').each(function(index, el) {
         var id=$(this).val();
 
         if(parseInt(id)==parseInt(parentid))
+        {
+            $(this).attr('selected',true);
+        }
+    });
+
+    $('.select-status').children('option').each(function(index, el) {
+        var id=$(this).val();
+
+        if(id==status)
         {
             $(this).attr('selected',true);
         }
