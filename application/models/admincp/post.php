@@ -182,14 +182,11 @@ function updateProcess($id)
 			break;
 		case 'fromurl':
 
-			if(Request::isImage('imageFromUrl'))
-			{
-				$url=Request::get('imageFromUrl');
+			$url=Request::get('imageFromUrl');
 
-				$send['image']=File::uploadFromUrl($url);
+			$send['image']=File::uploadFromUrl($url);
 
-				File::remove($loadData[0]['image']);
-			}
+			File::remove($loadData[0]['image']);
 
 			break;
 	}
@@ -262,7 +259,7 @@ function insertProcess()
 		throw new Exception("This post exists in database.");
 	}
 
-	$uploadMethod=Request::get('uploadMethod');
+	$uploadMethod=trim(Request::get('uploadMethod'));
 
 	switch ($uploadMethod) {
 		case 'frompc':
@@ -276,12 +273,9 @@ function insertProcess()
 			break;
 		case 'fromurl':
 
-			if(Request::isImage('imageFromUrl'))
-			{
-				$url=Request::get('imageFromUrl');
+			$url=Request::get('imageFromUrl');
 
-				$send['image']=File::uploadFromUrl($url);
-			}
+			$send['image']=File::uploadFromUrl($url);
 
 			break;
 	}
