@@ -156,6 +156,7 @@ function updateProcess($id)
 	}
 
 	$uploadMethod=Request::get('uploadMethod');
+	$autoCrop=trim(Request::get('autoCrop','disable'));
 
 
 	$loadData=Post::get(array(
@@ -189,6 +190,22 @@ function updateProcess($id)
 			File::remove($loadData[0]['image']);
 
 			break;
+	}
+
+
+	if($autoCrop=='enable' && preg_match('/.*?\.\w+/i', $send['image']))
+	{
+		$data=Image::getSize(ROOT_PATH.$send['image']);
+
+		if((int)$data['width'] < (int)$data['height'])
+		{
+			Image::cropCenter(ROOT_PATH.$send['image'],$data['width'],$data['width'],ROOT_PATH.$send['image']);
+		}
+
+		if((int)$data['width'] > (int)$data['height'])
+		{
+			Image::cropCenter(ROOT_PATH.$send['image'],$data['height'],$data['height'],ROOT_PATH.$send['image']);
+		}
 	}
 
 	$send['userid']=Users::getCookieUserId();
@@ -248,6 +265,8 @@ function insertProcess()
 		throw new Exception("Error Processing Request: ".Validator::getMessage());
 	}
 
+	$autoCrop=trim(Request::get('autoCrop','disable'));
+
 	$friendlyUrl=trim(String::makeFriendlyUrl($send['title']));
 
 	$getData=Post::get(array(
@@ -278,6 +297,21 @@ function insertProcess()
 			$send['image']=File::uploadFromUrl($url);
 
 			break;
+	}
+
+	if($autoCrop=='enable' && preg_match('/.*?\.\w+/i', $send['image']))
+	{
+		$data=Image::getSize(ROOT_PATH.$send['image']);
+
+		if((int)$data['width'] < (int)$data['height'])
+		{
+			Image::cropCenter(ROOT_PATH.$send['image'],$data['width'],$data['width'],ROOT_PATH.$send['image']);
+		}
+
+		if((int)$data['width'] > (int)$data['height'])
+		{
+			Image::cropCenter(ROOT_PATH.$send['image'],$data['height'],$data['height'],ROOT_PATH.$send['image']);
+		}
 	}
 
 	$send['userid']=Users::getCookieUserId();

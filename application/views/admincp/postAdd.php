@@ -97,7 +97,15 @@
                 <label><strong>Type image url</strong></label>
                 <input type="text" class="form-control" name="imageFromUrl" placeholder="Type image url" />
             </p>     
-                          
+
+                <p>
+                <label><strong>Auto Crop Center</strong></label>
+                <select class="form-control" name="autoCrop">
+                  <option value="disable">Disable</option>
+                  <option value="enable">Enable</option>
+                </select>
+
+                </p>                          
         </div>
         <!-- right -->
     </form>	
