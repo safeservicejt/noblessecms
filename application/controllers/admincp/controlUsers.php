@@ -38,7 +38,7 @@ class controlUsers
 
 		if(Request::has('btnAction'))
 		{
-			$action=Request::has('btnAction');
+			$action=Request::get('action','');
 
 			$result=actionProcess();
 

@@ -107,6 +107,7 @@ class PostTags
 	{
 
 		$loadData=self::get(array(
+			'cache'=>'no',
 			'where'=>"where postid='$postid'"
 			));
 
