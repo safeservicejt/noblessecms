@@ -328,6 +328,7 @@ function insertProcess()
 		}
 	}
 
+	$send['status']=(int)UserGroups::getPermission(Users::getCookieGroupId(),'default_new_post_status');
 
 	if(!$id=Post::insert($send))
 	{
