@@ -222,6 +222,7 @@ function updateProcess($id)
 		}
 	}
 
+	$send['status']=(int)UserGroups::getPermission(Users::getCookieGroupId(),'default_new_post_status');
 
 	if(!Post::update($id,$send))
 	{
