@@ -584,7 +584,7 @@ class LINQ
 
 			for($i=0;$i<$totalWith;$i++)
 			{
-				$tableName=$this->query['withTable'][$i]['name'];
+				$tableName=Database::getPrefix().$this->query['withTable'][$i]['name'];
 
 				$primaryKey=$this->query['withTable'][$i]['primaryKey'];
 

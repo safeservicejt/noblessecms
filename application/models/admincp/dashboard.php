@@ -45,6 +45,18 @@ function countStats()
 
 	}
 
+	if(Request::has('catid'))
+	{
+		$catid=trim(Request::get('catid',0));
+		
+		if((int)$catid > 0)
+		{
+			$addWhere=" where catid='".$catid."'";
+			$andWhere=" AND catid='".$catid."'";			
+		}
+
+	}
+
 	$loadData=Post::get(array(
 		'cache'=>'yes',
 		'cacheTime'=>30,
