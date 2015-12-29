@@ -360,7 +360,7 @@ function insertProcess()
 	PostTags::insert($insertData);
 
 	Post::update($id,array(
-		'friendly_url'=>$id.'-'.String::makeFriendlyUrl(strip_tags($send['title']));
+		'friendly_url'=>$id.'-'.String::makeFriendlyUrl(strip_tags($send['title']))
 		));	
 }
 

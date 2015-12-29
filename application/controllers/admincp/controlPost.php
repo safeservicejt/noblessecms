@@ -189,6 +189,10 @@ class controlPost
 
 		$post['tags']=PostTags::renderToText($postid);
 
+		$post['listCat']=Categories::get(array(
+			'cache'=>'no'
+			));
+		
 		System::setTitle('Edit post - '.ADMINCP_TITLE);
 
 		View::make('admincp/head');
@@ -224,6 +228,10 @@ class controlPost
 				$post['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
 			}			
 		}
+
+		$post['listCat']=Categories::get(array(
+			'cache'=>'no'
+			));		
 		
 		System::setTitle('Add new post - '.ADMINCP_TITLE);
 

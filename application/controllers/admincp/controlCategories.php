@@ -5,28 +5,6 @@ class controlCategories
 	public function index()
 	{
 
-
-        if($match=Uri::match('\/jsonCategory'))
-        {
-            $keyword=String::encode(Request::get('keyword',''));
-
-            $loadData=Categories::get(array(
-            	'where'=>"where title LIKE '%$keyword%'",
-                'orderby'=>'order by title asc'
-                ));
-
-            $total=count($loadData);
-
-            $li='';
-
-            for($i=0;$i<$total;$i++)
-            {
-                $li.='<li><span data-method="category" data-id="'.$loadData[$i]['catid'].'" >'.$loadData[$i]['title'].'</span></li>';
-            }
-
-            echo $li;
-            die();
-        }
 		
 		$post=array('alert'=>'');
 
@@ -167,6 +145,10 @@ class controlCategories
 
 			$post['edit']=$loadData[0];
 		}
+
+		$post['listCat']=Categories::get(array(
+			'cache'=>'no'
+			));
 
 		System::setTitle('Categories list - '.ADMINCP_TITLE);
 

@@ -1,4 +1,4 @@
-
+  <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstrap/chosen/bootstrap-chosen.css">
 <script src="<?php echo System::getUrl(); ?>bootstrap/ckeditor/ckeditor.js"></script>
 
 <div class="panel panel-default">
@@ -41,10 +41,22 @@
                 <div class="row">
                 <div class="col-lg-12">
                 <label><strong>Category</strong></label>
-                <input type="text" class="form-control txtAuto" data-maxselect="1" data-numselected="0" data-method="category" data-key="jsonCategory" placeholder="Type here..." />
+                <select name="send[parentid]" class="form-control chosen-select selected-parentid">
+                    <?php if(isset($listCat[0]['catid'])){ ?>
+                    <?php
+                    $total=count($listCat);
 
-                  <div class="listAutoSuggest"><ul></ul></div>  
-                  <ul class="ulChosen"></ul>
+                    $li='';
+
+                    for ($i=0; $i < $total; $i++) { 
+
+                        $li.='<option value="'.$listCat[$i]['catid'].'">'.$listCat[$i]['title'].'</option>';
+                    }
+
+                    echo $li;
+                    ?>
+                    <?php } ?>
+                </select>
                 </div>
                 </div>
 
@@ -122,133 +134,27 @@ CKEDITOR.replace( 'editor' ,{
 });   
 
 </script>
-
+<script src="<?php echo ROOT_URL;?>bootstrap/chosen/chosen.jquery.js"></script>  
+<script>
+  $(function() {
+    $('.chosen-select').chosen();
+  });
+</script>
 
   <script type="text/javascript">
-            var root_url='<?php echo System::getUrl();?>';
+  var root_url='<?php echo System::getUrl();?>';
 
-$(document).ready(function(){
-    $('#uploadMethod').change(function(){
-        var option=$(this).children('option:selected');
+  $(document).ready(function(){
+      $('#uploadMethod').change(function(){
+          var option=$(this).children('option:selected');
 
-        var target=option.attr('data-target');
+          var target=option.attr('data-target');
 
-        $('.pupload').hide();
-        $('.'+target).slideDown('fast');
+          $('.pupload').hide();
+          $('.'+target).slideDown('fast');
 
-    });
+      });
 
-});
-
- $( document ).on( "click", "span.removeTextChosen", function() {
-
-  var txtAuto=$(this).parent().parent().parent().children('.txtAuto');
-
-    var theMaxSelect=txtAuto.attr('data-maxselect');
-
-    var theNumSelect=txtAuto.attr('data-numselected');
-
-    theNumSelect=parseInt(theNumSelect)-1;
-
-    txtAuto.attr('data-numselected',theNumSelect);
-
-    if(parseInt(theNumSelect) < parseInt(theMaxSelect))
-    {
-        txtAuto.attr('disabled',false);
-    }   
-
-    $(this).parent().remove();
-});       
-
-$( document ).on( "keydown", "input.txtAuto", function() {
-
-
-  var theValue=$(this).val();
-
-  var listUl=$(this).parent();
-
-  var keyName=$(this).attr('data-key');
-
-  var targetID=$(this).attr('data-targetID');
-
-  if(theValue.length > 1 )
-  {
-
-    $.ajax({
-     type: "POST",
-     url: root_url+"admincp/categories/"+keyName,
-     data: ({
-        do : "load",
-        keyword : theValue
-        }),
-     dataType: "html",
-     success: function(msg)
-            {
-             // $('#listtenPhuongAuto').html('<ul>'+msg+'</ul>');
-
-             // $('#listtenPhuongAuto').slideDown('fast');
-
-             if(listUl.children('.listAutoSuggest').length == 0)
-             {
-                listUl.append('<div class="listAutoSuggest"></div>');
-             }
-
-
-            listUl.children('.listAutoSuggest').html('<ul>'+msg+'</ul>').slideDown('fast');
-
-             }
-       });            
-  }
-
-});    
-
-$( document ).on( "click", "div.listAutoSuggest > ul > li > span", function() {
-
-    var theValue=$(this).text();
-
-    var theID=$(this).attr('data-id');
-
-    var theMethod=$(this).attr('data-method');
-
-    var txtAuto=$(this).parent().parent().parent().parent().children('.txtAuto');
-
-    txtAuto.val('');
-
-    var theMaxSelect=txtAuto.attr('data-maxselect');
-
-    var theNumSelect=txtAuto.attr('data-numselected');
-
-    var numLi=$(this).parent().parent().parent().parent().children('.ulChosen').children('.li').length;
-
-    if(parseInt(theNumSelect)==0 && parseInt(numLi) == parseInt(theMaxSelect))
-    {
-
-        txtAuto.attr('disabled',true);
-
-        $(this).parent().parent().parent().slideUp('fast');
-
-        return false;
-    } 
-    var newLi='<li><span class="textChosen" >'+theValue+'</span><span title="Remove this" class="removeTextChosen">[x]</span>';
-
-    if(theMethod=='category')
-    {
-        newLi+='<input type="hidden" name="send[catid]" class="valueChosen" value="'+theID+'" />';
-    }
-
-        newLi+='</li></ul>';
-
-    $(this).parent().parent().parent().parent().children('ul.ulChosen').append(newLi);
-    $(this).parent().parent().parent().slideUp('fast');
-
-    theNumSelect=parseInt(theNumSelect)+1;
-
-    txtAuto.attr('data-numselected',theNumSelect);
-
-    if(parseInt(theNumSelect) >= parseInt(theMaxSelect))
-    {
-        txtAuto.attr('disabled',true);
-    }
-
-});             
+  });
+    
   </script>

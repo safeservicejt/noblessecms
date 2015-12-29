@@ -1,4 +1,4 @@
-
+  <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstrap/chosen/bootstrap-chosen.css">
 <script src="<?php echo System::getUrl(); ?>bootstrap/ckeditor/ckeditor.js"></script>
 
 <div class="panel panel-default">
@@ -41,19 +41,31 @@
                 <div class="row">
                 <div class="col-lg-12">
                 <label><strong>Category</strong></label>
-                <input type="text" class="form-control txtAuto" data-maxselect="1" data-numselected="1" data-method="category" data-key="jsonCategory" placeholder="Type here..." />
+                <select name="send[parentid]" class="form-control chosen-select selected-parentid">
+                    <?php if(isset($listCat[0]['catid'])){ ?>
+                    <?php
+                    $total=count($listCat);
 
-                  <div class="listAutoSuggest"><ul></ul></div>  
-                  <ul class="ulChosen">
-                  <?php if(isset($edit['cattitle'])){ ?>
-                  <li>
-                  <span class="textChosen"><?php echo $edit['cattitle'];?></span>
-                  <span title="Remove this" class="removeTextChosen">[x]</span>
-                  <input type="hidden" name="send[catid]" class="valueChosen" value="<?php echo $edit['catid'];?>">
-                  </li>    
-                <?php } ?>                    
+                    $selected="";
 
-                  </ul>
+                    $li='';
+
+                    for ($i=0; $i < $total; $i++) { 
+
+                        $selected="";
+
+                        if((int)$listCat[$i]['catid']==(int)$edit['catid'])
+                        {
+                            $selected="selected";
+                        }
+
+                        $li.='<option value="'.$listCat[$i]['catid'].'" '.$selected.'>'.$listCat[$i]['title'].'</option>';
+                    }
+
+                    echo $li;
+                    ?>
+                    <?php } ?>
+                </select>
                 </div>
                 </div>
 
@@ -132,7 +144,12 @@ CKEDITOR.replace( 'editor' ,{
   filebrowserImageBrowseUrl : '<?php echo System::getUrl();?>bootstrap/ckeditor/filemanager/dialog.php?type=1&editor=ckeditor&fldr='
 });   
 </script>
-
+<script src="<?php echo ROOT_URL;?>bootstrap/chosen/chosen.jquery.js"></script>  
+<script>
+  $(function() {
+    $('.chosen-select').chosen();
+  });
+</script>
 
   <script type="text/javascript">
             var root_url='<?php echo System::getUrl();?>';
