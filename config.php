@@ -1,8 +1,13 @@
 <?php
 
-static $root_path = 'D:\wamp\htdocs\project\2015/noblessecmsv2/';
-static $root_url = 'http://test.vn/project/2015/noblessecmsv2/';
+$isHttp=isset($_SERVER['HTTPS'])?$_SERVER['HTTPS']:'';
 
+$beforeUrl=($isHttp=='on')?'https://':'http://';
+
+static $root_path = 'D:\wamp\htdocs\project\2015/noblessecmsv2/';
+static $root_url = 'client.dev';
+
+$root_url=$beforeUrl.$root_url.'/';
 
 define("ENCRYPT_SECRET_KEY", "*&^@#&)@#)(*)(@#");
 

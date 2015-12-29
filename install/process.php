@@ -98,6 +98,15 @@ function startInstall()
   preg_match('/(.*?)\/install/i', $uri,$match);
 
   $url=$match[1];
+
+  $theHost=$url;
+
+  $parseUrl=parse_url($url);
+
+  if(isset($parseUrl['host']))
+  {
+    $theHost=$parseUrl['host'];
+  }
   
 
   // echo $path;
@@ -203,7 +212,7 @@ function startInstall()
     '/"dbname" \=\> ".*?"/i'=>'"dbname" => "'.$dbname.'"',
     '/"dbport" \=\> ".*?"/i'=>'"dbport" => "'.$dbport.'"',
    '/root_path = \'.*?\';/i'=>'root_path = \''.$tmpPath.'\';',
-   '/root_url = \'.*?\';/i'=>'root_url = \''.$url.'\';',
+   '/root_url = \'.*?\';/i'=>'root_url = \''.$theHost.'\';',
    '/"ENCRYPT_SECRET_KEY", ".*?"/i'=>'"ENCRYPT_SECRET_KEY", "'.$secretKey.'"'
     );
 

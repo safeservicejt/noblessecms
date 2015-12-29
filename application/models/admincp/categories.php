@@ -88,15 +88,21 @@ function updateProcess($id)
 		throw new Exception("Error Processing Request: ".Validator::getMessage());
 	}
 
+	$loadData=Categories::get(array(
+		'where'=>"where catid='$id'"
+		));
+
+	if(!isset($loadData[0]['catid']))
+	{
+		throw new Exception('This category not exists.');
+		
+	}
+
 	if(Request::hasFile('image'))
 	{
 		if(Request::isImage('image'))
 		{
 			$update['image']=File::upload('image');
-
-			$loadData=Categories::get(array(
-				'where'=>"where catid='$id'"
-				));
 
 			if(isset($loadData[0]['catid']))
 			{
@@ -107,7 +113,10 @@ function updateProcess($id)
 
 
 	Categories::update($id,$update);
-	
+
+	// Categories::update($id,array(
+	// 	'friendly_url'=>$loadData[0]['catid'].'-'.$loadData[0]['friendly_url']
+	// 	));	
 }
 
 function insertProcess()

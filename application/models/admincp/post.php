@@ -158,10 +158,16 @@ function updateProcess($id)
 	$uploadMethod=Request::get('uploadMethod');
 	$autoCrop=trim(Request::get('autoCrop','disable'));
 
+	// $send['userid']=Users::getCookieUserId();
+
+	// $userid=Users::getCookieUserId();
+
 
 	$loadData=Post::get(array(
 		'where'=>"where postid='$id'"
 		));
+
+	
 
 	if(!isset($loadData[0]['postid']))
 	{
@@ -208,7 +214,6 @@ function updateProcess($id)
 		}
 	}
 
-	$send['userid']=Users::getCookieUserId();
 
 	if(!Request::has('send.catid'))
 	{
@@ -245,7 +250,10 @@ function updateProcess($id)
 	}
 
 	PostTags::insert($insertData);
-	
+
+	// Post::update($id,array(
+	// 	'friendly_url'=>$id.'-'.String::makeFriendlyUrl(strip_tags($loadData[0]['title']));
+	// 	));		
 }
 
 function insertProcess()
@@ -351,6 +359,9 @@ function insertProcess()
 
 	PostTags::insert($insertData);
 
+	Post::update($id,array(
+		'friendly_url'=>$id.'-'.String::makeFriendlyUrl(strip_tags($send['title']));
+		));	
 }
 
 ?>
