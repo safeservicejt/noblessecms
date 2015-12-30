@@ -147,7 +147,8 @@ function updateProcess($id)
 		'tags'=>'slashes',
 		'send.catid'=>'slashes',
 		'send.type'=>'slashes',
-		'send.allowcomment'=>'slashes'
+		'send.allowcomment'=>'slashes',
+		'send.friendly_url'=>'min:1|slashes'
 		));
 
 	if(!$valid)

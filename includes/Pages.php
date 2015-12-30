@@ -314,22 +314,18 @@ class Pages
 
 		$listIDs="'".implode("','",$listID)."'";
 				
-		if(isset($post['title']))
+		if(isset($post['friendly_url']))
 		{
-			$postTitle=isset($post['addTitle'])?$post['addTitle']:$post['title'];
-
-			$post['title']=String::encode(strip_tags($post['title']));
-
-			$post['friendly_url']=String::makeFriendlyUrl(strip_tags($postTitle));
-
-			$loadPage=self::get(array(
-				'where'=>"where friendly_url='".$post['friendly_url']."'"
+			$loadData=self::get(array(
+				'cache'=>'no',
+				'where'=>"where friendly_url='".$post['friendly_url']."' AND pageid<>'".$listID[0]."'"
 				));
 
-			if(isset($loadPage[0]['pageid']) && (int)$loadPage[0]['pageid']<>(int)$listID[0])
+			if(isset($loadData[0]['pageid']))
 			{
 				return false;
 			}
+
 		}		
 
 		if(isset($post['content']))

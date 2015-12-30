@@ -14,6 +14,10 @@
                 <label><strong>Title</strong></label>
                 <input type="text" class="form-control" name="send[title]" value="<?php echo $edit['title'];?>" placeholder="Title" />
             </p>
+            <p>
+                <label><strong>Friendly Url</strong></label>
+                <input type="text" class="form-control" name="send[friendly_url]" value="<?php echo $edit['friendly_url'];?>" placeholder="Friendly Url" />
+            </p>
  
             <p>
                 <label><strong>Content</strong></label>

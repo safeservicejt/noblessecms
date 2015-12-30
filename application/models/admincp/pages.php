@@ -89,6 +89,7 @@ function updateProcess($id)
 
 	$valid=Validator::make(array(
 		'send.title'=>'min:1|slashes',
+		'send.friendly_url'=>'min:1|slashes',
 		'send.content'=>'min:1',
 		'send.keywords'=>'slashes'
 		));

@@ -139,9 +139,13 @@
             <form action="" method="post" enctype="multipart/form-data"> 
             <?php echo $alert;?>
 	     		<h4>Edit</h4>
+                <p>
+                    <label><strong>Title</strong></label>
+                    <input type="text" class="form-control" name="send[title]" value="<?php if(isset($edit['title']))echo $edit['title'];?>" placeholder="Title" id="txtTitle" />
+                </p>
 	    		<p>
-	    			<label><strong>Title</strong></label>
-	    			<input type="text" class="form-control" name="send[title]" value="<?php if(isset($edit['title']))echo $edit['title'];?>" placeholder="Title" id="txtTitle" />
+	    			<label><strong>Friendly Url</strong></label>
+	    			<input type="text" class="form-control" name="send[friendly_url]" value="<?php if(isset($edit['friendly_url']))echo $edit['friendly_url'];?>" placeholder="Friendly Url" id="txtTitle" />
 	    		</p>
 
                 <p class="pChosen">

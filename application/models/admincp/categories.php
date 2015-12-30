@@ -80,7 +80,8 @@ function updateProcess($id)
 
 	$valid=Validator::make(array(
 		'send.title'=>'required|min:1|slashes',
-		'send.parentid'=>'slashes'
+		'send.parentid'=>'slashes',
+		'send.friendly_url'=>'min:1|slashes'
 		));
 
 	if(!$valid)
