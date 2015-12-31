@@ -41,7 +41,7 @@
                 <div class="row">
                 <div class="col-lg-12">
                 <label><strong>Category</strong></label>
-                <select name="send[parentid]" class="form-control chosen-select selected-parentid">
+                <select name="send[catid]" class="form-control chosen-select selected-parentid">
                     <?php if(isset($listCat[0]['catid'])){ ?>
                     <?php
                     $total=count($listCat);
