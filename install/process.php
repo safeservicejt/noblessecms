@@ -105,7 +105,7 @@ function startInstall()
 
   if(isset($parseUrl['host']))
   {
-    $theHost=$parseUrl['host'];
+    $theHost=$parseUrl['host'].$parseUrl['path'];
   }
   
 
