@@ -177,7 +177,7 @@ class PostTags
 
 
 				if(isset($theRow['title']))
-				$theRow['title']=trim(String::makeFriendlyUrl(strip_tags($theRow['title'])));
+				$theRow['title']=strtolower(trim(String::makeFriendlyUrl(strip_tags($theRow['title']))));
 
 				$keyNames=array_keys($theRow);
 
@@ -196,7 +196,7 @@ class PostTags
 		else
 		{
 			if(isset($inputData['title']))
-			$inputData['title']=trim(String::makeFriendlyUrl(strip_tags($inputData['title'])));
+			$inputData['title']=strtolower(trim(String::makeFriendlyUrl(strip_tags($inputData['title']))));
 
 			if(strlen($inputData['title'])==0)
 			{

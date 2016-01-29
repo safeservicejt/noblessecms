@@ -25,6 +25,8 @@ class System
 
 	public static $setting=array();
 
+	public static $tmpData=array();
+
 	public static $themeConfig=array();
 
 	public static $adminTitle='Cpanel Noblesse CMS';
@@ -405,6 +407,17 @@ class System
 	public static function getUrl()
 	{
 		$url=isset($_COOKIE['root_url'])?$_COOKIE['root_url']:ROOT_URL;
+
+		return $url;
+	}
+	
+	public static function getCurrentUrl()
+	{
+		$isHttp=isset($_SERVER['HTTPS'])?$_SERVER['HTTPS']:'';
+
+		$beforeUrl=($isHttp=='on')?'https://':'http://';
+
+		$url=$beforeUrl.$_SERVER['HTTP_HOST'].'/'.System::getUri();
 
 		return $url;
 	}

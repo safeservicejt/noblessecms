@@ -76,6 +76,12 @@ class controlPlugins
 			Alert::make('You not have permission to view this page');
 		}
 
+		define("PLUGIN_PATH", PLUGINS_PATH.$foldername.'/');
+
+		define("PLUGIN_VIEW_PATH", PLUGIN_PATH.'views/');
+		define("PLUGIN_CONTROLLER_PATH", PLUGIN_PATH.'controller/');
+		define("PLUGIN_MODEL_PATH", PLUGIN_PATH.'model/');
+
 		Plugins::makeInstall($foldername);
 
 		$path=PLUGINS_PATH.$foldername.'/index.php';
@@ -132,6 +138,12 @@ class controlPlugins
 		define("THIS_URL",$thisUrl);
 
 		define("THIS_PATH",PLUGINS_PATH.$foldername.'/');
+
+		define("PLUGIN_PATH", PLUGINS_PATH.$foldername.'/');
+
+		define("PLUGIN_VIEW_PATH", PLUGIN_PATH.'views/');
+		define("PLUGIN_CONTROLLER_PATH", PLUGIN_PATH.'controller/');
+		define("PLUGIN_MODEL_PATH", PLUGIN_PATH.'model/');
 		
 		$post['title']=ucfirst($foldername);
 
@@ -185,6 +197,12 @@ class controlPlugins
 		}
 
 		define("THIS_URL",PLUGINS_URL.$foldername.'/');
+
+		define("PLUGIN_PATH", PLUGINS_PATH.$foldername.'/');
+
+		define("PLUGIN_VIEW_PATH", PLUGIN_PATH.'views/');
+		define("PLUGIN_CONTROLLER_PATH", PLUGIN_PATH.'controller/');
+		define("PLUGIN_MODEL_PATH", PLUGIN_PATH.'model/');
 		
 		$post['title']=ucfirst($foldername);
 
@@ -234,6 +252,12 @@ class controlPlugins
 			Alert::make('You not have permission to view this page');
 		}
 
+		define("PLUGIN_PATH", PLUGINS_PATH.$foldername.'/');
+
+		define("PLUGIN_VIEW_PATH", PLUGIN_PATH.'views/');
+		define("PLUGIN_CONTROLLER_PATH", PLUGIN_PATH.'controller/');
+		define("PLUGIN_MODEL_PATH", PLUGIN_PATH.'model/');
+
 		$post['title']=ucfirst($foldername);
 
 		$post['filePath']=$path;
@@ -273,6 +297,12 @@ class controlPlugins
 		{
 			Alert::make('You not have permission to view this page');
 		}
+
+		define("PLUGIN_PATH", PLUGINS_PATH.$foldername.'/');
+
+		define("PLUGIN_VIEW_PATH", PLUGIN_PATH.'views/');
+		define("PLUGIN_CONTROLLER_PATH", PLUGIN_PATH.'controller/');
+		define("PLUGIN_MODEL_PATH", PLUGIN_PATH.'model/');
 
 		$loadData=Plugins::get(array(
 			'cache'=>'no',
@@ -334,6 +364,12 @@ class controlPlugins
 			Alert::make('You not have permission to view this page');
 		}
 
+		define("PLUGIN_PATH", PLUGINS_PATH.$foldername.'/');
+
+		define("PLUGIN_VIEW_PATH", PLUGIN_PATH.'views/');
+		define("PLUGIN_CONTROLLER_PATH", PLUGIN_PATH.'controller/');
+		define("PLUGIN_MODEL_PATH", PLUGIN_PATH.'model/');
+
 		Database::query("update ".Database::getPrefix()."plugins set status='1' where foldername='$foldername'");
 		Database::query("update ".Database::getPrefix()."plugins_meta set status='1' where foldername='$foldername'");
 
@@ -371,6 +407,12 @@ class controlPlugins
 		{
 			Alert::make('You not have permission to view this page');
 		}
+
+		define("PLUGIN_PATH", PLUGINS_PATH.$foldername.'/');
+
+		define("PLUGIN_VIEW_PATH", PLUGIN_PATH.'views/');
+		define("PLUGIN_CONTROLLER_PATH", PLUGIN_PATH.'controller/');
+		define("PLUGIN_MODEL_PATH", PLUGIN_PATH.'model/');
 
 		Database::query("update ".Database::getPrefix()."plugins set status='0' where foldername='$foldername'");
 		Database::query("update ".Database::getPrefix()."plugins_meta set status='0' where foldername='$foldername'");

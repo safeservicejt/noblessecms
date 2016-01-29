@@ -104,6 +104,7 @@
                     <div class="col-lg-12">
                     <label><strong>Parent</strong></label>
                     <select name="send[parentid]" class="form-control chosen-select">
+                        <option value="">None</option>
                         <?php if(isset($listCat[0]['catid'])){ ?>
                         <?php
                         $total=count($listCat);
@@ -153,6 +154,7 @@
                         <div class="col-lg-12">
                         <label><strong>Parent</strong></label>
                         <select name="send[parentid]" class="form-control chosen-select selected-parentid">
+                            <option value="">None</option>
                             <?php if(isset($listCat[0]['catid'])){ ?>
                             <?php
                             $total=count($listCat);

@@ -232,6 +232,10 @@ class controlTheme
 
 		define('THEME_CP_PATH', $thePath.'cp/');
 
+		define("THEME_VIEW_PATH", $thePath.'views/');
+		define("THEME_CONTROLLER_PATH", $thePath.'controller/');
+		define("THEME_MODEL_PATH", $thePath.'model/');
+
 		$post['filePath']=$info;
 
 		System::setTitle('Setting theme '.$theName.' - '.ADMINCP_TITLE);
@@ -272,7 +276,13 @@ class controlTheme
 				Alert::make('Controller <b>'.$controllerName.'</b> of theme '.$themeName.' not found.');
 			}
 
+			$thePath=THEMES_PATH.$themeName;
+
 			define("THEME_CP_PATH", THEMES_PATH.$themeName.'cp/');
+
+			define("THEME_VIEW_PATH", $thePath.'views/');
+			define("THEME_CONTROLLER_PATH", $thePath.'controller/');
+			define("THEME_MODEL_PATH", $thePath.'model/');
 
 			$post['file']=$path;
 
