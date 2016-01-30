@@ -80,6 +80,8 @@ class System
 
 		Theme::loadThemeConfig('before_load_database');
 
+		CustomPlugins::load('before_load_database');
+
 		// self::checkCurrency();
 
 		self::checkLang();
@@ -91,23 +93,7 @@ class System
 		self::systemStatus();
 
 		self::setTimeZone();
-	
 
-		if($systemMode!='basic')
-		{
-			
-			if(Domain::isOtherDomain())
-			{
-				Domain::checkConfig();
-
-				Domain::checkTheme();
-
-				Users::checkConfig();
-
-				Users::checkUseTheme();
-			}
-
-		}
 
 		PluginsZone::loadCache();
 
@@ -116,19 +102,8 @@ class System
 		self::defaultPageUri();
 		
 		Database::connect();
-		
-		if($systemMode!='basic')
-		{
-			if(Domain::isOtherDomain())
-			{
-				Domain::checkConnectDB();
-				
-				Users::checkConnectDB();	
 
-				Domain::loadPrefix();			
-			}
-
-		}
+		CustomPlugins::load('after_load_database');
 
 		Plugins::load('before_system_start');
 
@@ -141,6 +116,7 @@ class System
 		self::userStatus();
 
 		Theme::loadThemeConfig('after_load_database');
+
 		
 	}
 

@@ -47,27 +47,29 @@ class controlContacts
 			actionProcess();
 		}
 
-		if(Request::has('btnSearch'))
-		{
-			filterProcess();
-		}
-		else
-		{
-			$post['pages']=Misc::genSmallPage('admincp/contacts',$curPage);
+		$post['theList']=Contactus::get(array(
+			'limitShow'=>20,
+			'limitPage'=>$curPage,
+			'cacheTime'=>1
+			));
 
-			$filterPending='';
+		$countPost=Contactus::get(array(
+			'selectFields'=>'count(contactid)as totalRow',
+			'cache'=>'no'
+			));
 
-			if(Uri::has('\/status\/pending'))
-			{
-				$filterPending=" AND p.status='0' ";
-			}
+		$post['pages']=Misc::genSmallPage(array(
+			'url'=>'admincp/contacts',
+			'curPage'=>$curPage,
+			'limitShow'=>20,
+			'limitPage'=>5,
+			'showItem'=>count($post['theList']),
+			'totalItem'=>$countPost[0]['totalRow'],
+			));
 
-			$post['theList']=Contactus::get(array(
-				'limitShow'=>20,
-				'limitPage'=>$curPage,
-				'cacheTime'=>1
-				));
-		}
+		$post['totalPost']=$countPost[0]['totalRow'];
+
+		$post['totalPage']=intval((int)$countPost[0]['totalRow']/20);
 
 		System::setTitle('Contacts list - '.ADMINCP_TITLE);
 

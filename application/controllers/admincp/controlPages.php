@@ -35,6 +35,17 @@ class controlPages
 		}
 
 		$addWhere='';
+		$addPage='';
+		
+		if($matchS=Uri::match('\/search\/([a-zA-Z0-9_\-\=\.\+]+)'))
+		{
+
+			$txtKeywords=base64_decode($matchS[1]);
+
+			$addWhere="where title LIKE '%$txtKeywords%'";
+
+			$addPage='/search/'.base64_encode($txtKeywords);			
+		}
 
 		if(Request::has('btnSearch'))
 		{
@@ -42,15 +53,8 @@ class controlPages
 
 			$addWhere="where title LIKE '%$addWhere%'";
 
-			Cookie::make('page_search',base64_encode($addWhere));
+			$addPage='/search/'.base64_encode($txtKeywords);
 		}
-
-		if(isset($_COOKIE['page_search']))
-		{
-			$addWhere=base64_decode($_COOKIE['page_search']);
-		}
-		
-		$post['pages']=Misc::genSmallPage('admincp/pages',$curPage);
 
 		$post['theList']=Pages::get(array(
 			'limitShow'=>20,
@@ -58,6 +62,25 @@ class controlPages
 			'where'=>$addWhere,
 			'cacheTime'=>1
 			));
+
+		$countPost=Pages::get(array(
+			'where'=>$addWhere,
+			'selectFields'=>'count(pageid)as totalRow',
+			'cacheTime'=>1
+			));
+
+		$post['pages']=Misc::genSmallPage(array(
+			'url'=>'admincp/pages'.$addPage,
+			'curPage'=>$curPage,
+			'limitShow'=>20,
+			'limitPage'=>5,
+			'showItem'=>count($post['theList']),
+			'totalItem'=>$countPost[0]['totalRow'],
+			));
+
+		$post['totalPost']=$countPost[0]['totalRow'];
+
+		$post['totalPage']=intval((int)$countPost[0]['totalRow']/20);
 
 		System::setTitle('Pages list - '.ADMINCP_TITLE);
 

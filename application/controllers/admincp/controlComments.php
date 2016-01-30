@@ -33,29 +33,31 @@ class controlComments
 		{
 			actionProcess();
 		}
+		
+		$post['theList']=Comments::get(array(
+			'limitShow'=>20,
+			'limitPage'=>$curPage,
+			'query'=>"select c.*,p.title from ".Database::getPrefix()."post p,".Database::getPrefix()."comments c where c.postid=p.postid order by c.commentid desc",
+			'cacheTime'=>1
+			));
 
-		if(Request::has('btnSearch'))
-		{
-			filterProcess();
-		}
-		else
-		{
-			$post['pages']=Misc::genSmallPage('admincp/comments',$curPage);
+		$countPost=Comments::get(array(
+			'query'=>"select count(c.commentid)as totalRow from ".Database::getPrefix()."post p,".Database::getPrefix()."comments c where c.postid=p.postid order by c.commentid desc",
+			'cache'=>'no'
+			));
 
-			$filterPending='';
+		$post['pages']=Misc::genSmallPage(array(
+			'url'=>'admincp/comments',
+			'curPage'=>$curPage,
+			'limitShow'=>20,
+			'limitPage'=>5,
+			'showItem'=>count($post['theList']),
+			'totalItem'=>$countPost[0]['totalRow'],
+			));
 
-			if(Uri::has('\/status\/pending'))
-			{
-				$filterPending=" AND c.status='0' ";
-			}
+		$post['totalPost']=$countPost[0]['totalRow'];
 
-			$post['theList']=Comments::get(array(
-				'limitShow'=>20,
-				'limitPage'=>$curPage,
-				'query'=>"select c.*,p.title from ".Database::getPrefix()."post p,".Database::getPrefix()."comments c where c.postid=p.postid order by c.commentid desc",
-				'cacheTime'=>1
-				));
-		}
+		$post['totalPage']=intval((int)$countPost[0]['totalRow']/20);
 
 		System::setTitle('Comments list - '.ADMINCP_TITLE);
 

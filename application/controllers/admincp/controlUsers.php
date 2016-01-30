@@ -48,31 +48,64 @@ class controlUsers
 			}
 		}
 
+		$addWhere='';
+
+		$addPage='';
+
 		if(Request::has('btnSearch'))
 		{
-			filterProcess();
+			$txtKeywords=trim(Request::get('txtKeywords',''));
+
+			$addWhere="(u.username LIKE '%$txtKeywords%' OR u.email='$txtKeywords') AND ";
+
+			$addPage='/search/'.base64_encode($txtKeywords);
 		}
-		else
+
+		if($matchSearch=Uri::match('\/search\/([a-zA-Z0-9_\+\=]+)'))
 		{
-			$post['pages']=Misc::genSmallPage('admincp/users',$curPage);
+			$txtKeywords=base64_decode($matchSearch[1]);
 
-			$prefix='';
+			$addWhere="(u.username LIKE '%$txtKeywords%' OR u.email='$txtKeywords') AND ";
 
-			$prefixall=Database::isPrefixAll();
-
-			if($prefixall!=false || $prefixall=='no')
-			{
-				$prefix=Database::getPrefix();
-			}			
-
-			$post['theList']=Users::get(array(
-				'cache'=>'no',
-				'limitShow'=>20,
-				'limitPage'=>$curPage,
-				'query'=>"select u.*,ug.*,a.* from ".$prefix."users u,".$prefix."usergroups ug,address a where u.groupid=ug.groupid AND u.userid=a.userid order by u.userid desc",
-				'cacheTime'=>1
-				));
+			$addPage='/search/'.base64_encode($txtKeywords);			
 		}
+
+		$prefix='';
+
+		$prefixall=Database::isPrefixAll();
+
+		if($prefixall!=false || $prefixall=='no')
+		{
+			$prefix=Database::getPrefix();
+		}			
+
+		$post['theList']=Users::get(array(
+			'cache'=>'no',
+			'limitShow'=>20,
+			'limitPage'=>$curPage,
+			'query'=>"select u.*,ug.*,a.* from ".$prefix."users u,".$prefix."usergroups ug,address a where ".$addWhere." u.groupid=ug.groupid AND u.userid=a.userid group by u.userid order by u.userid desc",
+			'cacheTime'=>1
+			));
+
+
+		$countPost=Post::get(array(
+			'query'=>"select count(u.userid)as totalRow from ".$prefix."users u,".$prefix."usergroups ug,address a where ".$addWhere." u.groupid=ug.groupid AND u.userid=a.userid group by u.userid order by u.userid desc",
+			'cache'=>'no'
+			));
+
+		$post['pages']=Misc::genSmallPage(array(
+			'url'=>'admincp/users'.$addPage,
+			'curPage'=>$curPage,
+			'limitShow'=>20,
+			'limitPage'=>5,
+			'showItem'=>count($post['theList']),
+			'totalItem'=>$countPost[0]['totalRow'],
+			));
+
+		$post['totalPost']=$countPost[0]['totalRow'];
+
+		$post['totalPage']=intval((int)$countPost[0]['totalRow']/20);
+
 
 		System::setTitle('User list - '.ADMINCP_TITLE);
 

@@ -94,7 +94,7 @@ class controlCategories
 		}
 
 		$post['theList']=Categories::get(array(
-			'limitShow'=>30,
+			'limitShow'=>50,
 			'limitPage'=>$curPage,
 			'where'=>$addWhere,
 			'orderby'=>'order by catid desc',
@@ -158,13 +158,22 @@ class controlCategories
 		}
 
 
-
 		$totalRow=$getTotal[0]['totalRow'];
 
-		$totalPage=intval((int)$totalRow/30);
+		$totalPage=intval((int)$totalRow/50);
 
+		$post['totalPost']=$totalRow;
 
-		$post['pages']=Misc::genSmallPage('admincp/categories',$curPage,$totalPage);
+		$post['totalPage']=intval((int)$totalRow/50);
+
+		$post['pages']=Misc::genSmallPage(array(
+			'url'=>'admincp/categories',
+			'curPage'=>$curPage,
+			'limitShow'=>50,
+			'limitPage'=>5,
+			'showItem'=>count($post['listCat']),
+			'totalItem'=>$totalRow,
+			));
 
 		if($match=Uri::match('\/edit\/(\d+)'))
 		{

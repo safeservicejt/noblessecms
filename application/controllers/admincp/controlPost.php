@@ -33,7 +33,7 @@ class controlPost
             die();
         }
 
-		$post=array('alert'=>'');
+		$post=array('alert'=>'','totalPost'=>'0','totalPage'=>'0');
 
 		Model::load('admincp/post');
 
@@ -116,7 +116,6 @@ class controlPost
 		}
 
 
-		$post['pages']=Misc::genSmallPage('admincp/post'.$addPage,$curPage);
 
 		$filterPending='';
 
@@ -131,6 +130,24 @@ class controlPost
 			'query'=>"select p.*,u.username,c.title as cattitle from ".Database::getPrefix()."post p left join ".Database::getPrefix()."users u on p.userid=u.userid join ".Database::getPrefix()."categories c on p.catid=c.catid $addWhere order by p.postid desc",
 			'cache'=>'no'
 			));
+
+		$countPost=Post::get(array(
+			'query'=>"select count(p.postid)as totalRow from ".Database::getPrefix()."post p left join ".Database::getPrefix()."users u on p.userid=u.userid join ".Database::getPrefix()."categories c on p.catid=c.catid $addWhere order by p.postid desc",
+			'cache'=>'no'
+			));
+
+		$post['pages']=Misc::genSmallPage(array(
+			'url'=>'admincp/post'.$addPage,
+			'curPage'=>$curPage,
+			'limitShow'=>20,
+			'limitPage'=>5,
+			'showItem'=>count($post['theList']),
+			'totalItem'=>$countPost[0]['totalRow'],
+			));
+
+		$post['totalPost']=$countPost[0]['totalRow'];
+
+		$post['totalPage']=intval((int)$countPost[0]['totalRow']/20);
 
 		System::setTitle('Post list - '.ADMINCP_TITLE);
 

@@ -87,8 +87,6 @@ class controlLinks
 		}
 
 
-		$post['pages']=Misc::genSmallPage('admincp/links'.$addPage,$curPage);
-
 		$post['theList']=Links::get(array(
 			'limitShow'=>100,
 			'limitPage'=>$curPage,
@@ -134,6 +132,24 @@ class controlLinks
 			'cache'=>'no'
 			));
 
+		$countPost=Links::get(array(
+			'orderby'=>'order by sort_order asc',
+			'selectFields'=>'count(id)as totalRow',
+			'cache'=>'no'
+			));
+
+		$post['pages']=Misc::genSmallPage(array(
+			'url'=>'admincp/links'.$addPage,
+			'curPage'=>$curPage,
+			'limitShow'=>100,
+			'limitPage'=>5,
+			'showItem'=>count($post['theList']),
+			'totalItem'=>$countPost[0]['totalRow'],
+			));
+
+		$post['totalPost']=$countPost[0]['totalRow'];
+
+		$post['totalPage']=intval((int)$countPost[0]['totalRow']/100);
 		
 
 		System::setTitle('Links list - '.ADMINCP_TITLE);

@@ -9,14 +9,18 @@
 		<div class="col-lg-12">
 <!-- Form Action -->
 		<div class="row">
-		<form action="" method="post">
-		<div class="col-lg-2">
-			<select class="form-control" name="action">
-			<option value="delete">Delete</option>
-			</select>
-		</div>
-		<div class="col-lg-2">
-			<button type="submit" class="btn btn-info" name="btnAction">Apply</button>
+		<form action="" method="post" enctype="multipart/form-data">
+		<div class="col-lg-3">
+            <div class="input-group input-group-sm">
+                <select class="form-control" name="action">
+                    <option value="delete">Delete</option>
+
+                </select>
+               <span class="input-group-btn">
+                <button class="btn btn-primary" name="btnAction" type="submit">Apply</button>
+              </span>
+
+            </div><!-- /input-group -->   				
 		</div>
 
 		</div>
@@ -70,10 +74,12 @@
 				</tbody>
 				</table>
 			</div>
-
-			<div class="col-lg-12 text-right">
+            <div class="col-lg-5 text-left">
+                <span>Total: <?php echo $totalPost.' of '.$totalPage.' page(s)';?></span>
+            </div>              
+			<div class="col-lg-7 text-right">
 				<?php  echo $pages; ?>
-			</div>
+			</div> 
 		</div>
 		</form>
 

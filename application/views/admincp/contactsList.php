@@ -76,9 +76,12 @@
     				</table>
     			</div>
 
-				<div class="col-lg-12 text-right">
-					<?php  echo $pages; ?>
-				</div>    			
+                <div class="col-lg-5 text-left">
+                    <span>Total: <?php echo $totalPost.' of '.$totalPage.' page(s)';?></span>
+                </div>              
+                <div class="col-lg-7 text-right">
+                    <?php  echo $pages; ?>
+                </div> 		
     		</div>
     		<!-- row -->
     	</form>

@@ -43,14 +43,31 @@ class controlUsergroups
 		// $valid=UserGroups::getThisPermission('can_addnew_usergroup');
 
 
-		$post['pages']=Misc::genPage('admincp/usergroups',$curPage);
-
 		$post['theList']=UserGroups::get(array(
 			'cache'=>'no',
 			'cacheTime'=>1,
 			'limitShow'=>20,
 			'limitPage'=>$curPage
 			));
+
+		$countPost=UserGroups::get(array(
+			'selectFields'=>'count(groupid)as totalRow',
+			'cache'=>'no'
+			));
+
+		$post['pages']=Misc::genSmallPage(array(
+			'url'=>'admincp/usergroups',
+			'curPage'=>$curPage,
+			'limitShow'=>20,
+			'limitPage'=>5,
+			'showItem'=>count($post['theList']),
+			'totalItem'=>$countPost[0]['totalRow'],
+			));
+
+		$post['totalPost']=$countPost[0]['totalRow'];
+
+		$post['totalPage']=intval((int)$countPost[0]['totalRow']/20);
+
 		
 		System::setTitle('Usergroups list - '.ADMINCP_TITLE);
 
