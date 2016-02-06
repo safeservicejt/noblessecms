@@ -22,6 +22,8 @@
 
 {{Alert::make('This is test')}}
 */
+
+
 class Template
 {
     public static function makeFromString($inputData='')
@@ -43,12 +45,21 @@ class Template
         include($data);
     }
 
-    public static function makeWithPath($viewName,$inputData,$themePath)
+    public static function makeWithPath($viewName,$inputData,$themePath,$timeLive=1)
     {
         $filepath=$themePath.$viewName.'.php';
 
+        $fileMD5=md5_file($filepath);
+
         if(!file_exists($filepath))
         {
+            $md5Path=ROOT_PATH.'application/caches/templates/'.$fileMD5.'.php';   
+            
+            if(file_exists($md5Path))
+            {
+                unlink($md5Path);
+            }         
+
             Alert::make('View '.$viewName.' not exists.');
         }
 
@@ -73,23 +84,11 @@ class Template
 
         $md5Path=ROOT_PATH.'application/caches/templates/'.$fileMD5.'.php';
 
-    	$parsePath=ROOT_PATH.'application/caches/templates/'.$fileMD5.'_parse.php';
+    	// $parsePath=ROOT_PATH.'application/caches/templates/'.$fileMD5.'_parse.php';
 
         if(file_exists($md5Path))
         {
-            $resultPath=$md5Path;
-
-            $loadData=file_get_contents($md5Path);
-
-            $loadData=Shortcode::loadInTemplate($loadData);
-
-            $loadData=Shortcode::load($loadData);
-            
-            $loadData=Shortcode::toHTML($loadData);
-
-            File::create($parsePath,$loadData);
-
-            return $resultPath;            
+            return $md5Path;            
         }
         
         $loadData=file_get_contents($path);
@@ -114,6 +113,8 @@ class Template
 
             '/\{\{foreach (\w+) as (\w+)\}\}/i'=>'<?php foreach($$1 as $$2){ ?>',
             '/\{\{endfor\}\}/i'=>'<?php } ?>',
+
+            '/\{\{(\w+)::(\w+)\(\)\}\}/i'=>'<?php $1::$2();?>',
 
     		'/\{\{(\w+)::(\w+)\((.*?)\)\}\}/i'=>'<?php $1::$2($3);?>',
 
@@ -144,19 +145,10 @@ class Template
 
     	$loadData=preg_replace(array_keys($replace), array_values($replace), $loadData);
 
-    	$resultPath=$md5Path;
 
-        File::create($resultPath,$loadData);
+        File::create($md5Path,$loadData);
 
-        $loadData=Shortcode::loadInTemplate($loadData);
-
-        $loadData=Shortcode::load($loadData);
-        
-        $loadData=Shortcode::toHTML($loadData);
-
-        File::create($parsePath,$loadData);
-
-    	return $parsePath;
+    	return $md5Path;
     }
 
     public static function parseFriendlyFunction($loadData)

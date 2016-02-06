@@ -194,13 +194,6 @@ class Mail
 
         $mail = new PHPMailer;
 
-
-        if(is_array($mailData['toEmail']))
-        {
-            $mailData['toEmail']="'".implode("','", $mailData['toEmail'])."'";
-        }
-
-
         $mail->CharSet = 'UTF-8';
 
         $mailData['send_method']=trim($mailData['send_method']);
@@ -219,7 +212,22 @@ class Mail
        
         $mail->From =  $mailData['fromEmail'];
         $mail->FromName = $mailData['fromName'];
-        $mail->addAddress($mailData['toEmail']);               // Name is optional
+
+        if(is_array($mailData['toEmail']))
+        {
+            $total=count($mailData['toEmail']);
+
+            for ($i=0; $i < $total; $i++) { 
+                $mail->addAddress($mailData['toEmail'][$i]);               // Name is optional
+            }
+        }
+        else
+        {
+            $mail->addAddress($mailData['toEmail']); 
+        }
+
+        // $mail->addAddress($mailData['toEmail']);               // Name is optional
+
         $mail->addReplyTo($mailData['smtpUser'],  $mailData['fromName']);
 
         // $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments

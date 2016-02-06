@@ -159,6 +159,16 @@ class Cache
     }
 
     // Default timeLive=1 day
+
+    public static function getKeyPath($keyName,$extension='.cache')
+    {
+        $filePath=self::getPath().$keyName.$extension;
+
+        $filePath=file_exists($filePath)?$filePath:false;
+
+        return $filePath;
+    }
+
     public static function saveKey($keyName,$keyData='',$extension='.cache')
     {
         $f_type='w';

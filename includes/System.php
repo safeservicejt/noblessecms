@@ -33,6 +33,8 @@ class System
 
 	public static $listVar=array('global'=>array());
 
+	public static $db=array();
+
 	public static function define($keyName,$keyVal,$layout='global')
 	{
 		self::$listVar[$layout][$keyName]=$keyVal;
@@ -60,6 +62,8 @@ class System
 
 	public static function before_system_start()
 	{
+        global $db;
+
 		/*
 		Load all setting, site info, site status
 
@@ -71,6 +75,8 @@ class System
 
 
 		*/
+
+		self::$db=$db;
 		
 		Redirect::detectRedirect();
 
@@ -174,6 +180,34 @@ class System
 		}		
 	}
 	
+	public static function getDB()
+	{
+		return self::$db;
+	}
+	
+	public static function addDB($inputData=array())
+	{
+		/*
+		System::addDB(array(
+			'newdb'=>array(
+				    "dbtype" => "mysqli",
+
+				    "dbhost" => "localhost",
+
+				    "dbport" => "3306",
+
+				    "dbuser" => "root",
+
+				    "dbpassword" => "",
+
+				    "dbname" => "2015_project_noblessev2"
+				)
+			));
+		*/
+
+		self::$db=array_merge(self::$db,$inputData);
+	}
+
 	public static function checkTheme()
 	{
 		if($match=Uri::match('^\/?theme\/(\w+)'))
