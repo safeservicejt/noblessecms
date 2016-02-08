@@ -82,11 +82,11 @@ class System
 
 		self::checkTheme();
 
-		Theme::checkThemeConfig();
-
-		Theme::loadThemeConfig('before_load_database');
+		Theme::checkThemeDomain();
 
 		CustomPlugins::load('before_load_database');
+
+		Theme::checkThemePrefix();
 
 		// self::checkCurrency();
 
@@ -99,7 +99,6 @@ class System
 		self::systemStatus();
 
 		self::setTimeZone();
-
 
 		PluginsZone::loadCache();
 
@@ -120,9 +119,6 @@ class System
 		self::visitorStatus();
 
 		self::userStatus();
-
-		Theme::loadThemeConfig('after_load_database');
-
 		
 	}
 

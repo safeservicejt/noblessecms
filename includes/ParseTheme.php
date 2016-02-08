@@ -12,49 +12,74 @@ class ParseTheme
 {
 	private static $data=array();
 
-	function __construct()
-	{
-		$this->data['path']=System::getThemePath();
-
-		$this->data['site_url']=System::getUrl();
-
-		$this->data['theme_url']=System::getThemeUrl();
-
-	}
-
 	public function settingUri($inputData=array())
 	{
+		self::$data['path']=System::getThemePath();
+
+		self::$data['site_url']=System::getUrl();
+
+		self::$data['theme_url']=System::getThemeUrl();
+
 		/*
-		$this->settingUri(array(
+		self::$settingUri(array(
 		'/'=>'home@index',
 		'post'=>'post@index'
 		));
 
 		*/
 
-		$this->data['list_uri']=$inputData;
+		self::$data['list_uri']=$inputData;
 	}
 
-	public function render()
+	public static function render()
 	{
 		$curUri=System::getUri();
 
 		$controllerName='home';
 
+		$funcName='index';
+
+		// 'baiviet'=>'post@index'
 		if(preg_match('/^\/?(\w+)/i', $curUri,$match))
 		{
-			
-			$controllerName=$match[1];
+			$pageName=$match[1];
 
-			if(isset($this->data['list_uri'][$controllerName]))
+			if(!isset(self::$data['list_uri'][$pageName]))
 			{
-				
+				$controllerName=$pageName;
+			}
+			else
+			{
+				$cName=trim(self::$data['list_uri'][$pageName]);
+				if(preg_match_all('/(\w+)/i', $cName,$matchName))
+				{
+					$controllerName=$matchName[1][0];
+
+					$funcName=isset($matchName[1][1])?$matchName[1][1]:'index';
+				}
 			}
 		}
 
-		$this->controller($controllerName);
+		self::controller($controllerName,$funcName);
 
-		if(!isset($this->data['render_header']))
+		
+	}
+
+	public static function controller($viewName,$funcName='index')
+	{
+		Model::loadWithPath($viewName,self::$data['path'].'model/');
+
+		Controller::loadWithPath('theme'.ucfirst($viewName),$funcName,self::$data['path'].'controller/');
+	}
+
+	public static function model($viewName)
+	{
+		Model::loadWithPath($viewName,self::$data['path'].'model/');
+	}
+
+	public static function view($viewName,$inputData=array())
+	{
+		if(!isset(self::$data['render_header']))
 		{
 			$codeHead=Plugins::load('site_header');
 
@@ -64,29 +89,14 @@ class ParseTheme
 
 			$codeFooter=is_array($codeFooter)?'':$codeFooter;
 
-			// print_r($codeHead);die();
-
 			System::defineGlobalVar('site_header',$codeHead);
 
 			System::defineGlobalVar('site_footer',$codeFooter);	
 					
-			$this->data['render_header']='yes';
-		}			
-	}
+			self::$data['render_header']='yes';
+		}	
 
-	public function controller($viewName)
-	{
-		Controller::makeWithPath('theme'.ucfirst($viewName),'index',$this->data['path'].'controller');
-	}
-
-	public function model($viewName)
-	{
-		Model::makeWithPath($viewName,$this->data['path'].'model');
-	}
-
-	public function view($viewName,$inputData=array())
-	{
-		View::makeWithPath($viewName,$inputData,$this->data['path'].'view');
+		View::makeWithPath($viewName,$inputData,self::$data['path'].'view/');
 	}
 
 }

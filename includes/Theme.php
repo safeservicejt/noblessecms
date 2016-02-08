@@ -35,6 +35,8 @@ class Theme
 
 	public static $can_uninstall='no';
 
+	private static $data=array();
+
 	public static function install($func)
 	{
 		if(self::$can_install=='no')
@@ -54,53 +56,120 @@ class Theme
         } 
 	}
 
-	public static function checkThemeConfig()
+	public function settingUri($inputData=array())
 	{
-		$themePath=System::getThemePath();
+		self::$data['path']=System::getThemePath();
 
-		if(!file_exists($themePath.'config.php'))
-		{
-			return false;
-		}
+		self::$data['site_url']=System::getUrl();
 
-		include($themePath.'config.php');
+		self::$data['theme_url']=System::getThemeUrl();
 
-		if(!class_exists('ThemeConfig'))
-		{
-			return false;
-		}
+		/*
+		self::$settingUri(array(
+		'/'=>'home@index',
+		'post'=>'post@index'
+		));
 
-		System::$themeConfig=ThemeConfig::index();
+		*/
 
+		self::$data['list_uri']=$inputData;
 	}
 
-	public static function loadThemeConfig($method='before_load_database')
+	public static function render()
 	{
-		if(!isset(System::$themeConfig[$method]))
+		$curUri=System::getUri();
+
+		$controllerName='home';
+
+		$funcName='index';
+
+		// 'baiviet'=>'post@index'
+		if(preg_match('/^\/?(\w+)/i', $curUri,$match))
 		{
-			return false;
+			$pageName=$match[1];
+
+			if(!isset(self::$data['list_uri'][$pageName]))
+			{
+				$controllerName=$pageName;
+			}
+			else
+			{
+				$cName=trim(self::$data['list_uri'][$pageName]);
+				if(preg_match_all('/(\w+)/i', $cName,$matchName))
+				{
+					$controllerName=$matchName[1][0];
+
+					$funcName=isset($matchName[1][1])?$matchName[1][1]:'index';
+				}
+			}
 		}
 
-		$func=System::$themeConfig[$method];
+		self::controller($controllerName,$funcName);
 
-		if(!isset($func[2]))
-		{
-			return false;
-		}
-
-		if(!method_exists('ThemeConfig', $func))
-		{
-			return false;
-		}
-
-		ThemeConfig::$func();
+		
 	}
+
+	public static function controller($viewName,$funcName='index')
+	{
+		Model::loadWithPath($viewName,self::$data['path'].'model/');
+
+		Controller::loadWithPath('theme'.ucfirst($viewName),$funcName,self::$data['path'].'controller/');
+	}
+
+	public static function model($viewName)
+	{
+		Model::loadWithPath($viewName,self::$data['path'].'model/');
+	}
+
+	public static function view($viewName,$inputData=array())
+	{
+		if(!isset(self::$data['render_header']))
+		{
+			$codeHead=Plugins::load('site_header');
+
+			$codeHead=is_array($codeHead)?'':$codeHead;
+
+			$codeFooter=Plugins::load('site_footer');
+
+			$codeFooter=is_array($codeFooter)?'':$codeFooter;
+
+			System::defineGlobalVar('site_header',$codeHead);
+
+			System::defineGlobalVar('site_footer',$codeFooter);	
+					
+			self::$data['render_header']='yes';
+		}	
+
+		View::makeWithPath($viewName,$inputData,self::$data['path'].'view/');
+	}
+
+
+    public static function checkThemeDomain()
+    {   
+    	$themeName=System::getThemeName();
+
+    	// domain.com
+
+        $filePath=THEMES_PATH.$themeName.'/domain.txt';
+
+        if(!file_exists($filePath))
+        {
+        	return false;
+        }
+
+        $loadData='http://'.trim(file_get_contents($filePath)).'/';
+
+        if($loadData!=System::getUrl())
+        {
+        	Redirect::to($loadData.System::getUri());
+        }
+    }
 
     public static function checkThemePrefix()
     {   
     	$themeName=System::getThemeName();
 
-        $filePath=ROOT_PATH.'application/caches/theme/'.$themeName.'.cache';
+        $filePath=THEMES_PATH.$themeName.'/prefix.txt';
 
         if(!file_exists($filePath))
         {
@@ -117,119 +186,10 @@ class Theme
         	
     		$prefixAll=isset($loadData['prefixall'])?$loadData['prefixall']:'no';
 
-    		Cookie::make('prefixall',$prefixAll,1440*7);         	
+        	Database::setPrefixAll($prefix);       	
         }
     }
 
-    public static function checkDomain()
-    {   
-
-        $theDomain=$_SERVER['HTTP_HOST'];
-
-        if(isset($_COOKIE['changed_domain']))
-        {
-        	$oldDomain=$_COOKIE['changed_domain'];
-
-        	if($oldDomain==$theDomain)
-        	{
-        		return false;
-        	}
-        }
-
-        $filePath=ROOT_PATH.'application/caches/domain/'.$theDomain.'.cache';
-
-        if(!file_exists($filePath))
-        {
-        	return false;
-        }
-
-        $loadData=unserialize(file_get_contents($filePath));
-
-        if(is_array($loadData))
-        {
-        	if(isset($loadData['prefix']))
-        	{
-        		Database::setPrefix($loadData['prefix']);
-
-        		$prefixAll=isset($loadData['prefixall'])?$loadData['prefixall']:'no';
-
-        		Cookie::make('prefixall',$prefixAll,1440*7);  
-        	}
-
-        	if(isset($loadData['theme']))
-        	{
-	        	$theme=$loadData['theme'];
-
-	        	if(!file_exists(THEMES_PATH.$theme.'/index.php'))
-	        	{
-	        		return false;
-	        	}
-
-	        	System::setTheme($theme,'yes');
-
-	        	Cookie::make('changed_domain',$theDomain,1440*7);        		
-        	}
-
-
-
-        }
-    }
-
-	public static function addToDomain($inputData='')
-	{
-		$data=debug_backtrace();
-
-		/*
-
-		Theme::addToDomain('client.dev');
-
-	    [0] => Array
-	        (
-	            [file] => D:\wamp\htdocs\project\2015\noblessecmsv2\routes.php
-	            [line] => 8
-	            [function] => api
-	            [class] => Plugins
-	            [type] => ::
-	            [args] => Array
-	                (
-	                )
-
-	        )
-
-
-
-		*/		
-
-		$pluginPath=dirname($data[0]['file']).'/';
-
-		$foldername=basename($pluginPath);
-
-		$themePath=THEMES_PATH.$foldername.'/';
-
-		if(!file_exists($themePath.'domain.php'))
-		{
-			return false;
-		}
-
-		include($themePath.'domain.php');
-
-		$theDomain=ThemeDomain::getDomain();
-
-		if($theDomain!=$inputData)
-		{
-			return false;
-		}
-
-		$saveData=array(
-			'domain'=>$theDomain,
-			'theme'=>$foldername
-			);
-
-		$savePath=ROOT_PATH.'application/caches/domain/'.$theDomain.'.cache';
-
-		File::create($savePath,serialize($saveData));
-
-	}
 
 	public static function uninstall($func)
 	{
@@ -476,42 +436,6 @@ class Theme
 
         // }
 
-    }
-
-    public static function controller($pageName,$func='index',$otherPath='')
-    {
-    	$themePath=System::getThemePath().'controller/';
-
-    	if(isset($otherPath[1]))
-    	{
-    		$themePath=$otherPath;
-    	}
-
-    	Controller::loadWithPath('theme'.ucfirst($pageName),$func,$themePath);
-    }
-
-    public static function model($pageName,$otherPath='')
-    {
-    	$themePath=System::getThemePath().'model/';
-
-    	if(isset($otherPath[1]))
-    	{
-    		$themePath=$otherPath;
-    	}
-
-    	Model::loadWithPath($pageName,$themePath);
-    }
-
-    public static function view($pageName,$inputData=array(),$otherPath='')
-    {
-    	$themePath=System::getThemePath().'view/';
-    	
-    	if(isset($otherPath[1]))
-    	{
-    		$themePath=$otherPath;
-    	}
-
-    	View::makeWithPath($pageName,$inputData,$themePath);
     }
 
 	public static function remove($themeName)
