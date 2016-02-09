@@ -42,8 +42,6 @@ class controlFrontEnd
 
 		if(file_exists($indexPath))
 		{
-			Theme::checkDomain();
-			
 			Theme::checkThemePrefix();
 
 			Theme::loadShortCode();

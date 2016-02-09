@@ -217,6 +217,13 @@ class controlUsers
 
 		if(Request::has('btnSave'))
 		{
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_change_profile');
+
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			}
+						
 			try {
 				
 				updateProcess($userid);
@@ -230,6 +237,13 @@ class controlUsers
 
 		if(Request::has('btnChangePassword'))
 		{
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_change_password');
+
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			}		
+				
 			Users::changePassword($userid,Request::get('password',''));
 		}
 

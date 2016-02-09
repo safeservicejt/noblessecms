@@ -40,6 +40,8 @@
                     <ul class="dropdown-menu message-dropdown">
                         <?php
 
+                        $total=0;
+
                         $today=date('Y-m-d');
 
                         $loadData=Contactus::get(array(
@@ -104,6 +106,7 @@
                             <a href="<?php echo System::getAdminUrl();?>contacts">Read All New Messages</a>
                         </li>
                     </ul>
+                    <span class="badge notify-badge"><?php echo $total;?></span>
                 </li>                
     
                 <li class="dropdown">

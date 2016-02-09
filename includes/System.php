@@ -80,21 +80,22 @@ class System
 		
 		Redirect::detectRedirect();
 
-		self::checkTheme();
-
-		Theme::checkThemeDomain();
-
-		CustomPlugins::load('before_load_database');
-
-		Theme::checkThemePrefix();
-
-		// self::checkCurrency();
-
-		self::checkLang();
-
 		self::$setting=self::getSetting();
 
 		$systemMode=isset(self::$setting['system_mode'])?self::$setting['system_mode']:'basic';
+
+		if($systemMode!='basic')
+		{
+			self::checkTheme();
+
+			Theme::checkThemeDomain();
+			
+			Theme::checkThemePrefix();
+
+			self::checkLang();
+		}
+
+		CustomPlugins::load('before_load_database');
 
 		self::systemStatus();
 
@@ -116,7 +117,7 @@ class System
 
 		Route::loadFromPlugin();
 
-		self::visitorStatus();
+		// self::visitorStatus();
 
 		self::userStatus();
 		
