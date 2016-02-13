@@ -8,8 +8,6 @@ class controlAdmincp
 
 		CustomPlugins::load('before_admincp_start');
 
-		Domain::checkAdminCP();
-
 		if(Cookie::has('userid'))
 		{
 			$groupid=Users::getCookieGroupId();
@@ -23,7 +21,6 @@ class controlAdmincp
 					Alert::make('You not have permission to view this page');
 				}				
 			}
-
 
 			// Auto load global data
 
