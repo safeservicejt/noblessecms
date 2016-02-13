@@ -4,7 +4,7 @@ class controlCategories
 {
 	public function index()
 	{
-
+		CustomPlugins::load('admincp_before_manage_categories');
 		
 		$post=array('alert'=>'');
 

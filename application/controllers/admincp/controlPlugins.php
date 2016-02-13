@@ -16,6 +16,8 @@ class controlPlugins
 			Alert::make('You not have permission to view this page');
 		}		
 
+		CustomPlugins::load('admincp_before_manage_plugins');
+
 
 		$post=array('alert'=>'');
 

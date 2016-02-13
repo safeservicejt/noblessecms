@@ -4,6 +4,7 @@ class controlComments
 {
 	public function index()
 	{
+		CustomPlugins::load('admincp_before_manage_comments');
        
 		$post=array('alert'=>'');
 

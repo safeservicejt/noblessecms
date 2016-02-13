@@ -4,6 +4,7 @@ class controlPages
 {
 	public function index()
 	{
+		CustomPlugins::load('admincp_before_manage_pages');
 
 		$post=array('alert'=>'');
 

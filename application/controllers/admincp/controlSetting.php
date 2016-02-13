@@ -4,6 +4,8 @@ class controlSetting
 {
 	public function index()
 	{
+		CustomPlugins::load('admincp_before_manage_setting');
+
 		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_setting_system');
 
 		if($valid!='yes')
@@ -30,6 +32,13 @@ class controlSetting
 
 		if(Request::has('btnSave'))
 		{
+			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_setting_system');
+
+			if($valid!='yes')
+			{
+				Alert::make('You not have permission to view this page');
+			}			
+
 			$saveData=Request::get('general');
 
 
@@ -64,6 +73,12 @@ class controlSetting
 
 	public function clearcache()
 	{
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_clear_cache');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
 
 		$listDir=Dir::listDir(CACHES_PATH);
 
@@ -83,6 +98,13 @@ class controlSetting
 
 	public function update()
 	{
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_update_system');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
+
 		$post=array('alert'=>'','alertManual'=>'');
 
 		if(Request::has('btnStart'))
@@ -114,6 +136,13 @@ class controlSetting
 	}
 	public function mailsystem()
 	{
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_setting_mail');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
+
 		$post=array('alert'=>'');
 
 		$post=System::getSetting();
@@ -136,39 +165,6 @@ class controlSetting
 		View::make('admincp/footer');		
 	}
 
-	public function ecommerce()
-	{
-		$post=array('alert'=>'');
-		if(Request::has('btnSave'))
-		{
-			System::saveSetting(Request::get('general'));
-		}
-
-		
-
-		$data=array();
-
-		if(!$data=Cache::loadKey('systemSetting',-1))
-		{
-			$data=System::makeSetting();
-		}
-		else
-		{
-			$data=unserialize($data);
-		}
-
-		$post=$data;
-
-		$loadData=Currency::get();
-
-		$post['listCurrency']=$loadData;
-
-		View::make('admincp/head',array('title'=>'Ecommerce Setting - '.ADMINCP_TITLE));
-
-		self::makeContents('settingEcommerce',$post);
-
-		View::make('admincp/footer');		
-	}
 
     public function makeContents($viewPath,$inputData=array())
     {

@@ -4,6 +4,7 @@ class controlLinks
 {
 	public function index()
 	{
+		CustomPlugins::load('admincp_before_manage_links');
 		
 		$post=array('alert'=>'');
 

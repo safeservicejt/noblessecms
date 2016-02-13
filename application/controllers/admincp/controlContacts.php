@@ -11,6 +11,8 @@ class controlContacts
 			Alert::make('You not have permission to view this page');
 		}    
 
+		CustomPlugins::load('admincp_before_manage_contacts');
+
 		$post=array('alert'=>'');
 
 		Model::load('admincp/contacts');

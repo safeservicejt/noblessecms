@@ -4,6 +4,8 @@ class controlUsers
 {
 	public function index()
 	{
+		CustomPlugins::load('admincp_before_manage_user');
+
 		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_manage_user');
 
 		if($valid!='yes')

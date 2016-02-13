@@ -4,6 +4,8 @@ class controlRedirects
 {
 	public function index()
 	{
+		CustomPlugins::load('admincp_before_manage_redirect');
+
 		$post=array('alert'=>'');
 
 		Model::load('admincp/redirects');

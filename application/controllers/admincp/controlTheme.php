@@ -4,6 +4,8 @@ class controlTheme
 {
 	public function index()
 	{
+		CustomPlugins::load('admincp_before_manage_theme');
+
 		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_manage_themes');
 
 		if($valid!='yes')
