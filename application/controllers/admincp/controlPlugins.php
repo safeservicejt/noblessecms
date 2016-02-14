@@ -130,6 +130,8 @@ class controlPlugins
 
 		$path=PLUGINS_PATH.$foldername.'/controller/control'.ucfirst($funcName).'.php';
 
+		$modelPath=PLUGINS_PATH.$foldername.'/model/model'.$funcName.'.php';
+
 		$thisUrl=System::getAdminUrl().'plugins/controller/'.$foldername.'/'.$funcName.'/';
 
 		if(!file_exists($path))
@@ -154,6 +156,11 @@ class controlPlugins
 		$post['controller']='control'.ucfirst($funcName);
 		
 		System::setTitle(ucfirst($foldername).' - '.ADMINCP_TITLE);
+
+		if(file_exists($modelPath))
+		{
+			include($modelPath);
+		}
 
 		View::make('admincp/head');
 
