@@ -85,10 +85,6 @@ class controlTheme
 
 		$themeName=$match[1];
 
-      	if(Domain::isOtherDomain())
-      	{
-      		Alert::make('You dont have permission to access this page.');
-      	}
 
 		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_edit_theme');
 
@@ -204,10 +200,6 @@ class controlTheme
 
 		$theName=$match[1];
 
-      	if(Domain::isOtherDomain() && !Domain::isAllowTheme($theName))
-      	{
-      		Alert::make('You dont have permission to access this page.');
-      	}
 
 		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_setting_theme');
 
@@ -259,10 +251,6 @@ class controlTheme
 
 			$themeName=$matchCtr[1];
 
-	      	if(Domain::isOtherDomain() && !Domain::isAllowTheme($themeName))
-	      	{
-	      		Alert::make('You dont have permission to access this page.');
-	      	}
 
 			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_control_theme');
 
@@ -300,11 +288,6 @@ class controlTheme
 
 	public function import()
 	{
-      	if(Domain::isOtherDomain())
-      	{
-      		Alert::make('You dont have permission to access this page.');
-      	}
-
 		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_import_theme');
 
 		if($valid!='yes')

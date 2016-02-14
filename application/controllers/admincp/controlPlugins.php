@@ -4,6 +4,8 @@ class controlPlugins
 {
 	public function index()
 	{
+		CustomPlugins::load('admincp_before_manage_plugin');
+
       	// if(Domain::isOtherDomain())
       	// {
       	// 	Alert::make('You dont have permission to access this page.');
@@ -66,11 +68,6 @@ class controlPlugins
 
 		$foldername=$match[1];
 
-      	if(Domain::isOtherDomain() && !Domain::isAllowPlugin($foldername))
-      	{
-      		Alert::make('You dont have permission to access this page.');
-      	}
-
 		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_install_plugin');
 
 		if($valid!='yes')
@@ -113,11 +110,6 @@ class controlPlugins
 
 
 		$foldername=$match[1];
-
-      	if(Domain::isOtherDomain() && !Domain::isAllowPlugin($foldername))
-      	{
-      		Alert::make('You dont have permission to access this page.');
-      	}
 
 		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_control_plugin');
 
@@ -193,11 +185,6 @@ class controlPlugins
 			Redirect::to(System::getAdminUrl());
 		}
 
-      	if(Domain::isOtherDomain() && !Domain::isAllowPlugin($foldername))
-      	{
-      		Alert::make('You dont have permission to access this page.');
-      	}
-
 		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_run_plugin');
 
 		if($valid!='yes')
@@ -230,10 +217,6 @@ class controlPlugins
 
 	public function setting()
 	{
-      	// if(Domain::isOtherDomain())
-      	// {
-      	// 	Alert::make('You dont have permission to access this page.');
-      	// }
 
 		if(!$match=Uri::match('\/setting\/(\w+)'))
 		{
@@ -248,11 +231,6 @@ class controlPlugins
 		{
 			Redirect::to(System::getAdminUrl().'plugins');
 		}
-
-      	if(Domain::isOtherDomain() && !Domain::isAllowPlugin($foldername))
-      	{
-      		Alert::make('You dont have permission to access this page.');
-      	}
 
 		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_setting_plugin');
 
@@ -280,11 +258,6 @@ class controlPlugins
 
 	public function uninstall()
 	{
-      	// if(Domain::isOtherDomain())
-      	// {
-      	// 	Alert::make('You dont have permission to access this page.');
-      	// }
-
 		if(!$match=Uri::match('\/uninstall\/(\w+)'))
 		{
 			Redirect::to(System::getAdminUrl());
@@ -294,11 +267,6 @@ class controlPlugins
 
 
 		$path=PLUGINS_PATH.$foldername.'/index.php';
-
-      	if(!Domain::isAllowPlugin($foldername))
-      	{
-      		Alert::make('You dont have permission to access this page.');
-      	}
 
 		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_uninstall_plugin');
 
@@ -349,10 +317,6 @@ class controlPlugins
 	}
 	public function activate()
 	{
-      	// if(Domain::isOtherDomain())
-      	// {
-      	// 	Alert::make('You dont have permission to access this page.');
-      	// }
 
 		if(!$match=Uri::match('\/activate\/(\w+)'))
 		{
@@ -361,10 +325,6 @@ class controlPlugins
 
 		$foldername=$match[1];
 
-      	if(Domain::isOtherDomain() && !Domain::isAllowPlugin($foldername))
-      	{
-      		Alert::make('You dont have permission to access this page.');
-      	}
 
 		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_activate_plugin');
 
@@ -405,10 +365,6 @@ class controlPlugins
 
 		$foldername=$match[1];
 		
-      	if(Domain::isOtherDomain() && !Domain::isAllowPlugin($foldername))
-      	{
-      		Alert::make('You dont have permission to access this page.');
-      	}
 
 		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_deactivate_plugin');
 
@@ -433,10 +389,6 @@ class controlPlugins
 
 	public function import()
 	{
-      	if(Domain::isOtherDomain())
-      	{
-      		Alert::make('You dont have permission to access this page.');
-      	}
 
 		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_import_plugin');
 
