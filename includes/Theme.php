@@ -314,27 +314,13 @@ class Theme
 		}
 
 
-		if(!Domain::isOtherDomain())
-		{
-			$configPath=ROOT_PATH.'config.php';
+		$configPath=ROOT_PATH.'config.php';
 
-			$data=file_get_contents($configPath);
+		$data=file_get_contents($configPath);
 
-			$data=preg_replace('/"THEME_NAME", \'\w+\'/i', '"THEME_NAME", \''.$themeName.'\'', $data);
+		$data=preg_replace('/"THEME_NAME", \'\w+\'/i', '"THEME_NAME", \''.$themeName.'\'', $data);
 
-			File::create($configPath,$data);
-		}
-		else
-		{
-			$theDomain=$_SERVER['HTTP_HOST'];
-			
-			if(!Domain::isAllowTheme($themeName,$theDomain))
-			{
-				throw new Exception('We allow you activate this theme.');
-			}
-
-			Domain::setTheme($themeName);
-		}
+		File::create($configPath,$data);
 
 		if(file_exists($path.'activate.php'))
 		{
