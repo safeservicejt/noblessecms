@@ -15,7 +15,7 @@
             <!-- Top Menu Items -->
             <ul class="nav navbar-left hidden-xs top-nav">
 
-              <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/navbar')){ ?>
+              <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/navbar') || System::issetVar('admincp_navbar_hide_addnew')){ ?>
                <li class="dropdown navbar-default-system">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-th"></span>&nbsp;&nbsp;Add new <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
@@ -130,15 +130,15 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
 
-                    <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-all')){ ?>
+                    <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-all') || System::issetVar('admincp_left_hide_all')){ ?>
 
-                    <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-dashboard')){ ?>
+                    <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-dashboard') || System::issetVar('admincp_left_hide_dashboard')){ ?>
                     <li class="li-dashboard">
                         <a href="<?php echo System::getAdminUrl();?>"><span class="glyphicon glyphicon-globe"></span> Dashboard</a></a>
                     </li>
                     <?php } ?>
                     
-                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_category_manager'); if($valid=='yes'){ ?>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_category_manager'); $valid=System::issetVar('admincp_left_hide_category')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-categories')){ ?>
                         <li class="li-categories">
                             <a href="<?php echo System::getAdminUrl();?>categories"><span class="glyphicon glyphicon-list-alt"></span> Categories</a>
@@ -146,7 +146,7 @@
                         <?php } ?>
                     <?php } ?>
 
-                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_post_manager'); if($valid=='yes'){ ?>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_post_manager'); $valid=System::issetVar('admincp_left_hide_post')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-post')){ ?>
                         <li class="li-post">
                             <a href="javascript:;" data-toggle="collapse" data-target="#post"><span class="glyphicon glyphicon-file"></span> Post <i class="fa fa-fw fa-caret-down"></i></a>
@@ -164,7 +164,7 @@
                         <?php } ?>
                     <?php } ?>
 
-                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_page_manager'); if($valid=='yes'){ ?>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_page_manager'); $valid=System::issetVar('admincp_left_hide_page')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-page')){ ?>
                         <li class="li-pages">
                             <a href="javascript:;" data-toggle="collapse" data-target="#page"><span class="glyphicon glyphicon-th-large"></span> Page <i class="fa fa-fw fa-caret-down"></i></a>
@@ -177,7 +177,7 @@
                         <?php } ?>
                     <?php } ?>
 
-                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_link_manager'); if($valid=='yes'){ ?>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_link_manager'); $valid=System::issetVar('admincp_left_hide_link')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-link')){ ?>
                         <li class="li-links">
                             <a href="javascript:;" data-toggle="collapse" data-target="#links"><span class="glyphicon glyphicon-link"></span> Links <i class="fa fa-fw fa-caret-down"></i></a>
@@ -190,7 +190,7 @@
                         <?php } ?>
                     <?php } ?>
 
-                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_user_manager'); if($valid=='yes'){ ?>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_user_manager'); $valid=System::issetVar('admincp_left_hide_user')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-user')){ ?>
                         <li class="li-users">
                             <a href="javascript:;" data-toggle="collapse" data-target="#users"><span class="glyphicon glyphicon-user"></span> Users <i class="fa fa-fw fa-caret-down"></i></a>
@@ -203,7 +203,7 @@
                         <?php } ?>
                     <?php } ?>
 
-                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_usergroup_manager'); if($valid=='yes'){ ?>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_usergroup_manager'); $valid=System::issetVar('admincp_left_hide_usergroup')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-usergroup')){ ?>
                         <li class="li-usergroups">
                             <a href="javascript:;" data-toggle="collapse" data-target="#usergroup"><span class="glyphicon glyphicon-user"></span> User Groups <i class="fa fa-fw fa-caret-down"></i></a>
@@ -216,7 +216,7 @@
                         <?php } ?>
                     <?php } ?>
 
-                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_contact_manager'); if($valid=='yes'){ ?>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_contact_manager'); $valid=System::issetVar('admincp_left_hide_contact')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-contact')){ ?>
                         <li class="li-contact">
                             <a href="<?php echo System::getAdminUrl();?>contacts"><span class="glyphicon glyphicon-comment"></span> Contacts</a>
@@ -224,7 +224,7 @@
                         <?php } ?>
                     <?php } ?>
 
-                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_theme_manager'); if($valid=='yes'){ ?>                 
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_theme_manager'); $valid=System::issetVar('admincp_left_hide_theme')?'no':'yes'; if($valid=='yes'){ ?>                 
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-appearance')){ ?>
                         <li class="li-theme">
                             <a href="javascript:;" data-toggle="collapse" data-target="#appearance"><span class="glyphicon glyphicon-th"></span> Appearance <i class="fa fa-fw fa-caret-down"></i></a>
@@ -238,7 +238,7 @@
                         <?php } ?>
                     <?php } ?>
 
-                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_plugin_manager'); if($valid=='yes'){ ?>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_plugin_manager'); $valid=System::issetVar('admincp_left_hide_plugin')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-plugin')){ ?>
                          <li class="li-plugins">
                             <a href="javascript:;" data-toggle="collapse" data-target="#plugins"><span class="glyphicon glyphicon-wrench"></span> Plugins <i class="fa fa-fw fa-caret-down"></i></a>
@@ -251,7 +251,7 @@
                         <?php } ?>
                     <?php } ?>
 
-                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_setting_manager'); if($valid=='yes'){ ?>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_setting_manager'); $valid=System::issetVar('admincp_left_hide_setting')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-setting')){ ?>
                            <li class="li-setting">
                             <a href="javascript:;" data-toggle="collapse" data-target="#setting"><span class="glyphicon glyphicon-cog"></span> Setting <i class="fa fa-fw fa-caret-down"></i></a>
@@ -268,7 +268,7 @@
                         <?php } ?>
                     <?php } ?>
 
-                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_setting_manager'); if($valid=='yes'){ ?>
+                    <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_setting_manager'); $valid=System::issetVar('admincp_left_hide_plugin')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-other')){ ?>
 
                         <?php Render::cpanel_menu('admincp_menu');?>

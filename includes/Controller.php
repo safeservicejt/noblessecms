@@ -69,7 +69,7 @@ class Controller
 
         if (!isset($funcName[0])) $funcName = 'index';
 
-        $funcName=($funcName=='index')?$funcName:'get'.ucfirst($funcName);
+        // $funcName=($funcName=='index')?$funcName:'get'.ucfirst($funcName);
 
         if (!method_exists($load, $funcName)) 
         {

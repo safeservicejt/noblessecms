@@ -43,6 +43,13 @@ class String
             return $d;
         }
     }
+
+    public static function isNull($inputData='',$returnData=true)
+    {
+        $returnData=($inputData=='')?$returnData:false;
+
+        return $returnData;
+    }
     
     public static function jsonToArray($str='')
     {

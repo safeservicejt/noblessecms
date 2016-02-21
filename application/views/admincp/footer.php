@@ -54,7 +54,7 @@
     <script src="<?php echo System::getUrl();?>bootstrap/sbnoblesse/js/custom.js"></script>
 
 
-    <?php echo unserialize(System::getVar('jsGlobal'));?>
+    <?php echo System::getImplodeVar('jsGlobal');?>
 
     <?php echo System::getVar('admincp_footer');?>
 

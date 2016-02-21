@@ -37,8 +37,11 @@ class controlAdmincp
 					$result=array();
 
 					$li='';
-
-					// print_r($loadData);die();
+					
+					if(!System::issetVar('cssGlobal'))
+					{
+						System::defineVar('cssGlobal',array());	
+					}
 
 					if((int)$total > 0)
 					{
@@ -49,21 +52,16 @@ class controlAdmincp
 								continue;
 							}
 
+							$li='<script src="'.ROOT_URL.'bootstrap/css/global/admincp/'.$loadData[$i].'"></script>';
 
-							$li.='<script src="'.ROOT_URL.'bootstrap/css/global/admincp/'.$loadData[$i].'"></script>';
+							System::pushVar('cssGlobal',$li);
 						}
-
-						System::defineGlobalVar('cssGlobal',serialize($li));						
 					}
-
 				}				
 			}
-
-
 			// Auto load global data
 
 			// Auto load global data
-
 			$loadPath=ROOT_PATH.'bootstrap/js/global/';
 
 			if(is_dir($loadPath))
@@ -78,10 +76,13 @@ class controlAdmincp
 
 					$li='';
 
-					// print_r($loadData);die();
-
 					if((int)$total > 0)
 					{
+						if(!System::issetVar('jsGlobal'))
+						{
+							System::defineVar('jsGlobal',array());	
+						}
+
 						for ($i=0; $i < $total; $i++) { 
 
 							if(!preg_match('/.*?\.js/i', $loadData[$i]))
@@ -89,13 +90,11 @@ class controlAdmincp
 								continue;
 							}
 
+							$li='<script src="'.ROOT_URL.'bootstrap/js/global/admincp/'.$loadData[$i].'"></script>';
 
-							$li.='<script src="'.ROOT_URL.'bootstrap/js/global/admincp/'.$loadData[$i].'"></script>';
+							System::pushVar('jsGlobal',$li);
 						}
-
-						System::defineGlobalVar('jsGlobal',serialize($li));						
 					}
-
 				}				
 			}
 

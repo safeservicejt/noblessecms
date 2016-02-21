@@ -15,6 +15,14 @@ Hide admincp left bar menu: Create folder with path: contents/security/admincp/h
 Redirect uri to url: Create folder with path: contents/redirects/hash_file.cache | This file store url which will redirect to.
 
 
+System::pushVar('cssGlobal','<link href="<?php echo System::getUrl();?>bootstrap/css/animate-animo.min.css" rel="stylesheet">');
+
+System::pushVar('cssGlobal','<link href="<?php echo System::getUrl();?>bootstrap/css/animate-sdsd.min.css" rel="stylesheet">');
+
+System::pushVar('cssGlobal','<link href="<?php echo System::getUrl();?>bootstrap/css/animate-dfdf.min.css" rel="stylesheet">');
+
+System::defineVar('jsGlobal','<link href="<?php echo System::getUrl();?>bootstrap/css/animate-dfdf.min.js" rel="stylesheet">');
+
 */
 
 class System
@@ -33,21 +41,79 @@ class System
 
 	public static $listVar=array('global'=>array());
 
+	public static $listObject=array();
+
 	public static $db=array();
 
 	public static function define($keyName,$keyVal,$layout='global')
 	{
-		self::$listVar[$layout][$keyName]=$keyVal;
+		if(preg_match_all('/(\w+)\.(\w+)/i', $keyName, $matches))
+		{
+			self::$listVar[$layout][$matches[1][0]][$matches[2][0]]=$keyVal;
+		
+		}
+		elseif(preg_match_all('/(\w+)\.(\w+)\.(\w+)/i', $keyName, $matches))
+		{
+			self::$listVar[$layout][$matches[1][0]][$matches[2][0]][$matches[3][0]]=$keyVal;
+		}
+		elseif(preg_match_all('/(\w+)\.(\w+)\.(\w+)\.(\w+)/i', $keyName, $matches))
+		{
+			self::$listVar[$layout][$matches[1][0]][$matches[2][0]][$matches[3][0]][$matches[4][0]]=$keyVal;
+		}
+		else
+		{
+			self::$listVar[$layout][$keyName]=$keyVal;
+		}		
+	}
+
+	public static function pushVar($keyName,$keyVal,$layout='global')
+	{
+		self::$listVar[$layout][$keyName]=isset(self::$listVar[$layout][$keyName])?self::$listVar[$layout][$keyName]:array();
+
+		if(is_array(self::$listVar[$layout][$keyName]))
+		{
+			if(preg_match_all('/(\w+)\.(\w+)/i', $keyName, $matches))
+			{
+				self::$listVar[$layout][$matches[1][0]][$matches[2][0]][]=$keyVal;
+			}
+			elseif(preg_match_all('/(\w+)\.(\w+)\.(\w+)/i', $keyName, $matches))
+			{
+				self::$listVar[$layout][$matches[1][0]][$matches[2][0]][$matches[3][0]][]=$keyVal;
+			}
+			elseif(preg_match_all('/(\w+)\.(\w+)\.(\w+)\.(\w+)/i', $keyName, $matches))
+			{
+				self::$listVar[$layout][$matches[1][0]][$matches[2][0]][$matches[3][0]][$matches[4][0]][]=$keyVal;
+			}
+			else
+			{
+				self::$listVar[$layout][$keyName][]=$keyVal;
+			}						
+		}
+		else
+		{
+			self::$listVar[$layout][$keyName].=$keyVal;
+		}
+
 	}
 	
 	public static function defineVar($keyName,$keyVal,$layout='global')
 	{
-		self::$listVar[$layout][$keyName]=$keyVal;
+		self::define($keyName,$keyVal,$layout);
 	}
 
 	public static function defineGlobalVar($keyName,$keyVal)
 	{
-		self::defineVar($keyName,$keyVal);
+		self::define($keyName,$keyVal);
+	}
+
+	public static function issetVar($keyName,$zoneName='global')
+	{
+		if(!isset(self::$listVar[$zoneName][$keyName]))
+		{
+			return false;
+		}
+
+		return true;		
 	}
 
 	public static function getVar($keyName,$zoneName='global')
@@ -57,7 +123,66 @@ class System
 			return false;
 		}
 
-		return self::$listVar[$zoneName][$keyName];
+		$result='';
+
+		if(preg_match_all('/(\w+)\.(\w+)/i', $keyName, $matches))
+		{
+			$result=self::$listVar[$layout][$matches[1][0]][$matches[2][0]];
+		}
+		elseif(preg_match_all('/(\w+)\.(\w+)\.(\w+)/i', $keyName, $matches))
+		{
+			$result=self::$listVar[$layout][$matches[1][0]][$matches[2][0]][$matches[3][0]];
+		}
+		elseif(preg_match_all('/(\w+)\.(\w+)\.(\w+)\.(\w+)/i', $keyName, $matches))
+		{
+			$result=self::$listVar[$layout][$matches[1][0]][$matches[2][0]][$matches[3][0]][$matches[4][0]];
+		}
+		else
+		{
+			$result=self::$listVar[$zoneName][$keyName];
+		}
+
+		return $result;
+	}
+
+	public static function getImplodeVar($keyName,$splitChar="\r\n",$zoneName='global')
+	{
+		if(!isset(self::$listVar[$zoneName][$keyName]))
+		{
+			return false;
+		}
+
+		$result=self::getVar($keyName,$zoneName);
+
+		$result=is_array($result)?implode($splitChar, $result):$result;
+
+		return $result;
+	}
+
+	public static function getExplodeVar($keyName,$splitChar="-",$zoneName='global')
+	{
+		if(!isset(self::$listVar[$zoneName][$keyName]))
+		{
+			return false;
+		}
+
+		$result=self::getVar($keyName,$zoneName);
+
+		$result=explode($splitChar, $result);
+
+		return $result;
+	}
+
+	public static function defineObject($keyName='',$object)
+	{
+		self::$listObject[$keyName]=$object;
+	}
+
+	public static function getObject($keyName='')
+	{
+		$result=isset(self::$listObject[$keyName])?(object)self::$listObject[$keyName]:false;
+
+		return $result;
 	}
 
 	public static function before_system_start()
@@ -436,6 +561,20 @@ class System
 		return $theDomain;
 	}
 
+	public static function getPluginUrl($pluginName='')
+	{
+		$url=self::getUrl().'contents/plugins/'.$pluginName.'/';
+
+		return $url;
+	}
+
+	public static function getPluginPath($pluginName='')
+	{
+		$url=ROOT_PATH.'contents/plugins/'.$pluginName.'/';
+
+		return $url;
+	}
+
 	public static function setUrl($url)
 	{
 		Cookie::make('root_url',$url,1440*7);
@@ -447,6 +586,7 @@ class System
 
 		return $url;
 	}
+
 
 	public static function getThemeName()
 	{

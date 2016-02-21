@@ -52,10 +52,10 @@ function actionProcess()
 				$addWhere2=" p.userid='$userid'";
 
 			}
+			
+			Database::query("delete pt from ".Database::getPrefix()."post_tags pt left join ".Database::getPrefix()."post p on pt.postid=p.postid WHERE $addWhere2");			
 
 			Post::remove(0,$addWhere);
-
-			Database::query("delete pt from ".Database::getPrefix()."post_tags pt left join ".Database::getPrefix()."post p on pt.postid=p.postid WHERE $addWhere2");
 
 			break;
 

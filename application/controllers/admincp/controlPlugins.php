@@ -95,15 +95,10 @@ class controlPlugins
 
 	}
 
-	public function controller()
+	public function controller($isPrivate='no')
 	{
-		
-      	// if(Domain::isOtherDomain())
-      	// {
-      	// 	Alert::make('You dont have permission to access this page.');
-      	// }
 
-		if(!$match=Uri::match('\/controller\/(\w+)\/(\w+)'))
+		if(!$match=Uri::match('controller\/(\w+)\/(\w+)'))
 		{
 			Redirect::to(System::getAdminUrl());
 		}
@@ -154,11 +149,29 @@ class controlPlugins
 			include($modelPath);
 		}
 
-		View::make('admincp/head');
+		if($isPrivate=='no')
+		{
+			View::make('admincp/head');
 
-		self::makeContents('pluginRunController',$post);
+			self::makeContents('pluginRunController',$post);
 
-		View::make('admincp/footer');	
+			View::make('admincp/footer');				
+		}
+		else
+		{
+			$indexPath=PLUGINS_PATH.$foldername.'/controller/controlIndex.php';
+
+			if(file_exists($indexPath))
+			{
+				include($indexPath);
+			}			
+		}
+
+	}
+
+	public function privatecontroller()
+	{
+		$this->controller('yes');
 	}
 
 	public function run()
