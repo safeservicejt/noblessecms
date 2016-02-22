@@ -39,7 +39,7 @@ class CtrPlugin
 	{
 		$pluginName=isset(self::$data['plugin'])?self::$data['plugin']:$pluginName;
 
-		$url=System::getUrl().'admincp/plugins/privatecontroller/'.$controllerName.'/'.$funcName;
+		$url=System::getUrl().'admincp/plugins/privatecontroller/'.$controllerName.'/'.$funcName.'/';
 
 		return $url;
 	}
