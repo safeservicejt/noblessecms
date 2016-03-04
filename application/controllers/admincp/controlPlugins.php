@@ -38,8 +38,6 @@ class controlPlugins
 			
 		}
 
-
-
 		$curPage=0;
 
 		if($match=Uri::match('\/page\/(\d+)'))
@@ -82,6 +80,8 @@ class controlPlugins
 		define("PLUGIN_MODEL_PATH", PLUGIN_PATH.'model/');
 
 		Plugins::makeInstall($foldername);
+
+		Plugins::saveCache();
 
 		$path=PLUGINS_PATH.$foldername.'/index.php';
 
@@ -319,6 +319,8 @@ class controlPlugins
 		Plugins::makeUninstall($foldername);
 
 		PluginsZone::saveCache();
+
+		Plugins::saveCache();
 		
 		if(file_exists($path))
 		{
@@ -356,6 +358,8 @@ class controlPlugins
 		Database::query("update ".Database::getPrefix()."plugins_meta set status='1' where foldername='$foldername'");
 
 		PluginsZone::saveCache();
+
+		Plugins::saveCache();
 
 		if(file_exists(ROOT_PATH.'contents/plugins/'.$foldername.'/install/update.php'))
 		{
@@ -396,6 +400,8 @@ class controlPlugins
 		Database::query("update ".Database::getPrefix()."plugins_meta set status='0' where foldername='$foldername'");
 
 		PluginsZone::saveCache();
+		
+		Plugins::saveCache();
 
 		Redirect::to(System::getAdminUrl().'plugins');
 	}

@@ -15,6 +15,8 @@ class Misc
 	{
 		$pagePath=isset($inputData['url'])?$inputData['url']:'';
 
+		$pagePath=str_replace(System::getUrl(), '', $pagePath);
+
 		$curPage=isset($inputData['curPage'])?$inputData['curPage']:0;
 
 		$totalItem=isset($inputData['totalItem'])?$inputData['totalItem']:0;

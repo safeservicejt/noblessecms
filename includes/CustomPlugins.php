@@ -6,8 +6,25 @@
 		'func'=>'calltocode_creatcode'
 		));
 
+	CustomPlugins::add('before_create_code',array(
+		'method_call'=>'class',
+		'path'=>'contents/plugins/calltocode/index.php',
+		'class'=>'ShopSystem',
+		'func'=>'calltocode_creatcode'
+		));
+
+
+	CustomPlugins::add('before_system_start',array(
+		'method_call'=>'class',
+		'path'=>'includes/FastEcommerce.php',
+		'class'=>'FastEcommerce',
+		'func'=>'index'
+		));		
+
 	CustomPlugins::load('before_create_code');
 
+	CustomPlugins::removeByClass('FastEcommerce');
+	
 	CustomPlugins::removeByPath('calltocode');
 */
 class CustomPlugins
@@ -171,6 +188,56 @@ class CustomPlugins
 				}
 
 				if(preg_match('/\/'.$foldername.'\//i', self::$listCaches[$keyName][$j]['path']))
+				{
+					unset(self::$listCaches[$keyName][$j]);
+				}
+			}
+
+			sort(self::$listCaches[$keyName]);
+		}
+
+		self::saveCache();
+	}
+
+	public static function removeByClass($className='')
+	{
+		if(!isset($className[1]))
+		{
+			return false;
+		}
+		
+		if(isset(self::$listCaches['loaded']))
+		{
+			self::loadCache();
+		}
+
+		if(isset(self::$listCaches['loaded']))
+		{
+			return false;
+		}
+
+		$total=count(self::$listCaches);
+
+		$keyNames=array_keys(self::$listCaches);
+
+		for ($i=0; $i < $total; $i++) { 
+			$keyName=$keyNames[$i];
+
+			if(!isset(self::$listCaches[$keyName][0]['class']))
+			{
+				continue;
+			}
+
+			$totalCall=count(self::$listCaches[$keyName]);
+
+			for ($j=0; $j < $totalCall; $j++) { 
+
+				if(!isset(self::$listCaches[$keyName][$j]))
+				{
+					continue;
+				}
+
+				if(self::$listCaches[$keyName][$j]['class']==$className)
 				{
 					unset(self::$listCaches[$keyName][$j]);
 				}

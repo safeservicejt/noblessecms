@@ -236,7 +236,7 @@ class System
 
 		CustomPlugins::load('after_load_database');
 
-		Plugins::load('before_system_start');
+		CustomPlugins::load('before_system_start');
 
 		Shortcode::loadInSystem();
 

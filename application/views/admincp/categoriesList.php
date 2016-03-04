@@ -100,7 +100,7 @@
 	     		<h4>Add new</h4>
 	    		<p>
 	    			<label><strong>Title</strong></label>
-	    			<input type="text" class="form-control" name="send[title]" placeholder="Title" id="txtTitle" />
+	    			<input type="text" class="form-control input-size-medium" name="send[title]" placeholder="Title" id="txtTitle" />
 	    		</p>
                     <p class="pChosen">
                     <div class="row">
@@ -145,7 +145,7 @@
 	     		<h4>Edit</h4>
                 <p>
                     <label><strong>Title</strong></label>
-                    <input type="text" class="form-control" name="send[title]" value="<?php if(isset($edit['title']))echo $edit['title'];?>" placeholder="Title" id="txtTitle" />
+                    <input type="text" class="form-control input-size-medium" name="send[title]" value="<?php if(isset($edit['title']))echo $edit['title'];?>" placeholder="Title" id="txtTitle" />
                 </p>
 	    		<p>
 	    			<label><strong>Friendly Url</strong></label>
@@ -188,7 +188,7 @@
                         </p>
                 <p>
                     <label><strong>Sort Order</strong></label>
-                    <input type="text" class="form-control" name="send[sort_order]" value="<?php if(isset($edit['sort_order']))echo $edit['sort_order'];?>" placeholder="Sort order" id="txtOrder" />
+                    <input type="text" class="form-control input-size-medium" name="send[sort_order]" value="<?php if(isset($edit['sort_order']))echo $edit['sort_order'];?>" placeholder="Sort order" id="txtOrder" />
                 </p>                         
                 <p>
                     <label><strong>Thumbnail</strong></label>

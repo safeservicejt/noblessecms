@@ -42,6 +42,38 @@ class File
 
     }
 
+    public function removeAllFiles($path='',$callback='')
+    {
+        if(!isset($path[2]))
+        {
+            return false;
+        }
+
+        $listFiles=Dir::listFiles($path);
+
+        $total=count($listFiles);
+
+        if(isset($listFiles[0]))
+        for ($i=0; $i < $total; $i++) { 
+            $theName=$listFiles[$i];
+
+            if(is_file($path.$theName))
+            {
+                unlink($path.$theName);
+            }
+        }
+
+        if(is_object($callback))
+        {
+            $callback=(object)$callback;
+
+            $result=$callback();
+
+            return $result;
+        }
+
+    }
+
     public static function unzipModule($fullPath,$remove='no')
     {
         if(!preg_match('/.*?\.(zip|rar)/i', $fullPath))
@@ -108,13 +140,21 @@ class File
         }
     }
 
-    public static function exists($filePath = '')
+    public static function exists($filePath = '',$callback='')
     {
-        if (isset($filePath[1]) && file_exists($filePath)) {
-            return true;
+        if (isset($filePath[1]) && !file_exists($filePath)) {
+            return false;
         }
 
-        return false;
+        if(is_object($callback))
+        {
+            $callback=(object)$callback;
+
+            $result=$callback($filePath);
+
+            return $result;            
+        }
+
     }
 
     public static function create($filePath = '', $fileData = '', $writeMode = 'w')
@@ -137,6 +177,8 @@ class File
         fclose($fp);
 
         chmod($filePath, 0644);
+
+        return $filePath;
 
     }
 
@@ -341,6 +383,29 @@ class File
 
         return false;
 
+    }
+
+    public static function copyMatch($source, $target)
+    {
+        if(!isset($target[2]))
+        {
+            return false;
+        }
+
+        if(!preg_match('/\/$/i', $target))
+        {
+            $target.='/';
+        }
+
+        $allFiles=glob($source);
+
+        $total=count($allFiles);
+
+        for ($i=0; $i < $total; $i++) { 
+            $fileName=basename($allFiles[$i]);
+
+            copy($allFiles[$i], $target.$fileName);
+        }
     }
 
     public static function fullCopy( $source, $target ) {

@@ -164,13 +164,24 @@ class controlAdmincp
 
 		$codeFooter=is_array($codeFooter)?'':$codeFooter;
 
-		// print_r($codeHead);die();
 
-		System::defineGlobalVar('admincp_header',$codeHead);
+		if(!System::issetVar('admincp_header'))
+		{
+			System::defineGlobalVar('admincp_header',$codeHead);
+		}
+		else
+		{
+			System::pushVar('admincp_header',$codeHead);
+		}
 
-		System::defineGlobalVar('admincp_footer',$codeFooter);
-		
-
+		if(!System::issetVar('admincp_footer'))
+		{
+			System::defineGlobalVar('admincp_footer',$codeFooter);
+		}
+		else
+		{
+			System::pushVar('admincp_footer',$codeFooter);
+		}
 
 		Controller::load($controlName);
 	}

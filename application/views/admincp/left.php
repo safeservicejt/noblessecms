@@ -23,7 +23,7 @@
                  <li><a href="<?php echo System::getAdminUrl();?>pages/addnew">Page</a></li>
                  <li><a href="<?php echo System::getAdminUrl();?>post/addnew">Post</a></li>
                  <li><a href="<?php echo System::getAdminUrl();?>links/addnew">Links</a></li>
-
+              
                 </ul>
               </li>
               <?php } ?>

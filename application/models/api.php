@@ -53,6 +53,14 @@ function apiProcess()
 			}
 			break;
 
+		case 'media':
+			try {
+				$result['data']=Media::api($action);
+			} catch (Exception $e) {
+				$result=array('error'=>'yes','message'=>$e->getMessage());
+			}
+			break;
+
 		case 'category':
 			try {
 				$result['data']=Categories::api($action);

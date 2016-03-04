@@ -264,6 +264,40 @@ class String
 
     }
 
+    public static function spinText($inputData='')
+    {
+        if(preg_match_all('/(\{([a-zA-Z0-9_\-\|\;\:\,\(\)\.\/\?\&\_\s\^\!\@\#\$\%\*\=\+\<\>]+)\})/i', $inputData,$match))
+        {
+            $total=count($match[1]);
+
+            for ($i=0; $i < $total; $i++) { 
+
+                $item=$match[1][$i];
+
+                $itemContent=$match[2][$i];
+
+                if(preg_match_all('/\{.*?\}/i', $itemContent,$itemMatch))
+                {
+                    $inputData=String::spinText($itemContent);
+                }
+                else
+                {
+                    $split=explode('|', $itemContent);
+
+                    shuffle($split);
+
+                    $inputData=str_replace($item, $split[0], $inputData);
+                }
+
+            }
+
+            $inputData=String::spinText($inputData);
+        }
+
+
+        return $inputData;
+
+    }
     public static function moneyToText($number) {
  
         $hyphen      = ' ';

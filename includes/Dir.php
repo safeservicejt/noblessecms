@@ -55,10 +55,28 @@ class Dir
             copy($source, $dest);
         }
     }
+
+    public static function removeMatch($source='')
+    {
+        if(!isset($source[5]))
+        {
+            return false;
+        }
+
+        $all=glob($source);
+
+        $total=count($all);
+
+        for ($i=0; $i < $total; $i++) { 
+            self::remove($all[$i]);
+        }
+
+    }
     
-    public static function remove($path)
+    public static function remove($path,$callback='')
     {
         // Dir::remove(ROOT_PATH.'test');
+
         $replaces=array(
             '/\/+/i'=>'/'
             );
@@ -88,6 +106,7 @@ class Dir
         
         if (is_dir($path) === true)
         {
+
             $files = array_diff(scandir($path), array('.', '..'));
 
             foreach ($files as $file)
@@ -97,13 +116,19 @@ class Dir
 
             return rmdir($path);
         }
-
-        else if (is_file($path) === true)
+        elseif (is_file($path) === true)
         {
             return unlink($path);
         }
 
-        return false;        
+        if(is_object($callback))
+        {
+            $callback=(object)$callback;
+
+            $result=$callback();
+
+            return $result;
+        }       
     }
     
     public static function create($dirPath = '')

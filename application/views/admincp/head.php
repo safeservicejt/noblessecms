@@ -63,6 +63,7 @@
 
 <body>
 
+
 <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/tools')){ ?>
 <img src="<?php echo System::getUrl();?>bootstrap/images/addnew.png" class=" img-tools" />
 <div class="modal fade" id="modal-tools">

@@ -12,11 +12,11 @@
         <?php echo $alert;?>
             <p>
                 <label><strong>Title</strong></label>
-                <input type="text" class="form-control" name="send[title]" value="<?php echo $edit['title'];?>" placeholder="Title" />
+                <input type="text" class="form-control input-size-medium" name="send[title]" value="<?php echo $edit['title'];?>" placeholder="Title" />
             </p>
             <p>
                 <label><strong>Friendly Url</strong></label>
-                <input type="text" class="form-control" name="send[friendly_url]" value="<?php echo $edit['friendly_url'];?>" placeholder="Friendly Url" />
+                <input type="text" class="form-control input-size-medium" name="send[friendly_url]" value="<?php echo $edit['friendly_url'];?>" placeholder="Friendly Url" />
             </p>
  
             <p>
@@ -25,7 +25,7 @@
             </p>
             <p>
                 <label><strong>Keywords</strong></label>
-                <input type="text" class="form-control" name="send[keywords]" value="<?php echo $edit['keywords'];?>" placeholder="Keywords" />
+                <input type="text" class="form-control input-size-medium" name="send[keywords]" value="<?php echo $edit['keywords'];?>" placeholder="Keywords" />
             </p> 
             <p>
                 <button type="submit" class="btn btn-primary" name="btnSave">Save changes</button>
@@ -81,7 +81,7 @@
             </p>     
              <p class="pupload uploadFromUrl" style="display:none;">
                 <label><strong>Type image url</strong></label>
-                <input type="text" class="form-control" name="imageFromUrl" placeholder="Type image url" />
+                <input type="text" class="form-control input-size-medium" name="imageFromUrl" placeholder="Type image url" />
             </p>     
 
             <p>

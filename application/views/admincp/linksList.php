@@ -100,12 +100,12 @@
 	     		<h4>Add new</h4>
                 <p>
                     <label><strong>Title</strong></label>
-                    <input type="text" class="form-control" name="send[title]" placeholder="Title" id="txtTitle" />
+                    <input type="text" class="form-control input-size-medium" name="send[title]" placeholder="Title" id="txtTitle" />
                 </p>
 
                 <p>
                     <label><strong>Url</strong></label>
-                    <input type="text" class="form-control" name="send[url]" placeholder="Url" id="txtTitle" />
+                    <input type="text" class="form-control input-size-medium" name="send[url]" placeholder="Url" id="txtTitle" />
                 </p>
 
                 <p>
@@ -145,15 +145,15 @@
 	     		<h4>Edit</h4>
 	    		<p>
 	    			<label><strong>Title</strong></label>
-	    			<input type="text" class="form-control" name="update[title]" value="<?php if(isset($edit['title']))echo $edit['title'];?>" placeholder="Title" id="txtTitle" />
+	    			<input type="text" class="form-control input-size-medium" name="update[title]" value="<?php if(isset($edit['title']))echo $edit['title'];?>" placeholder="Title" id="txtTitle" />
 	    		</p>
                 <p>
                     <label><strong>Url</strong></label>
-                    <input type="text" class="form-control" name="update[url]" value="<?php if(isset($edit['url']))echo $edit['url'];?>" placeholder="Url" id="txtTitle" />
+                    <input type="text" class="form-control input-size-medium" name="update[url]" value="<?php if(isset($edit['url']))echo $edit['url'];?>" placeholder="Url" id="txtTitle" />
                 </p>
                  <p>
                     <label><strong>Sort Order</strong></label>
-                    <input type="text" class="form-control" name="update[sort_order]" value="<?php if(isset($edit['sort_order']))echo $edit['sort_order'];?>" placeholder="Sort Order" id="txtSortOrder" />
+                    <input type="text" class="form-control input-size-medium" name="update[sort_order]" value="<?php if(isset($edit['sort_order']))echo $edit['sort_order'];?>" placeholder="Sort Order" id="txtSortOrder" />
                 </p>
                  <p>
                     <label><strong>Parent</strong></label>

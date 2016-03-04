@@ -12,7 +12,7 @@
         <?php echo $alert;?>
             <p>
                 <label><strong>Title</strong></label>
-                <input type="text" class="form-control" name="send[title]" placeholder="Title" />
+                <input type="text" class="form-control input-size-medium" name="send[title]" placeholder="Title" />
             </p>
  
             <p>
@@ -21,7 +21,7 @@
             </p>
             <p>
                 <label><strong>Keywords</strong></label>
-                <input type="text" class="form-control" name="send[keywords]" placeholder="Keywords" />
+                <input type="text" class="form-control input-size-medium" name="send[keywords]" placeholder="Keywords" />
             </p> 
             <p>
                 <button type="submit" class="btn btn-primary" name="btnAdd">Add new</button>

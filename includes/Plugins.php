@@ -306,11 +306,20 @@ class Plugins
 			)
 		);
 
+	public static function saveCache()
+	{
+
+			
+	}
+
 
 	public static function getDirs($inputData=array())
 	{
 
-		$loadData=self::get();
+
+		$loadData=self::get(array(
+			'cache'=>'no'
+			));
 
 		$total=count($loadData);
 
@@ -325,8 +334,6 @@ class Plugins
 			$dbPlugins[$foldername]['installed']=$loadData[$i]['installed'];
 
 		}
-
-
 
 		$limitQuery="";
 
@@ -388,7 +395,7 @@ class Plugins
 					
 
 		}
-
+		
 		return $resultData;
 		
 	}

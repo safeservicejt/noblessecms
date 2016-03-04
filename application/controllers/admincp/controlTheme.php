@@ -182,24 +182,21 @@ class controlTheme
 		View::make('admincp/footer');
 
 	}
-	
-	public function setting()
+
+	public function privatesetting()
+	{
+		$this->setting('yes');
+	}
+
+	public function setting($isPrivate='no')
 	{
 
-		if(!$match=Uri::match('\/setting\/(\w+)'))
+		if(!$match=Uri::match('setting\/(\w+)'))
 		{
 			Redirect::to(System::getAdminUrl());
 		}
 
-		if($matchCtr=Uri::match('\/setting\/(\w+)\/controller\/(\w+)'))
-		{
-			$this->controller();
-
-			die();
-		}
-
 		$theName=$match[1];
-
 
 		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_setting_theme');
 
@@ -226,64 +223,37 @@ class controlTheme
 
 		define('THEME_CP_PATH', $thePath.'cp/');
 
-		define("THEME_VIEW_PATH", $thePath.'views/');
-		define("THEME_CONTROLLER_PATH", $thePath.'controller/');
-		define("THEME_MODEL_PATH", $thePath.'model/');
+		define("THEME_VIEW_PATH", $thePath.'cp/views/');
+		define("THEME_CONTROLLER_PATH", $thePath.'cp/controller/');
+		define("THEME_MODEL_PATH", $thePath.'cp/model/');
 
-		$post['filePath']=$info;
-
-		System::setTitle('Setting theme '.$theName.' - '.ADMINCP_TITLE);
-
-		View::make('admincp/head',array());
-
-		self::makeContents('themeSetting',$post);
-
-		View::make('admincp/footer');		
-	}
-
-	public function controller()
-	{
-		$post=array();
-
-		if($matchCtr=Uri::match('\/setting\/(\w+)\/controller\/(\w+)'))
+		if($isPrivate=='no')
 		{
-			$controllerName=$matchCtr[2];
+			$post['filePath']=$info;
 
-			$themeName=$matchCtr[1];
+			System::setTitle('Setting theme '.$theName.' - '.ADMINCP_TITLE);
 
+			View::make('admincp/head',array());
 
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_control_theme');
+			self::makeContents('themeSetting',$post);
 
-			if($valid!='yes')
+			View::make('admincp/footer');		
+		}
+		else
+		{
+			$indexPath=THEME_CONTROLLER_PATH.'controlIndex.php';
+
+			if(file_exists($indexPath))
 			{
-				Alert::make('You not have permission to view this page');
+				include($indexPath);
 			}
-
-			$path=THEMES_PATH.$themeName.'/cp/controller/control'.ucfirst($controllerName).'.php';
-
-			if(!file_exists($path))
+			else
 			{
-				Alert::make('Controller <b>'.$controllerName.'</b> of theme '.$themeName.' not found.');
+				Alert::make('Page not found');
 			}
+		}
 
-			$thePath=THEMES_PATH.$themeName;
 
-			define("THEME_CP_PATH", THEMES_PATH.$themeName.'cp/');
-
-			define("THEME_VIEW_PATH", $thePath.'views/');
-			define("THEME_CONTROLLER_PATH", $thePath.'controller/');
-			define("THEME_MODEL_PATH", $thePath.'model/');
-
-			$post['file']=$path;
-
-			$post['themename']=$themeName;
-
-			View::make('admincp/head',array('title'=>'Setting theme '.$themeName.' - '.ADMINCP_TITLE));
-
-			self::makeContents('themeControl',$post);
-
-			View::make('admincp/footer');				
-		}		
 	}
 
 	public function import()
