@@ -20,6 +20,3 @@ class Input extends Request
     }
 
 }
-
-
-?>

@@ -421,6 +421,3 @@ class Redirect
 
 
 }
-
-
-?>

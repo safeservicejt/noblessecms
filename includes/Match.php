@@ -38,4 +38,3 @@ class Match
 		return $result;		
 	}
 }
-?>

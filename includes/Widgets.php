@@ -427,4 +427,3 @@ class Widgets
 
 
 }
-?>

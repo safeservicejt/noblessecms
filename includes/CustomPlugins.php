@@ -341,5 +341,3 @@ class CustomPlugins
 		File::create($filePath,serialize($loadData));
 	}
 }
-
-?>

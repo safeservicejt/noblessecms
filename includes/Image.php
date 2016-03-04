@@ -205,6 +205,3 @@ class Image
 
 
 }
-
-
-?>

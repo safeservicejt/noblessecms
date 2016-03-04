@@ -333,6 +333,3 @@ class Request
 
 
 }
-
-
-?>

@@ -1026,5 +1026,3 @@ class Plugins
 
 
 }
-
-?>

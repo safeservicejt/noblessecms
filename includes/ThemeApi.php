@@ -48,4 +48,3 @@ class ThemeApi
 		return $result;
 	}
 }
-?>

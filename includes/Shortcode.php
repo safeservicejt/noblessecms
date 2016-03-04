@@ -745,4 +745,3 @@ class Shortcode
 
 	}
 }
-?>

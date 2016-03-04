@@ -758,6 +758,3 @@ class Database
 
 
 }
-
-
-?>

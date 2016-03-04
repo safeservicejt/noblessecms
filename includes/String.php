@@ -415,6 +415,3 @@ class String
     }
 
 }
-
-
-?>

@@ -29,6 +29,3 @@ class Alert
 
     }
 }
-
-
-?>

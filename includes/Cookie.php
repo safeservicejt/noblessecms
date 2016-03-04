@@ -36,6 +36,3 @@ class Cookie
         setcookie($cookieName, '', 1,'/',$_SERVER['HTTP_HOST']);
     }
 }
-
-
-?>

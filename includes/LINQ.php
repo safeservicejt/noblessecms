@@ -644,5 +644,3 @@ class LINQ
 		return $resultQuery;
 	}
 }
-
-?>

@@ -82,6 +82,3 @@ class Autothumb
 		return $shortPath;
 	}
 }
-
-
-?>

@@ -298,4 +298,3 @@ class Template
     	return $data;
     }
 }
-?>
