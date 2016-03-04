@@ -132,12 +132,15 @@
 
                     <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-all') || System::issetVar('admincp_left_hide_all')){ ?>
 
+                    <?php if(System::issetVar('before_left_dashboard')){ echo System::getVar('before_left_dashboard');} ?>
+
                     <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-dashboard') || System::issetVar('admincp_left_hide_dashboard')){ ?>
                     <li class="li-dashboard">
                         <a href="<?php echo System::getAdminUrl();?>"><span class="glyphicon glyphicon-globe"></span> Dashboard</a></a>
                     </li>
                     <?php } ?>
-                    
+
+                    <?php if(System::issetVar('before_left_dashboard')){ echo System::getVar('before_left_category_manager');} ?>                    
                     <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_category_manager'); $valid=System::issetVar('admincp_left_hide_category')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-categories')){ ?>
                         <li class="li-categories">
@@ -145,6 +148,8 @@
                         </li>
                         <?php } ?>
                     <?php } ?>
+
+                    <?php if(System::issetVar('before_left_dashboard')){ echo System::getVar('before_left_post_manager');} ?>
 
                     <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_post_manager'); $valid=System::issetVar('admincp_left_hide_post')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-post')){ ?>
@@ -164,6 +169,8 @@
                         <?php } ?>
                     <?php } ?>
 
+                    <?php if(System::issetVar('before_left_dashboard')){ echo System::getVar('before_left_page_manager');} ?>
+
                     <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_page_manager'); $valid=System::issetVar('admincp_left_hide_page')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-page')){ ?>
                         <li class="li-pages">
@@ -176,6 +183,8 @@
                         </li>
                         <?php } ?>
                     <?php } ?>
+
+                    <?php if(System::issetVar('before_left_dashboard')){ echo System::getVar('before_left_link_manager');} ?>
 
                     <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_link_manager'); $valid=System::issetVar('admincp_left_hide_link')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-link')){ ?>
@@ -190,6 +199,8 @@
                         <?php } ?>
                     <?php } ?>
 
+                    <?php if(System::issetVar('before_left_dashboard')){ echo System::getVar('before_left_user_manager');} ?>
+
                     <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_user_manager'); $valid=System::issetVar('admincp_left_hide_user')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-user')){ ?>
                         <li class="li-users">
@@ -202,6 +213,8 @@
                         </li>
                         <?php } ?>
                     <?php } ?>
+
+                    <?php if(System::issetVar('before_left_dashboard')){ echo System::getVar('before_left_usergroup_manager');} ?>
 
                     <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_usergroup_manager'); $valid=System::issetVar('admincp_left_hide_usergroup')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-usergroup')){ ?>
@@ -216,6 +229,8 @@
                         <?php } ?>
                     <?php } ?>
 
+                    <?php if(System::issetVar('before_left_dashboard')){ echo System::getVar('before_left_contact_manager');} ?>
+
                     <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_contact_manager'); $valid=System::issetVar('admincp_left_hide_contact')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-contact')){ ?>
                         <li class="li-contact">
@@ -223,6 +238,8 @@
                         </li>
                         <?php } ?>
                     <?php } ?>
+
+                    <?php if(System::issetVar('before_left_dashboard')){ echo System::getVar('before_left_theme_manager');} ?>
 
                     <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_theme_manager'); $valid=System::issetVar('admincp_left_hide_theme')?'no':'yes'; if($valid=='yes'){ ?>                 
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-appearance')){ ?>
@@ -238,6 +255,8 @@
                         <?php } ?>
                     <?php } ?>
 
+                    <?php if(System::issetVar('before_left_dashboard')){ echo System::getVar('before_left_plugin_manager');} ?>
+
                     <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_plugin_manager'); $valid=System::issetVar('admincp_left_hide_plugin')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-plugin')){ ?>
                          <li class="li-plugins">
@@ -250,6 +269,8 @@
                         </li>
                         <?php } ?>
                     <?php } ?>
+
+                    <?php if(System::issetVar('before_left_dashboard')){ echo System::getVar('before_left_setting');} ?>
 
                     <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_setting_manager'); $valid=System::issetVar('admincp_left_hide_setting')?'no':'yes'; if($valid=='yes'){ ?>
                         <?php if(!is_dir(ROOT_PATH.'contents/security/admincp/hide/left-setting')){ ?>

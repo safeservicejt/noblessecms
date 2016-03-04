@@ -164,7 +164,6 @@ class controlAdmincp
 
 		$codeFooter=is_array($codeFooter)?'':$codeFooter;
 
-
 		if(!System::issetVar('admincp_header'))
 		{
 			System::defineGlobalVar('admincp_header',$codeHead);
