@@ -27,6 +27,10 @@ $result=Collection::reject(function($user){
 	return $user;
 });
 
+Collection::make(array(4,6,8,2,6,9));
+
+$max=Collection::max();
+
 
 */
 class Collection
@@ -60,6 +64,42 @@ class Collection
 		}
 
 		return $result;
+	}
+
+	public static function max($keyName='default',$inputData=array())
+	{
+		if(!isset($inputData[0]))
+		{
+			if(!isset(self::$data[$keyName]))
+			{
+				return false;
+			}
+
+			$inputData=self::$data[$keyName];
+		}
+
+		sort($inputData);
+
+		$total=count($inputData)-1;
+
+		return $inputData[$total];
+	}
+
+	public static function min($keyName='default',$inputData=array())
+	{
+		if(!isset($inputData[0]))
+		{
+			if(!isset(self::$data[$keyName]))
+			{
+				return false;
+			}
+
+			$inputData=self::$data[$keyName];
+		}
+
+		sort($inputData);
+
+		return $inputData[0];
 	}
 
 	public static function reject($object,$keyName='default')
