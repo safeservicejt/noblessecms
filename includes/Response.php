@@ -108,6 +108,19 @@ class Response
         
     }
 
+    public static function api_format($inputData=array())
+    {
+        $inputData['error']=isset($inputData['error'])?$inputData['error']:'no';
+
+        $inputData['message']=isset($inputData['message'])?$inputData['message']:'';
+
+        $inputData['data']=isset($inputData['data'])?$inputData['data']:'';
+
+        echo json_encode($inputData);
+
+        die();
+    }
+
     public static function rss()
     {
         header("Content-Type: application/xml; charset=UTF-8");

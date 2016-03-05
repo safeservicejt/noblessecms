@@ -6,6 +6,28 @@ Place below function in index.php file of plugin which you wanna add route
 
 Route::add('route_name','function_to_run');
 
+Route::get('api', function(){
+
+    Route::get('api/get', function(){
+
+        echo 'ok';
+    });
+});
+
+Route::get('api', function(){
+
+    Route::post('api/get', function(){
+
+        echo 'ok';
+    });
+});
+
+Route::getChild('ac',function(){
+
+    echo 'ok'
+});
+
+
 */
 class Route
 {
@@ -147,24 +169,86 @@ class Route
         Database::query("delete from plugins_meta where foldername='$foldername'");        
     }
 
-    public static function get($routeName='',$controllerName)
+    public static function post($routeName='',$controllerName)
+    {
+        self::get($routeName,$controllerName,'post');
+    }
+
+    public static function insert($routeName='',$controllerName)
+    {
+        self::get($routeName,$controllerName,'insert');
+    }
+
+    public static function delete($routeName='',$controllerName)
+    {
+        self::get($routeName,$controllerName,'delete');
+    }
+
+    public static function update($routeName='',$controllerName)
+    {
+        self::get($routeName,$controllerName,'update');
+    }
+
+    public static function put($routeName='',$controllerName)
+    {
+        self::get($routeName,$controllerName,'put');
+    }
+
+    public static function pop($routeName='',$controllerName)
+    {
+        self::get($routeName,$controllerName,'pop');
+    }
+
+    public static function getChild($routeName='',$controllerName)
+    {
+        $_GET['load'].='/'.$routeName;
+
+        self::get($routeName,$controllerName);
+    }
+
+    public static function get($routeName='',$controllerName,$method='get')
     {
         $uri=System::getUri();
         
         $varObject = '';
 
-
-
-        // if(!isset($controllerName[1]))
-        // {
-        //     // Alert::make('Page not found');
-
-        //     return false;
-        // }
-
         $subFunc='index';
 
+        $loadData=array();
 
+        if($method!='get')
+        {
+            switch ($method) {
+                case 'post':
+                    $loadData=$_POST;
+                    break;
+                case 'put':
+                    $loadData=$_PUT;
+                    break;
+                case 'pop':
+                    $loadData=$_POP;
+                    break;
+                case 'delete':
+                    $loadData=$_DELETE;
+                    break;
+                case 'insert':
+                    $loadData=$_INSERT;
+                    break;
+                case 'update':
+                    $loadData=$_UPDATE;
+                    break;
+
+            }            
+
+            $total=count($loadData);
+
+            if($total==0)
+            {
+                Alert::make('Page not found');
+            }
+        }
+
+        
         if(isset($routeName[1]))
         {
 
@@ -180,7 +264,7 @@ class Route
   
         }
 
-        if(isset($uri) && preg_match('/(.*?)\@(\w+)/i', $controllerName,$matches))
+        if(isset($uri) && !is_object($controllerName) && preg_match('/(.*?)\@(\w+)/i', $controllerName,$matches))
         {
             $controllerName=$matches[1];
 
@@ -189,11 +273,7 @@ class Route
 
         if (is_object($controllerName)) {
 
-            (object)$varObject = $controllerName;
-
-            $controllerName = '';
-
-            $varObject();
+            $controllerName();
 
         }          
         else
