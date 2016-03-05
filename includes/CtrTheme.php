@@ -98,19 +98,19 @@ class CtrTheme
 
 	public static function controller($viewName,$funcName='index')
 	{
-		Model::loadWithPath($viewName,self::$data['path'].'model/');
+		Model::loadWithPath($viewName,self::$data['path'].'models/');
 
-		Controller::loadWithPath('control'.ucfirst($viewName),$funcName,self::$data['path'].'controller/');
+		Controller::loadWithPath('control'.ucfirst($viewName),$funcName,self::$data['path'].'controllers/');
 	}
 
 	public static function model($viewName)
 	{
-		Model::loadWithPath($viewName,self::$data['path'].'model/');
+		Model::loadWithPath($viewName,self::$data['path'].'models/');
 	}
 
 	public static function view($viewName,$inputData=array())
 	{
-		View::makeWithPath($viewName,$inputData,self::$data['path'].'view/');
+		View::makeWithPath($viewName,$inputData,self::$data['path'].'views/');
 	}
 
 	public static function admincpHeader($inputData=array())

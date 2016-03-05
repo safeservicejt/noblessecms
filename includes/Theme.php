@@ -111,14 +111,14 @@ class Theme
 
 	public static function controller($viewName,$funcName='index')
 	{
-		Model::loadWithPath($viewName,self::$data['path'].'model/');
+		Model::loadWithPath($viewName,self::$data['path'].'models/');
 
-		Controller::loadWithPath('theme'.ucfirst($viewName),$funcName,self::$data['path'].'controller/');
+		Controller::loadWithPath('theme'.ucfirst($viewName),$funcName,self::$data['path'].'controllers/');
 	}
 
 	public static function model($viewName)
 	{
-		Model::loadWithPath($viewName,self::$data['path'].'model/');
+		Model::loadWithPath($viewName,self::$data['path'].'models/');
 	}
 
 	public static function view($viewName,$inputData=array())
@@ -140,7 +140,7 @@ class Theme
 			self::$data['render_header']='yes';
 		}	
 
-		View::makeWithPath($viewName,$inputData,self::$data['path'].'view/');
+		View::makeWithPath($viewName,$inputData,self::$data['path'].'views/');
 	}
 
 

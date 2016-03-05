@@ -28,6 +28,11 @@ Route::getChild('ac',function(){
 });
 
 
+Route::get('ac',function(){
+    Controller::loadWithPath('controlIndex','index','contents/themes/cleanvideo/controllers/');
+});
+
+
 */
 class Route
 {
@@ -247,7 +252,6 @@ class Route
                 Alert::make('Page not found');
             }
         }
-
         
         if(isset($routeName[1]))
         {
