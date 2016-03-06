@@ -53,6 +53,8 @@ class CtrPlugin
 
 		$funcName='index';
 
+		$pageName='';
+
 		// 'baiviet'=>'post@index'
 		if(preg_match('/privatecontroller\/'.self::$data['plugin'].'\/(\w+)/i', $curUri,$match))
 		{

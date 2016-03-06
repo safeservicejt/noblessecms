@@ -59,6 +59,8 @@ class CtrTheme
 
 		$funcName='index';
 
+		$pageName='';
+
 		// 'baiviet'=>'post@index'
 		if(preg_match('/privatesetting\/'.self::$data['theme'].'\/(\w+)/i', $curUri,$match))
 		{

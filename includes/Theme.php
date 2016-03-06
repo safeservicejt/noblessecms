@@ -83,6 +83,8 @@ class Theme
 
 		$funcName='index';
 
+		$pageName='';
+
 		// 'baiviet'=>'post@index'
 		if(preg_match('/^\/?(\w+)/i', $curUri,$match))
 		{
