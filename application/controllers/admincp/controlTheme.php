@@ -214,18 +214,11 @@ class controlTheme
 			Redirect::to(System::getAdminUrl());
 		}
 
-		$info=$thePath.'setting.php';
-
-		if(!file_exists($info))
-		{
-			Redirect::to(System::getAdminUrl());
-		}
-
 		define('THEME_CP_PATH', $thePath.'cp/');
 
 		define("THEME_VIEW_PATH", $thePath.'cp/views/');
-		define("THEME_CONTROLLER_PATH", $thePath.'cp/controller/');
-		define("THEME_MODEL_PATH", $thePath.'cp/model/');
+		define("THEME_CONTROLLER_PATH", $thePath.'cp/controllers/');
+		define("THEME_MODEL_PATH", $thePath.'cp/models/');
 
 		if($isPrivate=='no')
 		{
@@ -243,6 +236,7 @@ class controlTheme
 		{
 			$indexPath=THEME_CONTROLLER_PATH.'controlIndex.php';
 
+		
 			if(file_exists($indexPath))
 			{
 				include($indexPath);

@@ -33,7 +33,7 @@
 				<!-- row -->
 				<div class="row">
 					<div class="col-lg-12">
-					<a href="<?php echo System::getUrl();?>admincp/theme/setting/<?php echo System::getThemeName();?>" class="btn btn-primary">Setting</a>
+					<a href="<?php echo System::getUrl();?>admincp/theme/privatesetting/<?php echo System::getThemeName();?>" class="btn btn-primary">Setting</a>
 					<a href="<?php echo System::getUrl();?>admincp/theme/edit/<?php echo System::getThemeName();?>" class="btn btn-danger">Edit</a>
 
 					</div>					
@@ -81,7 +81,7 @@
 						</div>
 						<div class="col-lg-12 themeButton">
 							<a href="<?php echo System::getUrl();?>admincp/theme/activate/<?php echo $themeNames[$i];?>" class="btn btn-primary">Activate</a>
-						<a href="<?php echo System::getUrl();?>admincp/theme/setting/<?php echo $themeNames[$i];?>" class="btn btn-warning pull-right">Setting</a>
+						<a href="<?php echo System::getUrl();?>admincp/theme/privatesetting/<?php echo $themeNames[$i];?>" class="btn btn-warning pull-right">Setting</a>
 						</div>
 					</div>
 				</div>
