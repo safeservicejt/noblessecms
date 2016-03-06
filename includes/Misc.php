@@ -1,5 +1,19 @@
 <?php
 
+
+/*
+
+	$post['pages']=Misc::genSmallPage(array(
+		'url'=>'admincp/links'.$addPage,
+		'curPage'=>$curPage,
+		'limitShow'=>100,
+		'limitPage'=>5,
+		'showItem'=>count($post['theList']),
+		'totalItem'=>$countPost[0]['totalRow'],
+		));
+		
+*/
+
 class Misc
 {
 	public static function genSmallPage($inputData=array())

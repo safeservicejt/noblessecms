@@ -104,6 +104,11 @@ class Theme
 			}
 		}
 
+		if(!isset(self::$data['list_uri'][$pageName]))
+		{
+			Alert::make('Page not found');
+		}
+
 		self::controller($controllerName,$funcName);
 
 		
