@@ -22,6 +22,12 @@ class CtrPlugin
 
 		self::$data['list_uri']=$inputData;
 
+		self::$data['controller']='home';
+
+		if(preg_match('/\/privatecontroller\/(\w+)/i', System::getUri(),$match))
+		{
+			self::$data['plugin']=$match[1];
+		}
 
 		if(preg_match('/\/privatecontroller\/(\w+)\/(\w+)/i', System::getUri(),$match))
 		{
@@ -29,10 +35,7 @@ class CtrPlugin
 			self::$data['controller']=$match[2];
 
 		}
-		else
-		{
-			Alert::make('Data not valid.');
-		}
+
 	}
 
 	public static function url($controllerName,$funcName='index',$pluginName='')
@@ -49,11 +52,11 @@ class CtrPlugin
 	{
 		$curUri=System::getUri();
 
-		$controllerName='';
+		$controllerName='home';
 
 		$funcName='index';
 
-		$pageName='';
+		$pageName='home';
 
 		// 'baiviet'=>'post@index'
 		if(preg_match('/privatecontroller\/'.self::$data['plugin'].'\/(\w+)/i', $curUri,$match))
@@ -98,6 +101,7 @@ class CtrPlugin
 
 	public static function controller($viewName,$funcName='index')
 	{
+
 		Model::loadWithPath($viewName,self::$data['path'].'models/');
 
 		Controller::loadWithPath('control'.ucfirst($viewName),$funcName,self::$data['path'].'controllers/');

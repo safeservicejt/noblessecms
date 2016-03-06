@@ -59,7 +59,7 @@ class CtrTheme
 
 		$funcName='index';
 
-		$pageName='';
+		$pageName='home';
 
 		// 'baiviet'=>'post@index'
 		if(preg_match('/privatesetting\/'.self::$data['theme'].'\/(\w+)/i', $curUri,$match))

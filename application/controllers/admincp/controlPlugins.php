@@ -98,7 +98,7 @@ class controlPlugins
 	public function controller($isPrivate='no')
 	{
 
-		if(!$match=Uri::match('controller\/(\w+)\/(\w+)'))
+		if(!$match=Uri::match('controller\/(\w+)'))
 		{
 			Redirect::to(System::getAdminUrl());
 		}
@@ -113,58 +113,22 @@ class controlPlugins
 			Alert::make('You not have permission to view this page');
 		}
 
-		$funcName=$match[2];
-
-		$path=PLUGINS_PATH.$foldername.'/controller/control'.ucfirst($funcName).'.php';
-
-		$modelPath=PLUGINS_PATH.$foldername.'/model/model'.$funcName.'.php';
-
-		$thisUrl=System::getAdminUrl().'plugins/controller/'.$foldername.'/'.$funcName.'/';
-
-		if(!file_exists($path))
-		{
-			Redirect::to(System::getAdminUrl());
-		}
-
-		define("THIS_URL",$thisUrl);
 
 		define("THIS_PATH",PLUGINS_PATH.$foldername.'/');
 
 		define("PLUGIN_PATH", PLUGINS_PATH.$foldername.'/');
 
 		define("PLUGIN_VIEW_PATH", PLUGIN_PATH.'views/');
-		define("PLUGIN_CONTROLLER_PATH", PLUGIN_PATH.'controller/');
-		define("PLUGIN_MODEL_PATH", PLUGIN_PATH.'model/');
-		
-		$post['title']=ucfirst($foldername);
-
-		$post['filePath']=$path;
-
-		$post['controller']='control'.ucfirst($funcName);
+		define("PLUGIN_CONTROLLER_PATH", PLUGIN_PATH.'controllers/');
+		define("PLUGIN_MODEL_PATH", PLUGIN_PATH.'models/');
 		
 		System::setTitle(ucfirst($foldername).' - '.ADMINCP_TITLE);
 
-		if(file_exists($modelPath))
+		$indexPath=PLUGINS_PATH.$foldername.'/controllers/controlIndex.php';
+
+		if(file_exists($indexPath))
 		{
-			include($modelPath);
-		}
-
-		if($isPrivate=='no')
-		{
-			View::make('admincp/head');
-
-			self::makeContents('pluginRunController',$post);
-
-			View::make('admincp/footer');				
-		}
-		else
-		{
-			$indexPath=PLUGINS_PATH.$foldername.'/controller/controlIndex.php';
-
-			if(file_exists($indexPath))
-			{
-				include($indexPath);
-			}			
+			include($indexPath);
 		}
 
 	}

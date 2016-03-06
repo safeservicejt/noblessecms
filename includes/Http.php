@@ -86,7 +86,7 @@ class Http
 //    curl_setopt($ch, CURLOPT_HEADER, $header);
         curl_setopt($ch, CURLOPT_VERBOSE, 0);
         if ($is_follow == 'yes') curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-
+        // curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
