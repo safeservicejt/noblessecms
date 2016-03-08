@@ -57,5 +57,3 @@ function copyNested($targetPath='')
 	}
 
 }
-
-?>

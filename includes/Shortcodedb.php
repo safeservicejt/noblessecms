@@ -4,8 +4,6 @@ function system_shortcode_list()
 {
 	$outData=array(
 		'youtube'=>'shortcode_youtube',
-		
-		'video'=>'shortcode_youtube',
 
 		'link'=>'shortcode_url',
 		'url'=>'shortcode_url',

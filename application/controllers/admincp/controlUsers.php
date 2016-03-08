@@ -283,5 +283,3 @@ class controlUsers
         View::make('admincp/'.$viewPath,$inputData);
     }
 }
-
-?>

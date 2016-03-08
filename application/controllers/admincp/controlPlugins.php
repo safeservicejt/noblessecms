@@ -410,5 +410,3 @@ class controlPlugins
         View::make('admincp/'.$viewPath,$inputData);
     }
 }
-
-?>

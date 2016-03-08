@@ -132,6 +132,3 @@ function updateProcess($id)
 	Address::update($id,$address);
 	
 }
-
-
-?>

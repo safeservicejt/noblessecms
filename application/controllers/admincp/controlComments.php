@@ -103,5 +103,3 @@ class controlComments
         View::make('admincp/'.$viewPath,$inputData);
     }
 }
-
-?>

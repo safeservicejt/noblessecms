@@ -39,5 +39,3 @@ class controlTemplatestore
         View::make('admincp/'.$viewPath,$inputData);
     }
 }
-
-?>

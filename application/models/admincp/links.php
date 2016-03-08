@@ -119,5 +119,3 @@ function insertProcess()
 
 	Links::update($id,$updateData);
 }
-
-?>

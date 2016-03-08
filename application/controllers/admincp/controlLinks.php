@@ -170,5 +170,3 @@ class controlLinks
         View::make('admincp/'.$viewPath,$inputData);
     }
 }
-
-?>

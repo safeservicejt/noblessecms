@@ -115,5 +115,3 @@ class controlRedirects
         View::make('admincp/'.$viewPath,$inputData);
     }
 }
-
-?>

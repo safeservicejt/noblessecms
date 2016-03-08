@@ -26,5 +26,3 @@ function forgotProcess()
 		throw new Exception($e->getMessage());
 	}
 }
-
-?>

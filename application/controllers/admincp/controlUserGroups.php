@@ -154,5 +154,3 @@ class controlUsergroups
         View::make('admincp/'.$viewPath,$inputData);
     }
 }
-
-?>

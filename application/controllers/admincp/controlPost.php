@@ -312,5 +312,3 @@ class controlPost
         View::make('admincp/'.$viewPath,$inputData);
     }
 }
-
-?>

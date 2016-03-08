@@ -29,5 +29,3 @@ class controlDashboard
         View::make('admincp/'.$viewPath,$inputData);
     }
 }
-
-?>

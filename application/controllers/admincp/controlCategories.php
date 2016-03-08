@@ -203,5 +203,3 @@ class controlCategories
         View::make('admincp/'.$viewPath,$inputData);
     }
 }
-
-?>

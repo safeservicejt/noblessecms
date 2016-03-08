@@ -364,5 +364,3 @@ function insertProcess()
 		'friendly_url'=>$id.'-'.String::makeFriendlyUrl(strip_tags($send['title']))
 		));	
 }
-
-?>

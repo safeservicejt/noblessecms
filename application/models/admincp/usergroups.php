@@ -88,5 +88,3 @@ function insertProcess()
 	UserGroups::insert($insertData);
 
 }
-
-?>

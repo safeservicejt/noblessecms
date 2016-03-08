@@ -185,5 +185,3 @@ class controlAdmincp
 		Controller::load($controlName);
 	}
 }
-
-?>

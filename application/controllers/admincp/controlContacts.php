@@ -117,5 +117,3 @@ class controlContacts
         View::make('admincp/'.$viewPath,$inputData);
     }
 }
-
-?>

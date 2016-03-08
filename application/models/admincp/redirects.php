@@ -79,5 +79,3 @@ function insertProcess()
 	}
 
 }
-
-?>

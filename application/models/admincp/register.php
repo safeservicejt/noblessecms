@@ -64,5 +64,3 @@ function registerProcess()
 
 	// Redirect::to(System::getAdminUrl());
 }
-
-?>

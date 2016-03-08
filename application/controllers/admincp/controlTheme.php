@@ -288,5 +288,3 @@ class controlTheme
         View::make('admincp/'.$viewPath,$inputData);
     }
 }
-
-?>

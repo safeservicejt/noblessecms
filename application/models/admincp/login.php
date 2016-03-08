@@ -32,5 +32,3 @@ function loginProcess()
 
 	Redirect::to(System::getAdminUrl());
 }
-
-?>

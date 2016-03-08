@@ -204,5 +204,3 @@ function insertProcess()
 	}
 
 }
-
-?>

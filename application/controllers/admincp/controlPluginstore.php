@@ -41,5 +41,3 @@ class controlPluginstore
         View::make('admincp/'.$viewPath,$inputData);
     }
 }
-
-?>

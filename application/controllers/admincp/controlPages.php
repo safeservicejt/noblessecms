@@ -204,5 +204,3 @@ class controlPages
         View::make('admincp/'.$viewPath,$inputData);
     }
 }
-
-?>

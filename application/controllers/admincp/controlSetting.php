@@ -173,5 +173,3 @@ class controlSetting
         View::make('admincp/'.$viewPath,$inputData);
     }
 }
-
-?>

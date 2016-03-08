@@ -156,5 +156,3 @@ function countStats()
 
 	return $resultData;
 }
-
-?>
