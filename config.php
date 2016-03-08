@@ -199,4 +199,3 @@ function codemeFatalErrorShutdownHandler()
     codemeErrorHandler(E_ERROR, $last_error['message'], $last_error['file'], $last_error['line']);
   }
 }
-?>
