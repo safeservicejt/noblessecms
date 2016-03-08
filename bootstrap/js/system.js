@@ -43,6 +43,17 @@ $(document).ready(function(){
 
 	});
 
+	$('img').each(function(){
+
+		var alt=$(this).attr('alt');
+		var src=$(this).attr('src');
+
+		if(!alt)
+		{
+			$(this).attr('alt',src);
+		}
+	});
+
 	$('#btnLogin').click(function(){
 
 		var txtUsername=$('#txtUsername').val();

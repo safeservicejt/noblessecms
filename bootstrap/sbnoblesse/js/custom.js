@@ -1,10 +1,14 @@
 
 
 $(document).ready(function() {
-	
+
 	$('.img-tools').click(function(){
 
 		$('#modal-tools').modal('show');
+	});
+	
+	$('.show_modal_media').click(function(){
+		$('#modal-media').modal('show');
 	});
 
 	$('.img-tools').animo( { animation: ['tada', 'bounce'], duration: 2 } );
@@ -21,3 +25,6 @@ $(document).ready(function() {
 	});
 
 });
+
+
+

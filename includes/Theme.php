@@ -250,7 +250,7 @@ class Theme
 			$path=THEMES_PATH.$listDir[$i].'/';
 			$url=THEMES_URL.$listDir[$i].'/';
 
-			if(!file_exists($path.'info.txt') || !file_exists($path.'thumb.jpg'))
+			if(!file_exists($path.'info.txt'))
 			{
 				continue;
 			}
@@ -258,6 +258,12 @@ class Theme
 			$result[$listDir[$i]]=file($path.'info.txt');
 
 			$result[$listDir[$i]]['thumbnail']=$url.'thumb.jpg';
+			
+			if(!file_exists($path.'thumb.jpg'))
+			{
+				$result[$listDir[$i]]['thumbnail']=System::getUrl().'bootstrap/images/thumb.jpg';
+			}
+			
 
 		}
 		return $result;
