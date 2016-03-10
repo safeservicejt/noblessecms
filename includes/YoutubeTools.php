@@ -27,6 +27,11 @@ class YoutubeTools
 		{
 			$parse=explode('&url=', $data);
 
+			if(!preg_match('/video\/mp4/i', $parse[0]))
+			{
+				$parse[0]='type=video/mp4; codecs="avc1.42001E, mp4a.40.2"&quality=medium';
+			}
+			
 			$li=$parse[1].'&'.$parse[0];
 		}
 

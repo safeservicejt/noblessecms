@@ -1,5 +1,13 @@
 <?php
 
+
+/*
+Magic tag: use in post content
+
+[get_image_url]: thumbnail url of post
+
+*/
+
 class Post
 {
 
@@ -108,6 +116,7 @@ class Post
 				{
 					$row['content']=String::decode($row['content']);
 
+					$row['content']=preg_replace('/(\[get_image_url\])/i', System::getUrl().$row['image'], $row['content']);
 					// die($row['content']);
 				}
 

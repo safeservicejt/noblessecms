@@ -471,7 +471,13 @@ class File
             Dir::create(ROOT_PATH.$shortPath);
         }
 
-        $shortPath.='/'.$name;
+        preg_match('/(.*?)\.(\w+)/i', $name,$match);
+
+        $fileName=trim(String::makeFriendlyUrl($match[1]));
+
+        $fileExt=$match[2];
+
+        $shortPath.='/'.$fileName.'.'.$fileExt;  
 
         $fullPath=ROOT_PATH.$shortPath;
 
@@ -520,7 +526,13 @@ class File
 
             mkdir(ROOT_PATH.$tmpShortPath);
 
-            $tmpShortPath.='/'.$theName;
+            preg_match('/(.*?)\.(\w+)/i', $theName,$match);
+
+            $fileName=trim(String::makeFriendlyUrl($match[1]));
+
+            $fileExt=$match[2];        
+
+            $tmpShortPath.='/'.$fileName.'.'.$fileExt;      
 
             $resultData[$i]=$tmpShortPath;
 
@@ -554,7 +566,14 @@ class File
 
         mkdir(ROOT_PATH.$shortPath);
 
-        $shortPath.='/'.basename($imgUrl);
+        preg_match('/(.*?)\.(\w+)/i', basename($imgUrl),$match);
+
+        $fileName=trim(String::makeFriendlyUrl($match[1]));
+
+        $fileExt=$match[2];
+
+
+        $shortPath.='/'.$fileName.'.'.$fileExt;
 
         $fullPath=ROOT_PATH.$shortPath;
 
