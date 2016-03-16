@@ -811,8 +811,9 @@ class Users
 		{
 			$id=Database::insert_id();
 
-			Plugins::load('after_insert_user',$inputData);
-			CustomPlugins::load('after_insert_user');
+			$inputData['id']=$id;
+			
+			CustomPlugins::load('after_insert_user',$inputData);
 
 			return $id;	
 		}

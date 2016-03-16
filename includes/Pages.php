@@ -253,7 +253,9 @@ class Pages
 		{
 			$id=Database::insert_id();
 
-			CustomPlugins::load('after_page_insert');
+			$inputData['id']=$id;
+
+			CustomPlugins::load('after_page_insert',$inputData);
 
 			return $id;	
 		}

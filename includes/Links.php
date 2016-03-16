@@ -261,7 +261,9 @@ class Links
 		{
 			$id=Database::insert_id();
 
-			CustomPlugins::load('after_link_insert');
+			$inputData['id']=$id;
+
+			CustomPlugins::load('after_link_insert',$inputData);
 
 			return $id;	
 		}

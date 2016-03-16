@@ -334,11 +334,9 @@ class Categories
 		{
 			$id=Database::insert_id();
 
-			Plugins::load('after_category_insert',$inputData);
+			$inputData['id']=$id;
 
-			// self::saveCache();
-
-			CustomPlugins::load('after_category_insert');
+			CustomPlugins::load('after_category_insert',$inputData);
 
 
 			return $id;	
@@ -374,10 +372,6 @@ class Categories
 		$command="delete from ".Database::getPrefix()."categories where $whereQuery $addWhere";
 
 		Database::query($command);
-
-		Plugins::load('after_category_remove',$post);
-
-		self::saveCache();
 
 		CustomPlugins::load('after_category_remove',$post);
 
@@ -444,9 +438,6 @@ class Categories
 
 		if(!$error=Database::hasError())
 		{
-			Plugins::load('after_category_update',$listID);
-
-			self::saveCache();
 			
 			CustomPlugins::load('after_category_update',$listID);
 

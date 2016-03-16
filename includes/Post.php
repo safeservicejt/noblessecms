@@ -424,9 +424,9 @@ class Post
 		{
 			$id=Database::insert_id();
 
-			Plugins::load('after_post_insert',$inputData);
+			$inputData['id']=$id;
 
-			CustomPlugins::load('after_post_insert');
+			CustomPlugins::load('after_post_insert',$inputData);
 
 
 			return $id;	
@@ -490,9 +490,6 @@ class Post
 		}
 
 		Database::query($command);	
-
-
-		Plugins::load('after_post_remove',$post);
 
 		// self::saveCache();
 
@@ -578,7 +575,6 @@ class Post
 
 		if(!$error=Database::hasError())
 		{
-			Plugins::load('after_post_update',$listID);
 
 			// self::saveCache();
 			CustomPlugins::load('after_post_update',$listID);
