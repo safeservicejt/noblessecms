@@ -1,5 +1,7 @@
 <script src="<?php echo System::getUrl(); ?>bootstrap/ckeditor/ckeditor.js"></script>
 
+<?php echo System::getVar('page_edit_header');?>
+
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">Edit page</h3>
@@ -10,6 +12,7 @@
     	<div class="col-lg-8">
     	
         <?php echo $alert;?>
+        <?php echo System::getVar('page_edit_top_left');?>        
             <p>
                 <label><strong>Title</strong></label>
                 <input type="text" class="form-control input-size-medium" name="send[title]" value="<?php echo $edit['title'];?>" placeholder="Title" />
@@ -27,6 +30,7 @@
                 <label><strong>Keywords</strong></label>
                 <input type="text" class="form-control input-size-medium" name="send[keywords]" value="<?php echo $edit['keywords'];?>" placeholder="Keywords" />
             </p> 
+        <?php echo System::getVar('page_edit_bottom_left');?>              
             <p>
                 <button type="submit" class="btn btn-primary" name="btnSave">Save changes</button>
             </p>  
@@ -36,7 +40,7 @@
         <!-- right -->
         <div class="col-lg-4">
      
-
+        <?php echo System::getVar('page_edit_top_right');?>  
                 <p>
                 <label><strong>Page type:</strong></label>
                 <select class="form-control" id="postType" name="send[page_type]">
@@ -87,7 +91,7 @@
             <p>
               <img src="<?php echo System::getUrl().$edit['image'];?>" class="img-responsive" />
             </p>
-                          
+        <?php echo System::getVar('page_edit_bottom_right');?>                               
         </div>
         <!-- right -->
     </form>	
@@ -158,3 +162,5 @@ $(document).ready(function(){
 });
     
   </script>
+
+  <?php echo System::getVar('page_edit_footer');?>

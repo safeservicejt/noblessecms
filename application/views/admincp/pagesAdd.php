@@ -1,5 +1,7 @@
 <script src="<?php echo System::getUrl(); ?>bootstrap/ckeditor/ckeditor.js"></script>
 
+<?php echo System::getVar('page_addnew_header');?>
+
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">Add new page</h3>
@@ -10,6 +12,8 @@
     	<div class="col-lg-8">
     	
         <?php echo $alert;?>
+
+        <?php echo System::getVar('page_addnew_top_left');?>
             <p>
                 <label><strong>Title</strong></label>
                 <input type="text" class="form-control input-size-medium" name="send[title]" placeholder="Title" />
@@ -22,7 +26,8 @@
             <p>
                 <label><strong>Keywords</strong></label>
                 <input type="text" class="form-control input-size-medium" name="send[keywords]" placeholder="Keywords" />
-            </p> 
+            </p>
+        <?php echo System::getVar('page_addnew_bottom_left');?>            
             <p>
                 <button type="submit" class="btn btn-primary" name="btnAdd">Add new</button>
             </p>  
@@ -32,7 +37,7 @@
         <!-- right -->
         <div class="col-lg-4">
      
-         
+        <?php echo System::getVar('page_addnew_top_right');?>         
                 <p>
                 <label><strong>Page type:</strong></label>
                 <select class="form-control" name="send[page_type]">
@@ -79,7 +84,7 @@
                 <label><strong>Type image url</strong></label>
                 <input type="text" class="form-control" name="imageFromUrl" placeholder="Type image url" />
             </p>     
-                          
+        <?php echo System::getVar('page_addnew_bottom_right');?>                          
         </div>
         <!-- right -->
     </form>	
@@ -113,3 +118,5 @@ $(document).ready(function(){
 });
 
   </script>
+
+<?php echo System::getVar('page_addnew_footer');?>

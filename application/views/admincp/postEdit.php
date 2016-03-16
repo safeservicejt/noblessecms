@@ -1,6 +1,8 @@
   <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstrap/chosen/bootstrap-chosen.css">
 <script src="<?php echo System::getUrl(); ?>bootstrap/ckeditor/ckeditor.js"></script>
 
+<?php echo System::getVar('post_edit_header');?>
+
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">Edit post</h3>
@@ -11,6 +13,9 @@
     	<div class="col-lg-8">
     	
         <?php echo $alert;?>
+
+        <?php echo System::getVar('post_edit_top_left');?>
+
             <p>
                 <label><strong>Title</strong></label>
                 <input type="text" class="form-control" name="send[title]" value="<?php echo $edit['title'];?>" placeholder="Title" />
@@ -32,6 +37,9 @@
                 <label><strong>Tags (separate by commas)</strong></label>
                 <input type="text" class="form-control" name="tags" value="<?php echo $tags;?>" placeholder="Tags" />
             </p>
+
+        <?php echo System::getVar('post_edit_bottom_left');?>
+
             <p>
                 <button type="submit" class="btn btn-primary" name="btnSave">Save changes</button>
             </p>  
@@ -40,6 +48,7 @@
 
         <!-- right -->
         <div class="col-lg-4">
+        <?php echo System::getVar('post_edit_top_right');?>
      
                 <p class="pChosen">
                 <div class="row">
@@ -133,7 +142,8 @@
             <p>
               <img src="<?php echo System::getUrl().$edit['image'];?>" class="img-responsive" />
             </p>
-                          
+
+        <?php echo System::getVar('post_edit_bottom_right');?>                              
         </div>
         <!-- right -->
     </form>	
@@ -211,3 +221,5 @@ $(document).ready(function(){
 
 
   </script>
+
+<?php echo System::getVar('post_addnew_footer');?>
