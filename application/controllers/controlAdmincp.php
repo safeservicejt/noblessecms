@@ -112,6 +112,8 @@ class controlAdmincp
 			
 			$controlName='admincp/control'.ucfirst($pageName);
 
+			$funcName='index';
+
 			$default_adminpage_method=trim(System::getSetting('default_adminpage_method','none'));
 			
 
@@ -138,8 +140,13 @@ class controlAdmincp
 			{
 				$controlName='admincp/control'.ucfirst($match[1]);
 
-				
-			}		
+			}	
+
+			if($match=Uri::match('^\/?admincp\/plugins\/privatecontroller\/(\w+)\/(\w+)'))
+			{
+				$funcName='privatecontroller';
+			}	
+
 		}
 		else
 		{
@@ -155,6 +162,7 @@ class controlAdmincp
 			}	
 
 		}
+
 
 		$codeHead=Plugins::load('admincp_header');
 
@@ -182,6 +190,6 @@ class controlAdmincp
 			System::pushVar('admincp_footer',$codeFooter);
 		}
 
-		Controller::load($controlName);
+		Controller::load($controlName,$funcName);
 	}
 }

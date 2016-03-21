@@ -97,7 +97,6 @@ class controlPlugins
 
 	public function controller($isPrivate='no')
 	{
-
 		if(!$match=Uri::match('controller\/(\w+)'))
 		{
 			Redirect::to(System::getAdminUrl());
