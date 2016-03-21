@@ -42,7 +42,7 @@ class CtrPlugin
 	{
 		$pluginName=isset(self::$data['plugin'])?self::$data['plugin']:$pluginName;
 
-		$url=System::getUrl().'admincp/plugins/privatecontroller/'.$controllerName.'/'.$funcName.'/';
+		$url=System::getUrl().'admincp/plugins/privatecontroller/'.$pluginName.'/'.$controllerName.'/'.$funcName.'/';
 
 		return $url;
 	}
@@ -50,6 +50,7 @@ class CtrPlugin
 
 	public static function render()
 	{
+		
 		$curUri=System::getUri();
 
 		$controllerName='home';
