@@ -7,6 +7,8 @@ class controlAdmincp
 		$controlName='admincp/controlDashboard';
 
 		CustomPlugins::load('before_admincp_start');
+		
+		$funcName='index';
 
 		if(Cookie::has('userid'))
 		{
@@ -112,7 +114,7 @@ class controlAdmincp
 			
 			$controlName='admincp/control'.ucfirst($pageName);
 
-			$funcName='index';
+
 
 			$default_adminpage_method=trim(System::getSetting('default_adminpage_method','none'));
 			

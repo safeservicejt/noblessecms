@@ -13,21 +13,21 @@
     	
         <?php echo $alert;?>
 
-        <?php echo System::getVar('page_addnew_top_left');?>
+        <div class="page_addnew_top_left"><?php echo System::getVar('page_addnew_top_left');?></div>
             <p>
                 <label><strong>Title</strong></label>
-                <input type="text" class="form-control input-size-medium" name="send[title]" placeholder="Title" />
+                <input type="text" class="form-control page-title input-size-medium" name="send[title]" placeholder="Title" />
             </p>
  
             <p>
                 <label><strong>Content</strong></label>
-                <textarea id="editor" rows="15" name="send[content]" class="form-control ckeditor"></textarea>
+                <textarea id="editor" rows="15" name="send[content]" class="form-control page-content ckeditor"></textarea>
             </p>
             <p>
                 <label><strong>Keywords</strong></label>
-                <input type="text" class="form-control input-size-medium" name="send[keywords]" placeholder="Keywords" />
+                <input type="text" class="form-control page-keywords input-size-medium" name="send[keywords]" placeholder="Keywords" />
             </p>
-        <?php echo System::getVar('page_addnew_bottom_left');?>            
+        <div class="page_addnew_bottom_left"><?php echo System::getVar('page_addnew_bottom_left');?> </div>         
             <p>
                 <button type="submit" class="btn btn-primary" name="btnAdd">Add new</button>
             </p>  
@@ -37,10 +37,10 @@
         <!-- right -->
         <div class="col-lg-4">
      
-        <?php echo System::getVar('page_addnew_top_right');?>         
+        <div class="page_addnew_top_right"><?php echo System::getVar('page_addnew_top_right');?>  </div>       
                 <p>
                 <label><strong>Page type:</strong></label>
-                <select class="form-control" name="send[page_type]">
+                <select class="form-control page-type" name="send[page_type]">
                 <option value="normal">Normal</option>
                   <option value="image">Image</option>
                   <option value="fullwidth">Full Width</option>
@@ -52,7 +52,7 @@
                 </p>
                 <p>
                 <label><strong>Allow Comment:</strong></label>
-                <select class="form-control" name="send[allowcomment]">
+                <select class="form-control page-allow-comment" name="send[allowcomment]">
                 <option value="1">Yes</option>
                   <option value="0">No</option>
 
@@ -60,7 +60,7 @@
                 </p>
                 <p>
                 <label><strong>Publish:</strong></label>
-                <select class="form-control" name="send[status]">
+                <select class="form-control page-status" name="send[status]">
                 <option value="1">Yes</option>
                   <option value="0">No</option>
 
@@ -84,7 +84,7 @@
                 <label><strong>Type image url</strong></label>
                 <input type="text" class="form-control" name="imageFromUrl" placeholder="Type image url" />
             </p>     
-        <?php echo System::getVar('page_addnew_bottom_right');?>                          
+        <div class="page_addnew_bottom_right"><?php echo System::getVar('page_addnew_bottom_right');?></div>                          
         </div>
         <!-- right -->
     </form>	

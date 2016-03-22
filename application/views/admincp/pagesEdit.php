@@ -15,7 +15,7 @@
         <?php echo System::getVar('page_edit_top_left');?>        
             <p>
                 <label><strong>Title</strong></label>
-                <input type="text" class="form-control input-size-medium" name="send[title]" value="<?php echo $edit['title'];?>" placeholder="Title" />
+                <input type="text" class="form-control page-title input-size-medium" name="send[title]" value="<?php echo $edit['title'];?>" placeholder="Title" />
             </p>
             <p>
                 <label><strong>Friendly Url</strong></label>
@@ -24,11 +24,11 @@
  
             <p>
                 <label><strong>Content</strong></label>
-                <textarea id="editor" rows="15" name="send[content]" class="form-control ckeditor"><?php echo $edit['content'];?></textarea>
+                <textarea id="editor" rows="15" name="send[content]" class="form-control page-content ckeditor"><?php echo $edit['content'];?></textarea>
             </p>
             <p>
                 <label><strong>Keywords</strong></label>
-                <input type="text" class="form-control input-size-medium" name="send[keywords]" value="<?php echo $edit['keywords'];?>" placeholder="Keywords" />
+                <input type="text" class="form-control page-keywords input-size-medium" name="send[keywords]" value="<?php echo $edit['keywords'];?>" placeholder="Keywords" />
             </p> 
         <?php echo System::getVar('page_edit_bottom_left');?>              
             <p>
@@ -43,7 +43,7 @@
         <?php echo System::getVar('page_edit_top_right');?>  
                 <p>
                 <label><strong>Page type:</strong></label>
-                <select class="form-control" id="postType" name="send[page_type]">
+                <select class="form-control page-type" id="postType" name="send[page_type]">
                 <option value="normal">Normal</option>
                   <option value="image">Image</option>
                   <option value="fullwidth">Full Width</option>
@@ -55,7 +55,7 @@
                 </p>
                 <p>
                 <label><strong>Allow Comment:</strong></label>
-                <select class="form-control" id="allowComment" name="send[allowcomment]">
+                <select class="form-control page-allow-comment" id="allowComment" name="send[allowcomment]">
                 <option value="1">Yes</option>
                   <option value="0">No</option>
 
@@ -63,7 +63,7 @@
                 </p>
                 <p>
                 <label><strong>Publish:</strong></label>
-                <select class="form-control" id="postStatus" name="send[status]">
+                <select class="form-control page-status" id="postStatus" name="send[status]">
                 <option value="1">Yes</option>
                   <option value="0">No</option>
 

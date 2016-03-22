@@ -14,11 +14,11 @@
     	
         <?php echo $alert;?>
 
-        <?php echo System::getVar('post_edit_top_left');?>
+        <div class="post_edit_top_left"><?php echo System::getVar('post_edit_top_left');?></div>
 
             <p>
                 <label><strong>Title</strong></label>
-                <input type="text" class="form-control" name="send[title]" value="<?php echo $edit['title'];?>" placeholder="Title" />
+                <input type="text" class="form-control post-title" name="send[title]" value="<?php echo $edit['title'];?>" placeholder="Title" />
             </p>
             <p>
                 <label><strong>Friendly Url</strong></label>
@@ -27,18 +27,18 @@
  
             <p>
                 <label><strong>Content</strong></label>
-                <textarea id="editor" rows="15" name="send[content]" class="form-control ckeditor"><?php echo $edit['content'];?></textarea>
+                <textarea id="editor" rows="15" name="send[content]" class="form-control post-content ckeditor"><?php echo $edit['content'];?></textarea>
             </p>
             <p>
                 <label><strong>Keywords</strong></label>
-                <input type="text" class="form-control" name="send[keywords]" value="<?php echo $edit['keywords'];?>" placeholder="Keywords" />
+                <input type="text" class="form-control post-keywords" name="send[keywords]" value="<?php echo $edit['keywords'];?>" placeholder="Keywords" />
             </p> 
             <p>
                 <label><strong>Tags (separate by commas)</strong></label>
-                <input type="text" class="form-control" name="tags" value="<?php echo $tags;?>" placeholder="Tags" />
+                <input type="text" class="form-control post-tags" name="tags" value="<?php echo $tags;?>" placeholder="Tags" />
             </p>
 
-        <?php echo System::getVar('post_edit_bottom_left');?>
+        <div class="post_edit_bottom_left"><?php echo System::getVar('post_edit_bottom_left');?></div>
 
             <p>
                 <button type="submit" class="btn btn-primary" name="btnSave">Save changes</button>
@@ -48,13 +48,13 @@
 
         <!-- right -->
         <div class="col-lg-4">
-        <?php echo System::getVar('post_edit_top_right');?>
+        <div class="post_edit_top_right"><?php echo System::getVar('post_edit_top_right');?></div>
      
                 <p class="pChosen">
                 <div class="row">
                 <div class="col-lg-12">
                 <label><strong>Category</strong></label>
-                <select name="send[catid]" class="form-control chosen-select selected-parentid">
+                <select name="send[catid]" class="form-control post-category chosen-select selected-parentid">
                     <?php if(isset($listCat[0]['catid'])){ ?>
                     <?php
                     $total=count($listCat);
@@ -85,7 +85,7 @@
                 </p> 
                 <p>
                 <label><strong>Post type:</strong></label>
-                <select class="form-control" id="postType" name="send[type]">
+                <select class="form-control post-type" id="postType" name="send[type]">
                 <option value="normal">Normal</option>
                   <option value="image">Image</option>
                   <option value="video">Video</option>
@@ -99,7 +99,7 @@
                 </p>
                 <p>
                 <label><strong>Allow Comment:</strong></label>
-                <select class="form-control" id="allowComment" name="send[allowcomment]">
+                <select class="form-control post-allow-comment" id="allowComment" name="send[allowcomment]">
                 <option value="1">Yes</option>
                   <option value="0">No</option>
 
@@ -107,7 +107,7 @@
                 </p>
                 <p>
                 <label><strong>Publish:</strong></label>
-                <select class="form-control" id="postStatus" name="send[status]">
+                <select class="form-control post-status" id="postStatus" name="send[status]">
                 <option value="1">Yes</option>
                   <option value="0">No</option>
 
@@ -143,7 +143,7 @@
               <img src="<?php echo System::getUrl().$edit['image'];?>" class="img-responsive" />
             </p>
 
-        <?php echo System::getVar('post_edit_bottom_right');?>                              
+        <div class="post_edit_bottom_right"><?php echo System::getVar('post_edit_bottom_right');?></div>                              
         </div>
         <!-- right -->
     </form>	
