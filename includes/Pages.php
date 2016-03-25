@@ -85,6 +85,11 @@ class Pages
 				{
 					$row['title']=String::decode($row['title']);
 				}
+				if(isset($row['keywords']))
+				{
+					$row['keywords']=String::decode($row['keywords']);
+				}
+				
 				if(isset($row['content']))
 				{
 					$row['content']=String::decode($row['content']);

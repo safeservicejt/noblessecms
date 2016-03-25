@@ -93,6 +93,10 @@ class Post
 				{
 					$row['title']=String::decode($row['title']);
 				}
+				if(isset($row['keywords']))
+				{
+					$row['keywords']=String::decode($row['keywords']);
+				}
 
 				if(isset($row['friendly_url']))
 				{
