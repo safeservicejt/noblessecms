@@ -79,7 +79,7 @@ function updateProcess($id)
 	$update=Request::get('send');
 
 	$valid=Validator::make(array(
-		'send.title'=>'required|min:1|slashes',
+		'send.title'=>'min:1',
 		'send.parentid'=>'slashes',
 		'send.friendly_url'=>'min:1|slashes'
 		));
@@ -125,7 +125,7 @@ function insertProcess()
 	$send=Request::get('send');
 
 	$valid=Validator::make(array(
-		'send.title'=>'required|min:1|slashes',
+		'send.title'=>'min:1',
 		'send.parentid'=>'slashes'
 		));
 
