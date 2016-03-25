@@ -142,9 +142,7 @@ function updateProcess($id)
 	$send=Request::get('send');
 
 	$valid=Validator::make(array(
-		'send.title'=>'min:1|slashes',
-		'send.keywords'=>'slashes',
-		'tags'=>'slashes',
+		'send.title'=>'min:1',
 		'send.catid'=>'slashes',
 		'send.type'=>'slashes',
 		'send.allowcomment'=>'slashes',
@@ -247,7 +245,15 @@ function updateProcess($id)
 	$insertData=array();
 
 	for ($i=0; $i < $total; $i++) { 
-		$insertData[$i]['title']=trim($parse[$i]);
+		
+		$text=trim($parse[$i]);
+
+		if($text=='')
+		{
+			continue;
+		}
+
+		$insertData[$i]['title']=$text;
 		$insertData[$i]['postid']=$id;
 	}
 
@@ -263,9 +269,7 @@ function insertProcess()
 	$send=Request::get('send');
 
 	$valid=Validator::make(array(
-		'send.title'=>'min:1|slashes',
-		'send.keywords'=>'slashes',
-		'tags'=>'slashes',
+		'send.title'=>'min:1',
 		'send.catid'=>'slashes',
 		'send.type'=>'slashes',
 		'send.allowcomment'=>'slashes'
@@ -355,7 +359,15 @@ function insertProcess()
 	$insertData=array();
 
 	for ($i=0; $i < $total; $i++) { 
-		$insertData[$i]['title']=trim($parse[$i]);
+
+		$text=trim($parse[$i]);
+
+		if($text=='')
+		{
+			continue;
+		}
+
+		$insertData[$i]['title']=$text;
 		$insertData[$i]['postid']=$id;
 	}
 

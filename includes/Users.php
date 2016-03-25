@@ -1,5 +1,13 @@
 <?php
 
+
+/*
+
+$userid=Users::getCookieUserId();
+
+$groupid=Users::getCookieGroupId();
+
+*/
 class Users
 {
 	public static $config=array();

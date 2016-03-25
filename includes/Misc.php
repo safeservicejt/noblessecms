@@ -31,6 +31,10 @@ class Misc
 
 		$pagePath=str_replace(System::getUrl(), '', $pagePath);
 
+		$pagePath=($pagePath=='/')?'':$pagePath;
+
+		$pagePath=($pagePath=='//')?'':$pagePath;
+
 		$curPage=isset($inputData['curPage'])?$inputData['curPage']:0;
 
 		$totalItem=isset($inputData['totalItem'])?$inputData['totalItem']:0;
@@ -46,6 +50,8 @@ class Misc
 		$isSmall=isset($inputData['isSmall'])?'pagination-sm':'';
 
 		$splitChar=($pagePath=='')?'':$splitChar;
+		
+		$splitChar=($splitChar=='')?'/':$splitChar;
 
 		$endPage=$limitPage+$curPage;
 
@@ -58,12 +64,12 @@ class Misc
 		$nextPage=($curPage<$totalPage)?$curPage+1:$curPage;
 
 		$prevHtml='
-		<li><a href="'.System::getUrl().$pagePath.$splitChar.'page'.$splitChar.$prevPage.'"><span aria-hidden="true">&laquo;</span></a></li>
+		<li><a href="'.System::getUrl().$pagePath.'page'.$splitChar.$prevPage.'"><span aria-hidden="true">&laquo;</span></a></li>
 		';
 
 
 		$nextHtml='
-		<li><a href="'.System::getUrl().$pagePath.$splitChar.'page'.$splitChar.$nextPage.'"><span aria-hidden="true">&raquo;</span></a></li>
+		<li><a href="'.System::getUrl().$pagePath.'page'.$splitChar.$nextPage.'"><span aria-hidden="true">&raquo;</span></a></li>
 		';
 
 		$prevHtml=($totalPage > 0)?$prevHtml:'';
@@ -73,7 +79,7 @@ class Misc
 		$li='';
 
 		for ($i=$curPage; $i < $endPage; $i++) { 
-			$li.='<li><a href="'.System::getUrl().$pagePath.$splitChar.'page'.$splitChar.$i.'">'.$i.'</a></li>';
+			$li.='<li><a href="'.System::getUrl().$pagePath.'page'.$splitChar.$i.'">'.$i.'</a></li>';
 		}
 
 		$result='

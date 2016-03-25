@@ -363,6 +363,11 @@ class Post
 
 					$theRow['content']=String::encode($theRow['content']);
 				}
+				
+				if(isset($theRow['keywords']))
+				{
+					$theRow['keywords']=String::encode(strip_tags($theRow['keywords']));
+				}
 
 				$keyNames=array_keys($theRow);
 
@@ -402,6 +407,11 @@ class Post
 				// $inputData['content']=Shortcode::toBBCode($inputData['content']);
 
 				$inputData['content']=String::encode($inputData['content']);
+			}
+
+			if(isset($inputData['keywords']))
+			{
+				$inputData['keywords']=String::encode(strip_tags($inputData['keywords']));
 			}
 
 			$keyNames=array_keys($inputData);

@@ -88,10 +88,9 @@ function updateProcess($id)
 	$send=Request::get('send');
 
 	$valid=Validator::make(array(
-		'send.title'=>'min:1|slashes',
+		'send.title'=>'min:1',
 		'send.friendly_url'=>'min:1|slashes',
-		'send.content'=>'min:1',
-		'send.keywords'=>'slashes'
+		'send.content'=>'min:1'
 		));
 
 	if(!$valid)
@@ -151,9 +150,8 @@ function insertProcess()
 	$send=Request::get('send');
 
 	$valid=Validator::make(array(
-		'send.title'=>'min:1|slashes',
+		'send.title'=>'min:1',
 		'send.content'=>'min:1',
-		'send.keywords'=>'slashes',
 		'send.page_type'=>'slashes',
 		'send.allowcomment'=>'slashes'
 		));

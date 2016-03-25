@@ -13,29 +13,40 @@ class YoutubeTools
 		$url = 'http://youtube.com/get_video_info?video_id='.$id;
 		$key = 'url_encoded_fmt_stream_map';
 		$content = file_get_contents($url);
-		parse_str($content, $result);
 
-		$data=urldecode($result['url_encoded_fmt_stream_map']);
+		$thumbnail_url = $title = $url_encoded_fmt_stream_map = $type = $url = '';
+		parse_str($content);
+		
+		$my_formats_array = explode(',',$url_encoded_fmt_stream_map);
 
-		$li='';
+		$avail_formats[] = '';
+		$i = 0;
+		$ipbits = $ip = $itag = $sig = $quality = '';
+		$expire = time(); 
 
-		if(preg_match('/^url=(.*?)\,url=/i', $data,$match))
-		{
-			$li=$match[1];
-		}
-		else
-		{
-			$parse=explode('&url=', $data);
+		$mp4Url='';
 
-			if(!preg_match('/video\/mp4/i', $parse[0]))
+		foreach($my_formats_array as $format) {
+			parse_str($format);
+			$avail_formats[$i]['itag'] = $itag;
+			$avail_formats[$i]['quality'] = $quality;
+			$type = explode(';',$type);
+			$avail_formats[$i]['type'] = $type[0];
+			$avail_formats[$i]['url'] = urldecode($url) . '&signature=' . $sig;
+			parse_str(urldecode($url));
+			$avail_formats[$i]['expires'] = date("G:i:s T", $expire);
+			$avail_formats[$i]['ipbits'] = $ipbits;
+			$avail_formats[$i]['ip'] = $ip;
+
+			if($type[0]=='video/mp4')
 			{
-				$parse[0]='type=video/mp4; codecs="avc1.42001E, mp4a.40.2"&quality=medium';
+				$mp4Url=$avail_formats[$i]['url'];
 			}
-			
-			$li=$parse[1].'&'.$parse[0];
+
+			$i++;
 		}
 
-		return $li;
+		return $mp4Url;
 	}
 }
 
