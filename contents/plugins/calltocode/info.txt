@@ -1,5 +1,0 @@
-Call To Code
-James
-1.0
-Ultimate shortcode system. Quick create & call to your php code, html, javascript, css inside content
-https://www.facebook.com/isafeservicejt
