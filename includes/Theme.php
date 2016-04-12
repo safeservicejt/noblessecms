@@ -28,6 +28,51 @@ Add shortcode use in theme: Create file shortcode.php in theme folder
 // 	return '<a href="http://youtube.com?v='.$value.'">Click tosss watch video</a>';
 // }
 
+
+
+Theme::settingUri(array(
+	''=>'home@index',
+	'search'=>'search@index',
+	'contactus'=>'contactus@index',
+	'page'=>'page@index',
+	'rss'=>'rss@index',
+	'404page'=>'404page@index',
+	'tag'=>'tag@index',
+	'category'=>'category@index'
+	));
+
+Theme::settingUri(array(
+	''=>'home@index',
+	'search'=>'search@index',
+	'manga'=>array(
+		''=>'manga@index',
+		'[a-zA-Z0-9\_\-]+\/\d+\.html$'=>'manga@chapter'
+		),
+	'author'=>'author@index',
+	'contactus'=>'contactus@index',
+	'page'=>'page@index',
+	'rss'=>'rss@index',
+	'404page'=>'404page@index',
+	'tag'=>'tag@index',
+	'category'=>'category@index'
+	));
+	
+Theme::settingUri(array(
+	''=>'home@index',
+	'search'=>'search@index',
+	'contactus'=>'contactus@index',
+	'page'=>array(
+		'tset-page'=>'page@test',
+		'tset-[a-zA-Z]+'=>'page@testsub',
+		),
+	'rss'=>'rss@index',
+	'404page'=>'404page@index',
+	'tag'=>'tag@index',
+	'category'=>'category@index'
+	));
+
+Theme::render();
+
 */
 class Theme
 {
@@ -96,12 +141,43 @@ class Theme
 			}
 			else
 			{
-				$cName=trim(self::$data['list_uri'][$pageName]);
-				if(preg_match_all('/(\w+)/i', $cName,$matchName))
+				$cName=self::$data['list_uri'][$pageName];
+
+				if(!is_array($cName) && preg_match_all('/(\w+)/i', $cName,$matchName))
 				{
 					$controllerName=$matchName[1][0];
 
 					$funcName=isset($matchName[1][1])?$matchName[1][1]:'index';
+				}
+				else
+				{
+					$controllerName=isset($cName[''])?$cName['']:$pageName;
+
+					$funcName='index';
+
+					$total=count($cName);
+
+					$listKey=array_keys($cName);
+
+					$listVal=array_values($cName);
+
+
+					for ($i=0; $i < $total; $i++) { 
+
+						$matchUri=$pageName.'\/'.$listKey[$i];
+
+						$matchVal=$listVal[$i];
+
+						if(preg_match('/^\/?'.$matchUri.'/i', $curUri,$matchName))
+						{
+							preg_match_all('/(\w+)/i', $matchVal,$matchSub);
+
+							$controllerName=$matchSub[1][0];
+
+							$funcName=isset($matchSub[1][1])?$matchSub[1][1]:'index';
+
+						}
+					}
 				}
 			}
 		}

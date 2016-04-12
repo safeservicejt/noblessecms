@@ -16,7 +16,7 @@ class File
 
     }
 
-    public function cleanTmpFiles($path)
+    public static function cleanTmpFiles($path)
     {
         $listFiles=Dir::all($path);
 
@@ -42,7 +42,7 @@ class File
 
     }
 
-    public function removeAllFiles($path='',$callback='')
+    public static function removeAllFiles($path='',$callback='')
     {
         if(!isset($path[2]))
         {
@@ -72,6 +72,36 @@ class File
             return $result;
         }
 
+    }
+
+    public static function removeByPath($inputData=array())
+    {
+        /*
+        $inputData:
+            - path : string
+            - files : array filenames:Tst.php
+
+        */
+        if(!preg_match('/.*?\/$/i', $inputData['path']))
+        {
+            $inputData['path'].='/';
+        }
+
+        $inputData['path']=ROOT_PATH.$inputData['path'];
+
+        if(isset($inputData['files']) && is_array($inputData['files']))
+        {
+            $total=count($inputData['files']);
+
+            for ($i=0; $i < $total; $i++) { 
+                $path=$inputData['path'].$inputData['files'][$i];
+
+                if(file_exists($path))
+                {
+                    unlink($path);
+                }
+            }
+        }
     }
 
     public static function unzipModule($fullPath,$remove='no')

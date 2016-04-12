@@ -276,16 +276,25 @@ class CustomPlugins
 
 			$method_call=$row['method_call'];
 
-			$filePath=ROOT_PATH.$row['path'];
+			$row['path']=trim($row['path']);
 
-			if(!file_exists($filePath))
+			$filePath='';
+
+			if($row['path']!='fly')
 			{
-				continue;
+				$filePath=ROOT_PATH.$row['path'];
+
+				if(!file_exists($filePath))
+				{
+					continue;
+				}				
 			}
+
+
 
 			if($method_call=='func')
 			{
-				if(!function_exists($row['func']))
+				if($row['path']!='fly' && !function_exists($row['func']))
 				{
 					include($filePath);
 				}
@@ -302,7 +311,7 @@ class CustomPlugins
 
 			if($method_call=='class')
 			{
-				if(!class_exists($row['class']))
+				if($row['path']!='fly' && !class_exists($row['class']))
 				{
 					include($filePath);
 				}
@@ -310,6 +319,11 @@ class CustomPlugins
 				$class=$row['class'];
 
 				$func=isset($row['func'])?$row['func']:'index';
+
+				if(!class_exists($class))
+				{
+					continue;
+				}
 
 				try {
 					$li.=$class::$func($inputData);

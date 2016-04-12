@@ -142,6 +142,8 @@ class System
 			$result=self::$listVar[$zoneName][$keyName];
 		}
 
+		$result=is_array($result)?implode('', $result):$result;
+
 		return $result;
 	}
 
