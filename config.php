@@ -49,7 +49,7 @@ define("ADMINCP_PATH", ROOT_PATH . 'admincp/');
 
 define("USERCP_PATH", ROOT_PATH . 'usercp/');
 
-define("THEME_NAME", 'simplecolor');
+define("THEME_NAME", 'cleanwp');
 
 define("THEMES_URL", ROOT_URL.'contents/themes/');
 
