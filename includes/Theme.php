@@ -443,6 +443,13 @@ class Theme
 
 		$resultData=file($path.'info.txt');
 
+		$resultData['image']=System::getThemeUrl().'thumb.jpg';
+
+		if(!file_exists($path.'thumb.jpg'))
+		{
+			$resultData['image']=System::getUrl().'bootstrap/images/thumb.jpg';
+		}		
+
 		$resultData['name']=System::getThemeName();
 
 		return $resultData;		
