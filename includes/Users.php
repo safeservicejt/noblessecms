@@ -577,7 +577,9 @@ class Users
 				return false;
 			}
 
-			self::$userid=$userid;			
+			preg_match('/(\d+)/i', $userid,$match);
+
+			self::$userid=$match[1];			
 		}
 		else
 		{
@@ -607,7 +609,9 @@ class Users
 				return false;
 			}
 
-			self::$groupid=$groupid;			
+			preg_match('/(\d+)/i', $groupid,$match);
+
+			self::$groupid=$match[1];			
 		}
 
 		$groupid=self::$groupid;

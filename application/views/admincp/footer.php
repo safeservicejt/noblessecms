@@ -2,7 +2,7 @@
                 </div>
                 <!-- /.row -->
         
-        <?php if(!isset(System::$setting['admincp_hide_author']) || System::$setting['admincp_hide_author']!='yes'){ ?>                
+        <?php if(!isset(System::$setting['admincp_hide_author'])){ ?>                
         <!-- Author -->
                 <div class="row">
                     <div class="col-lg-5">
