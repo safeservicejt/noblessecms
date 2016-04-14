@@ -13,11 +13,15 @@ function loginProcess()
 		
 	}
 
-	if(!Captcha::verify())
+	if(System::getSetting('system_captcha')=='enable')
 	{
-		throw new Exception("Wrong captcha characters.");
-		
+		if(!Captcha::verify())
+		{
+			throw new Exception("Wrong captcha characters.");
+			
+		}		
 	}
+
 
 	$username=Request::get('send.username');
 

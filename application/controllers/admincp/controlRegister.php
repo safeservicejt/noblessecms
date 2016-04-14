@@ -10,6 +10,8 @@ class controlRegister
             Alert::make('We not allow for register account at this time.');
         }
 
+        CustomPlugins::load('before_register_user');
+
         $postData=array('alert'=>'');
 
         Model::load('admincp/register');
@@ -34,7 +36,13 @@ class controlRegister
             }
         }
 
-        $postData['captchaHTML']=Captcha::makeForm();
+        $postData['captchaHTML']='';
+        
+        if(System::getSetting('system_captcha')=='enable')
+        {
+            $postData['captchaHTML']=Captcha::makeForm();
+
+        }
 
         System::setTitle('Register Account - '.ADMINCP_TITLE);
         

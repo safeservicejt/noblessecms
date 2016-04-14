@@ -101,7 +101,14 @@ class controlLogin
 
         }
 
-        $postData['captchaHTML']=Captcha::makeForm();
+        $postData['captchaHTML']='';
+
+        if(System::getSetting('system_captcha')=='enable')
+        {
+            $postData['captchaHTML']=Captcha::makeForm();
+        }
+
+        
 
         System::setTitle('Login - '.ADMINCP_TITLE);
         

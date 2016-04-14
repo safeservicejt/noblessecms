@@ -131,7 +131,7 @@ class Captcha
 
     public static function verify($inputName = 'captcha_verify')
     {
-        if(!isset($_COOKIE['captcha']))
+        if(!isset($_COOKIE['captcha']) || System::getSetting('system_captcha')!='enable')
         {
             return true;
         }

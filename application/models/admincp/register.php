@@ -17,11 +17,15 @@ function registerProcess()
 		
 	}
 
-	if(!Captcha::verify())
+	if(System::getSetting('system_captcha')=='enable')
 	{
-		throw new Exception("Wrong captcha characters.");
-		
+		if(!Captcha::verify())
+		{
+			throw new Exception("Wrong captcha characters.");
+			
+		}		
 	}
+
 
 	$send=Request::get('send');
 

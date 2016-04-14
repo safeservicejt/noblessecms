@@ -52,6 +52,18 @@
 			    		</div>
 
 			    	</div>
+			    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
+			    		<div class="col-lg-9">
+			    		<strong>System captcha :</strong>
+			    		</div>
+			    		<div class="col-lg-3 text-right">
+							<select name="general[system_captcha]" id="system_captcha" class="form-control">
+								<option value="enable">Enable</option>
+								<option value="disable">Disable</option>
+							</select>
+			    		</div>
+
+			    	</div>
 
 			    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
 			    		<div class="col-lg-9">
@@ -353,6 +365,7 @@ $(document).ready(function(){
 	setSelect('register_verify_email','<?php echo $register_verify_email;?>');
 	setSelect('default_timezone','<?php echo $default_timezone;?>');
 	setSelect('system_mode','<?php echo $system_mode;?>');
+	setSelect('system_captcha','<?php echo $system_captcha;?>');
 
 });
 

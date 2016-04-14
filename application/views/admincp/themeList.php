@@ -13,7 +13,7 @@
 			<!-- main theme -->
 			<div class="row" style="margin-bottom:50px;">
 				<div class="col-lg-4">
-				<img class="img-responsive" src="<?php echo System::getThemeUrl();?>thumb.jpg" />
+				<img class="img-responsive" src="<?php echo $theme['image'];?>" />
 				</div>
 
 				<!-- right -->
