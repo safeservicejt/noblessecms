@@ -116,30 +116,25 @@ class System
 		return true;		
 	}
 
-	public static function getVar($keyName,$zoneName='global')
+	public static function getVar($keyName,$layout='global')
 	{
-		if(!isset(self::$listVar[$zoneName][$keyName]))
-		{
-			return false;
-		}
-
 		$result='';
 
 		if(preg_match_all('/(\w+)\.(\w+)/i', $keyName, $matches))
 		{
-			$result=self::$listVar[$layout][$matches[1][0]][$matches[2][0]];
+			$result=isset(self::$listVar[$layout][$matches[1][0]][$matches[2][0]])?self::$listVar[$layout][$matches[1][0]][$matches[2][0]]:false;
 		}
 		elseif(preg_match_all('/(\w+)\.(\w+)\.(\w+)/i', $keyName, $matches))
 		{
-			$result=self::$listVar[$layout][$matches[1][0]][$matches[2][0]][$matches[3][0]];
+			$result=isset(self::$listVar[$layout][$matches[1][0]][$matches[2][0]][$matches[3][0]])?self::$listVar[$layout][$matches[1][0]][$matches[2][0]][$matches[3][0]]:false;
 		}
 		elseif(preg_match_all('/(\w+)\.(\w+)\.(\w+)\.(\w+)/i', $keyName, $matches))
 		{
-			$result=self::$listVar[$layout][$matches[1][0]][$matches[2][0]][$matches[3][0]][$matches[4][0]];
+			$result=isset(self::$listVar[$layout][$matches[1][0]][$matches[2][0]][$matches[3][0]][$matches[4][0]])?self::$listVar[$layout][$matches[1][0]][$matches[2][0]][$matches[3][0]][$matches[4][0]]:false;
 		}
 		else
 		{
-			$result=self::$listVar[$zoneName][$keyName];
+			$result=isset(self::$listVar[$layout][$keyName])?self::$listVar[$layout][$keyName]:false;
 		}
 
 		$result=is_array($result)?implode('', $result):$result;
@@ -678,7 +673,10 @@ class System
 			}
 			else
 			{
-				$data=unserialize(base64_decode(String::decrypt(file_get_contents($fileName))));
+				$data=file_get_contents($fileName);
+
+				if(isset($data[2]))
+				$data=unserialize(base64_decode(String::decrypt($data)));
 
 			}
 
@@ -735,7 +733,7 @@ class System
 	public static function makeSetting()
 	{
 		$settingData=array(
-			'system_status'=>'working','system_mode'=>'basic', 'system_lang'=>'en', 'register_user_status'=>'disable',
+			'system_status'=>'working','system_mode'=>'basic','system_captcha'=>'disable', 'system_lang'=>'en', 'register_user_status'=>'disable',
 			'default_member_groupid'=>'2', 'default_member_banned_groupid'=>'5', 'default_dateformat'=>'M d, Y',
 			'rss_status'=>'enable','comment_status'=>'enable', 'title'=>'Noblesse CMS Website', 'keywords'=>'noblessecms, blog, website',
 			'descriptions'=>'Noblesse CMS Website Description','default_page_method'=>'none','default_page_url'=>'','default_timezone'=>'US/Arizona',

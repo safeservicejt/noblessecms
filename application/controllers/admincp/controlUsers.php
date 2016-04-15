@@ -6,13 +6,6 @@ class controlUsers
 	{
 		CustomPlugins::load('admincp_before_manage_user');
 
-		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_manage_user');
-
-		if($valid!='yes')
-		{
-			Alert::make('You not have permission to view this page');
-		}		
-
 		
 		$post=array('alert'=>'');
 
@@ -30,6 +23,14 @@ class controlUsers
 			}
 			
 		}
+
+
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_manage_user');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}		
 
 		$curPage=0;
 

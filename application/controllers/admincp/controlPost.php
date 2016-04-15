@@ -4,34 +4,7 @@ class controlPost
 {
 	public function index()
 	{
-		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_manage_post');
 
-		if($valid!='yes')
-		{
-			Alert::make('You not have permission to view this page');
-		}
-		
-        if($match=Uri::match('\/jsonCategory'))
-        {
-            $keyword=String::encode(Request::get('keyword',''));
-
-            $loadData=Categories::get(array(
-            	'where'=>"where title LIKE '%$keyword%'",
-                'orderby'=>'order by title asc'
-                ));
-
-            $total=count($loadData);
-
-            $li='';
-
-            for($i=0;$i<$total;$i++)
-            {
-                $li.='<li><span data-method="category" data-id="'.$loadData[$i]['catid'].'" >'.$loadData[$i]['title'].'</span></li>';
-            }
-
-            echo $li;
-            die();
-        }
 
 		$post=array('alert'=>'','totalPost'=>'0','totalPage'=>'0');
 
@@ -49,7 +22,14 @@ class controlPost
 			}
 			
 		}
+		
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_manage_post');
 
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
+		
 		$curPage=0;
 
 		if($match=Uri::match('\/page\/(\d+)'))

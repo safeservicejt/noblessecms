@@ -115,27 +115,28 @@ class controlAdmincp
 			$controlName='admincp/control'.ucfirst($pageName);
 
 
-
 			$default_adminpage_method=trim(System::getSetting('default_adminpage_method','none'));
-			
 
-			if($default_adminpage_method=='url')
+			if($pageName=='dashboard' && $default_adminpage_method=='url')
 			{
 				$default_adminpage=trim(System::getSetting('default_adminpage_url','admincp/'));
 
-				if($default_adminpage!='admincp/' && System::getUri()=='admincp/')
-				{
-					$beginUri='admincp';
 
-					if($default_adminpage[0]!='/')
-					{
-						$beginUri.='/';
-					}
+				System::setUri('admincp/'.$default_adminpage);
+
+				// if($default_adminpage!='admincp/' && System::getUri()=='admincp/')
+				// {
+				// 	$beginUri='admincp';
+
+				// 	if($default_adminpage[0]!='/')
+				// 	{
+				// 		$beginUri.='/';
+				// 	}
 				
 					
 
-					System::setUri($beginUri.$default_adminpage);
-				}
+				// 	System::setUri($beginUri.$default_adminpage);
+				// }
 			}
 
 			if($match=Uri::match('^\/?admincp\/(\w+)'))
