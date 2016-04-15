@@ -69,7 +69,7 @@
     		</h3>
 
     		<div class="file-content">
-    			<textarea class="form-control" placeholder="File content" name="send[file_content]" id="file-content" rows="20"><?php if(isset($file['data']))echo htmlspecialchars($file['data']) ;?></textarea>
+    			<textarea class="form-control" placeholder="File content" name="send[file_content]" id="file-content" rows="20"><?php if(isset($file['data']))echo stripslashes(htmlspecialchars($file['data']));?></textarea>
     		</div>
     	</form>
     	</div>

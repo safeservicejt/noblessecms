@@ -139,7 +139,7 @@ class controlTheme
 
 				$saveData=trim(Request::get('send.file_content',''));
 
-				File::create($savePath,htmlspecialchars_decode($saveData));
+				File::create($savePath,stripslashes(htmlspecialchars_decode($saveData)));
 
 				$pageData['file']['data']=file_get_contents($savePath);
 			}
