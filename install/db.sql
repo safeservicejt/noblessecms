@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 13, 2015 at 02:40 AM
+-- Generation Time: Apr 16, 2016 at 07:18 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -26,7 +26,6 @@ SET time_zone = "+00:00";
 -- Table structure for table `address`
 --
 
-DROP TABLE IF EXISTS `address`;
 CREATE TABLE IF NOT EXISTS `address` (
   `userid` int(9) NOT NULL,
   `company` varchar(64) CHARACTER SET utf8 NOT NULL,
@@ -53,9 +52,9 @@ CREATE TABLE IF NOT EXISTS `address` (
 -- Table structure for table `categories`
 --
 
-DROP TABLE IF EXISTS `categories`;
 CREATE TABLE IF NOT EXISTS `categories` (
   `catid` int(9) NOT NULL AUTO_INCREMENT,
+  `type` varchar(50) NOT NULL DEFAULT 'category',
   `title` varchar(150) CHARACTER SET utf8 NOT NULL,
   `friendly_url` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `parentid` varchar(128) NOT NULL DEFAULT '0',
@@ -64,24 +63,17 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`catid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=177 ;
 
 --
 -- Dumping data for table `categories`
 --
-
-INSERT INTO `categories` (`catid`, `title`, `friendly_url`, `parentid`, `image`, `sort_order`, `date_added`, `status`) VALUES
-(15, 'United', 'United', '0', '/uploads/images/2231793638/post_2.jpg', 15, '2015-01-18 07:57:36', 1),
-(19, 'Cat 1', 'Cat_1', '0', NULL, 0, '2015-03-31 09:41:40', 1),
-(20, 'Cat 2 test', 'Cat-2-test', '0', NULL, 0, '2015-03-31 09:41:42', 1);
-
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `comments`
 --
 
-DROP TABLE IF EXISTS `comments`;
 CREATE TABLE IF NOT EXISTS `comments` (
   `commentid` int(9) NOT NULL AUTO_INCREMENT,
   `postid` varchar(128) NOT NULL,
@@ -93,16 +85,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `status` int(1) NOT NULL DEFAULT '0',
   `content` longtext CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`commentid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `comments`
---
-
-INSERT INTO `comments` (`commentid`, `postid`, `type`, `fullname`, `email`, `parentid`, `date_added`, `status`, `content`) VALUES
-(1, '1', 'post', 'sÄ‘s', 'gdfgfg@gmai.com', 0, '2015-03-16 05:38:40', 1, 'sdgsdsdfsdfsdfsdf'),
-(2, '1', 'post', 'james', 'dfsdfdf@gmail.com', 0, '2015-03-16 05:39:31', 1, '1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived'),
-(3, '1', 'comment', 'dfdf', 'dfdf@gmail.com', 0, '2015-05-27 12:53:47', 0, 'fdgdfgdfgdfgdfgsdfsdfdf');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -110,7 +93,6 @@ INSERT INTO `comments` (`commentid`, `postid`, `type`, `fullname`, `email`, `par
 -- Table structure for table `contactus`
 --
 
-DROP TABLE IF EXISTS `contactus`;
 CREATE TABLE IF NOT EXISTS `contactus` (
   `contactid` int(9) NOT NULL AUTO_INCREMENT,
   `fullname` varchar(64) CHARACTER SET utf8 NOT NULL,
@@ -118,7 +100,11 @@ CREATE TABLE IF NOT EXISTS `contactus` (
   `content` longtext CHARACTER SET utf8 NOT NULL,
   `date_added` datetime DEFAULT NULL,
   PRIMARY KEY (`contactid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `contactus`
+--
 
 -- --------------------------------------------------------
 
@@ -126,7 +112,6 @@ CREATE TABLE IF NOT EXISTS `contactus` (
 -- Table structure for table `country`
 --
 
-DROP TABLE IF EXISTS `country`;
 CREATE TABLE IF NOT EXISTS `country` (
   `country_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
@@ -396,7 +381,6 @@ INSERT INTO `country` (`country_id`, `name`, `iso_code_2`, `iso_code_3`) VALUES
 -- Table structure for table `cronjobs`
 --
 
-DROP TABLE IF EXISTS `cronjobs`;
 CREATE TABLE IF NOT EXISTS `cronjobs` (
   `cronid` int(9) NOT NULL AUTO_INCREMENT,
   `timenumber` int(9) NOT NULL DEFAULT '0',
@@ -415,31 +399,28 @@ CREATE TABLE IF NOT EXISTS `cronjobs` (
 -- Table structure for table `layouts`
 --
 
-DROP TABLE IF EXISTS `layouts`;
 CREATE TABLE IF NOT EXISTS `layouts` (
-  `layoutid` int(9) NOT NULL AUTO_INCREMENT,
-  `nodeid` varchar(128) NOT NULL,
-  `layoutname` varchar(64) NOT NULL,
-  PRIMARY KEY (`layoutid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+  `id` int(9) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `friendly_url` varchar(255) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `layouts`
+-- Table structure for table `layout_metas`
 --
 
-INSERT INTO `layouts` (`layoutid`, `nodeid`, `layoutname`) VALUES
-(1, '', 'Account'),
-(2, '', 'Category'),
-(3, '', 'Home'),
-(4, '', 'Pages'),
-(5, '', 'Post'),
-(6, '', 'Cart'),
-(7, '', 'Search'),
-(8, '', 'Shop'),
-(9, '', 'Tag'),
-(10, '', 'Contactus'),
-(11, '', 'News'),
-(12, '', 'Product');
+CREATE TABLE IF NOT EXISTS `layout_metas` (
+  `layoutid` int(9) NOT NULL,
+  `position` varchar(30) NOT NULL DEFAULT 'top',
+  `sort_order` int(9) NOT NULL DEFAULT '0',
+  `call_data` longtext NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -447,7 +428,6 @@ INSERT INTO `layouts` (`layoutid`, `nodeid`, `layoutname`) VALUES
 -- Table structure for table `links`
 --
 
-DROP TABLE IF EXISTS `links`;
 CREATE TABLE IF NOT EXISTS `links` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
   `parentid` int(9) NOT NULL DEFAULT '0',
@@ -457,15 +437,14 @@ CREATE TABLE IF NOT EXISTS `links` (
   `date_added` datetime NOT NULL,
   `status` varchar(30) NOT NULL DEFAULT 'published',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=172 ;
 
 --
 -- Dumping data for table `links`
 --
 
 INSERT INTO `links` (`id`, `parentid`, `title`, `url`, `sort_order`, `date_added`, `status`) VALUES
-(6, 0, 'Home', '/', 0, '2015-07-14 08:12:42', 'published'),
-(8, 0, 'Contact Us', '/contactus', 1, '2015-07-14 08:13:13', 'published');
+(169, 0, 'Home', '/', 0, '2016-04-15 06:02:20', 'published');
 
 -- --------------------------------------------------------
 
@@ -473,7 +452,6 @@ INSERT INTO `links` (`id`, `parentid`, `title`, `url`, `sort_order`, `date_added
 -- Table structure for table `pages`
 --
 
-DROP TABLE IF EXISTS `pages`;
 CREATE TABLE IF NOT EXISTS `pages` (
   `pageid` int(9) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) CHARACTER SET utf8 NOT NULL,
@@ -493,16 +471,12 @@ CREATE TABLE IF NOT EXISTS `pages` (
 -- Dumping data for table `pages`
 --
 
-INSERT INTO `pages` (`pageid`, `title`, `content`, `image`, `keywords`, `page_type`, `friendly_url`, `date_added`, `allowcomment`, `views`, `status`) VALUES
-(3, 'test page test', 'Test full page', 'uploads/files/5241876061/10009844_637003356387151_1768897436_n.png', 'test page,page,test,avcvc', 'normal', 'test-page-test', '2015-05-09 04:19:36', 1, 0, 1);
-
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `plugins`
 --
 
-DROP TABLE IF EXISTS `plugins`;
 CREATE TABLE IF NOT EXISTS `plugins` (
   `foldername` varchar(255) NOT NULL,
   `type` varchar(100) NOT NULL DEFAULT 'global',
@@ -518,7 +492,6 @@ CREATE TABLE IF NOT EXISTS `plugins` (
 -- Table structure for table `plugins_meta`
 --
 
-DROP TABLE IF EXISTS `plugins_meta`;
 CREATE TABLE IF NOT EXISTS `plugins_meta` (
   `metaid` int(9) NOT NULL AUTO_INCREMENT,
   `foldername` varchar(100) NOT NULL,
@@ -530,7 +503,23 @@ CREATE TABLE IF NOT EXISTS `plugins_meta` (
   `type` varchar(100) NOT NULL DEFAULT 'plugin',
   `status` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`metaid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `plugins_tag`
+--
+
+CREATE TABLE IF NOT EXISTS `plugins_tag` (
+  `id` int(9) NOT NULL AUTO_INCREMENT,
+  `pluginid` int(9) NOT NULL,
+  `friendly_url` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `plugin_title` varchar(255) NOT NULL,
+  `plugin_friendly_url` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -538,7 +527,6 @@ CREATE TABLE IF NOT EXISTS `plugins_meta` (
 -- Table structure for table `post`
 --
 
-DROP TABLE IF EXISTS `post`;
 CREATE TABLE IF NOT EXISTS `post` (
   `postid` int(9) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) CHARACTER SET utf8 NOT NULL,
@@ -560,14 +548,11 @@ CREATE TABLE IF NOT EXISTS `post` (
   `allowcomment` int(1) NOT NULL DEFAULT '1',
   `status` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`postid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=39 ;
 
 --
 -- Dumping data for table `post`
 --
-
-INSERT INTO `post` (`postid`, `title`, `catid`, `userid`, `parentid`, `image`, `sort_order`, `date_added`, `views`, `content`, `type`, `keywords`, `friendly_url`, `is_featured`, `date_featured`, `expires_date`, `rating`, `allowcomment`, `status`) VALUES
-(1, 'Lorem Ipsum is simply dummy text', 19, 1, 0, 'uploads/files/1542963641/10329165_1009469839063660_5573319220292906496_n.png', 1, '2015-03-16 05:35:00', 188, '[p][p][p][p][b]Lorem Ipsum[/b]ï¿½ is ssimply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.[/p][/p][/p][/p][/p]', 'normal', '', 'Lorem-Ipsum-is-simply-dummy-text', 0, NULL, NULL, 5, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -575,7 +560,6 @@ INSERT INTO `post` (`postid`, `title`, `catid`, `userid`, `parentid`, `image`, `
 -- Table structure for table `post_categories`
 --
 
-DROP TABLE IF EXISTS `post_categories`;
 CREATE TABLE IF NOT EXISTS `post_categories` (
   `postid` int(9) NOT NULL,
   `catid` int(9) NOT NULL
@@ -587,7 +571,6 @@ CREATE TABLE IF NOT EXISTS `post_categories` (
 -- Table structure for table `post_images`
 --
 
-DROP TABLE IF EXISTS `post_images`;
 CREATE TABLE IF NOT EXISTS `post_images` (
   `postid` int(9) NOT NULL,
   `image` varchar(500) NOT NULL,
@@ -601,21 +584,32 @@ CREATE TABLE IF NOT EXISTS `post_images` (
 -- Table structure for table `post_tags`
 --
 
-DROP TABLE IF EXISTS `post_tags`;
 CREATE TABLE IF NOT EXISTS `post_tags` (
   `tagid` int(9) NOT NULL AUTO_INCREMENT,
   `title` varchar(128) NOT NULL,
   `postid` int(9) NOT NULL,
   PRIMARY KEY (`tagid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=92 ;
 
 --
 -- Dumping data for table `post_tags`
 --
 
-INSERT INTO `post_tags` (`tagid`, `title`, `postid`) VALUES
-(36, 'post', 1),
-(37, 'test post', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `redirects`
+--
+
+CREATE TABLE IF NOT EXISTS `redirects` (
+  `id` int(9) NOT NULL AUTO_INCREMENT,
+  `from_url` varchar(255) NOT NULL,
+  `to_url` varchar(255) DEFAULT NULL,
+  `date_added` datetime NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -623,7 +617,6 @@ INSERT INTO `post_tags` (`tagid`, `title`, `postid`) VALUES
 -- Table structure for table `server_setting`
 --
 
-DROP TABLE IF EXISTS `server_setting`;
 CREATE TABLE IF NOT EXISTS `server_setting` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
   `content` longtext,
@@ -643,7 +636,6 @@ INSERT INTO `server_setting` (`id`, `content`) VALUES
 -- Table structure for table `usergroups`
 --
 
-DROP TABLE IF EXISTS `usergroups`;
 CREATE TABLE IF NOT EXISTS `usergroups` (
   `groupid` int(9) NOT NULL AUTO_INCREMENT,
   `group_title` varchar(255) NOT NULL,
@@ -656,11 +648,11 @@ CREATE TABLE IF NOT EXISTS `usergroups` (
 --
 
 INSERT INTO `usergroups` (`groupid`, `group_title`, `groupdata`) VALUES
-(1, 'Administrator', 'a:70:{s:16:"can_view_admincp";s:3:"yes";s:15:"can_view_usercp";s:3:"yes";s:17:"can_view_homepage";s:3:"yes";s:13:"can_view_post";s:3:"yes";s:18:"can_insert_comment";s:3:"yes";s:15:"can_manage_post";s:3:"yes";s:15:"can_addnew_post";s:3:"yes";s:13:"can_edit_post";s:3:"yes";s:15:"can_remove_post";s:3:"yes";s:15:"can_manage_link";s:3:"yes";s:15:"can_addnew_link";s:3:"yes";s:13:"can_edit_link";s:3:"yes";s:15:"can_remove_link";s:3:"yes";s:19:"can_addnew_category";s:3:"yes";s:17:"can_edit_category";s:3:"yes";s:19:"can_remove_category";s:3:"yes";s:19:"can_addnew_redirect";s:3:"yes";s:17:"can_edit_redirect";s:3:"yes";s:19:"can_remove_redirect";s:3:"yes";s:20:"can_manage_contactus";s:3:"yes";s:20:"can_remove_contactus";s:3:"yes";s:15:"can_addnew_page";s:3:"yes";s:13:"can_edit_page";s:3:"yes";s:15:"can_remove_page";s:3:"yes";s:15:"can_addnew_user";s:3:"yes";s:13:"can_edit_user";s:3:"yes";s:15:"can_remove_user";s:3:"yes";s:19:"can_edit_user_group";s:3:"yes";s:20:"can_addnew_usergroup";s:3:"yes";s:18:"can_edit_usergroup";s:3:"yes";s:20:"can_remove_usergroup";s:3:"yes";s:18:"can_setting_system";s:3:"yes";s:18:"can_manage_plugins";s:3:"yes";s:17:"can_manage_themes";s:3:"yes";s:18:"can_activate_theme";s:3:"yes";s:14:"can_edit_theme";s:3:"yes";s:17:"can_setting_theme";s:3:"yes";s:17:"can_control_theme";s:3:"yes";s:16:"can_import_theme";s:3:"yes";s:18:"can_install_plugin";s:3:"yes";s:18:"can_control_plugin";s:3:"yes";s:14:"can_run_plugin";s:3:"yes";s:18:"can_setting_plugin";s:3:"yes";s:20:"can_uninstall_plugin";s:3:"yes";s:19:"can_activate_plugin";s:3:"yes";s:21:"can_deactivate_plugin";s:3:"yes";s:17:"can_import_plugin";s:3:"yes";s:19:"can_manage_category";s:3:"yes";s:15:"can_manage_user";s:3:"yes";s:20:"can_manage_usergroup";s:3:"yes";s:21:"can_remove_owner_post";s:3:"yes";s:23:"default_new_post_status";s:1:"1";s:21:"show_category_manager";s:3:"yes";s:17:"show_post_manager";s:3:"yes";s:20:"show_comment_manager";s:3:"yes";s:17:"show_page_manager";s:3:"yes";s:17:"show_link_manager";s:3:"yes";s:17:"show_user_manager";s:3:"yes";s:22:"show_usergroup_manager";s:3:"yes";s:20:"show_contact_manager";s:3:"yes";s:18:"show_theme_manager";s:3:"yes";s:19:"show_plugin_manager";s:3:"yes";s:20:"show_setting_manager";s:3:"yes";s:13:"show_all_post";s:3:"yes";s:19:"can_remove_all_post";s:3:"yes";s:19:"can_change_password";s:3:"yes";s:18:"can_change_profile";s:3:"yes";s:16:"can_setting_mail";s:3:"yes";s:17:"can_update_system";s:3:"yes";s:15:"can_clear_cache";s:3:"yes";}'),
-(2, 'Member', 'a:77:{s:16:"can_view_admincp";s:3:"yes";s:15:"can_view_usercp";s:3:"yes";s:17:"can_view_homepage";s:3:"yes";s:13:"can_view_post";s:3:"yes";s:18:"can_insert_comment";s:3:"yes";s:15:"can_manage_post";s:3:"yes";s:15:"can_addnew_post";s:3:"yes";s:13:"can_edit_post";s:3:"yes";s:15:"can_remove_post";s:3:"yes";s:15:"can_manage_link";s:3:"yes";s:15:"can_addnew_link";s:2:"no";s:13:"can_edit_link";s:2:"no";s:15:"can_remove_link";s:2:"no";s:19:"can_addnew_category";s:2:"no";s:17:"can_edit_category";s:2:"no";s:19:"can_remove_category";s:2:"no";s:19:"can_addnew_redirect";s:2:"no";s:17:"can_edit_redirect";s:2:"no";s:19:"can_remove_redirect";s:2:"no";s:20:"can_manage_contactus";s:2:"no";s:20:"can_remove_contactus";s:2:"no";s:15:"can_addnew_page";s:2:"no";s:13:"can_edit_page";s:2:"no";s:15:"can_remove_page";s:2:"no";s:15:"can_addnew_user";s:2:"no";s:13:"can_edit_user";s:2:"no";s:15:"can_remove_user";s:2:"no";s:19:"can_edit_user_group";s:2:"no";s:20:"can_addnew_usergroup";s:2:"no";s:18:"can_edit_usergroup";s:2:"no";s:20:"can_remove_usergroup";s:2:"no";s:18:"can_setting_system";s:2:"no";s:18:"can_manage_plugins";s:2:"no";s:17:"can_manage_themes";s:2:"no";s:18:"can_activate_theme";s:2:"no";s:16:"can_import_theme";s:2:"no";s:14:"can_edit_theme";s:2:"no";s:17:"can_setting_theme";s:2:"no";s:17:"can_control_theme";s:2:"no";s:18:"can_install_plugin";s:2:"no";s:18:"can_control_plugin";s:2:"no";s:14:"can_run_plugin";s:2:"no";s:18:"can_setting_plugin";s:2:"no";s:20:"can_uninstall_plugin";s:2:"no";s:19:"can_activate_plugin";s:2:"no";s:21:"can_deactivate_plugin";s:2:"no";s:17:"can_import_plugin";s:2:"no";s:19:"can_manage_category";s:2:"no";s:15:"can_manage_user";s:2:"no";s:20:"can_manage_usergroup";s:2:"no";s:20:"can_login_to_admincp";s:2:"no";s:19:"can_login_to_usercp";s:3:"yes";s:21:"can_remove_owner_post";s:3:"yes";s:23:"default_new_post_status";s:1:"0";s:21:"show_category_manager";s:2:"no";s:17:"show_post_manager";s:3:"yes";s:20:"show_comment_manager";s:3:"yes";s:17:"show_page_manager";s:2:"no";s:17:"show_link_manager";s:2:"no";s:17:"show_user_manager";s:2:"no";s:22:"show_usergroup_manager";s:2:"no";s:20:"show_contact_manager";s:2:"no";s:18:"show_theme_manager";s:2:"no";s:19:"show_plugin_manager";s:2:"no";s:20:"show_setting_manager";s:2:"no";s:13:"show_all_post";s:2:"no";s:19:"can_remove_all_post";s:2:"no";s:27:"default_addnew_manga_status";s:7:"pending";s:29:"default_addnew_chapter_status";s:7:"pending";s:16:"can_addnew_manga";s:2:"no";s:16:"can_update_manga";s:2:"no";s:16:"can_remove_manga";s:2:"no";s:18:"can_addnew_chapter";s:2:"no";s:18:"can_update_chapter";s:2:"no";s:18:"can_remove_chapter";s:2:"no";s:20:"can_update_firemanga";s:2:"no";s:17:"can_run_autoleech";s:2:"no";}'),
-(5, 'Banned Member', 'a:64:{s:16:"can_view_admincp";s:2:"no";s:15:"can_view_usercp";s:2:"no";s:17:"can_view_homepage";s:3:"yes";s:13:"can_view_post";s:3:"yes";s:18:"can_insert_comment";s:2:"no";s:15:"can_manage_post";s:2:"no";s:15:"can_addnew_post";s:2:"no";s:13:"can_edit_post";s:2:"no";s:15:"can_remove_post";s:2:"no";s:15:"can_manage_link";s:2:"no";s:15:"can_addnew_link";s:2:"no";s:13:"can_edit_link";s:2:"no";s:15:"can_remove_link";s:2:"no";s:19:"can_addnew_category";s:2:"no";s:17:"can_edit_category";s:2:"no";s:19:"can_remove_category";s:2:"no";s:19:"can_addnew_redirect";s:2:"no";s:17:"can_edit_redirect";s:2:"no";s:19:"can_remove_redirect";s:2:"no";s:20:"can_manage_contactus";s:2:"no";s:20:"can_remove_contactus";s:2:"no";s:15:"can_addnew_page";s:2:"no";s:13:"can_edit_page";s:2:"no";s:15:"can_remove_page";s:2:"no";s:15:"can_addnew_user";s:2:"no";s:13:"can_edit_user";s:2:"no";s:15:"can_remove_user";s:2:"no";s:19:"can_edit_user_group";s:2:"no";s:20:"can_addnew_usergroup";s:2:"no";s:18:"can_edit_usergroup";s:2:"no";s:20:"can_remove_usergroup";s:2:"no";s:18:"can_setting_system";s:2:"no";s:18:"can_manage_plugins";s:2:"no";s:17:"can_manage_themes";s:2:"no";s:16:"can_import_theme";s:2:"no";s:19:"can_manage_category";s:2:"no";s:15:"can_manage_user";s:2:"no";s:20:"can_manage_usergroup";s:2:"no";s:20:"can_login_to_admincp";s:2:"no";s:19:"can_login_to_usercp";s:2:"no";s:21:"can_remove_owner_post";s:2:"no";s:23:"default_new_post_status";s:1:"0";s:21:"show_category_manager";s:2:"no";s:17:"show_post_manager";s:3:"yes";s:20:"show_comment_manager";s:3:"yes";s:17:"show_page_manager";s:3:"yes";s:17:"show_link_manager";s:2:"no";s:17:"show_user_manager";s:2:"no";s:22:"show_usergroup_manager";s:2:"no";s:20:"show_contact_manager";s:2:"no";s:18:"show_theme_manager";s:2:"no";s:19:"show_plugin_manager";s:2:"no";s:20:"show_setting_manager";s:2:"no";s:13:"show_all_post";s:2:"no";s:27:"default_addnew_manga_status";s:7:"pending";s:29:"default_addnew_chapter_status";s:7:"pending";s:16:"can_addnew_manga";s:2:"no";s:16:"can_update_manga";s:2:"no";s:16:"can_remove_manga";s:2:"no";s:18:"can_addnew_chapter";s:2:"no";s:18:"can_update_chapter";s:2:"no";s:18:"can_remove_chapter";s:2:"no";s:20:"can_update_firemanga";s:2:"no";s:17:"can_run_autoleech";s:2:"no";}'),
-(6, 'Plugins & Theme Manager', 'a:22:{s:18:"can_activate_theme";s:2:"no";s:14:"can_edit_theme";s:2:"no";s:17:"can_setting_theme";s:2:"no";s:17:"can_control_theme";s:2:"no";s:18:"can_install_plugin";s:2:"no";s:18:"can_control_plugin";s:2:"no";s:14:"can_run_plugin";s:2:"no";s:18:"can_setting_plugin";s:2:"no";s:20:"can_uninstall_plugin";s:2:"no";s:19:"can_activate_plugin";s:2:"no";s:21:"can_deactivate_plugin";s:2:"no";s:17:"can_import_plugin";s:2:"no";s:27:"default_addnew_manga_status";s:7:"pending";s:29:"default_addnew_chapter_status";s:7:"pending";s:16:"can_addnew_manga";s:2:"no";s:16:"can_update_manga";s:2:"no";s:16:"can_remove_manga";s:2:"no";s:18:"can_addnew_chapter";s:2:"no";s:18:"can_update_chapter";s:2:"no";s:18:"can_remove_chapter";s:2:"no";s:20:"can_update_firemanga";s:2:"no";s:17:"can_run_autoleech";s:2:"no";}'),
-(8, 'Pending Member', 'a:74:{s:16:"can_view_admincp";s:2:"no";s:15:"can_view_usercp";s:2:"no";s:17:"can_view_homepage";s:3:"yes";s:13:"can_view_post";s:3:"yes";s:18:"can_insert_comment";s:2:"no";s:15:"can_manage_post";s:2:"no";s:15:"can_addnew_post";s:2:"no";s:13:"can_edit_post";s:2:"no";s:15:"can_remove_post";s:2:"no";s:15:"can_manage_link";s:3:"yes";s:15:"can_addnew_link";s:2:"no";s:13:"can_edit_link";s:2:"no";s:15:"can_remove_link";s:2:"no";s:19:"can_addnew_category";s:2:"no";s:17:"can_edit_category";s:2:"no";s:19:"can_remove_category";s:2:"no";s:19:"can_addnew_redirect";s:2:"no";s:17:"can_edit_redirect";s:2:"no";s:19:"can_remove_redirect";s:2:"no";s:20:"can_manage_contactus";s:2:"no";s:20:"can_remove_contactus";s:2:"no";s:15:"can_addnew_page";s:2:"no";s:13:"can_edit_page";s:2:"no";s:15:"can_remove_page";s:2:"no";s:15:"can_addnew_user";s:2:"no";s:13:"can_edit_user";s:2:"no";s:15:"can_remove_user";s:2:"no";s:19:"can_edit_user_group";s:2:"no";s:20:"can_addnew_usergroup";s:2:"no";s:18:"can_edit_usergroup";s:2:"no";s:20:"can_remove_usergroup";s:2:"no";s:18:"can_setting_system";s:2:"no";s:18:"can_manage_plugins";s:2:"no";s:17:"can_manage_themes";s:2:"no";s:18:"can_activate_theme";s:2:"no";s:14:"can_edit_theme";s:2:"no";s:17:"can_setting_theme";s:2:"no";s:17:"can_control_theme";s:2:"no";s:18:"can_install_plugin";s:2:"no";s:18:"can_control_plugin";s:2:"no";s:14:"can_run_plugin";s:2:"no";s:18:"can_setting_plugin";s:2:"no";s:20:"can_uninstall_plugin";s:2:"no";s:19:"can_activate_plugin";s:2:"no";s:21:"can_deactivate_plugin";s:2:"no";s:17:"can_import_plugin";s:2:"no";s:19:"can_manage_category";s:2:"no";s:15:"can_manage_user";s:2:"no";s:20:"can_manage_usergroup";s:2:"no";s:20:"can_login_to_admincp";s:2:"no";s:19:"can_login_to_usercp";s:2:"no";s:21:"can_remove_owner_post";s:2:"no";s:23:"default_new_post_status";s:1:"0";s:21:"show_category_manager";s:2:"no";s:17:"show_post_manager";s:3:"yes";s:20:"show_comment_manager";s:3:"yes";s:17:"show_page_manager";s:3:"yes";s:17:"show_link_manager";s:2:"no";s:17:"show_user_manager";s:2:"no";s:22:"show_usergroup_manager";s:2:"no";s:20:"show_contact_manager";s:2:"no";s:18:"show_theme_manager";s:2:"no";s:19:"show_plugin_manager";s:2:"no";s:20:"show_setting_manager";s:2:"no";s:27:"default_addnew_manga_status";s:7:"pending";s:29:"default_addnew_chapter_status";s:7:"pending";s:16:"can_addnew_manga";s:2:"no";s:16:"can_update_manga";s:2:"no";s:16:"can_remove_manga";s:2:"no";s:18:"can_addnew_chapter";s:2:"no";s:18:"can_update_chapter";s:2:"no";s:18:"can_remove_chapter";s:2:"no";s:20:"can_update_firemanga";s:2:"no";s:17:"can_run_autoleech";s:2:"no";}');
+(1, 'Administrator', 'a:71:{s:16:"can_view_admincp";s:3:"yes";s:15:"can_view_usercp";s:3:"yes";s:17:"can_view_homepage";s:3:"yes";s:13:"can_view_post";s:3:"yes";s:18:"can_insert_comment";s:3:"yes";s:15:"can_manage_post";s:3:"yes";s:15:"can_addnew_post";s:3:"yes";s:13:"can_edit_post";s:3:"yes";s:15:"can_remove_post";s:3:"yes";s:15:"can_manage_link";s:3:"yes";s:15:"can_addnew_link";s:3:"yes";s:13:"can_edit_link";s:3:"yes";s:15:"can_remove_link";s:3:"yes";s:19:"can_addnew_category";s:3:"yes";s:17:"can_edit_category";s:3:"yes";s:19:"can_remove_category";s:3:"yes";s:19:"can_addnew_redirect";s:3:"yes";s:17:"can_edit_redirect";s:3:"yes";s:19:"can_remove_redirect";s:3:"yes";s:20:"can_manage_contactus";s:3:"yes";s:20:"can_remove_contactus";s:3:"yes";s:15:"can_addnew_page";s:3:"yes";s:13:"can_edit_page";s:3:"yes";s:15:"can_remove_page";s:3:"yes";s:15:"can_addnew_user";s:3:"yes";s:13:"can_edit_user";s:3:"yes";s:15:"can_remove_user";s:3:"yes";s:19:"can_edit_user_group";s:3:"yes";s:20:"can_addnew_usergroup";s:3:"yes";s:18:"can_edit_usergroup";s:3:"yes";s:20:"can_remove_usergroup";s:3:"yes";s:18:"can_setting_system";s:3:"yes";s:18:"can_manage_plugins";s:3:"yes";s:17:"can_manage_themes";s:3:"yes";s:18:"can_activate_theme";s:3:"yes";s:14:"can_edit_theme";s:3:"yes";s:17:"can_setting_theme";s:3:"yes";s:17:"can_control_theme";s:3:"yes";s:16:"can_import_theme";s:3:"yes";s:18:"can_install_plugin";s:3:"yes";s:14:"can_run_plugin";s:3:"yes";s:18:"can_setting_plugin";s:3:"yes";s:20:"can_uninstall_plugin";s:3:"yes";s:19:"can_activate_plugin";s:3:"yes";s:21:"can_deactivate_plugin";s:3:"yes";s:17:"can_import_plugin";s:3:"yes";s:19:"can_manage_category";s:3:"yes";s:15:"can_manage_user";s:3:"yes";s:20:"can_manage_usergroup";s:3:"yes";s:21:"can_remove_owner_post";s:3:"yes";s:23:"default_new_post_status";s:1:"1";s:21:"show_category_manager";s:3:"yes";s:17:"show_post_manager";s:3:"yes";s:20:"show_comment_manager";s:3:"yes";s:17:"show_page_manager";s:3:"yes";s:17:"show_link_manager";s:3:"yes";s:17:"show_user_manager";s:3:"yes";s:22:"show_usergroup_manager";s:3:"yes";s:20:"show_contact_manager";s:3:"yes";s:18:"show_theme_manager";s:3:"yes";s:19:"show_plugin_manager";s:3:"yes";s:20:"show_setting_manager";s:3:"yes";s:13:"show_all_post";s:3:"yes";s:19:"can_remove_all_post";s:3:"yes";s:19:"can_change_password";s:3:"yes";s:18:"can_change_profile";s:3:"yes";s:16:"can_setting_mail";s:3:"yes";s:17:"can_update_system";s:3:"yes";s:15:"can_clear_cache";s:3:"yes";s:26:"default_free_point_eachday";s:1:"0";s:18:"can_control_plugin";s:3:"yes";}'),
+(2, 'Member', 'a:68:{s:16:"can_view_admincp";s:3:"yes";s:15:"can_view_usercp";s:3:"yes";s:17:"can_view_homepage";s:3:"yes";s:13:"can_view_post";s:3:"yes";s:18:"can_insert_comment";s:3:"yes";s:15:"can_manage_post";s:2:"no";s:15:"can_addnew_post";s:3:"yes";s:13:"can_edit_post";s:3:"yes";s:15:"can_remove_post";s:3:"yes";s:15:"can_manage_link";s:2:"no";s:15:"can_addnew_link";s:2:"no";s:13:"can_edit_link";s:2:"no";s:15:"can_remove_link";s:2:"no";s:19:"can_addnew_category";s:2:"no";s:17:"can_edit_category";s:2:"no";s:19:"can_remove_category";s:2:"no";s:19:"can_addnew_redirect";s:2:"no";s:17:"can_edit_redirect";s:2:"no";s:19:"can_remove_redirect";s:2:"no";s:20:"can_manage_contactus";s:2:"no";s:20:"can_remove_contactus";s:2:"no";s:15:"can_addnew_page";s:2:"no";s:13:"can_edit_page";s:2:"no";s:15:"can_remove_page";s:2:"no";s:15:"can_addnew_user";s:2:"no";s:13:"can_edit_user";s:2:"no";s:15:"can_remove_user";s:2:"no";s:19:"can_edit_user_group";s:2:"no";s:20:"can_addnew_usergroup";s:2:"no";s:18:"can_edit_usergroup";s:2:"no";s:20:"can_remove_usergroup";s:2:"no";s:18:"can_setting_system";s:2:"no";s:18:"can_manage_plugins";s:2:"no";s:17:"can_manage_themes";s:2:"no";s:18:"can_activate_theme";s:2:"no";s:16:"can_import_theme";s:2:"no";s:14:"can_edit_theme";s:2:"no";s:17:"can_setting_theme";s:2:"no";s:17:"can_control_theme";s:2:"no";s:18:"can_install_plugin";s:2:"no";s:14:"can_run_plugin";s:3:"yes";s:18:"can_setting_plugin";s:3:"yes";s:20:"can_uninstall_plugin";s:2:"no";s:19:"can_activate_plugin";s:2:"no";s:21:"can_deactivate_plugin";s:2:"no";s:17:"can_import_plugin";s:2:"no";s:19:"can_manage_category";s:2:"no";s:15:"can_manage_user";s:2:"no";s:20:"can_manage_usergroup";s:2:"no";s:20:"can_login_to_admincp";s:3:"yes";s:19:"can_login_to_usercp";s:3:"yes";s:21:"can_remove_owner_post";s:3:"yes";s:23:"default_new_post_status";s:1:"0";s:21:"show_category_manager";s:2:"no";s:17:"show_post_manager";s:2:"no";s:20:"show_comment_manager";s:2:"no";s:17:"show_page_manager";s:2:"no";s:17:"show_link_manager";s:2:"no";s:17:"show_user_manager";s:2:"no";s:22:"show_usergroup_manager";s:2:"no";s:20:"show_contact_manager";s:2:"no";s:18:"show_theme_manager";s:2:"no";s:19:"show_plugin_manager";s:2:"no";s:20:"show_setting_manager";s:2:"no";s:13:"show_all_post";s:2:"no";s:19:"can_remove_all_post";s:2:"no";s:26:"default_free_point_eachday";s:1:"0";s:18:"can_control_plugin";s:3:"yes";}'),
+(5, 'Banned Member', 'a:61:{s:16:"can_view_admincp";s:2:"no";s:15:"can_view_usercp";s:2:"no";s:17:"can_view_homepage";s:3:"yes";s:13:"can_view_post";s:3:"yes";s:18:"can_insert_comment";s:2:"no";s:15:"can_manage_post";s:2:"no";s:15:"can_addnew_post";s:2:"no";s:13:"can_edit_post";s:2:"no";s:15:"can_remove_post";s:2:"no";s:15:"can_manage_link";s:2:"no";s:15:"can_addnew_link";s:2:"no";s:13:"can_edit_link";s:2:"no";s:15:"can_remove_link";s:2:"no";s:19:"can_addnew_category";s:2:"no";s:17:"can_edit_category";s:2:"no";s:19:"can_remove_category";s:2:"no";s:19:"can_addnew_redirect";s:2:"no";s:17:"can_edit_redirect";s:2:"no";s:19:"can_remove_redirect";s:2:"no";s:20:"can_manage_contactus";s:2:"no";s:20:"can_remove_contactus";s:2:"no";s:15:"can_addnew_page";s:2:"no";s:13:"can_edit_page";s:2:"no";s:15:"can_remove_page";s:2:"no";s:15:"can_addnew_user";s:2:"no";s:13:"can_edit_user";s:2:"no";s:15:"can_remove_user";s:2:"no";s:19:"can_edit_user_group";s:2:"no";s:20:"can_addnew_usergroup";s:2:"no";s:18:"can_edit_usergroup";s:2:"no";s:20:"can_remove_usergroup";s:2:"no";s:18:"can_setting_system";s:2:"no";s:18:"can_manage_plugins";s:2:"no";s:17:"can_manage_themes";s:2:"no";s:16:"can_import_theme";s:2:"no";s:19:"can_manage_category";s:2:"no";s:15:"can_manage_user";s:2:"no";s:20:"can_manage_usergroup";s:2:"no";s:20:"can_login_to_admincp";s:2:"no";s:19:"can_login_to_usercp";s:2:"no";s:21:"can_remove_owner_post";s:2:"no";s:23:"default_new_post_status";s:1:"0";s:21:"show_category_manager";s:2:"no";s:17:"show_post_manager";s:2:"no";s:20:"show_comment_manager";s:2:"no";s:17:"show_page_manager";s:2:"no";s:17:"show_link_manager";s:2:"no";s:17:"show_user_manager";s:2:"no";s:22:"show_usergroup_manager";s:2:"no";s:20:"show_contact_manager";s:2:"no";s:18:"show_theme_manager";s:2:"no";s:19:"show_plugin_manager";s:2:"no";s:20:"show_setting_manager";s:2:"no";s:13:"show_all_post";s:2:"no";s:26:"default_free_point_eachday";s:1:"0";s:19:"can_activate_plugin";s:2:"no";s:20:"can_uninstall_plugin";s:2:"no";s:21:"can_deactivate_plugin";s:2:"no";s:18:"can_install_plugin";s:2:"no";s:17:"can_import_plugin";s:2:"no";s:18:"can_control_plugin";s:3:"yes";}'),
+(6, 'Plugins & Theme Manager', 'a:40:{s:18:"can_activate_theme";s:2:"no";s:14:"can_edit_theme";s:2:"no";s:17:"can_setting_theme";s:2:"no";s:17:"can_control_theme";s:2:"no";s:18:"can_install_plugin";s:2:"no";s:14:"can_run_plugin";s:2:"no";s:18:"can_setting_plugin";s:2:"no";s:20:"can_uninstall_plugin";s:2:"no";s:19:"can_activate_plugin";s:2:"no";s:21:"can_deactivate_plugin";s:2:"no";s:17:"can_import_plugin";s:2:"no";s:15:"can_manage_link";s:2:"no";s:26:"default_free_point_eachday";s:1:"0";s:15:"can_manage_post";s:2:"no";s:19:"can_addnew_category";s:2:"no";s:19:"can_addnew_redirect";s:2:"no";s:20:"can_manage_contactus";s:2:"no";s:15:"can_addnew_page";s:2:"no";s:15:"can_addnew_user";s:2:"no";s:20:"can_addnew_usergroup";s:2:"no";s:18:"can_edit_usergroup";s:2:"no";s:18:"can_setting_system";s:2:"no";s:18:"can_manage_plugins";s:2:"no";s:17:"can_manage_themes";s:2:"no";s:16:"can_import_theme";s:2:"no";s:19:"can_manage_category";s:2:"no";s:15:"can_manage_user";s:2:"no";s:20:"can_manage_usergroup";s:2:"no";s:21:"show_category_manager";s:2:"no";s:17:"show_post_manager";s:2:"no";s:20:"show_comment_manager";s:2:"no";s:17:"show_page_manager";s:2:"no";s:17:"show_link_manager";s:2:"no";s:17:"show_user_manager";s:2:"no";s:22:"show_usergroup_manager";s:2:"no";s:20:"show_contact_manager";s:2:"no";s:18:"show_theme_manager";s:2:"no";s:19:"show_plugin_manager";s:2:"no";s:20:"show_setting_manager";s:2:"no";s:18:"can_control_plugin";s:3:"yes";}'),
+(8, 'Pending Member', 'a:66:{s:16:"can_view_admincp";s:2:"no";s:15:"can_view_usercp";s:2:"no";s:17:"can_view_homepage";s:3:"yes";s:13:"can_view_post";s:3:"yes";s:18:"can_insert_comment";s:2:"no";s:15:"can_manage_post";s:2:"no";s:15:"can_addnew_post";s:2:"no";s:13:"can_edit_post";s:2:"no";s:15:"can_remove_post";s:2:"no";s:15:"can_manage_link";s:2:"no";s:15:"can_addnew_link";s:2:"no";s:13:"can_edit_link";s:2:"no";s:15:"can_remove_link";s:2:"no";s:19:"can_addnew_category";s:2:"no";s:17:"can_edit_category";s:2:"no";s:19:"can_remove_category";s:2:"no";s:19:"can_addnew_redirect";s:2:"no";s:17:"can_edit_redirect";s:2:"no";s:19:"can_remove_redirect";s:2:"no";s:20:"can_manage_contactus";s:2:"no";s:20:"can_remove_contactus";s:2:"no";s:15:"can_addnew_page";s:2:"no";s:13:"can_edit_page";s:2:"no";s:15:"can_remove_page";s:2:"no";s:15:"can_addnew_user";s:2:"no";s:13:"can_edit_user";s:2:"no";s:15:"can_remove_user";s:2:"no";s:19:"can_edit_user_group";s:2:"no";s:20:"can_addnew_usergroup";s:2:"no";s:18:"can_edit_usergroup";s:2:"no";s:20:"can_remove_usergroup";s:2:"no";s:18:"can_setting_system";s:2:"no";s:18:"can_manage_plugins";s:2:"no";s:17:"can_manage_themes";s:2:"no";s:18:"can_activate_theme";s:2:"no";s:14:"can_edit_theme";s:2:"no";s:17:"can_setting_theme";s:2:"no";s:17:"can_control_theme";s:2:"no";s:18:"can_install_plugin";s:2:"no";s:14:"can_run_plugin";s:2:"no";s:18:"can_setting_plugin";s:2:"no";s:20:"can_uninstall_plugin";s:2:"no";s:19:"can_activate_plugin";s:2:"no";s:21:"can_deactivate_plugin";s:2:"no";s:17:"can_import_plugin";s:2:"no";s:19:"can_manage_category";s:2:"no";s:15:"can_manage_user";s:2:"no";s:20:"can_manage_usergroup";s:2:"no";s:20:"can_login_to_admincp";s:2:"no";s:19:"can_login_to_usercp";s:2:"no";s:21:"can_remove_owner_post";s:2:"no";s:23:"default_new_post_status";s:1:"0";s:21:"show_category_manager";s:2:"no";s:17:"show_post_manager";s:2:"no";s:20:"show_comment_manager";s:2:"no";s:17:"show_page_manager";s:2:"no";s:17:"show_link_manager";s:2:"no";s:17:"show_user_manager";s:2:"no";s:22:"show_usergroup_manager";s:2:"no";s:20:"show_contact_manager";s:2:"no";s:18:"show_theme_manager";s:2:"no";s:19:"show_plugin_manager";s:2:"no";s:20:"show_setting_manager";s:2:"no";s:26:"default_free_point_eachday";s:1:"0";s:16:"can_import_theme";s:2:"no";s:18:"can_control_plugin";s:3:"yes";}');
 
 -- --------------------------------------------------------
 
@@ -668,7 +660,6 @@ INSERT INTO `usergroups` (`groupid`, `group_title`, `groupdata`) VALUES
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `userid` int(9) NOT NULL AUTO_INCREMENT,
   `groupid` int(9) NOT NULL DEFAULT '0',
@@ -687,22 +678,32 @@ CREATE TABLE IF NOT EXISTS `users` (
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`userid`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `users`
 --
 
+-- --------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `redirects` (
+--
+-- Table structure for table `usersdata`
+--
+
+CREATE TABLE IF NOT EXISTS `usersdata` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
-  `from_url` varchar(255) NOT NULL,
-  `to_url` varchar(255) DEFAULT NULL,
+  `userid` int(9) NOT NULL,
+  `prefix` varchar(30) DEFAULT NULL,
+  `status` int(1) NOT NULL DEFAULT '0',
   `date_added` datetime NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `widgets`
+--
 
 CREATE TABLE IF NOT EXISTS `widgets` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
