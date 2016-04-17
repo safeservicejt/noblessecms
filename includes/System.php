@@ -137,7 +137,7 @@ class System
 			$result=isset(self::$listVar[$layout][$keyName])?self::$listVar[$layout][$keyName]:false;
 		}
 
-		$result=is_array($result)?implode('', $result):$result;
+		// $result=is_array($result)?implode('', $result):$result;
 
 		return $result;
 	}
