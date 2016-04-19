@@ -30,7 +30,7 @@ class Post
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="postid,title,catid,userid,parentid,image,sort_order,date_added,views,content,type,keywords,friendly_url,is_featured,date_featured,expires_date,rating,allowcomment,status".$moreFields;
+		$field="postid,title,catid,userid,parentid,image,sort_order,date_added,views,content,type,keywords,friendly_url,is_featured,date_featured,expires_date,rating,allowcomment,status,tag_url,category_url,author_url,comments".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
@@ -103,6 +103,21 @@ class Post
 					$row['url']=self::url($row);
 				}
 
+				if(isset($row['author_url']) && isset($row['author_url']['10']))
+				{
+					$row['author_url']=unserialize($row['author_url']);	
+				}
+				
+				if(isset($row['tag_url']) && isset($row['tag_url']['10']))
+				{
+					$row['tag_url']=unserialize($row['tag_url']);		
+				}
+				
+				if(isset($row['category_url']) && isset($row['category_url']['10']))
+				{
+					$row['category_url']=unserialize($row['category_url']);		
+				}
+
 				if(isset($row['image']) && preg_match('/.*?\.(gif|png|jpe?g)/i', $row['image']))
 				{
 					if(!preg_match('/^http/i', $row['image']))
@@ -167,6 +182,59 @@ class Post
 
 		return $result;
 		
+	}
+
+	public static function updateData($postid=0)
+	{
+		$loadData=self::get(array(
+			'cache'=>'no',
+			'where'=>"where postid='$postid'"
+			));
+
+		$updateData=array();
+
+		if(isset($loadData[0]['postid']))
+		{
+			$loadTag=PostTags::get(array(
+				'cache'=>'no',
+				'where'=>"where postid='$postid'"
+				));
+
+			if(isset($loadTag[0]['postid']))
+			{
+				$updateData['tag_url']=serialize($loadTag);
+			}
+
+			$loadCat=Categories::get(array(
+				'cache'=>'no',
+				'where'=>"where catid='".$loadData[0]['catid']."'"
+				));
+
+			if(isset($loadCat[0]['catid']))
+			{
+				$updateData['category_url']=serialize($loadCat);
+			}
+
+			$loadUser=Users::get(array(
+				'cache'=>'no',
+				'where'=>"where userid='".$loadData[0]['userid']."'"
+				));
+
+			if(isset($loadUser[0]['userid']))
+			{
+				$authorData=array();
+				
+				$authorData['username']=$loadUser[0]['username'];
+				$authorData['userid']=$loadUser[0]['userid'];
+				$authorData['firstname']=$loadUser[0]['firstname'];
+				$authorData['lastname']=$loadUser[0]['lastname'];
+
+				$updateData['author_url']=serialize($authorData);
+			}
+
+			self::update($postid,$updateData);
+
+		}
 	}
 
 	public static function getImageFromContent($postid=0)

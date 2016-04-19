@@ -1854,3 +1854,17 @@ text-decoration: none;
 {
   height: 35px;
 }
+
+.custom_bbcode
+{
+  padding-bottom: 3px;
+}
+.the_bbcode
+{
+  cursor: pointer;
+  padding: 5px;
+}
+.the_bbcode:hover
+{
+  background-color: #dfdfdf;
+}

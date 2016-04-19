@@ -21,6 +21,7 @@
  
             <p>
                 <label><strong>Content</strong></label>
+                <?php echo Render::renderBBCodeHtml();?>
                 <textarea id="editor" rows="15" name="send[content]" class="form-control page-content ckeditor"></textarea>
             </p>
             <p>
@@ -118,5 +119,7 @@ $(document).ready(function(){
 });
 
   </script>
+
+<?php echo Render::renderBBCodeJs();?>
 
 <?php echo System::getVar('page_addnew_footer');?>

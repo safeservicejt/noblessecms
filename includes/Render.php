@@ -1,8 +1,93 @@
 <?php
 
+/*
+
+    Add custom bbcode
+
+    Render::addBBCode(array(
+        'textHtml'=>'[Youtube]',
+        'id'=>'youtube_tool',
+        'class'=>'youtube_tool',
+        'jsFiles'=>array()
+    ));
+    
+    <div class="custom_bbcode">
+      <span class="the_bbcode"><i class="glyphicon glyphicon-cog"></i></span>
+      <span class="the_bbcode">[Youtube]</span>
+    </div>    
+*/
+
 class Render
 {
-    
+    public static function addBBCode($inputData=array())
+    {
+        System::pushVar('admincp_custom_bbcode',$inputData);
+    }
+
+    public static function renderBBCodeHtml()
+    {
+        $result='';
+
+        if(System::issetVar('admincp_custom_bbcode'))
+        {
+            $loadData=System::getVar('admincp_custom_bbcode');
+
+            $total=count($loadData);
+
+            $li='';
+
+            $class='';
+
+            $id='';
+
+            for ($i=0; $i < $total; $i++) { 
+
+                $class=isset($loadData[$i]['class'])?' class="'.$loadData[$i]['class'].'" ':'';
+
+                $id=isset($loadData[$i]['id'])?' id="'.$loadData[$i]['id'].'" ':'';
+
+                $li.='<span class="the_bbcode" >'.$loadData[$i]['textHtml'].'</span>';
+            }
+
+            $result='<div class="custom_bbcode" '.$class.$id.'>'.$li.'</div>';
+
+
+        }
+
+        return $result;
+    }
+
+    public static function renderBBCodeJs()
+    {
+        $result='';
+
+        $li='';
+
+        if(System::issetVar('admincp_custom_bbcode'))
+        {
+            $loadData=System::getVar('admincp_custom_bbcode');
+
+            $total=count($loadData);
+
+            $jsFiles='';
+
+            for ($i=0; $i < $total; $i++) { 
+                
+                $jsFiles=isset($loadData[$i]['jsFiles'])?$loadData[$i]['jsFiles']:array();
+
+                $totalFiles=count($jsFiles);
+
+                for ($j=0; $j < $totalFiles; $j++) { 
+                     $li.='<script src="'.$jsFiles[$j].'"></script>';
+                }
+
+            }
+
+        }
+
+        return $li;
+    }
+
 	public static function rawContent($inputData,$offset=-1,$to=0)
 	{
 		$replaces=array(

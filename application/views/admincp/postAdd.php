@@ -1,6 +1,7 @@
   <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstrap/chosen/bootstrap-chosen.css">
 <script src="<?php echo System::getUrl(); ?>bootstrap/ckeditor/ckeditor.js"></script>
 
+
 <?php echo System::getVar('post_addnew_header');?>
 
 <div class="panel panel-default">
@@ -23,6 +24,8 @@
  
             <p>
                 <label><strong>Content</strong></label>
+                <?php echo Render::renderBBCodeHtml();?>
+                
                 <textarea id="editor" rows="15" name="send[content]" class="form-control post-content ckeditor"></textarea>
             </p>
             <p>
@@ -167,8 +170,11 @@ CKEDITOR.replace( 'editor' ,{
 
       });
 
+
   });
     
   </script>
+
+<?php echo Render::renderBBCodeJs();?>
 
 <?php echo System::getVar('post_addnew_footer');?>

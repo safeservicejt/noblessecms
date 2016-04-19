@@ -259,6 +259,8 @@ function updateProcess($id)
 
 	PostTags::insert($insertData);
 
+	Post::updateData($id);
+
 	// Post::update($id,array(
 	// 	'friendly_url'=>$id.'-'.String::makeFriendlyUrl(strip_tags($loadData[0]['title']));
 	// 	));		
@@ -376,4 +378,6 @@ function insertProcess()
 	Post::update($id,array(
 		'friendly_url'=>$id.'-'.String::makeFriendlyUrl(strip_tags($send['title']))
 		));	
+
+	Post::updateData($id);
 }

@@ -57,7 +57,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <?php echo System::getVar('admincp_header');?>
+    <?php echo System::getImplodeVar('admincp_header');?>
 
 </head>
 
