@@ -198,7 +198,7 @@ class PostTags
 			if(isset($inputData['title']))
 			$inputData['title']=strtolower(trim(String::makeFriendlyUrl(strip_tags($inputData['title']))));
 
-			if(strlen($inputData['title'])==0)
+			if(isset($inputData['title']) && strlen($inputData['title'])==0)
 			{
 				return false;
 			}

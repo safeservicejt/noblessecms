@@ -279,9 +279,13 @@ class System
 
 		$path=THEMES_PATH.$themeName;
 
+
+
 		if(is_dir($path))
 		{
 			// $_COOKIE['theme_name']=$themeName;
+
+			self::$setting['theme_name']=$themeName;
 
 			Cookie::make('theme_name',$themeName,1440*7);
 
@@ -338,6 +342,8 @@ class System
 			if(is_dir($path))
 			{
 				// $_COOKIE['theme_name']=$curName;
+
+				self::$setting['theme_name']=$curName;
 
 				Cookie::make('theme_name',$curName,1440*7);
 
@@ -589,6 +595,7 @@ class System
 	{
 		$url=isset($_COOKIE['theme_name'])?$_COOKIE['theme_name']:THEME_NAME;
 
+		$url=isset(self::$setting['theme_name'])?self::$setting['theme_name']:$url;
 
 		return $url;
 	}
