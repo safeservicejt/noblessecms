@@ -105,6 +105,7 @@ class CtrTheme
 
 	public static function controller($viewName,$funcName='index')
 	{
+
 		Model::loadWithPath($viewName,self::$data['path'].'models/');
 
 		Controller::loadWithPath('control'.ucfirst($viewName),$funcName,self::$data['path'].'controllers/');

@@ -82,6 +82,8 @@ class Theme
 
 	private static $data=array();
 
+	public static $layoutPath='';
+
 	public static function install($func)
 	{
 		if(self::$can_install=='no')
@@ -101,9 +103,11 @@ class Theme
         } 
 	}
 
+
+
 	public function settingUri($inputData=array())
 	{
-		self::$data['path']=System::getThemePath();
+		self::$data['path']=System::getThemePath().self::$layoutPath;
 
 		self::$data['site_url']=System::getUrl();
 
@@ -525,5 +529,75 @@ class Theme
 
 	}
 
+	public static function makeSetting($themeName='',$inputData=array())
+	{
+		$themeName=!isset($themeName[1])?THEME_NAME:$themeName;
+
+		$total=count($inputData);
+
+		if((int)$total > 0)
+		{	
+			$loadData=array();
+
+			if($loadData=Cache::loadKey('dbcache/'.Database::getPrefix().$themeName,-1))
+			{
+				$loadData=unserialize($loadData);
+			}
+
+			$listKeys=array_keys($inputData);
+
+			for ($i=0; $i < $total; $i++) { 
+				$theKey=$listKeys[$i];
+
+				$loadData[$theKey]=$inputData[$theKey];
+			}
+
+			$loadData=serialize($loadData);
+
+			Cache::saveKey('dbcache/'.Database::getPrefix().$themeName,$loadData);
+		}
+
+	}
+
+	public static function loadSetting($themeName='')
+	{
+		$themeName=!isset($themeName[1])?THEME_NAME:$themeName;
+
+		if(!$loadData=Cache::loadKey('dbcache/'.Database::getPrefix().$themeName,-1))
+		{
+			return $default;
+		}
+
+		$loadData=unserialize($loadData);
+
+		$loadData['facebook_app_id']=isset($loadData['facebook_app_id'])?$loadData['facebook_app_id']:'675779382554952';
+
+		$loadData['site_top_content']=isset($loadData['site_top_content'])?$loadData['site_top_content']:'';
+
+		$loadData['site_bottom_content']=isset($loadData['site_bottom_content'])?$loadData['site_bottom_content']:'';
+
+		$loadData['site_top_left_content']=isset($loadData['site_top_left_content'])?$loadData['site_top_left_content']:'';
+
+		$loadData['site_bottom_left_content']=isset($loadData['site_bottom_left_content'])?$loadData['site_bottom_left_content']:'';
+
+		$loadData['site_top_right_content']=isset($loadData['site_top_right_content'])?$loadData['site_top_right_content']:'';
+
+		$loadData['site_bottom_right_content']=isset($loadData['site_bottom_right_content'])?$loadData['site_bottom_right_content']:'';
+
+		$loadData['site_right_content']=isset($loadData['site_right_content'])?$loadData['site_right_content']:'';
+
+		$loadData['site_left_content']=isset($loadData['site_left_content'])?$loadData['site_left_content']:'';
+
+		$loadData['post_top_content']=isset($loadData['post_top_content'])?$loadData['post_top_content']:'';
+
+		$loadData['post_bottom_content']=isset($loadData['post_bottom_content'])?$loadData['post_bottom_content']:'';
+
+		$loadData['theme_color']=isset($loadData['theme_color'])?$loadData['theme_color']:'black';
+
+		$loadData['site_logo']=isset($loadData['site_logo'])?$loadData['site_logo']:System::getUrl().'contents/themes/'.$themeName.'/images/logo.png';
+
+
+		return $loadData;		
+	}
 
 }

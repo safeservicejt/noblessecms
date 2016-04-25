@@ -43,4 +43,22 @@ class Url
 		return $url;
 	}
 
+	public static function theme($inputData='')
+	{
+		$inputData=isset($inputData[1])?$inputData:THEME_NAME;
+
+		$url=System::getUrl().'contents/themes/'.$inputData.'/';
+
+		return $url;
+	}
+
+	public static function plugin($inputData='')
+	{
+		$inputData=isset($inputData[1])?$inputData:THEME_NAME;
+
+		$url=System::getUrl().'contents/plugins/'.$inputData.'/';
+
+		return $url;
+	}
+
 }
