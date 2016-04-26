@@ -2,6 +2,20 @@ Noblesse CMS is a modern and lightweight Content Management System. Faster more 
 
 Support multi websites & big data :). All question you can sent to freshcodeteam@gmail.com
 
+Featureds:
+
+- Easy manage your system with friendly administrator cpanel
+
+- Easy build plugins/themes, administrator setting cpanel
+
+- Easy build custom shortcode
+
+- Support build multi layouts for themes (support MVC for each layout)
+
+- Support show/hide any container/elements in system/admincp (full customization)
+
+- Support add/remove/update permission for usergroup. Also, you can add your custom permission to usergroups
+
 Homepage: http://noblessecms.com/
 
 Facebook page: https://www.facebook.com/noblessecmspage
