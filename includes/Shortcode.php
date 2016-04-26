@@ -78,6 +78,48 @@ class Shortcode
 		return $text;
 	}
 	
+	public static function extendsAdd($scName,$funcName)
+	{
+		if(!isset(Plugins::$listShortCodes['shortcode']))
+		{
+			Plugins::$listShortCodes['shortcode']=array();
+		}		
+
+		$data=debug_backtrace();	
+
+		$pluginPath=dirname($data[0]['file']).'/';
+
+		$folderName=basename($pluginPath);	
+
+		$post=array();
+
+		$post['name']=$scName;
+
+		$post['func']=$funcName;
+
+		$post['path']=ROOT_PATH.'includes/shortcodes/';
+
+		$post['foldername']=$folderName;
+
+		$post['filepath']=$data[0]['file'];
+
+		$post['zonename']='shortcode';
+
+		$post['status']=1;
+
+		$post['istemplate']='yes';
+
+		array_push(Plugins::$listShortCodes['shortcode'], $post);
+
+		if(isset(Plugins::$listShortCodes['loaded']))
+		{
+			unset(Plugins::$listShortCodes['loaded']);
+		}
+
+		// print_r(Plugins::$listShortCodes);
+		// die();
+	}
+	
 	public static function templateAdd($scName,$funcName)
 	{
 		if(!isset(Plugins::$listShortCodes['shortcode']))
@@ -100,6 +142,8 @@ class Shortcode
 		$post['path']=THEMES_PATH.$folderName.'/';
 
 		$post['foldername']=$folderName;
+
+		$post['filepath']=$data[0]['file'];
 
 		$post['zonename']='shortcode';
 
@@ -251,7 +295,7 @@ class Shortcode
 	{
 		$filePath=ROOT_PATH.'includes/Shortcodedb.php';
 
-		if(!file_exists('system_shortcode_list'))
+		if(!function_exists('system_shortcode_list'))
 		{
 			include($filePath);
 		}
@@ -305,9 +349,21 @@ class Shortcode
 
 			
 		}
-		
+
+		// Load in extends
+
+		$listFiles=Dir::listFiles(ROOT_PATH.'includes/shortcodes/');
+
+		$total=count($listFiles);
+
+		for ($i=0; $i < $total; $i++) { 
+			$filePath=ROOT_PATH.'includes/shortcodes/'.$listFiles[$i];
+
+			include($filePath);
+		}
 
 	}
+
 
 	public static function loadInTemplate($content)
 	{
@@ -359,6 +415,11 @@ class Shortcode
 			if(isset($theShortcode['path']) && isset($theShortcode['istemplate']))
 			{
 				$pluginPath=$theShortcode['path'].'shortcode.php';
+
+				if(isset($theShortcode['filepath']))
+				{
+					$pluginPath=$theShortcode['filepath'];
+				}
 			}
 
 

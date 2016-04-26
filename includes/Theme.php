@@ -565,7 +565,7 @@ class Theme
 
 		if(!$loadData=Cache::loadKey('dbcache/'.Database::getPrefix().$themeName,-1))
 		{
-			return $default;
+			return false;
 		}
 
 		$loadData=unserialize($loadData);
@@ -593,6 +593,8 @@ class Theme
 		$loadData['post_bottom_content']=isset($loadData['post_bottom_content'])?$loadData['post_bottom_content']:'';
 
 		$loadData['theme_color']=isset($loadData['theme_color'])?$loadData['theme_color']:'black';
+
+		$loadData['layout_name']=isset($loadData['layout_name'])?$loadData['layout_name']:'';
 
 		$loadData['site_logo']=isset($loadData['site_logo'])?$loadData['site_logo']:System::getUrl().'contents/themes/'.$themeName.'/images/logo.png';
 
