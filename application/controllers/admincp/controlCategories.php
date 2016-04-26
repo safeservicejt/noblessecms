@@ -167,7 +167,7 @@ class controlCategories
 		$post['totalPage']=intval((int)$totalRow/50);
 
 		$post['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/categories',
+			'url'=>'admincp/categories/',
 			'curPage'=>$curPage,
 			'limitShow'=>50,
 			'limitPage'=>5,

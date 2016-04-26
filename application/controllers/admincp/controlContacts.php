@@ -61,10 +61,10 @@ class controlContacts
 			));
 
 		$post['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/contacts',
+			'url'=>'admincp/contacts/',
 			'curPage'=>$curPage,
 			'limitShow'=>20,
-			'limitPage'=>5,
+			'limitPage'=>15,
 			'showItem'=>count($post['theList']),
 			'totalItem'=>$countPost[0]['totalRow'],
 			));

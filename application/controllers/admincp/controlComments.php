@@ -43,15 +43,15 @@ class controlComments
 			));
 
 		$countPost=Comments::get(array(
-			'query'=>"select count(c.commentid)as totalRow from ".Database::getPrefix()."post p,".Database::getPrefix()."comments c where c.postid=p.postid order by c.commentid desc",
+			'selectFields'=>'count(commentid)as totalRow',
 			'cache'=>'no'
 			));
 
 		$post['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/comments',
+			'url'=>'admincp/comments/',
 			'curPage'=>$curPage,
 			'limitShow'=>20,
-			'limitPage'=>5,
+			'limitPage'=>15,
 			'showItem'=>count($post['theList']),
 			'totalItem'=>$countPost[0]['totalRow'],
 			));

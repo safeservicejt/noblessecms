@@ -91,16 +91,16 @@ class controlUsers
 			));
 
 
-		$countPost=Post::get(array(
+		$countPost=Users::get(array(
 			'query'=>"select count(u.userid)as totalRow from ".$prefix."users u,".$prefix."usergroups ug,address a where ".$addWhere." u.groupid=ug.groupid AND u.userid=a.userid group by u.userid order by u.userid desc",
 			'cache'=>'no'
 			));
 
 		$post['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/users'.$addPage,
+			'url'=>'admincp/users/'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>20,
-			'limitPage'=>5,
+			'limitPage'=>15,
 			'showItem'=>count($post['theList']),
 			'totalItem'=>$countPost[0]['totalRow'],
 			));

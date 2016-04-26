@@ -140,10 +140,10 @@ class controlLinks
 			));
 
 		$post['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/links'.$addPage,
+			'url'=>'admincp/links/'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>100,
-			'limitPage'=>5,
+			'limitPage'=>15,
 			'showItem'=>count($post['theList']),
 			'totalItem'=>$countPost[0]['totalRow'],
 			));

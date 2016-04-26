@@ -71,7 +71,7 @@ class controlPages
 			));
 
 		$post['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/pages'.$addPage,
+			'url'=>'admincp/pages/'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>20,
 			'limitPage'=>5,
