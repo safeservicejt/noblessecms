@@ -740,7 +740,7 @@ class System
 	public static function makeSetting()
 	{
 		$settingData=array(
-			'system_status'=>'working','system_mode'=>'basic','system_captcha'=>'disable', 'system_lang'=>'en', 'register_user_status'=>'disable',
+			'system_status'=>'working','system_mode'=>'basic','system_captcha'=>'disable', 'system_lang'=>'en', 'register_user_status'=>'disable', 'register_verify_email'=>'disable',
 			'default_member_groupid'=>'2', 'default_member_banned_groupid'=>'5', 'default_dateformat'=>'M d, Y',
 			'rss_status'=>'enable','comment_status'=>'enable', 'title'=>'Noblesse CMS Website', 'keywords'=>'noblessecms, blog, website',
 			'descriptions'=>'Noblesse CMS Website Description','default_page_method'=>'none','default_page_url'=>'','default_timezone'=>'US/Arizona',
@@ -779,8 +779,23 @@ class System
 
 				<p>Password: {password}</p>'."\r\n".'
 
-				<p>Thanks for using our service!</p>'
+				<p>Thanks for using our service!</p>',
 
+				'registerConfirmSubject'=>'Verify your account',
+
+				'registerConfirmContent'=>'<p>Hi {fullname},</p>'."\r\n".'
+				
+				<p>Click or paste below url into address bar for verify your account:</p>'."\r\n".'
+
+				<p>{verify_code}</p>'."\r\n".'
+
+				<p>You have been completed account with information:</p>'."\r\n".'
+
+				<p>Email: {email}</p>'."\r\n".'
+
+				<p>Username: {username}</p>'."\r\n".'
+
+				<p>Password: {password}</p>'."\r\n"
 				)
 			);	
 

@@ -220,9 +220,23 @@ class Theme
 
 			$codeFooter=is_array($codeFooter)?'':$codeFooter;
 
-			System::defineGlobalVar('site_header',$codeHead);
+			if(!System::issetVar('site_header'))
+			{
+				System::defineGlobalVar('site_header',$codeHead);
+			}
+			else
+			{
+				System::pushVar('site_header',$codeHead);
+			}
 
-			System::defineGlobalVar('site_footer',$codeFooter);	
+			if(!System::issetVar('site_footer'))
+			{
+				System::defineGlobalVar('site_footer',$codeFooter);
+			}
+			else
+			{
+				System::pushVar('site_footer',$codeFooter);
+			}			
 					
 			self::$data['render_header']='yes';
 		}	
