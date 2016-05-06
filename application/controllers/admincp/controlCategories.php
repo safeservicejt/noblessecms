@@ -94,86 +94,38 @@ class controlCategories
 		}
 
 		$post['theList']=Categories::get(array(
-			'limitShow'=>50,
+			'limitShow'=>20,
 			'limitPage'=>$curPage,
 			'where'=>$addWhere,
 			'orderby'=>'order by catid desc',
 			'cache'=>'no'
 			));
 
+		$post['listCat']=Categories::getRecursive(array(
+			'orderby'=>'order by title asc',
+			'cache'=>'no'
+			));
 
-		$getTotal=Categories::get(array(
+		$post['theList']=Categories::getRecursiveFromInput($post['theList']);
+
+		$countPost=Categories::get(array(
 			'where'=>$addWhere,
 			'selectFields'=>'count(catid) as totalRow',
 			'cache'=>'no'
 			));
 
-		$total=count($post['theList']);
-
-		if((int)$total > 0)
-		{
-			for ($i=0; $i < $total; $i++) { 
-				$parentid=$post['theList'][$i]['parentid'];
-
-				if((int)$parentid > 0)
-				{
-					$catData=Categories::get(array(
-						'cache'=>'no',
-						'where'=>"where catid='$parentid'"
-						));
-
-					if(isset($catData[0]['title']))
-					{
-						$post['theList'][$i]['title']=$catData[0]['title'].' -> '.$post['theList'][$i]['title'];
-					}
-				}
-			}
-		}
-
-		$post['listCat']=Categories::get(array(
-			'orderby'=>'order by title asc',
-			'cache'=>'no'
-			));
-
-		$total=count($post['listCat']);
-
-		if((int)$total > 0)
-		{
-			for ($i=0; $i < $total; $i++) { 
-				$parentid=$post['listCat'][$i]['parentid'];
-
-				if((int)$parentid > 0)
-				{
-					$catData=Categories::get(array(
-						'cache'=>'no',
-						'where'=>"where catid='$parentid'"
-						));
-
-					if(isset($catData[0]['title']))
-					{
-						$post['listCat'][$i]['title']=$catData[0]['title'].' -> '.$post['listCat'][$i]['title'];
-					}
-				}
-			}
-		}
-
-
-		$totalRow=$getTotal[0]['totalRow'];
-
-		$totalPage=intval((int)$totalRow/50);
-
-		$post['totalPost']=$totalRow;
-
-		$post['totalPage']=intval((int)$totalRow/50);
-
 		$post['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/categories/',
+			'url'=>'admincp/categories/'.$addPage,
 			'curPage'=>$curPage,
-			'limitShow'=>50,
-			'limitPage'=>5,
-			'showItem'=>count($post['listCat']),
-			'totalItem'=>$totalRow,
+			'limitShow'=>20,
+			'limitPage'=>15,
+			'showItem'=>count($post['theList']),
+			'totalItem'=>$countPost[0]['totalRow'],
 			));
+
+		$post['totalPost']=$countPost[0]['totalRow'];
+
+		$post['totalPage']=intval((int)$countPost[0]['totalRow']/20);
 
 		if($match=Uri::match('\/edit\/(\d+)'))
 		{

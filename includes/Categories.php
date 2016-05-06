@@ -128,98 +128,67 @@ class Categories
 		return $url;
 	}
 
-	public static function getRecursive()
+	public static function getRecursiveFromInput($inputData=array())
 	{
-		$loadData=self::get(array(
-			'cache'=>'yes',
-			'cacheTime'=>30,
-			'orderby'=>'order by sort_order desc'
-			));
+		$loadAll=self::getRecursive($inputData);
 
-		$result=array();
+		$catData=array();
 
-		if(isset($loadData[0]['catid']))
+		$loadMain=array();
+
+		if(isset($loadAll[0]['catid']))
 		{
-			$total=count($loadData);
+			$total=count($loadAll);
 
-			for ($i=0; $i < $total; $i++) { 
+			$totalInput=count($inputData);
 
-				if(!isset($loadData[$i]))
-				{
-					continue;
-				}
-
-				$parentid=$loadData[$i]['parentid'];
-
-				$id=$loadData[$i]['catid'];
-
-				if((int)$parentid==0)
+			for ($i=0; $i < $totalInput; $i++) { 
+				
 				for ($j=0; $j < $total; $j++) { 
-
-					if(!isset($loadData[$j]))
+					
+					if((int)$inputData[$i]['catid']==(int)$loadAll[$j]['catid'])
 					{
-						continue;
-					}					
-
-					$child_parentid=$loadData[$j]['parentid'];
-
-					$child_id=$loadData[$j]['catid'];
-
-					if((int)$id==(int)$child_parentid)
-					{
-						$loadData[$i]['child'][]=$loadData[$j];
-
-						unset($loadData[$j]);
+						$inputData[$i]['title']=$loadAll[$j]['title'];
 					}
 				}
 			}
 		}
-		else
+
+		return $inputData;
+	}
+
+	public static function getRecursive($inputData=array())
+	{
+		$inputData['cache']=isset($inputData['cache'])?$inputData['cache']:'no';
+
+		$inputData['orderby']=isset($inputData['orderby'])?$inputData['orderby']:'order by title asc';
+
+		$loadAll=self::get($inputData);
+
+		$catData=array();
+
+		$loadMain=array();
+
+		if(isset($loadAll[0]['catid']))
 		{
-			return $loadData;
+			$total=count($loadAll);
+
+			for ($i=0; $i < $total; $i++) { 
+				
+				for ($j=1; $j < $total; $j++) { 
+					
+					if((int)$loadAll[$i]['catid']==(int)$loadAll[$j]['parentid'])
+					{
+						$loadAll[$j]['title']=$loadAll[$i]['title'].' -> '.$loadAll[$j]['title'];
+					}
+				}
+			}
 		}
 
-		return $loadData;
+		return $loadAll;
 	}
 
 
-	public static function loadCache($method='titleAsc',$limit=30)
-	{
-		// if((int)$limit > 30)
-		// {
-		// 	return false;
-		// }
-		
-		// $savePath=self::cachePath();
-
-		// $method=strtolower($method);
-
-		// $loadData=array();
-
-		// switch ($method) {
-		// 	case 'titleasc':
-		// 		if(file_exists($savePath.'titleAsc.cache'))
-		// 		$loadData=unserialize(file_get_contents($savePath.'titleAsc.cache'));
-		// 		break;
-
-		// 	case 'titledesc':
-		// 		if(file_exists($savePath.'titleDesc.cache'))
-		// 		$loadData=unserialize(file_get_contents($savePath.'titleDesc.cache'));
-		// 		break;
-
-		// 	case 'orderasc':
-		// 		if(file_exists($savePath.'OrderAsc.cache'))
-		// 		$loadData=unserialize(file_get_contents($savePath.'OrderAsc.cache'));
-		// 		break;
-
-		// 	case 'orderdesc':
-		// 		if(file_exists($savePath.'OrderDesc.cache'))
-		// 		$loadData=unserialize(file_get_contents($savePath.'OrderDesc.cache'));
-		// 		break;
-		// }
-
-		// return $loadData;
-	}
 	
 	public static function cachePath()
 	{
@@ -230,40 +199,6 @@ class Categories
 
 	public static function saveCache()
 	{
-		// $savePath=self::cachePath();
-
-		// $loadData=self::get(array(
-		// 	'cache'=>'no',
-		// 	'limitShow'=>30,
-		// 	'orderby'=>'order by title asc'
-		// 	));
-
-		// File::create($savePath.'titleAsc.cache',serialize($loadData));
-
-		// $loadData=self::get(array(
-		// 	'cache'=>'no',
-		// 	'limitShow'=>30,
-		// 	'orderby'=>'order by desc asc'
-		// 	));
-
-		// File::create($savePath.'titleDesc.cache',serialize($loadData));
-
-		// $loadData=self::get(array(
-		// 	'cache'=>'no',
-		// 	'limitShow'=>30,
-		// 	'orderby'=>'order by sort_order asc'
-		// 	));
-
-		// File::create($savePath.'OrderAsc.cache',serialize($loadData));
-
-		// $loadData=self::get(array(
-		// 	'cache'=>'no',
-		// 	'limitShow'=>30,
-		// 	'orderby'=>'order by sort_order desc'
-		// 	));
-
-		// File::create($savePath.'OrderDesc.cache',serialize($loadData));
-
 
 	}
 
