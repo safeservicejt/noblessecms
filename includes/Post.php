@@ -507,6 +507,7 @@ class Post
 			$addMultiAgrs="($insertValues)";	
 		}		
 
+
 		Database::query("insert into ".Database::getPrefix()."post($insertKeys) values".$addMultiAgrs);
 
 		// DBCache::removeDir('system/post');

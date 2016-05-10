@@ -174,13 +174,14 @@ function updateProcess($id)
 		
 	}
 
+
 	switch ($uploadMethod) {
 		case 'frompc':
 			if(Request::hasFile('imageFromPC'))
 			{
 				if(Request::isImage('imageFromPC'))
 				{
-					$send['image']=File::upload('imageFromPC');
+					$send['image']=File::upload('imageFromPC','uploads/files/',$send['title']);
 
 					File::remove($loadData[0]['image']);
 				}
@@ -190,13 +191,12 @@ function updateProcess($id)
 
 			$url=Request::get('imageFromUrl');
 
-			$send['image']=File::uploadFromUrl($url);
+			$send['image']=File::uploadFromUrl($url,'uploads/files/',$send['title']);
 
 			File::remove($loadData[0]['image']);
 
 			break;
 	}
-
 
 	if($autoCrop=='enable' && preg_match('/.*?\.\w+/i', $send['image']))
 	{
@@ -303,7 +303,7 @@ function insertProcess()
 			{
 				if(Request::isImage('imageFromPC'))
 				{
-					$send['image']=File::upload('imageFromPC');
+					$send['image']=File::upload('imageFromPC','uploads/files/',$send['title']);
 				}
 			}
 			break;
@@ -311,7 +311,7 @@ function insertProcess()
 
 			$url=Request::get('imageFromUrl');
 
-			$send['image']=File::uploadFromUrl($url);
+			$send['image']=File::uploadFromUrl($url,'uploads/files/',$send['title']);
 
 			break;
 	}

@@ -480,7 +480,7 @@ class File
     }
 
 
-    public static function upload($keyName='image',$shortPath='uploads/files/')
+    public static function upload($keyName='image',$shortPath='uploads/files/',$defaultName='')
     {
         $name=$_FILES[$keyName]['name'];
 
@@ -488,7 +488,7 @@ class File
         {
             return false;
         }
-
+        
         $shortPath.=Http::get('host').'/';
 
         $newName=String::randNumber(10);
@@ -505,9 +505,13 @@ class File
 
         $fileName=trim(String::makeFriendlyUrl($match[1]));
 
+        $fileName=isset($defaultName[1])?trim(String::makeFriendlyUrl($defaultName)):$fileName;
+
         $fileExt=$match[2];
 
         $shortPath.='/'.$fileName.'.'.$fileExt;  
+
+
 
         $fullPath=ROOT_PATH.$shortPath;
 
@@ -574,7 +578,7 @@ class File
         return $resultData;
     }
 
-    public static function uploadFromUrl($imgUrl,$shortPath='uploads/files/')
+    public static function uploadFromUrl($imgUrl,$shortPath='uploads/files/',$defaultName='')
     {
         $imgUrl=trim($imgUrl);
 
@@ -600,8 +604,9 @@ class File
 
         $fileName=trim(String::makeFriendlyUrl($match[1]));
 
-        $fileExt=$match[2];
+        $fileName=isset($defaultName[1])?trim(String::makeFriendlyUrl($defaultName)):$fileName;
 
+        $fileExt=$match[2];
 
         $shortPath.='/'.$fileName.'.'.$fileExt;
 
