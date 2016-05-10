@@ -24,68 +24,89 @@ class Render
         System::pushVar('admincp_custom_bbcode',$inputData);
     }
 
-    public static function makeSiteMap()
+    public static function makeSiteMap($inputData=array(),$renew=0)
     {
-        $loadPost=Post::get(array(
-            'cache'=>'no',
-            'limitShow'=>50,
-            'isHook'=>'no'
-            ));
-
-        $loadCat=Categories::get(array(
-            'cache'=>'no',
-            'limitShow'=>20,
-            'isHook'=>'no'
-            ));
-
-        $loadPage=Pages::get(array(
-            'cache'=>'no',
-            'limitShow'=>20,
-            'isHook'=>'no'
-            ));
 
         $result='';
 
         $li='';
 
-        if(isset($loadPost[0]['postid']))
-        {
-            $total=count($loadPost);
+        $totalInput=count($inputData);
 
-            for ($i=0; $i < $total; $i++) { 
-                $li.='
-                <url>
-                  <loc>'.$loadPost[$i]['url'].'</loc>
-                </url>
-                ';
+        if($totalInput==0)
+        {
+            $loadPost=Post::get(array(
+                'cache'=>'no',
+                'limitShow'=>60,
+                'where'=>"where status='1'",
+                'isHook'=>'no'
+                ));
+
+            $loadCat=Categories::get(array(
+                'cache'=>'no',
+                'limitShow'=>20,
+                'isHook'=>'no'
+                ));
+
+            $loadPage=Pages::get(array(
+                'cache'=>'no',
+                'limitShow'=>20,
+                'isHook'=>'no'
+                ));
+
+
+            if(isset($loadPost[0]['postid']))
+            {
+                $total=count($loadPost);
+
+                for ($i=0; $i < $total; $i++) { 
+                    $li.='
+                    <url>
+                      <loc>'.$loadPost[$i]['url'].'</loc>
+                    </url>
+                    ';
+                }
+            }
+
+            if(isset($loadCat[0]['catid']))
+            {
+                $total=count($loadCat);
+
+                for ($i=0; $i < $total; $i++) { 
+                    $li.='
+                    <url>
+                      <loc>'.$loadCat[$i]['url'].'</loc>
+                    </url>
+                    ';
+                }
+            }
+
+            if(isset($loadPage[0]['pageid']))
+            {
+                $total=count($loadPage);
+
+                for ($i=0; $i < $total; $i++) { 
+                    $li.='
+                    <url>
+                      <loc>'.$loadPage[$i]['url'].'</loc>
+                    </url>
+                    ';
+                }
             }
         }
-
-        if(isset($loadCat[0]['catid']))
+        else
         {
-            $total=count($loadCat);
+            $li=((int)$renew!=0)?'':$li;
 
-            for ($i=0; $i < $total; $i++) { 
+            for ($i=0; $i < $totalInput; $i++) { 
                 $li.='
                 <url>
-                  <loc>'.$loadCat[$i]['url'].'</loc>
+                  <loc>'.$inputData[$i]['url'].'</loc>
                 </url>
                 ';
-            }
+            }            
         }
 
-        if(isset($loadPage[0]['pageid']))
-        {
-            $total=count($loadPage);
-
-            for ($i=0; $i < $total; $i++) { 
-                $li.='
-                <url>
-                  <loc>'.$loadPage[$i]['url'].'</loc>
-                </url>
-                ';
-            }
-        }
 
         $li=String::trimLines($li);
 
