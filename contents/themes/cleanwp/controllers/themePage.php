@@ -1,83 +1,63 @@
 <?php
 
-class themePost
+class themePage
 {
 	public function index()
 	{
+		// Cache::loadPage('',30);
+
 		$pageData=array();
 
-		if(!$match=Uri::match('post\/([a-zA-Z0-9_\-]+)\.html$'))
+		$postid=0;
+
+		if(!$match=Uri::match('page\/([a-zA-Z0-9_\-]+)\.html$'))
 		{
 			Redirect::to('404page');
 		}
 
 		$friendly_url=$match[1];
 
-		$loadData=Post::get(array(
-			'isHook'=>'yes',
+		$loadData=Pages::get(array(
 			'cache'=>'no',
-			'cacheTime'=>250,
-			'query'=>"select p.*,c.title as cattitle,c.friendly_url as cat_friendly_url from ".Database::getPrefix()."post p left join ".Database::getPrefix()."categories c on p.catid=c.catid where p.friendly_url='$friendly_url' AND p.status='1'"
+			'cacheTime'=>30,
+			'isHook'=>'yes',
+			'where'=>"where friendly_url='$friendly_url'"
 			));
 
-		if(!isset($loadData[0]['postid']))
-		{
-			Redirect::to('404page');
-		}
 
-		if(isset($loadData[0]['imageUrl']))
-		{
-			System::defineVar('postImage',$loadData[0]['imageUrl'],'head');
-		}
+		$pageData=$loadData[0];
 
-		$postid=$loadData[0]['postid'];
+		$postid=$loadData[0]['pageid'];
 
-		System::setDescriptions(strip_tags(substr($loadData[0]['content'], 0,150)));
+		$descriptions=isset($loadData[0]['descriptions'][4])?$loadData[0]['descriptions']:System::getDescriptions();
 
-		$listTag=PostTags::renderToLink($postid);
-
-		$pageData['listTag']=$listTag;
-
-		$addRelate='';
-
-
-		if(isset($listTag[5]))
-		{
-			preg_match_all('/>([a-zA-Z0-9_\-\=\_\+]+)<\/a>/i', $listTag, $matches);
-		}		
-
-		$pageData['relatePost']=array();
-
-		if(isset($matches[1]))
-		{
-			$tags="'".implode("','", $matches[1])."'";
-
-			$pageData['relatePost']=Post::get(array(
-				'cache'=>'yes',
-				'cacheTime'=>530,
-				'limitShow'=>12,			
-				'isHook'=>'no',
-				'query'=>"select p.* from ".Database::getPrefix()."post p left join ".Database::getPrefix()."post_tags pt ON p.postid=pt.postid WHERE pt.title IN ($tags) AND p.postid<>'$postid' group by p.postid order by p.postid desc"
-				));			
-		}
-
-		$pageData['postData']=$loadData[0];
-
-		Post::upView($postid);
-
-		System::setTitle(ucfirst($loadData[0]['title']));
+		System::setDescriptions($descriptions);
 
 		$keywords=isset($loadData[0]['keywords'][4])?$loadData[0]['keywords']:System::getKeywords();
 
 		System::setKeywords($keywords);
 
+		System::setTitle(ucfirst($loadData[0]['title']));
+
 		Theme::view('head');
-		
-		Theme::view('post',$pageData);
-		
-		Theme::view('right');
+
+		if($loadData[0]['page_type']=='fullwidth')
+		{
+			Theme::view('pageFull',$pageData);
+		}
+		else
+		{
+			Theme::view('page',$pageData);
+			
+			Theme::view('right');			
+		}
 		
 		Theme::view('footer');
-
 	}
+
+
+
+
 }
+
+?>

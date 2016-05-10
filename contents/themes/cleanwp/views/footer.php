@@ -7,6 +7,7 @@
           <span>Copyright © 2016 <?php echo System::getVar('siteTitle');?></span>
         </div>
         <!-- left -->
+
       </div>
       <!-- row -->
     </div>

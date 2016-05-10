@@ -32,8 +32,7 @@ class themePost
 
 		$postid=$loadData[0]['postid'];
 
-		System::setDescriptions(strip_tags(substr($loadData[0]['content'], 0,150)));
-
+		
 		$listTag=PostTags::renderToLink($postid);
 
 		$pageData['listTag']=$listTag;
@@ -65,7 +64,9 @@ class themePost
 
 		Post::upView($postid);
 
-		System::setTitle(ucfirst($loadData[0]['title']));
+		System::setTitle($loadData[0]['page_title']);
+
+		System::setDescriptions($loadData[0]['descriptions']);
 
 		$keywords=isset($loadData[0]['keywords'][4])?$loadData[0]['keywords']:System::getKeywords();
 

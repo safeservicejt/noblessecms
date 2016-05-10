@@ -9,12 +9,6 @@
             $li='';
 
             for ($i=0; $i < $total; $i++) { 
-
-              if(!isset($listPost[$i]['imageUrl']))
-              {
-                continue;
-              }
-
               $li.='
              
               <!-- row -->

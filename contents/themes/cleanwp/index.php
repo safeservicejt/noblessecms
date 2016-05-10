@@ -42,6 +42,7 @@ Theme::settingUri(array(
 	'page'=>'home@index',
 	'search'=>'search@index',
 	'post'=>'post@index',
+	'page'=>'page@index',
 	'tag'=>'tag@index',
 	'404page'=>'404page@index',
 	'category'=>'category@index'

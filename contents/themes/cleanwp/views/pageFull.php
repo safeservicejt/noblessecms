@@ -1,5 +1,5 @@
         <!-- left -->
-        <div class="col-lg-8 col-md-8 col-sm-8 ">
+        <div class="col-lg-12 ">
           <!-- row -->
           <div class="row item">
             <div class="col-lg-12 col-item-details">

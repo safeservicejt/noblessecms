@@ -65,6 +65,14 @@ class themeCategory
 
 		System::setTitle($catData[0]['title']);
 
+		$descriptions=isset($catData[0]['descriptions'][4])?$catData[0]['descriptions']:System::getDescriptions();
+
+		System::setDescriptions($descriptions);
+
+		$keywords=isset($catData[0]['keywords'][4])?$catData[0]['keywords']:System::getKeywords();
+
+		System::setKeywords($keywords);
+
 		Theme::view('head');
 		
 		Theme::view('category',$pageData);
