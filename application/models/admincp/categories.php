@@ -33,6 +33,8 @@ function actionProcess()
 
 			// Database::query("delete p,pt from ".Database::getPrefix()."post p left join ".Database::getPrefix()."post_tags pt on p.postid=pt.postid where p.catid IN ($listID)");
 
+			Render::makeSiteMap();
+
 			break;
 
 		case 'deleteallpost':
@@ -49,6 +51,8 @@ function actionProcess()
 			}
 
 			// Database::query("delete p,pt from ".Database::getPrefix()."post p left join ".Database::getPrefix()."post_tags pt on p.postid=pt.postid where p.catid IN ($listID)");
+
+			Render::makeSiteMap();
 
 			break;
 
@@ -68,7 +72,7 @@ function actionProcess()
 
 			Categories::remove(0,"catid IN ($listID)");
 
-
+			Render::makeSiteMap();
 			break;
 		
 	}
@@ -115,9 +119,11 @@ function updateProcess($id)
 
 	Categories::update($id,$update);
 
-	// Categories::update($id,array(
-	// 	'friendly_url'=>$loadData[0]['catid'].'-'.$loadData[0]['friendly_url']
-	// 	));	
+	Categories::update(array($id),array(
+		'friendly_url'=>String::makeFriendlyUrl(strip_tags($update['title'])).'-'.$id
+		));
+
+	Render::makeSiteMap();
 }
 
 function insertProcess()
@@ -157,9 +163,10 @@ function insertProcess()
 		if(isset($loadData[0]['catid']))
 		{
 			Categories::update(array($id),array(
-				'friendly_url'=>$loadData[0]['catid'].'-'.$loadData[0]['friendly_url']
+				'friendly_url'=>$loadData[0]['friendly_url'].'-'.$loadData[0]['catid']
 				));
 		}
 	}
-
+	
+	Render::makeSiteMap();
 }

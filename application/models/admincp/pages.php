@@ -27,17 +27,23 @@ function actionProcess()
 
 			Pages::remove($id);
 
+			Render::makeSiteMap();
+
 			break;
 		case 'publish':
 
 			Pages::update($id,array(
 				'status'=>1
 				));
+
+			Render::makeSiteMap();
 			break;
 		case 'unfeatured':
 			Pages::update($id,array(
 				'is_featured'=>0
 				));
+
+			Render::makeSiteMap();
 			break;
 		case 'allowcomment':
 			Pages::update($id,array(
@@ -147,7 +153,7 @@ function updateProcess($id)
 		'friendly_url'=>String::makeFriendlyUrl(strip_tags($send['title'])).'-'.$id
 		));	
 		
-	
+	Render::makeSiteMap();	
 }
 
 function insertProcess()
@@ -210,5 +216,5 @@ function insertProcess()
 		'friendly_url'=>String::makeFriendlyUrl(strip_tags($send['title'])).'-'.$id
 		));	
 
-
+	Render::makeSiteMap();
 }

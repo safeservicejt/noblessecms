@@ -35,6 +35,8 @@ function actionProcess()
 
 			Database::query("delete pt from ".Database::getPrefix()."post_tags pt left join ".Database::getPrefix()."post p on pt.postid=p.postid WHERE p.postid IN ($listID) $addWhere2");
 
+			Render::makeSiteMap();			
+
 			break;
 
 		case 'deleteall':
@@ -57,6 +59,8 @@ function actionProcess()
 
 			Post::remove(0,$addWhere);
 
+			Render::makeSiteMap();
+
 			break;
 
 		case 'release':
@@ -70,12 +74,17 @@ function actionProcess()
 			Post::update($id,array(
 				'status'=>1
 				));
+
+			Render::makeSiteMap();
+
 			break;
 
 		case 'unpublish':
 			Post::update($id,array(
 				'status'=>0
 				));
+
+			Render::makeSiteMap();
 			break;
 
 		case 'featured':
@@ -263,7 +272,9 @@ function updateProcess($id)
 
 	Post::update($id,array(
 		'friendly_url'=>String::makeFriendlyUrl(strip_tags($send['title'])).'-'.$id
-		));		
+		));	
+
+	Render::makeSiteMap();	
 }
 
 function insertProcess()
@@ -380,4 +391,6 @@ function insertProcess()
 		));	
 
 	Post::updateData($id);
+
+	Render::makeSiteMap();
 }

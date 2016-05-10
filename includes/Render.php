@@ -24,6 +24,91 @@ class Render
         System::pushVar('admincp_custom_bbcode',$inputData);
     }
 
+    public static function makeSiteMap()
+    {
+        $loadPost=Post::get(array(
+            'cache'=>'no',
+            'limitShow'=>50,
+            'isHook'=>'no'
+            ));
+
+        $loadCat=Categories::get(array(
+            'cache'=>'no',
+            'limitShow'=>20,
+            'isHook'=>'no'
+            ));
+
+        $loadPage=Pages::get(array(
+            'cache'=>'no',
+            'limitShow'=>20,
+            'isHook'=>'no'
+            ));
+
+        $result='';
+
+        $li='';
+
+        if(isset($loadPost[0]['postid']))
+        {
+            $total=count($loadPost);
+
+            for ($i=0; $i < $total; $i++) { 
+                $li.='
+                <url>
+                  <loc>'.$loadPost[$i]['url'].'</loc>
+                </url>
+                ';
+            }
+        }
+
+        if(isset($loadCat[0]['catid']))
+        {
+            $total=count($loadCat);
+
+            for ($i=0; $i < $total; $i++) { 
+                $li.='
+                <url>
+                  <loc>'.$loadCat[$i]['url'].'</loc>
+                </url>
+                ';
+            }
+        }
+
+        if(isset($loadPage[0]['pageid']))
+        {
+            $total=count($loadPage);
+
+            for ($i=0; $i < $total; $i++) { 
+                $li.='
+                <url>
+                  <loc>'.$loadPage[$i]['url'].'</loc>
+                </url>
+                ';
+            }
+        }
+
+        $li=String::trimLines($li);
+
+$result='
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<url>
+  <loc>'.System::getUrl().'</loc>
+</url>
+
+'.$li.'
+
+</urlset>
+
+';
+
+        File::create(ROOT_PATH.'sitemap.xml',trim($result),'w');
+    }
+
     public static function renderBBCodeHtml()
     {
         $result='';
