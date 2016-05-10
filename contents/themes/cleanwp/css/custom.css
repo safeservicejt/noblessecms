@@ -30,6 +30,7 @@ body
 	background-color: #ffffff;
 }
 
+.site-title,
 .site-title h1
 {
 	margin: 0px;
@@ -38,6 +39,7 @@ body
 	margin-bottom: 30px;
 	font-weight: bold;
 	text-transform: uppercase;
+	font-size: 32px;
 }
 
 .site-title:hover
@@ -59,6 +61,7 @@ body
 	margin-right: 15px;
 }
 
+.row-menu ul li a,
 .row-menu ul li a h2
 {
 	margin: 0px;
@@ -119,6 +122,8 @@ body
 {
 	margin-bottom: 30px;
 }
+.col-item-details .head-title a h1,
+.col-item-details .head-title a h2,
 .col-item-details .head-title a h3
 {
 	margin: 0px;
@@ -128,6 +133,8 @@ body
 	font-size: 22px;
 }
 
+.col-item-details .head-title a h1:hover,
+.col-item-details .head-title a h2:hover,
 .col-item-details .head-title a h3:hover
 {
 	text-decoration: none;

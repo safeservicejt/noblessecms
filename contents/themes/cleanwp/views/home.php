@@ -1,5 +1,5 @@
         <!-- left -->
-        <div class="col-lg-8 col-md-8 col-sm-8 ">
+        <div class="col-lg-8 col-md-8 col-sm-8 ">      
           <?php
 
           if(isset($listPost[0]['postid']))
@@ -14,7 +14,7 @@
               <!-- row -->
               <div class="row item">
                 <div class="col-lg-12 col-item-details">
-                  <div class="head-title"><a href="'.$listPost[$i]['url'].'" title="'.$listPost[$i]['title'].'"><h3>'.$listPost[$i]['title'].'</h3></a></div>
+                  <div class="head-title"><a href="'.$listPost[$i]['url'].'" title="'.$listPost[$i]['title'].'"><h2>'.$listPost[$i]['title'].'</h2></a></div>
                   <div class="details">
                   <span class="sub"><span class="glyphicon glyphicon-calendar"></span> '.date('d M, Y',strtotime($listPost[$i]['date_added'])).'</span>
                   <span class="sub"><span class="glyphicon glyphicon-thumbs-up"></span> '.number_format($listPost[$i]['views']).'</span>

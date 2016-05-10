@@ -10,6 +10,21 @@
     <meta name="author" content="Safeservicejt">
     <meta name="url" id="root_url" content="<?php echo System::getUrl();?>">
 
+    <meta name="copyright" content="Noblesse CMS" />
+    <meta name="robots" content="index,follow" />
+    <meta http-equiv="content-language" content="en"/>
+    <meta name="revisit-after" content="30 days">
+    <meta name="dc.description" content="<?php echo System::getDescriptions();?>">
+    <meta name="dc.keywords" content="<?php echo System::getKeywords();?>">
+    <meta name="dc.subject" content="<?php echo System::getTitle();?>">
+    <meta name="dc.created" content="2016-05-10">
+    <meta name="dc.publisher" content="Content Manager System NoblesseCMS">
+    <meta name="dc.rights.copyright" content="Noblesse CMS">
+    <meta name="dc.creator.name" content="Noblesse CMS">
+    <meta name="dc.creator.email" content="freshcodeteam@gmail.com">
+    <meta name="dc.identifier" content="<?php echo System::getUrl();?>">
+    <meta name="dc.language" content="en-US">
+
   <meta property="fb:app_id" content="<?php if(isset($themeSetting['facebook_app_id']))echo $themeSetting['facebook_app_id'];?>" />
 
   <meta property="og:type" content='article' />
@@ -58,7 +73,7 @@
       <!-- row -->
       <div class="row">
         <div class="col-lg-12 text-center">
-          <a href="<?php echo System::getUrl();?>" class="site-title"><h1><?php echo System::getVar('siteTitle');?></h1></a>
+          <a href="<?php echo System::getUrl();?>" rel="nofollow" class="site-title"><?php echo System::getVar('siteTitle');?></a>
         </div>
       </div>
       <!-- row -->
@@ -75,7 +90,7 @@
             if(isset($linkList[0]['id']))
             {
               for ($i=0; $i < $total; $i++) { 
-                $li.='<li><a href="'.$linkList[$i]['urlFormat'].'"><h2>'.$linkList[$i]['title'].'</h2></a></li>';
+                $li.='<li><a rel="nofollow" href="'.$linkList[$i]['urlFormat'].'">'.$linkList[$i]['title'].'</a></li>';
               }
             }
 

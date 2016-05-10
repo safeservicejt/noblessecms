@@ -34,7 +34,7 @@
                     }
 
                     $li.='
-                    <li><a href="'.$suggestPost[$i]['url'].'"><h4>'.$suggestPost[$i]['title'].'</h4></a></li>
+                    <li><a href="'.$suggestPost[$i]['url'].'"><h2>'.$suggestPost[$i]['title'].'</h2></a></li>
                     ';
                   }
 
