@@ -14,19 +14,22 @@
         <?php echo $alert;?>
         <?php echo System::getVar('page_edit_top_left');?>        
             <p>
-                <label><strong>Title</strong></label>
+                <label><strong>Title</strong> (<span class="system_count_char" data-target=".page-title">0</span> characters)</label>
                 <input type="text" class="form-control page-title input-size-medium" name="send[title]" value="<?php echo $edit['title'];?>" placeholder="Title" />
             </p>
-            <p>
-                <label><strong>Friendly Url</strong></label>
-                <input type="text" class="form-control input-size-medium" name="send[friendly_url]" value="<?php echo $edit['friendly_url'];?>" placeholder="Friendly Url" />
-            </p>
- 
             <p>
                 <label><strong>Content</strong></label>
                 <?php echo Render::renderBBCodeHtml();?>
                 <textarea id="editor" rows="15" name="send[content]" class="form-control page-content ckeditor"><?php echo $edit['content'];?></textarea>
             </p>
+            <p>
+                <label><strong>Page Title</strong> (<span class="system_count_char" data-target=".page-page-title">0</span> characters)</label>
+                <input type="text" class="form-control page-page-title input-size-medium" name="send[page_title]" value="<?php echo $edit['page_title'];?>" placeholder="Page Title" />
+            </p>
+            <p>
+                <label><strong>Descriptions</strong> (<span class="system_count_char" data-target=".page-descriptions">0</span> characters)</label>
+                <input type="text" class="form-control page-descriptions input-size-medium" value="<?php echo $edit['descriptions'];?>" name="send[descriptions]" placeholder="Descriptions" />
+            </p>            
             <p>
                 <label><strong>Keywords</strong></label>
                 <input type="text" class="form-control page-keywords input-size-medium" name="send[keywords]" value="<?php echo $edit['keywords'];?>" placeholder="Keywords" />

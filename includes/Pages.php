@@ -22,7 +22,7 @@ class Pages
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="pageid,title,content,image,keywords,page_type,friendly_url,date_added,allowcomment,views,status".$moreFields;
+		$field="pageid,title,content,image,keywords,descriptions,page_title,page_type,friendly_url,date_added,allowcomment,views,status".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
@@ -85,9 +85,17 @@ class Pages
 				{
 					$row['title']=String::decode($row['title']);
 				}
+				if(isset($row['page_title']))
+				{
+					$row['page_title']=String::decode($row['page_title']);
+				}
 				if(isset($row['keywords']))
 				{
 					$row['keywords']=String::decode($row['keywords']);
+				}
+				if(isset($row['descriptions']))
+				{
+					$row['descriptions']=String::decode($row['descriptions']);
 				}
 				
 				if(isset($row['content']))
@@ -204,7 +212,21 @@ class Pages
 				{
 					$theRow['keywords']=String::encode(strip_tags($theRow['keywords']));
 				}
+
+				if(isset($theRow['descriptions']))
+				{
+					$theRow['descriptions']=String::encode(strip_tags($theRow['descriptions']));
+				}
 				
+				if(isset($theRow['page_title']))
+				{
+					$theRow['page_title']=String::encode(strip_tags($theRow['page_title']));
+				}
+				else
+				{
+					$theRow['page_title']=$theRow['title'];
+				}
+
 				$keyNames=array_keys($theRow);
 
 				$insertKeys=implode(',', $keyNames);
@@ -247,6 +269,15 @@ class Pages
 			if(isset($inputData['keywords']))
 			{
 				$inputData['keywords']=String::encode(strip_tags($inputData['keywords']));
+			}
+
+			if(isset($inputData['page_title']))
+			{
+				$inputData['page_title']=String::encode(strip_tags($inputData['page_title']));
+			}
+			else
+			{
+				$inputData['page_title']=$inputData['title'];
 			}
 
 			$keyNames=array_keys($inputData);
@@ -354,7 +385,21 @@ class Pages
 
 		}
 		
-				
+		if(isset($post['descriptions']))
+		{
+			$post['descriptions']=String::encode($post['descriptions']);
+		}
+	
+		if(isset($post['keywords']))
+		{
+			$post['keywords']=String::encode($post['keywords']);
+		}
+	
+		if(isset($post['page_title']))
+		{
+			$post['page_title']=String::encode($post['page_title']);
+		}
+						
 		$keyNames=array_keys($post);
 
 		$total=count($post);

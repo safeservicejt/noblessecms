@@ -30,7 +30,7 @@ class Post
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="postid,title,catid,userid,parentid,image,sort_order,date_added,views,content,type,keywords,friendly_url,is_featured,date_featured,expires_date,rating,allowcomment,status,tag_url,category_url,author_url,comments".$moreFields;
+		$field="postid,descriptions,title,page_title,catid,userid,parentid,image,sort_order,date_added,views,content,type,keywords,friendly_url,is_featured,date_featured,expires_date,rating,allowcomment,status,tag_url,category_url,author_url,comments".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
@@ -93,6 +93,17 @@ class Post
 				{
 					$row['title']=String::decode($row['title']);
 				}
+
+				if(isset($row['descriptions']))
+				{
+					$row['descriptions']=String::decode($row['descriptions']);
+				}
+
+				if(isset($row['page_title']))
+				{
+					$row['page_title']=String::decode($row['page_title']);
+				}
+
 				if(isset($row['keywords']))
 				{
 					$row['keywords']=String::decode($row['keywords']);
@@ -355,35 +366,6 @@ class Post
 		Database::query("update ".Database::getPrefix()."post set views=views-1 where postid='$postid'");
 	}
 
-	public static function getList($inputData=array())
-	{
-		$loadData=self::get($inputData);
-
-		if(isset($loadData[0]['postid']))
-		{
-			$total=count($loadData);
-
-			$maxShow=isset($inputData['maxShow'])?$inputData['maxShow']:0;
-
-			if((int)$maxShow < (int)$total)
-			{
-				$total=$maxShow;
-			}
-
-			for ($i=0; $i < $total; $i++) { 
-
-				if(!isset($loadData[$i]))
-				{
-					break;
-				}
-
-				$loadData[$i]['tags']=PostTags::renderToLink($loadData[$i]['postid']);
-			}
-		}
-
-		return $loadData;
-	}
-
 	public static function cachePath()
 	{
 		$result=ROOT_PATH.'application/caches/dbcache/system/post/';
@@ -440,6 +422,20 @@ class Post
 				{
 					$theRow['keywords']=String::encode(strip_tags($theRow['keywords']));
 				}
+				
+				if(isset($theRow['page_title']))
+				{
+					$theRow['page_title']=String::encode(strip_tags($theRow['page_title']));
+				}
+				else
+				{
+					$theRow['page_title']=$theRow['title'];
+				}
+				
+				if(isset($theRow['descriptions']))
+				{
+					$theRow['descriptions']=String::encode(strip_tags($theRow['descriptions']));
+				}
 
 				$keyNames=array_keys($theRow);
 
@@ -484,6 +480,20 @@ class Post
 			if(isset($inputData['keywords']))
 			{
 				$inputData['keywords']=String::encode(strip_tags($inputData['keywords']));
+			}
+
+			if(isset($inputData['page_title']))
+			{
+				$inputData['page_title']=String::encode(strip_tags($inputData['page_title']));
+			}
+			else
+			{
+				$inputData['page_title']=$inputData['title'];
+			}
+
+			if(isset($inputData['descriptions']))
+			{
+				$inputData['descriptions']=String::encode(strip_tags($inputData['descriptions']));
 			}
 
 			$keyNames=array_keys($inputData);
@@ -626,6 +636,21 @@ class Post
 		if(isset($post['content']))
 		{
 			$post['content']=String::encode($post['content']);
+		}
+
+		if(isset($post['descriptions']))
+		{
+			$post['descriptions']=String::encode($post['descriptions']);
+		}
+	
+		if(isset($post['keywords']))
+		{
+			$post['keywords']=String::encode($post['keywords']);
+		}
+	
+		if(isset($post['page_title']))
+		{
+			$post['page_title']=String::encode($post['page_title']);
 		}
 	
 				

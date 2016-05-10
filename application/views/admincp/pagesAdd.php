@@ -15,7 +15,7 @@
 
         <div class="page_addnew_top_left"><?php echo System::getVar('page_addnew_top_left');?></div>
             <p>
-                <label><strong>Title</strong></label>
+                <label><strong>Title</strong> (<span class="system_count_char" data-target=".page-title">0</span> characters)</label>
                 <input type="text" class="form-control page-title input-size-medium" name="send[title]" placeholder="Title" />
             </p>
  
@@ -25,7 +25,15 @@
                 <textarea id="editor" rows="15" name="send[content]" class="form-control page-content ckeditor"></textarea>
             </p>
             <p>
-                <label><strong>Keywords</strong></label>
+                <label><strong>Page Title</strong> (<span class="system_count_char" data-target=".page-page-title">0</span> characters)</label>
+                <input type="text" class="form-control page-page-title input-size-medium" name="send[page_title]" placeholder="Page Title" />
+            </p>
+            <p>
+                <label><strong>Descriptions</strong> (<span class="system_count_char" data-target=".page-descriptions">0</span> characters)</label>
+                <input type="text" class="form-control page-descriptions input-size-medium" name="send[descriptions]" placeholder="Descriptions" />
+            </p>
+            <p>
+                <label><strong>Keywords</strong> (<span class="system_count_char" data-target=".page-keywords">0</span> characters)</label>
                 <input type="text" class="form-control page-keywords input-size-medium" name="send[keywords]" placeholder="Keywords" />
             </p>
         <div class="page_addnew_bottom_left"><?php echo System::getVar('page_addnew_bottom_left');?> </div>         

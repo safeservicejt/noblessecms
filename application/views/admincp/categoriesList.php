@@ -130,7 +130,14 @@
                     <label><strong>Thumbnail</strong></label>
                     <input type="file" class="form-control" name="image" />
                 </p>     
-
+                <p>
+                    <label><strong>Descriptions</strong> (<span class="system_count_char" data-target=".post-descriptions">0</span> characters)</label>
+                    <input type="text" class="form-control post-descriptions input-size-medium" name="send[descriptions]" placeholder="Descriptions" />
+                </p> 
+                <p>
+                    <label><strong>Keywords</strong> (<span class="system_count_char" data-target=".post-keywords">0</span> characters)</label>
+                    <input type="text" class="form-control post-keywords input-size-medium" name="send[keywords]" placeholder="Keywords" />
+                </p> 
 	    		<p>
 	    			<button type="submit" class="btn btn-primary" name="btnAdd">Add new</button>
 	    		</p>   	
@@ -189,7 +196,15 @@
                 <p>
                     <label><strong>Sort Order</strong></label>
                     <input type="text" class="form-control input-size-medium" name="send[sort_order]" value="<?php if(isset($edit['sort_order']))echo $edit['sort_order'];?>" placeholder="Sort order" id="txtOrder" />
-                </p>                         
+                </p>   
+                 <p>
+                    <label><strong>Descriptions</strong> (<span class="system_count_char" data-target=".post-descriptions">0</span> characters)</label>
+                    <input type="text" class="form-control post-descriptions input-size-medium" name="send[descriptions]" placeholder="Descriptions" value="<?php if(isset($edit['descriptions']))echo $edit['descriptions'];?>" />
+                </p> 
+                <p>
+                    <label><strong>Keywords</strong> (<span class="system_count_char" data-target=".post-keywords">0</span> characters)</label>
+                    <input type="text" class="form-control post-keywords input-size-medium" name="send[keywords]" placeholder="Keywords" value="<?php if(isset($edit['keywords']))echo $edit['keywords'];?>" />
+                </p>                                       
                 <p>
                     <label><strong>Thumbnail</strong></label>
                     <input type="file" class="form-control" name="image" />

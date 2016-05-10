@@ -22,7 +22,7 @@ class Categories
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="catid,title,friendly_url,parentid,image,sort_order,date_added,status".$moreFields;
+		$field="catid,descriptions,page_title,keywords,title,friendly_url,parentid,image,sort_order,date_added,status".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
@@ -82,6 +82,18 @@ class Categories
 				if(isset($row['title']))
 				{
 					$row['title']=String::decode($row['title']);
+				}
+				if(isset($row['page_title']))
+				{
+					$row['page_title']=String::decode($row['page_title']);
+				}
+				if(isset($row['keywords']))
+				{
+					$row['keywords']=String::decode($row['keywords']);
+				}
+				if(isset($row['descriptions']))
+				{
+					$row['descriptions']=String::decode($row['descriptions']);
 				}
 				
 				if(isset($row['friendly_url']))
@@ -224,6 +236,22 @@ class Categories
 				if(isset($theRow['title']))
 				$theRow['title']=String::encode(strip_tags($theRow['title']));
 
+				if(isset($theRow['page_title']))
+				{
+					$theRow['page_title']=String::encode(strip_tags($theRow['page_title']));
+				}
+				else
+				{
+					$theRow['page_title']=$theRow['title'];
+				}
+				
+
+				if(isset($theRow['keywords']))
+				$theRow['keywords']=String::encode(strip_tags($theRow['keywords']));
+
+				if(isset($theRow['descriptions']))
+				$theRow['descriptions']=String::encode(strip_tags($theRow['descriptions']));
+
 				$keyNames=array_keys($theRow);
 
 				$insertKeys=implode(',', $keyNames);
@@ -249,6 +277,21 @@ class Categories
 
 			if(isset($inputData['title']))
 			$inputData['title']=String::encode(strip_tags($inputData['title']));
+
+			if(isset($inputData['page_title']))
+			{
+				$inputData['page_title']=String::encode(strip_tags($inputData['page_title']));
+			}
+			else
+			{
+				$inputData['page_title']=$inputData['title'];
+			}
+
+			if(isset($inputData['keywords']))
+			$inputData['keywords']=String::encode(strip_tags($inputData['keywords']));
+
+			if(isset($inputData['descriptions']))
+			$inputData['descriptions']=String::encode(strip_tags($inputData['descriptions']));
 
 			$keyNames=array_keys($inputData);
 
@@ -343,6 +386,21 @@ class Categories
 
 		}
 
+		if(isset($post['descriptions']))
+		{
+			$post['descriptions']=String::encode($post['descriptions']);
+		}
+	
+		if(isset($post['keywords']))
+		{
+			$post['keywords']=String::encode($post['keywords']);
+		}
+	
+		if(isset($post['page_title']))
+		{
+			$post['page_title']=String::encode($post['page_title']);
+		}
+		
 		Plugins::load('before_category_update',$listID);
 
 		$listIDs="'".implode("','",$listID)."'";		

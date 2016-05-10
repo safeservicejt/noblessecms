@@ -142,6 +142,11 @@ function updateProcess($id)
 	{
 		throw new Exception("Error. ".Database::$error);
 	}
+
+	Pages::update($id,array(
+		'friendly_url'=>String::makeFriendlyUrl(strip_tags($send['title'])).'-'.$id
+		));	
+		
 	
 }
 
@@ -200,5 +205,10 @@ function insertProcess()
 	{
 		throw new Exception("Error. ".Database::$error);
 	}
+
+	Pages::update($id,array(
+		'friendly_url'=>String::makeFriendlyUrl(strip_tags($send['title'])).'-'.$id
+		));	
+
 
 }

@@ -18,18 +18,27 @@
         <div class="post_addnew_top_left"><?php echo System::getVar('post_addnew_top_left');?></div>
 
             <p>
-                <label><strong>Title</strong></label>
+                <label><strong>Title</strong> (<span class="system_count_char" data-target=".post-title">0</span> characters)</label>
                 <input type="text" class="form-control post-title input-size-medium" name="send[title]" placeholder="Title" />
             </p>
  
             <p>
-                <label><strong>Content</strong></label>
+                <label><strong>Content</strong> </label>
                 <?php echo Render::renderBBCodeHtml();?>
                 
                 <textarea id="editor" rows="15" name="send[content]" class="form-control post-content ckeditor"></textarea>
             </p>
             <p>
-                <label><strong>Keywords</strong></label>
+                <label><strong>Page Title</strong> (<span class="system_count_char" data-target=".post-page-title">0</span> characters)</label>
+                <input type="text" class="form-control post-page-title input-size-medium" name="send[page_title]" placeholder="Page Title" />
+            </p>
+
+            <p>
+                <label><strong>Descriptions</strong> (<span class="system_count_char" data-target=".post-descriptions">0</span> characters)</label>
+                <input type="text" class="form-control post-descriptions input-size-medium" name="send[descriptions]" placeholder="Descriptions" />
+            </p> 
+            <p>
+                <label><strong>Keywords</strong> (<span class="system_count_char" data-target=".post-keywords">0</span> characters)</label>
                 <input type="text" class="form-control post-keywords input-size-medium" name="send[keywords]" placeholder="Keywords" />
             </p> 
             <p>
@@ -159,6 +168,7 @@ CKEDITOR.replace( 'editor' ,{
   <script type="text/javascript">
   var root_url='<?php echo System::getUrl();?>';
 
+
   $(document).ready(function(){
       $('#uploadMethod').change(function(){
           var option=$(this).children('option:selected');
@@ -172,6 +182,8 @@ CKEDITOR.replace( 'editor' ,{
 
 
   });
+
+
     
   </script>
 

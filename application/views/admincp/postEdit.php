@@ -17,23 +17,27 @@
         <div class="post_edit_top_left"><?php echo System::getVar('post_edit_top_left');?></div>
 
             <p>
-                <label><strong>Title</strong></label>
+                <label><strong>Title</strong> (<span class="system_count_char" data-target=".post-title">0</span> characters)</label>
                 <input type="text" class="form-control post-title" name="send[title]" value="<?php echo $edit['title'];?>" placeholder="Title" />
             </p>
-            <p>
-                <label><strong>Friendly Url</strong></label>
-                <input type="text" class="form-control" name="send[friendly_url]" value="<?php echo $edit['friendly_url'];?>" placeholder="Friendly Url" />
-            </p>
- 
             <p>
                 <label><strong>Content</strong></label>
                 <?php echo Render::renderBBCodeHtml();?>
                 <textarea id="editor" rows="15" name="send[content]" class="form-control post-content ckeditor"><?php echo $edit['content'];?></textarea>
             </p>
             <p>
-                <label><strong>Keywords</strong></label>
+                <label><strong>Page Title</strong> (<span class="system_count_char" data-target=".post-page-title">0</span> characters)</label>
+                <input type="text" class="form-control post-page-title" name="send[page_title]" value="<?php echo $edit['page_title'];?>" placeholder="Page Title" />
+            </p>            
+            <p>
+                <label><strong>Descriptions</strong> (<span class="system_count_char" data-target=".post-descriptions">0</span> characters)</label>
+                <input type="text" class="form-control post-descriptions" name="send[descriptions]" value="<?php echo $edit['descriptions'];?>" placeholder="Descriptions" />
+            </p>
+            <p>
+                <label><strong>Keywords</strong> (<span class="system_count_char" data-target=".post-keywords">0</span> characters)</label>
                 <input type="text" class="form-control post-keywords" name="send[keywords]" value="<?php echo $edit['keywords'];?>" placeholder="Keywords" />
-            </p> 
+            </p>
+             
             <p>
                 <label><strong>Tags (separate by commas)</strong></label>
                 <input type="text" class="form-control post-tags" name="tags" value="<?php echo $tags;?>" placeholder="Tags" />
