@@ -104,6 +104,8 @@
   // Replace the <textarea id="editor1"> with a CKEditor
   // instance, using default configuration.
 CKEDITOR.replace( 'editor' ,{
+  extraPlugins: 'wordcount,notification,texttransform,justify',
+
   filebrowserBrowseUrl : '<?php echo System::getUrl();?>bootstrap/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
   filebrowserImageBrowseUrl : '<?php echo System::getUrl();?>bootstrap/ckeditor/filemanager/dialog.php?type=1&editor=ckeditor&fldr='
 });   
