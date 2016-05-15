@@ -521,7 +521,7 @@ class File
     }
 
     
-    public static function uploadMultiple($keyName='image',$shortPath='uploads/files/')
+    public static function uploadMultiple($keyName='image',$shortPath='uploads/files/',$defaultName='')
     {
         $name=$_FILES[$keyName]['name'][0];
 
@@ -564,9 +564,11 @@ class File
 
             $fileName=trim(String::makeFriendlyUrl($match[1]));
 
+            $fileName=isset($defaultName[1])?trim(String::makeFriendlyUrl($defaultName)):$fileName;
+
             $fileExt=$match[2];        
 
-            $tmpShortPath.='/'.$fileName.'.'.$fileExt;      
+            $tmpShortPath.='/'.$fileName.'_'.$i.'.'.$fileExt;      
 
             $resultData[$i]=$tmpShortPath;
 
