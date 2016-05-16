@@ -135,6 +135,8 @@ class System
 		else
 		{
 			$result=isset(self::$listVar[$layout][$keyName])?self::$listVar[$layout][$keyName]:false;
+
+			$result=is_array(self::$listVar[$layout][$keyName])?implode("\r\n", self::$listVar[$layout][$keyName]):self::$listVar[$layout][$keyName];
 		}
 
 		// $result=is_array($result)?implode('', $result):$result;

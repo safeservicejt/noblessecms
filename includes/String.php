@@ -266,7 +266,7 @@ class String
 
     public static function spinText($inputData='')
     {
-        if(preg_match_all('/(\{([a-zA-Z0-9_\-\|\;\:\,\(\)\.\/\?\&\_\s\^\!\@\#\$\%\*\=\+\<\>]+)\})/i', $inputData,$match))
+        if(preg_match_all('/(\{([a-zA-Z0-9_\-\|\;\:\,\(\)\.\'\"\r\n\_\/\?\&\_\s\^\!\@\#\$\%\*\=\+\<\>\[\]]+)\})/is', $inputData,$match))
         {
             $total=count($match[1]);
 
