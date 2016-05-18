@@ -25,7 +25,7 @@ class Url
 
 	public static function tag($inputData)
 	{
-		$url=System::getUrl().'tag/'.trim($inputData['title']);
+		$url=System::getUrl().'tag/'.$inputData['friendly_url'];
 
 		return $url;
 	}

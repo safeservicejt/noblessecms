@@ -20,7 +20,7 @@ class PostTags
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="tagid,title,postid";
+		$field="tagid,title,friendly_url,postid";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
@@ -79,6 +79,7 @@ class PostTags
 				{
 					$row['title']=String::decode($row['title']);
 				}
+
 				if(isset($row['title']))
 				{
 					$row['url']=self::url($row);
@@ -176,8 +177,16 @@ class PostTags
 		    foreach ($inputData as $theRow) {
 
 
-				if(isset($theRow['title']))
-				$theRow['title']=strtolower(trim(String::makeFriendlyUrl(strip_tags($theRow['title']))));
+				$postTitle=isset($theRow['addTitle'])?$theRow['addTitle']:$theRow['title'];
+
+				if(!isset($theRow['friendly_url']))
+				{
+					$theRow['friendly_url']=trim(String::makeFriendlyUrl(strip_tags($postTitle)));
+
+				}
+
+				
+				$theRow['title']=String::encode(strip_tags($theRow['title']));
 
 				$keyNames=array_keys($theRow);
 
@@ -195,13 +204,21 @@ class PostTags
 		}
 		else
 		{
-			if(isset($inputData['title']))
-			$inputData['title']=strtolower(trim(String::makeFriendlyUrl(strip_tags($inputData['title']))));
-
-			if(isset($inputData['title']) && strlen($inputData['title'])==0)
+			if(!isset($inputData['title']) || $inputData['title']=='')
 			{
 				return false;
 			}
+
+			$postTitle=isset($inputData['addTitle'])?$inputData['addTitle']:$inputData['title'];
+
+			if(!isset($inputData['friendly_url']))
+			{
+				$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($postTitle));
+
+			}
+			
+			$inputData['title']=String::encode(strip_tags($inputData['title']));
+
 
 			$keyNames=array_keys($inputData);
 
