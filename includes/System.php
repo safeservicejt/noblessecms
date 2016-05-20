@@ -228,10 +228,13 @@ class System
 		CustomPlugins::loadCache();
 
 		self::defaultPageUri();
-		
-		Database::connect();
 
-		CustomPlugins::load('after_load_database');
+		if(!isset(self::$setting['database_off']))
+		{
+			Database::connect();
+
+			CustomPlugins::load('after_load_database');
+		}
 
 		CustomPlugins::load('before_system_start');
 
