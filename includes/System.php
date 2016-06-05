@@ -734,7 +734,7 @@ class System
 				return false;
 			}
 
-			$data[$keyName]=$keyValue;			
+			self::$setting[$keyName]=$keyValue;			
 		}
 
 
