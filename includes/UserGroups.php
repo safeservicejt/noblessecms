@@ -219,7 +219,6 @@ class UserGroups
 		}
 	}	
 
-
 	public static function loadGroup($groupid)
 	{
 
@@ -585,6 +584,8 @@ class UserGroups
 		else
 		{
 			$groupData=self::$groupData['groupdata'];
+
+			self::$groupData['groupid']=isset(self::$groupData['groupid'])?self::$groupData['groupid']:0;
 
 			if((int)$groupid!=(int)self::$groupData['groupid'])
 			{

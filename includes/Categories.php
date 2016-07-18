@@ -209,8 +209,33 @@ class Categories
 		return $result;
 	}
 
-	public static function saveCache()
+	public static function saveCache($id)
 	{
+		$loadData=self::get(array(
+			'where'=>"where catid='$id'"
+			));
+
+		if(isset($loadData[0]['catid']))
+		{
+			$savePath=ROOT_PATH.'application/caches/fastcache/category/'.$loadData[0]['friendly_url'].'.cache';
+
+			File::create($savePath,serialize($loadData));			
+		}
+
+	}
+
+	public static function loadCache($friendly_url='')
+	{
+		$savePath=ROOT_PATH.'application/caches/fastcache/category/'.$friendly_url.'.cache';
+
+		$result=false;
+
+		if(file_exists($savePath))
+		{
+			$result=unserialize(file_get_contents($savePath));
+		}
+
+		return $result;
 
 	}
 

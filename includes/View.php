@@ -39,6 +39,7 @@ class View
     
     public static function makeWithPath($viewName = '', $viewData = array(),$path)
     {
+        
         self::setPath($path);
 
         self::make($viewName,$viewData);

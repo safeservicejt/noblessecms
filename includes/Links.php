@@ -125,6 +125,37 @@ class Links
 		
 	}
 
+
+	public static function saveCache()
+	{
+		$loadData=self::get(array(
+			'orderby'=>'order by sort_order asc'
+			));
+
+		if(isset($loadData[0]['id']))
+		{
+			$savePath=ROOT_PATH.'application/caches/fastcache/listLinks.cache';
+
+			File::create($savePath,serialize($loadData));			
+		}
+
+	}
+
+	public static function loadCache()
+	{
+		$savePath=ROOT_PATH.'application/caches/fastcache/listLinks.cache';
+
+		$result=false;
+
+		if(file_exists($savePath))
+		{
+			$result=unserialize(file_get_contents($savePath));
+		}
+
+		return $result;
+
+	}	
+
 	public static function getRecursive()
 	{
 		$loadData=self::get(array(

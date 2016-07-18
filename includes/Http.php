@@ -22,7 +22,7 @@ class Http
 
         switch ($inputData) {
             case 'referer':
-                $result=$_SERVER['HTTP_REFERER'];
+                $result=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
                 break;
             case 'useragent':
                 $result=$_SERVER['HTTP_USER_AGENT'];

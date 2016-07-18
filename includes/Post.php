@@ -373,9 +373,58 @@ class Post
 		return $result;
 	}	
 
-	public static function saveCache()
+	public static function saveCache($id)
 	{
-		
+		$loadData=self::get(array(
+			'where'=>"where postid='$id'"
+			));
+
+		if(isset($loadData[0]['postid']))
+		{
+			$savePath=ROOT_PATH.'application/caches/fastcache/post/'.$loadData[0]['friendly_url'].'.cache';
+
+			File::create($savePath,serialize($loadData));			
+		}
+
+	}
+
+	public static function loadCache($friendly_url='')
+	{
+		$savePath=ROOT_PATH.'application/caches/fastcache/post/'.$friendly_url.'.cache';
+
+		$result=false;
+
+		if(file_exists($savePath))
+		{
+			$result=unserialize(file_get_contents($savePath));
+		}
+
+		return $result;
+
+	}
+
+	public static function removeCache($listID=array())
+	{
+		$parseID="'".implode("','", $listID)."'";
+
+		$loadData=self::get(array(
+			'cache'=>'no',
+			'where'=>"where postid IN($parseID)"
+			));
+
+
+		$total=count($loadData);
+
+		$savePath=ROOT_PATH.'application/caches/fastcache/post/';
+
+		for ($i=0; $i < $total; $i++) { 
+			$filePath=$savePath.$loadData[$i]['friendly_url'].'.cache';
+
+			if(file_exists($filePath))
+			{
+				unlink($filePath);
+			}
+		}
 	}
 
 	public static function insert($inputData=array())

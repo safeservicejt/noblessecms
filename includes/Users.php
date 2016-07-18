@@ -438,7 +438,7 @@ class Users
 			'toEmail'=>$email,
 			'toName'=>$loadUser[0]['username'],
 			'subject'=>$subject,
-			'content'=>$content3
+			'content'=>$content
 
 			));
 		} catch (Exception $e) {
