@@ -381,7 +381,7 @@ class Post
 
 		if(isset($loadData[0]['postid']))
 		{
-			$savePath=ROOT_PATH.'application/caches/fastcache/post/'.$loadData[0]['friendly_url'].'.cache';
+			$savePath=ROOT_PATH.'application/caches/fastcache/post/'.$id.'.cache';
 
 			File::create($savePath,serialize($loadData));			
 		}
@@ -390,13 +390,22 @@ class Post
 
 	public static function loadCache($friendly_url='')
 	{
-		$savePath=ROOT_PATH.'application/caches/fastcache/post/'.$friendly_url.'.cache';
+		$savePath=ROOT_PATH.'application/caches/fastcache/post/'.$id.'.cache';
 
 		$result=false;
 
 		if(file_exists($savePath))
 		{
 			$result=unserialize(file_get_contents($savePath));
+		}
+		else
+		{
+			self::saveCache($id);
+
+			if(!file_exists($savePath))
+			{
+				$result=false;
+			}
 		}
 
 		return $result;
@@ -418,7 +427,7 @@ class Post
 		$savePath=ROOT_PATH.'application/caches/fastcache/post/';
 
 		for ($i=0; $i < $total; $i++) { 
-			$filePath=$savePath.$loadData[$i]['friendly_url'].'.cache';
+			$filePath=$savePath.$loadData[$i]['postid'].'.cache';
 
 			if(file_exists($filePath))
 			{

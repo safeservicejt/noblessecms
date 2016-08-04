@@ -123,6 +123,8 @@ function updateProcess($id)
 		'friendly_url'=>String::makeFriendlyUrl(strip_tags($update['title'])).'-'.$id
 		));
 
+	Categories::saveCache($id);
+
 	Render::makeSiteMap();
 }
 
@@ -167,6 +169,8 @@ function insertProcess()
 				));
 		}
 	}
+
+	Categories::saveCache($id);
 	
 	Render::makeSiteMap();
 }

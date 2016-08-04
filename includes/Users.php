@@ -262,6 +262,97 @@ class Users
 	}
 
 
+	public static function removeCache($listID=array())
+	{
+		$listID=!is_array($listID)?array($listID):$listID;
+
+		$total=count($listID);
+
+		for ($i=0; $i < $total; $i++) { 
+			$id=$listID[$i];
+
+			$savePath=ROOT_PATH.'contents/fastecommerce/product/'.$id.'.cache';
+
+			if(file_exists($savePath))
+			{
+				unlink($savePath);
+			}
+
+		}
+	}
+
+	public static function exists($id)
+	{
+		$savePath=ROOT_PATH.'contents/userscache/'.$id.'.cache';
+
+		if(!file_exists($savePath))
+		{
+			return false;			
+		}
+
+		return true;
+	}
+
+	public static function loadCache($id)
+	{
+		$savePath=ROOT_PATH.'contents/userscache/'.$id.'.cache';
+
+		if(!file_exists($savePath))
+		{
+			self::saveCache($id);
+
+			if(!file_exists($savePath))
+			{
+				return false;
+			}			
+		}
+
+		$loadData=unserialize(file_get_contents($savePath));
+
+		return $loadData;
+
+	}
+
+	public static function saveCache($id,$inputData=array())
+	{
+		if((int)$id==0)
+		{
+			return false;
+		}
+
+		$savePath=ROOT_PATH.'contents/userscache/'.$id.'.cache';
+
+		if(isset($inputData['userid']))
+		{
+			$loadData=array();
+
+			$loadData[0]=$inputData;
+		}
+		else
+		{
+			$loadData=self::get(array(
+				'cache'=>'no',
+				'where'=>"where userid='$id'"
+				));	
+
+			$loadAddress=Address::get(array(
+				'cache'=>'no',
+				'where'=>"where userid='$userid'"
+				));	
+
+			if($loadAddress[0]['userid'])
+			{
+				$loadData[0]=array_merge($loadData[0],$loadAddress[0]);
+			}
+		}
+
+		if(isset($loadData[0]['userid']))
+		{
+			File::create($savePath,serialize($loadData[0]));
+		}
+		
+	}
+
 	public static function forgotPassword($email)
 	{
 		$email=trim($email);
@@ -483,7 +574,23 @@ class Users
 			'userid'=>$id
 			);
 
+		$addData['address_1']=isset($insertData['address_1'])?$insertData['address_1']:'';
+
+		$addData['address_2']=isset($insertData['address_2'])?$insertData['address_2']:'';
+
+		$addData['city']=isset($insertData['city'])?$insertData['city']:'';
+
+		$addData['country']=isset($insertData['country'])?$insertData['country']:'';
+
+		$addData['state']=isset($insertData['state'])?$insertData['state']:'';
+
+		$addData['postcode']=isset($insertData['postcode'])?$insertData['postcode']:'';
+
+		$addData['phone']=isset($insertData['phone'])?$insertData['phone']:'';
+
 		Address::insert($addData);
+
+		self::saveCache($id);
 
 		try {
 			self::newRegister($inputData);
@@ -491,6 +598,8 @@ class Users
 			throw new Exception($e->getMessage());
 			
 		}
+
+		return $id;
 
 	}
 

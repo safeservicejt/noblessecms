@@ -10,7 +10,11 @@
 	    	<!-- row -->
 	    	<div class="row">
 	    		<div class="col-lg-12 text-center">
-	    	<img src="<?php echo System::getUrl();?>bootstrap/sbnoblesse/images/logo3128.png" />	    			
+	    		<?php if(!isset(System::$setting['other_logo_login_page'])){ ?>
+	    		<img src="<?php echo System::getUrl();?>bootstrap/sbnoblesse/images/logo3128.png" />
+	    		<?php }else{ ?>
+	    		<img src="<?php echo System::$setting['other_logo_login_page'];?>" />
+	    		<?php } ?>     			
 	    		</div>
 	    	</div>
 	    	<!-- row -->
@@ -18,27 +22,27 @@
 	    	<div class="row" style="margin-top:10px;">
 	    		<div class="col-lg-6 col-lg-offset-3">
 					<div class="panel panel-default">
-					<div class="panel-heading">Forgot Password ?</div>
+					<div class="panel-heading"><?php echo Lang::get('cmsadmin.forgotPassword');?></div>
 					  <div class="panel-body">
 					  	<div class="row">
 					  		<div class="col-lg-12">
 					  		<?php echo $alert;?>
 							    <p>
-							    	<strong>Email:</strong>
+							    	<strong><?php echo Lang::get('cmsadmin.email');?>:</strong>
 							    </p>
 							    <p>
-							    	<input type="email" class="form-control" placeholder="Email..." name="send[email]" id="txtUsername" required />
+							    	<input type="email" class="form-control" placeholder="<?php echo Lang::get('cmsadmin.email');?>..." name="send[email]" id="txtUsername" required />
 							    </p>
 							    <p style="margin-top:20px;">
-							    	<strong>Enter captcha:</strong>
+							    	<strong><?php echo Lang::get('cmsadmin.enterCaptcha');?>:</strong>
 							    </p>							    
 							    <p>
 							    	<div class="pull-right"><?php echo $captchaHTML;?></div>	
 							    </p>
 							    <p>
-							    	<button type="submit" class="btn btn-primary" name="btnSend">Send password</button>
+							    	<button type="submit" class="btn btn-primary" name="btnSend"><?php echo Lang::get('cmsadmin.sendPassword');?></button>
 
-							    	<a href="<?php echo System::getAdminUrl();?>" class="pull-right">< Back to login</a>
+							    	<a href="<?php echo System::getAdminUrl();?>" class="pull-right"><?php echo Lang::get('cmsadmin.backToLogin');?></a>
 							    </p>								    				  			
 					  		</div>
 

@@ -95,7 +95,18 @@ class Country
 
 		$loadData=Cache::loadKey('listCountries'.Database::getPrefix(),-1);
 
-		$loadData=unserialize($loadData);
+		if(!$loadData)
+		{
+			$loadData=self::get(array(
+				'orderby'=>'order by name asc'
+				));
+
+			Cache::saveKey('listCountries',serialize($loadData));
+		}
+		else
+		{
+			$loadData=unserialize($loadData);
+		}
 
 		return $loadData;
 		

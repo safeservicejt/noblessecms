@@ -10,7 +10,11 @@
 	    	<!-- row -->
 	    	<div class="row">
 	    		<div class="col-lg-12 text-center">
-	    	<img src="<?php echo System::getUrl();?>bootstrap/sbnoblesse/images/logo3128.png" />	    			
+	    		<?php if(!isset(System::$setting['other_logo_login_page'])){ ?>
+	    		<img src="<?php echo System::getUrl();?>bootstrap/sbnoblesse/images/logo3128.png" />
+	    		<?php }else{ ?>
+	    		<img src="<?php echo System::$setting['other_logo_login_page'];?>" />
+	    		<?php } ?> 			
 	    		</div>
 	    	</div>
 	    	<!-- row -->
@@ -25,40 +29,40 @@
 					  		<div class="col-lg-12 ">
 					  		
 							    <p>
-							    	<strong>Firstname:</strong>
+							    	<strong><?php echo Lang::get('cmsadmin.firstName');?>:</strong>
 							    </p>
 							    <p>
-							    	<input type="text" class="form-control" placeholder="Firstname..." name="send[firstname]" id="txtUsername" required />
+							    	<input type="text" class="form-control" placeholder="<?php echo Lang::get('cmsadmin.firstName');?>..." name="send[firstName]" id="txtUsername" required />
 							    </p>
 							    <p>
-							    	<strong>Lastname:</strong>
+							    	<strong><?php echo Lang::get('cmsadmin.lastName');?>:</strong>
 							    </p>
 							    <p>
-							    	<input type="text" class="form-control" placeholder="Lastname..." name="send[lastname]" id="txtUsername" required />
+							    	<input type="text" class="form-control" placeholder="<?php echo Lang::get('cmsadmin.lastName');?>..." name="send[lastName]" id="txtUsername" required />
 							    </p>
 							    <p>
-							    	<strong>Email:</strong>
+							    	<strong><?php echo Lang::get('cmsadmin.email');?>:</strong>
 							    </p>
 							    <p>
-							    	<input type="email" class="form-control" placeholder="Email..." name="send[email]" id="txtUsername" required />
+							    	<input type="email" class="form-control" placeholder="<?php echo Lang::get('cmsadmin.email');?>..." name="send[email]" id="txtUsername" required />
 							    </p>
 							    <p>
-							    	<strong>Username:</strong>
+							    	<strong><?php echo Lang::get('cmsadmin.username');?>:</strong>
 							    </p>
 							    <p>
-							    	<input type="text" class="form-control" placeholder="Username..." name="send[username]" id="txtUsername" required />
+							    	<input type="text" class="form-control" placeholder="<?php echo Lang::get('cmsadmin.username');?>..." name="send[username]" id="txtUsername" required />
 							    </p>
 							    <p>
-							    	<strong>Password:</strong>
+							    	<strong><?php echo Lang::get('cmsadmin.password');?>:</strong>
 							    </p>
 							    <p>
-							    	<input type="password" class="form-control" placeholder="Password..." name="send[password]" id="txtUsername" required />
+							    	<input type="password" class="form-control" placeholder="<?php echo Lang::get('cmsadmin.password');?>..." name="send[password]" id="txtUsername" required />
 							    </p>
 							    <p>
-							    	<strong>Confirm Password:</strong>
+							    	<strong><?php echo Lang::get('cmsadmin.confirmPassword');?>:</strong>
 							    </p>
 							    <p>
-							    	<input type="password" class="form-control" placeholder="Confirm Password..." name="send[repassword]" id="txtUsername" required />
+							    	<input type="password" class="form-control" placeholder="<?php echo Lang::get('cmsadmin.confirmPassword');?>..." name="send[repassword]" id="txtUsername" required />
 							    </p>
 
 							    <?php echo $captchaHTML;?>	
@@ -70,9 +74,9 @@
 					  	<div class="row">
 					  		<div class="col-lg-12">
 							    <p>
-							    	<button type="submit" class="btn btn-danger" name="btnRegister">Register</button>
+							    	<button type="submit" class="btn btn-danger" name="btnRegister"><?php echo Lang::get('cmsadmin.register');?></button>
 
-							    	<a href="<?php echo System::getAdminUrl();?>" class="btn btn-default pull-right">Back</a>
+							    	<a href="<?php echo System::getAdminUrl();?>" class="btn btn-default pull-right"><?php echo Lang::get('cmsadmin.back');?></a>
 							    </p>					  			
 					  		</div>
 					  	</div>

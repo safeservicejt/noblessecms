@@ -32,10 +32,25 @@ function actionProcess()
 				'verify_code'=>''
 				));
 
+			$total=count($id);
+
+			for ($i=0; $i < $total; $i++) { 
+				$theID=$id[$i];
+
+				Users::saveCache($theID);
+			}
 			break;
 		case 'banned':
 
 			Users::makeBannedUserID($id);
+
+			$total=count($id);
+
+			for ($i=0; $i < $total; $i++) { 
+				$theID=$id[$i];
+
+				Users::saveCache($theID);
+			}
 
 			break;
 
@@ -49,6 +64,14 @@ function actionProcess()
 				));
 
 			$result=$newPass;
+
+			$total=count($id);
+
+			for ($i=0; $i < $total; $i++) { 
+				$theID=$id[$i];
+
+				Users::saveCache($theID);
+			}
 
 			break;
 
@@ -114,7 +137,9 @@ function insertProcess()
 	$address['userid']=$userid;
 
 	Address::insert($address);
-	
+
+
+	Users::saveCache($userid);
 }
 function updateProcess($id)
 {
@@ -130,5 +155,7 @@ function updateProcess($id)
 	Users::update($id,$send);
 
 	Address::update($id,$address);
+
+	Users::saveCache($id);
 	
 }

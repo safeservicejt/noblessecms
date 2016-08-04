@@ -3,12 +3,16 @@
 class Lang
 {
 	/*
-	
+	Lang::setPath(ROOT_PATH.'contents/plugins/fastecommerce/lang/');
+
 	Lang::set('en');
 
 	$text=Lang::get('admincp/login.title');
+	
+	$text=Lang::get('admincp/index');
 
-
+	echo Lang::get('home.homepage@topNotify');
+	
 	*/
 	private static $lang=array();
 
@@ -42,11 +46,11 @@ class Lang
 
     public static function getWithPath($keyName,$path)
     {
-    	self::setPath($path);
+    	// self::setPath($path);
 
-    	$result=self::get($keyName);
+    	$result=self::get($keyName,array(),$path);
 
-    	self::resetPath();
+    	// self::resetPath();
 
     	return $result;
     }
@@ -56,7 +60,7 @@ class Lang
     	App::setLocale($lang);
     }
 
-	public static function get($keyName,$addOns=array())
+	public static function get($keyName,$addOns=array(),$newPath='')
 	{
 		if(!isset($keyName[1]))
 		{
@@ -71,7 +75,10 @@ class Lang
 
 		$childName='';
 
-		$langPath=self::getPath().$dirName.'/';
+		$langPath=isset($newPath[5])?$newPath:self::getPath();
+
+		$langPath=$langPath.$dirName.'/';
+
 
 		$loadData=self::parseName($keyName);
 
@@ -95,22 +102,16 @@ class Lang
 				return false;
 			}
 
+			include($langPath);	
 
-			if((int)self::$totalRow == 0)
-			{
-				include($langPath);		
-					
-				// return self::$lang;
-			}
+			// if(!isset($lang))
+			// {
+			// 	// Alert::make('The language '.ucfirst($lang).' not exists inside system.');
+			
+			// 	Log::warning('The language '.$fileName.' not exists inside system.');
 
-			if(!isset($lang))
-			{
-				// Alert::make('The language '.ucfirst($lang).' not exists inside system.');
-
-				Log::warning('The language '.ucfirst($lang).' not exists inside system.');
-
-				return false;			
-			}		
+			// 	return false;			
+			// }		
 
 			if(isset($fieldName[1]) && !isset($lang[$fieldName]))
 			{
@@ -121,7 +122,7 @@ class Lang
 				return false;			
 			}		
 
-			self::$data[$fileName]=$lang;	
+			self::$data[$fileName]=$lang;		
 		}
 		else
 		{

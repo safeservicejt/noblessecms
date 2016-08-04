@@ -115,13 +115,13 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo Cookie::get('firstname').' '.Cookie::get('lastname');?> <b class="caret"></b></a>
                     <ul class="dropdown-menu" style="min-width:180px;">
                         <li>
-                            <a href="<?php echo System::getAdminUrl();?>users/profile"><i class="glyphicon glyphicon-cog"></i> Profile</a>
+                            <a href="<?php echo System::getAdminUrl();?>users/profile"><i class="glyphicon glyphicon-cog"></i> <?php echo Lang::get('cmsadmin.profile');?></a>
                         </li>
                         <li>
-                            <a href="<?php echo System::getAdminUrl();?>users/profile"><i class="glyphicon glyphicon-cog"></i> Change Password</a>
+                            <a href="<?php echo System::getAdminUrl();?>users/profile"><i class="glyphicon glyphicon-cog"></i> <?php echo Lang::get('cmsadmin.changePassword');?></a>
                         </li>
                         <li>
-                            <a href="<?php echo System::getAdminUrl();?>logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="<?php echo System::getAdminUrl();?>logout"><i class="fa fa-fw fa-power-off"></i> <?php echo Lang::get('cmsadmin.logOut');?></a>
                         </li>
 
                     </ul>
@@ -138,7 +138,7 @@
 
                     <?php if(!System::issetVar('admincp_left_hide_dashboard')){ ?>
                     <li class="li-dashboard">
-                        <a href="<?php echo System::getAdminUrl();?>"><span class="glyphicon glyphicon-globe"></span> Dashboard</a></a>
+                        <a href="<?php echo System::getAdminUrl();?>"><span class="glyphicon glyphicon-globe"></span> <?php echo Lang::get('cmsadmin.dashboard');?></a></a>
                     </li>
                     <?php } ?>
 

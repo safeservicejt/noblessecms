@@ -10,7 +10,11 @@
 	    	<!-- row -->
 	    	<div class="row">
 	    		<div class="col-lg-12 text-center">
-	    	<img src="<?php echo System::getUrl();?>bootstrap/sbnoblesse/images/logo3128.png" />	    			
+	    		<?php if(!isset(System::$setting['other_logo_login_page'])){ ?>
+	    		<img src="<?php echo System::getUrl();?>bootstrap/sbnoblesse/images/logo3128.png" />
+	    		<?php }else{ ?>
+	    		<img src="<?php echo System::$setting['other_logo_login_page'];?>" />
+	    		<?php } ?>	    			
 	    		</div>
 	    	</div>
 	    	<!-- row -->
@@ -24,16 +28,16 @@
 					  		<div class="col-lg-6 col-md-6 col-sm-6 ">
 					  		<?php echo $alert;?>
 							    <p>
-							    	<strong>Username:</strong>
+							    	<strong><?php echo Lang::get('cmsadmin.username');?>:</strong>
 							    </p>
 							    <p>
-							    	<input type="text" class="form-control" placeholder="Username..." name="send[username]" id="txtUsername" required />
+							    	<input type="text" class="form-control" placeholder="<?php echo Lang::get('cmsadmin.username');?>..." name="send[username]" id="txtUsername" required />
 							    </p>
 							    <p>
-							    	<strong>Password:</strong>
+							    	<strong><?php echo Lang::get('cmsadmin.password');?>:</strong>
 							    </p>
 							    <p>
-							    	<input type="password" class="form-control" placeholder="Password..." name="send[password]" id="txtPassword" required />
+							    	<input type="password" class="form-control" placeholder="<?php echo Lang::get('cmsadmin.password');?>..." name="send[password]" id="txtPassword" required />
 							    </p>					  			
 					  		</div>
 					  		<div class="col-lg-5 col-lg-offset-1  col-md-5  col-sm-5 " style="padding-top:20px;">
@@ -48,9 +52,9 @@
 							    	<button type="submit" class="btn btn-primary" name="btnLogin">Login</button>
 
 							    	<?php if(System::$setting['register_user_status']=='enable'){ ?>
-							    	<a href="<?php echo System::getAdminUrl();?>register" class="btn btn-danger pull-right">Register</a>
+							    	<a href="<?php echo System::getAdminUrl();?>register" class="btn btn-danger pull-right"><?php echo Lang::get('cmsadmin.register');?></a>
 							    	<?php }else{ ?>
-							    	<a href="<?php echo System::getAdminUrl();?>forgotpass" class=" pull-right">Forgot Password ?</a>
+							    	<a href="<?php echo System::getAdminUrl();?>forgotpass" class=" pull-right"><?php echo Lang::get('cmsadmin.forgotPassword');?></a>
 							    	<?php } ?>
 							    </p>					  			
 					  		</div>
@@ -62,7 +66,7 @@
 					</div>	
 					<!-- panel -->
 					<?php if(System::$setting['register_user_status']=='enable'){ ?>
-					<a href="<?php echo System::getAdminUrl();?>forgotpass">Forgot Password ?</a>
+					<a href="<?php echo System::getAdminUrl();?>forgotpass"><?php echo Lang::get('cmsadmin.forgotPassword');?></a>
 					<?php } ?>
 
 	    		</div>

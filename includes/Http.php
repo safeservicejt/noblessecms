@@ -30,6 +30,9 @@ class Http
             case 'host':
                 $result=$_SERVER['HTTP_HOST'];
                 break;
+            case 'uri':
+                $result=$_SERVER['REQUEST_URI'];
+                break;
             case 'referer':
                 $result=$_SERVER['HTTP_REFERER'];
                 break;

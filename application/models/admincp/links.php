@@ -81,6 +81,7 @@ function updateProcess($id)
 
 	Links::update($id,$update);
 	
+	Links::saveCache();	
 }
 
 function insertProcess()
@@ -118,4 +119,6 @@ function insertProcess()
 		);
 
 	Links::update($id,$updateData);
+
+	Links::saveCache();
 }
