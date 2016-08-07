@@ -219,7 +219,7 @@ class Categories
 		{
 			$savePath=ROOT_PATH.'application/caches/fastcache/category/'.$loadData[0]['friendly_url'].'.cache';
 
-			File::create($savePath,serialize($loadData));			
+			File::create($savePath,serialize($loadData[0]));			
 		}
 
 	}
@@ -233,6 +233,16 @@ class Categories
 		if(file_exists($savePath))
 		{
 			$result=unserialize(file_get_contents($savePath));
+		}
+		else
+		{
+			$loadData=self::get(array(
+				'where'=>"where friendly_url='$friendly_url'"
+				));
+
+			self::saveCache($loadData[0]['catid']);
+
+			$result=$loadData[0];
 		}
 
 		return $result;
@@ -338,6 +348,10 @@ class Categories
 			$id=Database::insert_id();
 
 			$inputData['id']=$id;
+
+			// self::update($id,array(
+			// 	'friendly_url'=>$inputData['friendly_url'].'-'.$id
+			// 	));
 
 			CustomPlugins::load('after_category_insert',$inputData);
 

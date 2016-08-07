@@ -151,6 +151,15 @@ class Links
 		{
 			$result=unserialize(file_get_contents($savePath));
 		}
+		else
+		{
+			self::saveCache();
+
+			if(file_exists($savePath))
+			{
+				$result=unserialize(file_get_contents($savePath));
+			}			
+		}
 
 		return $result;
 

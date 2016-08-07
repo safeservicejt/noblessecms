@@ -82,6 +82,8 @@ class Theme
 
 	private static $data=array();
 
+	public static $setting=array();
+
 	public static $layoutPath='';
 
 	public static function install($func)
@@ -584,6 +586,7 @@ class Theme
 
 		$loadData=unserialize($loadData);
 
+
 		$loadData['facebook_app_id']=isset($loadData['facebook_app_id'])?$loadData['facebook_app_id']:'675779382554952';
 
 		$loadData['site_top_content']=isset($loadData['site_top_content'])?$loadData['site_top_content']:'';
@@ -611,6 +614,8 @@ class Theme
 		$loadData['layout_name']=isset($loadData['layout_name'])?$loadData['layout_name']:'';
 
 		$loadData['site_logo']=isset($loadData['site_logo'])?$loadData['site_logo']:System::getUrl().'contents/themes/'.$themeName.'/images/logo.png';
+
+		self::$setting=$loadData;
 
 
 		return $loadData;		

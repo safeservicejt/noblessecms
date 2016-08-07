@@ -383,7 +383,7 @@ class Post
 		{
 			$savePath=ROOT_PATH.'application/caches/fastcache/post/'.$id.'.cache';
 
-			File::create($savePath,serialize($loadData));			
+			File::create($savePath,serialize($loadData[0]));			
 		}
 
 	}
