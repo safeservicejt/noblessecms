@@ -26,6 +26,19 @@ class Render
 
     public static function makeSiteMap($inputData=array(),$renew=0)
     {
+        $filePath=ROOT_PATH.'sitemap.xml';
+
+        if(!System::$setting['enable_sitemap'] || System::$setting['enable_sitemap']=='no')
+        {
+            if(file_exists($filePath))
+            {
+                unlink($filePath);
+            }
+
+            return false;
+        }
+
+
 
         $result='';
 
@@ -35,64 +48,104 @@ class Render
 
         if($totalInput==0)
         {
-            $loadPost=Post::get(array(
-                'cache'=>'no',
-                'limitShow'=>60,
-                'where'=>"where status='1'",
-                'isHook'=>'no'
-                ));
 
-            $loadCat=Categories::get(array(
-                'cache'=>'no',
-                'limitShow'=>20,
-                'isHook'=>'no'
-                ));
+            $limitPostUrl=!isset(System::$setting['show_post_url_in_sitemap'])?9:(int)System::$setting['show_post_url_in_sitemap'];
 
-            $loadPage=Pages::get(array(
-                'cache'=>'no',
-                'limitShow'=>20,
-                'isHook'=>'no'
-                ));
+            $limitCategoryUrl=!isset(System::$setting['show_category_url_in_sitemap'])?9:(int)System::$setting['show_category_url_in_sitemap'];
+
+            $limitLinkUrl=!isset(System::$setting['show_link_url_in_sitemap'])?9:(int)System::$setting['show_link_url_in_sitemap'];
+
+            $limitPageUrl=!isset(System::$setting['show_page_url_in_sitemap'])?9:(int)System::$setting['show_page_url_in_sitemap'];
 
 
-            if(isset($loadPost[0]['postid']))
+            if(isset(System::$setting['show_post_url_in_sitemap']) && System::$setting['show_post_url_in_sitemap']=='yes')
             {
-                $total=count($loadPost);
+                $loadPost=Post::get(array(
+                    'cache'=>'no',
+                    'limitShow'=>$limitPostUrl,
+                    'where'=>"where status='1'",
+                    'isHook'=>'no'
+                    ));
 
-                for ($i=0; $i < $total; $i++) { 
-                    $li.='
-                    <url>
-                      <loc>'.$loadPost[$i]['url'].'</loc>
-                    </url>
-                    ';
-                }
+                if(isset($loadPost[0]['postid']))
+                {
+                    $total=count($loadPost);
+
+                    for ($i=0; $i < $total; $i++) { 
+                        $li.='
+                        <url>
+                          <loc>'.$loadPost[$i]['url'].'</loc>
+                        </url>
+                        ';
+                    }
+                }                
+            }
+            if(isset(System::$setting['show_category_url_in_sitemap']) && System::$setting['show_category_url_in_sitemap']=='yes')
+            {
+                $loadCat=Categories::get(array(
+                    'cache'=>'no',
+                    'limitShow'=>$limitCategoryUrl,
+                    'isHook'=>'no'
+                    ));
+
+                if(isset($loadCat[0]['catid']))
+                {
+                    $total=count($loadCat);
+
+                    for ($i=0; $i < $total; $i++) { 
+                        $li.='
+                        <url>
+                          <loc>'.$loadCat[$i]['url'].'</loc>
+                        </url>
+                        ';
+                    }
+                }                
             }
 
-            if(isset($loadCat[0]['catid']))
+            if(isset(System::$setting['show_page_url_in_sitemap']) && System::$setting['show_page_url_in_sitemap']=='yes')
             {
-                $total=count($loadCat);
+                $loadPage=Pages::get(array(
+                    'cache'=>'no',
+                    'limitShow'=>$limitPageUrl,
+                    'isHook'=>'no'
+                    ));
 
-                for ($i=0; $i < $total; $i++) { 
-                    $li.='
-                    <url>
-                      <loc>'.$loadCat[$i]['url'].'</loc>
-                    </url>
-                    ';
-                }
+                if(isset($loadPage[0]['pageid']))
+                {
+                    $total=count($loadPage);
+
+                    for ($i=0; $i < $total; $i++) { 
+                        $li.='
+                        <url>
+                          <loc>'.$loadPage[$i]['url'].'</loc>
+                        </url>
+                        ';
+                    }
+                }                
             }
 
-            if(isset($loadPage[0]['pageid']))
+            if(isset(System::$setting['show_link_url_in_sitemap']) && System::$setting['show_link_url_in_sitemap']=='yes')
             {
-                $total=count($loadPage);
+                $loadPage=Links::get(array(
+                    'cache'=>'no',
+                    'limitShow'=>$limitLinkUrl,
+                    'isHook'=>'no'
+                    ));
 
-                for ($i=0; $i < $total; $i++) { 
-                    $li.='
-                    <url>
-                      <loc>'.$loadPage[$i]['url'].'</loc>
-                    </url>
-                    ';
-                }
+                if(isset($loadPage[0]['id']))
+                {
+                    $total=count($loadPage);
+
+                    for ($i=0; $i < $total; $i++) { 
+                        $li.='
+                        <url>
+                          <loc>'.$loadPage[$i]['urlFormat'].'</loc>
+                        </url>
+                        ';
+                    }
+                }                
             }
+
         }
         else
         {
@@ -127,7 +180,7 @@ $result='
 
 ';
 
-        File::create(ROOT_PATH.'sitemap.xml',trim($result),'w');
+        File::create($filePath,trim($result),'w');
     }
 
     public static function renderBBCodeHtml()

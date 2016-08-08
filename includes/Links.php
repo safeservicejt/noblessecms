@@ -128,9 +128,7 @@ class Links
 
 	public static function saveCache()
 	{
-		$loadData=self::get(array(
-			'orderby'=>'order by sort_order asc'
-			));
+		$loadData=self::getRecursive();
 
 		if(isset($loadData[0]['id']))
 		{
@@ -168,7 +166,7 @@ class Links
 	public static function getRecursive()
 	{
 		$loadData=self::get(array(
-			'cache'=>'yes',
+			'cache'=>'no',
 			'cacheTime'=>230,
 			'orderby'=>'order by sort_order desc'
 			));

@@ -704,7 +704,7 @@ class System
 		}
 		else
 		{
-			$keyValue=false;
+			$keyValue=$keyValue!=''?$keyValue:false;
 
 			$keyValue=isset($data[$keyName])?$data[$keyName]:$keyValue;
 

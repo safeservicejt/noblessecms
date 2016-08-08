@@ -310,6 +310,69 @@ class Pages
 	
 	}
 
+	public static function saveCache($id)
+	{
+		$loadData=self::get(array(
+			'where'=>"where pageid='$id'"
+			));
+
+		if(isset($loadData[0]['pageid']))
+		{
+			$savePath=ROOT_PATH.'application/caches/fastcache/page/'.$id.'.cache';
+
+			File::create($savePath,serialize($loadData[0]));			
+		}
+
+	}
+
+	public static function loadCache($friendly_url='')
+	{
+		$savePath=ROOT_PATH.'application/caches/fastcache/page/'.$id.'.cache';
+
+		$result=false;
+
+		if(file_exists($savePath))
+		{
+			$result=unserialize(file_get_contents($savePath));
+		}
+		else
+		{
+			self::saveCache($id);
+
+			if(!file_exists($savePath))
+			{
+				$result=false;
+			}
+		}
+
+		return $result;
+
+	}
+
+	public static function removeCache($listID=array())
+	{
+		$parseID="'".implode("','", $listID)."'";
+
+		$loadData=self::get(array(
+			'cache'=>'no',
+			'where'=>"where pageid IN($parseID)"
+			));
+
+
+		$total=count($loadData);
+
+		$savePath=ROOT_PATH.'application/caches/fastcache/page/';
+
+		for ($i=0; $i < $total; $i++) { 
+			$filePath=$savePath.$loadData[$i]['pageid'].'.cache';
+
+			if(file_exists($filePath))
+			{
+				unlink($filePath);
+			}
+		}
+	}
+	
 	public static function remove($post=array(),$whereQuery='',$addWhere='')
 	{
 
