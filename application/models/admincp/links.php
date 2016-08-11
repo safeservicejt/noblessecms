@@ -26,7 +26,8 @@ function actionProcess()
 			}
 
 			Links::remove($id);
-
+			
+			Links::saveCache();	
 			break;
 		case 'ishomepage':
 

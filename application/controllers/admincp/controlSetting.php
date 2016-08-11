@@ -41,8 +41,16 @@ class controlSetting
 
 			$saveData=Request::get('general');
 
-
 			System::saveSetting($saveData);
+
+			$enable_sitemap=isset($saveData['enable_sitemap'])?$saveData['enable_sitemap']:'no';
+
+			Render::makeSiteMap();	
+		}
+
+		if(Request::has('btnRefreshSiteMap'))
+		{
+			Render::makeSiteMap();
 		}
 
 

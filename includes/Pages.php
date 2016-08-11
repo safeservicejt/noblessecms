@@ -313,6 +313,7 @@ class Pages
 	public static function saveCache($id)
 	{
 		$loadData=self::get(array(
+			'selectFields'=>'*',
 			'where'=>"where pageid='$id'"
 			));
 

@@ -212,6 +212,7 @@ class Categories
 	public static function saveCache($id)
 	{
 		$loadData=self::get(array(
+			'selectFields'=>'*',
 			'where'=>"where catid='$id'"
 			));
 
@@ -237,6 +238,7 @@ class Categories
 		else
 		{
 			$loadData=self::get(array(
+				'selectFields'=>'*',
 				'where'=>"where friendly_url='$friendly_url'"
 				));
 

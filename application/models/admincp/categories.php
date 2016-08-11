@@ -33,7 +33,7 @@ function actionProcess()
 
 			// Database::query("delete p,pt from ".Database::getPrefix()."post p left join ".Database::getPrefix()."post_tags pt on p.postid=pt.postid where p.catid IN ($listID)");
 
-			Render::makeSiteMap();
+			// Render::makeSiteMap();
 
 			break;
 
@@ -52,7 +52,7 @@ function actionProcess()
 
 			// Database::query("delete p,pt from ".Database::getPrefix()."post p left join ".Database::getPrefix()."post_tags pt on p.postid=pt.postid where p.catid IN ($listID)");
 
-			Render::makeSiteMap();
+			// Render::makeSiteMap();
 
 			break;
 
@@ -72,7 +72,7 @@ function actionProcess()
 
 			Categories::remove(0,"catid IN ($listID)");
 
-			Render::makeSiteMap();
+			// Render::makeSiteMap();
 			break;
 		
 	}
@@ -125,7 +125,7 @@ function updateProcess($id)
 
 	Categories::saveCache($id);
 
-	Render::makeSiteMap();
+	// Render::makeSiteMap();
 }
 
 function insertProcess()
@@ -172,5 +172,5 @@ function insertProcess()
 
 	Categories::saveCache($id);
 	
-	Render::makeSiteMap();
+	// Render::makeSiteMap();
 }

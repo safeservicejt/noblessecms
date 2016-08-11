@@ -14,6 +14,7 @@
 		  <li><a href="#info" role="tab" data-toggle="tab">Site information</a></li>
 		  <li><a href="#adminpage" role="tab" data-toggle="tab">Admin Page</a></li>
 		  <li><a href="#reading" role="tab" data-toggle="tab">Front Page</a></li>
+		  <li><a href="#sitemap" role="tab" data-toggle="tab">Sitemap</a></li>
 
 		</ul>
 
@@ -307,6 +308,122 @@
 		 
 		  </div>
 		  <!-- End Admin Page -->
+		  <!-- Site Map -->
+		  
+		  <div class="tab-pane" id="sitemap">
+			
+	    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
+	    		<div class="col-lg-9">
+	    		<strong>Enable Site Map :</strong>
+	    		</div>
+	    		<div class="col-lg-3 text-right">
+					<select name="general[enable_sitemap]" id="enable_sitemap" class="form-control">
+					
+					<option value="no">No</option>
+					<option value="yes" <?php if(isset($enable_sitemap) && $enable_sitemap=='yes') echo 'selected';?>>Yes</option>
+					</select>
+	    		</div>
+
+	    	</div>
+			
+	    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
+	    		<div class="col-lg-9">
+	    		<strong>Show Page's Urls :</strong>
+	    		</div>
+	    		<div class="col-lg-3 text-right">
+					<select name="general[show_page_url_in_sitemap]" id="show_page_url_in_sitemap" class="form-control">
+					<option value="yes">Yes</option>
+					<option value="no" <?php if(isset($show_page_url_in_sitemap) && $show_page_url_in_sitemap=='no') echo 'selected';?>>No</option>
+					</select>
+	    		</div>
+
+	    	</div>
+			
+	    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
+	    		<div class="col-lg-9">
+	    		<strong>Limit Page's Url :</strong>
+	    		</div>
+	    		<div class="col-lg-3 text-right">
+					<input type="text" name="general[limit_page_url_in_sitemap]" class="form-control" value="<?php echo Request::get('general.limit_page_url_in_sitemap',System::getSetting('limit_page_url_in_sitemap',0));?>">
+	    		</div>
+
+	    	</div>
+			
+	    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
+	    		<div class="col-lg-9">
+	    		<strong>Show Post's Urls :</strong>
+	    		</div>
+	    		<div class="col-lg-3 text-right">
+					<select name="general[show_post_url_in_sitemap]" id="show_post_url_in_sitemap" class="form-control">
+					<option value="yes">Yes</option>
+					<option value="no" <?php if(isset($show_post_url_in_sitemap) && $show_post_url_in_sitemap=='no') echo 'selected';?>>No</option>
+					</select>
+	    		</div>
+
+	    	</div>
+			
+	    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
+	    		<div class="col-lg-9">
+	    		<strong>Limit Post's Url :</strong>
+	    		</div>
+	    		<div class="col-lg-3 text-right">
+					<input type="text" name="general[limit_post_url_in_sitemap]" class="form-control" value="<?php echo Request::get('general.limit_post_url_in_sitemap',System::getSetting('limit_post_url_in_sitemap',0));?>">
+	    		</div>
+
+	    	</div>
+			
+	    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
+	    		<div class="col-lg-9">
+	    		<strong>Show Category's Urls :</strong>
+	    		</div>
+	    		<div class="col-lg-3 text-right">
+					<select name="general[show_category_url_in_sitemap]" id="show_category_url_in_sitemap" class="form-control">
+					<option value="yes">Yes</option>
+					<option value="no" <?php if(isset($show_category_url_in_sitemap) && $show_category_url_in_sitemap=='no') echo 'selected';?>>No</option>
+					</select>
+	    		</div>
+
+	    	</div>
+	    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
+	    		<div class="col-lg-9">
+	    		<strong>Limit Category's Url :</strong>
+	    		</div>
+	    		<div class="col-lg-3 text-right">
+					<input type="text" name="general[limit_category_url_in_sitemap]" class="form-control" value="<?php echo Request::get('general.limit_category_url_in_sitemap',System::getSetting('limit_category_url_in_sitemap',0));?>">
+	    		</div>
+
+	    	</div>
+			
+	    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
+	    		<div class="col-lg-9">
+	    		<strong>Show Link's Urls :</strong>
+	    		</div>
+	    		<div class="col-lg-3 text-right">
+					<select name="general[show_link_url_in_sitemap]" id="show_link_url_in_sitemap" class="form-control">
+					<option value="yes">Yes</option>
+					<option value="no" <?php if(isset($show_link_url_in_sitemap) && $show_link_url_in_sitemap=='no') echo 'selected';?>>No</option>
+					</select>
+	    		</div>
+
+	    	</div>
+	    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
+	    		<div class="col-lg-9">
+	    		<strong>Limit Link's Url :</strong>
+	    		</div>
+	    		<div class="col-lg-3 text-right">
+					<input type="text" name="general[limit_link_url_in_sitemap]" class="form-control" value="<?php echo Request::get('general.limit_link_url_in_sitemap',System::getSetting('limit_link_url_in_sitemap',0));?>">
+	    		</div>
+
+	    	</div>
+
+
+		  	<p>
+		  	<button type="submit" name="btnSave" class="btn btn-info">Save Changes</button>
+		  	<button type="submit" name="btnRefreshSiteMap" class="btn btn-danger">Refresh Site Map</button>
+		  	</p>		  	
+		 
+		  </div>
+		  <!-- End Site Map -->
 
 		</div>
 	

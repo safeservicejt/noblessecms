@@ -376,6 +376,7 @@ class Post
 	public static function saveCache($id)
 	{
 		$loadData=self::get(array(
+			'selectFields'=>'*',
 			'where'=>"where postid='$id'"
 			));
 
@@ -388,7 +389,7 @@ class Post
 
 	}
 
-	public static function loadCache($friendly_url='')
+	public static function loadCache($id='')
 	{
 		$savePath=ROOT_PATH.'application/caches/fastcache/post/'.$id.'.cache';
 
@@ -753,4 +754,3 @@ class Post
 
 
 }
-?>

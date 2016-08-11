@@ -168,6 +168,7 @@ class Links
 		$loadData=self::get(array(
 			'cache'=>'no',
 			'cacheTime'=>230,
+			'selectFields'=>'*',
 			'orderby'=>'order by sort_order desc'
 			));
 

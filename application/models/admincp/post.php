@@ -35,7 +35,7 @@ function actionProcess()
 
 			Database::query("delete pt from ".Database::getPrefix()."post_tags pt left join ".Database::getPrefix()."post p on pt.postid=p.postid WHERE p.postid IN ($listID) $addWhere2");
 
-			Render::makeSiteMap();			
+			// Render::makeSiteMap();			
 
 			break;
 
@@ -59,7 +59,7 @@ function actionProcess()
 
 			Post::remove(0,$addWhere);
 
-			Render::makeSiteMap();
+			// Render::makeSiteMap();
 
 			break;
 
@@ -75,7 +75,7 @@ function actionProcess()
 				'status'=>1
 				));
 
-			Render::makeSiteMap();
+			// Render::makeSiteMap();
 
 			break;
 
@@ -84,7 +84,7 @@ function actionProcess()
 				'status'=>0
 				));
 
-			Render::makeSiteMap();
+			// Render::makeSiteMap();
 			break;
 
 		case 'featured':
@@ -235,8 +235,6 @@ function updateProcess($id)
 		}
 	}
 
-	$send['status']=(int)UserGroups::getPermission(Users::getCookieGroupId(),'default_new_post_status');
-
 	
 	if(!Post::update($id,$send))
 	{
@@ -276,7 +274,7 @@ function updateProcess($id)
 
 	Post::saveCache($id);
 
-	Render::makeSiteMap();	
+	// Render::makeSiteMap();	
 }
 
 function insertProcess()
@@ -358,7 +356,11 @@ function insertProcess()
 		}
 	}
 
-	$send['status']=(int)UserGroups::getPermission(Users::getCookieGroupId(),'default_new_post_status');
+	if((int)$send['status']==1)
+	{
+		$send['status']=(int)UserGroups::getPermission(Users::getCookieGroupId(),'default_new_post_status');
+	}
+
 
 	if(!$id=Post::insert($send))
 	{
@@ -396,7 +398,7 @@ function insertProcess()
 
 	Post::saveCache($id);
 
-	Render::makeSiteMap();
+	// Render::makeSiteMap();
 
 
 }
