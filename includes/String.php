@@ -47,6 +47,22 @@ class String
     public static function isNull($inputData='',$returnData=true)
     {
         $returnData=($inputData=='')?$returnData:false;
+        
+        $returnData=($inputData==null)?$returnData:false;
+
+        return $returnData;
+    }
+
+    public static function isFalse($inputData='',$returnData=true)
+    {
+        $returnData=($inputData==false)?$returnData:true;
+
+        return $returnData;
+    }
+
+    public static function isTrue($inputData='',$returnData=true)
+    {
+        $returnData=($inputData==true)?$returnData:false;
 
         return $returnData;
     }
