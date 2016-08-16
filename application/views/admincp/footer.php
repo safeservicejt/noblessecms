@@ -52,12 +52,54 @@
 
 
     <script src="<?php echo System::getUrl();?>bootstrap/sbnoblesse/js/custom.js"></script>
+    <script src="<?php echo ROOT_URL;?>bootstrap/jsupload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="<?php echo ROOT_URL;?>bootstrap/jsupload/js/jquery.iframe-transport.js"></script>
+    <!-- The basic File Upload plugin -->
+    <script src="<?php echo ROOT_URL;?>bootstrap/jsupload/js/jquery.fileupload.js"></script>
 
 
     <?php echo System::getImplodeVar('jsGlobal');?>
 
     <?php echo System::getVar('admincp_footer');?>
+    
+    <script type="text/javascript">
+        $(document).ready(function(){
 
+        });    
+
+
+        $(function () {
+            'use strict';
+            // Change this to the location of your server-side upload handler:
+            var url = '<?php echo ROOT_URL;?>api/media/upload_file';
+
+            $('#fileupload').fileupload({
+                url: url,
+                dataType: 'json',
+                limitMultiFileUploads : 1000,
+                done: function (e, data) {
+                  // console.log('Ảnh upload về');
+                  // console.log(data);
+                    $.each(data.result.files, function (index, file) {
+
+                        $('<p/>').text(file.name).appendTo('#files');
+
+                        // clearlog();
+                        
+
+                    });
+                },
+                progressall: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#progress .progress-bar').css(
+                        'width',
+                        progress + '%'
+                    );
+                }
+            }).prop('disabled', !$.support.fileInput)
+                .parent().addClass($.support.fileInput ? undefined : 'disabled');
+        });           
+    </script>    
 
 
 </body>

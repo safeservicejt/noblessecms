@@ -23,6 +23,7 @@
                  <li><a href="<?php echo System::getAdminUrl();?>pages/addnew">Page</a></li>
                  <li><a href="<?php echo System::getAdminUrl();?>post/addnew">Post</a></li>
                  <li><a href="<?php echo System::getAdminUrl();?>links/addnew">Links</a></li>
+                 <li><a href="#" data-toggle="modal" data-target="#mediaModal" class="show_medial_modal">Media</a></li>
               
                 </ul>
               </li>
@@ -273,7 +274,9 @@
                             </ul>
                         </li>
                     <?php } ?>
-
+                    <li class="li-dashboard">
+                        <a href="<?php echo System::getAdminUrl();?>logs"><span class="glyphicon glyphicon-envelope"></span> Logs</a></a>
+                    </li>
                     <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_setting_manager'); $valid=System::issetVar('admincp_left_hide_plugin')?'yes':$valid; if($valid=='yes'){ ?>
 
                         <?php Render::cpanel_menu('admincp_menu');?>

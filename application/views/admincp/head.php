@@ -39,7 +39,9 @@
     <link href="<?php echo System::getUrl();?>bootstrap/sbnoblesse/css/custom.css" rel="stylesheet">
 
     <link href="<?php echo System::getUrl();?>bootstrap/css/animate-animo.min.css" rel="stylesheet">
- 
+    
+    <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstrap/jsupload/css/jquery.fileupload.css">   
+
     <!-- Custom Fonts -->
     <link href="<?php echo System::getUrl();?>bootstrap/sbnoblesse/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -62,6 +64,73 @@
 </head>
 
 <body>
+
+<!-- Modal media -->
+<div class="modal fade" id="mediaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Media</h4>
+      </div>
+      <div class="modal-body">
+        <div>
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs nav-media-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#addnew_media" aria-controls="addnew_media" role="tab" data-toggle="tab">Upload</a></li>
+            <li role="presentation"><a href="#list_media" class="show_media_list" aria-controls="list_media" role="tab" data-toggle="tab">List</a></li>
+           
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="addnew_media">
+                <!-- file upload -->
+                <!-- The fileinput-button span is used to style the file input field as button -->
+                <span class="btn btn-success btn-sm fileinput-button margin-top-20">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Select files...</span>
+
+                    <!-- The file input field used as target for the file upload widget -->
+                    <input id="fileupload" type="file" name="files[]">
+                </span>
+                <span id="files"></span>
+                <br>
+                <br>
+                <!-- The global progress bar -->
+                <div id="progress" class="progress">
+                    <div class="progress-bar progress-bar-success"></div>
+                </div>                    
+                <!-- file upload -->
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="list_media">
+                <div class="wrap_list_media">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <td class="col-lg-7 col-md-7 col-sm-7 "><strong>Name</strong></td>
+                                <td class="col-lg-2 col-md-2 col-sm-2 "><strong>Size</strong></td>
+                                <td class="col-lg-2 col-md-2 col-sm-2 "><strong>Date</strong></td>
+                                <td class="col-lg-1 col-md-1 col-sm-1 text-right"><strong>#</strong></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+          </div>
+
+        </div>        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal media -->
 
 
 <?php if(!System::issetVar('admincp_navbar_hide_tools')){ ?>

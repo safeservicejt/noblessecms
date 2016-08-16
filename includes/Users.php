@@ -337,7 +337,7 @@ class Users
 
 			$loadAddress=Address::get(array(
 				'cache'=>'no',
-				'where'=>"where userid='$userid'"
+				'where'=>"where userid='$id'"
 				));	
 
 			if($loadAddress[0]['userid'])
@@ -471,8 +471,10 @@ class Users
 			'body'=>$content
 			));
 		} catch (Exception $e) {
-			throw new Exception($e->getMessage());
-			
+			// throw new Exception('We can not send email confirmation to your email: '.$inputData['email']);
+			Logs::insert(array(
+				'content'=>'Failed sent email "'.$subject.'" to '.$inputData['email']
+				));				
 		}
 	}
 
@@ -533,14 +535,31 @@ class Users
 
 			));
 		} catch (Exception $e) {
-			throw new Exception($e->getMessage());
-			
+			// throw new Exception($e->getMessage());
+			Logs::insert(array(
+				'content'=>'Failed sent email "'.$subject.'" to '.$email
+				));					
 		}
 	}
 
 	public static function makeRegister($inputData=array())
 	{
-		$insertData=$inputData;
+		$groupid=System::$setting['default_member_groupid'];
+
+		if((int)$groupid==0)
+		{
+			$groupid=2;
+		}
+
+		$insertData=array(
+			'email'=>$inputData['email'],
+			'firstname'=>$inputData['firstname'],
+			'lastname'=>$inputData['lastname'],
+			'username'=>$inputData['username'],
+			'password'=>$inputData['password'],
+			'groupid'=>$groupid,
+			'email'=>$inputData['email'],
+			);
 
 		$insertData['password']=String::encrypt($insertData['password']);
 
@@ -557,12 +576,6 @@ class Users
 			throw new Exception(Database::$error);
 		}	
 
-		$groupid=System::$setting['default_member_groupid'];
-
-		if((int)$groupid==0)
-		{
-			$groupid=2;
-		}
 
 		Users::update(array($id),array(
 			'groupid'=>$groupid
@@ -574,19 +587,19 @@ class Users
 			'userid'=>$id
 			);
 
-		$addData['address_1']=isset($insertData['address_1'])?$insertData['address_1']:'';
+		$addData['address_1']=isset($inputData['address_1'])?$inputData['address_1']:'';
 
-		$addData['address_2']=isset($insertData['address_2'])?$insertData['address_2']:'';
+		$addData['address_2']=isset($inputData['address_2'])?$inputData['address_2']:'';
 
-		$addData['city']=isset($insertData['city'])?$insertData['city']:'';
+		$addData['city']=isset($inputData['city'])?$inputData['city']:'';
 
-		$addData['country']=isset($insertData['country'])?$insertData['country']:'';
+		$addData['country']=isset($inputData['country'])?$inputData['country']:'';
 
-		$addData['state']=isset($insertData['state'])?$insertData['state']:'';
+		$addData['state']=isset($inputData['state'])?$inputData['state']:'';
 
-		$addData['postcode']=isset($insertData['postcode'])?$insertData['postcode']:'';
+		$addData['postcode']=isset($inputData['postcode'])?$inputData['postcode']:'';
 
-		$addData['phone']=isset($insertData['phone'])?$insertData['phone']:'';
+		$addData['phone']=isset($inputData['phone'])?$inputData['phone']:'';
 
 		Address::insert($addData);
 
