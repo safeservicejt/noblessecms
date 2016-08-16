@@ -152,8 +152,10 @@ function updateProcess($id)
 	Pages::update($id,array(
 		'friendly_url'=>String::makeFriendlyUrl(strip_tags($send['title'])).'-'.$id
 		));	
+
+	Pages::saveCache($id);
 		
-	Render::makeSiteMap();	
+	// Render::makeSiteMap();	
 }
 
 function insertProcess()
@@ -181,6 +183,11 @@ function insertProcess()
 	if(isset($getData[0]['pageid']))
 	{
 		throw new Exception("This page exists in database.");
+	}
+
+	if(!isset($send['page_title'][2]))
+	{
+		$send['page_title']=$send['title'];
 	}
 
 	$uploadMethod=Request::get('uploadMethod');
@@ -216,5 +223,7 @@ function insertProcess()
 		'friendly_url'=>String::makeFriendlyUrl(strip_tags($send['title'])).'-'.$id
 		));	
 
-	Render::makeSiteMap();
+	Pages::saveCache($id);
+
+	// Render::makeSiteMap();
 }

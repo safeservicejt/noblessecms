@@ -326,7 +326,7 @@ class Pages
 
 	}
 
-	public static function loadCache($friendly_url='')
+	public static function loadCache($id='')
 	{
 		$savePath=ROOT_PATH.'application/caches/fastcache/page/'.$id.'.cache';
 
