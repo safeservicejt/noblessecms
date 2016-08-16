@@ -26,6 +26,14 @@ SET time_zone = "+00:00";
 -- Table structure for table `address`
 --
 
+
+CREATE TABLE IF NOT EXISTS `logs` (
+  `id` int(9) NOT NULL AUTO_INCREMENT,
+  `date_added` datetime NOT NULL,
+  `content` longtext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 CREATE TABLE IF NOT EXISTS `address` (
   `userid` int(9) NOT NULL,
   `company` varchar(64) CHARACTER SET utf8 NOT NULL,
@@ -602,6 +610,7 @@ CREATE TABLE IF NOT EXISTS `post_images` (
 CREATE TABLE IF NOT EXISTS `post_tags` (
   `tagid` int(9) NOT NULL AUTO_INCREMENT,
   `title` varchar(128) NOT NULL,
+  `friendly_url` varchar(255) NOT NULL,
   `postid` int(9) NOT NULL,
   PRIMARY KEY (`tagid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=92 ;
