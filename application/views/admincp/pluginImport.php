@@ -96,7 +96,7 @@ function send_file_to_unzip(str)
 	$(function () {
     'use strict';
     // Change this to the location of your server-side upload handler:
-    var url = '<?php echo ROOT_URL;?>bootstrap/jsupload/php/';
+    var url = '<?php echo ROOT_URL;?>api/media/upload_file';
 
 
     $('#pluginupload').fileupload({
