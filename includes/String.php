@@ -66,6 +66,14 @@ class String
 
         return $returnData;
     }
+
+
+    public static function compare($sourceData='',$descData='',$trueData=true,$falseData=false)
+    {
+        $returnData=($sourceData==$descData)?$trueData:$falseData;
+
+        return $returnData;
+    }
     
     public static function jsonToArray($str='')
     {
