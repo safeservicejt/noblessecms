@@ -1,217 +1,268 @@
-<?php
-
-/*
-	Dirlog::make('includes.test@test.data',$content);
-
-	Dirlog::makeAutoFile('uploads.testlog','ac');
-
-	$data=Dirlog::get(array(
-		'path'=>'uploads.testlog'
-		));
-		
-	echo  $data;
-
-*/
-class Dirlog
-{
-	public static function make($dirPath='',$content='',$callback='',$autoFileName='no')
-	{
-		if(!isset($dirPath[6]))
-		{
-			return false;
-		}
-
-		$fileName='index.txt';
-
-		if($autoFileName!='no')
-		{
-			$fileName=microtime(true).'.txt';
-		}
-
-		$dirPath=trim($dirPath);
-
-		if(preg_match('/^(.*?)\@(\w+\.\w+)$/i', $dirPath,$match))
-		{
-			$dirPath=$match[1];
-
-			$fileName=$match[2];
-		}
-
-		$dirPath=str_replace('.', '/', $dirPath);
-
-		$dirPath=$dirPath.'/'.$fileName;
-
-		File::create(ROOT_PATH.$dirPath,$content,'w');
-
-		if(is_object($callback))
-		{
-			$callback=(object)$callback;
-
-			$result=$callback();
-
-			return $result;
-		}
-	}
-
-	public static function makeAutoFile($dirPath='',$content='',$callback='')
-	{
-		$result=self::make($dirPath,$content,$callback,'yes');
-
-		return $result;
-	}
-
-	public static function get($inputData=array())
-	{
-		$dirPath=isset($inputData['path'])?$inputData['path']:'';
-
-		if(!isset($dirPath[5]))
-		{
-			return false;
-		}
-
-		$dirPath=str_replace('.', '/', $dirPath);
-
-		$implode=isset($inputData['implode'])?$inputData['implode']:'';
-
-		$before=isset($inputData['before'])?$inputData['before']:'';
-
-		$after=isset($inputData['after'])?$inputData['after']:'';
-
-		if(!preg_match('/\/$/i', $dirPath))
-		{
-			$dirPath.='/';
-		}
-
-		$allFiles=glob(ROOT_PATH.$dirPath.'*.txt');
-
-		$result='';
-
-		$total=count($allFiles);
-
-		if($total > 1)
-		{
-			for ($i=0; $i < $total; $i++) { 
-				$result.=$before.file_get_contents($allFiles[$i]).$after.$implode;
-			}
-		}
-
-		return $result;
-	}
-
-	public static function getArray($inputData=array())
-	{
-		$dirPath=isset($inputData['path'])?$inputData['path']:'';
-
-		if(!isset($dirPath[5]))
-		{
-			return false;
-		}
-
-		if(!preg_match('/\//i', $dirPath))
-		{
-			$dirPath.='/';
-		}
-
-		$allFiles=glob(ROOT_PATH.$dirPath.'*.txt');
-
-		$result=array();
-
-		$total=count($allFiles);
-
-		if($total > 1)
-		{
-			for ($i=0; $i < $total; $i++) { 
-				$result[]=file_get_contents($allFiles[$i]);
-			}
-		}
-
-		return $result;
-	}
-
-	public static function getSubs($inputData=array())
-	{
-		$dirPath=isset($inputData['path'])?$inputData['path']:'';
-
-		if(!isset($dirPath[5]))
-		{
-			return false;
-		}
-
-		$allDir=Dir::listDir(ROOT_PATH.$dirPath);
-
-		$total=count($allDir);
-
-		$result='';
-
-		for ($i=0; $i < $total; $i++) { 
-
-			$inputData['path'].=$allDir[$i].'/';
-
-			$result.=self::get($inputData);
-
-		}
-
-		return $result;
-	}
-
-	public static function getSubsAssoc($inputData=array())
-	{
-		$dirPath=isset($inputData['path'])?$inputData['path']:'';
-
-		if(!isset($dirPath[5]))
-		{
-			return false;
-		}
-
-		$allDir=Dir::listDir(ROOT_PATH.$dirPath);
-
-		$total=count($allDir);
-
-		$result=array();
-
-		$dirName='';
-
-		for ($i=0; $i < $total; $i++) { 
-
-			$dirName=$allDir[$i];
-
-			$inputData['path'].=$dirName.'/';
-
-			$result[$dirName]=self::get($inputData);
-
-		}
-
-		return $result;
-	}
-
-	public static function getSubsArray($inputData=array())
-	{
-		$dirPath=isset($inputData['path'])?$inputData['path']:'';
-
-		if(!isset($dirPath[5]))
-		{
-			return false;
-		}
-
-		$allDir=Dir::listDir(ROOT_PATH.$dirPath);
-
-		$total=count($allDir);
-
-		$result=array();
-
-		$dirName='';
-
-		for ($i=0; $i < $total; $i++) { 
-
-			$dirName=$allDir[$i];
-
-			$inputData['path'].=$dirName.'/';
-
-			$result[]=self::get($inputData);
-
-		}
-
-		return $result;
-	}
-
-}
+e/3	6
+vilainement	8
+vilayet/1	1
+vile/3	3
+vilebrequin/1	1
+vilement	8
+vilené/1	125
+vilenie/1	2
+vilénie/1	2
+vilipendée/3	3
+vilipender/4	5
+villa/1	2
+villafranchien/1	1
+villafranchienne/3	3
+village/1	1
+villageoise/3	6
+villagisation/1	2
+villanelle/1	2
+ville/1	2
+ville-champignon	47
+ville-dortoir	47
+villégiateur/1	1
+villégiature/1	2
+villégiaturer/10	14
+villes-champignons	46
+villes-dortoirs	46
+villeuse/8	3
+villosité/1	2
+vin/1	1
+vinage/1	1
+vinaigre/1	1
+vinaigrée/3	3
+vinaigrer/4	5
+vinaigrerie/1	2
+vinaigrette/1	2
+vinaigrier/1	1
+vinaire/1	4
+vinasse/1	2
+vindas	7
+vindicative/3	6
+vindicativement	8
+vindicte/1	2
+viner/4	5
+vinette/1	2
+vineuse/8	3
+vingt/113	49
+vingtaine/1	2
+vingt-cinq	49
+vingt-deux	49
+vingt-et-un	49
+vingt-huit	49
+vingtième/1	13
+vingtièmement	8
+vingt-neuf	49
+vingt-quatre	49
+vingt-sept	49
+vingt-six	49
+vingt-trois	49
+vinicole/1	4
+viniculture/1	2
+vinifère/1	4
+vinification/1	2
+vinificatrice/3	9
+vinifier/4	5
+vinique/1	4
+vinosité/1	2
+vintage	45
+vintage/1	4
+vintage/1	1
+vintage/1	1
+vinyle/1	1
+vinylique/1	4
+vinylite/1	2
+vioc/1	10
+viol/1	1
+violacée/3	3
+violacer/4	11
+violat/1	1
+violation/1	2
+violâtre/1	4
+violatrice/3	6
+viole/1	2
+violée/3	3
+violemment	8
+violence/1	2
+violente/3	6
+violentée/3	3
+violenter/4	5
+violer/4	5
+violette/3	6
+violeuse/3	9
+violier/1	1
+violine/1	13
+violiste/1	10
+violon/1	1
+violoncelle/1	1
+violoncelliste/1	10
+violonée/3	3
+violoner/4	17
+violoneuse/8	9
+violoniste/1	10
+vioque/1	10
+vioquir/55	92
+viorne/1	2
+vipère/1	2
+vipéreau/19	1
+vipéridé/1	1
+vipérine/3	3
+vipérine/1	2
+virage/1	1
+virago/1	2
+virale/8	3
+vire/1	2
+virée/3	3
+virée/1	2
+virelai/1	1
+virement/1	1
+virémie/1	2
+virer/4	109
+virescence/1	2
+vireton/1	1
+vireuse/3	9
+vireuse/8	3
+virevoltante/3	3
+virevolte/1	2
+virevolter/10	14
+virginale/8	3
+virginalement	8
+virginie/1	1
+virginité/1	2
+virgule/1	2
+virguler/4	5
+viride/1	4
+virile/3	3
+virilement	8
+virilisation/1	2
+viriliser/4	5
+virilisme/1	1
+virilité/1	2
+virilocale/8	3
+virion/1	1
+virocide/1	4
+virocide/1	1
+virolage/1	1
+virole/1	2
+virolée/3	3
+viroler/4	5
+virolier/1	1
+virologie/1	2
+virologiste/1	10
+virologue/1	10
+virophage/1	1
+virose/1	2
+virostatique/1	4
+virtualisation/1	2
+virtualiser/4	5
+virtualisme/1	1
+virtualiste/1	13
+virtualité/1	2
+virtuelle/3	3
+virtuellement	8
+virtuose/1	10
+virtuosité/1	2
+virucide/1	4
+virulence/1	2
+virulente/3	3
+virure/1	2
+virus	7
+vis	57
+visa/1	1
+visage/1	1
+visagisme/1	1
+visagiste/1	10
+vis-à-vis	87
+vis-à-vis	7
+viscache/1	2
+viscérale/8	3
+viscéralement	8
+viscéralgie/1	2
+viscère/1	1
+viscose/1	2
+viscosimètre/1	1
+viscosité/1	2
+visée/3	3
+visée/1	2
+viser/4	109
+viseur/1	1
+viseuse/8	3
+visibilité/1	2
+visible/1	4
+visiblement	8
+visière/1	2
+visigothe/3	6
+visigothique/1	4
+visiocasque/1	1
+visioconférence/1	2
+vision/1	2
+visionique/1	2
+visionnage/1	1
+visionnaire/1	13
+visionnée/3	3
+visionnement/1	1
+visionner/4	5
+visionneuse/3	9
+visiophone/1	1
+visiophonie/1	2
+visiophonique/1	4
+visitandine/1	2
+visitation/1	2
+visite/1	2
+visitée/3	3
+visiter/4	5
+visiteuse/3	9
+visitorat/1	1
+visnage/1	1
+vison/1	1
+visonnière/1	2
+visqueuse/8	3
+vissage/1	1
+vissée/3	3
+visser/4	11
+visserie/1	2
+visseuse/1	2
+visu	87
+visualisation/1	2
+visualisée/3	3
+visualiser/4	5
+visualiseur/1	1
+visuelle/3	6
+visuellement	8
+vitae
+vitæ
+vitale/8	3
+vitalement	8
+vitalisation/1	2
+vitaliser/4	5
+vitalisme/1	1
+vitaliste/1	10
+vitalité/1	2
+vitamine/1	2
+vitaminée/3	3
+vitaminique/1	4
+vitaminisation/1	2
+vitaminologie/1	2
+vite	8
+vite/1	4
+vitelline/3	3
+vitellus	7
+vitelotte/1	2
+vitement	8
+vitesse/1	2
+viticole/1	4
+viticultrice/3	9
+viticulture/1	2
+vitiligo/1	1
+vitrage/1	1
+vitrail/19	1
+vitre/1	2
+vitrée/3	3
+vitrer/4	5
+vitrerie/1	2
+vitreuse/8	3
+vitrière/3	9
+vitrifiabilité/1	2
+vitrifiable/1	4
+vitrification/1	2
+vitrificative/3	3
+vitrificatri

@@ -13,11 +13,19 @@ function loadApi($action)
 
 			$fileName=$_REQUEST['send_filename'];
 
-			$filePath=ROOT_PATH.'bootstrap/jsupload/php/files/'.$_REQUEST['send_filename'];
+			$filePath=ROOT_PATH.'uploads/media/'.$_REQUEST['send_filename'];
 
 			if(!file_exists($filePath))
 			{
 				throw new Exception('File '.$fileName.' not exists.');
+			}
+
+			if(!preg_match('/\w+\.zip$/i', $fileName))
+			{
+				unlink($filePath);
+
+				throw new Exception('We only allow upload .zip file');
+				
 			}
 
 			$targetPath=ROOT_PATH.'uploads/themes/';
@@ -76,13 +84,21 @@ function loadApi($action)
 
 			$fileName=$_REQUEST['send_filename'];
 
-			$filePath=ROOT_PATH.'bootstrap/jsupload/php/files/'.$_REQUEST['send_filename'];
+			$filePath=ROOT_PATH.'uploads/media/'.$_REQUEST['send_filename'];
 
 			if(!file_exists($filePath))
 			{
 				throw new Exception('File '.$fileName.' not exists.');
 			}
 
+			if(!preg_match('/\w+\.zip$/i', $fileName))
+			{
+				unlink($filePath);
+
+				throw new Exception('We only allow upload .zip file');
+				
+			}
+			
 			$targetPath=ROOT_PATH.'uploads/plugins/';
 
 			if(!is_dir($targetPath))

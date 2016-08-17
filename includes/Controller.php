@@ -1,89 +1,131 @@
-<?php
-
-class Controller
-{
-    public static $loadPath = '';
-    
-    public static function setPath($path)
-    {
-        $path=!isset($path[2])?CONTROLLERS_PATH:$path;
-
-        self::$loadPath=$path;
-    }
-    
-    public static function resetPath()
-    {
-        self::$loadPath=CONTROLLERS_PATH;
-    }
-
-    public static function getPath()
-    {
-        $path=!isset(self::$loadPath[2])?CONTROLLERS_PATH:self::$loadPath;
-
-        self::$loadPath=$path;
-
-        return $path;
-    }
-    
-    public static function loadWithPath($controlName = '', $funcName = 'index', $path)
-    {
-        self::setPath($path);
-
-        self::load($controlName,$funcName);
-
-        self::resetPath();
-    }
-
-    public static function load($controlName = '', $funcName = 'index')
-    {  
-        // $funcOfController = '';
-
-        if (preg_match('/(\w+)\@(\w+)/i', $controlName, $matchesName)) {
-            $controlName = $matchesName[1];
-
-            // $funcOfController = $matchesName[2];
-
-            $funcName = $matchesName[2];
-        }
-
-        // $path = CONTROLLERS_PATH . $controlName . '.php';
-        $path = self::getPath() . $controlName . '.php';
-
-
-        if (!file_exists($path))
-        {
-            Response::headerCode(404);
-
-            Log::warning('Controller <b>'.$controlName.'</b> not exists.');
-
-        }
-
-        include($path);
-
-        if(preg_match('/.*?\/(\w+)$/i',$controlName,$matches))
-        {
-            $controlName=$matches[1];
-        }
-
-        $load = new $controlName();
-
-        if (!isset($funcName[0])) $funcName = 'index';
-
-        // $funcName=($funcName=='index')?$funcName:'get'.ucfirst($funcName);
-
-        if (!method_exists($load, $funcName)) 
-        {
-            Response::headerCode(404);     
-                  
-            Log::warning('Function <b>'.$funcName.'</b> not exists inside controller <b>'.$controlName.'</b> .');
-
-        }
-
-        $load->$funcName();
-
-    }
-
-
-
-
-}
+thie/1	1
+smorrebrod/1	1
+smorzando	8
+smurf/1	1
+smurfeuse/3	9
+snack/1	1
+snackbar/1	1
+snack-bar/1	1
+snif	70
+snifer/4	17
+snifeuse/3	9
+sniff	70
+sniffer/4	17
+sniffeuse/3	9
+sniper/1	10
+snipeuse/3	9
+snob/1	13
+snobée/3	3
+snober/4	5
+snobinarde/3	6
+snobisme/1	1
+snooker/1	1
+snowboard/1	1
+snowboot/1	1
+snow-boot/1	1
+snowpark/1	1
+soap/1	1
+soap-opera/1	1
+soap-opéra/1	1
+sobre/1	4
+sobrement	8
+sobriété/1	2
+sobriquet/1	1
+soc/1	1
+soccer/1	1
+sociabilisation/1	2
+sociabiliser/4	11
+sociabilité/1	2
+sociable/1	4
+social-chrétien	133
+social-démocrate	133
+social-démocratie/1	2
+sociale/8	3
+sociale-chrétienne	137
+sociale-démocrate	137
+socialement	8
+sociales-chrétiennes	142
+sociales-démocrates	142
+socialisante/3	6
+socialisation/1	2
+socialisée/3	3
+socialiser/4	11
+socialisme/1	1
+socialiste/1	13
+sociation/1	2
+sociatrie/1	2
+sociaux-chrétiens	135
+sociaux-démocrates	135
+sociétaire/1	10
+sociétale/8	3
+sociétariat/1	1
+société/1	2
+société-écran	47
+sociétés-écrans	46
+socinianisme/1	1
+socinienne/3	6
+socioaffective/3	3
+socio-affective/3	3
+sociobiologie/1	2
+sociobiologiste/1	10
+sociocratie/1	2
+socioculturelle/3	3
+socio-culturelle/3	3
+sociodrame/1	1
+socioéconomique/1	4
+socio-économique/1	4
+socioéducative/3	3
+socio-éducative/3	3
+sociogéographique/1	4
+socio-géographique/1	4
+sociogramme/1	1
+sociographie/1	2
+sociolecte/1	1
+sociolinguiste/1	10
+sociolinguistique/1	4
+sociolinguistique/1	2
+sociologie/1	2
+sociologique/1	4
+sociologiquement	8
+sociologisme/1	1
+sociologue/1	10
+sociométrie/1	2
+sociométrique/1	4
+sociopathe/1	13
+sociopathie/1	2
+sociopathique/1	4
+sociopolitique/1	4
+socio-politique/1	4
+socioprofessionnelle/3	6
+socio-professionnelle/3	6
+sociothérapie/1	2
+socket/1	1
+socle/1	1
+socque/1	1
+socquette/1	2
+socratique/1	4
+socratiser/10	14
+soda/1	1
+sodalité/1	2
+sodée/3	3
+sodique/1	4
+sodium/1	1
+sodoku/1	1
+sodomie/1	2
+sodomisation/1	2
+sodomisée/3	3
+sodomiser/4	5
+sodomite/1	13
+sœur/1	2
+sœurette/1	2
+sofa/1	1
+soffite/1	1
+soft	45
+soft	7
+softball/1	1
+software/1	1
+soi	78
+soi-disant	45
+soi-disant	8
+soie/1	2
+so

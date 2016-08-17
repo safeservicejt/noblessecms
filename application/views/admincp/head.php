@@ -92,13 +92,13 @@
                     <span>Select files...</span>
 
                     <!-- The file input field used as target for the file upload widget -->
-                    <input id="fileupload" type="file" name="files[]">
+                    <input id="mediaupload" type="file" name="files[]">
                 </span>
                 <span id="files"></span>
                 <br>
                 <br>
                 <!-- The global progress bar -->
-                <div id="progress" class="progress">
+                <div id="mediaupload_progress" class="progress">
                     <div class="progress-bar progress-bar-success"></div>
                 </div>                    
                 <!-- file upload -->

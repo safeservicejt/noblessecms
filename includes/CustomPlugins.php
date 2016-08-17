@@ -1,357 +1,512 @@
-<?php
-/*
-	CustomPlugins::add('before_create_code',array(
-		'method_call'=>'func',
-		'path'=>'contents/plugins/calltocode/index.php',
-		'func'=>'calltocode_creatcode'
-		));
-
-	CustomPlugins::add('before_create_code',array(
-		'method_call'=>'class',
-		'path'=>'contents/plugins/calltocode/index.php',
-		'class'=>'ShopSystem',
-		'func'=>'calltocode_creatcode'
-		));
-
-
-	CustomPlugins::add('before_system_start',array(
-		'method_call'=>'class',
-		'path'=>'includes/FastEcommerce.php',
-		'class'=>'FastEcommerce',
-		'func'=>'index'
-		));		
-
-	CustomPlugins::load('before_create_code');
-
-	CustomPlugins::removeByClass('FastEcommerce');
-	
-	CustomPlugins::removeByPath('calltocode');
-*/
-class CustomPlugins
-{
-	public static $listCaches=array('loaded'=>'no');
-
-	public static $canInstall='no';
-
-	public static $canUninstall='no';
-
-	public static $canAddZone='no';
-
-
-	public static function add($zoneName='',$inputData=array())
-	{
-		/*
-
-		$inputData:
-
-		method_call: class|func
-
-		path: path of included file
-
-		func: name of function will call
-	
-		class: name of class will call
-
-		Default method of class is 'index'
-
-		All function, method require inputData=array();
-
-		*/
-
-
-		$inputData['method_call']=isset($inputData['method_call'])?$inputData['method_call']:'func';
-
-		$inputData['class']=isset($inputData['class'])?$inputData['class']:'';
-
-		if(!isset($inputData['path']))
-		{
-			return false;
-		}
-
-		$inputData['func']=isset($inputData['func'])?$inputData['func']:'index';
-
-		$inputData['path']=str_replace(ROOT_PATH, '', $inputData['path']);
-
-		$filePath=self::cachePath();
-
-		$loadData=array();
-
-		if(file_exists($filePath))
-		{
-			$loadData=unserialize(file_get_contents($filePath));
-		}
-
-		if(isset($loadData[$zoneName][0]['path']))
-		{
-			$total=count($loadData[$zoneName]);
-
-			for ($i=0; $i < $total; $i++) { 
-				if($loadData[$zoneName][$i]['path']==$inputData['path'] && $loadData[$zoneName][$i]['func']==$inputData['func'] && $loadData[$zoneName][$i]['method_call']==$inputData['method_call'] && $loadData[$zoneName][$i]['class']==$inputData['class'] )
-				{
-					return false;
-				}
-			}
-		}
-
-		$loadData[$zoneName][]=$inputData;
-
-		unset($loadData['loaded']);
-
-		unset(self::$listCaches['loaded']);
-
-		self::$listCaches=$loadData;
-		self::saveCache();		
-	}
-
-	public static function loadCache()
-	{
-		if(!isset(self::$listCaches['loaded']))
-		{
-			return false;
-		}
-
-		$filePath=self::cachePath();
-
-		$loadData=array();
-
-		if(file_exists($filePath))
-		{
-			$loadData=unserialize(file_get_contents($filePath));
-		}
-
-		unset(self::$listCaches['loaded']);
-
-		self::$listCaches=$loadData;		
-	}
-
-	public static function remove($zoneName='')
-	{
-		if(isset($zoneName[1]))
-		{
-			return false;
-		}
-
-		if(isset(self::$listCaches['loaded']))
-		{
-			return false;
-		}
-
-		self::loadCache();
-
-		unset(self::$listCaches[$zoneName]);
-
-		self::saveCache();
-
-	}
-
-	public static function removeByPath($foldername='')
-	{
-		if(!isset($foldername[1]))
-		{
-			return false;
-		}
-
-		if(preg_match('/\w+\/\w+/', $foldername))
-		{
-			$foldername=str_replace('/', '\/', $foldername);
-		}
-		
-		if(isset(self::$listCaches['loaded']))
-		{
-			self::loadCache();
-		}
-
-		if(isset(self::$listCaches['loaded']))
-		{
-			return false;
-		}
-
-		$total=count(self::$listCaches);
-
-		$keyNames=array_keys(self::$listCaches);
-
-		for ($i=0; $i < $total; $i++) { 
-			$keyName=$keyNames[$i];
-
-			if(!isset(self::$listCaches[$keyName][0]['path']))
-			{
-				continue;
-			}
-
-			$totalCall=count(self::$listCaches[$keyName]);
-
-			for ($j=0; $j < $totalCall; $j++) { 
-
-				if(!isset(self::$listCaches[$keyName][$j]))
-				{
-					continue;
-				}
-
-				if(preg_match('/\/'.$foldername.'\//i', self::$listCaches[$keyName][$j]['path']))
-				{
-					unset(self::$listCaches[$keyName][$j]);
-				}
-			}
-
-			sort(self::$listCaches[$keyName]);
-		}
-
-		self::saveCache();
-	}
-
-	public static function removeByClass($className='')
-	{
-		if(!isset($className[1]))
-		{
-			return false;
-		}
-		
-		if(isset(self::$listCaches['loaded']))
-		{
-			self::loadCache();
-		}
-
-		if(isset(self::$listCaches['loaded']))
-		{
-			return false;
-		}
-
-		$total=count(self::$listCaches);
-
-		$keyNames=array_keys(self::$listCaches);
-
-		for ($i=0; $i < $total; $i++) { 
-			$keyName=$keyNames[$i];
-
-			if(!isset(self::$listCaches[$keyName][0]['class']))
-			{
-				continue;
-			}
-
-			$totalCall=count(self::$listCaches[$keyName]);
-
-			for ($j=0; $j < $totalCall; $j++) { 
-
-				if(!isset(self::$listCaches[$keyName][$j]))
-				{
-					continue;
-				}
-
-				if(self::$listCaches[$keyName][$j]['class']==$className)
-				{
-					unset(self::$listCaches[$keyName][$j]);
-				}
-			}
-
-			sort(self::$listCaches[$keyName]);
-		}
-
-		self::saveCache();
-	}
-
-	public static function load($zoneName='',$inputData=array())
-	{
-		if(!isset(self::$listCaches[$zoneName]))
-		{
-			self::loadCache();
-		}
-
-		if(!isset(self::$listCaches[$zoneName]))
-		{
-			return false;
-		}
-
-		$total=count(self::$listCaches[$zoneName]);
-
-		$li='';
-
-		for ($i=0; $i < $total; $i++) { 
-
-			if(!isset(self::$listCaches[$zoneName][$i]))
-			{
-				continue;
-			}
-
-			$row=self::$listCaches[$zoneName][$i];
-
-			$method_call=$row['method_call'];
-
-			$row['path']=trim($row['path']);
-
-			$filePath='';
-
-			if($row['path']!='fly')
-			{
-				$filePath=ROOT_PATH.$row['path'];
-
-				if(!file_exists($filePath))
-				{
-					continue;
-				}				
-			}
-
-
-
-			if($method_call=='func')
-			{
-				if($row['path']!='fly' && !function_exists($row['func']))
-				{
-					include($filePath);
-				}
-
-				$func=$row['func'];
-				try {
-					$li.=$func($inputData);
-				} catch (Exception $e) {
-					throw new Exception($e->getMessage());
-					
-				}
-				
-			}
-
-			if($method_call=='class')
-			{
-				if($row['path']!='fly' && !class_exists($row['class']))
-				{
-					include($filePath);
-				}
-
-				$class=$row['class'];
-
-				$func=isset($row['func'])?$row['func']:'index';
-
-				if(!class_exists($class))
-				{
-					continue;
-				}
-
-				try {
-					$li.=$class::$func($inputData);
-				} catch (Exception $e) {
-					throw new Exception($e->getMessage());
-					
-				}
-			}
-
-		}
-
-		return $li;
-
-	}
-
-	public static function cachePath()
-	{
-		$result=ROOT_PATH.'application/caches/customPlugins'.Database::getPrefix().'.cache';
-
-		return $result;
-	}
-
-	public static function saveCache()
-	{
-		$loadData=self::$listCaches;
-
-		$filePath=self::cachePath();
-
-		File::create($filePath,serialize($loadData));
-	}
-}
+tière/3	9
+tablette/1	2
+tabletterie/1	2
+tableur/1	1
+tablier/1	1
+tabloïd/1	4
+tabloïd/1	1
+tabor/1	1
+tabou/1	1
+taboue/3	3
+tabouiser/4	5
+tabouret/1	1
+tabulaire/1	4
+tabulation/1	2
+tabulatrice/3	9
+tabuler/4	17
+tabun/1	1
+tac/1	1
+tacaud/1	1
+tacca/1	1
+tacet/1	1
+tachante/3	3
+tache/1	2
+tâche/1	2
+tachée/3	3
+tachéographe/1	1
+tachéomètre/1	1
+tachéométrie/1	2
+tacher/4	42
+tâcher/4	115
+tâcheronne/3	9
+tachetée/3	3
+tacheter/40	5
+tacheture/1	2
+tachine/1	10
+tachisme/1	1
+tachiste/1	10
+tachistoscope/1	1
+tachistoscopique/1	4
+tachyarythmie/1	2
+tachycardie/1	2
+tachygenèse/1	2
+tachygraphe/1	1
+tachygraphie/1	2
+tachymètre/1	1
+tachymétrie/1	2
+tachyon/1	1
+tachyphagie/1	2
+tachyphémie/1	2
+tachyphylaxie/1	2
+tachypnée/1	2
+tacite/1	4
+tacitement	8
+taciturne/1	13
+taciturnité/1	2
+tacle/1	1
+tacler/4	5
+taco/1	1
+tacon/1	1
+taconeos	20
+taconéos	20
+tacot/1	1
+tacrine/1	2
+tact/1	1
+tacticienne/3	9
+tacticité/1	2
+tactile/1	4
+tactilement	8
+tactique/1	4
+tactique/1	2
+tactiquement	8
+tactisme/1	1
+tadjike/3	6
+tadorne/1	1
+taekwondo/1	1
+taekwondoïste/1	10
+tænia/1	1
+taf/1	1
+taffe/1	2
+taffetas	7
+tafia/1	1
+tag/1	1
+tagal/1	1
+tagalog/1	1
+tagète/1	1
+tagetes	7
+tagette/1	1
+tagliatelle	57
+tagliatelle/1	2
+taguée/3	3
+taguer/4	17
+tagueuse/3	9
+tahitienne/3	6
+taïaut	70
+taï-chi	7
+taïchi/1	1
+taie/1	2
+taïga/1	2
+taiji/1	1
+taïkonaute/1	10
+taillable/1	4
+taillade/1	2
+tailladée/3	3
+taillader/4	5
+taillage/1	1
+taillanderie/1	2
+taillandier/1	1
+taille/1	2
+taille-crayon	7
+taille-crayon/1	1
+taille-douce	47
+taillée/3	3
+taille-haie/1	1
+taille-mer	7
+taille-mer/1	1
+taille-ongle/1	1
+taille-ongles	7
+tailler/4	42
+taille-racine/1	1
+taille-racines	7
+taillerie/1	2
+tailles-douces	46
+tailleuse/3	9
+taille-vent	7
+taille-vent/1	1
+taillis	7
+tailloir/1	1
+taillole/1	2
+tain/1	1
+taire/193	79
+taiseuse/8	3
+taïwanaise/3	6
+tajine/1	1
+take-off	7
+takeoff/1	1
+talc/1	1
+taleb/1	1
+talée/3	3
+talent/1	1
+talentueuse/8	3
+talentueusement	8
+taler/4	5
+taleth/1	1
+taliatelle/1	2
+talibane/3	6
+talion/1	1
+talisman/1	1
+talismanique/1	4
+talitre/1	1
+talkies-walkies	20
+talkie-walkie	18
+talkiewalkie/1	1
+talkshow/1	1
+talk-show/1	1
+tallage/1	1
+talle/1	2
+tallée/3	3
+taller/10	14
+talleth/1	1
+tallipot/1	1
+talmouse/1	2
+talmud/1	1
+talmudique/1	4
+talmudiste/1	10
+talochage/1	1
+taloche/1	2
+talocher/4	5
+talon/1	1
+talonnade/1	2
+talonnage/1	1
+talonnement/1	1
+talonner/4	17
+talonnette/1	2
+talonneur/1	1
+talonnière/1	2
+talpack/1	1
+talpidé/1	1
+talquer/4	5
+talqueuse/8	3
+talure/1	2
+talus	141
+talweg/1	1
+tamandua/1	1
+tamanoir/1	1
+tamarin/1	1
+tamarinier/1	1
+tamaris	7
+tamarix	7
+tambouille/1	2
+tambouler/10	14
+tambour/1	1
+tambourin/1	1
+tambourinage/1	1
+tambourinaire/1	10
+tambourinement/1	1
+tambouriner/4	17
+tambourineuse/3	9
+tambour-major	118
+tambours-majors	112
+tamia/1	1
+tamier/1	1
+tamile/3	6
+tamis	7
+tamisage/1	1
+tamisée/3	3
+tamiser/4	17
+tamiserie/1	2
+tamiseuse/3	6
+tamisière/3	9
+tamoule/3	6
+tamoxifène/1	1
+tampico/1	1
+tampon/1	1
+tamponnade/1	2
+tamponnage/1	1
+tamponnée/3	3
+tamponnement/1	1
+tamponner/4	11
+tamponneuse/3	6
+tamponnoir/1	1
+tam-tam	7
+tamtam/1	1
+tam-tam/1	1
+tan/1	1
+tanagra/1	10
+tanaisie/1	2
+tancer/4	5
+tanche/1	2
+tandem/1	1
+tandis	78
+tangage/1	1
+tangara/1	1
+tangence/1	2
+tangente/3	6
+tangenter/69	110
+tangentielle/3	3
+tangentiellement	8
+tangerine/1	2
+tangibilité/1	2
+tangible/1	4
+tangiblement	8
+tango	45
+tango/1	1
+tangon/1	1
+tanguer/10	14
+tanguière/1	2
+tanière/1	2
+tanin/1	1
+tanisage/1	1
+taniser/4	5
+tank/1	1
+tanker/1	1
+tankiste/1	10
+tannage/1	1
+tannante/3	3
+tanne/1	2
+tannée/3	3
+tanner/4	5
+tannerie/1	2
+tanneuse/3	9
+tannin/1	1
+tannique/1	4
+tannisage/1	1
+tanniser/4	5
+tanrec/1	1
+tansad/1	1
+tant	78
+tantale/1	1
+tante/1	2
+tantième/1	13
+tantine/1	2
+tantinet/1	1
+tantôt	78
+tantouse/1	2
+tantouze/1	2
+tantra/1	1
+tantrique/1	4
+tantrisme/1	1
+tanzanienne/3	6
+tao/1	1
+taoïsme/1	1
+taôisme/1	1
+taoïste/1	13
+taôiste/1	13
+taon/1	1
+tapage/1	1
+tapager/10	14
+tapageuse/3	6
+tapageusement	8
+tapante/3	3
+tapas	46
+tape/1	2
+tapecul/1	1
+tape-cul/1	1
+tapée/3	3
+tapement/1	1
+tapenade/1	2
+taper/4	42
+tapette/1	2
+tapeuse/3	9
+taphophilie/1	2
+tapie/3	3
+tapin/1	1
+tapiner/10	14
+tapineuse/3	9
+tapinois	87
+tapioca/1	1
+tapir/1	1
+tapir/29	126
+tapis	7
+tapis-brosse/1	1
+tapissage/1	1
+tapisser/4	5
+tapisserie/1	2
+tapissière/3	6
+tapon/1	1
+taponnage/1	1
+taponner/4	5
+tapotage/1	1
+tapotement/1	1
+tapoter/4	17
+tapuscrit/1	1
+taquage/1	1
+taque/1	2
+taquer/4	5
+taquet/1	1
+taquine/3	6
+taquiner/4	11
+taquinerie/1	2
+taquoir/1	1
+tarabiscot/1	1
+tarabiscotage/1	1
+tarabiscotée/3	3
+tarabiscoter/4	5
+tarabuster/4	5
+tarage/1	1
+tarama/1	1
+tararage/1	1
+tarare/1	1
+tarasque/1	10
+taratata	70
+taraud/1	1
+taraudage/1	1
+tarauder/4	5
+taraudeuse/3	6
+taravelle/1	2
+tarbaise/3	6
+tarbouch/1	1
+tarbouche/1	1
+tard	8
+tarder/10	122
+tardigrade/1	1
+tardillonne/3	9
+tardive/3	3
+tardivement	8
+tardiveté/1	2
+tare/1	2
+tarée/3	6
+tarente/1	2
+tarentelle/1	2
+tarentule/1	2
+tarer/4	5
+taret/1	1
+targe/1	2
+targette/1	2
+targuer/4	55
+targui	133
+targuie	137
+taricheute/1	1
+tarie/3	3
+tarière/1	2
+tarif/1	1
+tarifaire/1	4
+tarifer/4	5
+tarification/1	2
+tarifier/4	5
+tarin/1	1
+tarir/29	99
+tarissable/1	4
+tarissement/1	1
+tarlatane/1	2
+tarlouse/1	2
+tarlouze/1	2
+tarmac/1	1
+tarmacadam/1	1
+tarnaise/3	6
+taro/1	1
+tarot/1	1
+tarotée/3	3
+tarpan/1	1
+tarpéienne/3	3
+tarpon/1	1
+tarsale/8	3
+tarse/1	1
+tarsectomie/1	2
+tarsienne/3	3
+tarsier/1	1
+tartan/1	1
+tartane/1	2
+tartare/1	13
+tartarin/1	1
+tartarinade/1	2
+tarte/1	4
+tarte/1	2
+tartelette/1	2
+tartiflette/1	2
+tartignole/1	4
+tartignolle/1	4
+tartinade/1	2
+tartine/1	2
+tartiner/4	17
+tartir/55	92
+tartrate/1	1
+tartre/1	1
+tartreuse/8	3
+tartrique/1	4
+tartufe/1	1
+tartuferie/1	2
+tartuffe/1	1
+tartufferie/1	2
+tarzan/1	1
+tas	7
+taser/1	1
+tassage/1	1
+tasse/1	2
+tasseau/19	1
+tassée/3	3
+tassement/1	1
+tasser/4	42
+tassette/1	2
+tassili/1	1
+taste-vin	7
+tastevin/1	1
+tata/1	10
+tatami/1	1
+tatane/1	2
+tataouinage/1	1
+tatare/3	6
+tâter/4	114
+tâteur/1	1
+tâte-vin	7
+tâte-vin/1	1
+tatillonnage/1	1
+tatillonne/3	6
+tatillonner/10	14
+tatin/1	2
+tâtonnante/3	3
+tâtonnement/1	1
+tâtonner/10	14
+tâtons	87
+tatou/1	1
+tatouage/1	1
+tatouée/3	3
+tatouer/4	5
+tatoueuse/3	9
+tau	7
+tau/1	1
+taud/1	1
+taudis	7
+taularde/3	9
+taule/1	2
+taulière/3	9
+tauon/1	1
+taupe	45
+taupe/1	2
+taupée/3	3
+taupe-grillon	18
+tauper/4	5
+taupes-grillons	20
+taupière/3	9
+taupin/1	1
+taupinière/1	2
+taure/1	2
+taureau/19	1
+taurillon/1	1
+taurine/3	6
+taurobole/1	1
+tauromachie/1	2
+tauromachique/1	4
+tautochrone/1	4
+tautologie/1	2
+tautologique/1	4
+tautologue/1	10
+tautomère/1	4
+tautomère/1	1
+tautomérie/1	2
+taux	7
+tauzin/1	1
+tavaillon/1	1
+tavaïole/1	2
+tavaïolle/1	2
+tavelée/3	3
+taveler/40	11
+tavelure/1	2
+taverne/1	2
+tavernière/3	9
+tavillon/1	1
+taxable/1	4
+taxage/1	1
+taxation/1	2
+taxative/3	3
+taxatrice/3	6
+taxe/1	2
+taxée/3	3
+taxer/4	5
+taxi/1	1
+taxidermie/1	2
+taxidermiste/1	10
+taxie/1	2
+taximètre/1	1
+taxinomie/1	2
+taxinomique/1	4

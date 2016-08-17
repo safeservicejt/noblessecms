@@ -1,257 +1,414 @@
-<?php
-
-class Dir
-{
-
-    public static function md5($dir)
-    {
-        if (!is_dir($dir))
-        {
-            return false;
-        }
-        
-        $filemd5s = array();
-        $d = dir($dir);
-
-        while (false !== ($entry = $d->read()))
-        {
-            if ($entry != '.' && $entry != '..')
-            {
-                 if (is_dir($dir.'/'.$entry))
-                 {
-                     $filemd5s[] = self::md5($dir.'/'.$entry);
-                 }
-                 else
-                 {
-                     $filemd5s[] = md5_file($dir.'/'.$entry);
-                 }
-             }
-        }
-        $d->close();
-
-        return md5(implode('', $filemd5s));
-    }
-
-    public static function copy($source, $dest) {
-        // Dir::copy(ROOT_PATH.'application/lang/',ROOT_PATH.'caches/');
-        if(is_dir($source)) {
-            $dir_handle=opendir($source);
-            while($file=readdir($dir_handle)){
-                if($file!="." && $file!=".."){
-                    if(is_dir($source."/".$file)){
-                        if(!is_dir($dest."/".$file)){
-                            
-
-                            mkdir($dest."/".$file);
-                        }
-                        self::copy($source."/".$file, $dest."/".$file);
-                    } else {
-                        copy($source."/".$file, $dest."/".$file);
-                    }
-                }
-            }
-            closedir($dir_handle);
-        } else {
-            copy($source, $dest);
-        }
-    }
-
-    public static function removeMatch($source='')
-    {
-        if(!isset($source[5]))
-        {
-            return false;
-        }
-
-        $all=glob($source);
-
-        $total=count($all);
-
-        for ($i=0; $i < $total; $i++) { 
-            self::remove($all[$i]);
-        }
-
-    }
-    
-    public static function remove($path,$callback='')
-    {
-        // Dir::remove(ROOT_PATH.'test');
-
-        $replaces=array(
-            '/\/+/i'=>'/'
-            );
-
-        $path=preg_replace(array_keys($replaces), array_values($replaces), $path);
-
-        $lenroot=strlen(ROOT_PATH);
-
-        $lenpath=strlen($path);
-
-        $lenroot2=(int)$lenroot+4;
-
-        if((int)$lenpath <= $lenroot || (int)$lenpath <= $lenroot2)
-        {
-            return false;
-        }
-
-        if($path==ROOT_PATH)
-        {
-            return false;
-        }
-
-        if(preg_match('/\.\./', $path))
-        {
-            return false;
-        }
-        
-        if (is_dir($path) === true)
-        {
-
-            $files = array_diff(scandir($path), array('.', '..'));
-
-            foreach ($files as $file)
-            {
-                self::remove(realpath($path) . '/' . $file);
-            }
-
-            return rmdir($path);
-        }
-        elseif (is_file($path) === true)
-        {
-            return unlink($path);
-        }
-
-        if(is_object($callback))
-        {
-            $callback=(object)$callback;
-
-            $result=$callback();
-
-            return $result;
-        }       
-    }
-    
-    public static function create($dirPath = '')
-    {
-        $filterPath=str_replace(ROOT_PATH,'',$dirPath);
-
-        if(preg_match_all('/([a-zA-Z0-9_\.\-\_]+)/i',$filterPath,$matches))
-        {
-            $total=count($matches[1]);
-
-            $megerPath=ROOT_PATH;
-
-            for($i=0;$i<$total;$i++)
-            {
-                $megerPath=$megerPath.'/'.$matches[1][$i];
-
-                if(!is_dir($megerPath))
-                {
-                    mkdir($megerPath); 
-
-                    File::create($megerPath.'/index.html','');
-                }
-
- 
-            }
-
-        }
-        else
-        {
-            mkdir($dirPath);
-
-            File::create($dirPath.'/index.html','');
-        }
-  
-    }
-
-    public static function allDir($dir){
-
-        $result=array();
-
-        $ffs = scandir($dir);
-        foreach($ffs as $ff){
-            if($ff != '.' && $ff != '..'){
-
-                // if(preg_match('/.*?\.\w+/i', $dir.$ff))
-                $result[]=$dir.$ff;
-
-                if(is_dir($dir.'/'.$ff))
-                {
-
-                    $tmp=self::allDir($dir.'/'.$ff);
-
-                    $result=array_merge($result,$tmp);
-                } 
-            }
-        }
-        return $result;
-    }    
-
-    public static function all($dirPath = '')
-    {
-        if (is_dir($dirPath)) {
-            return scandir($dirPath);
-        }
-
-        return false;
-    }
-
-    public static function listMatch($pattern)
-    {
-        // $listTxt=listMatch("*.txt");
-        
-        $dataMatches=glob($pattern);
-
-        return $dataMatches;
-    }
-
-    public static function listDir($dirPath = '')
-    {
-        if (is_dir($dirPath)) {
-            $files= scandir($dirPath);
-
-            $total=count($files);
-
-            $dir=array();
-
-            for($i=0;$i<$total;$i++)
-            {
-                if(preg_match('/^[a-zA-Z0-9_\-\_\s]+$/i', $files[$i]))
-                {
-                    $dir[]= $files[$i];
-                }
-
-            }
-
-            return $dir;
-        }
-
-        return false;        
-    }
-    public static function listFiles($dirPath = '')
-    {
-        if (is_dir($dirPath)) {
-            $files= scandir($dirPath);
-
-            $total=count($files);
-
-            $dir=array();
-
-            for($i=0;$i<$total;$i++)
-            {
-                if(preg_match('/^.*?\.\w+$/i', $files[$i]))
-                {
-                    $dir[]= $files[$i];
-                }
-
-            }
-
-            return $dir;
-        }
-
-        return false;        
-    }
-
-
-}
+taxis	20
+velot/1	1
+vélo-taxi	18
+vélotaxi/1	1
+velours	7
+velouté/1	1
+veloutée/3	3
+veloutement/1	1
+velouter/4	11
+velouteuse/8	3
+veloutier/1	1
+veloutine/1	2
+velte/1	2
+velue/3	6
+velum	7
+vélum/1	1
+velux	7
+velvote/1	2
+venaison/1	2
+vénale/8	3
+vénalement	8
+vénalité/1	2
+venante/3	6
+vendable/1	4
+vendange/1	2
+vendangeoir/1	1
+vendangeon/1	1
+vendanger/4	17
+vendangerot/1	1
+vendangette/1	2
+vendangeuse/3	9
+vendéenne/3	6
+vendémiaire/1	1
+vendetta/1	2
+vendeuse/3	6
+vendre/52	96
+vendredi	8
+vendredi/1	1
+vendue/3	6
+venelle/1	2
+vénéneuse/8	3
+vénérable/1	13
+vénérablement	8
+vénération/1	2
+vénérée/3	3
+vénéréologie/1	2
+vénéréologue/1	10
+vénérer/33	5
+vénéricarde/1	2
+vénerie/1	2
+vènerie/1	2
+vénérienne/3	6
+vénérologie/1	2
+vénérologue/1	10
+venet/1	1
+vénète/1	4
+vénète/1	1
+venette/1	2
+veneur/1	1
+vénézuélienne/3	6
+vengeance/1	2
+vengée/3	3
+venger/4	11
+vengeresse/3	6
+vengeron/1	1
+vénielle/3	3
+véniellement	8
+venimeuse/8	3
+venimeusement	8
+venimosité/1	2
+venin/1	1
+venir/68	147
+vénitienne/3	6
+vent/1	1
+ventage/1	1
+ventail/19	1
+vente/1	2
+ventée/3	3
+venter/69	110
+venteuse/8	3
+ventilateur/1	1
+ventilation/1	2
+ventilatoire/1	4
+ventilée/3	3
+ventiler/4	5
+ventileuse/1	2
+ventis	7
+ventôse/1	1
+ventouse/1	2
+ventouser/4	5
+ventrale/8	3
+ventralement	8
+ventre/1	1
+ventrebleu	70
+ventrèche/1	2
+ventrée/1	2
+ventriculaire/1	4
+ventricule/1	1
+ventrière/1	2
+ventriloque/1	13
+ventriloquie/1	2
+ventripotente/3	6
+ventrue/3	3
+venturi/1	1
+venue/3	3
+venue/1	2
+vénus	57
+vénusienne/3	6
+vénusté/1	2
+vépéciste/1	10
+vêpres	46
+ver/1	1
+véracité/1	2
+véraison/1	2
+véranda/1	2
+vératre/1	1
+vératrine/1	2
+verbale/8	3
+verbalement	8
+verbalisation/1	2
+verbalisée/3	3
+verbaliser/4	17
+verbalisme/1	1
+verbatim/1	1
+verbe/1	1
+verbénacée/1	2
+verbeuse/8	3
+verbeusement	8
+verbiage/1	1
+verbiager/10	14
+verbicruciste/1	10
+verbigération/1	2
+verbomanie/1	2
+verboquet/1	1
+verbosité/1	2
+verdage/1	1
+verdâtre/1	4
+verdelette/3	3
+verdet/1	1
+verdeur/1	2
+verdict/1	1
+verdier/1	1
+verdir/29	100
+verdissage/1	1
+verdissante/3	3
+verdissement/1	1
+verdoiement/1	1
+verdoyante/3	3
+verdoyer/10	14
+verdunisation/1	2
+verduniser/4	5
+verdure/1	2
+vérétille/1	10
+véreuse/8	3
+verge/1	2
+vergée/3	6
+vergence/1	2
+vergeoise/1	2
+verger/1	1
+verger/10	14
+vergerette/1	2
+vergetée/3	3
+vergette/1	2
+vergeture/1	2
+vergeure/1	2
+vergeüre/1	2
+verglaçante/3	3
+verglacée/3	3
+verglacer/69	110
+verglas	7
+vergne/1	1
+vergobret/1	1
+vergogne/1	2
+vergue/1	2
+véridicité/1	2
+véridique/1	4
+véridiquement	8
+vérifiabilité	47
+vérifiable/1	4
+vérification/1	2
+vérificative/3	3
+vérificatrice/3	6
+vérifiée/3	3
+vérifier/4	11
+vérifieuse/3	9
+vérin/1	1
+vérine/1	2
+vérisme/1	1
+vériste/1	13
+véritable/1	4
+véritablement	8
+vérité/1	2
+verjus	7
+verjutée/3	3
+verjuter/4	5
+verlan/1	1
+vermée/1	2
+vermeille/3	3
+vermet/1	1
+vermicelle/1	1
+vermicide/1	4
+vermicide/1	1
+vermiculaire/1	4
+vermicule/1	1
+vermiculée/3	3
+vermiculer/10	14
+vermiculite/1	2
+vermiculure/1	2
+vermiforme/1	4
+vermifuge/1	4
+vermifuge/1	1
+vermille/1	2
+vermiller/10	14
+vermillon	45
+vermillon/1	1
+vermillonnée/3	3
+vermillonner/4	17
+vermine/1	2
+vermineuse/8	3
+vermis	7
+vermisseau/19	1
+vermouler/4	55
+vermoulue/3	3
+vermoulure/1	2
+vermout/1	1
+vermouth/1	1
+vernaculaire/1	4
+vernale/8	3
+vernalisation/1	2
+vernation/1	2
+vernie/3	3
+vernier/1	1
+vernir/29	84
+vernis	7
+vernissage/1	1
+vernissée/3	3
+vernisser/4	5
+vernisseuse/3	9
+vérole/1	2
+vérolée/3	6
+véronal/1	1
+véronique/1	4
+verranne/1	2
+verrat/1	1
+verre/1	1
+verrée/3	6
+verrerie/1	2
+verrière/3	9
+verrine/1	2
+verroterie/1	2
+verrou/1	1
+verrouillable/1	4
+verrouillage/1	1
+verrouillée/3	3
+verrouiller/4	11
+verrouilleur/1	1
+verrucaire/1	2
+verrucosité/1	2
+verrue/1	2
+verruqueuse/8	3
+vers	98
+vers	7
+versaillaise/3	6
+versant/1	1
+versante/3	3
+versatile/1	4
+versatilité/1	2
+verse/1	2
+verseau/19	1
+versée/3	3
+versement/1	1
+verser/4	42
+verset/1	1
+verseuse/3	9
+versicolore/1	4
+versicule/1	1
+versification/1	2
+versificatrice/3	9
+versifier/4	17
+version/1	2
+versionner/4	5
+vers-librisme/1	1
+vers-libriste/1	13
+verso/1	1
+versoir/1	1
+verste/1	2
+versus	78
+vert-de-gris	45
+vert-de-gris	7
+vert-de-grisée/3	3
+verte/3	6
+vertébrale/8	3
+vertèbre/1	2
+vertébrée/3	6
+vertement	8
+vertex	7
+verticale/8	6
+verticalement	8
+verticalité/1	2
+verticille/1	1
+verticillée/3	3
+vertige/1	1
+vertigineuse/8	3
+vertigineusement	8
+vertigo/1	1
+vertisol/1	1
+vertu/1	2
+vertubleu	70
+vertuchou	70
+vertudieu	70
+vertueuse/8	3
+vertueusement	8
+vertugadin/1	1
+verve/1	2
+verveine/1	2
+vervelle/1	2
+verveuse/8	3
+verviétoise/3	6
+vésanie/1	2
+vesce/1	2
+vesceron/1	1
+vésicale/8	3
+vésicante/3	3
+vésication/1	2
+vésicatoire/1	4
+vésiculaire/1	4
+vésicule/1	2
+vésiculeuse/8	3
+vespa/1	2
+vespasienne/1	2
+vespérale/8	3
+vespertilion/1	1
+vespiste/1	10
+vesse/1	2
+vesse-de-loup	47
+vesser/10	14
+vesses-de-loup	46
+vessie/1	2
+vessigon/1	1
+vestale/1	2
+veste/1	2
+vestiaire/1	1
+vestibulaire/1	4
+vestibule/1	1
+vestige/1	1
+vestigiale/8	3
+vestimentaire/1	4
+vestimentairement	8
+veston/1	1
+vêtage/1	1
+vêtement/1	1
+vétéran/1	1
+vétérance/1	2
+vétérinaire/1	13
+vétérotestamentaire/1	4
+vétéro-testamentaire/1	4
+vétillarde/3	6
+vétille/1	2
+vétiller/10	14
+vétilleuse/8	3
+vêtir/107	79
+vétiver/1	1
+veto	7
+véto/1	1
+vêtue/3	3
+vêture/1	2
+vétuste/1	4
+vétusté/1	2
+veuglaire/1	1
+veule/1	13
+veulerie/1	2
+veuvage/1	1
+veuve/3	6
+vévé/1	1
+veveysanne/3	6
+vexante/3	3
+vexation/1	2
+vexatoire/1	4
+vexatrice/3	3
+vexée/3	3
+vexer/4	11
+vexillaire/1	4
+vexillaire/1	1
+vexille/1	1
+vexillologie/1	2
+vexillologue/1	10
+vg/38	57
+via	78
+viabilisation/1	2
+viabilisée/3	3
+viabiliser/4	5
+viabilité/1	2
+viable/1	4
+viaduc/1	1
+viagère/3	3
+viagra/1	1
+viande/1	2
+viander/4	101
+viatique/1	1
+vibice/1	2
+vibord/1	1
+vibrage/1	1
+vibrance/1	2
+vibrante/3	3
+vibraphone/1	1
+vibraphoniste/1	10
+vibrateur/1	1
+vibratile/1	4
+vibration/1	2
+vibrationnelle/3	3
+vibrato/1	1
+vibratoire/1	4
+vibrer/4	17
+vibreur

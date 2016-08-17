@@ -73,7 +73,7 @@
             // Change this to the location of your server-side upload handler:
             var url = '<?php echo ROOT_URL;?>api/media/upload_file';
 
-            $('#fileupload').fileupload({
+            $('#mediaupload').fileupload({
                 url: url,
                 dataType: 'json',
                 limitMultiFileUploads : 1000,
@@ -91,7 +91,7 @@
                 },
                 progressall: function (e, data) {
                     var progress = parseInt(data.loaded / data.total * 100, 10);
-                    $('#progress .progress-bar').css(
+                    $('#mediaupload_progress .progress-bar').css(
                         'width',
                         progress + '%'
                     );

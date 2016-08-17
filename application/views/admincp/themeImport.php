@@ -18,13 +18,13 @@
             <span>Select files...</span>
 
             <!-- The file input field used as target for the file upload widget -->
-            <input id="fileupload" type="file" name="files[]">
+            <input id="themeupload" type="file" name="files[]">
         </span>
-        <span id="files"></span>
+        <span id="themefiles"></span>
         <br>
         <br>
         <!-- The global progress bar -->
-        <div id="progress" class="progress">
+        <div id="themeupload_progress" class="progress">
             <div class="progress-bar progress-bar-success"></div>
         </div>                    
         <!-- file upload -->
@@ -47,10 +47,12 @@
 
 <script type="text/javascript">
 
-var api_url='<?php echo System::getUrl();?>api/file/';
+
 
 function send_file_to_unzip(str)
 {
+    var api_url='<?php echo System::getUrl();?>api/file/';
+    
     var request = new XMLHttpRequest();
     request.open('POST', api_url+'import_theme', true);
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
@@ -94,10 +96,10 @@ function send_file_to_unzip(str)
 	$(function () {
     'use strict';
     // Change this to the location of your server-side upload handler:
-    var url = '<?php echo ROOT_URL;?>bootstrap/jsupload/php/';
+    var url = '<?php echo ROOT_URL;?>api/media/upload_file';
 
 
-    $('#fileupload').fileupload({
+    $('#themeupload').fileupload({
         url: url,
         dataType: 'json',
         limitMultiFileUploads : 20,
@@ -106,7 +108,7 @@ function send_file_to_unzip(str)
           // console.log(data);
             $.each(data.result.files, function (index, file) {
 
-                $('<p/>').text(file.name).appendTo('#files');
+                $('<p/>').text(file.name).appendTo('#themefiles');
 
                 send_file_to_unzip(file.name);
 
@@ -117,7 +119,7 @@ function send_file_to_unzip(str)
         },
         progressall: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
-            $('#progress .progress-bar').css(
+            $('#themeupload_progress .progress-bar').css(
                 'width',
                 progress + '%'
             );

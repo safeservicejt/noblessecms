@@ -1,244 +1,315 @@
-<?php
-
-class Address
-{
-
-	public static function get($inputData=array())
-	{
-
-		$limitQuery="";
-
-		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:0;
-
-		$limitPage=isset($inputData['limitPage'])?$inputData['limitPage']:0;
-
-		$limitPage=((int)$limitPage > 0)?$limitPage:0;
-
-		$limitPosition=$limitPage*(int)$limitShow;
-
-		$limitQuery=((int)$limitShow==0)?'':" limit $limitPosition,$limitShow";
-
-		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
-
-		$field="userid,company,firstname,lastname,address_1,address_2,city,state,postcode,country,phone,fax";
-
-		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
-
-		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
-
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by userid desc';
-
-		$result=array();
-
-		$dbPrefix=Database::getPrefix();
-
-		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
-		
-		$command="select $selectFields from ".$prefix."address $whereQuery";
-
-		$command.=" $orderBy";
-
-		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
-
-		$queryCMD.=$limitQuery;
-
-		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
-		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
-
-		$md5Query=md5($queryCMD);
-
-		if($cache=='yes')
-		{
-			// Load dbcache
-
-			$loadCache=Cache::loadKey('dbcache/system/address/'.$md5Query,$cacheTime);
-
-			if($loadCache!=false)
-			{
-				$loadCache=unserialize($loadCache);
-				return $loadCache;
-			}
-
-			// end load			
-		}
-
-		$query=Database::query($queryCMD);
-		
-		if(isset(Database::$error[5]))
-		{
-			return false;
-		}
-
-		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
-		
-		if((int)$query->num_rows > 0)
-		{
-			while($row=Database::fetch_assoc($query))
-			{
-				if(isset($row['title']))
-				{
-					$row['title']=String::decode($row['title']);
-				}
-				
-				if(isset($row['friendly_url']))
-				{
-					$row['url']=self::url($row);
-				}
-
-				if(isset($row['date_added']))
-				$row['date_addedFormat']=Render::dateFormat($row['date_added']);
-											
-				$result[]=$row;
-			}		
-		}
-		else
-		{
-			return false;
-		}
-
-		// Save dbcache
-		Cache::saveKey('dbcache/system/address/'.$md5Query,serialize($result));
-		// end save
-
-
-		return $result;
-		
-	}
-
-	public static function insert($inputData=array())
-	{
-		// End addons
-		// $totalArgs=count($inputData);
-
-		$addMultiAgrs='';
-
-		if(isset($inputData[0]['userid']))
-		{
-		    foreach ($inputData as $theRow) {
-
-
-				$keyNames=array_keys($theRow);
-
-				$insertKeys=implode(',', $keyNames);
-
-				$keyValues=array_values($theRow);
-
-				$insertValues="'".implode("','", $keyValues)."'";
-
-				$addMultiAgrs.="($insertValues), ";
-
-		    }
-
-		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
-		}
-		else
-		{
-
-			$keyNames=array_keys($inputData);
-
-			$insertKeys=implode(',', $keyNames);
-
-			$keyValues=array_values($inputData);
-
-			$insertValues="'".implode("','", $keyValues)."'";	
-
-			$addMultiAgrs="($insertValues)";	
-		}		
-
-		Database::query("insert into ".Database::getPrefix()."address($insertKeys) values".$addMultiAgrs);
-
-		DBCache::removeDir('system/address');
-
-		if(!$error=Database::hasError())
-		{
-			$id=Database::insert_id();
-
-			return $id;	
-		}
-
-		return false;
-	
-	}
-
-	public static function remove($post=array(),$whereQuery='',$addWhere='')
-	{
-
-
-		if(is_numeric($post))
-		{
-			$id=$post;
-
-			unset($post);
-
-			$post=array($id);
-		}
-
-		$total=count($post);
-
-		$listID="'".implode("','",$post)."'";
-
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"userid in ($listID)";
-
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-
-		$command="delete from ".Database::getPrefix()."address where $whereQuery $addWhere";
-
-		Database::query($command);	
-
-		// DBCache::removeDir('system/address');
-		
-		DBCache::removeCache($listID,'system/address');
-
-		return true;
-	}
-
-	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
-	{
-
-		if(is_numeric($listID))
-		{
-			$userid=$listID;
-
-			unset($listID);
-
-			$listID=array($userid);
-		}
-
-		$listIDs="'".implode("','",$listID)."'";		
-				
-		$keyNames=array_keys($post);
-
-		$total=count($post);
-
-		$setUpdates='';
-
-		for($i=0;$i<$total;$i++)
-		{
-			$keyName=$keyNames[$i];
-			$setUpdates.="$keyName='$post[$keyName]', ";
-		}
-
-		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
-		
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"userid in ($listIDs)";
-		
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-
-		Database::query("update ".Database::getPrefix()."address set $setUpdates where $whereQuery $addWhere");
-
-		// DBCache::removeDir('system/address');
-
-		DBCache::removeCache($listIDs,'system/address');
-
-		if(!$error=Database::hasError())
-		{
-			return true;
-		}
-
-		return false;
-	}
-
-
-}
-?>
+r/4	11
+rechanter/4	5
+rechapage/1	1
+rechapée/3	3
+rechaper/4	5
+réchapper/10	14
+recharge/1	2
+rechargeable/1	4
+rechargée/3	3
+rechargement/1	1
+recharger/4	5
+rechargeur/1	1
+rechasser/4	17
+réchaud/1	1
+réchauffage/1	1
+réchauffante/3	3
+réchauffée/3	3
+réchauffement/1	1
+réchauffer/4	11
+réchauffeur/1	1
+rechaussement/1	1
+rechausser/4	11
+rêche/1	4
+recherche/1	2
+recherchée/3	3
+rechercher/4	5
+recherchiste/1	10
+rechignée/3	3
+rechigner/10	122
+rechristianisée/3	3
+rechristianiser/4	5
+rechute/1	2
+rechuter/10	14
+récidivante/3	3
+récidive/1	2
+récidiver/10	14
+récidivisme/1	1
+récidiviste/1	13
+récidivité/1	2
+récif/1	1
+récifale/8	3
+récipiendaire/1	10
+récipient/1	1
+réciprocité/1	2
+réciproque/1	4
+réciproquement	8
+réciproquer/4	17
+recirculation/1	2
+récit/1	1
+récital/1	1
+récitante/3	6
+récitatif/1	1
+récitation/1	2
+récitée/3	3
+réciter/4	5
+réclamation/1	2
+réclame/1	10
+réclamée/3	3
+réclamer/4	42
+reclaper/4	5
+reclassée/3	3
+reclassement/1	1
+reclasser/4	5
+reclassification/1	2
+récliner/10	14
+reclouer/4	5
+reclure/189	82
+recluse/3	6
+réclusion/1	2
+reclusionnaire/1	10
+réclusionnaire/1	10
+recodage/1	1
+recognition/1	2
+récognitive/3	3
+recoiffer/4	11
+recoin/1	1
+récolement/1	1
+récoler/4	5
+recollage/1	1
+récollection/1	2
+recollement/1	1
+recoller/4	114
+récollet/1	1
+recolleuse/3	6
+recolonisation/1	2
+recolorer/4	5
+récoltable/1	4
+récoltante/3	6
+récolte/1	2
+récoltée/3	3
+récolter/4	11
+récolteuse/3	9
+recombinaison/1	2
+recombinante/3	6
+recombiner/4	5
+recommandable/1	4
+recommandation/1	2
+recommandé/1	1
+recommandée/3	3
+recommander/4	11
+recommencée/3	3
+recommencement/1	1
+recommencer/4	17
+recomparaitre/94	91
+recomparaître/94	91
+récompense/1	2
+récompensée/3	3
+récompenser/4	11
+recompiler/4	5
+recomposable/1	4
+recomposée/3	3
+recomposer/4	11
+recomposition/1	2
+recompresser/4	5
+recomptée/3	3
+recompter/4	5
+réconciliable/1	4
+réconciliation/1	2
+réconciliatrice/3	6
+réconciliée/3	3
+réconcilier/4	11
+recondamner/4	5
+reconditionnement/1	1
+reconditionner/4	5
+reconductible/1	4
+reconduction/1	2
+reconduire/84	82
+reconduite/1	2
+reconfigurable/1	4
+reconfiguration/1	2
+reconfigurer/4	5
+reconfirmer/4	11
+réconfort/1	1
+réconfortante/3	6
+réconfortée/3	3
+réconforter/4	11
+recongélation/1	2
+recongelée/3	3
+recongeler/47	5
+reconnaissable/1	4
+reconnaissance/1	2
+reconnaissante/3	3
+reconnaitre/75	79
+reconnaître/75	79
+reconnecter/4	11
+reconnexion/1	2
+reconnue/3	3
+reconquérante/3	3
+reconquérir/98	79
+reconquête/1	2
+reconquise/3	3
+reconsidération/1	2
+reconsidérée/3	3
+reconsidérer/33	5
+reconsolidée/3	3
+reconsolider/4	5
+reconstituable/1	4
+reconstituante/3	3
+reconstituée/3	3
+reconstituer/4	11
+reconstitution/1	2
+reconstruction/1	2
+reconstructive/3	3
+reconstructrice/3	6
+reconstruire/77	79
+reconstruite/3	3
+recontacter/4	5
+recontrôler/4	11
+reconventionnelle/3	3
+reconventionnellement	8
+reconversion/1	2
+reconvertie/3	3
+reconvertir/29	83
+recopiage/1	1
+recopiée/3	3
+recopier/4	5
+recoquillée/3	3
+recoquiller/4	11
+record	45
+record/1	1
+recordage/1	1
+recordée/3	3
+recorder/4	5
+recordman/41	1
+recordman/1	1
+recordwoman/41	2
+recordwoman/1	2
+recorriger/4	5
+recors	7
+recoucher/4	11
+recoudre/116	79
+recoupe/1	2
+recoupée/3	3
+recoupement/1	1
+recouper/4	11
+recoupette/1	2
+recouponner/4	5
+recourbée/3	3
+recourbement/1	1
+recourber/4	11
+recourbure/1	2
+recourir/129	162
+recours	7
+recousue/3	3
+recouverte/3	3
+recouvrable/1	4
+recouvrage/1	1
+recouvrance/1	2
+recouvrante/3	3
+recouvrée/3	3
+recouvrement/1	1
+recouvrer/4	5
+recouvrir/81	79
+recracher/4	17
+récré/1	2
+récréance/1	2
+recréation/1	2
+récréation/1	2
+récréationnelle/3	3
+récréative/3	3
+recréatrice/3	3
+recréée/3	3
+recréer/4	11
+récréer/4	11
+recrépir/29	84
+recrépissage/1	1
+recreuser/4	5
+récriée/3	3
+récrier/4	55
+récrimination/1	2
+récriminatrice/3	6
+récriminée/3	3
+récriminer/10	14
+récrire/78	82
+recristallisation/1	2
+recristalliser/4	5
+recroiser/4	5
+recroitre/102	91
+recroître/102	91
+recroller/10	14
+recroquevillée/3	3
+recroquevillement/1	1
+recroqueviller/4	55
+recru/1	1
+recrû/1	1
+recrudescence/1	2
+recrudescente/3	3
+recrue/3	6
+recrutée/3	6
+recrutement/1	1
+recruter/4	42
+recruteuse/3	9
+recta	8
+rectale/8	3
+rectangle/1	1
+rectangulaire/1	4
+rectifiable/1	4
+rectification/1	2
+rectificative/3	3
+rectificatrice/3	6
+rectifiée/3	3
+rectifier/4	5
+rectifieuse/3	6
+rectiligne/1	4
+rectilinéaire/1	4
+rection/1	2
+rectite/1	2
+rectitude/1	2
+recto/1	1
+rectocolite/1	2
+recto-colite/1	2
+rectorale/8	3
+rectorat/1	1
+rectorragie/1	2
+rectoscope/1	1
+rectoscopie/1	2
+rectosigmoïdienne/3	3
+recto-sigmoïdienne/3	3
+rectosigmoïdoscopie/1	2
+rectrice/3	9
+rectum/1	1
+reçue/3	6
+recueil/1	1
+recueillement/1	1
+recueillie/3	3
+recueillir/127	79
+recuire/84	113
+recuisson/1	2
+recuite/3	3
+recul/1	1
+reculade/1	2
+reculée/3	3
+reculement/1	1
+reculer/4	42
+reculons	87
+reculotter/4	11
+récupérable/1	4
+récupération/1	2
+récupératrice/3	6
+récupérée/3	3
+récupérer/33	5
+récurage/1	1
+récurée/3	3
+récurer/4	5
+récurrence/1	2
+récurrente/3	3
+récursion/1	2
+récursive/3	3
+récursivement	8
+récursivité/1	2
+récursoire/1	4
+récusable/1	4
+récusation/1	2
+récusée/3	3
+récuser/4	1

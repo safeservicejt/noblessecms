@@ -1,135 +1,186 @@
-<?php
-
-
-/*
-
-CtrPlugin::settingUri(array(
-'/'=>'home@index',
-'post'=>'post@index'
-));
-
-CtrPlugin::render();
-
-*/
-
-class CtrPlugin
-{
-	private static $data=array();
-
-	public function settingUri($inputData=array())
-	{
-		self::$data['path']=THIS_PATH;
-
-		self::$data['list_uri']=$inputData;
-
-		self::$data['controller']='home';
-
-		if(preg_match('/\/privatecontroller\/(\w+)/i', System::getUri(),$match))
-		{
-			self::$data['plugin']=$match[1];
-		}
-
-		if(preg_match('/\/privatecontroller\/(\w+)\/(\w+)/i', System::getUri(),$match))
-		{
-			self::$data['plugin']=$match[1];
-			self::$data['controller']=$match[2];
-
-		}
-
-	}
-
-	public static function url($controllerName,$funcName='index',$pluginName='')
-	{
-		$pluginName=isset(self::$data['plugin'])?self::$data['plugin']:$pluginName;
-
-		$url=System::getUrl().'admincp/plugins/privatecontroller/'.$pluginName.'/'.$controllerName.'/'.$funcName.'/';
-
-		return $url;
-	}
-
-
-	public static function render()
-	{
-		
-		$curUri=System::getUri();
-
-		$controllerName='home';
-
-		$funcName='index';
-
-		$pageName='home';
-
-		// 'baiviet'=>'post@index'
-		if(preg_match('/privatecontroller\/'.self::$data['plugin'].'\/(\w+)/i', $curUri,$match))
-		{
-			$pageName=$match[1];
-
-			if(!isset(self::$data['list_uri'][$pageName]))
-			{
-				$controllerName=$pageName;
-			}
-			else
-			{
-				$cName=trim(self::$data['list_uri'][$pageName]);
-				if(preg_match_all('/(\w+)/i', $cName,$matchName))
-				{
-					$controllerName=$matchName[1][0];
-
-					$funcName=isset($matchName[1][1])?$matchName[1][1]:$funcName;
-				}
-			}
-
-			if(preg_match('/privatecontroller\/'.self::$data['plugin'].'\/(\w+)\/(\w+)/i', $curUri,$matchFunc))
-			{
-				$funcName=$matchFunc[2];
-			}			
-		}
-
-		if($controllerName=='')
-		{
-			Alert::make('We not allow run null controller');
-		}
-		
-		if(!isset(self::$data['list_uri'][$pageName]))
-		{
-			Alert::make('Page not found');
-		}
-
-		self::controller($controllerName,$funcName);
-
-		
-	}
-
-	public static function controller($viewName,$funcName='index')
-	{
-		Model::loadWithPath($viewName,self::$data['path'].'models/');
-
-		Controller::loadWithPath('control'.ucfirst($viewName),$funcName,self::$data['path'].'controllers/');
-	}
-
-	public static function model($viewName)
-	{
-		Model::loadWithPath($viewName,self::$data['path'].'models/');
-	}
-
-	public static function view($viewName,$inputData=array())
-	{
-		View::makeWithPath($viewName,$inputData,self::$data['path'].'views/');
-	}
-
-	public static function admincpHeader($inputData=array())
-	{
-		View::make('admincp/head',$inputData=array());
-	}
-
-	public static function admincpFooter($inputData=array())
-	{
-		View::make('admincp/footer',$inputData=array());
-	}
-
-	public static function admincpLeft($inputData=array())
-	{
-		View::make('admincp/left',$inputData=array());
-	}
-
-}
+fondue/3	3
+surfrapper/4	5
+surfréquentation/1	2
+surfusion/1	2
+surgélateur/1	1
+surgélation/1	2
+surgelé/1	1
+surgelée/3	3
+surgeler/47	5
+surgénération/1	2
+surgénératrice/3	3
+surgeon/1	1
+surgeonner/10	14
+surgie/3	3
+surgir/55	92
+surgissement/1	1
+surglacer/4	5
+surgreffer/4	5
+surharmonique/1	4
+surhaussée/3	3
+surhaussement/1	1
+surhausser/4	5
+surhomme/1	1
+surhumaine/3	3
+surhumainement	8
+surhumanité/1	2
+suricate/1	1
+surie/3	3
+surikate/1	1
+surimi/1	1
+surimposer/4	11
+surimposition/1	2
+surimpression/1	2
+surin/1	1
+surinamaise/3	6
+suriner/4	5
+surinfection/1	2
+surinformation/1	2
+surintendance/1	2
+surintendante/3	9
+surintensité/1	2
+surinterpréter/33	5
+surinvestir	92
+surinvestissement/1	1
+surir/55	92
+surjaler/10	14
+surjection/1	2
+surjective/3	3
+surjectivement	8
+surjectivité/1	2
+surjet/1	1
+surjeter/40	5
+surjouer/4	17
+sur-le-champ	8
+surlendemain/1	1
+surlier/4	5
+surlignage/1	1
+surlignante/3	3
+surlignée/3	3
+surligner/4	5
+surligneur/1	1
+surliure/1	2
+surlonge/1	2
+surloyer/1	1
+surmédiatisation/1	2
+surmédicalisation/1	2
+surmédicalisée/3	3
+surmédicaliser/4	5
+surmenage/1	1
+surmenée/3	3
+surmener/47	11
+sur-mesure	7
+surmoi	7
+sur-moi	7
+surmoi/1	1
+surmontable/1	4
+surmontée/3	3
+surmonter/4	11
+surmontoir/1	1
+surmortalité/1	2
+surmoulage/1	1
+surmoulée/3	3
+surmouler/4	5
+surmulet/1	1
+surmulot/1	1
+surmultiplication/1	2
+surnager/10	14
+surnatalité/1	2
+surnaturalisme/1	1
+surnaturaliste/1	13
+surnaturelle/3	3
+surnaturellement	8
+surnom/1	1
+surnombre/1	1
+surnommée/3	3
+surnommer/4	5
+surnoter/4	17
+surnuméraire/1	13
+surnumérariat/1	1
+suroffre/1	2
+suroit/1	1
+suroît/1	1
+suros	7
+suroxydation/1	2
+suroxyder/4	5
+suroxygénée/3	3
+surpassable/1	4
+surpassement/1	1
+surpasser/4	11
+surpaye/1	2
+surpayée/3	3
+surpayer/4	5
+surpêche/1	2
+surpeuplée/3	3
+surpeuplement/1	1
+surpiquer/4	5
+surpiqure/1	2
+surpiqûre/1	2
+surplace/1	1
+surplis	7
+surplomb/1	1
+surplombante/3	3
+surplombement/1	1
+surplomber/4	17
+surplus	7
+surpoids	7
+surpopulation/1	2
+surprenante/3	3
+surprendre/88	79
+surpression/1	2
+surprime/1	2
+surprise/3	3
+surprise/1	2
+surprise-partie	47
+surprises-parties	46
+surproduction/1	2
+surproductive/3	3
+surproductivité/1	2
+surproductrice/3	3
+surproduire/84	82
+surprotection/1	2
+surprotectrice/3	3
+surprotégée/3	3
+surprotéger/33	5
+surpuissance/1	2
+surpuissante/3	3
+surqualification/1	2
+surréaction/1	2
+surréalisme/1	1
+surréaliste/1	13
+surréalité/1	2
+surrection/1	2
+surréelle/3	3
+surrégénérateur/1	1
+surrégime/1	1
+surrénale/8	3
+surrénalienne/3	3
+surreprésentation/1	2
+surreprésentée/3	3
+surréservation/1	2
+surréservée/3	3
+surs	128
+sursalaire/1	1
+sursalée/3	3
+sursaturante/3	3
+sursaturation/1	2
+sursaturée/3	3
+sursaturer/4	5
+sursaut/1	1
+sursauter/10	14
+surséance/1	2
+sursemer/47	5
+surseoir/154	146
+sursis	7
+sursitaire/1	10
+sursoir/154	146
+sursoufflage/1	1
+sursouffler/4	5
+surstock/1	1
+surstockage/1	1
+surtailler/4	5
+surtaux	7
+surtaxe/1	2
+surtaxée/3	3
+surtaxer/4	5
+surte
