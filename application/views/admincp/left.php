@@ -273,10 +273,13 @@
 
                             </ul>
                         </li>
-                    <?php } ?>
                     <li class="li-dashboard">
                         <a href="<?php echo System::getAdminUrl();?>logs"><span class="glyphicon glyphicon-envelope"></span> Logs</a></a>
-                    </li>
+                    </li>                        
+                    <?php } ?>
+
+
+
                     <?php $valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_setting_manager'); $valid=System::issetVar('admincp_left_hide_plugin')?'yes':$valid; if($valid=='yes'){ ?>
 
                         <?php Render::cpanel_menu('admincp_menu');?>

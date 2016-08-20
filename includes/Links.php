@@ -129,8 +129,8 @@ class Links
 	public static function saveCache()
 	{
 		$loadData=self::getRecursive();
-
-		if(isset($loadData[0]['id']))
+		
+		if(is_array($loadData))
 		{
 			$savePath=ROOT_PATH.'application/caches/fastcache/listLinks.cache';
 
