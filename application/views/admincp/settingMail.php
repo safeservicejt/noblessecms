@@ -1,3 +1,7 @@
+<p>
+	
+<button type="button" class="btn btn-primary btn-test-mail" ><span class="glyphicon glyphicon-comment"></span> Send Test Mail</button>
+</p>
 
 <form action="" method="post" enctype="multipart/form-data">	
 <div class="panel panel-default">
@@ -84,10 +88,92 @@
 </form>
 <script>
 
+var api_email_url='<?php echo System::getUrl();?>api/system/';
+
+var send_email_status='none';
+
+function send_test_mail(toEmail)
+{
+	if(toEmail.indexOf('a')==-1)
+	{
+		send_email_status='none';
+
+		alert('Error!');
+
+		return false;
+	}
+
+	$('title').text('Sending...');
+
+    var request = new XMLHttpRequest();
+    request.open('POST', api_email_url+'sendtestemail', true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+    request.onload = function() {
+      if (request.status >= 200 && request.status < 400) {
+        // Success!
+        // var data = JSON.parse(request.responseText);
+        var msg = JSON.parse(request.responseText);
+
+        if(msg['error']=='yes')
+        {
+        	alert(msg['message']);
+        }
+        else
+        {
+        	alert('Completed. Check your mail!');
+        }
+
+        send_email_status='none';
+
+        $('title').text('Completed !');
+
+      } else {
+        // We reached our target server, but it returned an error
+        send_email_status='none';
+
+        $('title').text('Error !');
+
+        alert(request.responseText);
+        
+        
+      }
+    };
+
+    request.onerror = function() {
+      // There was a connection error of some sort
+       send_email_status='none';  
+       
+       $('title').text('Error !'); 
+
+       alert('Error!');
+    };
+
+    request.send("send_email="+toEmail);	
+}
+
 $(document).ready(function(){
 
 setSelect('send_method','<?php echo $mail["send_method"];?>');
 
+	$('.btn-test-mail').click(function(){
+
+		if(send_email_status=='start')
+		{
+			alert('Test mail sending...');
+			return false;
+		}
+
+		var email=prompt('Type email that you will receive test mail:');
+
+		if(email)
+		{
+			send_email_status='start';
+
+			send_test_mail(email);
+		}
+
+	});
 
 });
 

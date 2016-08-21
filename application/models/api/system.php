@@ -2,6 +2,7 @@
 
 function loadApi($action)
 {
+
 	$groupid=Users::getCookieGroupId();
 
 	$userid=Users::getCookieUserId();
@@ -18,7 +19,36 @@ function loadApi($action)
 
 	switch ($action) {
 
-		case 'changeHomePage':
+		case 'sendtestemail':
+		
+			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+
+			$userid=Users::getCookieUserId();
+
+			if($owner!='yes')
+			{
+				throw new Exception('You not have permission to do this action.');
+				
+			}			
+
+			$send_email=trim(Request::get('send_email',''));
+
+			if(!preg_match('/\w+\@\w+\./i', $send_email))
+			{
+				throw new Exception('Data not valid.');
+				
+			}
+
+			Mail::send(array(
+			'toEmail'=>$send_email,
+			'toName'=>'You',
+			'subject'=>'Test mail',
+			'body'=>'<h1>This is test mail</h1>'
+			));			
+
+			break;
+
+		case 'changehomepage':
 		
 			$send_url=trim(Request::get('send_url'));
 
@@ -33,7 +63,7 @@ function loadApi($action)
 
 			break;
 
-		case 'getSetting':
+		case 'getsetting':
 			
 			if(!isset($_COOKIE['groupid']))
 			{
@@ -57,7 +87,7 @@ function loadApi($action)
 			}
 			
 			break;
-		case 'addSetting':
+		case 'addsetting':
 
 			try {
 
