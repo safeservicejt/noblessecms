@@ -65,6 +65,68 @@ function system_count_char(theEl,target)
   theEl.text(theLen);
 }
 
+function get_list_media()
+{
+	var url=$('#root_url').attr('content');
+
+    var request = new XMLHttpRequest();
+    request.open('POST', url+'api/media/load_file', true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+    request.onload = function() {
+      if (request.status >= 200 && request.status < 400) {
+        // Success!
+        // var data = JSON.parse(request.responseText);
+        var msg = JSON.parse(request.responseText);
+
+        $('.wrap_list_media > table > tbody').html(msg['data']);
+
+      } else {
+        // We reached our target server, but it returned an error
+          
+
+      }
+    };
+
+    request.onerror = function() {
+      // There was a connection error of some sort
+       
+    };
+
+    request.send();	
+}
+
+function remove_media(theEl,filename)
+{
+	var url=$('#root_url').attr('content');
+
+    var request = new XMLHttpRequest();
+    request.open('POST', url+'api/media/remove_file', true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+    request.onload = function() {
+      if (request.status >= 200 && request.status < 400) {
+        // Success!
+        // var data = JSON.parse(request.responseText);
+        var msg = JSON.parse(request.responseText);
+
+        theEl.parent().parent().remove();
+
+      } else {
+        // We reached our target server, but it returned an error
+          
+
+      }
+    };
+
+    request.onerror = function() {
+      // There was a connection error of some sort
+       
+    };
+
+    request.send('send_filename='+filename);	
+}
+
 $(document).ready(function() {
 
 	$('.img-tools').click(function(){
@@ -104,4 +166,34 @@ $(document).ready(function() {
 });
 
 
+
+
+$( document ).on( "click", ".show_medial_modal", function() {
+
+  $('#mediaModal').modal('show');
+
+}); 
+
+
+
+$( document ).on( "click", ".show_media_list", function() {
+
+	get_list_media();
+  
+}); 
+
+
+
+$( document ).on( "click", ".remove_media_file", function() {
+
+	var el=$(this);
+
+	var filename=el.attr('data-filename');
+
+	if(confirm('Are you ensure remove this file ?'))
+	{
+		remove_media(el,filename);
+	}
+  
+}); 
 
