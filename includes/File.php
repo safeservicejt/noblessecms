@@ -362,17 +362,15 @@ class File
 
     public static function download($filePath,$fileName='')
     {
-        if(isset($fileName[2]))
+        $filePath=trim($filePath);
+       
+        if(!preg_match('/([a-zA-Z0-9_\-\s\w]+)\.(\w+)$/i', $filePath,$match))
         {
-            preg_match('/\.(\w+)$/i', $filePath,$matches);
+            Alert::make('File not found');
+        }
 
-            $fileName=Url::makeFriendly($fileName).'.'.$matches[1];
-        }
-        else
-        {
-            $fileName=basename($filePath);
-        }
-        
+        $fileName=Url::makeFriendly($match[1]).'.'.$match[2];
+            
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename='.$fileName);
@@ -385,6 +383,7 @@ class File
         flush();
         readfile($filePath);
         exit;
+        
     }
 
     public static function move($fileSource = '', $fileDesc = '')
@@ -495,9 +494,9 @@ class File
             return false;
         }
         
-        $shortPath.=Http::get('host').'/';
+        // $shortPath.=Http::get('host').'/';
 
-        $newName=String::randNumber(10);
+        $newName=String::randAlpha(10);
 
 
         $shortPath.=$newName;
@@ -538,7 +537,7 @@ class File
             return false;
         }
 
-        $shortPath.=Http::get('host').'/';
+        // $shortPath.=Http::get('host').'/';
 
         if(!is_dir($shortPath))
         {
@@ -558,7 +557,7 @@ class File
                 continue;
             }
 
-            $newName=String::randNumber(10);
+            $newName=String::randAlpha(10);
 
             $theName=$_FILES[$keyName]['name'][$i];
 
