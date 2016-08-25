@@ -21,15 +21,6 @@ function loadApi($action)
 
 		case 'sendtestemail':
 		
-			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
-
-			$userid=Users::getCookieUserId();
-
-			if($owner!='yes')
-			{
-				throw new Exception('You not have permission to do this action.');
-				
-			}			
 
 			$send_email=trim(Request::get('send_email',''));
 

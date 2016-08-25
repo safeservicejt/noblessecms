@@ -1,157 +1,96 @@
-panation/1	2
-trépanée/3	3
-trépaner/4	5
-trépang/1	1
-trépas	7
-trépassée/3	6
-trépasser/10	14
-tréphocyte/1	1
-tréphone/1	2
-trépidante/3	3
-trépidation/1	2
-trépider/10	14
-trépied/1	1
-trépignante/3	3
-trépignement/1	1
-trépigner/4	17
-trépigneuse/1	2
-trépointe/1	2
-tréponème/1	1
-très	151
-trésaille/1	2
-trescheur/1	1
-trésor/1	1
-trésorerie/1	2
-trésorière/3	9
-tressage/1	1
-tressaillante/3	3
-tressaillement/1	1
-tressaillir/126	91
-tressaut/1	1
-tressautement/1	1
-tressauter/10	14
-tresse/1	2
-tressée/3	3
-tresser/4	5
-tresseuse/3	9
-tréteau/19	1
-treuil/1	1
-treuillage/1	1
-treuiller/4	5
-trêve/1	2
-trévirer/4	5
-trévise/1	2
-tri/1	1
-triac/1	1
-triacide/1	1
-triacontaèdre/1	1
-triade/1	2
-triadique/1	4
-triage/1	1
-triaire/1	1
-triakioctaèdre/1	1
-triakitétraèdre/1	1
-trial/1	1
-trialcool/1	1
-triamcinolone/1	2
-triandine/1	2
-triandrie/1	2
-triangle/1	1
-triangulabilité/1	2
-triangulable/1	4
-triangulaire/1	4
-triangulairement	8
-triangularisation/1	2
-triangularité/1	2
-triangulation/1	2
-trianguler/4	5
-trias	7
-triasique/1	4
-triathlète/1	10
-triathlon/1	1
-triathlonienne/3	9
-triatomique/1	4
-tribade/1	2
-tribale/8	3
-tribalisme/1	1
-triballer/4	5
-tribande/1	4
-tribande/1	1
-tribart/1	1
-tribasique/1	4
-triboélectricité/1	2
-tribo-électricité/1	2
-triboélectrique/1	4
-tribo-électrique/1	4
-tribologie/1	2
-triboluminescence/1	2
-tribomètre/1	1
-tribométrie/1	2
-tribord/1	1
-tribordais	7
-triboulet/1	1
-tribu/1	2
-tribulation/1	2
-tribun/1	1
-tribunal/19	1
-tribunat/1	1
-tribune/1	2
-tribunitienne/3	3
-tribut/1	1
-tributaire/1	4
-tributylphosphate/1	1
-tric/1	1
-tricalcique/1	4
-tricamérale/8	3
-tricarboxylique/1	4
-tricarde/3	6
-tricennale/8	3
-tricentenaire/1	4
-tricentenaire/1	1
-tricéphale/1	4
-triceps	7
-tricératops	7
-triche/1	2
-tricher/10	14
-tricherie/1	2
-tricheuse/3	6
-trichiasis	7
-trichinée/3	3
-trichineuse/8	3
-trichinose/1	2
-trichite/1	2
-trichloracétique/1	4
-trichloréthylène/1	1
-trichlorure/1	1
-trichocéphale/1	1
-trichogramme/1	1
-tricholome/1	1
-trichoma/1	1
-trichomanie/1	2
-trichome/1	1
-trichomonas	7
-trichophagie/1	2
-trichophytie/1	2
-trichophyton/1	1
-trichotillomanie/1	2
-trichroïque/1	4
-trichroïsme/1	1
-trichrome/1	4
-trichromie/1	2
-trick/1	1
-triclinique/1	4
-triclinium/51	1
-triclinium/1	1
-tricoise/1	2
-tricolore/1	13
-tricorne/1	1
-tricot/1	1
-tricotage/1	1
-tricotée/3	3
-tricoter/4	17
-tricotets	20
-tricoteuse/3	9
-tricouni/1	1
-tricourant	45
-trictrac/1	1
-tricusp
+<?php
+
+class DatabaseMongodb
+{
+    public static $dbConnect = '';
+
+    public static $error = '';
+
+    public static $insertID = 0;
+
+    public static $protocol = 'mongodb';
+
+    private static $runQuery = 'no';
+
+    public static function connect($keyName='default')
+    {
+        global $db;
+
+        self::$protocol = $db[$keyName]['dbtype'];
+
+        $conn = new MongoClient($db[$keyName]['dbhost']);
+
+        $db_name=$db[$keyName]['dbname'];
+
+        self::$dbConnect = $conn->$db_name;        
+
+        return $conn;
+
+    }
+
+    public static function insert($collection_name,$values)
+    {
+        $collection = self::$dbConnect->$collection_name;
+        $collection->insert($values);
+    }
+
+    public static function delete($collection_name,$condition)
+    {
+        $collection = self::$dbConnect->$collection_name;
+        $collection->remove($condition);
+    }
+
+    public static function update($collection_name,$condition,$newdata)
+    {
+        $collection = self::$dbConnect->$collection_name;
+        $collection->update($condition,$newdata);
+    }
+
+    public static function findOne($collection_name,$condition,$field_name)
+    {
+        $collection = self::$dbConnect->$collection_name;
+        $res = $collection->findOne($condition,$field_name);
+        return $res;
+    }
+
+    public static function count($collection_name,$condition)
+    {
+        $collection = self::$dbConnect->$collection_name;
+        $res = $collection->count($condition);
+        return $res;
+    }
+
+    public static function getMax($collection_name,$field_name)
+    {
+        $collection = self::$dbConnect->$collection_name;
+        $res = $collection->find(array(),$field_name)->sort(array("_id"=>-1))->limit(1);
+    
+        foreach($res as $v)
+        {
+            return($v['id']);
+        }
+    }
+
+    public static function find($collection_name,$field_name,$condition=null)
+    {
+        $collection = self::$dbConnect->$collection_name;
+        $res = $collection->find($condition,$field_name);   
+        $output = "";
+        $co=0;
+        foreach($res as $v)
+        {
+            foreach($field_name as $p=>$k)
+            {
+                $output[$co][$p] = $v[$p];  
+            }
+        $co++;
+        }
+        return $output;
+    }
+
+
+
+}
+
+
+?>

@@ -1,107 +1,93 @@
-transhumance/1	2
-transhumanisme/1	1
-transhumante/3	6
-transhumer/4	17
-transie/3	3
-transiger/10	14
-transillumination/1	2
-transir/29	100
-transistor/1	1
-transistorisation/1	2
-transistoriser/4	5
-transit/1	1
-transitaire/1	13
-transiter/4	17
-transition/1	2
-transitionnelle/3	3
-transitive/3	3
-transitivement	8
-transitivité/1	2
-transitoire/1	4
-transitoirement	8
-translatée/3	3
-translater/4	5
-translatif/1	1
-translation/1	2
-translationnelle/3	3
-translative/3	3
-translittération/1	2
-translittérer/33	5
-translocation/1	2
-translucide/1	4
-translucidité/1	2
-transmetteuse/3	6
-transmettre/73	79
-transmigration/1	2
-transmigrer/10	14
-transmise/3	3
-transmissibilité/1	2
-transmissible/1	4
-transmissiomètre/1	1
-transmission/1	2
-transmodulation/1	2
-transmuable/1	4
-transmuée/3	3
-transmuer/4	11
-transmutabilité/1	2
-transmutable/1	4
-transmutation/1	2
-transmutatoire/1	4
-transmutée/3	3
-transmuter/4	11
-transnationale/8	3
-transneptunienne/3	3
-transocéanienne/3	3
-transocéanique/1	4
-transparaitre/94	91
-transparaître/94	91
-transparence/1	2
-transparente/3	3
-transpercée/3	3
-transpercement/1	1
-transpercer/4	5
-transpirante/3	3
-transpiration/1	2
-transpirer/4	17
-transplant/1	1
-transplantable/1	4
-transplantation/1	2
-transplantement/1	1
-transplanter/4	11
-transplantoir/1	1
-transpolaire/1	4
-transpondeur/1	1
-transport/1	1
-transportabilité/1	2
-transportable/1	4
-transportation/1	2
-transportée/3	3
-transporter/4	11
-transporteuse/3	9
-transposable/1	4
-transposée/3	3
-transposée/1	2
-transposer/4	5
-transposition/1	2
-transpositrice/3	9
-transposon/1	1
-transpyrénéenne/3	3
-transsaharienne/3	3
-transsexualisme/1	1
-transsexualité/1	2
-transsexuelle/3	6
-transsibérienne/3	3
-transsonique/1	4
-transsubstantiation/1	2
-transsubstantier/4	5
-transsudat/1	1
-transsudation/1	2
-transsuder/4	17
-transuranien/1	1
-transuranienne/3	3
-transvasement/1	1
-transvaser/4	5
-transvection/1	2
-transversale/8	3
-transversalement	8
-transversalité/
+<?php
+
+class DatabaseMSSQL
+{
+
+    public static $dbConnect = '';
+
+    public static $error = '';
+
+    public static $insertID = 0;
+
+
+    public static function connect()
+    {
+        global $db;
+
+        $serverName = $db['dbhost'] . ', ' . $db['dbport']; //serverName\instanceName, portNumber (default is 1433)
+
+        $conn = mssql_connect($serverName, $db['dbuser'], $db['dbpass']);
+
+        $selected = mssql_select_db($db['dbname'], $conn);
+
+        if ($selected) {
+            self::$dbConnect = $conn;
+
+            return $conn;
+        } else {
+            self::$error = 'Can not connect to database.';
+
+            return false;
+        }
+
+
+    }
+
+    public static function query($queryStr = '', $objectStr = '')
+    {
+        $queryDB = mssql_query(self::$dbConnect, $queryStr);
+
+        if (preg_match('/insert into/i', $queryDB)) {
+            mssql_next_result($queryDB);
+
+            $row = mssql_fetch_row($queryDB);
+
+            self::$insertID = $row[0];
+        }
+
+        if (is_object($objectStr)) {
+            $objectStr($queryDB);
+        }
+
+        return $queryDB;
+
+    }
+
+    public static function fetch_array($queryDB = '', $objectStr = '', $fetchType = 'MSSQL_ASSOC')
+    {
+        $row = mssql_fetch_array($queryDB, $fetchType);
+
+        if (is_object($objectStr)) {
+            $objectStr($row);
+        }
+
+        return $row;
+    }
+
+    public static function num_rows($queryDB = '', $objectStr = '')
+    {
+        $numRows = mssql_num_rows($queryDB);
+
+        if (is_object($objectStr)) {
+            $objectStr($numRows);
+        }
+
+        return $numRows;
+
+    }
+
+    public static function insert_id($objectStr = '')
+    {
+
+        $id = self::$insertID;
+
+        if (is_object($objectStr)) {
+            $objectStr($id);
+        }
+
+        return $id;
+    }
+
+}
+
+?>

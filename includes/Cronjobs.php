@@ -1,510 +1,394 @@
-e/3	3
-succursale/1	2
-succursalisme/1	1
-succursaliste/1	13
-succussion/1	2
-sucée/3	3
-sucement/1	1
-sucer/4	42
-sucette/1	2
-suceuse/3	6
-suçoir/1	1
-suçon/1	1
-suçotement/1	1
-suçoter/4	5
-sucrage/1	1
-sucrante/3	3
-sucrase/1	2
-sucrate/1	1
-sucre/1	1
-sucrée/3	3
-sucrer/4	42
-sucrerie/1	2
-sucrette/1	2
-sucrière/3	6
-sucrin/1	1
-sud	18
-sud-africaine/3	6
-sud-américaine/3	6
-sudation/1	2
-sudatoire/1	4
-sud-coréenne/3	6
-sud-est	18
-sudète/1	13
-sudiste/1	13
-sudoku/1	1
-sudorale/8	3
-sudorifère/1	4
-sudorifique/1	4
-sudoripare/1	4
-sud-ouest	18
-sud-vietnamienne/3	6
-sue/3	3
-suède/1	1
-suédée/3	3
-suédine/1	2
-suédoise/3	6
-suée/1	2
-suer/4	17
-suette/1	2
-sueur/1	2
-suffète/1	1
-suffire/100	139
-suffisamment	8
-suffisance/1	2
-suffisante/3	6
-suffixale/8	3
-suffixation/1	2
-suffixe/1	1
-suffixée/3	3
-suffixer/4	5
-suffocante/3	3
-suffocation/1	2
-suffoquée/3	3
-suffoquer/4	17
-suffragante/3	3
-suffrage/1	1
-suffragette/1	2
-suffusion/1	2
-suggérée/3	3
-suggérer/33	17
-suggestibilité/1	2
-suggestible/1	4
-suggestion/1	2
-suggestionner/4	5
-suggestive/3	3
-suggestivité/1	2
-suicidaire/1	10
-suicide/1	1
-suicidée/3	6
-suicider/4	55
-suidé/1	1
-suie/1	2
-suif/1	1
-suifer/4	5
-suiffer/4	5
-suiffeuse/8	3
-suint/1	1
-suintante/3	3
-suintement/1	1
-suinter/4	17
-suisse/1	13
-suissesse/1	2
-suite/1	2
-suitée/1	106
-suivant	98
-suivante/3	6
-suiveuse/3	6
-suivi/1	1
-suivie/3	3
-suivisme/1	1
-suiviste/1	13
-suivre/143	96
-sujétion/1	2
-sujette/3	6
-sukkeler/72	14
-sulcature/1	2
-sulciforme/1	4
-sulfamide/1	1
-sulfanilamide/1	1
-sulfanilique/1	4
-sulfatage/1	1
-sulfatation/1	2
-sulfate/1	1
-sulfatée/3	3
-sulfater/4	5
-sulfateuse/3	9
-sulfhémoglobine/1	2
-sulfhydrique/1	4
-sulfhydrisme/1	1
-sulfinisation/1	2
-sulfitage/1	1
-sulfite/1	1
-sulfitée/3	3
-sulfiter/4	5
-sulfocarbonate/1	1
-sulfocarbonique/1	4
-sulfonation/1	2
-sulfone/1	2
-sulfonée/3	3
-sulfoner/4	5
-sulfosel/1	1
-sulfovinique/1	4
-sulfoxyde/1	1
-sulfurage/1	1
-sulfuration/1	2
-sulfure/1	1
-sulfurée/3	3
-sulfurer/4	5
-sulfureuse/8	3
-sulfurique/1	4
-sulfurisée/3	3
-sulky/41	1
-sulky/1	1
-sulpicienne/3	6
-sultanat/1	1
-sultane/3	9
-sumac/1	1
-sumérienne/3	6
-summum/1	1
-sumo/1	1
-sumotori/1	1
-sunlight/1	1
-sunna/1	2
-sunnisme/1	1
-sunnite/1	10
-super	45
-super/1	2
-super/1	1
-superacide/1	1
-superalliage/1	1
-superamas	7
-superattractive/3	3
-superattractivité/1	2
-superbe/1	13
-superbement	8
-superbénéfice/1	1
-superbombe/1	2
-supercalculateur/1	1
-supercarburant/1	1
-supercarré/1	1
-supercavitante/3	3
-superchampionne/3	9
-supercherie/1	2
-superciment/1	1
-superclasse/1	2
-superconnexion/1	2
-supercontinent/1	1
-supercorde/1	2
-supercritique/1	4
-superdécrochage/1	1
-superdensité/1	2
-superdividende/1	1
-supère/1	4
-superessif/1	1
-supérette/1	2
-superfamille/1	2
-superfécondation/1	2
-superfétation/1	2
-superfétatoire/1	4
-superficialité/1	2
-superficie/1	2
-superficielle/3	3
-superficiellement	8
-superfine/3	3
-superfinir/29	84
-superfinition/1	2
-superflue/3	3
-superfluide/1	4
-superfluide/1	1
-superfluidité/1	2
-superfluité/1	2
-superforme/1	2
-superforteresse/1	2
-superfractionnement/1	1
-supergéant/1	1
-super-géant/1	1
-supergéante/1	107
-supergrand/1	1
-supergravité/1	2
-superhéros	7
-super-héros	7
-superhétérodyne/1	4
-super-huit	45
-super-huit	7
-supérieure/3	6
-supérieurement	8
-supériorité/1	2
-superjet/1	1
-superlatif/1	1
-superlative/3	3
-superlativement	8
-superlégère/3	6
-super-légère/3	6
-superlourde/3	6
-super-lourde/3	6
-superluminique/1	4
-supermalloy/1	1
-superman/41	1
-superman/1	1
-supermarché/1	1
-supermassive/3	3
-supermolécule/1	2
-supernova	47
-supernova/1	2
-supernovæ	46
-superordinateur/1	1
-superordonnée/3	3
-superordre/1	1
-superovariée/3	3
-superovulation/1	2
-superoxyde/1	1
-superparamagnétisme/1	1
-superpétrolier/1	1
-superphosphate/1	1
-superplasticité/1	2
-superplastique/1	4
-superpolyamide/1	1
-superposable/1	4
-superposée/3	3
-superposer/4	11
-superposition/1	2
-superpréfet/1	1
-superprivilège/1	1
-superproduction/1	2
-superprofit/1	1
-superpuissance/1	2
-superpurgation/1	2
-superréaction/1	2
-superscalaire/1	4
-supersonique/1	4
-superstar/1	2
-superstatoréacteur/1	1
-superstitieuse/8	6
-superstitieusement	8
-superstition/1	2
-superstrat/1	1
-superstructure/1	2
-supersymétrie/1	2
-supersymétrique/1	4
-supersynthèse/1	2
-supertanker/1	1
-supervariété/1	2
-supervisée/3	3
-superviser/4	5
-superviseure/1	2
-superviseuse/3	9
-supervision/1	2
-superwelter/1	1
-super-welter/1	1
-supin/1	1
-supinateur/1	1
-supination/1	2
-suppl
-supplantation/1	2
-supplantée/3	3
-supplanter/4	11
-suppléance/1	2
-suppléante/3	6
-suppléer/4	115
-supplément/1	1
-supplémentaire/1	4
-supplémentairement	8
-supplémentation/1	2
-supplémenter/4	5
-supplétisme/1	1
-supplétive/3	3
-supplétoire/1	4
-suppliante/3	3
-supplication/1	2
-supplice/1	1
-suppliciée/3	6
-supplicier/4	5
-suppliée/3	3
-supplier/4	5
-supplique/1	2
-support/1	1
-supportable/1	4
-supportée/3	3
-supporter/1	10
-supporter/4	11
-supportrice/3	9
-supposable/1	4
-supposée/3	3
-supposément	8
-supposer/4	5
-supposition/1	2
-suppositoire/1	1
-suppôt/1	1
-suppresseur/1	1
-suppresseuse/3	3
-suppression/1	2
-suppressive/3	3
-supprimable/1	4
-supprimée/3	3
-supprimer/4	11
-suppurante/3	3
-suppuration/1	2
-suppurative/3	3
-suppurée/3	3
-suppurer/10	14
-supputation/1	2
-supputée/3	3
-supputer/4	5
-supra	8
-supraconduction/1	2
-supraconductivité/1	2
-supraconductrice/3	3
-suprahumaine/3	3
-supra-humaine/3	3
-supralapsaire/1	13
-supraliminaire/1	4
-supraluminique/1	4
-supralunaire/1	4
-supramoléculaire/1	4
-supranationale/8	3
-supranationalisation/1	2
-supranationalisme/1	1
-supranationaliste/1	13
-supranationalité/1	2
-supranormale/8	3
-suprasegmentale/8	3
-suprasensible/1	4
-suprastructure/1	2
-supraterrestre/1	4
-suprématie/1	2
-suprématisme/1	1
-suprématiste/1	13
-suprême/1	4
-suprêmement	8
-sûr	132
-sur	98
-surabondamment	8
-surabondance/1	2
-surabondante/3	3
-surabonder/10	14
-suractive/3	3
-suractivée/3	3
-suractivité/1	2
-surah/1	1
-suraiguë/3	3
-suraigüe/3	3
-surajoutée/3	3
-surajouter/4	11
-surale/8	3
-suralimentation/1	2
-suralimentée/3	3
-suralimenter/4	11
-suraller/10	14
-suramplificateur/1	1
-surannée/3	3
-surarbitre/1	10
-surarmement/1	1
-surarmer/4	5
-surate/1	2
-surbaissée/3	3
-surbaissement/1	1
-surbaisser/4	5
-surbookée/3	3
-surbooking/1	1
-surboucher/4	5
-surboum/1	2
-surbrillance/1	2
-surbroder/4	5
-surcapacité/1	2
-surcapitalisante/3	3
-surcapitalisation/1	2
-surcharge/1	2
-surchargée/3	3
-surcharger/4	5
-surchauffe/1	2
-surchauffée/3	3
-surchauffer/4	5
-surchauffeur/1	1
-surchemise/1	2
-surchoix	18
-surclassée/3	3
-surclassement/1	1
-surclasser/4	5
-surcoller/10	14
-surcompensation/1	2
-surcompensatoire/1	4
-surcompensatrice/3	3
-surcomposée/3	3
-surcompression/1	2
-surcomprimée/3	3
-surcomprimer/4	5
-surconscience/1	2
-surconsommation/1	2
-surconsommer/4	17
-surcontrer/4	5
-surcostale/8	3
-surcot/1	1
-surcoter/4	5
-surcouche/1	2
-surcoupe/1	2
-surcouper/10	14
-surcouple/1	1
-surcout/1	1
-surcoût/1	1
-surcreusée/3	3
-surcreusement/1	1
-surcreuser/4	5
-surcritique/1	4
-surcroit/1	1
-surcroît/1	1
-surdensité/1	2
-surdent/1	2
-surdéterminante/3	3
-surdétermination/1	2
-surdéterminée/3	3
-surdéveloppement/1	1
-surdiagonale/1	2
-surdimensionnée/3	3
-surdimensionner/4	5
-surdimutité/1	2
-surdi-mutité/1	2
-surdité/1	2
-surdorer/4	5
-surdos	7
-surdosage/1	1
-surdose/1	2
-surdouée/3	6
-sure/3	3
-sûre/3	3
-sureau/19	1
-surédifier/4	5
-sureffectif/1	1
-surélévation/1	2
-surélevée/3	3
-surélever/47	5
-surelle/1	2
-suremballage/1	1
-surement	8
-sûrement	8
-surémission/1	2
-suremploi/1	1
-surenchère/1	2
-surenchérir/55	92
-surenchérissement/1	1
-surenchérisseuse/3	6
-surencombrée/3	3
-surencombrement/1	1
-surendettement/1	1
-surendetter/4	11
-surentrainée/3	3
-surentraînée/3	3
-surentrainement/1	1
-surentraînement/1	1
-surentrainer/4	5
-surentraîner/4	5
-suréquipée/3	3
-suréquipement/1	1
-suréquiper/4	5
-surérogation/1	2
-surérogatoire/1	4
-surestarie/1	2
-surestimation/1	2
-surestimée/3	3
-surestimer/4	11
-sureté/1	2
-sûreté/1	2
-surette/3	3
-surévaluation/1	2
-surévaluée/3	3
-surévaluer/4	5
-surexcitable/1	4
-surexcitante/3	3
-surexcitation/1	2
-surexcitée/3	3
-surexciter/4	5
-surexploitation/1	2
-surexploitée/3	3
-surexploiter/4	5
-surexposée/3	3
-surexposer/4	5
-surexposition/1	2
-surf/1	1
-surfaçage/1	1
-surface/1	2
-su
+<?php
+
+class Cronjobs
+{
+	//Cronjobs::add(ROOT_PATH.'ac.php','autoPostProcess',5,'minutes')
+
+	public static function get($inputData=array())
+	{
+
+		$limitQuery="";
+
+		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:0;
+
+		$limitPage=isset($inputData['limitPage'])?$inputData['limitPage']:0;
+
+		$limitPage=((int)$limitPage > 0)?$limitPage:0;
+
+		$limitPosition=$limitPage*(int)$limitShow;
+
+		$limitQuery=((int)$limitShow==0)?'':" limit $limitPosition,$limitShow";
+
+		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
+
+		$field="cronid,timenumber,timetype,timeinterval,last_update,jobdata,date_added,status";
+
+		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
+
+		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
+
+		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by cronid desc';
+
+		$result=array();
+
+		$dbPrefix=Database::getPrefix();
+
+		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
+
+		$command="select $selectFields from ".$prefix."cronjobs $whereQuery $orderBy";
+
+		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
+
+		$queryCMD.=$limitQuery;
+
+		$query=Database::query($queryCMD);
+
+		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
+		
+		if((int)$query->num_rows > 0)
+		{
+			while($row=Database::fetch_assoc($query))
+			{
+				if(isset($row['jobdata']))
+				{
+					$row['jobdata']=String::jsonToArray($row['jobdata']);
+				}
+
+				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
+											
+				$result[]=$row;
+			}		
+		}
+		else
+		{
+			return false;
+		}
+
+		// print_r($result);die();
+
+		return $result;
+		
+	}	
+
+	public static function url($id=0)
+	{
+		$url=Url::cronjob($id);
+
+		return $url;
+	}
+
+	public static function run()
+	{
+		$loadData=self::get();	
+
+
+		$total=count($loadData);
+
+		if(!isset($loadData[0]['cronid']))
+		{
+			return false;
+		}	
+
+
+		for($i=0;$i<$total;$i++)
+		{
+			if(!self::isReady($loadData[$i]))
+			{
+				// return false;
+				continue;
+			}
+
+			self::runCron($loadData[$i]);	
+
+			self::updateActive($loadData[$i]['cronid']);
+		}
+	}
+	public static function runSingle($id)
+	{
+		$thisTime=date('Y-m-d H:i:s');
+
+		$loadData=self::get(array(
+			'where'=>"where cronid='$id'"
+			));
+
+		if(!isset($loadData[0]['cronid']))
+		{
+			return false;
+		}
+
+		if(!self::isReady($loadData[0]))
+		{
+			return false;
+		}
+
+		self::runCron($loadData[0]);
+
+		self::updateActive($id);
+	}
+
+	public static function runCron($loadData)
+	{
+		$jobData=$loadData['jobdata'];
+
+		$path=$jobData['path'];
+
+		$func=$jobData['func'];
+
+		if(!preg_match('/.*?\.php/i', $path))
+		{
+			return false;
+		}
+
+		if(!file_exists($path))
+		{
+			self::remove(array($loadData['cronid']));
+			
+			return false;
+		}
+
+		include($path);
+
+		if(isset($func[1]) && function_exists($func))
+		{
+			$func();
+		}
+	}
+
+	public static function isReady($loadData)
+	{
+		$timeNumber=strtotime($loadData['last_update']);
+
+		$thisTime=time();
+
+		$timeInterval=(int)$loadData['timeinterval']*60;
+
+		$tmp=(int)$thisTime-(int)$timeInterval;
+
+		if((int)$tmp < (int)$timeNumber)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	public static function isExists($command)
+	{
+	    $cronjob_exists=false;
+
+	    exec('crontab -l', $crontab);
+
+
+	    if(isset($crontab)&&is_array($crontab)){
+
+	        $crontab = array_flip($crontab);
+
+	        if(isset($crontab[$command])){
+
+	            $cronjob_exists=true;
+
+	        }
+
+	    }
+	    return $cronjob_exists;
+	}
+
+	public static function addLine($command)
+	{
+	    if(is_string($command)&&!empty($command)&&self::isExists($command)===FALSE){
+
+	        //add job to crontab
+	        exec('echo -e "`crontab -l`\n'.$command.'" | crontab -', $output);
+
+	    }
+
+	    return $output;		
+	}
+
+	public static function updateActive($id)
+	{
+		$thisTime=date('Y-m-d H:i:s');
+
+		self::update($id,array('last_update'=>$thisTime));
+	}
+
+	public static function add($filePath,$fileFunc='',$timeInterval=5,$timeType='minutes')
+	{
+		$data=array(
+				'path'=>$filePath,
+				'func'=>$fileFunc
+				);
+
+		$loadData=self::get(array(
+			'where'=>"where jobdata='".json_encode($data)."'"
+			));
+
+		if(isset($loadData[0]['cronid']))
+		{
+			return false;
+		}
+
+		$timeType=($timeType=='min')?'minutes':$timeType;
+		$timeType=($timeType=='mins')?'minutes':$timeType;
+		$timeType=($timeType=='hour')?'hours':$timeType;
+		$timeType=($timeType=='day')?'days':$timeType;
+		$timeType=($timeType=='month')?'months':$timeType;
+		$timeType=($timeType=='year')?'years':$timeType;
+
+
+		$timeDB=array('minutes','hours','days','months','years');
+
+		if(!in_array($timeType, $timeDB))
+		{
+			return false;
+		}
+
+		$insertData=array(
+			'timenumber'=>$timeInterval,
+			'timetype'=>$timeType,
+			'timeinterval'=>0,
+			'jobdata'=>array(
+				'path'=>$filePath,
+				'func'=>$fileFunc
+				)
+			);
+
+		$totalTime=$timeInterval;
+
+
+		switch ($timeType) {
+			case 'hours':
+				$totalTime=(int)$timeInterval*60;
+				break;
+			case 'days':
+				$totalTime=((int)$timeInterval*60)*24;
+				break;
+			case 'months':
+				$totalTime=(((int)$timeInterval*60)*24)*30;
+				break;
+			case 'years':
+				$totalTime=((((int)$timeInterval*60)*24)*30)*365;
+				break;
+
+		}
+
+		$insertData['timeinterval']=$totalTime;
+
+		$insertData['jobdata']=json_encode($insertData['jobdata']);
+
+		// print_r($insertData);die();
+
+		if(!$id=self::insert($insertData))
+		{
+			return false;
+		}
+
+		return $id;
+
+	}
+
+	public static function deleteFromPlugin($pluginName='')
+	{
+		Database::query("delete from ".Database::getPrefix()."cronjobs where jobdata LIKE '%/$pluginName/%'");
+		Database::query("delete from ".Database::getPrefix()."cronjobs where jobdata LIKE '%\\$pluginName\%'");
+
+	}
+
+	public static function delete($filePath,$fileFunc='')
+	{
+		$data=array(
+				'path'=>$filePath,
+				'func'=>$fileFunc
+				);
+
+		$data=json_encode($data);
+
+		Database::query("delete from ".Database::getPrefix()."cronjobs where jobdata='$data'");
+	}
+	
+	public static function insert($inputData=array())
+	{
+
+		$inputData['date_added']=date('Y-m-d H:i:s');
+
+		$inputData['last_update']=date('Y-m-d H:i:s');
+
+		$keyNames=array_keys($inputData);
+
+		$insertKeys=implode(',', $keyNames);
+
+		$keyValues=array_values($inputData);
+
+		$insertValues="'".implode("','", $keyValues)."'";
+
+
+
+		Database::query("insert into ".Database::getPrefix()."cronjobs($insertKeys) values($insertValues)");
+
+		if(!$error=Database::hasError())
+		{
+			$id=Database::insert_id();
+
+			return $id;		
+		}
+
+		return false;
+	
+	}
+	public static function remove($post=array(),$whereQuery='',$addWhere='')
+	{
+		if(is_numeric($post))
+		{
+			$id=$post;
+
+			unset($post);
+
+			$post=array($id);
+		}
+
+		$total=count($post);
+
+		$listID="'".implode("','",$post)."'";
+		
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"cronid in ($listID)";
+
+		$addWhere=isset($addWhere[5])?$addWhere:"";
+
+		Database::query("delete from ".Database::getPrefix()."cronjobs where $whereQuery $addWhere");	
+
+		return true;
+	}
+
+	public static function update($id,$post=array(),$whereQuery='',$addWhere='')
+	{
+				
+		$keyNames=array_keys($post);
+
+		$total=count($post);
+
+		$setUpdates='';
+
+		for($i=0;$i<$total;$i++)
+		{
+			$keyName=$keyNames[$i];
+			$setUpdates.="$keyName='$post[$keyName]', ";
+		}
+
+		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
+
+		$whereQuery=isset($whereQuery[5])?$whereQuery:" cronid='$id'";
+		
+		$addWhere=isset($addWhere[5])?$addWhere:"";
+
+		Database::query("update ".Database::getPrefix()."cronjobs set $setUpdates where $whereQuery $addWhere");
+
+		if(!$error=Database::hasError())
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+
+}

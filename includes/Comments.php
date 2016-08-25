@@ -1,433 +1,301 @@
-risation/1	2
-sectoriser/4	5
-séculaire/1	4
-séculairement	8
-sécularisation/1	2
-sécularisée/3	3
-séculariser/4	5
-sécularité/1	2
-séculière/3	3
-séculièrement	8
-secundo	8
-sécurisante/3	3
-sécurisation/1	2
-sécurisée/3	3
-sécuriser/4	5
-sécuritaire/1	4
-sécurité/1	2
-sédation/1	2
-sédative/3	3
-sédénion/1	1
-sédentaire/1	13
-sédentarisation/1	2
-sédentarisée/3	3
-sédentariser/4	11
-sédentarisme/1	1
-sédentarité/1	2
-sédévacantisme/1	1
-sédévacantiste/1	13
-sédiment/1	1
-sédimentaire/1	4
-sédimentation/1	2
-sédimenter/4	5
-sédimentologie/1	2
-sédimentologique/1	4
-sédimentologue/1	10
-séditieuse/8	3
-séditieusement	8
-sédition/1	2
-séduction/1	2
-séductrice/3	6
-séduire/84	113
-séduisante/3	3
-séduite/3	3
-sedum/1	1
-sédum/1	1
-séfarade/1	10
-séga/1	1
-ségala/1	1
-seghia/1	2
-segment/1	1
-segmentaire/1	4
-segmentale/8	3
-segmentation/1	2
-segmentée/3	3
-segmenter/4	11
-ségrairie/1	2
-ségrais	7
-ségrégation/1	2
-ségrégationnisme/1	1
-ségrégationniste/1	10
-ségrégative/3	3
-ségrégée/3	3
-ségréguée/3	3
-ségréguer/33	5
-séguedille/1	2
-seguia/1	2
-séguia/1	2
-seguidilla/1	2
-séguidilla/1	2
-seiche/1	2
-séide/1	10
-seigle/1	1
-seigneur/1	1
-seigneuriage/1	1
-seigneuriale/8	3
-seigneurie/1	2
-seille/1	2
-seillon/1	1
-seime/1	2
-sein/1	1
-seine/1	2
-seing/1	1
-séisme/1	1
-séismicité/1	2
-séismique/1	4
-séismographe/1	1
-séismologie/1	2
-seizain/1	1
-seize	49
-seizième/1	13
-seizièmement	8
-seiziémisme/1	1
-séjour/1	1
-séjournement/1	1
-séjourner/10	14
-sel/1	1
-sélacien/1	1
-sélacienne/3	3
-sélaginelle/1	2
-seldjoukide/1	13
-select/1	4
-sélecte/3	3
-sélecter/4	5
-sélection/1	2
-sélectionnable/1	4
-sélectionnée/3	3
-sélectionner/4	5
-sélectionneuse/3	9
-sélectionnisme/1	1
-sélective/3	3
-sélectivement	8
-sélectivité/1	2
-sélectrice/3	3
-séléniate/1	1
-sélénienne/3	6
-sélénieux	129
-sélénique/1	4
-sélénite/1	10
-séléniteuse/8	3
-sélénium/1	1
-séléniure/1	1
-sélénographie/1	2
-sélénographique/1	4
-sélénologie/1	2
-séleucide/1	13
-self/1	10
-self-control/1	1
-self-government/1	1
-self-inductance/1	2
-self-induction/1	2
-self-made-man/41	1
-self-made-man/1	1
-self-made-woman/41	2
-self-made-woman/1	2
-self-service/1	1
-selle/1	2
-sellée/3	3
-seller/4	5
-sellerie/1	2
-sellette/1	2
-sellier/1	1
-selon	8
-selon	98
-selve/1	2
-semailles	46
-semaine/1	2
-semainière/3	9
-sémantème/1	1
-sémanticienne/3	9
-sémantique/1	4
-sémantiquement	8
-sémantisme/1	1
-sémaphore/1	1
-sémaphorique/1	4
-sémasiologie/1	2
-semblable/1	13
-semblablement	8
-semblance/1	2
-semblant/1	1
-sembler/10	14
-semée/3	3
-séméiologie/1	2
-séméiotique/1	4
-séméiotique/1	2
-semelle/1	2
-sémème/1	1
-semence/1	2
-semencière/3	6
-semer/47	17
-semestre/1	1
-semestrielle/3	3
-semestriellement	8
-semeuse/3	9
-semi/1
-semi-aride/1	4
-semi-automatique/1	4
-semi-auxiliaire/1	4
-semi-auxiliaire/1	1
-semi-chenillée/3	3
-semi-circulaire/1	4
-semi-coke/1	1
-semi-conducteur/1	1
-semi-conductrice/3	3
-semi-consonne/1	2
-semi-développée/3	3
-semi-distillation/1	2
-semi-dominance/1	2
-semi-finie/3	3
-semi-liberté/1	2
-sémillante/3	3
-sémillon/1	1
-semi-lunaire/1	4
-semi-manufacturée/3	3
-semi-marathon/1	1
-semi-marathonienne/3	6
-séminaire/1	1
-séminale/8	3
-séminariste/1	10
-semi-nomade/1	13
-semi-nomadisme/1	1
-sémiologie/1	2
-sémiologique/1	4
-sémiologue/1	10
-sémiométrie/1	2
-sémioticienne/3	9
-sémiotique/1	4
-sémiotique/1	2
-semi-ouvrée/3	3
-semi-perméable/1	4
-semi-polaire/1	4
-semi-produit/1	1
-semi-publique/3	3
-sémique/1	4
-semi-remorque/1	10
-semi-rigide/1	4
-semis	7
-semi-submersible/1	4
-sémite/1	13
-sémitique/1	4
-sémitique/1	1
-sémitisme/1	1
-semi-tubulaire/1	4
-semi-voyelle/1	2
-semnopithèque/1	1
-semoir/1	1
-semonce/1	2
-semoncer/4	5
-semoule/1	2
-semoulerie/1	2
-semoulière/3	6
-sempervirente/3	3
-sempervivum	7
-sempervivum/1	1
-sempiternelle/3	3
-sempiternellement	8
-semple/1	1
-semtex	7
-sen/1	1
-sénaire/1	4
-sénaire/1	1
-sénat/1	1
-sénatorerie/1	2
-sénatoriale/8	3
-sénatrice/3	9
-sénatus-consulte/1	1
-senau/1	1
-séné/1	1
-sénéchal/19	1
-sénéchaussée/1	2
-séneçon/1	1
-sèneçon/1	1
-sénégalaise/3	6
-sénégaliser/4	5
-sénégalisme/1	1
-sénégambienne/3	3
-senescence/1	2
-sénescence/1	2
-sénescente/3	3
-senestre/1	4
-sénestre/1	4
-senestre/1	2
-sénestre/1	2
-senestrochère/1	1
-sénestrochère/1	1
-senestrorsum	45
-sénestrorsum	45
-senestrorsum	8
-sénestrorsum	8
-sénevé/1	1
-sènevé/1	1
-sénile/1	4
-sénilement	8
-sénilisme/1	1
-sénilité/1	2
-senior/1	13
-sénior/1	94
-séniore/1	107
-séniorie/1	2
-séniorita/1	10
-séniorité/1	2
-senne/1	2
-sénologie/1	2
-señorita/1	10
-sens	7
-sensass	45
-sensation/1	2
-sensationnalisme/1	1
-sensationnaliste/1	4
-sensationnelle/3	3
-sensationnellement	8
-sensationnisme/1	1
-sensationniste/1	13
-sensée/3	3
-sensément	8
-senseur/1	1
-sensibilisante/3	3
-sensibilisation/1	2
-sensibilisatrice/3	6
-sensibilisée/3	3
-sensibiliser/4	11
-sensibilité/1	2
-sensible/1	4
-sensiblement	8
-sensiblerie/1	2
-sensitive/3	6
-sensitivité/1	2
-sensitogramme/1	1
-sensitographe/1	1
-sensitomètre/1	1
-sensitométrie/1	2
-sensitométrique/1	4
-sensorialité/1	2
-sensorielle/3	3
-sensorimétrie/1	2
-sensorimétrique/1	4
-sensorimotrice/3	3
-sensu	87
-sensualisme/1	1
-sensualiste/1	13
-sensualité/1	2
-sensuelle/3	6
-sensuellement	8
-sentence/1	2
-sentencieuse/8	3
-sentencieusement	8
-senteur/1	2
-sentie/3	3
-sentier/1	1
-sentiment/1	1
-sentimentale/8	6
-sentimentalement	8
-sentimentalisme/1	1
-sentimentaliste/1	13
-sentimentalité/1	2
-sentine/1	2
-sentinelle/1	2
-sentir/82	96
-seoir/209	91
-seoir/208	91
-sep/1	1
-sépale/1	1
-sépaloïde/1	4
-séparabilité/1	2
-séparable/1	4
-séparation/1	2
-séparatisme/1	1
-séparatiste/1	13
-séparative/3	3
-séparatrice/3	6
-séparée/3	3
-séparément	8
-séparer/4	11
-sépia	45
-sépia/1	2
-sépiolite/1	2
-seppuku/1	1
-sepsis	7
-sept	49
-sept	7
-septain/1	1
-septale/8	3
-septantaine/1	2
-septante	49
-septante-cinq	49
-septante-deux	49
-septante-et-un	49
-septante-huit	49
-septante-neuf	49
-septante-quatre	49
-septante-sept	49
-septante-six	49
-septante-trois	49
-septantième/1	13
-septembre/1	1
-septembrisades	46
-septembriseur/1	1
-septemvir/1	1
-septénaire/1	4
-septénaire/1	1
-septennale/8	3
-septennalité/1	2
-septennat/1	1
-septentrion/1	1
-septentrionale/8	3
-septicémie/1	2
-septicémique/1	4
-septicité/1	2
-septidi/1	1
-septième/1	13
-septièmement	8
-septillion/1	1
-septime/1	2
-septimo	8
-septique/1	4
-septmoncel/1	1
-septolet/1	1
-septomycète/1	1
-septuagénaire/1	10
-septuagésime/1	2
-septum	18
-septuor/1	1
-septuple/1	4
-septuple/1	1
-septuplée/3	3
-septupler/4	17
-sépulcrale/8	3
-sépulcre/1	1
-sépulture/1	2
-séquanaise/3	6
-séquelle/1	2
-séquençage/1	1
-séquence/1	2
-séquencée/3	3
-séquencement/1	1
-séquencer/4	5
-séquenceur/1	1
-séquentialité/1	2
-séquentielle/3	3
-séquentiellement	8
-séquestration/1	2
-séquestre/1	1
-séquestrée/3	6
-séquestrer/4	5
-sequin/1	1
-sequoia/1	1
-séquoia/1	1
-sérac/1	1
-sérail/1	1
-sérancer/4	5
-séranceur/1	1
-serapeum/1	1
-sérapéum/1	1
-séraphin
+<?php
+
+class Comments
+{
+
+	public static function get($inputData=array())
+	{
+
+		$limitQuery="";
+
+		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:0;
+
+		$limitPage=isset($inputData['limitPage'])?$inputData['limitPage']:0;
+
+		$limitPage=((int)$limitPage > 0)?$limitPage:0;
+
+		$limitPosition=$limitPage*(int)$limitShow;
+
+		$limitQuery=((int)$limitShow==0)?'':" limit $limitPosition,$limitShow";
+
+		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
+
+		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
+
+		$field="commentid,postid,type,fullname,email,parentid,date_added,status,content".$moreFields;
+
+		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
+
+		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
+
+		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by commentid desc';
+
+		$result=array();
+
+		$dbPrefix=Database::getPrefix();
+
+		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
+
+		
+		$command="select $selectFields from ".$prefix."comments $whereQuery";
+
+		$command.=" $orderBy";
+
+		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
+
+		$queryCMD.=$limitQuery;
+
+		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
+		
+		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
+
+		$md5Query=md5($queryCMD);
+
+		if($cache=='yes')
+		{
+			// Load dbcache
+
+			$loadCache=Cache::loadKey('dbcache/system/comment/'.$md5Query,$cacheTime);
+
+			if($loadCache!=false)
+			{
+				$loadCache=unserialize($loadCache);
+				return $loadCache;
+			}
+
+			// end load			
+		}
+
+
+		$query=Database::query($queryCMD);
+		
+		if(isset(Database::$error[5]))
+		{
+			return false;
+		}
+
+		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
+		
+		if((int)$query->num_rows > 0)
+		{
+			while($row=Database::fetch_assoc($query))
+			{
+				if(isset($row['fullname']))
+				{
+					$row['fullname']=String::decode($row['fullname']);
+				}
+				if(isset($row['content']))
+				{
+					$row['content']=String::decode($row['content']);
+				}
+
+				if(isset($row['date_added']))
+				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
+
+				if($inputData['isHook']=='yes')
+				{
+					if(isset($row['content']))
+					$row['content']=Shortcode::toHTML($row['content']);
+				}
+											
+				$result[]=$row;
+			}		
+		}
+		else
+		{
+			return false;
+		}
+		
+		// Save dbcache
+		Cache::saveKey('dbcache/system/comment/'.$md5Query,serialize($result));
+		// end save
+
+
+		return $result;
+		
+	}
+
+	public static function insert($inputData=array())
+	{
+		// End addons
+		// $totalArgs=count($inputData);
+		Plugins::load('before_comment_insert',$inputData);
+
+		CustomPlugins::load('before_comment_insert');
+
+		$addMultiAgrs='';
+
+		if(isset($inputData[0]['postid']))
+		{
+		    foreach ($inputData as $theRow) {
+
+				$theRow['date_added']=date('Y-m-d H:i:s');
+
+				if(isset($theRow['fullname']))
+				$theRow['fullname']=String::encode(strip_tags($theRow['fullname']));
+
+
+				if(isset($theRow['content']))
+				{
+					// $theRow['content']=Shortcode::toBBCode($theRow['content']);
+
+					$theRow['content']=String::encode($theRow['content']);
+				}
+
+				$keyNames=array_keys($theRow);
+
+				$insertKeys=implode(',', $keyNames);
+
+				$keyValues=array_values($theRow);
+
+				$insertValues="'".implode("','", $keyValues)."'";
+
+				$addMultiAgrs.="($insertValues), ";
+
+		    }
+
+		    $addMultiAgrs=substr($addMultiAgrs, 0,strlen($addMultiAgrs)-2);
+		}
+		else
+		{		
+			$inputData['date_added']=date('Y-m-d H:i:s');
+
+			if(isset($inputData['fullname']))
+			$inputData['fullname']=String::encode(strip_tags($inputData['fullname']));
+
+			if(isset($inputData['content']))
+			{
+				// $inputData['content']=Shortcode::toBBCode($inputData['content']);
+
+				$inputData['content']=String::encode($inputData['content']);
+			}
+
+			$keyNames=array_keys($inputData);
+
+			$insertKeys=implode(',', $keyNames);
+
+			$keyValues=array_values($inputData);
+
+			$insertValues="'".implode("','", $keyValues)."'";	
+
+			$addMultiAgrs="($insertValues)";	
+		}		
+
+		Database::query("insert into ".Database::getPrefix()."comments($insertKeys) values".$addMultiAgrs);
+
+		// DBCache::removeDir('system/comment');
+
+		if(!$error=Database::hasError())
+		{
+
+			$id=Database::insert_id();
+			
+			Plugins::load('after_comment_insert',$inputData);
+
+			CustomPlugins::load('after_comment_insert');
+
+			return $id;	
+		}
+
+		return false;
+	
+	}
+
+	public static function remove($post=array(),$whereQuery='',$addWhere='')
+	{
+		
+		if(is_numeric($post))
+		{
+			$id=$post;
+
+			unset($post);
+
+			$post=array($id);
+		}
+
+		$total=count($post);
+
+		$listID="'".implode("','",$post)."'";
+
+		Plugins::load('before_comment_remove',$post);
+
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"commentid in ($listID)";
+
+		$addWhere=isset($addWhere[5])?$addWhere:"";
+
+		$command="delete from ".Database::getPrefix()."comments where $whereQuery $addWhere";
+
+		Database::query($command);
+
+		Plugins::load('after_comment_remove',$post);
+
+		CustomPlugins::load('after_comment_remove',$post);
+
+		// DBCache::removeDir('system/comment');
+		
+		// DBCache::removeCache($listID,'system/comment');
+
+		return true;
+	}
+
+	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	{
+		if(isset($post['content']))
+		{
+			// $post['content']=Shortcode::toBBCode($post['content']);
+
+			$post['content']=String::encode(strip_tags($post['content'],'<p><br>'));
+		}
+
+		if(is_numeric($listID))
+		{
+			$catid=$listID;
+
+			unset($listID);
+
+			$listID=array($catid);
+		}
+
+		$listIDs="'".implode("','",$listID)."'";	
+
+		Plugins::load('before_comment_update',$listID);
+				
+		$keyNames=array_keys($post);
+
+		$total=count($post);
+
+		$setUpdates='';
+
+		for($i=0;$i<$total;$i++)
+		{
+			$keyName=$keyNames[$i];
+			$setUpdates.="$keyName='$post[$keyName]', ";
+		}
+
+		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
+		
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"commentid in ($listIDs)";
+		
+		$addWhere=isset($addWhere[5])?$addWhere:"";
+
+		Database::query("update ".Database::getPrefix()."comments set $setUpdates where $whereQuery $addWhere");
+
+		// DBCache::removeDir('system/comment');
+
+		// DBCache::removeCache($listIDs,'system/comment');
+
+		if(!$error=Database::hasError())
+		{
+			Plugins::load('after_comment_update',$listID);
+			
+			CustomPlugins::load('after_comment_update',$listID);
+
+			return true;
+		}
+
+		return false;
+	}
+
+
+}
+?>

@@ -1,109 +1,52 @@
-1	1
-ravivage/1	1
-ravivement/1	1
-raviver/4	11
-ravoir	154
-ravoirage/1	1
-rawette/1	2
-rayage/1	1
-rayée/3	3
-rayer/4	11
-rayère/1	2
-raygrass	7
-ray-grass	7
-rayon/1	1
-rayonnage/1	1
-rayonnante/3	3
-rayonnée/3	3
-rayonnement/1	1
-rayonner/4	17
-rayonnisme/1	1
-rayure/1	2
-raz	7
-raz-de-marée	7
-razzia/1	2
-razzier/4	5
-ré	7
-réabonnée/3	3
-réabonnement/1	1
-réabonner/4	11
-réabsorber/4	5
-réabsorption/1	2
-réac/1	13
-réaccoutumance/1	2
-réaccoutumer/4	11
-réacheminement/1	1
-réacquérir/98	82
-réacquise/3	3
-réactance/1	2
-réactant/1	1
-réaction/1	2
-réactionnaire/1	13
-réactionnelle/3	3
-réactivation/1	2
-réactive/3	3
-réactivée/3	3
-réactiver/4	5
-réactivité/1	2
-réactrice/3	6
-réactualisation/1	2
-réactualiser/4	5
-réadaptation/1	2
-réadapter/4	11
-réadmettre/73	82
-réadmise/3	3
-réadmission/1	2
-réadressage/1	1
-réaffectation/1	2
-réaffectée/3	3
-réaffecter/4	5
-réaffirmation/1	2
-réaffirmée/3	3
-réaffirmer/4	5
-réaffuter/4	5
-réaffûter/4	5
-réagencement/1	1
-réagencer/4	5
-réagir/55	163
-réajustement/1	1
-réajuster/4	11
-réal/19	1
-réale/8	3
-réalésage/1	1
-réaléser/33	5
-réalgar/1	1
-réalignement/1	1
-réaligner/4	5
-réalimentation/1	2
-réalimenter/4	11
-réalisable/1	4
-réalisation/1	2
-réalisatrice/3	6
-réalisée/3	3
-réaliser/4	11
-réalisme/1	1
-réaliste/1	13
-réalistement	8
-réalité/1	2
-realityshow/1	1
-reality-show/1	1
-realpolitik/1	2
-réalpolitik/1	2
-réalpolitique/1	2
-réaménagée/3	3
-réaménagement/1	1
-réaménager/4	5
-réamorçage/1	1
-réamorcée/3	3
-réamorcer/4	5
-réanalyser/4	11
-réanimation/1	2
-réanimatrice/3	6
-réanimer/4	5
-réapparaitre/75	91
-réapparaître/75	91
-réapparition/1	2
-réapprendre/88	82
-réapprentissage/1	1
-réappropriation/1	2
-ré
+        <!-- left -->
+        <div class="col-lg-8 col-md-8 col-sm-8 ">
+          <h1><?php echo $keywords;?></h1>
+          <hr>
+          <?php
+
+          if(isset($listPost[0]['postid']))
+          {
+            $total=count($listPost);
+
+            $li='';
+
+            for ($i=0; $i < $total; $i++) { 
+
+              if(!isset($listPost[$i]['imageUrl']))
+              {
+                continue;
+              }
+
+              $li.='
+             
+              <!-- row -->
+              <div class="row item">
+                <div class="col-lg-12 col-item-details">
+                  <div class="head-title"><a href="'.$listPost[$i]['url'].'" title="'.$listPost[$i]['title'].'"><h2>'.$listPost[$i]['title'].'</h2></a></div>
+                  <div class="details">
+                  <span class="sub"><span class="glyphicon glyphicon-calendar"></span> '.date('d M, Y',strtotime($listPost[$i]['date_added'])).'</span>
+                  <span class="sub"><span class="glyphicon glyphicon-thumbs-up"></span> '.number_format($listPost[$i]['views']).'</span>
+                  </div>
+                  <div class="content">
+                   '.$listPost[$i]['content'].'
+                  </div>
+                </div>
+              </div>
+              <!-- row -->
+              ';
+            }
+
+            echo $li;
+          }
+
+          ?>        
+
+          <!-- page -->
+          <div class="row">
+            <div class="col-lg-12 text-right">
+             <?php echo $listPage;?>                               
+            </div>
+          </div>
+          <!-- page -->            
+        </div>
+        <!-- left -->
