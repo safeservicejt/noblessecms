@@ -265,6 +265,8 @@ class Shortcode
 
 				$resultSC=self::parseProcess($scName,$content);
 
+
+
 				$totalResult=count($resultSC);
 				
 				$replaces=array();
@@ -474,9 +476,8 @@ class Shortcode
 	public static function parseProcess($scName='',$inputData='')
 	{
 		$result=array();
-
 		// Check if it is openclose
-		if(!preg_match_all('/(\['.$scName.'(.*?)\](.*?)\[\/'.$scName.'\])/is', $inputData,$match))
+		if(!preg_match_all('/(\['.$scName.'(.*?)\]([\w\s\W]+)\[\/'.$scName.'\])/is', $inputData,$match))
 		{
 			// Alone parse process
 			if(preg_match_all('/(\['.$scName.'(.*?)\])/i', $inputData,$match))
@@ -498,7 +499,7 @@ class Shortcode
 					if(isset($attr[1]))
 					{
 						// die($attr);
-						if(preg_match_all('/(\w+)\=(\'|\"|)([a-zA-Z0-9_\-\_\=\.\/\:\;\>\<\!\@\#\$\%\^\&\*\(\)\s]+)(\'|\"|)/i', $attr, $matchAttrs))
+						if(preg_match_all('/(\w+)\=(\'|\"|)([\w\s\W]+)(\'|\"|)/i', $attr, $matchAttrs))
 						{
 
 							$totalAttr=count($matchAttrs[1]);
@@ -526,6 +527,8 @@ class Shortcode
 
 			$total=count($listReal);
 
+			// print_r($match);die();
+
 			for ($i=0; $i < $total; $i++) { 
 
 				$result[$i]['real']=$listReal[$i];
@@ -539,7 +542,7 @@ class Shortcode
 				if(isset($attr[1]))
 				{
 					// die($attr);
-					if(preg_match_all('/(\w+)\=(\'|\"|)([a-zA-Z0-9_\-\_\=\.\/\:\;\>\<\!\@\#\$\%\^\&\*\(\)\s]+)(\'|\"|)/i', $attr, $matchAttrs))
+					if(preg_match_all('/(\w+)\=(\'|\"|)([\w\s\W]+)(\'|\"|)/i', $attr, $matchAttrs))
 					{
 
 						$totalAttr=count($matchAttrs[1]);

@@ -19,7 +19,9 @@ function system_shortcode_list()
 
 function shortcode_flash($inputData=array())
 {
-	$value=$inputData['value'];
+	$value=isset($inputData['value'])?$inputData['value']:'';
+
+  $responsive=isset($inputData['attr']['responsive'])?' flash-responsive ':'';
 
 	$width=isset($inputData['attr']['width'])?$inputData['attr']['width']:800;
 
@@ -75,7 +77,7 @@ function shortcode_flash($inputData=array())
 
 function shortcode_img($inputData=array())
 {
-	$value=$inputData['value'];
+	$value=isset($inputData['value'])?$inputData['value']:'';
 
 	$id=isset($inputData['attr']['id'])?' id="'.$inputData['attr']['id'].'" ':'';
 
@@ -107,7 +109,7 @@ function shortcode_url($inputData=array())
 
 function shortcode_youtube($inputData=array())
 {
-	$value=$inputData['value'];
+	$value=isset($inputData['value'])?$inputData['value']:'';
 
 	$autoplay=isset($inputData['attr']['autoplay'])?'?autoplay=1':'';
 
