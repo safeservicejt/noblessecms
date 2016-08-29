@@ -213,6 +213,7 @@ class Categories
 	{
 		$loadData=self::get(array(
 			'selectFields'=>'*',
+			'cache'=>'no',
 			'where'=>"where catid='$id'"
 			));
 
@@ -239,6 +240,7 @@ class Categories
 		{
 			$loadData=self::get(array(
 				'selectFields'=>'*',
+				'cache'=>'no',
 				'where'=>"where friendly_url='$friendly_url'"
 				));
 

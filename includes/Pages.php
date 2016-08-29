@@ -314,6 +314,7 @@ class Pages
 	{
 		$loadData=self::get(array(
 			'selectFields'=>'*',
+			'cache'=>'no',
 			'where'=>"where pageid='$id'"
 			));
 
