@@ -114,17 +114,17 @@ class Post
 					$row['url']=self::url($row);
 				}
 
-				if(isset($row['author_url']) && isset($row['author_url']['10']))
+				if(isset($row['author_url']) && isset($row['author_url'][10]))
 				{
 					$row['author_url']=unserialize($row['author_url']);	
 				}
 				
-				if(isset($row['tag_url']) && isset($row['tag_url']['10']))
+				if(isset($row['tag_url']) && isset($row['tag_url'][10]))
 				{
 					$row['tag_url']=unserialize($row['tag_url']);		
 				}
 				
-				if(isset($row['category_url']) && isset($row['category_url']['10']))
+				if(isset($row['category_url']) && isset($row['category_url'][10]))
 				{
 					$row['category_url']=unserialize($row['category_url']);		
 				}
@@ -158,23 +158,17 @@ class Post
 				}
 				
 
-				if($inputData['isHook']=='yes')
+				if($inputData['isHook']=='yes' && isset($row['content']))
 				{
-					if(isset($row['content']))
-					{
-						$row['content']=String::decode($row['content']);
+					$row['content']=String::decode($row['content']);
 
-						$row['content']=html_entity_decode($row['content']);
-						
-						$row['content']=Shortcode::loadInTemplate($row['content']);
+					$row['content']=html_entity_decode($row['content']);
+					
+					$row['content']=Shortcode::loadInTemplate($row['content']);
 
-						$row['content']=Shortcode::load($row['content']);
-						
-						$row['content']=Shortcode::toHTML($row['content']);
-
-						
-						
-					}
+					$row['content']=Shortcode::load($row['content']);
+					
+					$row['content']=Shortcode::toHTML($row['content']);
 					
 				}
 											
@@ -377,9 +371,11 @@ class Post
 	{
 		$loadData=self::get(array(
 			'selectFields'=>'*',
+			'isHook'=>'no',
+			'cache'=>'no',
 			'where'=>"where postid='$id'"
 			));
-
+		
 		if(isset($loadData[0]['postid']))
 		{
 			$savePath=ROOT_PATH.'application/caches/fastcache/post/'.$id.'.cache';
@@ -407,8 +403,46 @@ class Post
 			{
 				$result=false;
 			}
+
+			$result=unserialize(file_get_contents($savePath));
+		
 		}
 
+		$total=count($result);
+
+		// print_r($result);die();
+
+		if(isset($result['content']))
+		{
+			$result['content']=String::decode($result['content']);
+
+			$result['content']=preg_replace('/(\[get_image_url\])/i', System::getUrl().$result['image'], $result['content']);
+			// die($result['content']);
+		}
+
+		if(isset($result['date_added']))
+		{
+			$result['date_addedReal']=$result['date_added'];
+			
+			$result['date_added']=Render::dateFormat($result['date_added']);	
+		}
+		
+
+		if(isset($result['content']))
+		{
+			$result['content']=String::decode($result['content']);
+
+			$result['content']=html_entity_decode($result['content']);
+			
+			$result['content']=Shortcode::loadInTemplate($result['content']);
+
+			$result['content']=Shortcode::load($result['content']);
+			
+			$result['content']=Shortcode::toHTML($result['content']);
+
+			
+			
+		}
 		return $result;
 
 	}
