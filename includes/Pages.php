@@ -345,7 +345,63 @@ class Pages
 			{
 				$result=false;
 			}
+
+			$result=unserialize(file_get_contents($savePath));
 		}
+
+		if(isset($result['title']))
+		{
+			$result['title']=String::decode($result['title']);
+		}
+		if(isset($result['page_title']))
+		{
+			$result['page_title']=String::decode($result['page_title']);
+		}
+		if(isset($result['keywords']))
+		{
+			$result['keywords']=String::decode($result['keywords']);
+		}
+		if(isset($result['descriptions']))
+		{
+			$result['descriptions']=String::decode($result['descriptions']);
+		}
+		
+		if(isset($result['content']))
+		{
+			$result['content']=String::decode($result['content']);
+		}
+		
+		if(isset($result['image']) && preg_match('/.*?\.(gif|png|jpe?g)/i', $result['image']))
+		{
+			$result['imageUrl']=System::getUrl().$result['image'];
+		}
+
+		if(isset($result['friendly_url']))
+		{
+			$result['url']=self::url($result);
+		}
+
+		if(isset($result['date_added']))
+		$result['date_addedFormat']=Render::dateFormat($result['date_added']);	
+
+		if($inputData['isHook']=='yes')
+		{
+			if(isset($result['content']))
+			{
+				$result['content']=String::decode($result['content']);
+				
+				$result['content']=html_entity_decode($result['content']);
+				
+				$result['content']=Shortcode::loadInTemplate($result['content']);
+
+				$result['content']=Shortcode::load($result['content']);
+				
+				$result['content']=Shortcode::toHTML($result['content']);
+				
+				
+			}
+			
+		}		
 
 		return $result;
 

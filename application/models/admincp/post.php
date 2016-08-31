@@ -266,11 +266,11 @@ function updateProcess($id)
 
 	PostTags::insert($insertData);
 
-	Post::updateData($id);
-
 	Post::update($id,array(
 		'friendly_url'=>String::makeFriendlyUrl(strip_tags($send['title'])).'-'.$id
 		));	
+
+	Post::updateData($id);
 
 	Post::saveCache($id);
 
