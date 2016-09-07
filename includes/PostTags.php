@@ -20,7 +20,7 @@ class PostTags
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="tagid,title,friendly_url,postid";
+		$field="tagid,prefix,title,friendly_url,postid";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

@@ -22,7 +22,7 @@ class Comments
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="commentid,postid,type,fullname,email,parentid,date_added,status,content".$moreFields;
+		$field="commentid,prefix,postid,type,fullname,email,parentid,date_added,status,content".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

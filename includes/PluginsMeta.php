@@ -20,7 +20,7 @@ class PluginsMeta
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="metaid,foldername,func,zonename,layoutname,layoutposition,content,status,type";
+		$field="metaid,prefix,foldername,func,zonename,layoutname,layoutposition,content,status,type";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

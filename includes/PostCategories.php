@@ -20,7 +20,7 @@ class PostCategories
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="postid,catid";
+		$field="postid,prefix,catid";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

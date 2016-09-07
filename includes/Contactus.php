@@ -20,7 +20,7 @@ class Contactus
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="contactid,fullname,email,content,date_added";
+		$field="contactid,prefix,fullname,email,content,date_added";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

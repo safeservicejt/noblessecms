@@ -22,7 +22,7 @@ class Logs
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,date_added,content".$moreFields;
+		$field="id,prefix,date_added,content".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

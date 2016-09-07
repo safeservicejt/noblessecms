@@ -121,7 +121,7 @@ class UserGroups
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="groupid,group_title,groupdata".$moreFields;
+		$field="groupid,prefix,group_title,groupdata".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

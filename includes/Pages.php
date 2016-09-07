@@ -22,7 +22,7 @@ class Pages
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="pageid,title,content,image,keywords,descriptions,page_title,page_type,friendly_url,date_added,allowcomment,views,status".$moreFields;
+		$field="pageid,prefix,title,content,image,keywords,descriptions,page_title,page_type,friendly_url,date_added,allowcomment,views,status".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

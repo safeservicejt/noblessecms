@@ -22,7 +22,7 @@ class Categories
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="catid,descriptions,page_title,keywords,title,friendly_url,parentid,image,sort_order,date_added,status".$moreFields;
+		$field="catid,prefix,descriptions,page_title,keywords,title,friendly_url,parentid,image,sort_order,date_added,status".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

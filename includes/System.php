@@ -740,10 +740,30 @@ class System
 
 	}
 
+	public static function setPrefix($newPrefix='')
+	{
+		if(isset(self::$setting['system_prefix']))
+		{
+			self::$setting['system_prefix']=$newPrefix;
+		}
+	}
+	
+	public static function getPrefix()
+	{
+		$result='';
+
+		if(isset(self::$setting['system_prefix']))
+		{
+			$result=self::$setting['system_prefix'];
+		}
+
+		return $result;
+	}
+
 	public static function makeSetting()
 	{
 		$settingData=array(
-			'system_status'=>'working','system_mode'=>'basic','system_captcha'=>'disable', 'system_lang'=>'en', 'register_user_status'=>'disable', 'register_verify_email'=>'disable',
+			'system_status'=>'working','system_prefix'=>'','system_mode'=>'basic','system_captcha'=>'disable', 'system_lang'=>'en', 'register_user_status'=>'disable', 'register_verify_email'=>'disable',
 			'default_member_groupid'=>'2', 'default_member_banned_groupid'=>'5', 'default_dateformat'=>'M d, Y',
 			'rss_status'=>'enable','comment_status'=>'enable', 'title'=>'Noblesse CMS Website', 'keywords'=>'noblessecms, blog, website',
 			'descriptions'=>'Noblesse CMS Website Description','default_page_method'=>'none','default_page_url'=>'','default_timezone'=>'US/Arizona',

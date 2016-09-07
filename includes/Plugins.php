@@ -834,7 +834,7 @@ class Plugins
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="foldername,type,status,installed,date_added";
+		$field="foldername,prefix,type,status,installed,date_added";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

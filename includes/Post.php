@@ -30,7 +30,7 @@ class Post
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="postid,descriptions,title,page_title,catid,userid,parentid,image,sort_order,date_added,views,content,type,keywords,friendly_url,is_featured,date_featured,expires_date,rating,allowcomment,status,tag_url,category_url,author_url,comments".$moreFields;
+		$field="postid,descriptions,title,page_title,catid,userid,parentid,image,sort_order,date_added,views,content,type,keywords,friendly_url,prefix,is_featured,date_featured,expires_date,rating,allowcomment,status,tag_url,category_url,author_url,comments".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

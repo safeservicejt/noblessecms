@@ -20,7 +20,7 @@ class Address
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="userid,company,firstname,lastname,address_1,address_2,city,state,postcode,country,phone,fax";
+		$field="userid,prefix,company,firstname,lastname,address_1,address_2,city,state,postcode,country,phone,fax";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

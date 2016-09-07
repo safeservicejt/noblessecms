@@ -20,7 +20,7 @@ class PostImages
 
 		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
 
-		$field="postid,image,sort_order,date_added";
+		$field="postid,prefix,image,sort_order,date_added";
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
