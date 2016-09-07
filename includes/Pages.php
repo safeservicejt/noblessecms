@@ -384,24 +384,20 @@ class Pages
 		if(isset($result['date_added']))
 		$result['date_addedFormat']=Render::dateFormat($result['date_added']);	
 
-		if($inputData['isHook']=='yes')
+		if(isset($result['content']))
 		{
-			if(isset($result['content']))
-			{
-				$result['content']=String::decode($result['content']);
-				
-				$result['content']=html_entity_decode($result['content']);
-				
-				$result['content']=Shortcode::loadInTemplate($result['content']);
-
-				$result['content']=Shortcode::load($result['content']);
-				
-				$result['content']=Shortcode::toHTML($result['content']);
-				
-				
-			}
+			$result['content']=String::decode($result['content']);
 			
-		}		
+			$result['content']=html_entity_decode($result['content']);
+			
+			$result['content']=Shortcode::loadInTemplate($result['content']);
+
+			$result['content']=Shortcode::load($result['content']);
+			
+			$result['content']=Shortcode::toHTML($result['content']);
+			
+			
+		}	
 
 		return $result;
 

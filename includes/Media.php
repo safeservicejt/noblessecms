@@ -100,7 +100,7 @@ class Media
 			<tr>
 			<td><a href="'.$fileUrl.$allDir[$i].'" target="_blank">'.$allDir[$i].'</a></td>
 			<td>'.File::humanFileSize(filesize($theFile)).'</td>
-			<td>'.date('M d, Y',strtotime(filectime($theFile))).'</td>
+			<td>'.date('M d, Y H:i:s',filectime($theFile)).'</td>
 			<td class="text-right"><button type="button" class="remove_media_file" data-filename="'.$allDir[$i].'"  class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-remove-sign"></span></button></td>
 			</tr>
 			';
