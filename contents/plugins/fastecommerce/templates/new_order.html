@@ -1,0 +1,25 @@
+[{{ shop_name }}] Order #{{ orderid }} placed by {{ shipping_firstname }} {{ shipping_lastname }} 
+-------------
+<p>Hello {{ shop_name }},</p>
+<p></p>
+<p></p>
+<p>
+	{{ list_products }}
+</p>
+<a href="{{ order_url }}">View order #{{ orderid }} </a>
+<p></p><br>
+<p><b>Payment processing method:</b></p>
+<p>{{ payment_method }}</p>
+<p></p>
+<p><b>Delivery method:</b></p>
+<p>
+	{{ shipping_method }}
+</p>
+<p></p>
+<p><b>Shipping address:</b></p>
+<p>{{ shipping_firstname }} {{ shipping_lastname }}</p>
+<p>{{ shipping_address_street }}</p>
+<p>{{ shipping_address_city }}, {{ shipping_address_province }}  {{ shipping_address_zip }}</p>
+<p>{{ shipping_address_country }}</p>
+<p>{{ shipping_address_phone }}</p>
+<p></p>

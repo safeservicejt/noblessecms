@@ -1,0 +1,421 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+body *
+{
+	font-weight: normal;
+}
+.cart-popup
+{
+	position: relative;
+
+}
+
+.cart-popup .cart-icon,
+.cart-popup .cart-total-summary
+{
+	cursor: pointer;
+
+}
+
+.cart-popup .details-popup
+{
+	position: absolute;
+	z-index: 99999;
+	background-color: #ffffff;
+	top: 25px;
+	right: 0px;
+	min-width: 420px;
+    -moz-box-shadow: 10px 10px 5px #888;
+    -webkit-box-shadow: 10px 10px 5px #888;
+    box-shadow: 1px 1px 2px 1px #888;
+    display: none;
+
+}
+
+.cart-popup .details-popup *
+{
+	font-size: 14px;
+}
+
+.remove-product
+{
+	cursor: pointer;
+	color: #999;
+}
+
+.cart-popup .details-popup img
+{
+	min-width: 60px;
+	max-width: 60px;
+	min-height: 70px;
+	max-height: 70px;
+}
+
+.cart-popup .details-popup a
+{
+	color: #666;
+	text-decoration: none;
+}
+.cart-popup .details-popup .list-products
+{
+  overflow: scroll;
+      overflow-y: auto;
+    overflow-x: hidden;  
+    width: 100%;
+    max-height: 250px;
+}
+.cart-popup .cart-popup-footer
+{
+	text-align: right;
+	padding: 20px;
+}
+
+.cart-popup .cart-popup-footer a
+{
+	margin-left: 50px;
+	color: #888;
+}
+
+
+
+.cart-popup .details-popup .table>thead>tr>th, .cart-popup .details-popup .table>tbody>tr>th, .cart-popup .details-popup .table>tfoot>tr>th, .cart-popup .details-popup .table>thead>tr>td, .cart-popup .details-popup .table>tbody>tr>td, .cart-popup .details-popup .table>tfoot>tr>td {
+
+     border-top: 0px solid #dddddd; 
+}
+
+table a:not(.btn), .table a:not(.btn) {
+    color: #333;
+    text-decoration: underline;
+}
+
+.checkout-panel .panel-heading
+{
+	background-color: #fff;
+	color: #333;
+	border: 1px solid #dfdfdf;
+	cursor: pointer;
+}
+.checkout-panel .panel-body
+{
+	background-color: #fff;
+	color: #333;
+	border: 1px solid #cbcbcb;
+	border-top: 0px;
+
+	display: none;
+}
+
+.checkout-panel:first-child .panel-body
+{
+	display: block;
+}
+
+textarea
+{
+	border: 1px solid #cbcbcb;
+}
+strong
+{
+	font-weight: bold;
+}
+
+.box-thumbnail-normal .main-image
+{
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+	border:1px solid #cbcbcb;
+
+}
+.box-thumbnail-normal .main-image img
+{
+	max-width: 300px;
+	max-height: 300px;
+}
+
+.size-350
+{
+
+	max-width: 350px;
+	min-height: 450px;
+	max-height: 450px;
+
+}
+
+.size-350 .main-image img
+{
+	max-width: 350px;
+	max-height: 350px;
+}
+
+.size-300
+{
+
+	max-width: 300px;
+	min-height: 400px;
+	max-height: 400px;
+
+}
+
+.size-300 .main-image img
+{
+	max-width: 300px;
+	max-height: 300px;
+}
+
+.size-400
+{
+
+	max-width: 400px;
+	min-height: 500px;
+	max-height: 500px;
+
+}
+
+.size-400 .main-image img
+{
+	max-width: 400px;
+	max-height: 400px;
+}
+
+.size-500
+{
+
+	max-width: 500px;
+	min-height: 600px;
+	max-height: 600px;
+
+}
+
+.size-500 .main-image img
+{
+	max-width: 500px;
+	max-height: 500px;
+}
+
+
+.size-600
+{
+
+	max-width: 600px;
+	min-height: 700px;
+	max-height: 700px;
+
+}
+
+.size-600 .main-image img
+{
+	max-width: 600px;
+	max-height: 600px;
+}
+
+
+.box-thumbnail-normal .list-images ul
+{
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+	display: block;
+	margin-top: 15px;
+}
+
+.box-thumbnail-normal .list-images ul li
+{
+	display: inline-block;
+	margin-right: 15px;
+	margin-bottom: 15px;
+}
+
+.box-thumbnail-normal .list-images ul li img
+{
+	max-width: 45px;
+	border:1px solid #cbcbcb;
+	padding: 5px;
+	cursor: pointer;
+}
+
+.fontsize-12
+{
+	font-size: 12px;
+}
+
+.fontsize-16
+{
+	font-size: 16px;
+}
+
+.fontsize-18
+{
+	font-size: 18px;
+}
+
+.fontsize-20
+{
+	font-size: 20px;
+}
+
+.fontsize-22
+{
+	font-size: 22px;
+}
+
+.fontsize-24
+{
+	font-size: 24px;
+}
+
+.fontsize-26
+{
+	font-size: 26px;
+}
+
+.fontsize-28
+{
+	font-size: 28px;
+}
+
+.fontsize-30
+{
+	font-size: 30px;
+}
+
+.fontsize-32
+{
+	font-size: 32px;
+}
+
+.fontsize-34
+{
+	font-size: 34px;
+}
+
+.fontsize-36
+{
+	font-size: 36px;
+}
+
+.fontsize-38
+{
+	font-size: 38px;
+}
+
+.fontsize-40
+{
+	font-size: 40px;
+}
+
+.fontsize-42
+{
+	font-size: 42px;
+}
+
+.fontsize-44
+{
+	font-size: 44px;
+}
+
+.fontsize-46
+{
+	font-size: 46px;
+}
+
+.fontsize-48
+{
+	font-size: 48px;
+}
+.zoom {
+	display:inline-block;
+	position: relative;
+}
+
+/* magnifying glass icon */
+.zoom:after {
+	content:'';
+	display:block; 
+	position:absolute; 
+	top:0;
+	right:0;
+	background:url('../images/icon.png');
+}
+
+.zoom img {
+	display: block;
+}
+
+.zoom img::selection { background-color: transparent; }
+
+
+
+/****** Style Star Rating Widget *****/
+
+.rating { 
+  border: none;
+  float: left;
+  /*display: block;*/
+}
+
+.rating > input { display: none; cursor: pointer;} 
+.rating > label:before { 
+  margin: 5px;
+  font-size: 1.25em;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f005";
+}
+
+.rating > .half:before { 
+  content: "\f089";
+  position: absolute;
+}
+
+.rating > label { 
+  color: #ddd; 
+ float: right; 
+}
+
+/***** CSS Magic to Highlight Stars on Hover *****/
+
+.rating > input:checked ~ label, /* show gold star when clicked */
+.rating:not(:checked) > label:hover, /* hover current star */
+.rating:not(:checked) > label:hover ~ label { color: #FFD700;cursor: pointer;  } /* hover previous stars in list */
+
+.rating > input:checked + label:hover, /* hover current star when changing rating */
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating > input:checked ~ label:hover ~ label { color: #FFED85; cursor: pointer; } 
+
+
+.review_list .item
+{
+    border-bottom: 1px solid #cbcbcb;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+.review_list .item .info .rating
+{
+    height: 13px;
+}
+
+.review_list .item .info
+{
+    font-size: 14px;
+    color: #666;
+}
+
+.review_list .item .info > span
+{
+    margin-left: 15px;
+}
+
+.review_list .item .info .date
+{
+    font-size: 13px;
+}
+
+.review_list .item .content
+{
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+}
+

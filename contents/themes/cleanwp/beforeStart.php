@@ -1,0 +1,3 @@
+<?php
+
+Theme::loadSetting($themeName);

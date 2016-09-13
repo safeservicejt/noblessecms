@@ -5,10 +5,9 @@ System::before_system_start();
 
 // Load sytem settings
 
-Route::get('api', 'controlApi');
+Route::get('^\/?api', 'application/api@index');
 
-Route::get('admincp', 'controlAdmincp');
+Route::get('^\/?npanel', 'application/npanel@index');
 
-Route::get('', 'controlFrontEnd');
+Route::get('', 'application/frontend@index');
 
-System::after_system_start();
