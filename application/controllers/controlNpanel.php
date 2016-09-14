@@ -78,16 +78,20 @@ class controlNpanel
 	{
 		$pageData=array('alert'=>'','captchaHTML'=>'');
 
-		if(Request::has('btnLogin'))
-		{
-			try {
-				Users::makeLogin(Request::get('send.username',''),Request::get('send.password',''));
+        if(Request::has('btnRegister'))
+        {
+            try {
 
-				Redirects::to(System::getUrl().'npanel');
-			} catch (Exception $e) {
-				$pageData['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
-			}
-		}
+                registerProcess();
+
+                $postData['alert']='<div class="alert alert-success">Success. Your account '.Request::get('send.username').' and password '.Request::get('send.password').' have been create completed.</div>';
+
+                // Redirect::to(System::getAdminUrl());
+                
+            } catch (Exception $e) {
+                $postData['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+            }
+        }
 		
        	$pageData['captchaHTML']='';
 
@@ -96,9 +100,11 @@ class controlNpanel
             $pageData['captchaHTML']=Captcha::makeForm();
         }
 
+        System::setTitle('Register Account - nPanel');
+
 		Views::make('headNon');
 
-		Views::make('login',$pageData);
+		Views::make('register',$pageData);
 
 		Views::make('footerNon');
 
@@ -108,16 +114,18 @@ class controlNpanel
 	{
 		$pageData=array('alert'=>'','captchaHTML'=>'');
 
-		if(Request::has('btnSend'))
-		{
-			try {
-				Users::makeLogin(Request::get('send.username',''),Request::get('send.password',''));
+        if(Request::has('btnSend'))
+        {
+            try {
 
-				Redirects::to(System::getUrl().'npanel');
-			} catch (Exception $e) {
-				$pageData['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
-			}
-		}
+                forgotProcess();
+
+                $postData['alert']='<div class="alert alert-success">We have been send your new password to your email.</div>';
+                
+            } catch (Exception $e) {
+                $postData['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+            }
+        }
 		
        	$pageData['captchaHTML']='';
 
@@ -125,6 +133,8 @@ class controlNpanel
         {
             $pageData['captchaHTML']=Captcha::makeForm();
         }
+
+        System::setTitle('Forgot Password - nPanel');
 
 		Views::make('headNon');
 

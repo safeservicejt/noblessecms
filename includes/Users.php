@@ -62,6 +62,8 @@ class Users
 			return $insertData;
 		});
 
+		Plugins::load('after_insert_user');
+
 		return $result;
 	}
 
@@ -79,6 +81,8 @@ class Users
 		Table::setTable('users');
 
 		$result=Table::remove($inputIDs,$whereQuery);
+
+		Plugins::load('after_remove_user');
 
 		return $result;
 	}
@@ -228,6 +232,11 @@ class Users
 			throw new Exception("We have been send email for verify to your email ".$email.' .Check your inbox/spam page. Thanks!');
 		}
 
+		$loadAddress=Address::get(array(
+			'cache'=>'no',
+			'where'=>"where userid='".$loadUser[0]['id']."'"
+			));
+
 		$verifyCode=String::randText(10);
 
 		self::update($loadUser[0]['id'],array(
@@ -239,9 +248,9 @@ class Users
 		$replaces=array(
 			'{username}'=>$loadUser[0]['username'],
 			'{email}'=>$loadUser[0]['email'],
-			'{firstname}'=>$loadUser[0]['firstname'],
-			'{lastname}'=>$loadUser[0]['lastname'],
-			'{fullname}'=>$loadUser[0]['firstname'].' '.$loadUser[0]['lastname'],
+			'{firstname}'=>$loadAddress[0]['firstname'],
+			'{lastname}'=>$loadAddress[0]['lastname'],
+			'{fullname}'=>$loadAddress[0]['firstname'].' '.$loadAddress[0]['lastname'],
 			'{verify_url}'=>$verifyCode
 			);
 
@@ -342,6 +351,11 @@ class Users
 			
 		}
 
+		$loadAddress=Address::get(array(
+			'cache'=>'no',
+			'where'=>"where userid='".$loadUser[0]['id']."'"
+			));
+		
 		$newPass=String::randText(10);
 
 		self::update($loadUser[0]['id'],array(
@@ -353,9 +367,9 @@ class Users
 		$replaces=array(
 			'{username}'=>$loadUser[0]['username'],
 			'{email}'=>$loadUser[0]['email'],
-			'{firstname}'=>$loadUser[0]['firstname'],
-			'{lastname}'=>$loadUser[0]['lastname'],
-			'{fullname}'=>$loadUser[0]['firstname'].' '.$loadUser[0]['lastname'],
+			'{firstname}'=>$loadAddress[0]['firstname'],
+			'{lastname}'=>$loadAddress[0]['lastname'],
+			'{fullname}'=>$loadAddress[0]['firstname'].' '.$loadAddress[0]['lastname'],
 			'{password}'=>$newPass,
 			'{siteurl}'=>System::getUrl(),
 			'{site_url}'=>System::getUrl()
