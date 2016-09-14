@@ -33,6 +33,26 @@ class controlNpanel
 
 
 
+			$default_adminpage_method=trim(System::getSetting('default_adminpage_method','none'));
+
+			if($func=='home' && $default_adminpage_method=='url')
+			{
+
+				$default_adminpage=trim(System::getSetting('default_adminpage_url','npanel/'));
+
+
+				System::setUri('npanel/'.$default_adminpage);
+
+				if(preg_match('/^(\w+)\/(\w+)/i', $default_adminpage,$match))
+				{
+					$func=$match[1];
+
+					$method=$match[2];
+				}
+
+			}
+
+
 			Controllers::load(ucfirst($func),$method,'application/npanel');
 		}
 		

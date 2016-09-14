@@ -5,7 +5,7 @@ class controlUsers
 	public static function index()
 	{
 
-		// $valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_manage_user');
+		// $valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_manage_user');
 
 		// if($valid!='yes')
 		// {
@@ -116,7 +116,7 @@ class controlUsers
 		}
 
 
-		$pageData['listGroups']=UserGroups::get(array(
+		$pageData['listGroups']=Usergroups::get(array(
 			'orderby'=>'order by title asc'
 			));
 			

@@ -76,6 +76,11 @@ class System
 		self::$listVar[$layout][$keyName]=$keyVal;
 	}
 
+	public static function define($keyName,$keyVal,$layout='global')
+	{
+		self::defineVar($keyName,$keyVal,$layout);
+	}
+
 	public static function pushVar($keyName,$keyVal,$layout='global')
 	{
 		self::$listVar[$layout][$keyName][]=$keyVal;

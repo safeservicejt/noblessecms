@@ -14,7 +14,7 @@ function actionProcess()
 	switch ($action) {
 		case 'delete':
 
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_remove_all_post');
+			$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_remove_all_post');
 
 			$addWhere='';
 			$addWhere2='';
@@ -37,7 +37,7 @@ function actionProcess()
 
 		case 'deleteall':
 
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_remove_all_post');
+			$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_remove_all_post');
 
 			$addWhere='';
 			$addWhere2='';
@@ -341,7 +341,7 @@ function insertProcess()
 
 	if($send['status']=='publish')
 	{
-		$send['status']=(int)UserGroups::getPermission(Users::getCookieGroupId(),'default_new_post_status');
+		$send['status']=(int)Usergroups::getPermission(Users::getCookieGroupId(),'default_new_post_status');
 	}
 
 	if(!$id=Post::insert($send))

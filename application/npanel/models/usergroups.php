@@ -17,9 +17,9 @@ function actionProcess()
 
 	switch ($action) {
 		case 'delete':
-			UserGroups::remove($id);
+			Usergroups::remove($id);
 
-			UserGroups::saveCacheAll();
+			Usergroups::saveCacheAll();
 
 			break;
 		
@@ -50,9 +50,9 @@ function updateProcess($groupid)
 		'permissions'=>$content
 		);
 
-	UserGroups::update($groupid,$updateData);
+	Usergroups::update($groupid,$updateData);
 
-	UserGroups::saveCache($groupid);
+	Usergroups::saveCache($groupid);
 	
 }
 
@@ -72,7 +72,7 @@ function insertProcess()
 
 	$title=trim(Request::get('send.title'));
 
-	$loadData=UserGroups::get(array(
+	$loadData=Usergroups::get(array(
 		'where'=>"where title='$title'"
 		));
 
@@ -89,8 +89,8 @@ function insertProcess()
 		'permissions'=>$content
 		);
 
-	$id=UserGroups::insert($insertData);
+	$id=Usergroups::insert($insertData);
 
-	UserGroups::saveCache($id);
+	Usergroups::saveCache($id);
 
 }

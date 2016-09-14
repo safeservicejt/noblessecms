@@ -20,7 +20,7 @@ class controlPost
 
 		if(Request::has('btnAction'))
 		{
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_remove_post');
+			$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_remove_post');
 
 			if($valid!='yes')
 			{
@@ -63,7 +63,7 @@ class controlPost
 			$addPage='/search/'.base64_encode($txtKeywords);
 		}
 
-		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'show_all_post');
+		$valid=Usergroups::getPermission(Users::getCookieGroupId(),'show_all_post');
 
 		if($valid!='yes')
 		{
@@ -124,7 +124,7 @@ class controlPost
 
 	public static function edit()
 	{
-		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_edit_post');
+		$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_edit_post');
 
 		if($valid!='yes')
 		{
@@ -218,7 +218,7 @@ class controlPost
 	public static function addnew()
 	{
 
-		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_addnew_post');
+		$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_addnew_post');
 
 		if($valid!='yes')
 		{

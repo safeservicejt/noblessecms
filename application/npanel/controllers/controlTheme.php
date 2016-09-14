@@ -4,7 +4,7 @@ class controlTheme
 {
 	public static function index()
 	{
-		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_manage_themes');
+		$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_manage_themes');
 
 		if($valid!='yes')
 		{
@@ -15,7 +15,7 @@ class controlTheme
 		
 		if($match=Uri::match('\/activate\/(\w+)'))
 		{
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_activate_theme');
+			$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_activate_theme');
 
 			if($valid!='yes')
 			{
@@ -69,7 +69,7 @@ class controlTheme
 		$themeName=$match[1];
 
 
-		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_edit_theme');
+		$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_edit_theme');
 
 		if($valid!='yes')
 		{
@@ -192,7 +192,7 @@ class controlTheme
 
 		$theName=$match[1];
 
-		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_setting_theme');
+		$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_setting_theme');
 
 		if($valid!='yes')
 		{
@@ -246,7 +246,7 @@ class controlTheme
 
 	public static function import()
 	{
-		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_import_theme');
+		$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_import_theme');
 
 		if($valid!='yes')
 		{

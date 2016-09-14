@@ -5,7 +5,7 @@ class controlUsergroups
 	public static function index()
 	{
 
-		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_manage_usergroup');
+		$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_manage_usergroup');
 
 		if($valid!='yes')
 		{
@@ -26,17 +26,17 @@ class controlUsergroups
 			actionProcess();
 		}
 
-		// $valid=UserGroups::getThisPermission('can_addnew_usergroup');
+		// $valid=Usergroups::getThisPermission('can_addnew_usergroup');
 
 
-		$pageData['theList']=UserGroups::get(array(
+		$pageData['theList']=Usergroups::get(array(
 			'cache'=>'no',
 			'cacheTime'=>1,
 			'limitShow'=>20,
 			'limitPage'=>$curPage
 			));
 
-		$countPost=UserGroups::get(array(
+		$countPost=Usergroups::get(array(
 			'selectFields'=>'count(id)as totalRow',
 			'cache'=>'no'
 			));
@@ -122,7 +122,7 @@ class controlUsergroups
 			}			
 		}
 
-		$loadData=UserGroups::get(array(
+		$loadData=Usergroups::get(array(
 			'cache'=>'no',
 			'where'=>"where id='$groupid'"
 			));

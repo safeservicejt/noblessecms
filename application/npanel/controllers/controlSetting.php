@@ -60,7 +60,7 @@ class controlSetting
 
 	public function mailsystem()
 	{
-		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_setting_mail');
+		$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_setting_mail');
 
 		if($valid!='yes')
 		{

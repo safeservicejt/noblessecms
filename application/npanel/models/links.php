@@ -14,7 +14,7 @@ function actionProcess()
 	switch ($action) {
 		case 'delete':
 
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_remove_link');
+			$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_remove_link');
 
 			if($valid!='yes')
 			{

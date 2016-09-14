@@ -16,7 +16,7 @@ class controlContacts
 
 		if(Request::has('btnAction'))
 		{
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_remove_contactus');
+			$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_remove_contactus');
 
 			if($valid!='yes')
 			{

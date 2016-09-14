@@ -21,7 +21,7 @@ class controlLinks
 
 		if(Request::has('btnAdd'))
 		{
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_addnew_link');
+			$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_addnew_link');
 
 			if($valid!='yes')
 			{
@@ -41,7 +41,7 @@ class controlLinks
 
 		if(Request::has('btnSave'))
 		{
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_edit_link');
+			$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_edit_link');
 
 			if($valid!='yes')
 			{

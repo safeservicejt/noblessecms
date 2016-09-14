@@ -81,7 +81,7 @@ class controlPages
 
 	public static function edit()
 	{
-		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_edit_page');
+		$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_edit_page');
 
 		if($valid!='yes')
 		{
@@ -101,7 +101,7 @@ class controlPages
 
 		if(Request::has('btnSave'))
 		{
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_edit_page');
+			$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_edit_page');
 
 			if($valid!='yes')
 			{
@@ -140,7 +140,7 @@ class controlPages
 	public static function addnew()
 	{
 
-		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_addnew_page');
+		$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_addnew_page');
 
 		if($valid!='yes')
 		{
@@ -152,7 +152,7 @@ class controlPages
 
 		if(Request::has('btnAdd'))
 		{
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_addnew_page');
+			$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_addnew_page');
 
 			if($valid!='yes')
 			{

@@ -16,7 +16,7 @@ class controlRedirects
 
 		if(Request::has('btnAction'))
 		{
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_remove_redirect');
+			$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_remove_redirect');
 
 			if($valid!='yes')
 			{
@@ -28,7 +28,7 @@ class controlRedirects
 
 		if(Request::has('btnAdd'))
 		{
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_addnew_redirect');
+			$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_addnew_redirect');
 
 			if($valid!='yes')
 			{
@@ -48,7 +48,7 @@ class controlRedirects
 
 		if(Request::has('btnSave'))
 		{
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_edit_redirect');
+			$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_edit_redirect');
 
 			if($valid!='yes')
 			{

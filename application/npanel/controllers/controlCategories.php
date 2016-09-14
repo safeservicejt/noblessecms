@@ -16,7 +16,7 @@ class controlCategories
 
 		if(Request::has('btnAction'))
 		{
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_remove_category');
+			$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_remove_category');
 
 			if($valid!='yes')
 			{
@@ -29,7 +29,7 @@ class controlCategories
 		if(Request::has('btnAdd'))
 		{
 
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_addnew_category');
+			$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_addnew_category');
 
 			if($valid!='yes')
 			{
@@ -49,7 +49,7 @@ class controlCategories
 
 		if(Request::has('btnSave'))
 		{
-			$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_edit_category');
+			$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_edit_category');
 
 			if($valid!='yes')
 			{
