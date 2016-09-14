@@ -206,7 +206,7 @@ $siteUrl=$match[1];
                         </div>
 
                         <div class="col-lg-12 text-right" style="margin-top:10px;">
-                          <a class="btn btn-primary Urlsite" href="<?php echo $_SESSION['siteurl'];?>admincp">Go to Admicp</a>
+                          <a class="btn btn-primary Urlsite" href="<?php echo $_SESSION['siteurl'];?>npanel">Go to Admicp</a>
                           <a class="btn btn-info Urlfontend" href="<?php echo $_SESSION['siteurl'];?>">Go to Frontend</a>
 
                         </div>
