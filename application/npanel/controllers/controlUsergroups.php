@@ -5,12 +5,12 @@ class controlUsergroups
 	public static function index()
 	{
 
-		// $valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_manage_usergroup');
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_manage_usergroup');
 
-		// if($valid!='yes')
-		// {
-		// 	Alert::make('You not have permission to view this page');
-		// }		
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}		
 
 		$pageData=array('alert'=>'');
 

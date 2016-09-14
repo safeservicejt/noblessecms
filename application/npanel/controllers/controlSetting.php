@@ -29,12 +29,12 @@ class controlSetting
 
 			$enable_sitemap=isset($saveData['enable_sitemap'])?$saveData['enable_sitemap']:'no';
 
-			// Render::makeSiteMap();	
+			Render::makeSiteMap();	
 		}
 
 		if(Request::has('btnRefreshSiteMap'))
 		{
-			// Render::makeSiteMap();
+			Render::makeSiteMap();
 		}
 
 
