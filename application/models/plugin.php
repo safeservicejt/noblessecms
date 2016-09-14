@@ -9,7 +9,7 @@ function apiProcess($folderName='')
 
 	$routeName=$match[1];
 
-	$themePath=THEMES_PATH.$folderName.'/';
+	$themePath=PLUGINS_PATH.$folderName.'/';
 
 	$filePath=$themePath.'api.php';
 
