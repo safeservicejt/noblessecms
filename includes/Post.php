@@ -65,7 +65,7 @@ class Post
 					
 					if($inputData['isHook']=='yes')
 					{
-
+						$rows[$i]['content']=Shortcode::render($rows[$i]['content']);
 					}
 				}
 

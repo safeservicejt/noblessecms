@@ -86,6 +86,10 @@ class Shortcode
 					include($filePath);
 				}
 
+				$func=$theSC['funcname'];
+
+				$scName=$theSC['name'];
+
 				$resultSC=self::parseProcess($scName,$inputData);
 
 				$totalResult=count($resultSC);
@@ -110,12 +114,14 @@ class Shortcode
 		return $inputData;
 	}
 
-	public static function add($inputData=array())
+	public static function add($scName='',$funcName='')
 	{
-		if(!isset($inputData['funcname']) || !isset($inputData['name']))
+		if(!isset($funcName[2]) || !isset($scName[1]))
 		{
 			return false;
 		}
+
+		$inputData=array();
 
 		$savePath=ROOT_PATH.'caches/shortcodes.cache';
 
@@ -126,6 +132,10 @@ class Shortcode
 		$foldername=basename($dirPath);
 
 		$filePath=$dirPath.'shortcodes.php';
+
+		$inputData['name']=$scName;
+
+		$inputData['funcname']=$funcName;
 
 		$inputData['path']=isset($inputData['path'][5])?$inputData['path']:$filePath;
 
@@ -144,12 +154,14 @@ class Shortcode
 		
 	}
 
-	public static function flyAdd($inputData=array())
+	public static function flyAdd($scName='',$funcName='')
 	{
-		if(self::$canFlyAdd!='yes' || !isset($inputData['funcname']) || !isset($inputData['name']))
+		if(self::$canFlyAdd!='yes' || !isset($funcName[2]) || !isset($scName[1]))
 		{
 			return false;
 		}
+
+		$inputData=array();
 
 		$data=debug_backtrace();
 
@@ -158,6 +170,10 @@ class Shortcode
 		$foldername=basename($dirPath);
 
 		// $filePath=$dirPath.'shortcodes.php';
+
+		$inputData['name']=$scName;
+
+		$inputData['funcname']=$funcName;
 
 		$inputData['path']=$data[0]['file'];
 

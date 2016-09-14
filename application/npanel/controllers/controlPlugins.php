@@ -161,6 +161,33 @@ class controlPlugins
 		Views::make('footer');		
 	}
 
+	public static function controller()
+	{
+		$controlName='home';
+
+		if(!$match=Uri::match('plugins\/controller\/(\w+)'))
+		{
+			Redirects::to(System::getUrl().'npanel');
+		}
+
+		$foldername=$match[1];
+
+		if($match=Uri::match('plugins\/controller\/(\w+)\/(\w+)'))
+		{
+			$controlName=$match[2];
+		}	
+
+		$funcName='index';
+
+		if($match=Uri::match('plugins\/controller\/(\w+)\/(\w+)\/(\w+)'))
+		{
+			$funcName=$match[3];
+		}		
+
+		Controllers::load(ucfirst($controlName),$funcName,'contents/plugins/'.$foldername);
+
+	}
+	
 	public static function addnew()
 	{
 

@@ -37,5 +37,7 @@ class controlFrontend
 
 		// Load shortcode
 		Shortcode::load();
+
+
 	}
 }
