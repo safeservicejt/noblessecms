@@ -50,6 +50,22 @@ class Plugins
 		return $result;
 	}
 
+	public static function url($controlName='',$funcName='index')
+	{
+		$parent='';
+
+		if(!$match=Uri::match('plugins\/controller\/(\w+)'))
+		{	
+			return $parent;
+		}
+
+		$parent=$match[1];
+
+		$url=System::getUrl().'npanel/plugins/controller/fastecommerce/'.$controlName.'/'.$funcName.'/';
+
+		return $url;
+	}
+
 	public static function activate($foldername)
 	{
 		self::update(0,array(
