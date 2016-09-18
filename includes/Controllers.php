@@ -17,9 +17,9 @@ class Controllers
 
 		// $controlName=ucfirst($controlName);
 
-		$realControlname='control'.$controlName;
+		$realControlname='control'.ucfirst($controlName);
 
-		$filePath=self::$loadPath.'/controllers/control'.$controlName.'.php';
+		$filePath=self::$loadPath.'/controllers/'.$realControlname.'.php';
 
 		$funcName=isset($funcName[1])?$funcName:'index';
 

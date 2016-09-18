@@ -249,7 +249,7 @@ function startInstall()
 
   $md5Pass=String::encrypt($password,$secretKey);
 
-  $query=$conn->query("insert into users(groupid,firstname,lastname,username,email,password,ip,date_added) values('1','Admin','System','$username','$email','$md5Pass','$ip','$date_added')");
+  $query=$conn->query("insert into users(groupid,username,email,password,date_added) values('1','$username','$email','$md5Pass','$date_added')");
  
   if(isset($conn->error[5]))
   {
@@ -280,7 +280,7 @@ function startInstall()
   
   $result['username']=Request::get('username');
   $result['password']=Request::get('password');
-  $result['siteurl']=$url.'admincp/';
+  $result['siteurl']=$url.'npanel/';
   $result['Urlfontend']=$url;
   $result['error']='no';
 
