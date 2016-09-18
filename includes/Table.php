@@ -169,7 +169,7 @@ class Table
 	public static function remove($inputIDs=array(),$whereQuery='')
 	{
 
-		if(is_numeric($inputIDs))
+		if(!is_array($inputIDs))
 		{
 			$id=$inputIDs;
 
@@ -194,9 +194,9 @@ class Table
 	public static function update($listID,$updateData=array(),$beforeUpdate='',$afterUpdate='')
 	{
 
-		if(is_numeric($listID))
+		if(!is_array($listID))
 		{
-			$catid=$listID;
+			$catid=(int)$listID;
 
 			unset($listID);
 
@@ -204,11 +204,7 @@ class Table
 		}
 
 		$listIDs="'".implode("','",$listID)."'";
-	
-						
-		$keyNames=array_keys($updateData);
 
-		$total=count($updateData);
 
 		$setUpdates='';
 
@@ -219,12 +215,20 @@ class Table
 			$whereQuery=$updateData['where'];
 
 			unset($updateData['where']);
-		}
+		}	
+						
+		$keyNames=array_keys($updateData);
+
+		$total=count($updateData);
 
 		if(is_object($beforeUpdate))
 		{
 			$updateData=$beforeUpdate($updateData);
-		}		
+		}
+		elseif(is_string($beforeUpdate) && isset($beforeUpdate[3]))
+		{
+			$whereQuery=$beforeUpdate;
+		}
 
 		for($i=0;$i<$total;$i++)
 		{
@@ -233,8 +237,6 @@ class Table
 		}
 
 		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
-
-		$whereQuery='';
 
 		if(is_string($beforeUpdate) && isset($beforeUpdate[5]))
 		{

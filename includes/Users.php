@@ -128,6 +128,29 @@ class Users
 		return $result;
 	}
 
+	public static function changePassword($userid,$newPassword='')
+	{
+
+		if(!isset($newPassword[1]))
+		{
+			return false;
+		}
+
+		$thisUserid=self::getCookieUserId();
+
+		$encryptPassword=String::encrypt($newPassword);
+
+		self::update($userid,array(
+			'password'=>$encryptPassword
+			));
+
+		if($userid==$thisUserid)
+		{
+			Cookie::make('password',$encryptPassword,1440*7);
+		}
+
+	}
+	
 	public static function loadCache($id)
 	{
 		Table::setTable('users');

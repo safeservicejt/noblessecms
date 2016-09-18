@@ -177,6 +177,11 @@ class File
 
     public static function create($filePath = '', $fileData = '', $writeMode = 'w')
     {
+
+        // $filePath=str_replace('/', DIRECTORY_SEPARATOR, $filePath);
+
+        $filePath = strval(str_replace("\0", "", $filePath));
+
         $path=dirname($filePath);
 
         if(!is_dir($path))
@@ -188,7 +193,6 @@ class File
         {
             chmod($filePath, 0666);
         }
-        
         
         $fp = fopen($filePath, $writeMode);
         fwrite($fp, $fileData);

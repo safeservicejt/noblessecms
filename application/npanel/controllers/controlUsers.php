@@ -139,6 +139,60 @@ class controlUsers
 
 		$userid=$match[1];
 
+		$userid=Users::getCookieUserId();
+
+		if(Request::has('btnSave'))
+		{
+			try {
+				
+				updateProcess($userid);
+
+				$pageData['alert']='<div class="alert alert-success">Save changes success.</div>';
+
+			} catch (Exception $e) {
+				$pageData['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}
+		}
+
+		if(Request::has('btnChangePassword'))
+		{
+			Users::changePassword($userid,Request::get('thepass',''));
+
+			$pageData['alert']='<div class="alert alert-success">Save change password success.</div>';
+		}
+
+
+		$loadData=Users::get(array(
+				'query'=>"select u.*,ug.title as group_title,a.* from users u,usergroups ug,address a where u.groupid=ug.id AND u.id=a.userid AND u.id='$userid' order by u.id desc",
+				'cache'=>'no'
+
+			));
+
+
+		$pageData['edit']=$loadData[0];
+
+		$pageData['listGroups']=Usergroups::get(array(
+			'cache'=>'no',
+			'orderby'=>'order by title asc'
+			));
+			
+		System::setTitle('Edit User - nPanel');	
+		
+		Views::make('head');
+
+		Views::make('left');
+
+		Views::make('usersEdit',$pageData);
+
+		Views::make('footer');					
+	}
+
+	public static function profile()
+	{
+		$pageData=array('alert'=>'');
+		
+		$userid=Users::getCookieUserId();
+
 		if(Request::has('btnSave'))
 		{
 			try {

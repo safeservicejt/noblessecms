@@ -147,6 +147,8 @@ function updateProcess($id)
 
 	Users::update($id,$send);
 
+	$address['where']="userid='$id'";
+
 	Address::update($id,$address);
 
 	Users::saveCache($id);

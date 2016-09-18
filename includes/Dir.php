@@ -133,6 +133,8 @@ class Dir
     
     public static function create($dirPath = '')
     {
+        $dirPath = strval(str_replace("\0", "", $dirPath));
+        
         $filterPath=str_replace(ROOT_PATH,'',$dirPath);
 
         if(preg_match_all('/([a-zA-Z0-9_\.\-\_]+)/i',$filterPath,$matches))
