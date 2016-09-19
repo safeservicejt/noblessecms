@@ -44,6 +44,15 @@ class System
 		// Check system status
 		self::systemStatus();
 
+		// Check default route
+		if(isset(self::$setting['default_page_method']) && self::$setting['default_page_method']=='url')
+		{
+			if(!isset($_GET['load']) || !isset($_GET['load'][1]))
+			{
+				self::setUri(self::$setting['default_page_url']);
+			}
+		}
+
 		// Check change theme
 		self::checkTheme();
 
@@ -417,7 +426,7 @@ class System
 			'system_status'=>'working','system_prefix'=>PREFIX,'system_mode'=>'basic','theme_name'=>'cleanwp','system_version'=>'3.0','system_captcha'=>'disable', 'system_lang'=>'en', 'register_user_status'=>'disable', 'register_verify_email'=>'disable',
 			'default_member_groupid'=>'2', 'default_member_banned_groupid'=>'3', 'default_dateformat'=>'M d, Y',
 			'rss_status'=>'enable','comment_status'=>'enable', 'title'=>'Noblesse CMS Website', 'keywords'=>'noblessecms, blog, website',
-			'descriptions'=>'Noblesse CMS Website Description','default_page_method'=>'none','default_page_url'=>'','default_timezone'=>'US/Arizona',
+			'descriptions'=>'Noblesse CMS Website Description','default_adminpage_method'=>'none','default_adminpage_url'=>'','default_page_method'=>'none','default_page_url'=>'','default_timezone'=>'US/Arizona',
 			'mail'=>array(
 				'send_method'=>'local',
 				'fromName'=>'Admin','fromEmail'=>'Admin@gmail.com','smtpAddress'=>'smtp.gmail.com',
