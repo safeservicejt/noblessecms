@@ -46,49 +46,6 @@ Add shortcode use in theme: Create file shortcode.php in theme folder
 
 
 
-Theme::settingUri(array(
-	''=>'home@index',
-	'search'=>'search@index',
-	'contactus'=>'contactus@index',
-	'page'=>'page@index',
-	'rss'=>'rss@index',
-	'404page'=>'404page@index',
-	'tag'=>'tag@index',
-	'category'=>'category@index'
-	));
-
-Theme::settingUri(array(
-	''=>'home@index',
-	'search'=>'search@index',
-	'manga'=>array(
-		''=>'manga@index',
-		'[a-zA-Z0-9\_\-]+\/\d+\.html$'=>'manga@chapter'
-		),
-	'author'=>'author@index',
-	'contactus'=>'contactus@index',
-	'page'=>'page@index',
-	'rss'=>'rss@index',
-	'404page'=>'404page@index',
-	'tag'=>'tag@index',
-	'category'=>'category@index'
-	));
-	
-Theme::settingUri(array(
-	''=>'home@index',
-	'search'=>'search@index',
-	'contactus'=>'contactus@index',
-	'page'=>array(
-		'tset-page'=>'page@test',
-		'tset-[a-zA-Z]+'=>'page@testsub',
-		),
-	'rss'=>'rss@index',
-	'404page'=>'404page@index',
-	'tag'=>'tag@index',
-	'category'=>'category@index'
-	));
-
-Theme::render();
-
 */
 class Theme
 {
@@ -142,101 +99,6 @@ class Theme
 	}
 
 
-	public function settingUri($inputData=array())
-	{
-		self::$data['path']=System::getThemePath().self::$layoutPath;
-
-		self::$data['site_url']=System::getUrl();
-
-		self::$data['theme_url']=System::getThemeUrl();
-
-		/*
-		self::$settingUri(array(
-		'/'=>'home@index',
-		'post'=>'post@index'
-		));
-
-		*/
-
-		self::$data['list_uri']=$inputData;
-	}
-
-	public static function render()
-	{
-
-		$curUri=System::getUri();
-
-		$controllerName='home';
-
-		$funcName='index';
-
-		$pageName='';
-
-		// 'baiviet'=>'post@index'
-		if(preg_match('/^\/?(\w+)/i', $curUri,$match))
-		{
-			$pageName=$match[1];
-
-			if(!isset(self::$data['list_uri'][$pageName]))
-			{
-				$controllerName=$pageName;
-			}
-			else
-			{
-				$cName=self::$data['list_uri'][$pageName];
-
-				if(!is_array($cName) && preg_match_all('/(\w+)/i', $cName,$matchName))
-				{
-					$controllerName=$matchName[1][0];
-
-					$funcName=isset($matchName[1][1])?$matchName[1][1]:'index';
-				}
-				else
-				{
-					$controllerName=isset($cName[''])?$cName['']:$pageName;
-
-					$funcName='index';
-
-					$total=count($cName);
-
-					$listKey=array_keys($cName);
-
-					$listVal=array_values($cName);
-
-
-					for ($i=0; $i < $total; $i++) { 
-
-						$matchUri=$pageName.'\/'.$listKey[$i];
-
-						$matchVal=$listVal[$i];
-
-						if(preg_match('/^\/?'.$matchUri.'/i', $curUri,$matchName))
-						{
-							preg_match_all('/(\w+)/i', $matchVal,$matchSub);
-
-							$controllerName=$matchSub[1][0];
-
-							$funcName=isset($matchSub[1][1])?$matchSub[1][1]:'index';
-
-						}
-					}
-				}
-			}
-		}
-
-		if(!isset(self::$data['list_uri'][$pageName]))
-		{
-			Alert::make('Page not found');
-		}
-
-		$data=debug_backtrace();
-
-		$mvcPath=dirname($data[0]['file']).'/';
-
-		$mvcPath=str_replace(ROOT_PATH, '', $mvcPath);
-
-		Controllers::load($controllerName,$funcName,$mvcPath.'/');
-	}
 
 	public static function activate($themeName='')
 	{
@@ -354,6 +216,10 @@ class Theme
 			$result=String::decrypt(base64_decode(unserialize(file_get_contents($savePath))));
 		}
 
+		self::$setting=$result;
+
+
+
 		System::defineVar('themeSetting',$result);
 
 		return $result;
@@ -366,7 +232,7 @@ class Theme
 
 		$saveData=array();
 
-		if(file_exists($saveData))
+		if(file_exists($savePath))
 		{
 			$saveData=String::decrypt(base64_decode(unserialize(file_get_contents($savePath))));
 		}
@@ -408,7 +274,7 @@ class Theme
 
 		$saveData['layout_name']=isset($saveData['layout_name'])?$saveData['layout_name']:'';
 
-		$saveData['site_logo']=isset($saveData['site_logo'])?$saveData['site_logo']:System::getUrl().'contents/themes/'.$themeName.'/images/logo.png';		
+		$saveData['site_logo']=isset($saveData['site_logo'])?$saveData['site_logo']:System::getUrl().'contents/themes/'.$themeName.'/images/logo.png';	
 
 		File::create($savePath,String::encrypt(base64_encode(serialize($saveData))));
 	}
