@@ -178,9 +178,9 @@ function registerProcess()
 
 	$repassword=$send['repassword'];
 
-	$firstname=$send['firstname'];
+	$firstname=isset($send['firstname'])?$send['firstname']:'Your';
 
-	$lastname=$send['lastname'];
+	$lastname=isset($send['lastname'])?$send['lastname']:'Name';
 
 	$loadUser=Users::get(array(
 		'cache'=>'no',

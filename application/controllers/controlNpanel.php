@@ -84,12 +84,12 @@ class controlNpanel
 
                 registerProcess();
 
-                $postData['alert']='<div class="alert alert-success">Success. Your account '.Request::get('send.username').' and password '.Request::get('send.password').' have been create completed.</div>';
+                $pageData['alert']='<div class="alert alert-success">Success. Your account '.Request::get('send.username').' and password '.Request::get('send.password').' have been create completed.</div>';
 
                 // Redirect::to(System::getAdminUrl());
                 
             } catch (Exception $e) {
-                $postData['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+                $pageData['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
             }
         }
 		
@@ -120,10 +120,10 @@ class controlNpanel
 
                 forgotProcess();
 
-                $postData['alert']='<div class="alert alert-success">We have been send your new password to your email.</div>';
+                $pageData['alert']='<div class="alert alert-success">We have been send your new password to your email.</div>';
                 
             } catch (Exception $e) {
-                $postData['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+                $pageData['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
             }
         }
 		

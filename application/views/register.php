@@ -32,13 +32,13 @@
 							    	<strong>Firstname:</strong>
 							    </p>
 							    <p>
-							    	<input type="text" class="form-control" placeholder="Firstname..." name="send[firstName]" id="txtUsername" required />
+							    	<input type="text" class="form-control" placeholder="Firstname..." name="send[firstname]" id="txtUsername" required />
 							    </p>
 							    <p>
 							    	<strong>Lastname:</strong>
 							    </p>
 							    <p>
-							    	<input type="text" class="form-control" placeholder="Lastname..." name="send[lastName]" id="txtUsername" required />
+							    	<input type="text" class="form-control" placeholder="Lastname..." name="send[lastname]" id="txtUsername" required />
 							    </p>
 							    <p>
 							    	<strong>Email:</strong>

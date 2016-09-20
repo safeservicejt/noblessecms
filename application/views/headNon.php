@@ -12,7 +12,7 @@
     
     <meta id="root_url" content="<?php echo System::getUrl();?>">
 
-    <link rel="shortcut icon" href="<?php echo System::getUrl();?>bootstrap/favicon.ico">
+    <link rel="shortcut icon" href="<?php echo System::getUrl();?>bootstraps/favicon.ico">
 
     <meta property="og:title" content="<?php echo System::getTitle();?>" />
     <meta property="og:type" content="website" />

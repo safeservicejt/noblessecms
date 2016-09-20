@@ -331,9 +331,10 @@ class Users
 		}
 		else
 		{
-			$subject=System::getMailSetting('registerSubject');
 
-			$content=System::getMailSetting('registerContent');
+			$subject=System::$setting['mail']['registerSubject'];
+
+			$content=System::$setting['mail']['registerContent'];
 
 		}
 
@@ -454,8 +455,6 @@ class Users
 
 		$insertData=array(
 			'email'=>$inputData['email'],
-			'firstname'=>$inputData['firstname'],
-			'lastname'=>$inputData['lastname'],
 			'username'=>$inputData['username'],
 			'password'=>$inputData['password'],
 			'groupid'=>$groupid,
@@ -483,8 +482,8 @@ class Users
 			));
 
 		$addData=array(
-			'firstname'=>trim($insertData['firstname']),
-			'lastname'=>trim($insertData['lastname']),
+			'firstname'=>trim($inputData['firstname']),
+			'lastname'=>trim($inputData['lastname']),
 			'userid'=>$id
 			);
 
@@ -494,11 +493,11 @@ class Users
 
 		$addData['city']=isset($inputData['city'])?$inputData['city']:'';
 
-		$addData['country']=isset($inputData['country'])?$inputData['country']:'';
+		$addData['countryname']=isset($inputData['country'])?$inputData['country']:'';
 
 		$addData['state']=isset($inputData['state'])?$inputData['state']:'';
 
-		$addData['postcode']=isset($inputData['postcode'])?$inputData['postcode']:'';
+		$addData['zipcode']=isset($inputData['zipcode'])?$inputData['zipcode']:'';
 
 		$addData['phone']=isset($inputData['phone'])?$inputData['phone']:'';
 
