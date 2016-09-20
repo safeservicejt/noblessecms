@@ -119,7 +119,7 @@ class Mail
     public static function send($inputData=array())
     {
 
-         $mailData=System::getMailSetting();
+         $mailData=System::$setting['mail'];
          
          // local|account|smtp
          $mailData['send_method']=isset($inputData['send_method'])?$inputData['send_method']:$mailData['send_method'];
