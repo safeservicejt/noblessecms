@@ -1,5 +1,14 @@
 <?php
 
+/*
+
+$groupid=Users::getCookieGroupId();
+
+$userid=Users::getCookieUserId();
+
+
+*/
+
 class Users
 {
 	public static $id=0;
@@ -494,6 +503,10 @@ class Users
 		$addData['city']=isset($inputData['city'])?$inputData['city']:'';
 
 		$addData['countryname']=isset($inputData['country'])?$inputData['country']:'';
+
+		$addData['countryname']=isset($inputData['countryname'])?$inputData['countryname']:$addData['countryname'];
+
+		$addData['countrycode']=isset($inputData['countrycode'])?$inputData['countrycode']:'';
 
 		$addData['state']=isset($inputData['state'])?$inputData['state']:'';
 
