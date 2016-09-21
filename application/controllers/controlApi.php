@@ -4,10 +4,11 @@ class controlApi
 {
 	public static function index()
 	{
-		$result=array('error'=>'yes','message'=>'','data'=>array());
+		$result=array('error'=>'no','message'=>'','data'=>array());
 
 		if(!$match=Uri::match('\/?api\/(\w+)\/(\w+)'))
 		{
+			$result['error']='yes';
 			$result['message']='Data not valid.';
 		}
 		else
@@ -20,6 +21,7 @@ class controlApi
 					try {
 						$result['data']=apiProcess($match[2]);
 					} catch (Exception $e) {
+						$result['error']='yes';
 						$result['message']=$e->getMessage();
 					}
 					
@@ -31,6 +33,7 @@ class controlApi
 					try {
 						$result['data']=apiProcess($match[2]);
 					} catch (Exception $e) {
+						$result['error']='yes';
 						$result['message']=$e->getMessage();
 					}
 					
@@ -42,6 +45,7 @@ class controlApi
 					try {
 						$result['data']=apiProcess($match[2]);
 					} catch (Exception $e) {
+						$result['error']='yes';
 						$result['message']=$e->getMessage();
 					}
 					
@@ -53,6 +57,7 @@ class controlApi
 					try {
 						$result['data']=apiProcess($match[2]);
 					} catch (Exception $e) {
+						$result['error']='yes';
 						$result['message']=$e->getMessage();
 					}
 					
@@ -64,6 +69,7 @@ class controlApi
 					try {
 						$result['data']=apiProcess($match[2]);
 					} catch (Exception $e) {
+						$result['error']='yes';
 						$result['message']=$e->getMessage();
 					}
 					
@@ -75,6 +81,7 @@ class controlApi
 					try {
 						$result['data']=apiProcess($match[2]);
 					} catch (Exception $e) {
+						$result['error']='yes';
 						$result['message']=$e->getMessage();
 					}
 					
@@ -86,6 +93,7 @@ class controlApi
 					try {
 						$result['data']=apiProcess($match[2]);
 					} catch (Exception $e) {
+						$result['error']='yes';
 						$result['message']=$e->getMessage();
 					}
 					
