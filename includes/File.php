@@ -355,7 +355,7 @@ class File
             Alert::make('File not found');
         }
 
-        $fileName=Url::makeFriendly($match[1]).'.'.$match[2];
+        $fileName=String::makeFriendlyUrl($match[1]).'.'.$match[2];
             
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
