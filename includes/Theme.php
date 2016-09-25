@@ -236,7 +236,18 @@ class Theme
 
 		if(file_exists($savePath))
 		{
-			$saveData=String::decrypt(base64_decode(unserialize(file_get_contents($savePath))));
+			$saveData=trim(file_get_contents($savePath));
+
+			if(isset($saveData[300]))
+			{
+				// $saveData=String::decrypt(base64_decode(unserialize($saveData)));
+				$saveData=unserialize(base64_decode(String::decrypt($saveData)));
+			}
+			else
+			{
+				$saveData=array();
+			}
+			
 		}
 
 		$total=count($inputData);
