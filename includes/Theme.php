@@ -213,7 +213,9 @@ class Theme
 
 		if(file_exists($savePath))
 		{
-			$result=String::decrypt(base64_decode(unserialize(file_get_contents($savePath))));
+			// $result=String::decrypt(base64_decode(unserialize(file_get_contents($savePath))));
+
+			$result=unserialize(base64_decode(String::decrypt(file_get_contents($savePath))));
 		}
 
 		self::$setting=$result;
