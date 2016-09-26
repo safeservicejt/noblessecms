@@ -12,7 +12,9 @@ function apiProcess($keyName='')
 
 		$fileName=$_REQUEST['send_filename'];
 
-		$filePath=ROOT_PATH.'uploads/media/'.$_REQUEST['send_filename'];
+		$toDay=date('Y-m-d');
+
+		$filePath=ROOT_PATH.'uploads/media/'.$toDay.'/'.$_REQUEST['send_filename'];
 
 		if(!file_exists($filePath))
 		{
@@ -56,18 +58,15 @@ function apiProcess($keyName='')
 
 			Dir::copy($targetPath.$theName.'/',ROOT_PATH.'contents/themes/'.$theName);
 
-			if(file_exists(ROOT_PATH.'contents/themes/'.$theName.'/install/update.sql'))
-			{
-				Database::import(ROOT_PATH.'contents/themes/'.$theName.'/install/update.sql');
-			}
 
-			if(file_exists(ROOT_PATH.'contents/themes/'.$theName.'/install/update.php'))
-			{
-				include(ROOT_PATH.'contents/themes/'.$theName.'/install/update.php');
-			}
 
 		}
 
+		if(file_exists(ROOT_PATH.'contents/themes/'.$theName.'/install/update.php'))
+		{
+			include(ROOT_PATH.'contents/themes/'.$theName.'/install/update.php');
+		}
+		
 		File::cleanTmpFiles(ROOT_PATH.'bootstraps/jsupload/php/files/');
 
 		Dir::remove(ROOT_PATH.'uploads/themes');
@@ -83,7 +82,9 @@ function apiProcess($keyName='')
 
 		$fileName=$_REQUEST['send_filename'];
 
-		$filePath=ROOT_PATH.'uploads/media/'.$_REQUEST['send_filename'];
+		$toDay=date('Y-m-d');
+
+		$filePath=ROOT_PATH.'uploads/media/'.$toDay.'/'.$_REQUEST['send_filename'];
 
 		if(!file_exists($filePath))
 		{
@@ -127,16 +128,12 @@ function apiProcess($keyName='')
 
 			Dir::copy($targetPath.$theName.'/',ROOT_PATH.'contents/plugins/'.$theName);
 
-			if(file_exists(ROOT_PATH.'contents/plugins/'.$theName.'/install/update.sql'))
-			{
-				Database::import(ROOT_PATH.'contents/plugins/'.$theName.'/install/update.sql');
-			}
 
-			if(file_exists(ROOT_PATH.'contents/plugins/'.$theName.'/install/update.php'))
-			{
-				include(ROOT_PATH.'contents/plugins/'.$theName.'/install/update.php');
-			}
+		}
 
+		if(file_exists(ROOT_PATH.'contents/plugins/'.$theName.'/update.php'))
+		{
+			include(ROOT_PATH.'contents/plugins/'.$theName.'/update.php');
 		}
 
 		File::cleanTmpFiles(ROOT_PATH.'bootstraps/jsupload/php/files/');
@@ -171,15 +168,6 @@ function copyNested($targetPath='',$type='themes')
 
 		Dir::copy($theDir,ROOT_PATH.'contents/'.$type.'/'.$listDir[$i]);
 
-		if(file_exists(ROOT_PATH.'contents/'.$type.'/'.$theName.'/install/update.sql'))
-		{
-			Database::import(ROOT_PATH.'contents/'.$type.'/'.$theName.'/install/update.sql');
-		}
-		
-		if(file_exists(ROOT_PATH.'contents/'.$type.'/'.$theName.'/install/update.php'))
-		{
-			include(ROOT_PATH.'contents/'.$type.'/'.$theName.'/install/update.php');
-		}
 	
 	}
 

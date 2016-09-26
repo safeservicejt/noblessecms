@@ -187,6 +187,42 @@ class controlPlugins
 		Controllers::load(ucfirst($controlName),$funcName,'contents/plugins/'.$foldername);
 
 	}
+
+	public function import()
+	{
+
+		$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_import_plugin');
+
+		if($valid!='yes')
+		{
+			Alert::make('You not have permission to view this page');
+		}
+
+		$pageData=array('alert'=>'');
+
+		if(Request::has('btnSend'))
+		{
+			try {
+				
+				importProcess();
+
+				$pageData['alert']='<div class="alert alert-success">Import plugins success.</div>';
+
+			} catch (Exception $e) {
+				$pageData['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
+			}		
+		}
+
+		System::setTitle('Import plugin - nPanel');
+
+		Views::make('head');
+
+		Views::make('left');
+
+		Views::make('pluginImport',$pageData);
+
+		Views::make('footer');		
+	}
 	
 	public static function addnew()
 	{
