@@ -30,7 +30,7 @@ class controlTheme
 
 				$pageData['alert']='<div class="alert alert-success">Change theme success</div>';
 
-				Redirect::to(System::getAdminUrl().'theme');
+				Redirects::to(System::getAdminUrl().'theme');
 
 			} catch (Exception $e) {
 				$pageData['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';
@@ -63,7 +63,7 @@ class controlTheme
 	{
 		if(!$match=Uri::match('\/edit\/(\w+)'))
 		{
-			Redirect::to(System::getAdminUrl());
+			Redirects::to(System::getAdminUrl());
 		}
 
 		$themeName=$match[1];
@@ -80,7 +80,7 @@ class controlTheme
 
 		if(!is_dir($thePath))
 		{
-			Redirect::to(System::getAdminUrl());
+			Redirects::to(System::getAdminUrl());
 		}
 
 		$subPath=Request::get('path','');
@@ -187,7 +187,7 @@ class controlTheme
 
 		if(!$match=Uri::match('setting\/(\w+)'))
 		{
-			Redirect::to(System::getAdminUrl());
+			Redirects::to(System::getAdminUrl());
 		}
 
 		$theName=$match[1];
@@ -205,7 +205,7 @@ class controlTheme
 
 		if(!is_dir($thePath))
 		{
-			Redirect::to(System::getAdminUrl());
+			Redirects::to(System::getAdminUrl());
 		}
 
 		define('THEME_CP_PATH', $thePath.'cp/');

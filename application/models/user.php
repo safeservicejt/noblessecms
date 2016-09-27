@@ -58,7 +58,7 @@ function apiProcess($keyName='')
 				'verify_code'=>''
 				));
 
-			Redirect::to(ROOT_URL);
+			Redirects::to(ROOT_URL);
 
 			// Users::sendNewPassword($loadData[0]['email']);
 		}
@@ -89,7 +89,7 @@ function apiProcess($keyName='')
 
 			Users::sendNewPassword($loadData[0]['email']);
 
-			Redirect::to(ROOT_URL);
+			Redirects::to(ROOT_URL);
 		}
 		else
 		{

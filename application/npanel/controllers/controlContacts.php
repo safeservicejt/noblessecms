@@ -66,7 +66,7 @@ class controlContacts
 	{
 		if(!$match=Uri::match('\/view\/(\d+)'))
 		{
-			Redirect::to(System::getAdminUrl().'contacts/');
+			Redirects::to(System::getAdminUrl().'contacts/');
 		}
 
 

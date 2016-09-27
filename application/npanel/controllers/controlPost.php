@@ -133,7 +133,7 @@ class controlPost
 
 		if(!$match=Uri::match('\/edit\/(\d+)'))
 		{
-			Redirect::to(System::getAdminUrl().'post/');
+			Redirects::to(System::getAdminUrl().'post/');
 		}
 
 

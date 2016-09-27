@@ -101,7 +101,7 @@ class controlUsergroups
 	{
 		if(!$match=Uri::match('\/edit\/(\d+)'))
 		{
-			Redirect::to(System::getAdminUrl().'usergroups/');
+			Redirects::to(System::getAdminUrl().'usergroups/');
 		}
 
 

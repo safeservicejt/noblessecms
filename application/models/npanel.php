@@ -207,7 +207,7 @@ function registerProcess()
 	}
 
 
-	// Redirect::to(System::getAdminUrl());
+	// Redirects::to(System::getAdminUrl());
 }
 
 

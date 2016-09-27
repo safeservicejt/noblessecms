@@ -86,7 +86,7 @@ class controlNpanel
 
                 $pageData['alert']='<div class="alert alert-success">Success. Your account '.Request::get('send.username').' and password '.Request::get('send.password').' have been create completed.</div>';
 
-                // Redirect::to(System::getAdminUrl());
+                // Redirects::to(System::getAdminUrl());
                 
             } catch (Exception $e) {
                 $pageData['alert']='<div class="alert alert-warning">'.$e->getMessage().'</div>';

@@ -91,7 +91,7 @@ class controlPages
 		
 		if(!$match=Uri::match('\/edit\/(\d+)'))
 		{
-			Redirect::to(System::getAdminUrl().'pages/');
+			Redirects::to(System::getAdminUrl().'pages/');
 		}
 
 
