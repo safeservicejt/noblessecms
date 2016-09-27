@@ -20,7 +20,7 @@ class Categories
 
 				if(isset($rows[$i]['friendly_url']))
 				{
-					$rows[$i]['url']=System::getUrl().$rows[$i]['friendly_url'];
+					$rows[$i]['url']=System::getUrl().'category/'.$rows[$i]['friendly_url'];
 				}
 			}
 
