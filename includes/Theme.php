@@ -180,7 +180,17 @@ class Theme
 
 	public static function settingUrl($controlName,$methodName='index')
 	{
-		$url=System::getAdminUrl().'theme/setting/'.$controlName.'/'.$methodName;
+		$themeName='';
+
+
+		if(!$match=Uri::match('theme\/setting\/(\w+)'))
+		{	
+			return $themeName;
+		}
+
+		$themeName=$match[1];
+
+		$url=System::getAdminUrl().'theme/setting/'.$themeName.'/'.$controlName.'/'.$methodName;
 
 		return $url;
 	}

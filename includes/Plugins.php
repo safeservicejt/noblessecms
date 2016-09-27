@@ -52,16 +52,16 @@ class Plugins
 
 	public static function url($controlName='',$funcName='index')
 	{
-		$parent='';
+		$pluginName='';
 
 		if(!$match=Uri::match('plugins\/controller\/(\w+)'))
 		{	
-			return $parent;
+			return $pluginName;
 		}
 
-		$parent=$match[1];
+		$pluginName=$match[1];
 
-		$url=System::getUrl().'npanel/plugins/controller/fastecommerce/'.$controlName.'/'.$funcName.'/';
+		$url=System::getUrl().'npanel/plugins/controller/'.$pluginName.'/'.$controlName.'/'.$funcName.'/';
 
 		return $url;
 	}
