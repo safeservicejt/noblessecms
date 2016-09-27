@@ -85,7 +85,7 @@ function startInstall()
   
   $password=trim($_REQUEST['password']);
 
-  $secretKey=String::randAlpha(20);
+  $secretKey=Strings::randAlpha(20);
 
   $isHttp=$_SERVER['HTTPS'];
 
@@ -135,7 +135,7 @@ function startInstall()
 
   if(!isset($dbname[1]))
   {
-    $dbname='noblessecms_db'.String::randText(5);
+    $dbname='noblessecms_db'.Strings::randText(5);
 
     $conn->query("CREATE DATABASE $dbname CHARACTER SET utf8 COLLATE utf8_general_ci;");
     $conn->query("GRANT ALL ON $dbname.* TO '$dbuser'@localhost IDENTIFIED BY '$dbpass';");
@@ -247,9 +247,9 @@ function startInstall()
 
   $date_added=date('Y-m-d H:i:s');
 
-  $md5Pass=String::encrypt($password,$secretKey);
+  $md5Pass=Strings::encrypt($password,$secretKey);
 
-  $query=$conn->query("insert into users(groupid,username,email,password,date_added) values('1','$username','$email','$md5Pass','$date_added')");
+  $query=$conn->query("insert into users(groupid,firstname,lastname,username,email,password,ip,date_added) values('1','Admin','System','$username','$email','$md5Pass','$ip','$date_added')");
  
   if(isset($conn->error[5]))
   {
@@ -280,7 +280,7 @@ function startInstall()
   
   $result['username']=Request::get('username');
   $result['password']=Request::get('password');
-  $result['siteurl']=$url.'npanel/';
+  $result['siteurl']=$url.'admincp/';
   $result['Urlfontend']=$url;
   $result['error']='no';
 
