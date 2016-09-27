@@ -34,11 +34,11 @@ class controlGeneral
 
 		CtrTheme::admincpLeft();
 
-		CtrTheme::view('head');
+		CtrViews::make('head');
 
-		CtrTheme::view('left');
+		CtrViews::make('left');
 
-		CtrTheme::view('general',$pageData);
+		CtrViews::make('general',$pageData);
 
 		CtrTheme::admincpFooter();
 	}

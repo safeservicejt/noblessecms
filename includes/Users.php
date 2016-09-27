@@ -147,7 +147,7 @@ class Users
 
 		$thisUserid=self::getCookieUserId();
 
-		$encryptPassword=String::encrypt($newPassword);
+		$encryptPassword=Strings::encrypt($newPassword);
 
 		self::update($userid,array(
 			'password'=>$encryptPassword
@@ -269,7 +269,7 @@ class Users
 			'where'=>"where userid='".$loadUser[0]['id']."'"
 			));
 
-		$verifyCode=String::randText(10);
+		$verifyCode=Strings::randText(10);
 
 		self::update($loadUser[0]['id'],array(
 			'forgot_code'=>$verifyCode
@@ -389,10 +389,10 @@ class Users
 			'where'=>"where userid='".$loadUser[0]['id']."'"
 			));
 		
-		$newPass=String::randText(10);
+		$newPass=Strings::randText(10);
 
 		self::update($loadUser[0]['id'],array(
-			'password'=>String::encrypt($newPass)
+			'password'=>Strings::encrypt($newPass)
 			));
 
 		// $codeUrl=System::getUrl().'api/user/verify_forgotpassword?verify_code='.$verifyCode;
@@ -470,13 +470,13 @@ class Users
 			'email'=>$inputData['email'],
 			);
 
-		$insertData['password']=String::encrypt($insertData['password']);
+		$insertData['password']=Strings::encrypt($insertData['password']);
 
 		$is_verify=isset(System::$setting['register_verify_email'])?System::$setting['register_verify_email']:'disable';
 
 		if($is_verify=='enable')
 		{
-			$insertData['verify_code']=String::randText(12);
+			$insertData['verify_code']=Strings::randText(12);
 			$inputData['verify_code']=$insertData['verify_code'];
 		}
 
@@ -547,7 +547,7 @@ class Users
 			
 		}
 
-		$encryptPassword=String::encrypt($password);
+		$encryptPassword=Strings::encrypt($password);
 
 		$must_verify=isset(System::$setting['register_verify_email'])?System::$setting['register_verify_email']:'disable';
 
@@ -574,9 +574,9 @@ class Users
 			}
 		}
 
-		Cookie::make('userid',String::encrypt($getData[0]['id']),1440*7);
+		Cookie::make('userid',Strings::encrypt($getData[0]['id']),1440*7);
 
-		Cookie::make('groupid',String::encrypt($getData[0]['groupid']),1440*7);
+		Cookie::make('groupid',Strings::encrypt($getData[0]['groupid']),1440*7);
 
 		Cookie::make('username',$username,1440*7);
 
@@ -601,7 +601,7 @@ class Users
 		{
 			$userid=isset($_COOKIE['userid'])?$_COOKIE['userid']:0;
 
-			$userid=String::decrypt($userid);
+			$userid=Strings::decrypt($userid);
 
 			if((int)$userid <= 0)
 			{
@@ -633,7 +633,7 @@ class Users
 		{
 			$groupid=isset($_COOKIE['groupid'])?$_COOKIE['groupid']:0;
 
-			$groupid=String::decrypt($groupid);
+			$groupid=Strings::decrypt($groupid);
 
 			if((int)$groupid <= 0)
 			{

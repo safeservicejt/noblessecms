@@ -286,7 +286,7 @@ function insertProcess()
 
 	$autoCrop=trim(Request::get('autoCrop','disable'));
 
-	$friendlyUrl=trim(String::makeFriendlyUrl($send['title']));
+	$friendlyUrl=trim(Strings::makeFriendlyUrl($send['title']));
 
 
 	$uploadMethod=trim(Request::get('uploadMethod'));

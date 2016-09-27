@@ -213,9 +213,9 @@ class Theme
 
 		if(file_exists($savePath))
 		{
-			// $result=String::decrypt(base64_decode(unserialize(file_get_contents($savePath))));
+			// $result=Strings::decrypt(base64_decode(unserialize(file_get_contents($savePath))));
 
-			$result=unserialize(base64_decode(String::decrypt(file_get_contents($savePath))));
+			$result=unserialize(base64_decode(Strings::decrypt(file_get_contents($savePath))));
 		}
 
 		self::$setting=$result;
@@ -240,8 +240,8 @@ class Theme
 
 			if(isset($saveData[300]))
 			{
-				// $saveData=String::decrypt(base64_decode(unserialize($saveData)));
-				$saveData=unserialize(base64_decode(String::decrypt($saveData)));
+				// $saveData=Strings::decrypt(base64_decode(unserialize($saveData)));
+				$saveData=unserialize(base64_decode(Strings::decrypt($saveData)));
 			}
 			else
 			{
@@ -289,6 +289,6 @@ class Theme
 
 		$saveData['site_logo']=isset($saveData['site_logo'])?$saveData['site_logo']:System::getUrl().'contents/themes/'.$themeName.'/images/logo.png';	
 
-		File::create($savePath,String::encrypt(base64_encode(serialize($saveData))));
+		File::create($savePath,Strings::encrypt(base64_encode(serialize($saveData))));
 	}
 }

@@ -4,7 +4,7 @@ error_reporting(0);
 session_start();
 
 include('../includes/Request.php');
-include('../includes/String.php');
+include('../includes/Strings.php');
 
 include('import.php');
 

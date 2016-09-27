@@ -41,13 +41,13 @@ class Country
 	}
 
 
-	public static function loadCache($id)
+	public static function loadCache()
 	{
 		$savePath=ROOT_PATH.'caches/system/countriesList.cache';
 
 		if(!file_exists($savePath))
 		{
-			self::saveCache($id);
+			self::saveCache();
 
 			if(!file_exists($savePath))
 			{

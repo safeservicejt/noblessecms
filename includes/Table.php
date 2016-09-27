@@ -289,6 +289,8 @@ class Table
 	{
 		$savePath=ROOT_PATH.'caches/system/'.self::$table.'/'.$id.'.cache';
 
+		$savePath = strval(str_replace("\0", "", $savePath));
+
 		if(!file_exists($savePath))
 		{
 			// self::saveCache($id);

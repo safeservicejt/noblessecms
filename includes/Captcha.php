@@ -23,7 +23,7 @@ class Captcha
 
         imagefill($main_img, 0, 0, $bg_color);
 
-        $captcha_str = String::randNumber($totalChar);
+        $captcha_str = Strings::randNumber($totalChar);
  
         // $captcha_str = $db1[0] . ' ' . $db2[0];
 
@@ -111,7 +111,7 @@ class Captcha
             imagepng($main_img);
         } else {
 
-            $savePath = ROOT_PATH . 'uploads/' . String::randAlpha(12) . '.png';
+            $savePath = ROOT_PATH . 'uploads/' . Strings::randAlpha(12) . '.png';
 
             imagepng($main_img, $savePath);
 

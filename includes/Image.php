@@ -12,7 +12,7 @@ class Image
             return false;
         }
 
-        $newName=String::randNumber(10).'.'.$match[1];
+        $newName=Strings::randNumber(10).'.'.$match[1];
 
         $shortPath.=$newName;
 
@@ -43,7 +43,7 @@ class Image
 
             preg_match('/.*?\.(\w+)/i', $_FILES[$keyName]['name'][$i],$matchName);
 
-            $newName=String::randNumber(10).'.'.$matchName[1];
+            $newName=Strings::randNumber(10).'.'.$matchName[1];
 
             $tmpShortPath.=$newName;
 

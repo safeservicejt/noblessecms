@@ -147,7 +147,7 @@ class Render
         }
 
 
-        $li=String::trimLines($li);
+        $li=Strings::trimLines($li);
 
 $result='
 <?xml version="1.0" encoding="UTF-8"?>

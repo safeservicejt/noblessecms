@@ -73,13 +73,13 @@ class controlCategory
 
 		System::setKeywords($keywords);
 
-		Theme::view('head');
+		Views::make('head');
 		
-		Theme::view('category',$pageData);
+		Views::make('category',$pageData);
 		
-		Theme::view('right');
+		Views::make('right');
 		
-		Theme::view('footer');
+		Views::make('footer');
 
 	}
 }

@@ -39,20 +39,20 @@ class controlPage
 
 		System::setTitle(ucfirst($loadData[0]['title']));
 
-		Theme::view('head');
+		Views::make('head');
 
 		if($loadData[0]['page_type']=='fullwidth')
 		{
-			Theme::view('pageFull',$pageData);
+			Views::make('pageFull',$pageData);
 		}
 		else
 		{
-			Theme::view('page',$pageData);
+			Views::make('page',$pageData);
 			
-			Theme::view('right');			
+			Views::make('right');			
 		}
 		
-		Theme::view('footer');
+		Views::make('footer');
 	}
 
 

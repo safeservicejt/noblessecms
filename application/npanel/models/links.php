@@ -98,7 +98,7 @@ function insertProcess()
 	}
 
 	$loadData=Links::get(array(
-		'where'=>"where title='".addslashes($send['title'])."' AND url='".String::encode($send['url'])."'"
+		'where'=>"where title='".addslashes($send['title'])."' AND url='".Strings::encode($send['url'])."'"
 		));
 
 	if(isset($loadData[0]['url']))

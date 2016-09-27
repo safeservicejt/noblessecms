@@ -6,10 +6,10 @@ class control404page
 	{
 		System::setTitle('Page not found');
 
-		Theme::view('head');
+		Views::make('head');
 		
-		Theme::view('404page');
+		Views::make('404page');
 		
-		Theme::view('footer');
+		Views::make('footer');
 	}
 }

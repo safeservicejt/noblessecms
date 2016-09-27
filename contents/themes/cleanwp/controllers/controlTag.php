@@ -52,13 +52,13 @@ class controlTag
 
 		System::setTitle('Result with tag "'.$friendly_url.'"');
 
-		Theme::view('head');
+		Views::make('head');
 		
-		Theme::view('tag',$pageData);
+		Views::make('tag',$pageData);
 		
-		Theme::view('right');
+		Views::make('right');
 		
-		Theme::view('footer');
+		Views::make('footer');
 
 	}
 }

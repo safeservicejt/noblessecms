@@ -355,7 +355,7 @@ class File
             Alert::make('File not found');
         }
 
-        $fileName=String::makeFriendlyUrl($match[1]).'.'.$match[2];
+        $fileName=Strings::makeFriendlyUrl($match[1]).'.'.$match[2];
             
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
@@ -482,7 +482,7 @@ class File
         
         // $shortPath.=Http::get('host').'/';
 
-        $newName=String::randAlpha(10);
+        $newName=Strings::randAlpha(10);
 
 
         $shortPath.=$newName;
@@ -494,9 +494,9 @@ class File
 
         preg_match('/(.*?)\.(\w+)/i', $name,$match);
 
-        $fileName=trim(String::makeFriendlyUrl($match[1]));
+        $fileName=trim(Strings::makeFriendlyUrl($match[1]));
 
-        $fileName=isset($defaultName[1])?trim(String::makeFriendlyUrl($defaultName)):$fileName;
+        $fileName=isset($defaultName[1])?trim(Strings::makeFriendlyUrl($defaultName)):$fileName;
 
         $fileExt=$match[2];
 
@@ -543,7 +543,7 @@ class File
                 continue;
             }
 
-            $newName=String::randAlpha(10);
+            $newName=Strings::randAlpha(10);
 
             $theName=$_FILES[$keyName]['name'][$i];
 
@@ -553,9 +553,9 @@ class File
 
             preg_match('/(.*?)\.(\w+)/i', $theName,$match);
 
-            $fileName=trim(String::makeFriendlyUrl($match[1]));
+            $fileName=trim(Strings::makeFriendlyUrl($match[1]));
 
-            $fileName=isset($defaultName[1])?trim(String::makeFriendlyUrl($defaultName)):$fileName;
+            $fileName=isset($defaultName[1])?trim(Strings::makeFriendlyUrl($defaultName)):$fileName;
 
             $fileExt=$match[2];        
 
@@ -587,7 +587,7 @@ class File
             Dir::create(ROOT_PATH.$shortPath);
         }
 
-        $newName=String::randNumber(10);
+        $newName=Strings::randNumber(10);
 
         $shortPath.=$newName;
 
@@ -595,9 +595,9 @@ class File
 
         preg_match('/(.*?)\.(\w+)/i', basename($imgUrl),$match);
 
-        $fileName=trim(String::makeFriendlyUrl($match[1]));
+        $fileName=trim(Strings::makeFriendlyUrl($match[1]));
 
-        $fileName=isset($defaultName[1])?trim(String::makeFriendlyUrl($defaultName)):$fileName;
+        $fileName=isset($defaultName[1])?trim(Strings::makeFriendlyUrl($defaultName)):$fileName;
 
         $fileExt=$match[2];
 

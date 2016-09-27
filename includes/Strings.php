@@ -1,6 +1,6 @@
 <?php
 
-class String
+class Strings
 {
     public static function matchUrls($str='')
     {
@@ -142,7 +142,7 @@ class String
 
         // $retext=preg_replace('/\U/i', '', $inputStr);
 
-        $retext=String::stripUnicode($inputStr);
+        $retext=Strings::stripUnicode($inputStr);
 
         preg_match_all('/([a-zA-Z0-9]+)/i', $retext,$matches);
     
@@ -302,7 +302,7 @@ class String
 
                 if(preg_match_all('/\{.*?\}/i', $itemContent,$itemMatch))
                 {
-                    $inputData=String::spinText($itemContent);
+                    $inputData=Strings::spinText($itemContent);
                 }
                 else
                 {
@@ -315,7 +315,7 @@ class String
 
             }
 
-            $inputData=String::spinText($inputData);
+            $inputData=Strings::spinText($inputData);
         }
 
 

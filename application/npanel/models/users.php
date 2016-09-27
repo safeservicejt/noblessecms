@@ -58,10 +58,10 @@ function actionProcess()
 
 		case 'changepassword':
 
-			$newPass=String::randText(8);
+			$newPass=Strings::randText(8);
 
 			Users::update($id,array(
-				'password'=>String::encrypt($newPass),
+				'password'=>Strings::encrypt($newPass),
 				'forgot_code'=>''
 				));
 
@@ -126,7 +126,7 @@ function insertProcess()
 	
 	$thepass=Request::get('thepass');
 
-	$passMd5=String::encrypt($thepass);
+	$passMd5=Strings::encrypt($thepass);
 
 	$send['password']=$passMd5;
 

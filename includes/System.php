@@ -524,7 +524,7 @@ class System
 			Usergroups::saveCacheAll();
 		}
 
-		$result=unserialize(base64_decode(String::decrypt(file_get_contents($filePath))));
+		$result=unserialize(base64_decode(Strings::decrypt(file_get_contents($filePath))));
 
 		if(!is_array($result) || !isset($result['system_status']))
 		{
@@ -561,7 +561,7 @@ class System
 
 		if(file_exists($filePath))
 		{
-			$loadData=unserialize(base64_decode(String::decrypt(file_get_contents($filePath))));
+			$loadData=unserialize(base64_decode(Strings::decrypt(file_get_contents($filePath))));
 
 			if(!is_array($loadData))
 			{
@@ -580,7 +580,7 @@ class System
 		}
 
 
-		File::create($filePath,String::encrypt(base64_encode(serialize($loadData))));
+		File::create($filePath,Strings::encrypt(base64_encode(serialize($loadData))));
 	}
 
 }

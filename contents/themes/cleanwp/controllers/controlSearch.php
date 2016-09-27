@@ -51,13 +51,13 @@ class controlSearch
 
 		System::setTitle('Search result with "'.$txtKeywords.'"');
 
-		Theme::view('head');
+		Views::make('head');
 		
-		Theme::view('search',$pageData);
+		Views::make('search',$pageData);
 		
-		Theme::view('right');
+		Views::make('right');
 		
-		Theme::view('footer');
+		Views::make('footer');
 
 	}
 }

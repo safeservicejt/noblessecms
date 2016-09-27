@@ -112,7 +112,7 @@ class Pages
 			if(isset($inputData['id']))
 			{
 				self::update($inputData['id'],array(
-					'friendly_url'=>String::makeFriendlyUrl(strip_tags($inputData['title'])).'-'.$inputData['id']
+					'friendly_url'=>Strings::makeFriendlyUrl(strip_tags($inputData['title'])).'-'.$inputData['id']
 					));
 			}
 		});

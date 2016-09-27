@@ -41,7 +41,7 @@ class PostTags
 		$result=Table::insert($inputData,function($insertData){
 			if(isset($insertData['title']))
 			{
-				$insertData['friendly_url']=String::makeFriendlyUrl(strip_tags($insertData['title']));
+				$insertData['friendly_url']=Strings::makeFriendlyUrl(strip_tags($insertData['title']));
 			}
 
 			
