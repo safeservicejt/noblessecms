@@ -144,21 +144,6 @@ function insertProcess()
 		throw new Exception("Error. ".Database::$error);
 	}
 
-	if((int)$id > 0)
-	{
-		$loadData=Categories::get(array(
-			'cache'=>'no',
-			'where'=>"where id='$id'"
-			));
-
-		if(isset($loadData[0]['id']))
-		{
-			Categories::update(array($id),array(
-				'friendly_url'=>$loadData[0]['friendly_url'].'-'.$loadData[0]['id']
-				));
-		}
-	}
-
 	Categories::saveCache($id);
 	
 	// Render::makeSiteMap();
