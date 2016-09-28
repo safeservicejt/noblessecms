@@ -344,6 +344,8 @@ function insertProcess()
 		$send['status']=(int)Usergroups::getPermission(Users::getCookieGroupId(),'default_new_post_status');
 	}
 
+	$send['status']=((int)$send['status']==1)?'publish':'pending';
+
 	if(!$id=Post::insert($send))
 	{
 		throw new Exception("Error. ".Database::$error);

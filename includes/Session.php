@@ -1,109 +1,154 @@
-<?php
+plara.chm
+nvcplchs.chm
+nvcplcht.chm
+nvcplcsy.chm
+nvcpldan.chm
+nvcpldeu.chm
+nvcplell.chm
+nvcpleng.chm
+nvcplesm.chm
+nvcplesn.chm
+nvcplfin.chm
+nvcplfra.chm
+nvcplheb.chm
+nvcplhun.chm
+nvcplita.chm
+nvcpljpn.chm
+nvcplkor.chm
+nvcplnld.chm
+nvcplnor.chm
+nvcplplk.chm
+nvcplptb.chm
+nvcplptg.chm
+nvcplrus.chm
+nvcplsky.chm
+nvcplslv.chm
+nvcplsve.chm
+nvcpltha.chm
+nvcpltrk.chm
+nvcplui.exe
+nvcpluir.dll
+nvdisps.dll
+nvdispsr.dll
+nvdsp.chm
+nvdspara.chm
+nvdspchs.chm
+nvdspcht.chm
+nvdspcsy.chm
+nvdspdan.chm
+nvdspdeu.chm
+nvdspell.chm
+nvdspeng.chm
+nvdspesm.chm
+nvdspesn.chm
+nvdspfin.chm
+nvdspfra.chm
+nvdspheb.chm
+nvdsphun.chm
+nvdspita.chm
+nvdspjpn.chm
+nvdspkor.chm
+nvdspnld.chm
+nvdspnor.chm
+nvdspplk.chm
+nvdspptb.chm
+nvdspptg.chm
+nvdsprus.chm
+nvdspsky.chm
+nvdspslv.chm
+nvdspsve.chm
+nvdsptha.chm
+nvdsptrk.chm
+nvgames.dll
+nvgamesr.dll
+nvmccss.dll
+nvmccssr.dll
+nvmctray.dll
+nvmob.chm
+nvmobara.chm
+nvmobchs.chm
+nvmobcht.chm
+nvmobcsy.chm
+nvmobdan.chm
+nvmobdeu.chm
+nvmobell.chm
+nvmobeng.chm
+nvmobesm.chm
+nvmobesn.chm
+nvmobfin.chm
+nvmobfra.chm
+nvmobheb.chm
+nvmobhun.chm
+nvmobita.chm
+nvmobjpn.chm
+nvmobkor.chm
+nvmobls.dll
+nvmoblsr.dll
+nvmobnld.chm
+nvmobnor.chm
+nvmobplk.chm
+nvmobptb.chm
+nvmobptg.chm
+nvmobrus.chm
+nvmobsky.chm
+nvmobslv.chm
+nvmobsve.chm
+nvmobtha.chm
+nvmobtrk.chm
+nvshext.dll
+nvsvc64.dll
+nvsvcr.dll
+nvsvs.dll
+nvsvsr.dll
+nvui.dll
+nvuir.dll
+nvvitvs.dll
+nvvitvsr.dll
+nvvsvc.exe
+nvwks.chm
+nvwksara.chm
+nvwkschs.chm
+nvwkscht.chm
+nvwkscsy.chm
+nvwksdan.chm
+nvwksdeu.chm
+nvwksell.chm
+nvwkseng.chm
+nvwksesm.chm
+nvwksesn.chm
+nvwksfin.chm
+nvwksfra.chm
+nvwksheb.chm
+nvwkshun.chm
+nvwksita.chm
+nvwksjpn.chm
+nvwkskor.chm
+nvwksnld.chm
+nvwksnor.chm
+nvwksplk.chm
+nvwksptb.chm
+nvwksptg.chm
+nvwksrus.chm
+nvwkssky.chm
+nvwksslv.chm
+nvwkssve.chm
+nvwkstha.chm
+nvwkstrk.chm
+nvwss.dll
+nvwssr.dll
+nvxdapix.dll
+nvxdbat.dll
+nvxdplcy.dll
+nvxdsync.exe
 
-class Session
-{
+[nv_CplInstaller_addreg]
 
-    public static function get($sessionName = '',$defaultValue=false)
-    {
-        $resultData = $defaultValue;
-        
-        if (!preg_match('/^(\w+)\.(\w+)$/i', $sessionName, $matches)) {
-            $resultData = isset($_SESSION["$sessionName"]) ? $_SESSION["$sessionName"] : $defaultValue;
-  
-        } else {
-
-            $sessionMain = $matches[1];
-
-            $sessionChild = $matches[2];
-
-            $resultData = isset($_SESSION["$sessionMain"]["$sessionChild"]) ? $_SESSION["$sessionMain"]["$sessionChild"] : $defaultValue;
-
-        }
-         
-        return $resultData;
-
-    }
-
-    public static function has($sessionName='')
-    {
-
-        if (!preg_match('/(\w+)\.(\w+)/i', $sessionName, $matches)) {
-            $session = isset($_SESSION[$sessionName]) ? true : false;
-
-            return $session;
-        } else {
-
-            $sessionMain = $matches[1];
-
-            $sessionChild = $matches[2];
-
-            if(!isset($_SESSION[$sessionMain][$sessionChild]))
-            {
-                return false;
-            }
-
-        }
-
-        return true;
-    }
-
-    public static function make($sessionName = '', $sessionValue = '')
-    {
-        if(preg_match('/(\w+)\.(\w+)/i', $sessionName,$matches))
-        {   
-            $s1=$matches[1];
-
-            $s2=$matches[2];
-
-            $_SESSION[$s1][$s2] = $sessionValue;
-        }
-        else
-        {
-            $_SESSION[$sessionName] = $sessionValue;
-        }
-    }
-
-    public static function forget($sessionName = '')
-    {
-        if (!preg_match('/(\w+)\.(\w+)/i', $sessionName, $matches)) {
-            unset($_SESSION[$sessionName]);
-        } else {
-
-            $sessionMain = $matches[1];
-
-            $sessionChild = $matches[2];
-
-            unset($_SESSION[$sessionMain][$sessionChild]);
-
-        }
-    }
-
-    public static function remove($sessionName = '')
-    {
-        self::forget($sessionName);
-    }
-
-    public static function flush()
-    {
-        session_unset();
-    }
-
-    public static function push($sessionName = '', $sessionValue = '')
-    {
-        preg_match('/(\w+)\.(\w+)/i', $sessionName, $matches);
-
-        $sessionMain = $matches[1];
-
-        $sessionChild = $matches[2];
-
-
-        $_SESSION[$sessionMain][$sessionChild] = $sessionValue;
-    }
-
-    public static function put($sessionName = '', $sessionValue = '')
-    {
-        self::make($sessionName, $sessionValue);
-    }
-
-
-}
+[nv_FTS_addreg]
+HKLM,"Software\NVIDIA Corporation\Global\FTS",EnableFSN1212,%REG_DWORD%,1
+HKLM,"Software\NVIDIA Corporation\Global\FTS",EnableFSN1387,%REG_DWORD%,1
+HKLM,"Software\NVIDIA Corporation\Global\FTS",EnableFSN218,%REG_DWORD%,1
+HKLM,"Software\NVIDIA Corporation\Global\FTS",EnableFSN220,%REG_DWORD%,1
+HKLM,"Software\NVIDIA Corporation\Global\FTS",EnableFSN363,%REG_DWORD%,1
+HKLM,"Software\NVIDIA Corporation\Global\FTS",EnableFSN385,%REG_DWORD%,1
+HKLM,"Software\NVIDIA Corporation\Global\FTS",EnableFSN406,%REG_DWORD%,1
+HKLM,"Software\NVIDI
