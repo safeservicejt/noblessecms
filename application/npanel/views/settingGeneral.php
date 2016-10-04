@@ -47,7 +47,7 @@
 			    		<div class="col-lg-3 text-right">
 							<select name="general[system_mode]" id="system_mode" class="form-control">
 								<option value="basic">Basic (Fast)</option>
-								<option value="professional">Professional (Multi Sites)</option>
+								<option value="debug">Debug</option>
 								<option value="ultimate">Ultimate (Coming soon)</option>
 							</select>
 			    		</div>
