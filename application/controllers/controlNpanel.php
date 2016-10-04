@@ -52,7 +52,6 @@ class controlNpanel
 
 			}
 
-
 			Controllers::load(ucfirst($func),$method,'application/npanel');
 		}
 		
