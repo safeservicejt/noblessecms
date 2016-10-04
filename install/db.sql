@@ -596,7 +596,7 @@ CREATE TABLE IF NOT EXISTS `redirects` (
 --
 
 INSERT INTO `redirects` (`id`, `from_url`, `to_url`, `date_added`, `status`) VALUES
-(2, '/post/Test-post-kdfd-9.html', 'http://1news.top/admincp/redirects', '0000-00-00 00:00:00', 1);
+(2, '/post/Test-post-kdfd-9.html', 'http://1news.top/admincp/redirects', '2016-09-12 07:11:30', 1);
 
 -- --------------------------------------------------------
 
