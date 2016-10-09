@@ -69,8 +69,6 @@ class Table
 
 		$md5Query=md5($queryCMD);
 
-
-
 		if($cache=='yes')
 		{
 			$result=Cache::get($md5Query,$cacheTime);

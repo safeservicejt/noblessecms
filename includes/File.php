@@ -502,7 +502,7 @@ class File
 
         $shortPath.='/'.$fileName.'.'.$fileExt;  
 
-
+        $shortPath = strval(str_replace("\0", "", $shortPath));
 
         $fullPath=ROOT_PATH.$shortPath;
 
@@ -559,7 +559,9 @@ class File
 
             $fileExt=$match[2];        
 
-            $tmpShortPath.='/'.$fileName.'_'.$i.'.'.$fileExt;      
+            $tmpShortPath.='/'.$fileName.'_'.$i.'.'.$fileExt;    
+
+            $tmpShortPath = strval(str_replace("\0", "", $tmpShortPath));  
 
             $resultData[$i]=$tmpShortPath;
 

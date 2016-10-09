@@ -208,6 +208,16 @@ class Categories
 			Categories::saveCache($id);
 		});
 
+		if(isset($result['image']))
+		{
+			$result['imageUrl']=System::getUrl().$result['image'];
+		}
+
+		if(isset($result['friendly_url']))
+		{
+			$result['url']=System::getUrl().'category/'.$result['friendly_url'];
+		}		
+
 		return $result;
 	}
 
