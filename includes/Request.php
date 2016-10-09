@@ -1,0 +1,335 @@
+<?php
+
+
+class Request
+{
+    private static $requestData=array();
+
+    private static $isParse='no';
+
+    public static function isImage($keyName)
+    {
+        if(preg_match('/(\w+)\.(\d+)/i', $keyName,$match))
+        {
+            if(isset($_FILES[$match[1]][$match[2]]) && preg_match('/.*?\.\w+$/i', $_FILES[$match[1]][$match[2]]['name']))
+            {
+                return true;
+            }               
+        }
+        else
+        {
+            if(isset($_FILES[$keyName]) && preg_match('/.*?\.\w+$/i', $_FILES[$keyName]['name']))
+            {
+                return true;
+            }            
+        }
+
+
+        return false;
+    }
+
+    public static function hasFile($keyName)
+    {
+        if(preg_match('/(\w+)\.(\d+)/i', $keyName,$match))
+        {
+            return true;              
+        }
+        elseif(preg_match('/(\w+)/i', $keyName,$match))
+        {
+            return true;          
+        }
+
+
+        return false;
+    }
+
+    public static function parseGetData()
+    {
+
+        if(self::$isParse=='yes')
+        {
+            return true;
+        }
+                
+        $uri=trim($_SERVER['REQUEST_URI']);
+
+        if(preg_match('/\?(.*?)$/i', $uri,$match))
+        {
+            self::$isParse='yes';
+
+            $listData=array();
+
+            parse_str($match[1],$listData);
+
+            self::$requestData=$listData;
+
+            $total=count($listData);
+
+            $listKey=array_keys($listData);
+
+            for ($i=0; $i < $total; $i++) { 
+
+                $key=$listKey[$i];
+
+                $_GET[$key]=$listData[$key];
+
+                $_REQUEST[$key]=$listData[$key];
+
+            }
+        }
+
+        
+    }
+
+    public static function post($keyName='')
+    {
+        if(!isset($_POST[$keyName]))
+        {
+            return false;
+        }
+
+        return $_POST[$keyName];
+    }
+
+
+
+    public static function get($reqName = '', $reqValue = false)
+    {
+        self::parseGetData();
+
+        $result = '';
+
+        if (!preg_match('/(\w+)\.(\w+)/i', $reqName, $matchesName)) {
+            $result = isset($_REQUEST[$reqName]) ? $_REQUEST[$reqName] : $reqValue;
+
+        } else {
+            $reqName = $matchesName[1];
+            $postion = $matchesName[2];
+
+            $result = isset($_REQUEST[$reqName][$postion]) ? $_REQUEST[$reqName][$postion] : $reqValue;
+        }
+
+        return $result;
+
+    }
+
+    public static function forget($reqName = '', $reqValue = '')
+    {
+        $result = '';
+
+        if (!preg_match('/(\w+)\.(\w+)/i', $reqName, $matchesName)) {
+            unset($_REQUEST[$reqName]);
+
+        } else {
+            $reqName = $matchesName[1];
+            $postion = $matchesName[2];
+
+            unset($_REQUEST[$reqName][$postion]);
+        }
+
+        return $result;
+
+    }    
+    
+    public static function getPost($reqName = '', $reqValue = '')
+    {
+        if(!isset($reqName[1]))
+        {
+            return $_POST;
+        }
+
+        $result = '';
+
+        if (!preg_match('/(\w+)\.(\w+)/i', $reqName, $matchesName)) {
+            $result = isset($_POST[$reqName]) ? $_POST[$reqName] : $reqValue;
+
+        } else {
+            $reqName = $matchesName[1];
+            $postion = $matchesName[2];
+
+            $result = isset($_POST[$reqName][$postion]) ? $_POST[$reqName][$postion] : $reqValue;
+        }
+
+        return $result;
+
+    }
+
+    public static function isPost($reqKey)
+    {
+        if(!isset($reqKey[0]))
+        {
+            return false;
+        }
+        
+        if(!isset($_POST[$reqKey]))
+        {
+            return false;
+        }
+
+        return true;
+    }
+    public static function isGet($reqKey)
+    {
+        if(!isset($reqKey[0]))
+        {
+            return false;
+        }
+
+        if(!isset($_GET[$reqKey]))
+        {
+            return false;
+        }
+
+        return true;
+    }
+    public static function isFile($reqKey)
+    {
+        if(!isset($reqKey[0]))
+        {
+            return false;
+        }
+
+        if(!isset($_FILES[$reqKey]['tmp_name']))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function make($reqName = '', $reqValue = '')
+    {
+        if (!preg_match('/(\w+)\.(\w+)/i', $reqName, $matchesName)) {
+
+            $_REQUEST[$reqName]=$reqValue;
+
+        } else {
+            $reqName = $matchesName[1];
+            $postion = $matchesName[2];
+
+            $_REQUEST[$reqName][$postion]=$reqValue;
+        }
+    }
+
+    public static function hasElement($reqName = '')
+    {
+        if (!preg_match('/(\w+)\.(\w+)/i', $reqName, $matchesName)) {
+            if (!isset($_REQUEST[$reqName])) {
+                return false;
+            }
+
+            return true;
+        } else {
+            $reqName = $matchesName[1];
+            $postion = $matchesName[2];
+
+            if (!isset($_REQUEST[$reqName][$postion])) {
+                return false;
+            }
+            return true;
+        }        
+    }
+
+    public static function has($reqName = '')
+    {
+        self::parseGetData();
+
+        if(!is_array($reqName))
+        {
+            $result=self::hasElement($reqName);
+
+            return $result;
+        }
+        else
+        {
+            $total=count($reqName);
+
+            for ($i=0; $i < $total; $i++) { 
+
+                $result=self::hasElement($reqName[$i]);
+
+                if(!$result)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+
+    }
+
+
+    public static function all()
+    {
+        if (isset($_REQUEST['load'])) unset($_REQUEST['load']);
+        return $_REQUEST;
+    }
+
+    public static function only($reqName = '')
+    {
+        if (isset($_REQUEST['load'])) unset($_REQUEST['load']);
+
+        if (is_array($reqName)) {
+            $totalName = count($reqName);
+            $totalReq = count($_REQUEST);
+
+            if ($totalName > 0 && $totalReq > 0) {
+
+                $data = array();
+
+                foreach ($reqName as $value) {
+
+                    if (isset($_REQUEST[$value])) {
+                        $data[$value] = $_REQUEST[$value];
+                    }
+
+                }
+
+                return $data;
+
+            }
+
+        }
+
+        if (isset($_REQUEST[$reqName])) return $_REQUEST[$reqName];
+
+
+    }
+
+    public static function except($reqName = array())
+    {
+        if (isset($_REQUEST['load'])) unset($_REQUEST['load']);   
+            
+        $totalName = count($reqName);
+
+        for($i=0;$i<$totalName;$i++)
+        {
+            $keyName=$reqName[$i];
+
+             if (!preg_match('/(\w+)\.(\w+)/i', $keyName, $matchesName)) {
+                if(isset($_REQUEST[$keyName]))
+                {
+                    unset($_REQUEST[$keyName]);
+                }
+            } else {
+                $keyName = $matchesName[1];
+                $postion = $matchesName[2];
+
+                            // print_r($_REQUEST[$keyName][$postion]);die();
+
+                if (isset($_REQUEST[$keyName][$postion])) {
+
+
+                    unset($_REQUEST[$keyName][$postion]);
+                }
+            }           
+        }
+
+        return $_REQUEST;
+
+    }
+
+
+}
