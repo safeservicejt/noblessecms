@@ -143,7 +143,7 @@ function startInstall()
 
     if(isset($conn->connect_error[5]))
     {
-      echo json_encode(array('error'=>'yes','message'=>'Can not connect to database'));
+      echo json_encode(array('error'=>'yes','message'=>'Can not connect to database for create database'));
       die();     
     }
 
@@ -232,7 +232,7 @@ function startInstall()
   $importStatus='';
 
   try {
-    import($conn,'db.sql');
+    importProcess($conn,'db.sql');
   } catch (Exception $e) {
     $importStatus=$e->getMessage();
   }
@@ -243,13 +243,14 @@ function startInstall()
     die();      
   }
 
+
   $ip=$_SERVER['REMOTE_ADDR'];
 
   $date_added=date('Y-m-d H:i:s');
 
   $md5Pass=Strings::encrypt($password,$secretKey);
 
-  $query=$conn->query("insert into users(groupid,firstname,lastname,username,email,password,ip,date_added) values('1','Admin','System','$username','$email','$md5Pass','$ip','$date_added')");
+  $query=$conn->query("insert into users(groupid,username,email,password,date_added) values('1','$username','$email','$md5Pass','$date_added')");
  
   if(isset($conn->error[5]))
   {
@@ -261,7 +262,7 @@ function startInstall()
 
   $rowData=$query->fetch_assoc();
 
-  $id=$rowData['userid'];
+  $id=$rowData['id'];
 
   $query=$conn->query("insert into address(userid,firstname,lastname) values('$id','Admin','System')");
    
@@ -280,7 +281,7 @@ function startInstall()
   
   $result['username']=Request::get('username');
   $result['password']=Request::get('password');
-  $result['siteurl']=$url.'admincp/';
+  $result['siteurl']=$url.'npanel/';
   $result['Urlfontend']=$url;
   $result['error']='no';
 

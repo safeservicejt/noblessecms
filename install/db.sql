@@ -44,8 +44,6 @@ CREATE TABLE IF NOT EXISTS `address` (
 -- Dumping data for table `address`
 --
 
-INSERT INTO `address` (`userid`, `firstname`, `lastname`, `phone`, `address_1`, `address_2`, `city`, `state`, `zipcode`, `countrycode`, `countryname`) VALUES
-(7, 'Admin', 'System', NULL, 'sad', 'sad', 'asdasd', 'sd', '10001', 'Vietnam', NULL);
 
 -- --------------------------------------------------------
 
@@ -646,8 +644,6 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `date_added`, `username`, `email`, `image`, `password`, `groupid`, `verify_code`, `forgot_date`, `verify_forgot`) VALUES
-(7, '2016-09-11 17:50:24', 'admin', 'admin@gmail.com', NULL, 'lyh6SOlawcU=', 1, '', NULL, NULL);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

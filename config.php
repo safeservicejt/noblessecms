@@ -4,12 +4,12 @@ $isHttp=isset($_SERVER['HTTPS'])?$_SERVER['HTTPS']:'';
 
 $beforeUrl=($isHttp=='on')?'https://':'http://';
 
-static $root_path = 'D:/wamp/htdocs/project/2015/noblessecmsv3/';
-static $root_url = 'test.vn/project/2015/noblessecmsv3';
+static $root_path = 'D:/wamp/htdocs/project/cms/';
+static $root_url = 'test.vn/project/cms';
 
 $root_url=$beforeUrl.$root_url.'/';
 
-define("ENCRYPT_SECRET_KEY", "VenTuwJYBrDjPSrolyOb");
+define("ENCRYPT_SECRET_KEY", "JTqigQPOlmnTEiDrjIyL");
 
 define("ROOT_PATH", $root_path);
 
@@ -69,7 +69,7 @@ $db['default'] = array(
 
     "dbpassword" => "",
 
-    "dbname" => "2016_project_noblesscms"
+    "dbname" => "2016_test"
 
 );
 
@@ -92,7 +92,7 @@ $db['testdb'] = array(
 
     "dbpassword" => "",
 
-    "dbname" => "2015_project_noblessev3"
+    "dbname" => "2016_test"
 
 );
 
@@ -102,7 +102,7 @@ $db['mongodb'] = array(
 
     "dbhost" => "localhost",
 
-    "dbname" => "2015_project_noblessev3"
+    "dbname" => "2016_test"
 
 );
 
@@ -118,7 +118,7 @@ $db['blogmssql'] = array(
 
     "dbpassword" => "",
 
-    "dbname" => "2015_project_noblessev3"
+    "dbname" => "2016_test"
 
 );
 
@@ -134,7 +134,7 @@ $db['blog_api'] = array(
 
     "dbpassword" => "",
 
-    "dbname" => "2015_project_noblessev3"
+    "dbname" => "2016_test"
 
 );
 
