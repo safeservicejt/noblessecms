@@ -101,6 +101,11 @@ class Post
 				$inputData['title']=addslashes($inputData['title']);
 			}
 
+			if(isset($inputData['content']))
+			{
+				$inputData['content']=addslashes($inputData['content']);
+			}
+
 			if(!isset($inputData['page_title']) || !isset($inputData['page_title'][5]))
 			{
 				$inputData['page_title']=$inputData['title'];
