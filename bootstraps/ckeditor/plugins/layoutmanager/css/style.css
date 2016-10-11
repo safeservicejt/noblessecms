@@ -1,0 +1,9 @@
+.layout-container {
+  margin: 1px;
+  margin-top: 20px;
+}
+
+.layout-column {
+  border: 1px dashed black;
+  word-wrap: break-word;
+}
