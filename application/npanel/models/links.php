@@ -76,6 +76,17 @@ function updateProcess($id)
 		throw new Exception("Error Processing Request: ".Validator::getMessage());
 	}
 
+	$loadData=Links::get(array(
+		'where'=>"where id='$id'"
+		));
+
+	if(!isset($loadData[0]['url']))
+	{
+		throw new Exception("This link not exists in database.");
+	}
+
+	$send['url']=str_replace(System::getUrl(), '', $send['url']);
+
 	Links::update($id,$update);
 	
 	Links::saveCache();	
@@ -105,6 +116,8 @@ function insertProcess()
 	{
 		throw new Exception("This link exists in database.");
 	}
+
+	$send['url']=str_replace(System::getUrl(), '', $send['url']);
 
 	$send['status']='published';
 
