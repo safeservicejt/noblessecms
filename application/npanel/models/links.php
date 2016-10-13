@@ -106,6 +106,8 @@ function insertProcess()
 		throw new Exception("This link exists in database.");
 	}
 
+	$send['status']='published';
+
 	if(!$id=Links::insert($send))
 	{
 		throw new Exception("Error. ".Database::$error);
