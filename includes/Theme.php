@@ -219,13 +219,26 @@ class Theme
 	{
 		$savePath=ROOT_PATH.'caches/theme/'.$themeName.'.cache';
 
+		$themePath=THEMES_PATH.$themeName.'/';
+
 		$result=false;
 
 		if(file_exists($savePath))
 		{
-			// $result=Strings::decrypt(base64_decode(unserialize(file_get_contents($savePath))));
-
 			$result=unserialize(base64_decode(Strings::decrypt(file_get_contents($savePath))));
+		}
+		else
+		{
+			if(is_dir($themePath) && file_exists($themePath.'install.php'))
+			{
+				include($themePath.'install.php');
+				
+				if(file_exists($savePath))
+				{
+					$result=unserialize(base64_decode(Strings::decrypt(file_get_contents($savePath))));
+				}
+
+			}
 		}
 
 		self::$setting=$result;
