@@ -3,6 +3,8 @@ ob_start();
 session_start();
 error_reporting(0);
 
+date_default_timezone_set('America/Los_Angeles');
+
 // Check install or not
 if(file_exists('install/index.php'))
 {

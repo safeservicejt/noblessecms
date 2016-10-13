@@ -213,17 +213,6 @@
 			    		</div>
 
 			    	</div>
-				    	<div class="row" style="margin-top:10px;margin-bottom:10px;">
-			    		<div class="col-lg-8">
-			    		<strong>Default Time Zone</strong>
-			    		</div>
-			    		<div class="col-lg-4 text-right">
-							<select name="general[default_timezone]" id="default_timezone" class="form-control">
-							<?php echo TimeZones::getBySelectBox();?>
-							</select>								
-			    		</div>
-
-			    	</div>
 
 
 		  	<p>

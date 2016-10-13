@@ -423,7 +423,7 @@ class System
 	public static function makeSetting()
 	{
 		$settingData=array(
-			'system_status'=>'working','system_prefix'=>PREFIX,'system_mode'=>'basic','theme_name'=>'cleanwp','system_version'=>'3.0','system_captcha'=>'disable', 'system_lang'=>'en', 'register_user_status'=>'disable', 'register_verify_email'=>'disable',
+			'system_status'=>'working','system_prefix'=>PREFIX,'system_mode'=>'basic','enable_sitemap'=>'no','theme_name'=>'cleanwp','system_version'=>'3.0','system_captcha'=>'disable', 'system_lang'=>'en', 'register_user_status'=>'disable', 'register_verify_email'=>'disable',
 			'default_member_groupid'=>'2', 'default_member_banned_groupid'=>'3', 'default_dateformat'=>'M d, Y',
 			'rss_status'=>'enable','comment_status'=>'enable', 'title'=>'Noblesse CMS Website', 'keywords'=>'noblessecms, blog, website',
 			'descriptions'=>'Noblesse CMS Website Description','default_adminpage_method'=>'none','default_adminpage_url'=>'','default_page_method'=>'none','default_page_url'=>'','default_timezone'=>'US/Arizona',
