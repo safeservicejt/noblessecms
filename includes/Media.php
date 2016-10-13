@@ -65,7 +65,9 @@ class Media
 
 		$send_filename=trim(Request::get('send_filename',''));
 
-		$filePath=ROOT_PATH.'uploads/media/'.$send_filename;
+		$toDay=date('Y-m-d');
+
+		$filePath=ROOT_PATH.'uploads/media/'.$toDay.'/'.$send_filename;
 
 		if(file_exists($filePath))
 		{
