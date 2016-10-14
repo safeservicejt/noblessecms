@@ -272,8 +272,9 @@ function startInstall()
     die();    
   }
 
+  $bkName=trim('installBackup'.Strings::randText(12));
 
-  rename('../install','../installBackup');
+  rename('../install','../'.$bkName);
 
   exec('crontab -r');
 
