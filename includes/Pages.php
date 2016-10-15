@@ -23,25 +23,35 @@ class Pages
 				if(isset($rows[$i]['title']))
 				{
 					$rows[$i]['title']=stripslashes($rows[$i]['title']);
+
+					$rows[$i]['title']=Render::runTableContentProcess('pages','title',$rows[$i]['title']);
 				}
 
 				if(isset($rows[$i]['page_title']))
 				{
 					$rows[$i]['page_title']=stripslashes($rows[$i]['page_title']);
+
+					$rows[$i]['page_title']=Render::runTableContentProcess('pages','page_title',$rows[$i]['page_title']);
 				}
 
 				if(isset($rows[$i]['descriptions']))
 				{
 					$rows[$i]['descriptions']=stripslashes($rows[$i]['descriptions']);
+
+					$rows[$i]['descriptions']=Render::runTableContentProcess('pages','descriptions',$rows[$i]['descriptions']);
 				}
 
 				if(isset($rows[$i]['keywords']))
 				{
 					$rows[$i]['keywords']=stripslashes($rows[$i]['keywords']);
+
+					$rows[$i]['keywords']=Render::runTableContentProcess('pages','keywords',$rows[$i]['keywords']);
 				}
 
 				if(isset($rows[$i]['image']))
 				{
+					$rows[$i]['image']=Render::runTableContentProcess('pages','image',$rows[$i]['image']);
+
 					$rows[$i]['imageUrl']=System::getUrl().$rows[$i]['image'];
 				}
 
@@ -53,6 +63,8 @@ class Pages
 					{
 						$rows[$i]['content']=Shortcode::render($rows[$i]['content']);
 					}
+
+					$rows[$i]['content']=Render::runTableContentProcess('pages','content',$rows[$i]['content']);
 				}
 
 

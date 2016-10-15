@@ -22,6 +22,36 @@ class Categories
 				{
 					$rows[$i]['url']=System::getUrl().'category/'.$rows[$i]['friendly_url'];
 				}
+
+				if(isset($rows[$i]['title']))
+				{
+					$rows[$i]['title']=stripslashes($rows[$i]['title']);
+
+					$rows[$i]['title']=Render::runTableContentProcess('pages','title',$rows[$i]['title']);
+				}
+
+				if(isset($rows[$i]['page_title']))
+				{
+					$rows[$i]['page_title']=stripslashes($rows[$i]['page_title']);
+
+					$rows[$i]['page_title']=Render::runTableContentProcess('pages','page_title',$rows[$i]['page_title']);
+				}
+
+				if(isset($rows[$i]['descriptions']))
+				{
+					$rows[$i]['descriptions']=stripslashes($rows[$i]['descriptions']);
+
+					$rows[$i]['descriptions']=Render::runTableContentProcess('pages','descriptions',$rows[$i]['descriptions']);
+				}
+
+				if(isset($rows[$i]['keywords']))
+				{
+					$rows[$i]['keywords']=stripslashes($rows[$i]['keywords']);
+
+					$rows[$i]['keywords']=Render::runTableContentProcess('pages','keywords',$rows[$i]['keywords']);
+				}
+
+								
 			}
 
 			return $rows;
