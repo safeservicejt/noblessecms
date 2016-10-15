@@ -1,7 +1,49 @@
 <?php
 
+
+/*
+    Render::addTableContentProcess('post','content',function($str){
+
+        return $str;
+
+    });
+
+    $text=Render::runTableContentProcess('post','content','it ok');
+
+    echo $text;
+*/
+
 class Render
 {
+
+    public static function addTableContentProcess($tableName,$fieldName,$functionProcess)
+    {
+        if(!isset(System::$listObject['content_process'][$tableName][$fieldName]))
+        {
+            System::$listObject['content_process'][$tableName][$fieldName]=array();
+        }
+
+        System::$listObject['content_process'][$tableName][$fieldName][]=$functionProcess;
+    }
+
+    public static function runTableContentProcess($tableName,$fieldName,$inputData='')
+    {
+        if(isset(System::$listObject['content_process'][$tableName][$fieldName]) && is_array(System::$listObject['content_process'][$tableName][$fieldName]))
+        {
+
+            $total=count(System::$listObject['content_process'][$tableName][$fieldName]);
+
+            for ($i=0; $i < $total; $i++) { 
+                $functionProcess=System::$listObject['content_process'][$tableName][$fieldName][$i];
+
+                $inputData=$functionProcess($inputData);
+            }
+
+        }
+
+        return $inputData;
+    }
+
 	public static function dateFormat($inputData='')
 	{
 		$inputData=date('M d, Y H:i',strtotime($inputData));
