@@ -49,7 +49,7 @@ class controlPost
 		
 		if($matchSearch=Uri::match('\/status\/pending'))
 		{
-			$addWhere.=" AND p.status='0'";
+			$addWhere.=" AND p.status='pending'";
 
 			$addPage='/status/pending/';			
 		}

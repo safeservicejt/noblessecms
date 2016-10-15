@@ -4,7 +4,7 @@ class controlPages
 {
 	public static function index()
 	{
-
+		
 		$pageData=array('alert'=>'');
 		
 		$curPage=0;
