@@ -2,7 +2,7 @@
 
 class Views
 {
-	public static function return($viewName='',$viewData=array())
+	public static function returnData($viewName='',$viewData=array())
 	{
 		$result=self::make($viewName,$viewData,false,'',true);
 
