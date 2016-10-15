@@ -2,7 +2,14 @@
 
 class Views
 {
-	public static function make($viewName='',$viewData=array(),$isTemplate=false,$customPath='')
+	public static function return($viewName='',$viewData=array())
+	{
+		$result=self::make($viewName,$viewData,false,'',true);
+
+		return $result;
+	}
+
+	public static function make($viewName='',$viewData=array(),$isTemplate=false,$customPath='',$isReturn=false)
 	{
         if (preg_match('/\./i', $viewName)) {
             $viewName = str_replace('.', '/', $viewName);
@@ -68,9 +75,18 @@ class Views
            extract(System::$listVar[$viewName]); 
         }
 
+        $result='';
+
 		extract($viewData);
 
-		include($filePath);	
+		if($isReturn==false)
+		{
+			include($filePath);	
+		}
+		else
+		{
+			$result=include($filePath);
+		}
 	}
 
 	public static function parseTemplate($filePath='')
