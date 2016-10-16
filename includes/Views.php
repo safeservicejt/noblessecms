@@ -2,9 +2,68 @@
 
 class Views
 {
-	public static function returnData($viewName='',$viewData=array())
+	public static function returnData($viewName='',$viewData=array(),$customPath='')
 	{
-		$result=self::make($viewName,$viewData,false,'',true);
+        if (preg_match('/\./i', $viewName)) {
+            $viewName = str_replace('.', '/', $viewName);
+        }
+
+		$mvcPath='';
+
+		if(!isset($customPath[5]))
+		{
+			$data=debug_backtrace();  
+
+			$mvcPath=dirname(dirname($data[0]['file'])).'/';
+
+		}
+		else
+		{
+			// $customPath=application/npanel/
+
+			$fullPath=ROOT_PATH.$customPath;
+
+			if(!preg_match('/^.*?\/$/i', $fullPath))
+			{
+				$fullPath.='/';
+			}
+
+			if(!is_dir($fullPath.'controllers/'))
+			{
+				Alert::make('Controllers dir not exist in'.$fullPath);
+			}
+
+			$mvcPath=$fullPath;
+
+		}
+
+		$viewPath=$mvcPath.'views/';
+
+		$filePath=$viewPath.$viewName.'.php';
+
+		if(!is_dir($viewPath))
+		{
+			Alert::make('View '.$viewName.' not exists in '.$viewPath);
+		}
+
+		if(!file_exists($filePath))
+		{
+			Alert::make('File not exists in '.$filePath);
+		}	
+
+
+        extract(System::$listVar['global']);
+
+        if(isset(System::$listVar[$viewName]))
+        {
+           extract(System::$listVar[$viewName]); 
+        }
+
+        $result='';
+
+		extract($viewData);
+
+		$result=include($filePath);
 
 		return $result;
 	}
