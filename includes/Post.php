@@ -279,10 +279,7 @@ class Post
 		{
 			$result['content']=stripslashes($result['content']);
 			
-			if($inputData['isHook']=='yes')
-			{
-				$result['content']=Shortcode::render($result['content']);
-			}
+			$result['content']=Shortcode::render($result['content']);
 
 			$result['content']=Render::runTableContentProcess('post','content',$result['content']);
 		}
