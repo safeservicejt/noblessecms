@@ -220,6 +220,74 @@ class Post
 			Post::saveCache($id);
 		});
 
+		if(isset($result['friendly_url']))
+		{
+			$result['url']=System::getUrl().'post/'.$result['friendly_url'].'.html';
+		}
+
+		if(isset($result['image']))
+		{
+			$result['image']=Render::runTableContentProcess('post','image',$result['image']);
+
+			$result['imageUrl']=System::getUrl().$result['image'];
+		}
+
+		if(isset($result['title']))
+		{
+			$result['title']=stripslashes($result['title']);
+
+			$result['title']=Render::runTableContentProcess('post','title',$result['title']);
+		}
+
+		if(isset($result['page_title']))
+		{
+			$result['page_title']=stripslashes($result['page_title']);
+
+			$result['page_title']=Render::runTableContentProcess('post','page_title',$result['page_title']);
+		}
+
+		if(isset($result['descriptions']))
+		{
+			$result['descriptions']=stripslashes($result['descriptions']);
+
+			$result['descriptions']=Render::runTableContentProcess('post','descriptions',$result['descriptions']);
+		}
+
+		if(isset($result['keywords']))
+		{
+			$result['keywords']=stripslashes($result['keywords']);
+
+			$result['keywords']=Render::runTableContentProcess('post','keywords',$result['keywords']);
+		}
+
+		if(isset($result['images_data']) && isset($result['images_data'][5]))
+		{
+			$result['images_data']=unserialize($result['images_data']);
+		}
+
+		if(isset($result['category_data']) && isset($result['category_data'][5]))
+		{
+			$result['category_data']=unserialize($result['category_data']);
+		}
+
+		if(isset($result['tag_data']) && isset($result['tag_data'][5]))
+		{
+			$result['tag_data']=unserialize($result['tag_data']);
+		}
+
+		if(isset($result['content']))
+		{
+			$result['content']=stripslashes($result['content']);
+			
+			if($inputData['isHook']=='yes')
+			{
+				$result['content']=Shortcode::render($result['content']);
+			}
+
+			$result['content']=Render::runTableContentProcess('post','content',$result['content']);
+		}
+
+
 		return $result;
 	}
 

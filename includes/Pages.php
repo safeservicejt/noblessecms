@@ -206,6 +206,58 @@ class Pages
 			Pages::saveCache($id);
 		});
 
+		if(isset($result['friendly_url']))
+		{
+			$result['url']=System::getUrl().'pages/'.$result['friendly_url'].'.html';
+		}
+
+		if(isset($result['title']))
+		{
+			$result['title']=stripslashes($result['title']);
+
+			$result['title']=Render::runTableContentProcess('pages','title',$result['title']);
+		}
+
+		if(isset($result['page_title']))
+		{
+			$result['page_title']=stripslashes($result['page_title']);
+
+			$result['page_title']=Render::runTableContentProcess('pages','page_title',$result['page_title']);
+		}
+
+		if(isset($result['descriptions']))
+		{
+			$result['descriptions']=stripslashes($result['descriptions']);
+
+			$result['descriptions']=Render::runTableContentProcess('pages','descriptions',$result['descriptions']);
+		}
+
+		if(isset($result['keywords']))
+		{
+			$result['keywords']=stripslashes($result['keywords']);
+
+			$result['keywords']=Render::runTableContentProcess('pages','keywords',$result['keywords']);
+		}
+
+		if(isset($result['image']))
+		{
+			$result['image']=Render::runTableContentProcess('pages','image',$result['image']);
+
+			$result['imageUrl']=System::getUrl().$result['image'];
+		}
+
+		if(isset($result['content']))
+		{
+			$result['content']=stripslashes($result['content']);
+			
+			if($inputData['isHook']=='yes')
+			{
+				$result['content']=Shortcode::render($result['content']);
+			}
+
+			$result['content']=Render::runTableContentProcess('pages','content',$result['content']);
+		}		
+
 		return $result;
 	}
 
