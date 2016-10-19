@@ -574,6 +574,11 @@ class Users
 			}
 		}
 
+		if((int)$getData[0]['groupid']==(int)System::$setting['default_member_banned_groupid'])
+		{
+			throw new Exception('Your account has banned.');
+		}
+
 		Cookie::make('userid',Strings::encrypt($getData[0]['id']),1440*7);
 
 		Cookie::make('groupid',Strings::encrypt($getData[0]['groupid']),1440*7);
