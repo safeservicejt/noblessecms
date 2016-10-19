@@ -215,6 +215,15 @@ class Theme
 		return $resultData;		
 	}
 
+	public static function getSetting($keyName='',$defaultVal='')
+	{
+		$result='';
+
+		$result=isset(self::$setting[$keyName])?self::$setting[$keyName]:$defaultVal;
+
+		return $result;
+	}
+
 	public static function loadSetting($themeName='')
 	{
 		$savePath=ROOT_PATH.'caches/theme/'.$themeName.'.cache';
@@ -282,35 +291,6 @@ class Theme
 
 			$saveData[$theKey]=$inputData[$theKey];
 		}
-
-
-		$saveData['facebook_app_id']=isset($saveData['facebook_app_id'])?$saveData['facebook_app_id']:'675779382554952';
-
-		$saveData['site_top_content']=isset($saveData['site_top_content'])?$saveData['site_top_content']:'';
-
-		$saveData['site_bottom_content']=isset($saveData['site_bottom_content'])?$saveData['site_bottom_content']:'';
-
-		$saveData['site_top_left_content']=isset($saveData['site_top_left_content'])?$saveData['site_top_left_content']:'';
-
-		$saveData['site_bottom_left_content']=isset($saveData['site_bottom_left_content'])?$saveData['site_bottom_left_content']:'';
-
-		$saveData['site_top_right_content']=isset($saveData['site_top_right_content'])?$saveData['site_top_right_content']:'';
-
-		$saveData['site_bottom_right_content']=isset($saveData['site_bottom_right_content'])?$saveData['site_bottom_right_content']:'';
-
-		$saveData['site_right_content']=isset($saveData['site_right_content'])?$saveData['site_right_content']:'';
-
-		$saveData['site_left_content']=isset($saveData['site_left_content'])?$saveData['site_left_content']:'';
-
-		$saveData['post_top_content']=isset($saveData['post_top_content'])?$saveData['post_top_content']:'';
-
-		$saveData['post_bottom_content']=isset($saveData['post_bottom_content'])?$saveData['post_bottom_content']:'';
-
-		$saveData['theme_color']=isset($saveData['theme_color'])?$saveData['theme_color']:'black';
-
-		$saveData['layout_name']=isset($saveData['layout_name'])?$saveData['layout_name']:'';
-
-		$saveData['site_logo']=isset($saveData['site_logo'])?$saveData['site_logo']:System::getUrl().'contents/themes/'.$themeName.'/images/logo.png';	
 
 		File::create($savePath,Strings::encrypt(base64_encode(serialize($saveData))));
 	}
